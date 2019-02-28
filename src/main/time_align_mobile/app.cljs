@@ -1,4 +1,4 @@
-(ns test.app
+(ns time-align-mobile.app
   (:require
     ["expo" :as ex]
     ["react-native" :as rn]
