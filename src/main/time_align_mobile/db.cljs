@@ -199,144 +199,64 @@
                    :period-in-play-id (ds/maybe uuid?)
                    :now             inst?}
             :name ::app-db}))
+(def now (js/Date.))
+(def default-bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"))
+(def default-period-id (uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531"))
 (def app-db
   {:forms             {:bucket-form   nil
                        :period-form   nil
                        :template-form nil
                        :filter-form   nil}
-   :selected-period   nil
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
-                        :label       "bucket label sort"
-                        :created     (new js/Date 2018 4 28 15 57)
+                        :label       "sort by bucket label"
+                        :created     now
                         :compatible  [:period :template]
-                        :last-edited (new js/Date 2018 4 28 15 57)
+                        :last-edited now
                         :sort        {:path      [:bucket-label]
-                                      :ascending false}
-                        :predicates  []}
-                       {:id          (uuid "cda44081-38d4-4d4f-ab19-a7cef18c1718")
-                        :label       "Home workouts"
-                        :created     (new js/Date 2018 4 28 15 57)
-                        :compatible  [:period :template :filter :bucket]
-                        :last-edited (new js/Date 2018 4 28 15 57)
-                        :sort        {:path      [:label]
-                                      :ascending false}
-                        :predicates  [{:path   [:data :location]
-                                       :value  "home"
-                                       :negate false}]}
-                       {:id          (uuid "defaaa81-38d4-4d4f-ab19-a7cef18c1300")
-                        :label       "Night life"
-                        :created     (new js/Date 2018 4 28 15 57)
-                        :last-edited (new js/Date 2018 4 28 15 57)
-                        :compatible  [:period :template]
-                        :sort        {:path      [:created]
                                       :ascending true}
-                        :predicates  [{:path   [:data :category]
-                                       :value  "night life"
+                        :predicates  []}
+                       {:id          (uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299")
+                        :label       "sort by label"
+                        :created     now
+                        :compatible  [:bucket :filter :period :template]
+                        :last-edited now
+                        :sort        {:path      [:label]
+                                      :ascending true}
+                        :predicates  []}
+                       {:id          (uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444")
+                        :label       "time align bucket filter"
+                        :created     now
+                        :compatible  [:period :template]
+                        :last-edited now
+                        :sort        nil
+                        :predicates  [{:path   [:bucket-id]
+                                       :value  (str default-bucket-id)
                                        :negate false}]}]
    :navigation        {:current-screen :day
                        :params         nil}
-   :buckets           [{:id          (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2")
-                        :label       "Exercise"
-                        :created     (new js/Date 2018 4 28 15 57)
-                        :last-edited (new js/Date 2018 4 28 15 57)
+   :buckets           [{:id          default-bucket-id
+                        :label       "time align"
+                        :created     now
+                        :last-edited now
                         :data        {}
                         :color       "#11aa11"
-                        :templates   nil
-                        :periods     (concat
-                                      (->> (range 2)
-                                           (map #(gen/generate (s/gen period-spec))))
-                                      [{:id          (uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531")
-                                        :created     (new js/Date 2018 9 0 15 25)
-                                        :last-edited (new js/Date 2018 9 0 15 25)
-                                        :label       ""
-                                        :planned     false
-                                        :start       (new js/Date 2018 9 0 15 25)
-                                        :stop        (new js/Date 2018 9 0 16 17)
-                                        :data        {:location "gym"
-                                                      :session  {:plank                   [{:s 1 :time {:min 1 :sec 0}}]
-                                                                 :arch-hold               [{:s 1 :time {:min 1 :sec 0}}]
-                                                                 :side-plank              [{:s 1 :time {:min 1 :sec 0}}]
-                                                                 :lumbar-extension        [{:s 1 :r 5}]
-                                                                 :hip-tilts-wall          [{:s 1 :r 10}]
-                                                                 :thoracic-extension-wall [{:s 1 :r 10}]
-                                                                 :dislocates              [{:s 1 :r 10}]
-                                                                 :pushup                  [{:s 1 :r 20}]
-                                                                 :incline-pushup          [{:s 1 :r 20}]
-                                                                 :squat                   [{:s 3 :r 5}]
-                                                                 :dip-forward             [{:s 1 :r 8}]
-                                                                 :dip-neutral             [{:s 2 :r 5}]
-                                                                 :chinup                  [{:s 2 :r 7}]}}}
-                                       {:id          (uuid "e3314f81-38d4-4d4f-ab19-a7cef17c4182")
-                                        :created     (new js/Date 2018 9 1 9 30)
-                                        :last-edited (new js/Date 2018 9 1 9 30)
-                                        :label       ""
-                                        :planned     false
-                                        :start       (new js/Date 2018 9 1 9 30)
-                                        :stop        (new js/Date 2018 9 1 9 40)
-                                        :data        {:location "home"
-                                                      :session  {:plank            [{:s 1 :time {:min 1 :sec 0}}]
-                                                                 :arch-hold        [{:s 1 :time {:min 1 :sec 0}}]
-                                                                 :side-plank       [{:s 1 :time {:min 1 :sec 0}}]
-                                                                 :lumbar-extension [{:s 1 :r 5}]}}}]
-                                      )}
-                       {:id          (uuid "8c3907da-5222-408c-aba4-777f0a1204de")
-                        :label       "Social"
-                        :created     (new js/Date 2018 4 28 15 57)
-                        :last-edited (new js/Date 2018 4 28 15 57)
-                        :data        {}
-                        :color       "#1111aa"
-                        :templates   [{:id          (uuid "c52e4f81-38d4-4d4f-ab19-a7cef18c8882")
-                                       :created     (new js/Date 2018 4 28 15 57)
-                                       :last-edited (new js/Date 2018 4 28 15 57)
-                                       :label       "Drinks with friends"
-                                       :planned     true
-                                       :start       {:hour 19 :minute 0}
-                                       :duration    (* 2 ;; 2 hours converted to ms
-                                                       60 60 1000)
-                                       :data        {:category "night life"}}
-                                      {:id          (uuid "b89e4f81-38d4-4d4f-ab19-a7cef18c6647")
-                                       :created     (new js/Date 2018 4 28 15 57)
-                                       :last-edited (new js/Date 2018 4 28 15 57)
-                                       :label       "Breakfast with Girlfriend"
-                                       :planned     true
-                                       :start       {:hour 7 :minute 0}
-                                       :duration    (* 2 ;; 2 hours converted to ms
-                                                       60 60 1000)
-                                       :data        {:category "night life"}}
-                                      {:id          (uuid "da3e4f81-38d4-4d4f-ab19-a7cef18c6641")
-                                       :created     (new js/Date 2018 4 28 15 57)
-                                       :last-edited (new js/Date 2018 4 28 15 57)
-                                       :label       "Date with Girlfriend"
-                                       :planned     true
-                                       :start       nil
-                                       :duration    nil
-                                       :data        {}}
-                                      {:id          (uuid "ef111f81-38d4-4d4f-ab19-a7cef18caa31")
-                                       :created     (new js/Date 2018 4 28 15 57)
-                                       :last-edited (new js/Date 2018 4 28 15 57)
-                                       :label       "Lunch with Brother"
-                                       :planned     true
-                                       :start       nil
-                                       :duration    (* 1.5 60 60 1000)
-                                       :data        {}}]
-                        :periods     (->> (range 1)
-                                          (map #(gen/generate (s/gen period-spec))))}
-                       {:id          (uuid "4b9b07da-5222-408c-aba4-777f0a1203af")
-                        :label       "Work"
-                        :created     (new js/Date 2018 4 28 15 57)
-                        :last-edited (new js/Date 2018 4 28 15 57)
-                        :data        {}
-                        :color       "#aa1111"
-                        :templates   nil
-                        :periods     (->> (range 5)
-                                          (map #(gen/generate (s/gen period-spec))))}]
+                        :templates   []
+                        :periods     [{:id          default-period-id
+                                       :created     now
+                                       :last-edited now
+                                       :label       "start using"
+                                       :planned     false
+                                       :start       now
+                                       :stop        (-> now (.valueOf) (+ (* 1 60 1000)) (js/Date.))
+                                       :data        {}}]}]
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
    :config            {:auto-log-time-align true}
-   :period-in-play-id nil
-   :now               (js/Date.)})
+   :period-in-play-id default-period-id
+   :selected-period   default-period-id
+   :now               now})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app
 ;; old initial state of app-db
