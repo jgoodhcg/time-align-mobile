@@ -12,4 +12,6 @@
           (.getDate date-b))))
 
 (defn print-data [data]
-  (with-out-str (zprint data 40)))
+  (str data)
+  ;; (with-out-str (zprint data 40))  ;; TODO doesn't like zprint :(
+)
