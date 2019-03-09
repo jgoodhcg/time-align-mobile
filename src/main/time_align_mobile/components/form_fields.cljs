@@ -30,7 +30,7 @@
 (defn label-comp [form changes update-key]
   [view {:style {:flex-direction "row"
                  :align-items    "center"}}
-   [text {:style (field-label-changeable-style changes :label)} ":label"]
+   [text {:style (field-label-changeable-style @changes :label)} ":label"]
    [text-input {:default-value  (:label @form)
                 :style          {:height 40
                                  :width  200}
@@ -43,20 +43,20 @@
   [view {:style {:flex           1
                  :flex-direction "column"
                  :align-items    "flex-start"}}
-   [text {:style (field-label-changeable-style changes :data)} ":data"]
+   [text {:style (field-label-changeable-style @changes :data)} ":data"]
    [structured-data {:data   (:data @form)
                      :update update-structured-data}]])
 
 (defn parent-id-comp [form changes]
   [view {:style {:flex-direction "row"}}
-   [text {:style (field-label-changeable-style changes :bucket-id)}
+   [text {:style (field-label-changeable-style @changes :bucket-id)}
     ":bucket-id"]
    [text (str (:bucket-id @form))]])
 
 (defn parent-picker-comp [form changes buckets update-key]
   [view {:style {:flex-direction "row"
                  :align-items "center"}}
-   [text {:style (field-label-changeable-style changes :bucket-label)}
+   [text {:style (field-label-changeable-style @changes :bucket-label)}
     ":bucket-label"]
    [picker {:selected-value  (:bucket-id @form)
             :style           {:width 250}
@@ -69,6 +69,6 @@
 (defn planned-comp [form changes update-key]
   [view {:style {:flex-direction "row"
                  :align-items    "center"}}
-   [text {:style (field-label-changeable-style changes :planned)} ":planned"]
+   [text {:style (field-label-changeable-style @changes :planned)} ":planned"]
    [switch {:value (:planned @form)
             :on-value-change #(dispatch [update-key {:planned %}])}]])
