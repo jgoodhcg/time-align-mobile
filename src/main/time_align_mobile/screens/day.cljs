@@ -4,6 +4,7 @@
                                                   text
                                                   flat-list
                                                   format-date
+                                                  format-time
                                                   touchable-highlight
                                                   status-bar
                                                   animated-view
@@ -573,7 +574,7 @@
                                          (/ 2)
                                          (#(if (:planned selected-period) % 0)))}}
 
-     [view {:style {:height           "90%"
+     [view {:style {:height           "85%"
                     :width            width
                     :background-color "grey"}}
 
@@ -585,11 +586,13 @@
                                :displayed-day   displayed-day
                                :period-in-play  period-in-play}]]
 
+     ;; [selection-menu-arrow dimensions selected-period displayed-day]
+
      [view {:style {:padding 10}}
       [text (:label selected-period)]
-      [text (:bucket-label selected-period)]]
-     ;; [selection-menu-arrow dimensions selected-period displayed-day]
-     ]))
+      [text (:bucket-label selected-period)]
+      [text (format-time (:start selected-period))]
+      [text (format-time (:stop selected-period))]]]))
 
 (defn time-indicators [dimensions displayed-day]
   (let [six-in-the-morning      (->> displayed-day
