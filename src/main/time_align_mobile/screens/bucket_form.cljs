@@ -41,7 +41,7 @@
 (defn color-comp [bucket-form changes]
   [view {:style {:flex-direction "row"
                  :align-items    "center"}}
-   [text {:style (field-label-changeable-style changes :color)} ":color"]
+   [text {:style (field-label-changeable-style @changes :color)} ":color"]
    [touchable-highlight {:on-press #(reset! color-modal-visible true)}
     [view {:style {:height 25
                    :width 100

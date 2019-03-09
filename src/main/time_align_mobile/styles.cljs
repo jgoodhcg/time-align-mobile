@@ -1,7 +1,7 @@
 (ns time-align-mobile.styles)
 
 (defn field-label-changeable-style [changes field]
-  {:color         (if (contains? @changes field)
+  {:color         (if (contains? changes field)
                     "blue"
                     "grey")
    :width 80
