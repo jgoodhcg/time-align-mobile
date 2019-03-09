@@ -36,7 +36,7 @@
 (defn start-comp [period-form changes]
   (let [start (:start @period-form)]
     [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style changes :start)} ":start"]
+     [text {:style (field-label-changeable-style @changes :start)} ":start"]
      [touchable-highlight {:on-press #(reset! start-modal-visible true)}
       [text (if (some? start)
               (format-date start)
@@ -52,7 +52,7 @@
 (defn stop-comp [period-form changes]
   (let [stop (:stop @period-form)]
     [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style changes :stop)} ":stop"]
+     [text {:style (field-label-changeable-style @changes :stop)} ":stop"]
      [touchable-highlight {:on-press #(reset! stop-modal-visible true)} [text (if (some? stop)
               (format-date stop)
               "Add a stop date-time")]]
@@ -86,8 +86,6 @@
 
       [parent-id-comp period-form changes]
 
-      ;; [parent-label-comp period-form]
-
       [parent-picker-comp period-form changes buckets :update-period-form]
 
       [id-comp period-form]
@@ -104,7 +102,7 @@
 
       [stop-comp period-form changes]
 
-      [data-comp period-form changes update-structured-data]
+      ;; [data-comp period-form changes update-structured-data]
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)
