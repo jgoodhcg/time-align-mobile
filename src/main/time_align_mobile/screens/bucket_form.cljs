@@ -80,6 +80,7 @@
 
       [modal {:animation-type "slide"
               :transparent    false
+              :on-request-close #(reset! color-modal-visible false)
               :visible        @color-modal-visible}
        [view {:style {:flex 1}}
         [color-picker {:on-color-selected (fn [color]
@@ -90,7 +91,7 @@
 
       [color-comp bucket-form changes]
 
-      [data-comp bucket-form changes update-structured-data]
+      ;; [data-comp bucket-form changes update-structured-data]
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)
