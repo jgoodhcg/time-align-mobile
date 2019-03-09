@@ -18,6 +18,11 @@
      [text "Filters"]
      [filter-picker :filter]
      [flat-list {:data (filter-sort @filters @active-filter)
+                 :key-extractor (fn [x]
+                                  (-> x
+                                      (js->clj)
+                                      (get "id")
+                                      (str)))
                  :render-item
                  (fn [i]
                    (let [item               (:item (js->clj i :keywordize-keys true))
