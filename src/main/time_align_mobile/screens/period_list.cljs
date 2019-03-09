@@ -25,6 +25,11 @@
      [text "Periods"]
      [filter-picker :period]
      [flat-list {:data (filter-sort @periods @active-filter)
+                 :key-extractor (fn [x]
+                                  (-> x
+                                      (js->clj)
+                                      (get "id")
+                                      (str)))
                  :render-item
                  (fn [i]
                    (let [item         (:item (js->clj i :keywordize-keys true))
@@ -59,6 +64,7 @@
 
      [modal {:animation-type "slide"
              :transparent    false
+             :on-request-close #(reset! bucket-modal-visible false)
              :visible        @bucket-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
@@ -82,6 +88,7 @@
 
      [modal {:animation-type "slide"
              :transparent    false
+             :on-request-close #(reset! template-modal-visible false)
              :visible        @template-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
@@ -105,6 +112,7 @@
 
      [modal {:animation-type "slide"
              :transparent    false
+             :on-request-close #(reset! choice-modal-visible false)
              :visible        @choice-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
