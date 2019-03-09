@@ -124,13 +124,17 @@
 
 (defn init []
   (dispatch-sync [:initialize-db])
+
+  ;; load previous state
   (secure-store-get!
    "app-db"
    (fn [value]
      (when (some? value)
        (let [app-db (read-string value)]
          (dispatch [:load-db app-db])))))
-  ;; Start ticking
+
+  ;; start ticking
   (js/setInterval #(dispatch [:tick (js/Date.)]) 5000)
+
   (start))
 
