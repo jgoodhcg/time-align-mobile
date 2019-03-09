@@ -632,170 +632,170 @@
       [text {:style text-style} "18:00"]]]))
 
 (defn root [params]
-  [view [text "Yo I'm the day view"]]
-  ;; (let [dimensions        (r/atom {:width nil :height nil})
-  ;;       top-bar-height    50
-  ;;       bottom-bar-height 40
-  ;;       periods           (subscribe [:get-periods])
-  ;;       displayed-day     (subscribe [:get-day-time-navigator])
-  ;;       selected-period   (subscribe [:get-selected-period])
-  ;;       period-in-play    (subscribe [:get-period-in-play])
-  ;;       now               (subscribe [:get-now])
-  ;;       buckets           (subscribe [:get-buckets])
-  ;;       templates         (subscribe [:get-templates])]
+  (let [dimensions        (r/atom {:width nil :height nil})
+        top-bar-height    50
+        bottom-bar-height 40
+        periods           (subscribe [:get-periods])
+        displayed-day     (subscribe [:get-day-time-navigator])
+        selected-period   (subscribe [:get-selected-period])
+        period-in-play    (subscribe [:get-period-in-play])
+        now               (subscribe [:get-now])
+        buckets           (subscribe [:get-buckets])
+        templates         (subscribe [:get-templates])]
 
-  ;;   (r/create-class
-  ;;    {:reagent-render
-  ;;     (fn [params]
-  ;;       [view {:style     {:flex 1 :justify-content "center" :align-items "center"}
-  ;;              :on-layout (fn [event]
-  ;;                           (let [layout (-> event
-  ;;                                            (oget "nativeEvent" "layout")
-  ;;                                            (js->clj :keywordize-keys true))]
-  ;;                             (if (nil? (:height dimensions))
-  ;;                               (reset! dimensions {:width  (:width layout)
-  ;;                                                   :height (- (:height layout) top-bar-height bottom-bar-height)}))))}
-  ;;        ;; make our own status bar
-  ;;        [status-bar {:hidden true}]
-  ;;        [top-bar {:top-bar-height top-bar-height
-  ;;                  :dimensions     dimensions
-  ;;                  :displayed-day  @displayed-day
-  ;;                  :now            @now}]
+    (r/create-class
+     {:reagent-render
+      (fn [params]
+        [view {:style     {:flex 1 :justify-content "center" :align-items "center"}
+               :on-layout (fn [event]
+                            (let [layout (-> event
+                                             (oget "nativeEvent" "layout")
+                                             (js->clj :keywordize-keys true))]
+                              (if (nil? (:height dimensions))
+                                (reset! dimensions {:width  (:width layout)
+                                                    :height (- (:height layout) top-bar-height bottom-bar-height)}))))}
+         ;; make our own status bar
+         [status-bar {:hidden true}]
+         [top-bar {:top-bar-height top-bar-height
+                   :dimensions     dimensions
+                   :displayed-day  @displayed-day
+                   :now            @now}]
 
-  ;;        ;; view that stretches to fill what is left of the screen
-  ;;        [touchable-highlight
-  ;;         {:on-long-press (fn [evt]
-  ;;                           (let [now          (js/Date.)
-  ;;                                 native-event (oget evt "nativeEvent")
-  ;;                                 location-y   (oget native-event "locationY")
-  ;;                                 location-x   (oget native-event "locationX")
-  ;;                                 planned      (< location-x (-> @dimensions
-  ;;                                                                (:width)
-  ;;                                                                (/ 2)))
-  ;;                                 relative-ms  (y-pos->ms location-y (:height @dimensions))
-  ;;                                 start        (reset-relative-ms relative-ms @displayed-day)
-  ;;                                 id           (random-uuid)]
-  ;;                             (dispatch [:add-period
-  ;;                                        {:bucket-id nil
-  ;;                                         :period    {:id          id
-  ;;                                                     :start       start
-  ;;                                                     :stop        (-> start
-  ;;                                                                      (.valueOf)
-  ;;                                                                      (+ (* 1000 60 60 1))
-  ;;                                                                      (js/Date.))
-  ;;                                                     :planned     planned
-  ;;                                                     :created     now
-  ;;                                                     :last-edited now
-  ;;                                                     :label       ""
-  ;;                                                     :data        {}}}])
-  ;;                             (dispatch [:navigate-to {:current-screen :period
-  ;;                                                      :params         {:period-id id}}])))}
+         ;; view that stretches to fill what is left of the screen
+         [touchable-highlight
+          {:on-long-press (fn [evt]
+                            (let [now          (js/Date.)
+                                  native-event (oget evt "nativeEvent")
+                                  location-y   (oget native-event "locationY")
+                                  location-x   (oget native-event "locationX")
+                                  planned      (< location-x (-> @dimensions
+                                                                 (:width)
+                                                                 (/ 2)))
+                                  relative-ms  (y-pos->ms location-y (:height @dimensions))
+                                  start        (reset-relative-ms relative-ms @displayed-day)
+                                  id           (random-uuid)]
+                              (dispatch [:add-period
+                                         {:bucket-id nil
+                                          :period    {:id          id
+                                                      :start       start
+                                                      :stop        (-> start
+                                                                       (.valueOf)
+                                                                       (+ (* 1000 60 60 1))
+                                                                       (js/Date.))
+                                                      :planned     planned
+                                                      :created     now
+                                                      :last-edited now
+                                                      :label       ""
+                                                      :data        {}}}])
+                              (dispatch [:navigate-to {:current-screen :period
+                                                       :params         {:period-id id}}])))}
 
-  ;;         [view {:style {:height           (:height @dimensions) ;; this is already adjusted to account for top-bar
-  ;;                        :width            (:width @dimensions)
-  ;;                        :background-color "#dedede"}}
+          [view {:style {:height           (:height @dimensions) ;; this is already adjusted to account for top-bar
+                         :width            (:width @dimensions)
+                         :background-color "#dedede"}}
 
-  ;;          [time-indicators @dimensions @displayed-day]
+           [time-indicators @dimensions @displayed-day]
 
-  ;;          ;; now indicator
-  ;;          (when (same-day? @now @displayed-day)
-  ;;            [view {:style {:height           4
-  ;;                           :width            (:width @dimensions)
-  ;;                           :background-color "white"
-  ;;                           :top              (-> @now
-  ;;                                                 (date->y-pos (:height @dimensions))
-  ;;                                                 (max 0)
-  ;;                                                 (min (:height @dimensions)))}}])
+           ;; now indicator
+           (when (same-day? @now @displayed-day)
+             [view {:style {:height           4
+                            :width            (:width @dimensions)
+                            :background-color "white"
+                            :top              (-> @now
+                                                  (date->y-pos (:height @dimensions))
+                                                  (max 0)
+                                                  (min (:height @dimensions)))}}])
 
-  ;;          ;; periods
-  ;;          (doall (->> @periods
+           ;; periods
+           (doall (->> @periods
 
-  ;;                      (filter (fn [{:keys [start stop]}]
-  ;;                                (cond (and (some? start) (some? stop))
-  ;;                                      (or (same-day? @displayed-day start)
-  ;;                                          (same-day? @displayed-day stop)))))
-  ;;                      (sort-by #(cond
-  ;;                                  (= (:id %) (:id @period-in-play))  0
-  ;;                                  (= (:id %) (:id @selected-period)) 1
-  ;;                                  :else                              (.valueOf (:start %))))
+                       (filter (fn [{:keys [start stop]}]
+                                 (cond (and (some? start) (some? stop))
+                                       (or (same-day? @displayed-day start)
+                                           (same-day? @displayed-day stop)))))
+                       (sort-by #(cond
+                                   (= (:id %) (:id @period-in-play))  0
+                                   (= (:id %) (:id @selected-period)) 1
+                                   :else                              (.valueOf (:start %))))
 
-  ;;                      (reverse)
+                       (reverse)
 
-  ;;                      (map #(period {:period          %
-  ;;                                     :displayed-day   @displayed-day
-  ;;                                     :dimensions      @dimensions
-  ;;                                     :selected-period @selected-period
-  ;;                                     :period-in-play  @period-in-play}))))
+                       (map #(period {:period          %
+                                      :displayed-day   @displayed-day
+                                      :dimensions      @dimensions
+                                      :selected-period @selected-period
+                                      :period-in-play  @period-in-play}))))
 
-  ;;          ;; selection menu
-  ;;          (when (some? @selected-period)
-  ;;            [selection-menu {:dimensions      @dimensions
-  ;;                             :selected-period @selected-period
-  ;;                             :displayed-day   @displayed-day
-  ;;                             :period-in-play  @period-in-play}])]]
+           ;; selection menu
+           (when (some? @selected-period)
+             [selection-menu {:dimensions      @dimensions
+                              :selected-period @selected-period
+                              :displayed-day   @displayed-day
+                              :period-in-play  @period-in-play}])]]
 
-  ;;        [view {:height           bottom-bar-height
-  ;;               :width            "100%"
-  ;;               :flex-direction   "row"
-  ;;               :justify-content  "center"
-  ;;               :align-items      "center"
-  ;;               :background-color "grey"}
+         [view {:height           bottom-bar-height
+                :width            "100%"
+                :flex-direction   "row"
+                :justify-content  "center"
+                :align-items      "center"
+                :background-color "grey"}
 
-  ;;         (if (some? @period-in-play)
-  ;;           [selection-menu-button
-  ;;            "stop playing"
-  ;;            [mi {:name "stop"}]
-  ;;            #(dispatch [:stop-playing-period])]
+          (if (some? @period-in-play)
+            [selection-menu-button
+             "stop playing"
+             [mi {:name "stop"}]
+             #(dispatch [:stop-playing-period])]
 
-  ;;           [selection-menu-button
-  ;;            "play"
-  ;;            [mi {:name "play-arrow"}]
-  ;;            #(reset! play-modal-visible true)])]
+            [selection-menu-button
+             "play"
+             [mi {:name "play-arrow"}]
+             #(reset! play-modal-visible true)])]
 
-  ;;        ;; play modal
-  ;;        [modal {:animation-type "slide"
-  ;;                :transparent    false
-  ;;                :visible        @play-modal-visible}
-  ;;         [view {:style {:flex    1
-  ;;                        :padding 10}}
-  ;;          [touchable-highlight {:on-press #(reset! play-modal-visible false)}
-  ;;           [text "Cancel"]]
-  ;;          [scroll-view {:style {:height "50%"}}
-  ;;           [text "Select a bucket to make the period with"]
-  ;;           [flat-list {:data @buckets
-  ;;                       :render-item
-  ;;                       (fn [i]
-  ;;                         (let [item (:item (js->clj i :keywordize-keys true))]
-  ;;                           (r/as-element
-  ;;                            (list-items/bucket
-  ;;                             (merge
-  ;;                              item
-  ;;                              {:on-press
-  ;;                               (fn [_]
-  ;;                                 (reset! play-modal-visible false)
-  ;;                                 ;; passing dispatch the parent bucket id
-  ;;                                 ;; for the period about to be created
-  ;;                                 (dispatch [:play-from-bucket {:bucket-id (:id item)
-  ;;                                                               :id        (random-uuid)
-  ;;                                                               :now       (new js/Date)}]))})))))}]]
+         ;; play modal
+         [modal {:animation-type "slide"
+                 :transparent    false
+                 :on-request-close #(reset! play-modal-visible false)
+                 :visible        @play-modal-visible}
+          [view {:style {:flex    1
+                         :padding 10}}
+           [touchable-highlight {:on-press #(reset! play-modal-visible false)}
+            [text "Cancel"]]
+           [scroll-view {:style {:height "50%"}}
+            [text "Select a bucket to make the period with"]
+            [flat-list {:data @buckets
+                        :render-item
+                        (fn [i]
+                          (let [item (:item (js->clj i :keywordize-keys true))]
+                            (r/as-element
+                             (list-items/bucket
+                              (merge
+                               item
+                               {:on-press
+                                (fn [_]
+                                  (reset! play-modal-visible false)
+                                  ;; passing dispatch the parent bucket id
+                                  ;; for the period about to be created
+                                  (dispatch [:play-from-bucket {:bucket-id (:id item)
+                                                                :id        (random-uuid)
+                                                                :now       (new js/Date)}]))})))))}]]
 
-  ;;          [scroll-view {:style {:height "50%"}}
-  ;;           [text "Or select a template"]
-  ;;           [flat-list {:data @templates
-  ;;                       :render-item
-  ;;                       (fn [i]
-  ;;                         (let [item (:item (js->clj i :keywordize-keys true))]
-  ;;                           (r/as-element
-  ;;                            (list-items/template
-  ;;                             (merge
-  ;;                              item
-  ;;                              {:on-press
-  ;;                               (fn [_]
-  ;;                                 (reset! play-modal-visible false)
-  ;;                                 ;; passing dispatch the parent bucket id
-  ;;                                 ;; for the period about to be created
-  ;;                                 (dispatch [:play-from-template {:template item
-  ;;                                                                 :id       (random-uuid)
-  ;;                                                                 :now      (js/Date.)}]))})))))}]]]]])}))
+           [scroll-view {:style {:height "50%"}}
+            [text "Or select a template"]
+            [flat-list {:data @templates
+                        :render-item
+                        (fn [i]
+                          (let [item (:item (js->clj i :keywordize-keys true))]
+                            (r/as-element
+                             (list-items/template
+                              (merge
+                               item
+                               {:on-press
+                                (fn [_]
+                                  (reset! play-modal-visible false)
+                                  ;; passing dispatch the parent bucket id
+                                  ;; for the period about to be created
+                                  (dispatch [:play-from-template {:template item
+                                                                  :id       (random-uuid)
+                                                                  :now      (js/Date.)}]))})))))}]]]]])}))
   )
 

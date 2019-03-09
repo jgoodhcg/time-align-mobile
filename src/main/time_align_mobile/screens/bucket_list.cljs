@@ -39,7 +39,4 @@
                             {:current-screen :bucket
                              :params         {:bucket-id (:id item)}}])})))))}]
      [list-buttons/root #(dispatch [:add-new-bucket {:id (random-uuid)
-                                                      :now (new js/Date)}])]
-     ]
-    )
-  )
+                                                      :now (new js/Date)}])]]))

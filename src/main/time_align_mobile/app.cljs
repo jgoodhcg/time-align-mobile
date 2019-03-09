@@ -110,9 +110,7 @@
                                         (:screen %))
                                      nav/screens-map)]
             [screen-comp (:params @navigation)]
-            ;; [view [text (str screen-comp)]]
-            [view [text "That screen doesn't exist"]])
-          ]]))))
+            [view [text "That screen doesn't exist"]])]]))))
 
 ;; (defn root []
 ;;   [:> rn/View {:style (.-container styles)}
