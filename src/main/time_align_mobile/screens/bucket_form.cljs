@@ -19,6 +19,7 @@
                                                               label-comp
                                                               data-comp]]
             ["react" :as react]
+            ["react-native-elements" :as rne]
             [reagent.core :as r :refer [atom]]
             [re-frame.core :refer [subscribe dispatch]]))
 
@@ -78,10 +79,10 @@
 
       [label-comp bucket-form changes :update-bucket-form]
 
-      [modal {:animation-type "slide"
-              :transparent    false
+      [modal {:animation-type   "slide"
+              :transparent      false
               :on-request-close #(reset! color-modal-visible false)
-              :visible        @color-modal-visible}
+              :visible          @color-modal-visible}
        [view {:style {:flex 1}}
         [color-picker {:on-color-selected (fn [color]
                                             (dispatch [:update-bucket-form {:color color}])
@@ -97,4 +98,19 @@
        {:changed        (> (count @changes) 0)
         :save-changes   #(dispatch [:save-bucket-form (new js/Date)])
         :cancel-changes #(dispatch [:load-bucket-form (:id @bucket-form)])
-        :delete-item    #(dispatch [:delete-bucket (:id @bucket-form)])}]]]))
+        :delete-item    #(dispatch [:delete-bucket (:id @bucket-form)])}]
+
+      [:> rne/Button {:title    "make filter for bucket"
+                      :on-press #(dispatch
+                                  [:add-auto-filter
+                                   {:id          (random-uuid)
+                                    :label       (str (:label @bucket-form)
+                                                      " bucket filter")
+                                    :created     (js/Date.)
+                                    :last-edited (js/Date.)
+                                    :compatible  [:period :template]
+                                    :sort        {:path      [:start]
+                                                  :ascending true}
+                                    :predicates  [{:path  [:bucket-id]
+                                                   :negate false
+                                                   :value (str (:id @bucket-form))}]}])}]]]))

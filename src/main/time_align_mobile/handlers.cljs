@@ -279,18 +279,18 @@
   (assoc db :active-filter id))
 
 (defn add-new-bucket [{:keys [db]} [_ {:keys [id now]}]]
-  {:db (setval [:buckets
-                sp/NIL->VECTOR
-                sp/AFTER-ELEM]
-               {:id          id
-                :label       ""
-                :created     now
-                :last-edited now
-                :data        {}
-                :color       "#ff1122"
-                :templates   nil
-                :periods     nil}
-               db)
+  {:db (->> db
+            (setval [:buckets
+                     sp/NIL->VECTOR
+                     sp/AFTER-ELEM]
+                    {:id          id
+                     :label       ""
+                     :created     now
+                     :last-edited now
+                     :data        {}
+                     :color       "#ff1122"
+                     :templates   nil
+                     :periods     nil}))
    :dispatch [:navigate-to {:current-screen :bucket
                             :params {:bucket-id id}}]})
 
@@ -419,6 +419,7 @@
   (assoc-in db [:selected-period] id))
 
 (defn update-period [db [_ {:keys [id update-map]}]]
+  ;; TODO add an interceptor? for last edited
   (transform [:buckets sp/ALL
               :periods sp/ALL
               #(= id (:id %))]
@@ -576,6 +577,12 @@
   {:db db
    :share db})
 
+(defn add-auto-filter [db [_ filter]]
+  (->> db
+       (setval
+        [:filters sp/NIL->VECTOR sp/AFTER-ELEM]
+        filter)))
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
@@ -612,3 +619,4 @@
 (reg-event-db :play-from-template [validate-spec persist-secure-store] play-from-template)
 (reg-event-db :load-db [validate-spec] load-db)
 (reg-event-fx :share-app-db [validate-spec] share-app-db)
+(reg-event-db :add-auto-filter [validate-spec] add-auto-filter)
