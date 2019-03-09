@@ -13,6 +13,7 @@
                                                   modal
                                                   animated-xy
                                                   pan-responder]]
+            ["react-native-elements" :as rne]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :refer [same-day?]]
@@ -203,8 +204,9 @@
                                        :padding-bottom 0}
                             :on-press #(dispatch [:select-period id])}
        [view
-        [text label]
-        [text bucket-label]]]]]))
+        ;; [text label]
+        ;; [text bucket-label]
+        ]]]]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}
@@ -558,35 +560,36 @@
                                             [{:rotate "90deg"}])}}])))
 
 (defn selection-menu [{:keys [dimensions selected-period displayed-day period-in-play]}]
-  [view {:style {:position         "absolute"
-                 :background-color "blue"
-                 :top              0
-                 :height           (:height dimensions)
-                 :width            (-> dimensions
-                                       (:width)
-                                       (/ 2))
-                 :left             (-> dimensions
-                                       (:width)
-                                       (/ 2)
-                                       (#(if (:planned selected-period) % 0)))}}
+  (let [width (-> dimensions
+                  (:width)
+                  (/ 2))]
+    [view {:style {:position         "absolute"
+                   :background-color "white"
+                   :top              0
+                   :height           (:height dimensions)
+                   :width            width
+                   :left             (-> dimensions
+                                         (:width)
+                                         (/ 2)
+                                         (#(if (:planned selected-period) % 0)))}}
 
-   [view {:style {:height           "100%"
-                  :width            (-> dimensions
-                                        (:width)
-                                        (/ 2)
-                                        (+ padding))
-                  :background-color "grey"}}
+     [view {:style {:height           "90%"
+                    :width            width
+                    :background-color "grey"}}
 
-    ;; [selection-menu-info dimensions selected-period]
+      ;; [selection-menu-info dimensions selected-period]
 
-    ;; buttons
-    [selection-menu-buttons {:dimensions      dimensions
-                             :selected-period selected-period
-                             :displayed-day   displayed-day
-                             :period-in-play  period-in-play}]]
+      ;; buttons
+      [selection-menu-buttons {:dimensions      dimensions
+                               :selected-period selected-period
+                               :displayed-day   displayed-day
+                               :period-in-play  period-in-play}]]
 
-   ;; [selection-menu-arrow dimensions selected-period displayed-day]
-   ])
+     [view {:style {:padding 10}}
+      [text (:label selected-period)]
+      [text (:bucket-label selected-period)]]
+     ;; [selection-menu-arrow dimensions selected-period displayed-day]
+     ]))
 
 (defn time-indicators [dimensions displayed-day]
   (let [six-in-the-morning      (->> displayed-day
