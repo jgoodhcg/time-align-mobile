@@ -17,9 +17,10 @@
           (fn [item]
             (->> (:predicates active-filter)
                  (every? (fn [{:keys [negate path value]}]
-                         (if negate
-                           (not= (get-in item path) value)
-                           (= (get-in item path) value))))))))
+                           (let [item-val (str (get-in item path))]
+                             (if negate
+                               (not= item-val value)
+                               (= item-val value)))))))))
     items))
 
 (defn sort-items [items active-filter]
