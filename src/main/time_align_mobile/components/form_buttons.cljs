@@ -2,25 +2,28 @@
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
                                                   touchable-highlight]]
+            ["react-native-elements" :as rne]
             ["react" :as react]))
 
 (defn root [{:keys [changed save-changes cancel-changes delete-item]}]
   [view {:style {:flex            1
                  :flex-direction  "row"
-                 :align-items     "center"
-                 :justify-content "center"}}
-   [touchable-highlight {:on-press save-changes
-                         :style    {:padding      5
-                                    :margin-right 10}}
-    [text (when-not changed {:style {:color "grey"}}) "save"]]
+                 :width           "100%"
+                 :margin-top      10
+                 :padding         10
+                 :align-items     "space-between"
+                 :justify-content "space-between"}}
 
-   [touchable-highlight {:on-press cancel-changes
-                         :style    {:padding      5
-                                    :margin-right 10}}
-    [text (when-not changed {:style {:color "grey"}}) "cancel"]]
+   [:> rne/Button
+    (merge {:title    "save"
+            :on-press save-changes}
+           (when-not changed {:disabled true}))]
 
-   [touchable-highlight {:on-press delete-item
-                         :style {:padding 5
-                                 :margin-right 10}}
-    [text "delete"]]])
+   [:> rne/Button
+    (merge {:title    "cancel"
+            :on-press cancel-changes}
+           (when-not changed {:disabled true}))]
+
+   [:> rne/Button {:title    "delete"
+                   :on-press delete-item}]])
 
