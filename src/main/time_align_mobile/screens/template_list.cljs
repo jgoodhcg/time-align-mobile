@@ -22,6 +22,11 @@
      [text "Templates"]
      [filter-picker :template]
      [flat-list {:data (filter-sort @templates @active-filter)
+                 :key-extractor (fn [x]
+                                  (-> x
+                                      (js->clj)
+                                      (get "id")
+                                      (str)))
                  :render-item
                  (fn [i]
                    (let [item (:item (js->clj i :keywordize-keys true))]
@@ -36,6 +41,7 @@
 
      [modal {:animation-type "slide"
              :transparent    false
+             :on-request-close #(reset! bucket-modal-visible false)
              :visible        @bucket-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
