@@ -42,7 +42,7 @@
                                    hour
                                    minute)]
     [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style changes :start)} ":start"]
+     [text {:style (field-label-changeable-style @changes :start)} ":start"]
      [touchable-highlight {:on-press #(reset! start-modal-visible true)}
       [text (format-time start-time)]]
      [date-time-picker {:is-visible @start-modal-visible
@@ -63,12 +63,14 @@
         seconds  (quot (- duration
                           (* hours 60 60 1000)
                           (* minutes 60 1000))
-                       1000)]
+                       1000)
+        row-style {:flex-direction "row"
+                   :align-items    "center"}]
 
     [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style changes :duration)} ":duration"]
+     [text {:style (field-label-changeable-style @changes :duration)} ":duration"]
      [view {:style {:flex-direction "column"}}
-      [view {:style {:flex-direction "row"}}
+      [view {:style row-style}
        ;; hours
        [text {:style {:color "grey" :margin-right 10}} "hours"]
        [text-input {:default-value  (.toString hours)
@@ -76,7 +78,7 @@
                                      :width  200}
                     :on-change-text (fn [val]
                                       (let [hours (js/parseFloat val)]
-                                        (if (not (js/isNaN hours)) 
+                                        (if (not (js/isNaN hours))
                                           (dispatch [:update-template-form
                                                      {:duration
                                                       (+ (* hours 60 60 1000)
@@ -86,9 +88,9 @@
                                           (println "not a number...."))))}]]
 
       ;; minutes
-      [view {:style {:flex-direction "row"}}
+      [view {:style row-style}
        [text {:style {:color "grey" :margin-right 10}} "minutes"]
-       [text-input {:default-value  (.toString minutes) 
+       [text-input {:default-value  (.toString minutes)
                     :style          {:height 40
                                      :width  200}
                     :on-change-text (fn [val]
@@ -103,7 +105,7 @@
                                           (println "not a number...."))))}]]
 
       ;; seconds
-      [view {:style {:flex-direction "row"}}
+      [view {:style row-style}
        [text {:style {:color "grey" :margin-right 10}} "seconds"]
        [text-input {:default-value  (.toString seconds)
                     :style          {:height 40
@@ -157,7 +159,7 @@
 
       [duration-comp template-form changes]
 
-      [data-comp template-form changes update-structured-data]
+      ;; [data-comp template-form changes update-structured-data]
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)
