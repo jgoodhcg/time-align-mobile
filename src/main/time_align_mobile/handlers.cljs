@@ -2,7 +2,7 @@
   (:require
     [time-align-mobile.js-imports :refer [secure-store-set! secure-store-get! alert share]]
     [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx]]
-    [zprint.core :refer [zprint]]
+    ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
@@ -18,7 +18,8 @@
   [spec db]
   (when-not (s/valid? spec db)
     (let [explaination (s/explain-data spec db)]
-      (zprint (::clojure.spec.alpha/problems explaination) {:map {:force-nl? true}})
+      ;; (zprint (::clojure.spec.alpha/problems explaination) {:map {:force-nl? true}})
+      (str (::clojure.spec.alpha/problems explaination))
       ;; (throw (ex-info (str "Spec check failed: " explain-data) explain-data))
       (alert "Failed spec validation" "Check the command line output.")
       true)))
@@ -571,7 +572,9 @@
 (reg-fx
  :share
  (fn [app-db]
-   (share (str "app-db-" (.toJSON (js/Date.))) (with-out-str (zprint app-db)))))
+   (share (str "app-db-" (.toJSON (js/Date.))) (str app-db)
+          ;; (with-out-str (zprint app-db))
+          )))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db

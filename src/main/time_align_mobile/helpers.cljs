@@ -1,6 +1,7 @@
 (ns time-align-mobile.helpers
   (:require
-   [zprint.core :refer [zprint]]))
+   ;; [zprint.core :refer [zprint]]
+   ))
 
 
 (defn same-day? [date-a date-b]

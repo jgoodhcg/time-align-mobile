@@ -20,7 +20,7 @@
             [time-align-mobile.helpers :refer [same-day?]]
             [time-align-mobile.components.list-items :as list-items]
             [goog.string :as gstring]
-            [zprint.core :refer [zprint]]
+            ;; [zprint.core :refer [zprint]]
             ["react" :as react]
             [goog.string.format]
             [re-frame.core :refer [subscribe dispatch]]
@@ -240,9 +240,11 @@
 
      [heading-sub-comp "data"]
      [info-sub-comp
-      (with-out-str
-        (zprint (:data selected-period)
-                {:map {:force-nl? true}}))]]))
+      (str (:data selected-period))
+      ;; (with-out-str
+      ;;   (zprint (:data selected-period)
+      ;;           {:map {:force-nl? true}}))
+      ]]))
 
 (defn selection-menu-button [label icon on-press long-press]
   [touchable-highlight {:on-press      on-press

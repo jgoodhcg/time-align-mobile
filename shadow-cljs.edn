@@ -10,7 +10,7 @@
   [reagent "0.8.1"]
   [metosin/spec-tools "0.9.0"]
   [org.clojure/test.check "0.9.0"] ;; TODO: move to dev deps when we don't need generation of data
-  [zprint "0.4.13"] ;; needed to jump back to a version that used Clojurescript 1.10.339 (shadows bundled version)
+  ;; [zprint "0.4.13"]
   [com.rpl/specter "1.1.3-SNAPSHOT"]
   [funcool/promesa "2.0.0"]]
 
