@@ -3,6 +3,7 @@
                                                   text
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
+            [reagent.core :as r :refer [atom]]
             ["react" :as react]))
 
 (defn root [{:keys [changed save-changes cancel-changes delete-item]}]
@@ -15,15 +16,21 @@
                  :justify-content "space-between"}}
 
    [:> rne/Button
-    (merge {:title    "save"
+    (merge {:icon     (r/as-element [:> rne/Icon {:name  "save"
+                                                  :type  "font-awesome"
+                                                  :color "#fff"}])
             :on-press save-changes}
            (when-not changed {:disabled true}))]
 
    [:> rne/Button
-    (merge {:title    "cancel"
+    (merge {:icon     (r/as-element [:> rne/Icon {:name  "cancel"
+                                                  :type  "material"
+                                                  :color "#fff"}])
             :on-press cancel-changes}
            (when-not changed {:disabled true}))]
 
-   [:> rne/Button {:title    "delete"
+   [:> rne/Button {:icon     (r/as-element [:> rne/Icon {:name  "delete-forever"
+                                                         :type  "material-community"
+                                                         :color "#fff"}])
                    :on-press delete-item}]])
 

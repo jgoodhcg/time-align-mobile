@@ -47,7 +47,10 @@
                   :on-press        #(reset! color-modal-visible true)}])
 
 (defn filter-button [bucket-form]
-  [:> rne/Button {:title    "Make Filter"
+  [:> rne/Button {:icon     (r/as-element [:> rne/Icon {:name  "filter"
+                                                        :type  "font-awesome"
+                                                        :color "#fff"}])
+                  :title    "Add Filter"
                   :on-press #(dispatch
                               [:add-auto-filter
                                {:id          (random-uuid)
