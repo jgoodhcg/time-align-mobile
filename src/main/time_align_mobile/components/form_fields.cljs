@@ -3,6 +3,7 @@
                                               field-label-style]]
             [re-frame.core :refer [dispatch]]
             ["react" :as react]
+            ["react-native-elements" :as rne]
             [time-align-mobile.js-imports :refer [view
                                                   text
                                                   text-input
@@ -12,32 +13,35 @@
                                                   format-date]]
             [time-align-mobile.components.structured-data :refer [structured-data]]))
 
+(def field-style {:flex-direction "row"
+                  :margin-bottom  20})
+
 (defn id-comp [form]
-  [view {:style {:flex-direction "row"}}
-   [text {:style field-label-style} ":id"]
-   [text (str (:id @form))]])
+  [view {:style field-style}
+   [:> rne/Input {:label "ID"
+                  :value (str (:id @form))
+                  :editable false}]])
 
 (defn created-comp [form]
-  [view {:style {:flex-direction "row"}}
-   [text {:style field-label-style} ":created"]
-   [text (format-date (:created @form))]])
+  [view {:style field-style}
+   [:> rne/Input {:label "Created"
+                  :value (str (:created @form))
+                  :editable false}]])
 
 (defn last-edited-comp [form]
-  [view {:style {:flex-direction "row"}}
-   [text {:style field-label-style} ":last-edited"]
-   [text (format-date (:last-edited @form))]])
+  [view {:style field-style}
+   [:> rne/Input {:label "Last Edited"
+                  :value (str (:last-edited @form))
+                  :editable false}]])
 
 (defn label-comp [form changes update-key]
-  [view {:style {:flex-direction "row"
-                 :align-items    "center"}}
-   [text {:style (field-label-changeable-style @changes :label)} ":label"]
-   [text-input {:default-value  (:label @form)
-                :style          {:height 40
-                                 :width  200}
-                :spell-check    true
-                :on-change-text (fn [text]
-                                  (dispatch [update-key
-                                             {:label text}]))}]])
+  [view {:style field-style}
+   [:> rne/Input {:label          "Label"
+                  :default-value  (:label @form)
+                  :spell-check    true
+                  :on-change-text (fn [text]
+                                    (dispatch [update-key
+                                               {:label text}]))}]])
 
 (defn data-comp [form changes update-structured-data]
   [view {:style {:flex           1
