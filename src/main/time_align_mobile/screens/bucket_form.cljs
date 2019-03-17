@@ -65,8 +65,17 @@
                                                :negate false
                                                :value  (str (:id @bucket-form))}]}])}])
 
+(defn filter-for-id? [filters id]
+  (let [values (->> filters
+                    (map :predicates)
+                    (flatten)
+                    (map :value))]
+
+    (some #(= % (str id)) values)))
+
 (defn root [params]
   (let [bucket-form            (subscribe [:get-bucket-form])
+        filters                (subscribe [:get-filters])
         update-structured-data (fn [new-data]
                                  (dispatch
                                   [:update-bucket-form {:data new-data}]))
@@ -108,7 +117,8 @@
             :align-items    "center"
             :padding        4}
 
-      [filter-button bucket-form]
+      (when-not (filter-for-id? @filters (:id @bucket-form))
+        [filter-button bucket-form])
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)
