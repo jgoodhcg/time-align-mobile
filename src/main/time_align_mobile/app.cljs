@@ -115,7 +115,8 @@
 (defn start
   {:dev/after-load true}
   []
-    (expo/render-root (r/as-element [root])))
+  (expo/render-root (r/as-element [root]))
+  (r/force-update-all))
 
 (defn init []
   (dispatch-sync [:initialize-db])
@@ -129,7 +130,7 @@
          (dispatch [:load-db app-db])))))
 
   ;; start ticking
-  (js/setInterval #(dispatch [:tick (js/Date.)]) 5000)
+  (js/setInterval #(dispatch [:tick (js/Date.)]) 1000)
 
   (start))
 
