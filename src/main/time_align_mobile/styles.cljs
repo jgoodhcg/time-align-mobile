@@ -20,3 +20,9 @@
 (def field-label-style {:color         "grey"
                         :padding-right 5
                         :width 75})
+
+(def border-color "#dadce0")
+(def background-color "#fff")
+(def time-indicator-line-style {:background-color border-color
+                                :height           2})
+(def time-indicator-text-style {:color border-color})

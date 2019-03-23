@@ -19,6 +19,7 @@
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :refer [same-day?]]
             [time-align-mobile.components.list-items :as list-items]
+            [time-align-mobile.styles :as styles]
             [goog.string :as gstring]
             ;; [zprint.core :refer [zprint]]
             ["react" :as react]
@@ -111,39 +112,54 @@
 
 ;; components
 (defn top-bar [{:keys [top-bar-height dimensions displayed-day now]}]
-  [view {:style {:height           top-bar-height
-                 :width            (:width @dimensions)
-                 :background-color "#b9b9b9"
-                 :flex-direction   "column"
-                 :align-items      "center"}}
-   [view {:style {:flex-direction "row"
-                  :align-items    "center"
-                  :margin-bottom  4}}
-    [text (str now)]]
-   [view {:style {:flex-direction  "row"
-                  :align-items     "center"
-                  :justify-content "center"}}
-    ;; back
-    [touchable-highlight
-     {:on-press      #(dispatch [:update-day-time-navigator (back-n-days displayed-day 1)])
-      :on-long-press #(dispatch [:update-day-time-navigator (back-n-days displayed-day 7)])}
-     [mi {:name "fast-rewind"
-          :size 32 }]]
+  (let [outer-style              {:height           top-bar-height
+                                  :width            (:width @dimensions)
+                                  :background-color styles/background-color
+                                  :elevation        2
+                                  :flex-direction   "column"
+                                  :justify-content  "center"
+                                  :align-items      "center"}
+        inner-style              {:flex-direction  "row"
+                                  :align-items     "center"
+                                  :justify-content "center"}
+        displayed-day-style      {:justify-content "center"
+                                  :align-items     "center"
+                                  :width           "75%"}
+        displayed-day-text-style (merge
+                                  {:padding 6}
+                                  (when (same-day? displayed-day now)
+                                    {:border-color        "black"
+                                     :border-radius       4
+                                     :border-bottom-width 2
+                                     ;; adjust padding for border
+                                     :padding-bottom      4}))]
 
-    ;; displayed day
-    [view {:style {:justify-content "center"
-                   :align-items     "center"
-                   :width           "75%"}}
-     [text  (.toDateString displayed-day)]]
+    [view {:style outer-style}
+     [view {:style inner-style}
+      ;; back
+      [touchable-highlight
+       {:on-press      #(dispatch [:update-day-time-navigator (back-n-days displayed-day 1)])
+        :on-long-press #(dispatch [:update-day-time-navigator (back-n-days displayed-day 7)])}
+       [mi {:name "fast-rewind"
+            :size 32 }]]
 
-    ;; forward
-    [touchable-highlight
-     {:on-press      #(dispatch [:update-day-time-navigator (forward-n-days displayed-day 1)])
-      :on-long-press #(dispatch [:update-day-time-navigator (forward-n-days displayed-day 7)])}
-     [mi {:name "fast-forward"
-          :size 32}]]]])
+      ;; displayed day
+      [view {:style displayed-day-style}
+       [touchable-highlight {:on-press #(dispatch [:update-day-time-navigator now])}
+        [text {:style displayed-day-text-style} (.toDateString displayed-day)]]]
 
-(defn period [{:keys [period dimensions displayed-day period-in-play selected-period]}]
+      ;; forward
+      [touchable-highlight
+       {:on-press      #(dispatch [:update-day-time-navigator (forward-n-days displayed-day 1)])
+        :on-long-press #(dispatch [:update-day-time-navigator (forward-n-days displayed-day 7)])}
+       [mi {:name "fast-forward"
+            :size 32}]]]]))
+
+(defn period [{:keys [period
+                      dimensions
+                      displayed-day
+                      period-in-play
+                      selected-period]}]
   (let [{:keys [id start stop planned color label bucket-label]} period
 
         adjusted-stop  (bound-stop stop displayed-day)
@@ -603,14 +619,13 @@
                                      (reset-relative-ms (* 1000 60 60 12)))
         six-in-the-evening      (->> displayed-day
                                      (reset-relative-ms (* 1000 60 60 18)))
-        color                   "#cbcbcb"
         container-style         {:position    "absolute"
                                  :left        0
                                  :align-items "center"}
-        line-style              {:background-color color
-                                 :height           4
-                                 :width            (:width dimensions)}
-        text-style              {:color color}]
+        line-style              (merge
+                                 styles/time-indicator-line-style
+                                 {:width            (:width dimensions)})
+        text-style              styles/time-indicator-text-style]
 
     [view
      [view {:style (merge container-style
@@ -638,6 +653,21 @@
                                     (min (:height dimensions)))})}
       [view line-style]
       [text {:style text-style} "18:00"]]]))
+
+(defn now-indicator [{:keys [dimensions now]}]
+  [view {:style (merge
+                 styles/time-indicator-line-style
+                 {:width            (:width @dimensions)
+                  :background-color "black"
+                  :align-items      "center"
+                  :top              (-> @now
+                                        (date->y-pos (:height @dimensions))
+                                        (max 0)
+                                        (min (:height @dimensions)))})}
+   [text {:style (merge
+                  styles/time-indicator-text-style
+                  {:color "black"})}
+    (format-time @now)]])
 
 (defn make-period-from-touch [{:keys [displayed-day dimensions]}]
   (fn [evt]
@@ -757,6 +787,7 @@
                                   (dispatch [:play-from-template {:template item
                                                                   :id       (random-uuid)
                                                                   :now      (js/Date.)}]))})))))}]]])
+
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
         top-bar-height    50
@@ -798,17 +829,13 @@
                          :width            (:width @dimensions)
                          :background-color "white"}}
 
+           ;; time indicators
            [time-indicators @dimensions @displayed-day]
 
            ;; now indicator
            (when (same-day? @now @displayed-day)
-             [view {:style {:height           4
-                            :width            (:width @dimensions)
-                            :background-color "white"
-                            :top              (-> @now
-                                                  (date->y-pos (:height @dimensions))
-                                                  (max 0)
-                                                  (min (:height @dimensions)))}}])
+             [now-indicator {:dimensions dimensions
+                             :now now}])
 
            ;; periods
            [periods-comp {:displayed-day   displayed-day
