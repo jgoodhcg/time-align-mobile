@@ -125,4 +125,4 @@
 (defn format-time [date]
   (ocall (moment-tz date (get-default-timezone))
           "format"
-          "hh-mm"))
+          "HH-mm"))
