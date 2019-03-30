@@ -3,7 +3,9 @@
 $ yarn
 $ shadow-cljs watch app
 ;; wait for first compile to finish or expo gets confused
-$ yarn start
++$ yarn start+
+$ expo start -c --lan --no-dev ;; does --lan or --no-dev actually do anything useful?
+
 
 # in emacs editor
 # cider-connect (localhost:8202 or w/e the build says the nrepl is running on)
