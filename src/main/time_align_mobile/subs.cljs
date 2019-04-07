@@ -1,6 +1,7 @@
 (ns time-align-mobile.subs
   (:require [re-frame.core :refer [reg-sub]]
             [time-align-mobile.helpers :as helpers]
+            [time-align-mobile.helpers :refer [same-day?]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (defn get-navigation [db _]
@@ -201,6 +202,62 @@
                              :bucket-label (:label bucket)
                              :color        (:color bucket)})
       nil) ))
+
+(defn overlapping-timestamps? [start-a stop-a start-b stop-b]
+  (and (<= (.valueOf start-b) (.valueOf stop-a))
+       (<= (.valueOf start-a) (.valueOf stop-b))))
+
+(defn period-overlaps-collision-group? [period c-group]
+  (some? (->> c-group
+              (some
+               #(overlapping-timestamps?
+                 (:start period)
+                 (:stop period)
+                 (:start %)
+                 (:stop %))))))
+
+(defn insert-into-collision-group [collision-groups period]
+  (let [collision-groups-with-trailing-empty
+        (if (empty? (last collision-groups))
+          collision-groups
+          (conj collision-groups []))]
+
+    (setval
+
+     (sp/cond-path
+      [sp/ALL (partial period-overlaps-collision-group? period)]
+      [sp/ALL (partial period-overlaps-collision-group? period) sp/AFTER-ELEM]
+
+      [sp/ALL empty?]
+      [sp/ALL empty? sp/AFTER-ELEM])
+
+     period
+     collision-groups-with-trailing-empty)))
+
+(defn get-collision-groups [periods]
+  (->> periods
+       (reduce insert-into-collision-group [[]])
+       (remove empty?)))
+
+(defn filter-periods-for-day [day periods]
+  (->> periods
+       (filter (fn [{:keys [start stop]}]
+                 (cond (and (some? start) (some? stop))
+                       (or (same-day? day start)
+                           (same-day? day stop)))))))
+
+(defn get-periods-for-day-display [db _]
+  (let [displayed-day           (get-day-time-navigator db :no-op)
+        periods-sorted          (->> (get-periods db :no-op)
+                                     (filter-periods-for-day displayed-day)
+                                     (sort-by #(.valueOf (:start %))))
+        planned-periods         (->> periods-sorted
+                                     (filter :planned))
+        actual-periods          (->> periods-sorted
+                                     (filter #(not (:planned %))))
+        actual-collision-groups (get-collision-groups actual-periods)]
+
+    actual-collision-groups))
 
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
