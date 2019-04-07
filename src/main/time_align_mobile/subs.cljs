@@ -247,17 +247,19 @@
                            (same-day? day stop)))))))
 
 (defn get-periods-for-day-display [db _]
-  (let [displayed-day           (get-day-time-navigator db :no-op)
-        periods-sorted          (->> (get-periods db :no-op)
-                                     (filter-periods-for-day displayed-day)
-                                     (sort-by #(.valueOf (:start %))))
-        planned-periods         (->> periods-sorted
-                                     (filter :planned))
-        actual-periods          (->> periods-sorted
-                                     (filter #(not (:planned %))))
-        actual-collision-groups (get-collision-groups actual-periods)]
+  (let [displayed-day            (get-day-time-navigator db :no-op)
+        periods-sorted           (->> (get-periods db :no-op)
+                                      (filter-periods-for-day displayed-day)
+                                      (sort-by #(.valueOf (:start %))))
+        planned-periods          (->> periods-sorted
+                                      (filter :planned))
+        actual-periods           (->> periods-sorted
+                                      (filter #(not (:planned %))))
+        actual-collision-groups  (get-collision-groups actual-periods)
+        planned-collision-groups (get-collision-groups planned-periods)]
 
-    actual-collision-groups))
+    {:actual  actual-collision-groups
+     :planned planned-collision-groups}))
 
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
