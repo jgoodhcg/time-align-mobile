@@ -606,6 +606,7 @@
 
      ;; [selection-menu-arrow dimensions selected-period displayed-day]
 
+     ;; period info
      [view {:style {:padding 10}}
       [text (:label selected-period)]
       [text (:bucket-label selected-period)]
@@ -727,15 +728,19 @@
   [view
    (doall (->> @periods
 
+               ;; get them for the displayed day
                (filter (fn [{:keys [start stop]}]
                          (cond (and (some? start) (some? stop))
                                (or (same-day? @displayed-day start)
                                    (same-day? @displayed-day stop)))))
+
+               ;; put the selected and in play periods at the start
                (sort-by #(cond
                            (= (:id %) (:id @period-in-play))  0
                            (= (:id %) (:id @selected-period)) 1
                            :else                              (.valueOf (:start %))))
 
+               ;; reverse so they are on top in rendering
                (reverse)
 
                (map #(period {:period          %
