@@ -17,6 +17,9 @@
  :nrepl
  {:port 8202}
 
+ ;; :log
+ ;; {:level :debug}
+
  :builds
  {:app
   {:target :react-native
