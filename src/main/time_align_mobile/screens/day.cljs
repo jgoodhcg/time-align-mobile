@@ -32,7 +32,7 @@
   ;; 24 hours in millis
   (* 24 60 60 1000))
 
-(def padding 5)
+(def padding 20)
 
 (def play-modal-visible (r/atom false))
 
@@ -155,7 +155,9 @@
        [mi {:name "fast-forward"
             :size 32}]]]]))
 
-(defn period [{:keys [period
+(defn render-period [{:keys [period
+                      collision-index
+                      collision-group-size
                       dimensions
                       displayed-day
                       period-in-play
@@ -168,36 +170,34 @@
                            (date->y-pos (:height dimensions))
                            (max 0)
                            (min (:height dimensions)))
+        width          (-> dimensions
+                           (:width)
+                           (/ 2)
+                           (- (* 2 padding))
+                           (/ collision-group-size))
         left           (-> dimensions
                            (:width)
                            (/ 2)
                            (#(if planned
                                padding
-                               (+ % padding) )))
-        width          (-> dimensions
-                           (:width)
-                           (/ 2)
-                           (- (* 2 padding)))
+                               (+ % padding)))
+                           (+ (* collision-index width)))
         height         (-> adjusted-stop
                            (.valueOf)
                            (- (.valueOf adjusted-start))
                            (duration->height (:height dimensions))
                            ;; max 1 to actually see recently played periods
-                           (max 1))
-        opacity        (cond
-                         (= id (:id period-in-play))  0.9
-                         (= id (:id selected-period)) 0.7
-                         :else                        0.5)]
+                           (max 1))]
+
+    (println (str "width " width " left " left))
 
     [view {:key id}
-
      (when (= id (:id selected-period))
        [view {:style {:position         "absolute"
                       :top              top
                       :left             left
                       :width            width
                       :height           height
-                      :opacity          1
                       :elevation        4
                       :border-radius    2
                       :background-color "white"}}])
@@ -210,8 +210,7 @@
                            :width            width
                            :height           height
                            :border-radius    2
-                           :background-color color
-                           :opacity          opacity})}
+                           :background-color color})}
 
       [touchable-highlight {:style    {:width          "100%"
                                        :height         "100%"
@@ -726,28 +725,22 @@
                             periods
                             dimensions]}]
   [view
-   (doall (->> @periods
-
-               ;; get them for the displayed day
-               (filter (fn [{:keys [start stop]}]
-                         (cond (and (some? start) (some? stop))
-                               (or (same-day? @displayed-day start)
-                                   (same-day? @displayed-day stop)))))
-
-               ;; put the selected and in play periods at the start
-               (sort-by #(cond
-                           (= (:id %) (:id @period-in-play))  0
-                           (= (:id %) (:id @selected-period)) 1
-                           :else                              (.valueOf (:start %))))
-
-               ;; reverse so they are on top in rendering
-               (reverse)
-
-               (map #(period {:period          %
-                              :displayed-day   @displayed-day
-                              :dimensions      @dimensions
-                              :selected-period @selected-period
-                              :period-in-play  @period-in-play}))))])
+   (doall
+    (->> @periods
+         :actual
+         (map (fn [collision-group]
+                (doall
+                 (->> collision-group
+                      (map-indexed
+                       (fn [index period]
+                         (render-period
+                          {:period period
+                           :collision-index index
+                           :collision-group-size (count collision-group)
+                           :displayed-day   @displayed-day
+                           :dimensions      @dimensions
+                           :selected-period @selected-period
+                           :period-in-play  @period-in-play})))))))))])
 
 (defn play-modal-content [{:keys [templates
                                   buckets]}]
@@ -797,7 +790,7 @@
   (let [dimensions        (r/atom {:width nil :height nil})
         top-bar-height    50
         bottom-bar-height 40
-        periods           (subscribe [:get-periods])
+        periods           (subscribe [:get-collision-grouped-periods])
         displayed-day     (subscribe [:get-day-time-navigator])
         selected-period   (subscribe [:get-selected-period])
         period-in-play    (subscribe [:get-period-in-play])

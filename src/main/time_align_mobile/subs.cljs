@@ -279,3 +279,4 @@
 (reg-sub :get-day-time-navigator get-day-time-navigator)
 (reg-sub :get-now get-now)
 (reg-sub :get-period-in-play get-period-in-play)
+(reg-sub :get-collision-grouped-periods get-periods-for-day-display)
