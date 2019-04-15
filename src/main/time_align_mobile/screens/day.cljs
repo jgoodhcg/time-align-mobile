@@ -189,8 +189,6 @@
                            ;; max 1 to actually see recently played periods
                            (max 1))]
 
-    (println (str "width " width " left " left))
-
     [view {:key id}
      (when (= id (:id selected-period))
        [view {:style {:position         "absolute"
@@ -727,7 +725,7 @@
   [view
    (doall
     (->> @periods
-         :actual
+         (#(concat (:actual %) (:planned %))) ;; TODO maybe refactor or find another way to do this?
          (map (fn [collision-group]
                 (doall
                  (->> collision-group
