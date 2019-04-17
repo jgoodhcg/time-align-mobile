@@ -106,14 +106,15 @@
       true)))
 
 (def template-data-spec {:id          uuid?
+                         :bucket-id   uuid?
                          :label       string?
                          :created     ::moment
                          :last-edited ::moment
                          :data        map?
-                         :planned     boolean?
                          :start       (ds/maybe {:hour   integer?
                                                  :minute integer?})
-                         :duration    (ds/maybe integer?)})
+                         :stop        (ds/maybe {:hour   integer?
+                                                 :minute integer?})})
 (def template-spec
   (st/create-spec {:spec (s/and
                           (ds/spec {:spec template-data-spec
@@ -140,7 +141,6 @@
                        :last-edited ::moment
                        :data        map?
                        :color       ::color
-                       :templates   (ds/maybe [template-spec])
                        :periods     (ds/maybe [period-spec])})
 (def bucket-spec
   (st/create-spec {:spec
@@ -164,6 +164,15 @@
                   :value string? ;; TODO the form uses read and that coerces all values to strings
                   :negate boolean?}]})
 
+;; pattern
+(def pattern-data-spec
+  {:id          uuid?
+   :label       string?
+   :created     ::moment
+   :last-edited ::moment
+   :data        map?
+   :templates   (ds/maybe [template-spec])})
+
 ;; app-db
 (def app-db-spec
   (ds/spec {:spec {:forms           {:bucket-form
@@ -175,6 +184,9 @@
                                                        :bucket-id    uuid?
                                                        :bucket-label string?
                                                        :bucket-color ::color}))
+                                     :pattern-form
+                                     (ds/maybe (merge pattern-data-spec
+                                                      {:data string?}))
                                      :template-form
                                      (ds/maybe (merge template-data-spec
                                                       {:data         string?
@@ -205,8 +217,10 @@
 (def app-db
   {:forms             {:bucket-form   nil
                        :period-form   nil
+                       :pattern-form  nil
                        :template-form nil
                        :filter-form   nil}
+   :patterns          []
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"
@@ -241,7 +255,6 @@
                         :last-edited now
                         :data        {}
                         :color       "#11aa11"
-                        :templates   []
                         :periods     [{:id          default-period-id
                                        :created     now
                                        :last-edited now
