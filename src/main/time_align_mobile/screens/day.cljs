@@ -266,7 +266,7 @@
                                         :border-radius    2
                                         :padding          8
                                         :margin           4
-                                        :width            40
+                                        :width            60
                                         :align-self       "flex-start"}}
    [view {:style {:flex-direction  "row"
                   :justify-content "center"
@@ -277,7 +277,8 @@
 
 (defn selection-menu-buttons [{:keys [dimensions selected-period period-in-play displayed-day]}]
   (let [row-style {:flex-direction  "row"
-                   :justify-content "center"}]
+                   :justify-content "center"
+                   :flex 1}]
     [view {:style {:background-color "#b9b9b9"
                    :width            "100%"
                    :padding-top      10
@@ -285,7 +286,8 @@
                    :padding-left     padding
                    :height           "100%"
                    :flex-direction   "column"
-                   :flex-wrap        "wrap"}}
+                   :flex-wrap        "wrap"
+                   :flex 1}}
 
      ;; cancel edit
      [view row-style
@@ -697,6 +699,7 @@
 
 (defn floating-action-button [{:keys [bottom-bar-height
                                       period-in-play
+                                      selected-period
                                       play-modal-visible]}]
 
   [view {:height           bottom-bar-height
@@ -715,7 +718,15 @@
      [selection-menu-button
       "play"
       [mi {:name "play-arrow"}]
-      #(reset! play-modal-visible true)])])
+      #(reset! play-modal-visible true)])
+
+   (when (some? @selected-period)
+     [selection-menu-button
+      "play from"
+      [mi {:name "play-circle-outline"}]
+      #(dispatch [:play-from-period  {:id           (:id @selected-period)
+                                      :time-started (js/Date.)
+                                      :new-id       (random-uuid)}])])])
 
 (defn periods-comp [{:keys [displayed-day
                             selected-period
@@ -850,6 +861,7 @@
          ;; floating action buttons
          [floating-action-button {:bottom-bar-height  bottom-bar-height
                                   :period-in-play     period-in-play
+                                  :selected-period    selected-period
                                   :play-modal-visible play-modal-visible}]
 
          ;; play modal
