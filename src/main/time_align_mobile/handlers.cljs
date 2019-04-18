@@ -176,16 +176,19 @@
          :alert (str "Failed data json validation " e)}))))
 
 (defn load-template-form [db [_ template-id]]
-  (let [[sub-bucket template] (select-one
-                             [:buckets sp/ALL
-                              (sp/collect-one (sp/submap [:id :color :label]))
-                              :templates sp/ALL #(= (:id %) template-id)] db)
-        sub-bucket-remap    {:bucket-id    (:id sub-bucket)
-                             :bucket-color (:color sub-bucket)
-                             :bucket-label (:label sub-bucket)}
-        template-form         (merge template
-                                   {:data (helpers/print-data (:data template))}
-                                   sub-bucket-remap)]
+  (let [[pattern template] (select-one
+                            [:patterns sp/ALL
+                             (sp/collect-one (sp/submap [:id]))
+                             :templates sp/ALL #(= (:id %) template-id)] db)
+        bucket             (select-one [:buckets sp/ALL
+                                        #(= (:bucket-id template) (:id %))] db)
+        external-data      {:pattern-id   (:id pattern)
+                            :bucket-color (:color bucket)
+                            :bucket-label (:label bucket)}
+        template-form      (merge template
+                                  external-data
+                                  {:data (helpers/print-data (:data template))})]
+
     (assoc-in db [:forms :template-form] template-form)))
 
 (defn update-template-form [db [_ template-form]]
@@ -205,32 +208,33 @@
 (defn save-template-form [{:keys [db]} [_ date-time]]
   (let [template-form (get-in db [:forms :template-form])]
     (try
-      (let [new-data          (read-string (:data template-form))
-            keys-wanted       (->> template-form
-                                   (keys)
-                                   (remove #(or (= :bucket-id %)
-                                                (= :bucket-label %)
-                                                (= :bucket-color %))))
+      (let [new-data            (read-string (:data template-form))
+            keys-wanted         (->> template-form
+                                     (keys)
+                                     (remove #(or (= :bucket-id %)
+                                                  (= :bucket-label %)
+                                                  (= :bucket-color %)
+                                                  (= :pattern-id %))))
             new-template        (-> template-form
-                                  (merge {:data        new-data
-                                          :last-edited date-time})
-                                  (select-keys keys-wanted))
-            [old-bucket
-             old-template]      (select-one [:buckets sp/ALL
-                                       (sp/collect-one (sp/submap [:id]))
-                                       :templates sp/ALL
-                                       #(= (:id %) (:id new-template))] db)
-            removed-template-db (setval [:buckets sp/ALL
-                                       #(= (:id %) (:id old-bucket))
-                                       :templates sp/ALL
-                                       #(= (:id %) (:id old-template))]
-                                      sp/NONE db)
-            new-db            (setval [:buckets sp/ALL
-                                       #(= (:id %) (:bucket-id template-form))
-                                       :templates
-                                       sp/NIL->VECTOR
-                                       sp/AFTER-ELEM]
-                                      new-template removed-template-db)]
+                                    (merge {:data        new-data
+                                            :last-edited date-time})
+                                    (select-keys keys-wanted))
+            [old-pattern
+             old-template]      (select-one [:patterns sp/ALL
+                                             (sp/collect-one (sp/submap [:id]))
+                                             :templates sp/ALL
+                                             #(= (:id %) (:id new-template))] db)
+            removed-template-db (setval [:patterns sp/ALL
+                                         #(= (:id %) (:id old-pattern))
+                                         :templates sp/ALL
+                                         #(= (:id %) (:id old-template))]
+                                        sp/NONE db)
+            new-db              (setval [:patterns sp/ALL
+                                         #(= (:id %) (:pattern-id template-form))
+                                         :templates
+                                         sp/NIL->VECTOR
+                                         sp/AFTER-ELEM]
+                                        new-template removed-template-db)]
 
         {:db       new-db
          ;; load template form so that the data string gets re-formatted prettier
@@ -404,8 +408,9 @@
 
 (defn delete-template [{:keys [db]} [_ id]]
   {:db (->> db
-            (setval [:buckets sp/ALL :templates sp/ALL #(= id (:id %))] sp/NONE)
-            (setval [:forms :template-form] nil))
+            (setval [:patterns sp/ALL :templates sp/ALL #(= id (:id %))] sp/NONE)
+            (setval [:forms :template-form] nil)
+            (setval [:forms :pattern-form] nil))
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :templates}]})
 

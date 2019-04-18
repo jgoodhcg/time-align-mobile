@@ -220,7 +220,21 @@
                        :pattern-form  nil
                        :template-form nil
                        :filter-form   nil}
-   :patterns          []
+   :patterns          [{:id          (uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465")
+                        :label       "an example pattern"
+                        :created     now
+                        :last-edited now
+                        :data        {}
+                        :templates   [{:id          (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
+                                       :bucket-id   default-bucket-id
+                                       :label       "do something in time align"
+                                       :created     now
+                                       :last-edited now
+                                       :data        {}
+                                       :start       {:hour   12
+                                                     :minute 30}
+                                       :stop        {:hour   14
+                                                     :minute 0}}]}]
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"
