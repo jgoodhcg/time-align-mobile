@@ -620,5 +620,73 @@ WARNING: Use of undeclared Var time-align-mobile.handlers/new-app-db (<stdin> at
 nil
 time-align-mobile.handlers> (= "new label" (select-one [:db :patterns sp/ALL :templates sp/FIRST :label] (save-template-form {:db new-app-db} [:no-op (js/Date.)])))
 WARNING: Use of undeclared Var time-align-mobile.handlers/new-app-db (<stdin> at 1:103)
-true
+true[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.40s)
+
+time-align-mobile.handlers> (def app-db-template-form-loaded (load-template-form @re-frame.db/app-db [:no-op #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"]))
+#'time-align-mobile.handlers/app-db-template-form-loaded
+time-align-mobile.handlers> (get-in app-db-template-form-loaded [:forms :template-form])
+{:bucket-label "time align", :start {:hour 12, :minute 30}, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}
+time-align-mobile.handlers> (defn update-template-form [db [_ template-form]]
+  (let [template-form (if (and (contains? template-form :bucket-id)
+                               (contains? template-form :pattern-id))
+                        (merge template-form
+                               {:bucket-label (:label
+                                               (select-one
+                                                [:buckets
+                                                 sp/ALL
+                                                 #(= (:id %) (:bucket-id template-form))]
+                                                db))}
+                               {:pattern-label (:label
+                                                (select-one
+                                                 [:patterns
+                                                  sp/ALL
+                                                  #(= (:id %) (:pattern-id template-form))]
+                                                 db))})
+                        ;; ^ pulls out the label when selecting new parent
+                        ;; because all that comes from the picker is id
+                        template-form)]
+    (transform [:forms :template-form] #(merge % template-form) db)))
+#'time-align-mobile.handlers/update-template-form
+time-align-mobile.handlers> (get-in (update-template-form app-db-template-form-loaded [:no-op {:label "update template form tested"}]) [:forms :template-form])
+{:bucket-label "time align", :start {:hour 12, :minute 30}, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "update template form tested", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.42s)
+[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.40s)
+
+time-align-mobile.handlers> (def add-new-payload-test {:pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465" :id #uuid "9f949891-38d4-4d4f-ab19-a7cef18c9999" :now (js/Date. 2019 5 18)})
+#'time-align-mobile.handlers/add-new-payload-test
+time-align-mobile.handlers> @re-frame.db/app-db
+{:active-filter nil, :time-navigators {:day #inst "2019-04-18T01:12:40.195-00:00", :calendar #inst "2019-04-18T01:12:40.195-00:00", :report #inst "2019-04-18T01:12:40.195-00:00"}, :now #inst "2019-04-18T16:31:00.374-00:00", :config {:auto-log-time-align true}, :filters [{:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-04-18T01:12:40.195-00:00", :compatible [:period :template], :last-edited #inst "2019-04-18T01:12:40.195-00:00", :sort {:path [:bucket-label], :ascending true}, :predicates []} {:id #uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299", :label "sort by label", :created #inst "2019-04-18T01:12:40.195-00:00", :compatible [:bucket :filter :period :template], :last-edited #inst "2019-04-18T01:12:40.195-00:00", :sort {:path [:label], :ascending true}, :predicates []} {:id #uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444", :label "time align bucket filter", :created #inst "2019-04-18T01:12:40.195-00:00", :compatible [:period :template], :last-edited #inst "2019-04-18T01:12:40.195-00:00", :sort nil, :predicates [{:path [:bucket-id], :value "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :negate false}]}], :patterns [{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :start {:hour 12, :minute 30}, :stop {:hour 14, :minute 0}}]}], :navigation {:current-screen :day, :params nil}, :period-in-play-id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :buckets [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :label "start using", :planned false, :start #inst "2019-04-18T01:12:40.195-00:00", :stop #inst "2019-04-18T16:31:00.374-00:00", :data {}}]}], :selected-period #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :forms {:bucket-form nil, :period-form nil, :pattern-form nil, :template-form nil, :filter-form nil}}
+time-align-mobile.handlers> (defn add-new-template [{:keys [db]} [_ {:keys [pattern-id id now]}]]
+  {:db       (setval [:patterns sp/ALL
+                      #(= (:id %) pattern-id)
+                      :templates
+                      sp/NIL->VECTOR
+                      sp/AFTER-ELEM]
+                     {:id          id
+                      :created     now
+                      :last-edited now
+                      :label       ""
+                      :data        {}
+                      :planned     true
+                      :start       {:hour   (.getHours now)
+                                    :minute (.getMinutes now)}
+                      :stop        {:hour   (.getHours now)
+                                    :minute (+ 5 (.getMinutes now))}
+                      :duration    nil}
+                     db)
+   :dispatch [:navigate-to {:current-screen :template
+                            :params         {:template-id id}}]})
+#'time-align-mobile.handlers/add-new-template
+time-align-mobile.handlers> (select [:patterns sp/ALL :templates sp/ALL] @re-frame.db/app-db)
+[{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :start {:hour 12, :minute 30}, :stop {:hour 14, :minute 0}}]
+time-align-mobile.handlers> (count (select [:patterns sp/ALL :templates sp/ALL] @re-frame.db/app-db))
+1
+time-align-mobile.handlers> (select [:db :patterns sp/ALL :templates sp/ALL] (add-new-template {:db @re-frame.db/app-db} [:no-op add-new-payload-test]))
+[{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :start {:hour 12, :minute 30}, :stop {:hour 14, :minute 0}} {:planned true, :start {:hour 0, :minute 0}, :created #inst "2019-06-18T04:00:00.000-00:00", :duration nil, :stop {:hour 0, :minute 5}, :label "", :id #uuid "9f949891-38d4-4d4f-ab19-a7cef18c9999", :last-edited #inst "2019-06-18T04:00:00.000-00:00", :data {}}]
+time-align-mobile.handlers> (count (select [:db :patterns sp/ALL :templates sp/ALL] (add-new-template {:db @re-frame.db/app-db} [:no-op add-new-payload-test])))
+2[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.41s)
+
 time-align-mobile.handlers> 
