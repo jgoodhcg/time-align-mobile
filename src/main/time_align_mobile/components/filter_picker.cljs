@@ -52,22 +52,29 @@
      [view {:style {:flex-direction  "row"
                     :justify-content "center"
                     :align-items     "center"}}
+
       [text {:style {:color "grey"}} ":filter"]
-      [:> rn/Picker {:selected-value (if-let [id (:id @selected-filter)]
-                                       id
-                                       "none")
-                     :style                {:width 250}
-                     :on-value-change      #(dispatch [:update-active-filter (if (= % "none")
-                                                                               nil
-                                                                               %)])}
-       (map (fn [filter] [picker-item {:label (:label filter)
-                                       :key   (:id filter)
-                                       :value (:id filter)}])
-            (cons {:label "none" :id "none"}
-                  (filter #(some #{type} (:compatible %)) @filters)))]]
+
+      [:> rn/Picker {:selected-value  (if-let [id (:id @selected-filter)]
+                                        id
+                                        "none")
+                     :style           {:width 250}
+                     :on-value-change #(dispatch
+                                        [:update-active-filter (if (= % "none")
+                                                                 nil
+                                                                 %)])}
+       ;; picker options
+       (->> @filters
+            (filter #(some #{type} (:compatible %)))
+            (cons {:label "none" :id "none"})
+            (map (fn [filter] [picker-item {:label (:label filter)
+                                            :key   (:id filter)
+                                            :value (:id filter)}])))]]
+     ;; sort display
      [view {:style {:flex-direction  "row"
                     :justify-content "center"
-                    :align-items     "center"}}
+                    :align-items     "center"
+                    :margin-bottom   40}}
       [text {:style {:color "grey"}}  ":sort  "]
       [text (str (get-in @selected-filter [:sort :path])
                  " -- "
