@@ -22,6 +22,22 @@
      [text {:style {:color "grey"}} "templates: " (count templates)]
      [text {:style {:color "grey"}} (str "id: " id)]]]])
 
+(defn pattern [{:keys [id label templates on-press]}]
+  [touchable-highlight
+   {:key      id
+    :on-press on-press}
+
+   [view {:style {:flex-direction "row"}}
+    [view ;; TODO make this not a square
+     {:style {:width            50
+              :height           50
+              :margin-right     20
+              :background-color "grey"}}]
+    [view {:style {:flex-direction "column"}}
+     [text (if (> (count label) 0) label "No label")]
+     [text {:style {:color "grey"}} "templates: " (count templates)]
+     [text {:style {:color "grey"}} (str "id: " id)]]]])
+
 (defn template [{:keys [id color label bucket-label on-press]}]
   [touchable-highlight
    {:key      id

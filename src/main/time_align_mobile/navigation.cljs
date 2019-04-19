@@ -7,6 +7,7 @@
             [time-align-mobile.screens.report :as report-screen]
             [time-align-mobile.screens.bucket-form :as bucket-form-screen]
             [time-align-mobile.screens.bucket-list :as bucket-list-screen]
+            [time-align-mobile.screens.pattern-list :as pattern-list-screen]
             [time-align-mobile.screens.template-form :as template-form-screen]
             [time-align-mobile.screens.template-list :as template-list-screen]
             [time-align-mobile.screens.filter-form :as filter-form-screen]
@@ -27,6 +28,14 @@
                      :position-drawer 3
                      :icon            {:family "FontAwesome"
                                        :name   "list"}})
+
+(def patterns-screen {:id              :patterns
+                      :label           "patterns"
+                      :screen          pattern-list-screen/root
+                      :in-drawer       true
+                      :position-drawer 3.5
+                      :icon            {:family "MaterialIcons"
+                                        :name   "palette"}})
 
 (def period-screen {:id       :period
                     :label           "period"
@@ -116,6 +125,7 @@
 ;; https://expo.github.io/vector-icons/
 (def screens-map [bucket-screen
                   buckets-screen
+                  patterns-screen
                   period-screen
                   periods-screen
                   template-screen

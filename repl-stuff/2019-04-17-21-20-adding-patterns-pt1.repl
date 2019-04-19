@@ -978,5 +978,71 @@ Circular dependency detected: time-align-mobile.db -> time-align-mobile.navigati
 [:app] Build completed. (176 files, 3 compiled, 0 warnings, 0.13s)
 
 time-align-mobile.subs> (+ 1 1)
-2
+2[:app] Compiling ...
+[:app] Build completed. (176 files, 5 compiled, 1 warnings, 0.20s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/components/list_items.cljs:35:33
+--------------------------------------------------------------------------------
+  32 |      {:style {:width            50
+  33 |               :height           50
+  34 |               :margin-right     20
+  35 |               :background-color color}}]
+---------------------------------------^----------------------------------------
+ Use of undeclared Var time-align-mobile.components.list-items/color
+--------------------------------------------------------------------------------
+  36 |     [view {:style {:flex-direction "column"}}
+  37 |      [text (if (> (count label) 0) label "No label")]
+  38 |      [text {:style {:color "grey"}} "templates: " (count templates)]
+  39 |      [text {:style {:color "grey"}} (str "id: " id)]]]])
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (176 files, 5 compiled, 0 warnings, 0.21s)
+[:app] Compiling ...
+[:app] Build completed. (176 files, 5 compiled, 0 warnings, 0.19s)
+[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.08s)
+[:app] Compiling ...
+[:app] Build completed. (177 files, 4 compiled, 0 warnings, 0.11s)
+[:app] Compiling ...
+[:app] Build completed. (177 files, 3 compiled, 1 warnings, 0.11s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/navigation.cljs:123:19
+--------------------------------------------------------------------------------
+ 120 | 
+ 121 | ;; https://expo.github.io/vector-icons/
+ 122 | (def screens-map [bucket-screen
+ 123 |                   buckets-screen
+-------------------------^------------------------------------------------------
+ Use of undeclared Var time-align-mobile.navigation/buckets-screen
+--------------------------------------------------------------------------------
+ 124 |                   period-screen
+ 125 |                   periods-screen
+ 126 |                   template-screen
+ 127 |                   templates-screen
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (177 files, 3 compiled, 1 warnings, 0.12s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/navigation.cljs:123:19
+--------------------------------------------------------------------------------
+ 120 | 
+ 121 | ;; https://expo.github.io/vector-icons/
+ 122 | (def screens-map [bucket-screen
+ 123 |                   buckets-screen
+-------------------------^------------------------------------------------------
+ Use of undeclared Var time-align-mobile.navigation/buckets-screen
+--------------------------------------------------------------------------------
+ 124 |                   period-screen
+ 125 |                   periods-screen
+ 126 |                   template-screen
+ 127 |                   templates-screen
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (177 files, 3 compiled, 0 warnings, 0.14s)
+[:app] Compiling ...
+[:app] Build completed. (177 files, 3 compiled, 0 warnings, 0.11s)
+
 time-align-mobile.subs> 
