@@ -27,6 +27,8 @@
             [time-align-mobile.styles :refer [field-label-changeable-style
                                               field-label-style]]))
 
+(def filterable-types #{:bucket :period :template :filter :pattern})
+
 (defn predicates-comp [form changes update-structured-data]
   [view {:style {:flex           1
                  :flex-direction "row"
@@ -63,11 +65,13 @@
     [view {:style {:flex           1
                    :flex-direction "row"
                    :align-items    "flex-start"}}
-     [text {:style (field-label-changeable-style changes :compatible)}
+     [text {:style (merge (field-label-changeable-style changes :compatible)
+                          {:margin-right 8})}
       ":compatible"]
      [view {:style {:flex-direction "row"}}
       ;; TODO pull all compatible-options from common place?
-      (->> [:bucket :period :template :filter]
+      (->> filterable-types
+           vec
            (map (fn [comp-key]
                   [touchable-highlight
                    {:key (str comp-key "-compatible-list-option")

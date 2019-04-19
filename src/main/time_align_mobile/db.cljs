@@ -5,6 +5,7 @@
             [clojure.string :as string]
             [clojure.test.check.generators :as gen]
             [time-align-mobile.navigation :as nav]
+            [time-align-mobile.screens.filter-form :refer [filterable-types]] ;; TODO find a better spot to put this, think about nav too
             [time-align-mobile.js-imports :refer [make-date
                                                   get-default-timezone
                                                   start-of-today
@@ -151,13 +152,14 @@
                           (map (fn [{:keys [id]}] id)))))
 (s/def ::screen screen-id-set)
 
+
 ;; filter
 (def filter-data-spec
   {:id          uuid?
    :label       string?
    :created     ::moment
    :last-edited ::moment
-   :compatible  [(s/spec #{:bucket :period :template :filter})]
+   :compatible  [(s/spec filterable-types)]
    :sort        (ds/maybe {:path [keyword?]
                            :ascending boolean?})
    :predicates  [{:path [keyword?]
