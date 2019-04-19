@@ -37,7 +37,7 @@
                          label        (:label item)
                          color        (:color item)
                          bucket-label (:bucket-label item)]
-                     (r/as-element [touchable-highlight
+                     (r/as-element [touchable-highlight ;; TODO move this to list_items
                                     {:key      id
                                      :on-press #(dispatch
                                                  [:navigate-to
