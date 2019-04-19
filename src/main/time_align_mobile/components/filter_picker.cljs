@@ -44,31 +44,31 @@
   (sort-items (filter-items items active-filter) active-filter))
 
 (defn filter-picker [type]
-  (let [filters (subscribe [:get-filters])
+  (let [filters         (subscribe [:get-filters])
         selected-filter (subscribe [:get-active-filter])]
-    [view {:style {:flex-direction "column"
+    [view {:style {:flex-direction  "column"
                    :justify-content "flex-start"
-                   :align-items "flex-start"}}
-     [view {:style {:flex-direction "row"
+                   :align-items     "flex-start"}}
+     [view {:style {:flex-direction  "row"
                     :justify-content "center"
-                    :align-items "center"}}
+                    :align-items     "center"}}
       [text {:style {:color "grey"}} ":filter"]
-      [:> rn/Picker {:selected-value  (if-let [id (:id @selected-filter)]
-                                  id
-                                  "none")
-               :style           {:width 250}
-               :on-value-change #(dispatch [:update-active-filter (if (= % "none")
-                                                                    nil
-                                                                    %)])}
+      [:> rn/Picker {:selected-value (if-let [id (:id @selected-filter)]
+                                       id
+                                       "none")
+                     :style                {:width 250}
+                     :on-value-change      #(dispatch [:update-active-filter (if (= % "none")
+                                                                               nil
+                                                                               %)])}
        (map (fn [filter] [picker-item {:label (:label filter)
-                                       :key (:id filter)
+                                       :key   (:id filter)
                                        :value (:id filter)}])
             (cons {:label "none" :id "none"}
                   (filter #(some #{type} (:compatible %)) @filters)))]]
-     [view {:style {:flex-direction "row"
+     [view {:style {:flex-direction  "row"
                     :justify-content "center"
-                    :align-items "center"}}
-     [text {:style {:color "grey"}}  ":sort  "]
+                    :align-items     "center"}}
+      [text {:style {:color "grey"}}  ":sort  "]
       [text (str (get-in @selected-filter [:sort :path])
                  " -- "
                  (if (get-in @selected-filter [:sort :ascending])
