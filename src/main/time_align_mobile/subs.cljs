@@ -88,10 +88,10 @@
        :bucket-color "#2222aa"
        :bucket-label "****"
        :bucket-id    "****"
-       :created      (new js/Date 2018 4 28 15 57)
-       :last-edited  (new js/Date 2018 4 28 15 57)
+       :pattern-id   "****"
+       :created      (js/Date.)
+       :last-edited  (js/Date.)
        :label        "****"
-       :planned      false
        :start        nil
        :stop         nil
        :data         {:please "wait"}})))
@@ -99,18 +99,27 @@
 (defn get-template-form-changes [db _]
   (let [template-form (get-in db [:forms :template-form])]
     (if (some? (:id template-form))
-      (let [[sub-bucket template] (select-one [:buckets sp/ALL
-                                               (sp/collect-one (sp/submap [:id :color :label]))
-                                               :templates sp/ALL #(= (:id %) (:id template-form))]
-                                              db)
+      (let [[pattern template] (select-one
+                                [:patterns sp/ALL
+                                 (sp/collect-one
+                                  (sp/submap [:id :label]))
+                                 :templates sp/ALL
+                                 #(= (:id %) (:id template-form))]
+                                db)
             ;; data needs to be coerced to compare to form
-            new-data              (helpers/print-data (:data template))
-            altered-template      (merge template {:data         new-data
-                                                   :bucket-id    (:id sub-bucket)
-                                                   :bucket-color (:color sub-bucket)
-                                                   :bucket-label (:label sub-bucket)})
-            different-keys        (->> (clojure.data/diff template-form altered-template)
-                                       (first))]
+            new-data           (helpers/print-data (:data template))
+            bucket             (select-one
+                                [:buckets sp/ALL
+                                 #(= (:id %) (:bucket-id template-form))]
+                                           db)
+            altered-template   (merge template {:data          new-data
+                                                :pattern-id    (:id pattern)
+                                                :pattern-label (:label pattern)
+                                                :bucket-color  (:color bucket)
+                                                :bucket-label  (:label bucket)})
+            different-keys     (->> (clojure.data/diff
+                                     template-form altered-template)
+                                    (first))]
         (if (nil? different-keys)
           {} ;; empty map if no changes
           different-keys))
@@ -118,13 +127,18 @@
       {})))
 
 (defn get-templates [db _]
-  (->> (select [:buckets sp/ALL
-                (sp/collect-one (sp/submap [:id :color :label]))
+  (->> (select [:patterns sp/ALL
+                (sp/collect-one (sp/submap [:id]))
                 :templates sp/ALL] db)
-       (map (fn [[bucket template]]
-              (merge template {:bucket-id (:id bucket)
-                               :bucket-label (:label bucket)
-                               :color (:color bucket)})))))
+       (map (fn [[pattern template]]
+              (merge template {:pattern-id (:id pattern)})))
+       (map (fn [template]
+              (let [bucket (select-one [:buckets
+                                        sp/ALL
+                                        #(= (:id %) (:bucket-id template))] db)]
+                (merge template
+                       {:bucket-label (:label bucket)
+                        :bucket-color (:color bucket)}))))))
 
 (defn get-filter-form [db _]
   (let [filter-form    (get-in db [:forms :filter-form])

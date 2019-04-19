@@ -688,5 +688,214 @@ time-align-mobile.handlers> (select [:db :patterns sp/ALL :templates sp/ALL] (ad
 time-align-mobile.handlers> (count (select [:db :patterns sp/ALL :templates sp/ALL] (add-new-template {:db @re-frame.db/app-db} [:no-op add-new-payload-test])))
 2[:app] Compiling ...
 [:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.41s)
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:127:28
+--------------------------------------------------------------------------------
+ 124 |        (map (fn [[pattern template]]
+ 125 |               (merge template {:pattern-id (:id pattern)})))
+ 126 |        (map (fn [template]
+ 127 |               (let [bucket (select-one [:buckets
+----------------------------------^---------------------------------------------
+Error in phase :compilation
+Wrong number of args (1) passed to: com.rpl.specter/select-one
+--------------------------------------------------------------------------------
+ 128 |                                         sp/ALL
+ 129 |                                         #(= (:id %) (:bucket-id template))])]
+ 130 |                 (merge template
+ 131 |                        {:bucket-label (:label bucket)
+--------------------------------------------------------------------------------
 
-time-align-mobile.handlers> 
+
+time-align-mobile.handlers> (ns time-align-mobile.subs)
+no source by id: [:shadow.build.classpath/resource "time_align_mobile/subs.cljs"]
+{:id [:shadow.build.classpath/resource "time_align_mobile/subs.cljs"]}
+ExceptionInfo: no source by id: [:shadow.build.classpath/resource "time_align_mobile/subs.cljs"]
+	shadow.build.data/get-source-by-id (data.clj:167)
+	shadow.build.data/get-source-by-id (data.clj:164)
+	shadow.build.compiler/remove-dead-js-deps/remove-fn--11861/fn--11862 (compiler.clj:1011)
+	clojure.core/complement/fn--5654 (core.clj:1441)
+	clojure.core/filter/fn--5878 (core.clj:2817)
+	clojure.lang.LazySeq.sval (LazySeq.java:42)
+	clojure.lang.LazySeq.seq (LazySeq.java:51)
+	clojure.lang.ChunkedCons.chunkedNext (ChunkedCons.java:59)
+	clojure.core/chunk-next (core.clj:708)
+	clojure.core.protocols/fn--8139 (protocols.clj:137)
+	clojure.core.protocols/fn--8139 (protocols.clj:124)
+	clojure.core.protocols/fn--8099/G--8094--8108 (protocols.clj:19)
+	clojure.core.protocols/seq-reduce (protocols.clj:31)
+	clojure.core.protocols/fn--8131 (protocols.clj:75)
+	clojure.core.protocols/fn--8131 (protocols.clj:75)
+	clojure.core.protocols/fn--8073/G--8068--8086 (protocols.clj:13)
+	clojure.core/reduce (core.clj:6828)
+	clojure.core/into (core.clj:6895)
+	clojure.core/into (core.clj:6887)
+	shadow.build.compiler/remove-dead-js-deps/remove-fn--11861 (compiler.clj:1013)
+	clojure.core/update (core.clj:6196)
+	clojure.core/update (core.clj:6188)
+	shadow.build.compiler/remove-dead-js-deps/fn--11866/fn--11867 (compiler.clj:1019)
+	clojure.core/map/fn--5851 (core.clj:2753)
+	clojure.lang.LazySeq.sval (LazySeq.java:42)
+	clojure.lang.LazySeq.seq (LazySeq.java:51)
+	clojure.lang.RT.seq (RT.java:531)
+	clojure.core/seq--5387 (core.clj:137)
+	clojure.core.protocols/seq-reduce (protocols.clj:24)
+	clojure.core.protocols/fn--8131 (protocols.clj:75)
+	clojure.core.protocols/fn--8131 (protocols.clj:75)
+	clojure.core.protocols/fn--8073/G--8068--8086 (protocols.clj:13)
+	clojure.core/reduce (core.clj:6828)
+	clojure.core/into (core.clj:6895)
+	clojure.core/into (core.clj:6887)
+	shadow.build.compiler/remove-dead-js-deps/fn--11866 (compiler.clj:1020)
+	clojure.core/update (core.clj:6196)
+	clojure.core/update (core.clj:6188)
+	shadow.build.compiler/remove-dead-js-deps (compiler.clj:1017)
+	shadow.build.compiler/remove-dead-js-deps (compiler.clj:1006)
+	shadow.build.compiler/compile-all (compiler.clj:1260)
+	shadow.build.compiler/compile-all (compiler.clj:1116)
+	shadow.build.api/compile-sources (api.clj:250)
+	shadow.build.api/compile-sources (api.clj:242)
+	shadow.build.api/compile-sources (api.clj:254)
+	shadow.build.api/compile-sources (api.clj:242)
+	shadow.cljs.repl/repl-ns (repl.clj:312)
+	shadow.cljs.repl/repl-ns (repl.clj:292)
+	shadow.cljs.repl/process-read-result (repl.clj:401)
+	shadow.cljs.repl/process-read-result (repl.clj:381)
+	shadow.cljs.devtools.server.worker.impl/fn--13210 (impl.clj:784)
+	shadow.cljs.devtools.server.worker.impl/fn--13210 (impl.clj:745)
+	clojure.lang.MultiFn.invoke (MultiFn.java:234)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888/fn--12889/fn--12897 (util.clj:292)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888/fn--12889 (util.clj:291)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888 (util.clj:264)
+	java.lang.Thread.run (Thread.java:748)
+time-align-mobile.handlers> (+ 1 1)
+2[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.18s)
+
+time-align-mobile.handlers> (ns time-align-mobile.subs) 
+time-align-mobile.subs
+time-align-mobile.subs> @re-frame.db/app-db
+{:active-filter nil, :time-navigators {:day #inst "2019-04-18T01:12:40.195-00:00", :calendar #inst "2019-04-18T01:12:40.195-00:00", :report #inst "2019-04-18T01:12:40.195-00:00"}, :now #inst "2019-04-18T22:38:20.395-00:00", :config {:auto-log-time-align true}, :filters [{:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-04-18T01:12:40.195-00:00", :compatible [:period :template], :last-edited #inst "2019-04-18T01:12:40.195-00:00", :sort {:path [:bucket-label], :ascending true}, :predicates []} {:id #uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299", :label "sort by label", :created #inst "2019-04-18T01:12:40.195-00:00", :compatible [:bucket :filter :period :template], :last-edited #inst "2019-04-18T01:12:40.195-00:00", :sort {:path [:label], :ascending true}, :predicates []} {:id #uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444", :label "time align bucket filter", :created #inst "2019-04-18T01:12:40.195-00:00", :compatible [:period :template], :last-edited #inst "2019-04-18T01:12:40.195-00:00", :sort nil, :predicates [{:path [:bucket-id], :value "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :negate false}]}], :patterns [{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :start {:hour 12, :minute 30}, :stop {:hour 14, :minute 0}}]}], :navigation {:current-screen :day, :params nil}, :period-in-play-id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :buckets [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :label "start using", :planned false, :start #inst "2019-04-18T01:12:40.195-00:00", :stop #inst "2019-04-18T22:38:20.395-00:00", :data {}}]}], :selected-period #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :forms {:bucket-form nil, :period-form nil, :pattern-form nil, :template-form nil, :filter-form nil}}
+time-align-mobile.subs> (def app-db @re-frame.db/app-db)
+#'time-align-mobile.subs/app-db
+time-align-mobile.subs> (get-templates app-db :no-op)
+WARNING: Use of undeclared Var time-align-mobile.subs/get-templates (<stdin> at 1:2)
+({:bucket-label "time align", :start {:hour 12, :minute 30}, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data {}})[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.20s)
+
+time-align-mobile.subs> (defn get-template-form [db _]
+  (let [template-form    (get-in db [:forms :template-form])
+        template-form-id (:id template-form)]
+    (if (and (some? template-form-id)
+             (uuid? template-form-id))
+      template-form
+      {:id           "****"
+       :bucket-color "#2222aa"
+       :bucket-label "****"
+       :bucket-id    "****"
+       :pattern-id   "****"
+       :created      (js/Date.)
+       :last-edited  (js/Date.)
+       :label        "****"
+       :start        nil
+       :stop         nil
+       :data         {:please "wait"}})))
+#'time-align-mobile.subs/get-template-form
+time-align-mobile.subs> (get-template-form app-db :no-op)
+WARNING: Use of undeclared Var time-align-mobile.subs/app-db (<stdin> at 1:20)
+{:bucket-label "****", :start nil, :pattern-id "****", :created #inst "2019-04-19T20:59:25.022-00:00", :stop nil, :label "****", :id "****", :last-edited #inst "2019-04-19T20:59:25.022-00:00", :bucket-id "****", :bucket-color "#2222aa", :data {:please "wait"}}
+time-align-mobile.subs> (js/Date.)
+#inst "2019-04-19T21:00:10.553-00:00"
+time-align-mobile.subs> (def app-db-template-form-loaded (load-template-form @re-frame.db/app-db [:no-op #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"]))
+WARNING: Use of undeclared Var time-align-mobile.subs/load-template-form (<stdin> at 1:35)
+
+eval code
+eval@[native code]
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81360:20
+shadow$cljs$devtools$client$env$repl_call@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:80493:117
+shadow$cljs$devtools$client$react_native$repl_invoke@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81358:59
+shadow$cljs$devtools$client$react_native$handle_message@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81431:68
+shadow$cljs$devtools$client$env$process_ws_msg@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:80640:113
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81498:62
+dispatchEvent@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:104115:31
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:105274:31
+emit@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:83353:42
+__callFunction@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82648:49
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82421:31
+__guard@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82602:15
+callFunctionReturnFlushedQueue@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82420:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.subs> (def app-db-template-form-loaded (time-align-mobile.handlers/load-template-form @re-frame.db/app-db [:no-op #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"]))
+#'time-align-mobile.subs/app-db-template-form-loaded
+time-align-mobile.subs> (get-template-form app-db-template-form-loaded :no-op)
+{:bucket-label "time align", :start {:hour 12, :minute 30}, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}
+time-align-mobile.subs> (defn get-template-form-changes [db _]
+  (let [template-form (get-in db [:forms :template-form])]
+    (if (some? (:id template-form))
+      (let [[pattern template] (select-one
+                                [:patterns sp/ALL
+                                 (sp/collect-one
+                                  (sp/submap [:id :label]))
+                                 :templates sp/ALL
+                                 #(= (:id %) (:id template-form))]
+                                db)
+            ;; data needs to be coerced to compare to form
+            new-data           (helpers/print-data (:data template))
+            bucket             (select-one [:buckets sp/ALL
+                                            #(= (:id %) (:bucket-id template))]
+                                           db)
+            altered-template   (merge template {:data          new-data
+                                                :pattern-label (:label pattern)
+                                                :bucket-color  (:color bucket)
+                                                :bucket-label  (:label bucket)})
+            different-keys     (->> (clojure.data/diff template-form altered-template)
+                                    (first))]
+        (if (nil? different-keys)
+          {} ;; empty map if no changes
+          different-keys))
+      ;; return an empty map if there is no loaded template in the form
+      {})))
+#'time-align-mobile.subs/get-template-form-changes
+time-align-mobile.subs> (get-template-form-changes app-db-template-form-loaded :no-op)
+{:pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465"}
+time-align-mobile.subs> (defn get-template-form-changes [db _]
+  (let [template-form (get-in db [:forms :template-form])]
+    (if (some? (:id template-form))
+      (let [[pattern template] (select-one
+                                [:patterns sp/ALL
+                                 (sp/collect-one
+                                  (sp/submap [:id :label]))
+                                 :templates sp/ALL
+                                 #(= (:id %) (:id template-form))]
+                                db)
+            ;; data needs to be coerced to compare to form
+            new-data           (helpers/print-data (:data template))
+            bucket             (select-one
+                                [:buckets sp/ALL
+                                 #(= (:id %) (:bucket-id template-form))]
+                                           db)
+            altered-template   (merge template {:data          new-data
+                                                :pattern-id    (:id pattern)
+                                                :pattern-label (:label pattern)
+                                                :bucket-color  (:color bucket)
+                                                :bucket-label  (:label bucket)})
+            different-keys     (->> (clojure.data/diff
+                                     template-form altered-template)
+                                    (first))]
+        (if (nil? different-keys)
+          {} ;; empty map if no changes
+          different-keys))
+      ;; return an empty map if there is no loaded template in the form
+      {})))
+#'time-align-mobile.subs/get-template-form-changes
+time-align-mobile.subs> (get-template-form-changes app-db-template-form-loaded :no-op)
+{}
+time-align-mobile.subs> (get-template-form-changes (assoc-in app-db-template-form-loaded [:forms :template-form :label "test form chagne sub"]) :no-op)
+;; output cleared
+
+time-align-mobile.subs> (get-template-form-changes (assoc-in app-db-template-form-loaded [:forms :template-form :label ] "test form chagne sub") :no-op)
+{:label "test form chagne sub"}[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.21s)
+
+time-align-mobile.subs> 
