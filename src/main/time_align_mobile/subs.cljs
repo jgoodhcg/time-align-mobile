@@ -275,6 +275,9 @@
     {:actual  actual-collision-groups
      :planned planned-collision-groups}))
 
+(defn get-patterns [db _]
+  (select [:patterns sp/ALL] db))
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -294,3 +297,4 @@
 (reg-sub :get-now get-now)
 (reg-sub :get-period-in-play get-period-in-play)
 (reg-sub :get-collision-grouped-periods get-periods-for-day-display)
+(reg-sub :get-patterns get-patterns)

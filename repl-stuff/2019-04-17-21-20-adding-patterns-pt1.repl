@@ -898,4 +898,21 @@ time-align-mobile.subs> (get-template-form-changes (assoc-in app-db-template-for
 {:label "test form chagne sub"}[:app] Compiling ...
 [:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.21s)
 
+time-align-mobile.subs> (defn get-patterns [db _]
+  (select [:patterns sp/ALL]) db)
+Error in phase :compilation
+Wrong number of args (1) passed to: com.rpl.specter/select
+time-align-mobile.subs>  (defn get-patterns [db _]
+  (select [:patterns sp/ALL] db))
+#'time-align-mobile.subs/get-patterns
+time-align-mobile.subs> (get-patterns app-db)
+WARNING: Wrong number of args (1) passed to time-align-mobile.subs/get-patterns (<stdin> at 1:1)
+WARNING: Use of undeclared Var time-align-mobile.subs/app-db (<stdin> at 1:15)
+[{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-04-18T01:12:40.195-00:00", :last-edited #inst "2019-04-18T01:12:40.195-00:00", :data {}, :start {:hour 12, :minute 30}, :stop {:hour 14, :minute 0}}]}]
+time-align-mobile.subs> (count (get-patterns app-db))
+WARNING: Wrong number of args (1) passed to time-align-mobile.subs/get-patterns (<stdin> at 1:8)
+WARNING: Use of undeclared Var time-align-mobile.subs/app-db (<stdin> at 1:22)
+1[:app] Compiling ...
+[:app] Build completed. (176 files, 2 compiled, 0 warnings, 0.18s)
+
 time-align-mobile.subs> 
