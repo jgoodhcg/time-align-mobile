@@ -9,6 +9,7 @@
             [time-align-mobile.screens.bucket-list :as bucket-list-screen]
             [time-align-mobile.screens.pattern-list :as pattern-list-screen]
             [time-align-mobile.screens.pattern-form :as pattern-form-screen]
+            [time-align-mobile.screens.pattern-planning :as pattern-planning-screen]
             [time-align-mobile.screens.template-form :as template-form-screen]
             [time-align-mobile.screens.template-list :as template-list-screen]
             [time-align-mobile.screens.filter-form :as filter-form-screen]
@@ -45,6 +46,14 @@
                       :position-drawer 3.5
                       :icon            {:family "MaterialIcons"
                                         :name   "palette"}})
+
+(def pattern-planning-screen {:id              :pattern-planning
+                              :label           "pattern planning"
+                              :screen          pattern-planning-screen/root
+                              :in-drawer       true
+                              :position-drawer 3.5
+                              :icon            {:family "Entypo"
+                                                :name   "500px"}})
 
 (def period-screen {:id       :period
                     :label           "period"
@@ -135,6 +144,7 @@
                   buckets-screen
                   pattern-screen
                   patterns-screen
+                  pattern-planning-screen
                   period-screen
                   periods-screen
                   template-screen

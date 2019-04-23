@@ -174,7 +174,10 @@
    :last-edited ::moment
    :data        map?
    :templates   (ds/maybe [template-spec])})
-
+(def pattern-spec
+  (st/create-spec {:spec
+                   (ds/spec {:spec pattern-data-spec
+                             :name ::pattern})}))
 ;; app-db
 (def app-db-spec
   (ds/spec {:spec {:forms           {:bucket-form
@@ -206,6 +209,7 @@
                                      :params         (ds/maybe map?)}
 
                    :buckets         [bucket-spec]
+                   :patterns        [pattern-spec]
                    :time-navigators {:day      ::moment
                                      :calendar ::moment
                                      :report   ::moment}
