@@ -18,7 +18,7 @@
 
     [view {:style {:flex 1 :justify-content "center" :align-items "center"}}
 
-     [text "Buckets"]
+     [text "Patterns"]
      [filter-picker :pattern]
      [flat-list {:data          (filter-sort @patterns @active-filter)
                  :key-extractor (fn [x] (-> x (js->clj) (get "id") (str)))
@@ -30,17 +30,13 @@
                        (merge
                         item
                         {:on-press
-                         #(println "pressed a pattern in the list")
-                         ;; TODO
-                         ;; (dispatch
-                         ;;  [:navigate-to
-                         ;;   {:current-screen :pattern
-                         ;;    :params         {:pattern-id (:id item)}}])
-                         })))))}]
-     [list-buttons/root #(println "pressed to add a new pattern")
-      ;; TODO
-      ;; (dispatch [:add-new-pattern {:id (random-uuid)
-      ;;                              :now (new js/Date)}])
-      ]]))
+                         #(dispatch
+                           [:navigate-to
+                            {:current-screen :pattern
+                             :params         {:pattern-id (:id item)}}])})))))}]
+
+     [list-buttons/root
+      #(dispatch [:add-new-pattern {:id (random-uuid)
+                                    :now (new js/Date)}])]]))
 
 

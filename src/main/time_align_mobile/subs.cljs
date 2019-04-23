@@ -278,6 +278,29 @@
 (defn get-patterns [db _]
   (select [:patterns sp/ALL] db))
 
+(defn get-pattern-form [db _]
+  (select-one [:forms :pattern-form] db))
+
+(defn get-pattern-form-changes [db _]
+  (let [pattern-form (get-in db [:forms :pattern-form])]
+    (if (some? (:id pattern-form))
+      (let [pattern (first
+                    (select [:patterns sp/ALL #(= (:id %) (:id pattern-form))]
+                            db))
+            ;; data needs to be coerced to compare to form
+            new-data (helpers/print-data (:data pattern))
+            ;; (.stringify js/JSON
+            ;;                      (clj->js (:data bucket))
+            ;;                      nil 2)
+            altered-pattern (merge pattern {:data new-data})
+            different-keys (->> (clojure.data/diff pattern-form altered-pattern)
+                                (first))]
+        (if (nil? different-keys)
+          {} ;; empty map if no changes
+          different-keys))
+      ;; return an empty map if there is no loaded bucket in the form
+      {})))
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -298,3 +321,5 @@
 (reg-sub :get-period-in-play get-period-in-play)
 (reg-sub :get-collision-grouped-periods get-periods-for-day-display)
 (reg-sub :get-patterns get-patterns)
+(reg-sub :get-pattern-form get-pattern-form)
+(reg-sub :get-pattern-form-changes get-pattern-form-changes)

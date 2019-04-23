@@ -8,12 +8,14 @@
             [time-align-mobile.screens.bucket-form :as bucket-form-screen]
             [time-align-mobile.screens.bucket-list :as bucket-list-screen]
             [time-align-mobile.screens.pattern-list :as pattern-list-screen]
+            [time-align-mobile.screens.pattern-form :as pattern-form-screen]
             [time-align-mobile.screens.template-form :as template-form-screen]
             [time-align-mobile.screens.template-list :as template-list-screen]
             [time-align-mobile.screens.filter-form :as filter-form-screen]
             [time-align-mobile.screens.filter-list :as filter-list-screen]
             [time-align-mobile.screens.port :as port-screen]))
 
+;; https://expo.github.io/vector-icons/
 (def bucket-screen {:id       :bucket
                     :label           "bucket"
                     :screen          bucket-form-screen/root
@@ -28,6 +30,13 @@
                      :position-drawer 3
                      :icon            {:family "FontAwesome"
                                        :name   "list"}})
+
+(def pattern-screen {:id              :pattern
+                     :label           "pattern"
+                     :screen          pattern-form-screen/root
+                     :in-drawer       false
+                     :position-drawer nil
+                     :icon            nil})
 
 (def patterns-screen {:id              :patterns
                       :label           "patterns"
@@ -122,9 +131,9 @@
                   :icon            {:family "MaterialIcons"
                                     :name   "import-export"}})
 
-;; https://expo.github.io/vector-icons/
 (def screens-map [bucket-screen
                   buckets-screen
+                  pattern-screen
                   patterns-screen
                   period-screen
                   periods-screen

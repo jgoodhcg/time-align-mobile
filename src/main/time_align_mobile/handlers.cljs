@@ -19,7 +19,7 @@
   (when-not (s/valid? spec db)
     (let [explaination (s/explain-data spec db)]
       ;; (zprint (::clojure.spec.alpha/problems explaination) {:map {:force-nl? true}})
-      (str (::clojure.spec.alpha/problems explaination))
+      (println (str (::clojure.spec.alpha/problems explaination)))
       ;; (throw (ex-info (str "Spec check failed: " explain-data) explain-data))
       (alert "Failed spec validation" "Check the command line output.")
       true)))
@@ -32,7 +32,7 @@
                  (let [db (-> context :effects :db)
                        old-db (-> context :coeffects :db)]
                    (if (some? (check-and-throw app-db-spec db))
-                     (assoc-in context [:effects :db] old-db)
+                     (assoc-in context [:effects :db] old-db) ;; put the old db back as the new db
                      context))))
     ->interceptor))
 
@@ -78,6 +78,8 @@
 
          (when (= current-screen :bucket)
            {:dispatch [:load-bucket-form (:bucket-id params)]})
+         (when (= current-screen :pattern)
+           {:dispatch [:load-pattern-form (:pattern-id params)]})
          (when (= current-screen :period)
            {:dispatch [:load-period-form (:period-id params)]})
          (when (= current-screen :template)
@@ -90,8 +92,16 @@
         bucket-form (merge bucket {:data (helpers/print-data (:data bucket))})]
     (assoc-in db [:forms :bucket-form] bucket-form)))
 
+(defn load-pattern-form [db [_ pattern-id]]
+  (let [pattern      (select-one [:patterns sp/ALL #(= (:id %) pattern-id)] db)
+        pattern-form (merge pattern {:data (helpers/print-data (:data pattern))})]
+    (assoc-in db [:forms :pattern-form] pattern-form)))
+
 (defn update-bucket-form [db [_ bucket-form]]
   (transform [:forms :bucket-form] #(merge % bucket-form) db))
+
+(defn update-pattern-form [db [_ pattern-form]]
+  (transform [:forms :pattern-form] #(merge % pattern-form) db))
 
 (defn save-bucket-form [{:keys [db]} [_ date-time]]
   (let [bucket-form (get-in db [:forms :bucket-form])]
@@ -107,6 +117,22 @@
          :dispatch [:load-bucket-form (:id new-bucket)]})
       (catch js/Error e
         {:db db
+         :alert (str "Failed data json validation " e)}))))
+
+(defn save-pattern-form [{:keys [db]} [_ date-time]]
+  (let [pattern-form (get-in db [:forms :pattern-form])]
+    (try
+      (let [new-data    (read-string (:data pattern-form))
+            new-pattern (merge pattern-form {:data        new-data
+                                             :last-edited date-time})
+            new-db      (setval [:patterns sp/ALL #(= (:id %) (:id new-pattern))]
+                                new-pattern
+                                db)]
+        {:db       new-db
+         ;; load pattern form so that the data string gets re-formatted prettier
+         :dispatch [:load-pattern-form (:id new-pattern)]})
+      (catch js/Error e
+        {:db    db
          :alert (str "Failed data json validation " e)}))))
 
 (defn load-period-form [db [_ period-id]]
@@ -305,6 +331,20 @@
                      :periods     nil}))
    :dispatch [:navigate-to {:current-screen :bucket
                             :params {:bucket-id id}}]})
+
+(defn add-new-pattern [{:keys [db]} [_ {:keys [id now]}]]
+  {:db       (->> db
+                  (setval [:patterns
+                           sp/NIL->VECTOR
+                           sp/AFTER-ELEM]
+                          {:id          id
+                           :label       ""
+                           :created     now
+                           :last-edited now
+                           :data        {}
+                           :templates   nil}))
+   :dispatch [:navigate-to {:current-screen :pattern ;; this will trigger loading
+                            :params         {:pattern-id id}}]})
 
 (defn add-new-period [{:keys [db]} [_ {:keys [bucket-id id now]}]]
   {:db (setval [:buckets sp/ALL
@@ -634,4 +674,8 @@
 (reg-event-db :play-from-template [validate-spec persist-secure-store] play-from-template)
 (reg-event-db :load-db [validate-spec] load-db)
 (reg-event-fx :share-app-db [validate-spec] share-app-db)
-(reg-event-db :add-auto-filter [validate-spec] add-auto-filter)
+(reg-event-db :add-auto-filter [validate-spec persist-secure-store] add-auto-filter)
+(reg-event-db :load-pattern-form [validate-spec persist-secure-store] load-pattern-form)
+(reg-event-db :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
+(reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
+(reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
