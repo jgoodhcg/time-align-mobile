@@ -80,6 +80,13 @@
            {:dispatch [:load-bucket-form (:bucket-id params)]})
          (when (= current-screen :pattern)
            {:dispatch [:load-pattern-form (:pattern-id params)]})
+         (when (= current-screen :pattern-planning)
+           {:dispatch [:load-pattern-form
+                       ;; TODO change this or remove it
+                       (-> db
+                           (get-in [:patterns])
+                           first
+                           :id)]})
          (when (= current-screen :period)
            {:dispatch [:load-period-form (:period-id params)]})
          (when (= current-screen :template)

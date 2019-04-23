@@ -797,8 +797,8 @@
 
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
-        top-bar-height    50
-        bottom-bar-height 40
+        top-bar-height    styles/top-bar-height
+        bottom-bar-height styles/bottom-bar-height
         periods           (subscribe [:get-collision-grouped-periods])
         displayed-day     (subscribe [:get-day-time-navigator])
         selected-period   (subscribe [:get-selected-period])
@@ -810,14 +810,19 @@
     (r/create-class
      {:reagent-render
       (fn [params]
-        [view {:style     {:flex 1 :justify-content "center" :align-items "center"}
+        [view {:style     {:flex 1
+                           :justify-content "center" ;; child view pushes this up TODO change to flex-start
+                           :align-items "center"}
                :on-layout (fn [event]
                             (let [layout (-> event
                                              (oget "nativeEvent" "layout")
                                              (js->clj :keywordize-keys true))]
                               (if (nil? (:height dimensions))
                                 (reset! dimensions {:width  (:width layout)
-                                                    :height (- (:height layout) top-bar-height bottom-bar-height)}))))}
+                                                    :height (-
+                                                             (:height layout)
+                                                             top-bar-height
+                                                             bottom-bar-height)}))))}
 
          ;; make our own status bar
          [status-bar {:hidden true}]
