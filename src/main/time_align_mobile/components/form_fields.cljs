@@ -54,14 +54,21 @@
    [structured-data {:data   (:data @form)
                      :update update-structured-data}]])
 
-(defn parent-id-comp [form changes]
+(defn bucket-parent-id-comp [form changes]
   [view {:style field-style}
    [:> rne/Input {:label          "Bucket ID"
                   :label-style    (field-label-changeable-style @changes :bucket-id)
                   :value  (str (:bucket-id @form))
                   :editable false}]])
 
-(defn parent-picker-comp [form changes buckets update-key]
+(defn pattern-parent-id-comp [form changes]
+  [view {:style field-style}
+   [:> rne/Input {:label          "Pattern ID"
+                  :label-style    (field-label-changeable-style @changes :pattern-id)
+                  :value  (str (:pattern-id @form))
+                  :editable false}]])
+
+(defn bucket-parent-picker-comp [form changes buckets update-key]
   [view {:style (merge field-style {:flex-direction  "column"
                                     :padding         8
                                     :justify-content "flex-start"
@@ -77,6 +84,23 @@
                                     :key   (:id bucket)
                                     :value (:id bucket)}])
          @buckets)]])
+
+(defn pattern-parent-picker-comp [form changes patterns update-key]
+  [view {:style (merge field-style {:flex-direction  "column"
+                                    :padding         8
+                                    :justify-content "flex-start"
+                                    :align-items     "flex-start"})}
+   [:> rne/Text {:h4 true :h4-style
+                 (merge
+                  (field-label-changeable-style @changes :pattern-label)
+                  {:font-size 16})} "Pattern Label"]
+   [:> rn/Picker {:selected-value  (str (:pattern-id @form))
+                  :style           {:width 250}
+                  :on-value-change #(dispatch [update-key {:pattern-id %}])}
+    (map (fn [pattern] [picker-item {:label (:label pattern)
+                                    :key   (:id pattern)
+                                    :value (:id pattern)}])
+         @patterns)]])
 
 (defn planned-comp [form changes update-key]
   [view {:style (merge field-style {:flex-direction  "column"

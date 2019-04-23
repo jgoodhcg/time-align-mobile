@@ -1208,5 +1208,519 @@ pressed a pattern in the list
 [:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.42s)
 [:app] Compiling ...
 [:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.41s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 4 warnings, 0.08s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:68:47
+--------------------------------------------------------------------------------
+  65 |                                    minute)]
+  66 |     [view {:style {:flex-direction "row"}}
+  67 |      [text {:style (field-label-changeable-style @changes :stop)} ":stop"]
+  68 |      [touchable-highlight {:on-press #(reset! stop-modal-visible true)}
+-----------------------------------------------------^--------------------------
+ Use of undeclared Var time-align-mobile.screens.template-form/stop-modal-visible
+--------------------------------------------------------------------------------
+  69 |       [text (format-time stop-time)]]
+  70 |      [date-time-picker {:is-visible @stop-modal-visible
+  71 |                         :date       stop-time
+  72 |                         :mode       "time"
+--------------------------------------------------------------------------------
+
+------ WARNING #2 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:70:38
+--------------------------------------------------------------------------------
+  67 |      [text {:style (field-label-changeable-style @changes :stop)} ":stop"]
+  68 |      [touchable-highlight {:on-press #(reset! stop-modal-visible true)}
+  69 |       [text (format-time stop-time)]]
+  70 |      [date-time-picker {:is-visible @stop-modal-visible
+--------------------------------------------^-----------------------------------
+ Use of undeclared Var time-align-mobile.screens.template-form/stop-modal-visible
+--------------------------------------------------------------------------------
+  71 |                         :date       stop-time
+  72 |                         :mode       "time"
+  73 |                         :on-confirm (fn [d]
+  74 |                                       (dispatch [:update-template-form {:stop {:hour   (.getHours d)
+--------------------------------------------------------------------------------
+
+------ WARNING #3 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:76:47
+--------------------------------------------------------------------------------
+  73 |                         :on-confirm (fn [d]
+  74 |                                       (dispatch [:update-template-form {:stop {:hour   (.getHours d)
+  75 |                                                                                 :minute (.getMinutes d)}}])
+  76 |                                       (reset! stop-modal-visible false))
+-----------------------------------------------------^--------------------------
+ Use of undeclared Var time-align-mobile.screens.template-form/stop-modal-visible
+--------------------------------------------------------------------------------
+  77 |                         :on-cancel  #(reset! stop-modal-visible false)}]]))
+  78 | 
+  79 | (defn root [params]
+  80 |   (let [template-form            (subscribe [:get-template-form])
+--------------------------------------------------------------------------------
+
+------ WARNING #4 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:77:46
+--------------------------------------------------------------------------------
+  74 |                                       (dispatch [:update-template-form {:stop {:hour   (.getHours d)
+  75 |                                                                                 :minute (.getMinutes d)}}])
+  76 |                                       (reset! stop-modal-visible false))
+  77 |                         :on-cancel  #(reset! stop-modal-visible false)}]]))
+----------------------------------------------------^---------------------------
+ Use of undeclared Var time-align-mobile.screens.template-form/stop-modal-visible
+--------------------------------------------------------------------------------
+  78 | 
+  79 | (defn root [params]
+  80 |   (let [template-form            (subscribe [:get-template-form])
+  81 |         update-structured-data (fn [new-data]
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.08s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.09s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.07s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.08s)
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs:1:1
+--------------------------------------------------------------------------------
+
+   1 | (ns time-align-mobile.screens.period-form
+-------^------------------------------------------------------------------------
+Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist
+--------------------------------------------------------------------------------
+   2 |   (:require [time-align-mobile.js-imports :refer [view text]]
+   3 |             [re-frame.core :refer [subscribe dispatch]]
+   4 |             ["react" :as react]
+   5 |             [time-align-mobile.js-imports :refer [view
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs:1:1
+--------------------------------------------------------------------------------
+
+   1 | (ns time-align-mobile.screens.period-form
+-------^------------------------------------------------------------------------
+Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist
+--------------------------------------------------------------------------------
+   2 |   (:require [time-align-mobile.js-imports :refer [view text]]
+   3 |             [re-frame.core :refer [subscribe dispatch]]
+   4 |             ["react" :as react]
+   5 |             [time-align-mobile.js-imports :refer [view
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+compilation failed
+{:tag :shadow.build.compiler/fail-many, :resource-ids ([:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"] [:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"]), :errors {[:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"] #error {
+ :cause "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist"
+ :data {:file "time_align_mobile/screens/template_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym pattern-parent-picker-comp}}
+ :via
+ [{:type clojure.lang.ExceptionInfo
+   :message "failed to compile resource: [:shadow.build.classpath/resource \"time_align_mobile/screens/template_form.cljs\"]"
+   :data {:source-excerpt {:start-idx 0, :before [], :line "(ns time-align-mobile.screens.template-form", :after ["  (:require [time-align-mobile.js-imports :refer [view text]]" "            [re-frame.core :refer [subscribe dispatch]]" "            [\"react\" :as react]" "            [time-align-mobile.js-imports :refer [view"]}, :file #object[java.io.File 0x6a630dd4 "/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs"], :resource-id [:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"], :column 1, :line 1, :url #object[java.net.URL 0x623a67bd "file:/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs"], :source-id [:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"], :tag :shadow.build.compiler/compile-cljs, :ex-data {:file "time_align_mobile/screens/template_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym pattern-parent-picker-comp}}}
+   :at [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 786]}
+  {:type clojure.lang.ExceptionInfo
+   :message "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist"
+   :data {:file "time_align_mobile/screens/template_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym pattern-parent-picker-comp}}
+   :at [shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]}]
+ :trace
+ [[shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]
+  [shadow.build.cljs_bridge$error invoke "cljs_bridge.clj" 163]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invokeStatic "cljs_bridge.clj" 184]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invoke "cljs_bridge.clj" 173]
+  [shadow.build.compiler$post_analyze_ns invokeStatic "compiler.clj" 51]
+  [shadow.build.compiler$post_analyze_ns invoke "compiler.clj" 43]
+  [shadow.build.compiler$post_analyze invokeStatic "compiler.clj" 89]
+  [shadow.build.compiler$post_analyze invoke "compiler.clj" 86]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 210]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 175]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$default_analyze_cljs invokeStatic "compiler.clj" 311]
+  [shadow.build.compiler$default_analyze_cljs invoke "compiler.clj" 300]
+  [clojure.core$partial$fn__5824 invoke "core.clj" 2625]
+  [shadow.build.compiler$do_analyze_cljs_string invokeStatic "compiler.clj" 254]
+  [shadow.build.compiler$do_analyze_cljs_string invoke "compiler.clj" 212]
+  [shadow.build.compiler$analyze_cljs_string$fn__11628 invoke "compiler.clj" 375]
+  [shadow.build.compiler$analyze_cljs_string invokeStatic "compiler.clj" 374]
+  [shadow.build.compiler$analyze_cljs_string invoke "compiler.clj" 372]
+  [shadow.build.compiler$do_compile_cljs_resource$fn__11649 invoke "compiler.clj" 468]
+  [shadow.build.compiler$do_compile_cljs_resource invokeStatic "compiler.clj" 450]
+  [shadow.build.compiler$do_compile_cljs_resource invoke "compiler.clj" 408]
+  [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 744]
+  [shadow.build.compiler$maybe_compile_cljs invokeStatic "compiler.clj" 743]
+  [shadow.build.compiler$maybe_compile_cljs invoke "compiler.clj" 719]
+  [shadow.build.compiler$par_compile_one invokeStatic "compiler.clj" 852]
+  [shadow.build.compiler$par_compile_one invoke "compiler.clj" 807]
+  [shadow.build.compiler$par_compile_cljs_sources$fn__11775$iter__11797__11801$fn__11802$fn__11803$fn__11804 invoke "compiler.clj" 925]
+  [clojure.lang.AFn applyToHelper "AFn.java" 152]
+  [clojure.lang.AFn applyTo "AFn.java" 144]
+  [clojure.core$apply invokeStatic "core.clj" 665]
+  [clojure.core$with_bindings_STAR_ invokeStatic "core.clj" 1973]
+  [clojure.core$with_bindings_STAR_ doInvoke "core.clj" 1973]
+  [clojure.lang.RestFn invoke "RestFn.java" 425]
+  [clojure.lang.AFn applyToHelper "AFn.java" 156]
+  [clojure.lang.RestFn applyTo "RestFn.java" 132]
+  [clojure.core$apply invokeStatic "core.clj" 669]
+  [clojure.core$bound_fn_STAR_$fn__5734 doInvoke "core.clj" 2003]
+  [clojure.lang.RestFn invoke "RestFn.java" 397]
+  [clojure.lang.AFn call "AFn.java" 18]
+  [java.util.concurrent.FutureTask run "FutureTask.java" 266]
+  [java.util.concurrent.ThreadPoolExecutor runWorker "ThreadPoolExecutor.java" 1149]
+  [java.util.concurrent.ThreadPoolExecutor$Worker run "ThreadPoolExecutor.java" 624]
+  [java.lang.Thread run "Thread.java" 748]]}, [:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"] #error {
+ :cause "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist"
+ :data {:file "time_align_mobile/screens/period_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym bucket-parent-id-comp}}
+ :via
+ [{:type clojure.lang.ExceptionInfo
+   :message "failed to compile resource: [:shadow.build.classpath/resource \"time_align_mobile/screens/period_form.cljs\"]"
+   :data {:source-excerpt {:start-idx 0, :before [], :line "(ns time-align-mobile.screens.period-form", :after ["  (:require [time-align-mobile.js-imports :refer [view text]]" "            [re-frame.core :refer [subscribe dispatch]]" "            [\"react\" :as react]" "            [time-align-mobile.js-imports :refer [view"]}, :file #object[java.io.File 0x3203d83d "/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs"], :resource-id [:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"], :column 1, :line 1, :url #object[java.net.URL 0x7e8abd9b "file:/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs"], :source-id [:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"], :tag :shadow.build.compiler/compile-cljs, :ex-data {:file "time_align_mobile/screens/period_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym bucket-parent-id-comp}}}
+   :at [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 786]}
+  {:type clojure.lang.ExceptionInfo
+   :message "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist"
+   :data {:file "time_align_mobile/screens/period_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym bucket-parent-id-comp}}
+   :at [shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]}]
+ :trace
+ [[shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]
+  [shadow.build.cljs_bridge$error invoke "cljs_bridge.clj" 163]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invokeStatic "cljs_bridge.clj" 184]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invoke "cljs_bridge.clj" 173]
+  [shadow.build.compiler$post_analyze_ns invokeStatic "compiler.clj" 51]
+  [shadow.build.compiler$post_analyze_ns invoke "compiler.clj" 43]
+  [shadow.build.compiler$post_analyze invokeStatic "compiler.clj" 89]
+  [shadow.build.compiler$post_analyze invoke "compiler.clj" 86]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 210]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 175]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$default_analyze_cljs invokeStatic "compiler.clj" 311]
+  [shadow.build.compiler$default_analyze_cljs invoke "compiler.clj" 300]
+  [clojure.core$partial$fn__5824 invoke "core.clj" 2625]
+  [shadow.build.compiler$do_analyze_cljs_string invokeStatic "compiler.clj" 254]
+  [shadow.build.compiler$do_analyze_cljs_string invoke "compiler.clj" 212]
+  [shadow.build.compiler$analyze_cljs_string$fn__11628 invoke "compiler.clj" 375]
+  [shadow.build.compiler$analyze_cljs_string invokeStatic "compiler.clj" 374]
+  [shadow.build.compiler$analyze_cljs_string invoke "compiler.clj" 372]
+  [shadow.build.compiler$do_compile_cljs_resource$fn__11649 invoke "compiler.clj" 468]
+  [shadow.build.compiler$do_compile_cljs_resource invokeStatic "compiler.clj" 450]
+  [shadow.build.compiler$do_compile_cljs_resource invoke "compiler.clj" 408]
+  [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 744]
+  [shadow.build.compiler$maybe_compile_cljs invokeStatic "compiler.clj" 743]
+  [shadow.build.compiler$maybe_compile_cljs invoke "compiler.clj" 719]
+  [shadow.build.compiler$par_compile_one invokeStatic "compiler.clj" 852]
+  [shadow.build.compiler$par_compile_one invoke "compiler.clj" 807]
+  [shadow.build.compiler$par_compile_cljs_sources$fn__11775$iter__11797__11801$fn__11802$fn__11803$fn__11804 invoke "compiler.clj" 925]
+  [clojure.lang.AFn applyToHelper "AFn.java" 152]
+  [clojure.lang.AFn applyTo "AFn.java" 144]
+  [clojure.core$apply invokeStatic "core.clj" 665]
+  [clojure.core$with_bindings_STAR_ invokeStatic "core.clj" 1973]
+  [clojure.core$with_bindings_STAR_ doInvoke "core.clj" 1973]
+  [clojure.lang.RestFn invoke "RestFn.java" 425]
+  [clojure.lang.AFn applyToHelper "AFn.java" 156]
+  [clojure.lang.RestFn applyTo "RestFn.java" 132]
+  [clojure.core$apply invokeStatic "core.clj" 669]
+  [clojure.core$bound_fn_STAR_$fn__5734 doInvoke "core.clj" 2003]
+  [clojure.lang.RestFn invoke "RestFn.java" 397]
+  [clojure.lang.AFn call "AFn.java" 18]
+  [java.util.concurrent.FutureTask run "FutureTask.java" 266]
+  [java.util.concurrent.ThreadPoolExecutor runWorker "ThreadPoolExecutor.java" 1149]
+  [java.util.concurrent.ThreadPoolExecutor$Worker run "ThreadPoolExecutor.java" 624]
+  [java.lang.Thread run "Thread.java" 748]]}}}
+ExceptionInfo: compilation failed
+	shadow.build.compiler/par-compile-cljs-sources/fn--11775 (compiler.clj:938)
+	shadow.build.compiler/par-compile-cljs-sources (compiler.clj:872)
+	shadow.build.compiler/par-compile-cljs-sources (compiler.clj:865)
+	shadow.build.compiler/compile-cljs-sources (compiler.clj:981)
+	shadow.build.compiler/compile-cljs-sources (compiler.clj:971)
+	shadow.build.compiler/compile-all (compiler.clj:1250)
+	shadow.build.compiler/compile-all (compiler.clj:1116)
+	shadow.build.api/compile-sources (api.clj:250)
+	shadow.build.api/compile-sources (api.clj:242)
+	shadow.build/compile (build.clj:373)
+	shadow.build/compile (build.clj:364)
+	shadow.cljs.devtools.server.worker.impl/build-compile (impl.clj:287)
+	shadow.cljs.devtools.server.worker.impl/build-compile (impl.clj:273)
+	shadow.cljs.devtools.server.worker.impl/do-resource-update (impl.clj:870)
+	shadow.cljs.devtools.server.worker.impl/do-resource-update (impl.clj:833)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888/fn--12889/fn--12897 (util.clj:292)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888/fn--12889 (util.clj:291)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888 (util.clj:264)
+	java.lang.Thread.run (Thread.java:748)
+
+[:app] Compiling ...
+[:app] Build failure:
+compilation failed
+{:tag :shadow.build.compiler/fail-many, :resource-ids ([:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"] [:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"]), :errors {[:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"] #error {
+ :cause "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist"
+ :data {:file "time_align_mobile/screens/period_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym bucket-parent-id-comp}}
+ :via
+ [{:type clojure.lang.ExceptionInfo
+   :message "failed to compile resource: [:shadow.build.classpath/resource \"time_align_mobile/screens/period_form.cljs\"]"
+   :data {:source-excerpt {:start-idx 0, :before [], :line "(ns time-align-mobile.screens.period-form", :after ["  (:require [time-align-mobile.js-imports :refer [view text]]" "            [re-frame.core :refer [subscribe dispatch]]" "            [\"react\" :as react]" "            [time-align-mobile.js-imports :refer [view"]}, :file #object[java.io.File 0x3203d83d "/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs"], :resource-id [:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"], :column 1, :line 1, :url #object[java.net.URL 0x7e8abd9b "file:/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs"], :source-id [:shadow.build.classpath/resource "time_align_mobile/screens/period_form.cljs"], :tag :shadow.build.compiler/compile-cljs, :ex-data {:file "time_align_mobile/screens/period_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym bucket-parent-id-comp}}}
+   :at [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 786]}
+  {:type clojure.lang.ExceptionInfo
+   :message "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist"
+   :data {:file "time_align_mobile/screens/period_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/bucket-parent-id-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym bucket-parent-id-comp}}
+   :at [shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]}]
+ :trace
+ [[shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]
+  [shadow.build.cljs_bridge$error invoke "cljs_bridge.clj" 163]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invokeStatic "cljs_bridge.clj" 184]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invoke "cljs_bridge.clj" 173]
+  [shadow.build.compiler$post_analyze_ns invokeStatic "compiler.clj" 51]
+  [shadow.build.compiler$post_analyze_ns invoke "compiler.clj" 43]
+  [shadow.build.compiler$post_analyze invokeStatic "compiler.clj" 89]
+  [shadow.build.compiler$post_analyze invoke "compiler.clj" 86]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 210]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 175]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$default_analyze_cljs invokeStatic "compiler.clj" 311]
+  [shadow.build.compiler$default_analyze_cljs invoke "compiler.clj" 300]
+  [clojure.core$partial$fn__5824 invoke "core.clj" 2625]
+  [shadow.build.compiler$do_analyze_cljs_string invokeStatic "compiler.clj" 254]
+  [shadow.build.compiler$do_analyze_cljs_string invoke "compiler.clj" 212]
+  [shadow.build.compiler$analyze_cljs_string$fn__11628 invoke "compiler.clj" 375]
+  [shadow.build.compiler$analyze_cljs_string invokeStatic "compiler.clj" 374]
+  [shadow.build.compiler$analyze_cljs_string invoke "compiler.clj" 372]
+  [shadow.build.compiler$do_compile_cljs_resource$fn__11649 invoke "compiler.clj" 468]
+  [shadow.build.compiler$do_compile_cljs_resource invokeStatic "compiler.clj" 450]
+  [shadow.build.compiler$do_compile_cljs_resource invoke "compiler.clj" 408]
+  [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 744]
+  [shadow.build.compiler$maybe_compile_cljs invokeStatic "compiler.clj" 743]
+  [shadow.build.compiler$maybe_compile_cljs invoke "compiler.clj" 719]
+  [shadow.build.compiler$par_compile_one invokeStatic "compiler.clj" 852]
+  [shadow.build.compiler$par_compile_one invoke "compiler.clj" 807]
+  [shadow.build.compiler$par_compile_cljs_sources$fn__11775$iter__11797__11801$fn__11802$fn__11803$fn__11804 invoke "compiler.clj" 925]
+  [clojure.lang.AFn applyToHelper "AFn.java" 152]
+  [clojure.lang.AFn applyTo "AFn.java" 144]
+  [clojure.core$apply invokeStatic "core.clj" 665]
+  [clojure.core$with_bindings_STAR_ invokeStatic "core.clj" 1973]
+  [clojure.core$with_bindings_STAR_ doInvoke "core.clj" 1973]
+  [clojure.lang.RestFn invoke "RestFn.java" 425]
+  [clojure.lang.AFn applyToHelper "AFn.java" 156]
+  [clojure.lang.RestFn applyTo "RestFn.java" 132]
+  [clojure.core$apply invokeStatic "core.clj" 669]
+  [clojure.core$bound_fn_STAR_$fn__5734 doInvoke "core.clj" 2003]
+  [clojure.lang.RestFn invoke "RestFn.java" 397]
+  [clojure.lang.AFn call "AFn.java" 18]
+  [java.util.concurrent.FutureTask run "FutureTask.java" 266]
+  [java.util.concurrent.ThreadPoolExecutor runWorker "ThreadPoolExecutor.java" 1149]
+  [java.util.concurrent.ThreadPoolExecutor$Worker run "ThreadPoolExecutor.java" 624]
+  [java.lang.Thread run "Thread.java" 748]]}, [:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"] #error {
+ :cause "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist"
+ :data {:file "time_align_mobile/screens/template_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym pattern-parent-picker-comp}}
+ :via
+ [{:type clojure.lang.ExceptionInfo
+   :message "failed to compile resource: [:shadow.build.classpath/resource \"time_align_mobile/screens/template_form.cljs\"]"
+   :data {:source-excerpt {:start-idx 0, :before [], :line "(ns time-align-mobile.screens.template-form", :after ["  (:require [time-align-mobile.js-imports :refer [view text]]" "            [re-frame.core :refer [subscribe dispatch]]" "            [\"react\" :as react]" "            [time-align-mobile.js-imports :refer [view"]}, :file #object[java.io.File 0xcf50233 "/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs"], :resource-id [:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"], :column 1, :line 1, :url #object[java.net.URL 0x3dc39b9f "file:/home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs"], :source-id [:shadow.build.classpath/resource "time_align_mobile/screens/template_form.cljs"], :tag :shadow.build.compiler/compile-cljs, :ex-data {:file "time_align_mobile/screens/template_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym pattern-parent-picker-comp}}}
+   :at [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 786]}
+  {:type clojure.lang.ExceptionInfo
+   :message "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist"
+   :data {:file "time_align_mobile/screens/template_form.cljs", :line 1, :column 1, :tag :cljs/analysis-error, :error-type :undeclared-ns-form, :msg "Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist", :extra {:type "var", :lib time-align-mobile.components.form-fields, :sym pattern-parent-picker-comp}}
+   :at [shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]}]
+ :trace
+ [[shadow.build.cljs_bridge$error invokeStatic "cljs_bridge.clj" 166]
+  [shadow.build.cljs_bridge$error invoke "cljs_bridge.clj" 163]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invokeStatic "cljs_bridge.clj" 184]
+  [shadow.build.cljs_bridge$check_uses_BANG_ invoke "cljs_bridge.clj" 173]
+  [shadow.build.compiler$post_analyze_ns invokeStatic "compiler.clj" 51]
+  [shadow.build.compiler$post_analyze_ns invoke "compiler.clj" 43]
+  [shadow.build.compiler$post_analyze invokeStatic "compiler.clj" 89]
+  [shadow.build.compiler$post_analyze invoke "compiler.clj" 86]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 210]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$analyze invokeStatic "compiler.clj" 175]
+  [shadow.build.compiler$analyze invoke "compiler.clj" 173]
+  [shadow.build.compiler$default_analyze_cljs invokeStatic "compiler.clj" 311]
+  [shadow.build.compiler$default_analyze_cljs invoke "compiler.clj" 300]
+  [clojure.core$partial$fn__5824 invoke "core.clj" 2625]
+  [shadow.build.compiler$do_analyze_cljs_string invokeStatic "compiler.clj" 254]
+  [shadow.build.compiler$do_analyze_cljs_string invoke "compiler.clj" 212]
+  [shadow.build.compiler$analyze_cljs_string$fn__11628 invoke "compiler.clj" 375]
+  [shadow.build.compiler$analyze_cljs_string invokeStatic "compiler.clj" 374]
+  [shadow.build.compiler$analyze_cljs_string invoke "compiler.clj" 372]
+  [shadow.build.compiler$do_compile_cljs_resource$fn__11649 invoke "compiler.clj" 468]
+  [shadow.build.compiler$do_compile_cljs_resource invokeStatic "compiler.clj" 450]
+  [shadow.build.compiler$do_compile_cljs_resource invoke "compiler.clj" 408]
+  [shadow.build.compiler$maybe_compile_cljs$fn__11739 invoke "compiler.clj" 744]
+  [shadow.build.compiler$maybe_compile_cljs invokeStatic "compiler.clj" 743]
+  [shadow.build.compiler$maybe_compile_cljs invoke "compiler.clj" 719]
+  [shadow.build.compiler$par_compile_one invokeStatic "compiler.clj" 852]
+  [shadow.build.compiler$par_compile_one invoke "compiler.clj" 807]
+  [shadow.build.compiler$par_compile_cljs_sources$fn__11775$iter__11797__11801$fn__11802$fn__11803$fn__11804 invoke "compiler.clj" 925]
+  [clojure.lang.AFn applyToHelper "AFn.java" 152]
+  [clojure.lang.AFn applyTo "AFn.java" 144]
+  [clojure.core$apply invokeStatic "core.clj" 665]
+  [clojure.core$with_bindings_STAR_ invokeStatic "core.clj" 1973]
+  [clojure.core$with_bindings_STAR_ doInvoke "core.clj" 1973]
+  [clojure.lang.RestFn invoke "RestFn.java" 425]
+  [clojure.lang.AFn applyToHelper "AFn.java" 156]
+  [clojure.lang.RestFn applyTo "RestFn.java" 132]
+  [clojure.core$apply invokeStatic "core.clj" 669]
+  [clojure.core$bound_fn_STAR_$fn__5734 doInvoke "core.clj" 2003]
+  [clojure.lang.RestFn invoke "RestFn.java" 397]
+  [clojure.lang.AFn call "AFn.java" 18]
+  [java.util.concurrent.FutureTask run "FutureTask.java" 266]
+  [java.util.concurrent.ThreadPoolExecutor runWorker "ThreadPoolExecutor.java" 1149]
+  [java.util.concurrent.ThreadPoolExecutor$Worker run "ThreadPoolExecutor.java" 624]
+  [java.lang.Thread run "Thread.java" 748]]}}}
+ExceptionInfo: compilation failed
+	shadow.build.compiler/par-compile-cljs-sources/fn--11775 (compiler.clj:938)
+	shadow.build.compiler/par-compile-cljs-sources (compiler.clj:872)
+	shadow.build.compiler/par-compile-cljs-sources (compiler.clj:865)
+	shadow.build.compiler/compile-cljs-sources (compiler.clj:981)
+	shadow.build.compiler/compile-cljs-sources (compiler.clj:971)
+	shadow.build.compiler/compile-all (compiler.clj:1250)
+	shadow.build.compiler/compile-all (compiler.clj:1116)
+	shadow.build.api/compile-sources (api.clj:250)
+	shadow.build.api/compile-sources (api.clj:242)
+	shadow.build/compile (build.clj:373)
+	shadow.build/compile (build.clj:364)
+	shadow.cljs.devtools.server.worker.impl/build-compile (impl.clj:287)
+	shadow.cljs.devtools.server.worker.impl/build-compile (impl.clj:273)
+	shadow.cljs.devtools.server.worker.impl/do-resource-update (impl.clj:870)
+	shadow.cljs.devtools.server.worker.impl/do-resource-update (impl.clj:833)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888/fn--12889/fn--12897 (util.clj:292)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888/fn--12889 (util.clj:291)
+	shadow.cljs.devtools.server.util/server-thread/fn--12888 (util.clj:264)
+	java.lang.Thread.run (Thread.java:748)
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:1:1
+--------------------------------------------------------------------------------
+
+   1 | (ns time-align-mobile.screens.template-form
+-------^------------------------------------------------------------------------
+Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist
+--------------------------------------------------------------------------------
+   2 |   (:require [time-align-mobile.js-imports :refer [view text]]
+   3 |             [re-frame.core :refer [subscribe dispatch]]
+   4 |             ["react" :as react]
+   5 |             [time-align-mobile.js-imports :refer [view
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:1:1
+--------------------------------------------------------------------------------
+
+   1 | (ns time-align-mobile.screens.template-form
+-------^------------------------------------------------------------------------
+Invalid :refer, var time-align-mobile.components.form-fields/pattern-parent-picker-comp does not exist
+--------------------------------------------------------------------------------
+   2 |   (:require [time-align-mobile.js-imports :refer [view text]]
+   3 |             [re-frame.core :refer [subscribe dispatch]]
+   4 |             ["react" :as react]
+   5 |             [time-align-mobile.js-imports :refer [view
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs:1:1
+--------------------------------------------------------------------------------
+
+   1 | (ns time-align-mobile.screens.period-form
+-------^------------------------------------------------------------------------
+Invalid :refer, var time-align-mobile.components.form-fields/parent-picker-comp does not exist
+--------------------------------------------------------------------------------
+   2 |   (:require [time-align-mobile.js-imports :refer [view text]]
+   3 |             [re-frame.core :refer [subscribe dispatch]]
+   4 |             ["react" :as react]
+   5 |             [time-align-mobile.js-imports :refer [view
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/period_form.cljs:1:1
+--------------------------------------------------------------------------------
+
+   1 | (ns time-align-mobile.screens.period-form
+-------^------------------------------------------------------------------------
+Invalid :refer, var time-align-mobile.components.form-fields/parent-picker-comp does not exist
+--------------------------------------------------------------------------------
+   2 |   (:require [time-align-mobile.js-imports :refer [view text]]
+   3 |             [re-frame.core :refer [subscribe dispatch]]
+   4 |             ["react" :as react]
+   5 |             [time-align-mobile.js-imports :refer [view
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build completed. (178 files, 7 compiled, 0 warnings, 0.12s)
+({:path [:forms :template-form :cljs.spec.alpha/nil], :pred nil?, :val {:bucket-label nil, :start {:hour 12, :minute 30}, :pattern-id #uuid "c572f253-b0f5-4c38-9e7d-34c1381cc143", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T02:49:58.807-00:00", :bucket-color nil, :data "{}"}, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form], :in [:forms :template-form]} {:path [:forms :template-form :cljs.spec.alpha/pred], :pred (cljs.core/fn [%] (cljs.core/contains? % :bucket-id)), :val {:bucket-label nil, :start {:hour 12, :minute 30}, :pattern-id #uuid "c572f253-b0f5-4c38-9e7d-34c1381cc143", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T02:49:58.807-00:00", :bucket-color nil, :data "{}"}, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form], :in [:forms :template-form]} {:path [:forms :template-form :cljs.spec.alpha/pred :bucket-label], :pred cljs.core/string?, :val nil, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form :time-align-mobile.db$app-db$forms$template-form/bucket-label], :in [:forms :template-form :bucket-label]} {:path [:forms :template-form :cljs.spec.alpha/pred :bucket-color], :pred (cljs.core/fn [%] (cljs.core/= "#" (cljs.core/first %))), :val nil, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form :time-align-mobile.db$app-db$forms$template-form/bucket-color], :in [:forms :template-form :bucket-color]})
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.44s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.39s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.06s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.41s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.40s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.07s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 2 warnings, 0.08s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:108:8
+--------------------------------------------------------------------------------
+ 105 |       [pattern-parent-picker-comp template-form changes patterns :update-template-form]
+ 106 | 
+ 107 | 
+ 108 |       [bucket-parent-id-comp template-form changes]
+--------------^-----------------------------------------------------------------
+ Use of undeclared Var time-align-mobile.screens.template-form/bucket-parent-id-comp
+--------------------------------------------------------------------------------
+ 109 | 
+ 110 |       [bucket-parent-picker-comp template-form changes patterns :update-template-form]
+ 111 | 
+ 112 |       [id-comp template-form]
+--------------------------------------------------------------------------------
+
+------ WARNING #2 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/template_form.cljs:110:8
+--------------------------------------------------------------------------------
+ 107 | 
+ 108 |       [bucket-parent-id-comp template-form changes]
+ 109 | 
+ 110 |       [bucket-parent-picker-comp template-form changes patterns :update-template-form]
+--------------^-----------------------------------------------------------------
+ Use of undeclared Var time-align-mobile.screens.template-form/bucket-parent-picker-comp
+--------------------------------------------------------------------------------
+ 111 | 
+ 112 |       [id-comp template-form]
+ 113 | 
+ 114 |       [created-comp template-form]
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.06s)
+({:path [:forms :template-form :cljs.spec.alpha/nil], :pred nil?, :val {:bucket-label nil, :start {:hour 12, :minute 30}, :pattern-id #uuid "c572f253-b0f5-4c38-9e7d-34c1381cc143", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T02:49:58.807-00:00", :bucket-color nil, :data "{}"}, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form], :in [:forms :template-form]} {:path [:forms :template-form :cljs.spec.alpha/pred], :pred (cljs.core/fn [%] (cljs.core/contains? % :bucket-id)), :val {:bucket-label nil, :start {:hour 12, :minute 30}, :pattern-id #uuid "c572f253-b0f5-4c38-9e7d-34c1381cc143", :created #inst "2019-04-18T01:12:40.195-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T02:49:58.807-00:00", :bucket-color nil, :data "{}"}, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form], :in [:forms :template-form]} {:path [:forms :template-form :cljs.spec.alpha/pred :bucket-label], :pred cljs.core/string?, :val nil, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form :time-align-mobile.db$app-db$forms$template-form/bucket-label], :in [:forms :template-form :bucket-label]} {:path [:forms :template-form :cljs.spec.alpha/pred :bucket-color], :pred (cljs.core/fn [%] (cljs.core/= "#" (cljs.core/first %))), :val nil, :via [:time-align-mobile.db$app-db/forms :time-align-mobile.db$app-db$forms/template-form :time-align-mobile.db$app-db$forms$template-form/bucket-color], :in [:forms :template-form :bucket-color]})
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.41s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.44s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.41s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.08s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 2 compiled, 0 warnings, 0.21s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 6 compiled, 0 warnings, 0.21s)
+[:app] Compiling ...
+[:app] Build completed. (178 files, 1 compiled, 0 warnings, 0.08s)
 
 time-align-mobile.subs> 

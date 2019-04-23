@@ -209,6 +209,7 @@
         bucket             (select-one [:buckets sp/ALL
                                         #(= (:bucket-id template) (:id %))] db)
         external-data      {:pattern-id   (:id pattern)
+                            :bucket-id    (:id bucket)
                             :bucket-color (:color bucket)
                             :bucket-label (:label bucket)}
         template-form      (merge template
@@ -244,8 +245,7 @@
       (let [new-data            (read-string (:data template-form))
             keys-wanted         (->> template-form
                                      (keys)
-                                     (remove #(or (= :bucket-id %)
-                                                  (= :bucket-label %)
+                                     (remove #(or (= :bucket-label %)
                                                   (= :bucket-color %)
                                                   (= :pattern-id %))))
             new-template        (-> template-form
@@ -402,13 +402,14 @@
      :dispatch [:navigate-to {:current-screen :period
                               :params         {:period-id id}}]}))
 
-(defn add-new-template [{:keys [db]} [_ {:keys [pattern-id id now]}]]
+(defn add-new-template [{:keys [db]} [_ {:keys [pattern-id bucket-id id now]}]]
   {:db       (setval [:patterns sp/ALL
                       #(= (:id %) pattern-id)
                       :templates
                       sp/NIL->VECTOR
                       sp/AFTER-ELEM]
                      {:id          id
+                      :bucket-id   bucket-id
                       :created     now
                       :last-edited now
                       :label       ""
@@ -417,8 +418,7 @@
                       :start       {:hour   (.getHours now)
                                     :minute (.getMinutes now)}
                       :stop        {:hour   (.getHours now)
-                                    :minute (+ 5 (.getMinutes now))}
-                      :duration    nil}
+                                    :minute (+ 5 (.getMinutes now))}}
                      db)
    :dispatch [:navigate-to {:current-screen :template
                             :params         {:template-id id}}]})

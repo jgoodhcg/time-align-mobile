@@ -22,8 +22,10 @@
                                                               created-comp
                                                               last-edited-comp
                                                               label-comp
-                                                              parent-id-comp
-                                                              parent-picker-comp
+                                                              pattern-parent-id-comp
+                                                              pattern-parent-picker-comp
+                                                              bucket-parent-id-comp
+                                                              bucket-parent-picker-comp
                                                               planned-comp
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
@@ -31,6 +33,8 @@
                                               field-label-style]]))
 
 (def start-modal-visible (r/atom false))
+
+(def stop-modal-visible (r/atom false))
 
 (defn start-comp [template-form changes]
   (let [{:keys [hour minute]} (:start @template-form)
@@ -42,7 +46,8 @@
                                    hour
                                    minute)]
     [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style @changes :start)} ":start"]
+     [text {:style (merge {:margin-right 8}
+                          (field-label-changeable-style @changes :stop))} ":start"]
      [touchable-highlight {:on-press #(reset! start-modal-visible true)}
       [text (format-time start-time)]]
      [date-time-picker {:is-visible @start-modal-visible
@@ -54,80 +59,36 @@
                                       (reset! start-modal-visible false))
                         :on-cancel  #(reset! start-modal-visible false)}]]))
 
-(defn duration-comp [template-form changes]
-  (let [duration (:duration @template-form) ;; in ms
-        hours    (quot duration (* 60 60 1000))
-        minutes  (quot (- duration
-                          (* hours 60 60 1000))
-                       (* 60 1000))
-        seconds  (quot (- duration
-                          (* hours 60 60 1000)
-                          (* minutes 60 1000))
-                       1000)
-        row-style {:flex-direction "row"
-                   :align-items    "center"}]
-
+(defn stop-comp [template-form changes]
+  (let [{:keys [hour minute]} (:stop @template-form)
+        std                   (new js/Date)
+        stop-time            (new js/Date
+                                   (.getFullYear std)
+                                   (.getMonth std)
+                                   (.getDate std)
+                                   hour
+                                   minute)]
     [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style @changes :duration)} ":duration"]
-     [view {:style {:flex-direction "column"}}
-      [view {:style row-style}
-       ;; hours
-       [text {:style {:color "grey" :margin-right 10}} "hours"]
-       [text-input {:default-value  (.toString hours)
-                    :style          {:height 40
-                                     :width  200}
-                    :on-change-text (fn [val]
-                                      (let [hours (js/parseFloat val)]
-                                        (if (not (js/isNaN hours))
-                                          (dispatch [:update-template-form
-                                                     {:duration
-                                                      (+ (* hours 60 60 1000)
-                                                         (* minutes 60 1000)
-                                                         (* seconds 1000))}])
-                                          ;; TODO should this be a noop?
-                                          (println "not a number...."))))}]]
-
-      ;; minutes
-      [view {:style row-style}
-       [text {:style {:color "grey" :margin-right 10}} "minutes"]
-       [text-input {:default-value  (.toString minutes)
-                    :style          {:height 40
-                                     :width  200}
-                    :on-change-text (fn [val]
-                                      (let [minutes (js/parseFloat val)]
-                                        (if (not (js/isNaN minutes))
-                                          (dispatch [:update-template-form
-                                                     {:duration
-                                                      (+ (* hours 60 60 1000)
-                                                         (* minutes 60 1000)
-                                                         (* seconds 1000))}])
-                                          ;; TODO should this be a noop?
-                                          (println "not a number...."))))}]]
-
-      ;; seconds
-      [view {:style row-style}
-       [text {:style {:color "grey" :margin-right 10}} "seconds"]
-       [text-input {:default-value  (.toString seconds)
-                    :style          {:height 40
-                                     :width  200}
-                    :on-change-text (fn [val]
-                                      (let [seconds (js/parseFloat val)]
-                                        (if (not (js/isNaN seconds))
-                                          (dispatch [:update-template-form
-                                                     {:duration
-                                                      (+ (* hours 60 60 1000)
-                                                         (* minutes 60 1000)
-                                                         (* seconds 1000))}])
-                                          ;; TODO should this be a noop?
-                                          (println "not a number...."))))}]]]]))
+     [text {:style (merge {:margin-right 8}
+                          (field-label-changeable-style @changes :stop))} ":stop"]
+     [touchable-highlight {:on-press #(reset! stop-modal-visible true)}
+      [text (format-time stop-time)]]
+     [date-time-picker {:is-visible @stop-modal-visible
+                        :date       stop-time
+                        :mode       "time"
+                        :on-confirm (fn [d]
+                                      (dispatch [:update-template-form {:stop {:hour   (.getHours d)
+                                                                                :minute (.getMinutes d)}}])
+                                      (reset! stop-modal-visible false))
+                        :on-cancel  #(reset! stop-modal-visible false)}]]))
 
 (defn root [params]
-  (let [template-form            (subscribe [:get-template-form])
+  (let [template-form          (subscribe [:get-template-form])
         update-structured-data (fn [new-data]
                                  (dispatch
                                   [:update-template-form {:data new-data}]))
         changes                (subscribe [:get-template-form-changes])
-        buckets                (subscribe [:get-buckets])]
+        patterns               (subscribe [:get-patterns])]
     [keyboard-aware-scroll-view
      ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1
      {:enable-on-android            true
@@ -141,9 +102,14 @@
 
       [text "Template form"]
 
-      [parent-id-comp template-form changes]
+      [pattern-parent-id-comp template-form changes]
 
-      [parent-picker-comp template-form changes buckets :update-template-form]
+      [pattern-parent-picker-comp template-form changes patterns :update-template-form]
+
+
+      [bucket-parent-id-comp template-form changes]
+
+      [bucket-parent-picker-comp template-form changes patterns :update-template-form]
 
       [id-comp template-form]
 
@@ -153,11 +119,9 @@
 
       [label-comp template-form changes :update-template-form]
 
-      [planned-comp template-form changes :update-template-form]
-
       [start-comp template-form changes]
 
-      [duration-comp template-form changes]
+      [stop-comp template-form changes]
 
       ;; [data-comp template-form changes update-structured-data]
 

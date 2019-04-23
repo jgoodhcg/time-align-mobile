@@ -38,12 +38,14 @@
      [text {:style {:color "grey"}} "templates: " (count templates)]
      [text {:style {:color "grey"}} (str "id: " id)]]]])
 
-(defn template [{:keys [id color label bucket-label on-press]}]
+(defn template [{:keys [id color label pattern-label bucket-label on-press]}]
   [touchable-highlight
    {:key      id
     :on-press on-press}
 
    [view {:style {:flex-direction "row"}}
+
+    ;; symbol
     [view
      {:style {:width            0
               :height           0
@@ -56,14 +58,25 @@
               :border-left-color "transparent"
               :border-right-color "transparent"
               :border-bottom-color color}}]
+
     [view {:style {:flex-direction "column"}}
+
+     ;; label
      [text (if (> (count label) 0)
              label
              "No label")]
+
+     ;; bucket label
      [text {:style {:color "grey"}}
       (if (> (count bucket-label) 0)
         (str "bucket-label: " bucket-label)
         "No bucket label")]
+
+     [text {:style {:color "grey"}}
+      (if (> (count pattern-label) 0)
+        (str "pattern-label: " pattern-label)
+        "No pattern label")]
+     ;; id
      [text {:style {:color "grey"}}
       (str "id: " id)]]]])
 

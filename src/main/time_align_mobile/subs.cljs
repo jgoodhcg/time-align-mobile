@@ -128,10 +128,11 @@
 
 (defn get-templates [db _]
   (->> (select [:patterns sp/ALL
-                (sp/collect-one (sp/submap [:id]))
+                (sp/collect-one (sp/submap [:id :label]))
                 :templates sp/ALL] db)
        (map (fn [[pattern template]]
-              (merge template {:pattern-id (:id pattern)})))
+              (merge template {:pattern-id    (:id pattern)
+                               :pattern-label (:label pattern)})))
        (map (fn [template]
               (let [bucket (select-one [:buckets
                                         sp/ALL

@@ -21,8 +21,8 @@
                                                               created-comp
                                                               last-edited-comp
                                                               label-comp
-                                                              parent-id-comp
-                                                              parent-picker-comp
+                                                              bucket-parent-id-comp
+                                                              bucket-parent-picker-comp
                                                               planned-comp
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
@@ -84,9 +84,9 @@
 
       [text "Period form"]
 
-      [parent-id-comp period-form changes]
+      [bucket-parent-id-comp period-form changes]
 
-      [parent-picker-comp period-form changes buckets :update-period-form]
+      [bucket-parent-picker-comp period-form changes buckets :update-period-form]
 
       [id-comp period-form]
 
