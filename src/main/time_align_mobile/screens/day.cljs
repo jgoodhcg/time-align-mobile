@@ -25,90 +25,13 @@
             ["react" :as react]
             [goog.string.format]
             [re-frame.core :refer [subscribe dispatch]]
+            [time-align-mobile.helpers :as helpers]
+            [time-align-mobile.components.day :refer [time-indicators render-period padding]]
             [reagent.core :as r]))
 
 ;; constants
-(def day-ms
-  ;; 24 hours in millis
-  (* 24 60 60 1000))
-
-(def padding 20)
 
 (def play-modal-visible (r/atom false))
-
-;; helper functions
-(defn get-ms
-  "takes a js/date and returns milliseconds since 00:00 that day. Essentially relative ms for the day."
-  [date]
-  (let [h  (.getHours date)
-        m  (.getMinutes date)
-        s  (.getSeconds date)
-        ms (.getMilliseconds date)]
-    (+
-     (-> h
-         (* 60)
-         (* 60)
-         (* 1000))
-     (-> m
-         (* 60)
-         (* 1000))
-     (-> s (* 1000))
-     ms)))
-
-(defn date->y-pos [date-time total-height]
-  (-> date-time
-      (get-ms)
-      (/ day-ms)
-      (* total-height)))
-
-(defn y-pos->ms [y-pos total-height]
-  (-> y-pos
-      (/ total-height)
-      (* day-ms)))
-
-(defn duration->height [duration-ms total-height]
-  (-> duration-ms
-      (/ day-ms)
-      (* total-height)))
-
-(defn bound-start [start day]
-  (if (same-day? day start)
-    start
-    (js/Date. (.getFullYear day)
-              (.getMonth day)
-              (.getDate day)
-              0
-              0)))
-
-(defn bound-stop [stop day]
-  (if (same-day? day stop)
-    stop
-    ;; use the end of the day otherwise
-    (js/Date. (.getFullYear day)
-              (.getMonth day)
-              (.getDate day)
-              23
-              59)))
-
-(defn back-n-days [date n]
-  (let [days (.getDate date)
-        month (.getMonth date)
-        year (.getFullYear date)]
-    (js/Date. year month (- days n))))
-
-(defn forward-n-days [date n]
-  (let [days (.getDate date)
-        month (.getMonth date)
-        year (.getFullYear date)]
-    (js/Date. year month (+ days n))))
-
-(defn reset-relative-ms [ms date]
-  (let [year           (.getFullYear date)
-        month          (.getMonth date)
-        day            (.getDate date)
-        zero-day    (js/Date. year month day 0 0 0)
-        zero-day-ms (.valueOf zero-day)]
-    (js/Date. (+ zero-day-ms ms))))
 
 ;; components
 (defn top-bar [{:keys [top-bar-height dimensions displayed-day now]}]
@@ -138,8 +61,8 @@
      [view {:style inner-style}
       ;; back
       [touchable-highlight
-       {:on-press      #(dispatch [:update-day-time-navigator (back-n-days displayed-day 1)])
-        :on-long-press #(dispatch [:update-day-time-navigator (back-n-days displayed-day 7)])}
+       {:on-press      #(dispatch [:update-day-time-navigator (helpers/back-n-days displayed-day 1)])
+        :on-long-press #(dispatch [:update-day-time-navigator (helpers/back-n-days displayed-day 7)])}
        [mi {:name "fast-rewind"
             :size 32 }]]
 
@@ -150,77 +73,10 @@
 
       ;; forward
       [touchable-highlight
-       {:on-press      #(dispatch [:update-day-time-navigator (forward-n-days displayed-day 1)])
-        :on-long-press #(dispatch [:update-day-time-navigator (forward-n-days displayed-day 7)])}
+       {:on-press      #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 1)])
+        :on-long-press #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 7)])}
        [mi {:name "fast-forward"
             :size 32}]]]]))
-
-(defn render-period [{:keys [period
-                      collision-index
-                      collision-group-size
-                      dimensions
-                      displayed-day
-                      period-in-play
-                      selected-period]}]
-  (let [{:keys [id start stop planned color label bucket-label]} period
-
-        adjusted-stop  (bound-stop stop displayed-day)
-        adjusted-start (bound-start start displayed-day)
-        top            (-> adjusted-start
-                           (date->y-pos (:height dimensions))
-                           (max 0)
-                           (min (:height dimensions)))
-        width          (-> dimensions
-                           (:width)
-                           (/ 2)
-                           (- (* 2 padding))
-                           (/ collision-group-size))
-        left           (-> dimensions
-                           (:width)
-                           (/ 2)
-                           (#(if planned
-                               padding
-                               (+ % padding)))
-                           (+ (* collision-index width)))
-        height         (-> adjusted-stop
-                           (.valueOf)
-                           (- (.valueOf adjusted-start))
-                           (duration->height (:height dimensions))
-                           ;; max 1 to actually see recently played periods
-                           (max 1))]
-
-    [view {:key id}
-     (when (= id (:id selected-period))
-       [view {:style {:position         "absolute"
-                      :top              top
-                      :left             left
-                      :width            width
-                      :height           height
-                      :elevation        4
-                      :border-radius    2
-                      :background-color "white"}}])
-
-     [view {:style (merge (when (= id (:id selected-period))
-                            {:elevation 5})
-                          {:position         "absolute"
-                           :top              top
-                           :left             left
-                           :width            width
-                           :height           height
-                           :border-radius    2
-                           :background-color color})}
-
-      [touchable-highlight {:style    {:width          "100%"
-                                       :height         "100%"
-                                       :padding-left   10
-                                       :padding-right  10
-                                       :padding-top    0
-                                       :padding-bottom 0}
-                            :on-press #(dispatch [:select-period id])}
-       [view
-        ;; [text label]
-        ;; [text bucket-label]
-        ]]]]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}
@@ -549,13 +405,13 @@
          #(dispatch [:update-day-time-navigator (:start selected-period)])]])]))
 
 (defn selection-menu-arrow [dimensions selected-period displayed-day]
-  (let [adjusted-start             (bound-start (:start selected-period) displayed-day)
+  (let [adjusted-start             (helpers/bound-start (:start selected-period) displayed-day)
         some-part-on-displayed-day (or (same-day? (:start selected-period) displayed-day)
                                        (same-day? (:stop selected-period) displayed-day))]
     (when some-part-on-displayed-day
       [view {:style {:position            "absolute"
                      :top                 (-> adjusted-start
-                                              (date->y-pos (:height dimensions))
+                                              (helpers/date->y-pos (:height dimensions))
                                               (max 0)
                                               (min (:height dimensions))
                                               (- 5))
@@ -612,47 +468,6 @@
       [text (format-time (:start selected-period))]
       [text (format-time (:stop selected-period))]]]))
 
-(defn time-indicators [dimensions displayed-day]
-  (let [six-in-the-morning      (->> displayed-day
-                                     (reset-relative-ms (* 1000 60 60 6)))
-        twelve-in-the-afternoon (->> displayed-day
-                                     (reset-relative-ms (* 1000 60 60 12)))
-        six-in-the-evening      (->> displayed-day
-                                     (reset-relative-ms (* 1000 60 60 18)))
-        container-style         {:position    "absolute"
-                                 :left        0
-                                 :align-items "center"}
-        line-style              (merge
-                                 styles/time-indicator-line-style
-                                 {:width            (:width dimensions)})
-        text-style              styles/time-indicator-text-style]
-
-    [view
-     [view {:style (merge container-style
-                          {:top (-> six-in-the-morning
-                                    (date->y-pos (:height dimensions))
-                                    (max 0)
-                                    (min (:height dimensions)))})}
-
-      [view {:style line-style}]
-      [text {:style text-style} "06:00"]]
-
-     [view {:style (merge container-style
-                          {:top (-> twelve-in-the-afternoon
-                                    (date->y-pos (:height dimensions))
-                                    (max 0)
-                                    (min (:height dimensions)))})}
-
-      [view line-style]
-      [text {:style text-style} "12:00"]]
-
-     [view {:style (merge container-style
-                          {:top (-> six-in-the-evening
-                                    (date->y-pos (:height dimensions))
-                                    (max 0)
-                                    (min (:height dimensions)))})}
-      [view line-style]
-      [text {:style text-style} "18:00"]]]))
 
 (defn now-indicator [{:keys [dimensions now]}]
   [view {:style (merge
@@ -661,7 +476,7 @@
                   :background-color "black"
                   :align-items      "center"
                   :top              (-> @now
-                                        (date->y-pos (:height @dimensions))
+                                        (helpers/date->y-pos (:height @dimensions))
                                         (max 0)
                                         (min (:height @dimensions)))})}
    [text {:style (merge
@@ -678,8 +493,8 @@
           planned      (< location-x (-> @dimensions
                                          (:width)
                                          (/ 2)))
-          relative-ms  (y-pos->ms location-y (:height @dimensions))
-          start        (reset-relative-ms relative-ms @displayed-day)
+          relative-ms  (helpers/y-pos->ms location-y (:height @dimensions))
+          start        (helpers/reset-relative-ms relative-ms @displayed-day)
           id           (random-uuid)]
       (dispatch [:add-period
                  {:bucket-id nil

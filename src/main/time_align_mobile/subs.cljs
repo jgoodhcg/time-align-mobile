@@ -139,7 +139,7 @@
                                         #(= (:id %) (:bucket-id template))] db)]
                 (merge template
                        {:bucket-label (:label bucket)
-                        :bucket-color (:color bucket)}))))))
+                        :color        (:color bucket)}))))))
 
 (defn get-filter-form [db _]
   (let [filter-form    (get-in db [:forms :filter-form])
@@ -218,42 +218,6 @@
                              :color        (:color bucket)})
       nil) ))
 
-(defn overlapping-timestamps? [start-a stop-a start-b stop-b]
-  (and (<= (.valueOf start-b) (.valueOf stop-a))
-       (<= (.valueOf start-a) (.valueOf stop-b))))
-
-(defn period-overlaps-collision-group? [period c-group]
-  (some? (->> c-group
-              (some
-               #(overlapping-timestamps?
-                 (:start period)
-                 (:stop period)
-                 (:start %)
-                 (:stop %))))))
-
-(defn insert-into-collision-group [collision-groups period]
-  (let [collision-groups-with-trailing-empty
-        (if (empty? (last collision-groups))
-          collision-groups
-          (conj collision-groups []))]
-
-    (setval
-
-     (sp/cond-path
-      [sp/ALL (partial period-overlaps-collision-group? period)]
-      [sp/ALL (partial period-overlaps-collision-group? period) sp/AFTER-ELEM]
-
-      [sp/ALL empty?]
-      [sp/ALL empty? sp/AFTER-ELEM])
-
-     period
-     collision-groups-with-trailing-empty)))
-
-(defn get-collision-groups [periods]
-  (->> periods
-       (reduce insert-into-collision-group [[]])
-       (remove empty?)))
-
 (defn filter-periods-for-day [day periods]
   (->> periods
        (filter (fn [{:keys [start stop]}]
@@ -270,8 +234,8 @@
                                       (filter :planned))
         actual-periods           (->> periods-sorted
                                       (filter #(not (:planned %))))
-        actual-collision-groups  (get-collision-groups actual-periods)
-        planned-collision-groups (get-collision-groups planned-periods)]
+        actual-collision-groups  (helpers/get-collision-groups actual-periods)
+        planned-collision-groups (helpers/get-collision-groups planned-periods)]
 
     {:actual  actual-collision-groups
      :planned planned-collision-groups}))
@@ -280,7 +244,24 @@
   (select [:patterns sp/ALL] db))
 
 (defn get-pattern-form [db _]
-  (select-one [:forms :pattern-form] db))
+  (->> db
+       ;; get pattern form
+       (select-one [:forms :pattern-form])
+       ;; pull out color from related bucket
+       ((fn [pattern-form]
+          (merge pattern-form
+                 ;; for each template
+                 {:templates
+                  (->> pattern-form
+                       :templates
+                       (map (fn [template]
+                              (let [bucket (select-one
+                                            [:buckets sp/ALL
+                                             #(= (:id %)
+                                                 (:bucket-id template))]
+                                            db)]
+                                (merge template
+                                       {:color (:color bucket)})))))})))))
 
 (defn get-pattern-form-changes [db _]
   (let [pattern-form (get-in db [:forms :pattern-form])]
