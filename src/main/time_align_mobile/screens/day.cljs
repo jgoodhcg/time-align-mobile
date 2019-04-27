@@ -26,7 +26,12 @@
             [goog.string.format]
             [re-frame.core :refer [subscribe dispatch]]
             [time-align-mobile.helpers :as helpers]
-            [time-align-mobile.components.day :refer [time-indicators render-period padding]]
+            [time-align-mobile.components.day :refer [time-indicators
+                                                      render-period
+                                                      padding
+                                                      selection-menu
+                                                      selection-menu-button
+                                                      selection-menu-buttons]]
             [reagent.core :as r]))
 
 ;; constants
@@ -77,397 +82,6 @@
         :on-long-press #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 7)])}
        [mi {:name "fast-forward"
             :size 32}]]]]))
-
-(defn selection-menu-info [dimensions selected-period]
-  (let [heading-style    {:background-color "#bfbfbf"}
-        info-style       {}
-        heading-sub-comp (fn [heading] [text {:style heading-style} heading])
-        info-sub-comp    (fn [info] [text {:style info-style} info])]
-
-    [scroll-view {:style {:background-color "white"
-                          :width            "100%"
-                          :padding-top      10
-                          :padding-left     4
-                          :max-height       "30%"}}
-
-     [heading-sub-comp "uuid"]
-     [info-sub-comp (:id selected-period)]
-
-     [heading-sub-comp "label"]
-     [info-sub-comp (:label selected-period)]
-
-     [heading-sub-comp "bucket"]
-     [info-sub-comp (:bucket-label selected-period)]
-
-     [heading-sub-comp "start"]
-     [info-sub-comp
-      (format-date (:start selected-period))]
-
-     [heading-sub-comp "stop"]
-     [info-sub-comp
-      (format-date (:stop selected-period))]
-
-     [heading-sub-comp "data"]
-     [info-sub-comp
-      (str (:data selected-period))
-      ;; (with-out-str
-      ;;   (zprint (:data selected-period)
-      ;;           {:map {:force-nl? true}}))
-      ]]))
-
-(defn selection-menu-button [label icon on-press long-press]
-  [touchable-highlight {:on-press      on-press
-                        :on-long-press long-press
-                        :style         {:background-color "white"
-                                        :border-radius    2
-                                        :padding          8
-                                        :margin           4
-                                        :width            60
-                                        :align-self       "flex-start"}}
-   [view {:style {:flex-direction  "row"
-                  :justify-content "center"
-                  :align-items     "center"}}
-    icon
-    ;; [text label]
-    ]])
-
-(defn selection-menu-buttons [{:keys [dimensions selected-period period-in-play displayed-day]}]
-  (let [row-style {:flex-direction  "row"
-                   :justify-content "center"
-                   :flex 1}]
-    [view {:style {:background-color "#b9b9b9"
-                   :width            "100%"
-                   :padding-top      10
-                   :padding-right    padding
-                   :padding-left     padding
-                   :height           "100%"
-                   :flex-direction   "column"
-                   :flex-wrap        "wrap"
-                   :flex 1}}
-
-     ;; cancel edit
-     [view row-style
-      [selection-menu-button
-     "cancel"
-       [mci {:name "backburger"}]
-     #(dispatch [:select-period nil])]
-      [selection-menu-button
-     "edit"
-       [mi {:name "edit"}]
-       #(dispatch [:navigate-to {:current-screen :period
-                                 :params         {:period-id (:id selected-period)}}])]]
-
-     ;; start-later
-     [view row-style
-      [selection-menu-button
-       "start later"
-       [mci {:name "arrow-collapse-down"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; start-earlier
-     [view row-style
-      [selection-menu-button
-       "start earlier"
-       [mci {:name "arrow-expand-up"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; up
-     [view row-style
-      [selection-menu-button
-       "up"
-       [mi {:name "arrow-upward"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 5 60 1000)) ;; five minutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (- (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 60 60 1000)) ;; sixty minutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (- (* 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; copy-previous-day copy-over copy-next-day
-     [view row-style
-      [selection-menu-button
-       "copy previous day"
-       [view {:flex-direction "row"}
-        [mi {:name "content-copy"}]
-        [mi {:name "arrow-back"}]]
-       #(dispatch [:add-period {:period    (merge selected-period
-                                                  {:start (-> selected-period
-                                                              (:start)
-                                                              (.valueOf)
-                                                              (- (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :stop  (-> selected-period
-                                                              (:stop)
-                                                              (.valueOf)
-                                                              (- (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :id    (random-uuid)})
-                                :bucket-id (:bucket-id selected-period)}])]
-      [selection-menu-button
-       "copy over"
-       [mi {:name "content-copy"}]
-       #(dispatch [:add-period {:period    (merge selected-period
-                                                  {:planned (not (:planned selected-period))
-                                                   :id      (random-uuid)})
-                                :bucket-id (:bucket-id selected-period)}])]
-      [selection-menu-button
-       "copy next day"
-       [view {:flex-direction "row"}
-        [mi {:name "arrow-forward"}]
-        [mi {:name "content-copy"}]]
-       #(dispatch [:add-period {:period    (merge selected-period
-                                                  {:start (-> selected-period
-                                                              (:start)
-                                                              (.valueOf)
-                                                              (+ (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :stop  (-> selected-period
-                                                              (:stop)
-                                                              (.valueOf)
-                                                              (+ (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :id    (random-uuid)})
-                                :bucket-id (:bucket-id selected-period)}])]]
-
-     ;; play-from
-     [view row-style
-      [selection-menu-button
-       "play from"
-       [mi {:name "play-circle-outline"}]
-       #(dispatch [:play-from-period  {:id           (:id selected-period)
-                                       :time-started (js/Date.)
-                                       :new-id       (random-uuid)}])]]
-
-     ;; back-a-day forward-a-day
-     [view row-style
-      [selection-menu-button
-       "back a day"
-       [mi {:name "fast-rewind"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 24 60 60 1000))
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (- (* 24 60 60 1000))
-                                                           (js/Date.))}}])]
-      [selection-menu-button
-       "forward a day"
-       [mi {:name "fast-forward"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 24 60 60 1000))
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (+ (* 24 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; down
-     [view row-style
-      [selection-menu-button
-       "down"
-       [mi {:name "arrow-downward"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 5 60 1000)) ;; five minutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (+ (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 60 60 1000)) ;; sixty minutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (+ (* 60 60 1000))
-                                                           (js/Date.))}}])]
-      ]
-
-     ;; stop-later
-     [view row-style
-      [selection-menu-button
-       "stop later"
-       [mci {:name "arrow-expand-down"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (+ (* 5 60 1000))
-                                                          (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (+ (* 60 60 1000))
-                                                          (js/Date.))}}])]]
-
-     ;; stop-earlier
-     [view row-style
-      [selection-menu-button
-       "stop earlier"
-       [mci {:name "arrow-collapse-up"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (- (* 5 60 1000))
-                                                          (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (- (* 60 60 1000))
-                                                          (js/Date.))}}])]]
-
-     ;; select-prev
-     [view row-style
-      [selection-menu-button
-       "select prev"
-       [mci {:name  "arrow-down-drop-circle"
-             :style {:transform [{:rotate "180deg"}]}}]
-       #(dispatch [:select-next-or-prev-period :prev])]]
-
-     ;; select-playing
-     (when (some? period-in-play)
-       [view row-style
-        [selection-menu-button
-         "select playing"
-         [mi {:name "play-circle-filled"}]
-         #(dispatch [:select-period (:id period-in-play)])]])
-
-     ;; select-next
-     [view row-style
-      [selection-menu-button
-       "select next"
-       [mci {:name "arrow-down-drop-circle"}]
-       #(dispatch [:select-next-or-prev-period :next])]]
-
-     ;; jump-to-selected
-     (when (not (or (same-day? (:start selected-period) displayed-day)
-                    (same-day? (:stop selected-period) displayed-day)))
-       [view row-style
-        [selection-menu-button
-         "jump to selected"
-         [fa {:name "dot-circle-o"}]
-         #(dispatch [:update-day-time-navigator (:start selected-period)])]])]))
-
-(defn selection-menu-arrow [dimensions selected-period displayed-day]
-  (let [adjusted-start             (helpers/bound-start (:start selected-period) displayed-day)
-        some-part-on-displayed-day (or (same-day? (:start selected-period) displayed-day)
-                                       (same-day? (:stop selected-period) displayed-day))]
-    (when some-part-on-displayed-day
-      [view {:style {:position            "absolute"
-                     :top                 (-> adjusted-start
-                                              (helpers/date->y-pos (:height dimensions))
-                                              (max 0)
-                                              (min (:height dimensions))
-                                              (- 5))
-                     :left                (if (:planned selected-period)
-                                            0
-                                            (-> dimensions
-                                                (:width)
-                                                (/ 2)
-                                                (- 7.5)))
-                     :background-color    "transparent"
-                     :border-style        "solid"
-                     :border-left-width   10
-                     :border-right-width  10
-                     :border-bottom-width 15
-                     :border-left-color   "transparent"
-                     :border-right-color  "transparent"
-                     :border-bottom-color "red"
-                     :transform           (if (:planned selected-period)
-                                            [{:rotate "270deg"}]
-                                            [{:rotate "90deg"}])}}])))
-
-(defn selection-menu [{:keys [dimensions selected-period displayed-day period-in-play]}]
-  (let [width (-> dimensions
-                  (:width)
-                  (/ 2))]
-    [view {:style {:position         "absolute"
-                   :background-color "white"
-                   :top              0
-                   :height           (:height dimensions)
-                   :width            width
-                   :left             (-> dimensions
-                                         (:width)
-                                         (/ 2)
-                                         (#(if (:planned selected-period) % 0)))}}
-
-     [view {:style {:height           "85%"
-                    :width            width
-                    :background-color "grey"}}
-
-      ;; [selection-menu-info dimensions selected-period]
-
-      ;; buttons
-      [selection-menu-buttons {:dimensions      dimensions
-                               :selected-period selected-period
-                               :displayed-day   displayed-day
-                               :period-in-play  period-in-play}]]
-
-     ;; [selection-menu-arrow dimensions selected-period displayed-day]
-
-     ;; period info
-     [view {:style {:padding 10}}
-      [text (:label selected-period)]
-      [text (:bucket-label selected-period)]
-      [text (format-time (:start selected-period))]
-      [text (format-time (:stop selected-period))]]]))
-
 
 (defn now-indicator [{:keys [dimensions now]}]
   [view {:style (merge
@@ -625,9 +239,9 @@
     (r/create-class
      {:reagent-render
       (fn [params]
-        [view {:style     {:flex 1
+        [view {:style     {:flex            1
                            :justify-content "center" ;; child view pushes this up TODO change to flex-start
-                           :align-items "center"}
+                           :align-items     "center"}
                :on-layout (fn [event]
                             (let [layout (-> event
                                              (oget "nativeEvent" "layout")
@@ -662,7 +276,7 @@
            ;; now indicator
            (when (same-day? @now @displayed-day)
              [now-indicator {:dimensions dimensions
-                             :now now}])
+                             :now        now}])
 
            ;; periods
            [periods-comp {:displayed-day   displayed-day
@@ -690,5 +304,5 @@
                  :on-request-close #(reset! play-modal-visible false)
                  :visible          @play-modal-visible}
           [play-modal-content {:templates templates
-                               :buckets buckets}]]])})))
+                               :buckets   buckets}]]])})))
 
