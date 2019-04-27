@@ -585,18 +585,10 @@
        [mi {:name "fast-forward"
             :size 32}]]]]))
 
-(defn bottom-bar  [{:keys [bottom-bar-height
-                                      period-in-play
-                                      selected-period
-                                      play-modal-visible]}]
-
-  [view {:height           bottom-bar-height
-         :width            "100%"
-         :flex-direction   "row"
-         :justify-content  "center"
-         :align-items      "center"
-         :background-color "grey"}
-
+(defn bottom-bar-buttons [{:keys [period-in-play
+                                  selected-period
+                                  play-modal-visible]}]
+  [:<>
    (if (some? @period-in-play)
      [selection-menu-button
       "stop playing"
@@ -615,3 +607,14 @@
       #(dispatch [:play-from-period  {:id           (:id @selected-period)
                                       :time-started (js/Date.)
                                       :new-id       (random-uuid)}])])])
+
+(defn bottom-bar  [{:keys [bottom-bar-height]} buttons]
+
+  [view {:height           bottom-bar-height
+         :width            "100%"
+         :flex-direction   "row"
+         :justify-content  "center"
+         :align-items      "center"
+         :background-color "grey"}
+
+   buttons])

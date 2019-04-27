@@ -30,6 +30,7 @@
                                                       render-period
                                                       top-bar
                                                       bottom-bar
+                                                      bottom-bar-buttons
                                                       padding
                                                       selection-menu
                                                       selection-menu-button
@@ -228,10 +229,10 @@
                 :displayed-day   @displayed-day
                 :period-in-play  @period-in-play}]])]]
 
-         [bottom-bar {:bottom-bar-height  bottom-bar-height
-                      :period-in-play     period-in-play
-                      :selected-period    selected-period
-                      :play-modal-visible play-modal-visible}]
+         [bottom-bar {:bottom-bar-height  bottom-bar-height}
+          [bottom-bar-buttons {:period-in-play     period-in-play
+                               :selected-period    selected-period
+                               :play-modal-visible play-modal-visible}]]
 
          ;; play modal
          [modal {:animation-type   "slide"

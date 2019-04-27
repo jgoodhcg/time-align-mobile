@@ -1783,6 +1783,7 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-04-27 Sat 19:33]
       CLOCK: [2019-04-27 Sat 18:07]--[2019-04-27 Sat 18:26] =>  0:19
       CLOCK: [2019-04-27 Sat 16:29]--[2019-04-27 Sat 16:30] =>  0:01
       CLOCK: [2019-04-27 Sat 15:35]--[2019-04-27 Sat 15:37] =>  0:02
