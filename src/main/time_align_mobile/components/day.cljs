@@ -185,22 +185,33 @@
     ;; [text label]
     ]])
 
+(def selection-menu-button-row-style {:flex-direction   "row"
+                                      :justify-content "center"
+                                      :flex            1})
+
+(def selection-menu-button-container-style {:background-color "#b9b9b9"
+                                             :width            "100%"
+                                             :padding-top      10
+                                             :padding-right    padding
+                                             :padding-left     padding
+                                             :height           "100%"
+                                             :flex-direction   "column"
+                                             :flex-wrap        "wrap"
+                                             :flex             1})
+
+(defn selection-menu-buttons-templates []
+  (let [row-style selection-menu-button-row-style]
+    [view {:style selection-menu-button-container-style}
+     [view {:style row-style}
+      [text "buttons here"]]]))
+
 (defn selection-menu-buttons-periods [{:keys [dimensions
                                               selected-period
                                               period-in-play
                                               displayed-day]}]
-  (let [row-style {:flex-direction  "row"
-                   :justify-content "center"
-                   :flex            1}]
-    [view {:style {:background-color "#b9b9b9"
-                   :width            "100%"
-                   :padding-top      10
-                   :padding-right    padding
-                   :padding-left     padding
-                   :height           "100%"
-                   :flex-direction   "column"
-                   :flex-wrap        "wrap"
-                   :flex             1}}
+
+  (let [row-style selection-menu-button-row-style]
+    [view {:style selection-menu-button-container-style}
 
      ;; cancel edit
      [view row-style

@@ -11,6 +11,7 @@
             [time-align-mobile.components.day :refer [time-indicators
                                                       render-period
                                                       selection-menu
+                                                      selection-menu-buttons-templates
                                                       padding]]
             [reagent.core :as r]))
 
@@ -101,4 +102,5 @@
                                                           :label        "testing"
                                                           :bucket-label "testing"
                                                           :start        (js/Date.)
-                                                          :stop         (js/Date.)}}]]]])})))
+                                                          :stop         (js/Date.)}}
+            [selection-menu-buttons-templates]]]]])})))
