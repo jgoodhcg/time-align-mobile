@@ -90,7 +90,7 @@
                          :width            (:width @dimensions)
                          :background-color "grey"}}
 
-           [time-indicators @dimensions]
+           [time-indicators @dimensions :left]
            [templates-comp {:templates  (->> @pattern-form
                                              :templates
                                              (sort-by #(helpers/relative-to-minutes

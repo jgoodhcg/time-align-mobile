@@ -19,24 +19,30 @@
 (def padding 20) ;; TODO refactor to styling
 
 (defn time-indicators
-  ([dimensions] (time-indicators dimensions (js/Date.)))
-  ([dimensions displayed-day]
+  "alignment - :left :center :right"
+  ([dimensions] (time-indicators dimensions :center (js/Date.)))
+  ([dimensions alignment] (time-indicators dimensions alignment (js/Date.)))
+  ([dimensions alignment displayed-day]
    (let [six-in-the-morning      (->> displayed-day
-                                     (helpers/reset-relative-ms (* 1000 60 60 6)))
-        twelve-in-the-afternoon (->> displayed-day
-                                     (helpers/reset-relative-ms (* 1000 60 60 12)))
-        six-in-the-evening      (->> displayed-day
-                                     (helpers/reset-relative-ms (* 1000 60 60 18)))
-        container-style         {:position    "absolute"
-                                 :left        0
-                                 :align-items "center"}
-        line-style              (merge
-                                 styles/time-indicator-line-style
-                                 {:width (:width dimensions)})
-        text-style              (merge
-                                 styles/time-indicator-text-style
-                                 ;; {:padding-left 16}
-                                 )]
+                                      (helpers/reset-relative-ms (* 1000 60 60 6)))
+         twelve-in-the-afternoon (->> displayed-day
+                                      (helpers/reset-relative-ms (* 1000 60 60 12)))
+         six-in-the-evening      (->> displayed-day
+                                      (helpers/reset-relative-ms (* 1000 60 60 18)))
+         container-style         {:position    "absolute"
+                                  :left        0
+                                  :align-items "center"}
+         line-style              (merge
+                                  styles/time-indicator-line-style
+                                  {:width (:width dimensions)})
+         text-style              (merge
+                                  styles/time-indicator-text-style
+                                  (cond
+                                    (= alignment :left)   {:padding-left 1
+                                                           :align-self   "flex-start"}
+                                    (= alignment :center) {}
+                                    (= alignment :right)  {:padding-right 1
+                                                           :align-self    "flex-end"}))]
 
     [view
      [view {:style (merge container-style
@@ -46,7 +52,7 @@
                                     (min (:height dimensions)))})}
 
       [view {:style line-style}]
-      [text {:style text-style} "06:00"]]
+      [text {:style text-style} "06"]]
 
      [view {:style (merge container-style
                           {:top (-> twelve-in-the-afternoon
@@ -55,7 +61,7 @@
                                     (min (:height dimensions)))})}
 
       [view line-style]
-      [text {:style text-style} "12:00"]]
+      [text {:style text-style} "12"]]
 
      [view {:style (merge container-style
                           {:top (-> six-in-the-evening
@@ -63,7 +69,7 @@
                                     (max 0)
                                     (min (:height dimensions)))})}
       [view line-style]
-      [text {:style text-style} "18:00"]]])))
+      [text {:style text-style} "18"]]])))
 
 (defn render-period [{:keys [period
                              collision-index

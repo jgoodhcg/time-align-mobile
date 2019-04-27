@@ -271,7 +271,12 @@
                          :background-color "white"}}
 
            ;; time indicators
-           [time-indicators @dimensions @displayed-day]
+           [time-indicators
+            @dimensions
+            (cond (nil? @selected-period)           :center
+                  (:planned @selected-period)       :left
+                  (not (:planned @selected-period)) :right)
+            @displayed-day]
 
            ;; now indicator
            (when (same-day? @now @displayed-day)
