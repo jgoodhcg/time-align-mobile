@@ -541,3 +541,77 @@
       [text (format-time (:start selected-period-or-template))]
       [text (format-time (:stop selected-period-or-template))]]]))
 
+(defn top-bar [{:keys [top-bar-height dimensions displayed-day now]}]
+  (let [outer-style              {:height           top-bar-height
+                                  :width            (:width @dimensions)
+                                  :background-color styles/background-color
+                                  :elevation        2
+                                  :flex-direction   "column"
+                                  :justify-content  "center"
+                                  :align-items      "center"}
+        inner-style              {:flex-direction  "row"
+                                  :align-items     "center"
+                                  :justify-content "center"}
+        displayed-day-style      {:justify-content "center"
+                                  :align-items     "center"
+                                  :width           "75%"}
+        displayed-day-text-style (merge
+                                  {:padding 6}
+                                  (when (same-day? displayed-day now)
+                                    {:border-color        "black"
+                                     :border-radius       4
+                                     :border-bottom-width 2
+                                     ;; adjust padding for border
+                                     :padding-bottom      4}))]
+
+    [view {:style outer-style}
+     [view {:style inner-style}
+      ;; back
+      [touchable-highlight
+       {:on-press      #(dispatch [:update-day-time-navigator (helpers/back-n-days displayed-day 1)])
+        :on-long-press #(dispatch [:update-day-time-navigator (helpers/back-n-days displayed-day 7)])}
+       [mi {:name "fast-rewind"
+            :size 32 }]]
+
+      ;; displayed day
+      [view {:style displayed-day-style}
+       [touchable-highlight {:on-press #(dispatch [:update-day-time-navigator now])}
+        [text {:style displayed-day-text-style} (.toDateString displayed-day)]]]
+
+      ;; forward
+      [touchable-highlight
+       {:on-press      #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 1)])
+        :on-long-press #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 7)])}
+       [mi {:name "fast-forward"
+            :size 32}]]]]))
+
+(defn bottom-bar  [{:keys [bottom-bar-height
+                                      period-in-play
+                                      selected-period
+                                      play-modal-visible]}]
+
+  [view {:height           bottom-bar-height
+         :width            "100%"
+         :flex-direction   "row"
+         :justify-content  "center"
+         :align-items      "center"
+         :background-color "grey"}
+
+   (if (some? @period-in-play)
+     [selection-menu-button
+      "stop playing"
+      [mi {:name "stop"}]
+      #(dispatch [:stop-playing-period])]
+
+     [selection-menu-button
+      "play"
+      [mi {:name "play-arrow"}]
+      #(reset! play-modal-visible true)])
+
+   (when (some? @selected-period)
+     [selection-menu-button
+      "play from"
+      [mi {:name "play-circle-outline"}]
+      #(dispatch [:play-from-period  {:id           (:id @selected-period)
+                                      :time-started (js/Date.)
+                                      :new-id       (random-uuid)}])])])
