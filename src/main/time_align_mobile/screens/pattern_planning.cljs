@@ -80,7 +80,7 @@
                         :flex-direction   "column"
                         :justify-content  "center"
                         :align-items      "center"}}
-          [text "top bar here"]]
+          [text (:label @pattern-form)]]
 
          ;; view that stretches to fill what is left of the screen
          [touchable-highlight
