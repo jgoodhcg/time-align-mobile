@@ -185,13 +185,13 @@
     ;; [text label]
     ]])
 
-(defn selection-menu-buttons [{:keys [dimensions
-                                      selected-period
-                                      period-in-play
-                                      displayed-day]}]
+(defn selection-menu-buttons-periods [{:keys [dimensions
+                                              selected-period
+                                              period-in-play
+                                              displayed-day]}]
   (let [row-style {:flex-direction  "row"
                    :justify-content "center"
-                   :flex 1}]
+                   :flex            1}]
     [view {:style {:background-color "#b9b9b9"
                    :width            "100%"
                    :padding-top      10
@@ -200,7 +200,7 @@
                    :height           "100%"
                    :flex-direction   "column"
                    :flex-wrap        "wrap"
-                   :flex 1}}
+                   :flex             1}}
 
      ;; cancel edit
      [view row-style
@@ -490,9 +490,7 @@
                                             [{:rotate "90deg"}])}}])))
 
 (defn selection-menu [{:keys [dimensions
-                              selected-period
-                              displayed-day
-                              period-in-play]}
+                              selected-period-or-template]}
                       buttons-comp]
   (let [width (-> dimensions
                   (:width)
@@ -505,7 +503,8 @@
                    :left             (-> dimensions
                                          (:width)
                                          (/ 2)
-                                         (#(if (:planned selected-period) % 0)))}}
+                                         (#(if (:planned selected-period-or-template)
+                                             % 0)))}}
 
      [view {:style {:height           "85%"
                     :width            width
@@ -514,18 +513,14 @@
       ;; [selection-menu-info dimensions selected-period]
 
       ;; buttons
-      [selection-menu-buttons
-       {:dimensions       dimensions
-        :selected-period  selected-period
-        :displayed-day    displayed-day
-        :period-in-play   period-in-play}]]
+      buttons-comp]
 
      ;; [selection-menu-arrow dimensions selected-period displayed-day]
 
      ;; period info
      [view {:style {:padding 10}}
-      [text (:label selected-period)]
-      [text (:bucket-label selected-period)]
-      [text (format-time (:start selected-period))]
-      [text (format-time (:stop selected-period))]]]))
+      [text (:label selected-period-or-template)]
+      [text (:bucket-label selected-period-or-template)]
+      [text (format-time (:start selected-period-or-template))]
+      [text (format-time (:stop selected-period-or-template))]]]))
 

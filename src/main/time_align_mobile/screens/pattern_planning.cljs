@@ -10,6 +10,7 @@
             [re-frame.core :refer [subscribe dispatch]]
             [time-align-mobile.components.day :refer [time-indicators
                                                       render-period
+                                                      selection-menu
                                                       padding]]
             [reagent.core :as r]))
 
@@ -94,4 +95,10 @@
                                              (sort-by #(helpers/relative-to-minutes
                                                         (:start %)))
                                              (helpers/get-collision-groups))
-                            :dimensions @dimensions}]]]])})))
+                            :dimensions @dimensions}]
+           [selection-menu {:dimensions                  @dimensions
+                            :selected-period-or-template {:planned      true
+                                                          :label        "testing"
+                                                          :bucket-label "testing"
+                                                          :start        (js/Date.)
+                                                          :stop         (js/Date.)}}]]]])})))

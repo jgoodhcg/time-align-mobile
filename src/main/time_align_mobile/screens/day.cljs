@@ -31,7 +31,7 @@
                                                       padding
                                                       selection-menu
                                                       selection-menu-button
-                                                      selection-menu-buttons]]
+                                                      selection-menu-buttons-periods]]
             [reagent.core :as r]))
 
 ;; constants
@@ -287,10 +287,13 @@
 
            ;; selection menu
            (when (some? @selected-period)
-             [selection-menu {:dimensions      @dimensions
-                              :selected-period @selected-period
-                              :displayed-day   @displayed-day
-                              :period-in-play  @period-in-play}])]]
+             [selection-menu {:dimensions                  @dimensions
+                              :selected-period-or-template @selected-period}
+              [selection-menu-buttons-periods
+               {:dimensions      @dimensions
+                :selected-period @selected-period
+                :displayed-day   @displayed-day
+                :period-in-play  @period-in-play}]])]]
 
          ;; floating action buttons
          [floating-action-button {:bottom-bar-height  bottom-bar-height
