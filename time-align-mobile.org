@@ -1591,7 +1591,9 @@ Use zprint width and other options
 
 *** TODO Add bucket color in selection on period form
 *** TODO Add duration indication to period form (graphical?)
-*** TODO Turn a period into a template
+*** CANCELED Turn a period into a template
+    CLOSED: [2019-04-26 Fri 22:49]
+Duplicate
 *** DONE Make selection border slightly transparent
     CLOSED: [2019-01-26 Sat 17:46]
     :LOGBOOK:
@@ -1656,7 +1658,8 @@ Start on start and shift down or stop on stop and shift up
 A group of period templates that can be added at the same time.
 
 *** TODO New starting after/ending  before
-*** TODO Task doesn't show when it is more than a day long
+*** DONE Task doesn't show when it is more than a day long
+    CLOSED: [2019-04-26 Fri 22:50]
 *** DONE Secure store over wrote on a crashed app?
     CLOSED: [2019-01-26 Sat 15:09]
     :LOGBOOK:

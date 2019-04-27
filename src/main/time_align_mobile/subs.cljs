@@ -221,9 +221,17 @@
 (defn filter-periods-for-day [day periods]
   (->> periods
        (filter (fn [{:keys [start stop]}]
-                 (cond (and (some? start) (some? stop))
-                       (or (same-day? day start)
-                           (same-day? day stop)))))))
+                 (cond (and (inst? start) (inst? stop))
+                       (or
+                        ;; some part of it is on day
+                        (same-day? day start)
+                        (same-day? day stop)
+                        ;; day is in between the start and stop
+                        (let [start-v (.valueOf start)
+                              stop-v  (.valueOf stop)
+                              day-v   (.valueOf day)]
+                          (and(>= day-v start-v)
+                              (>= stop-v day-v)))))))))
 
 (defn get-periods-for-day-display [db _]
   (let [displayed-day            (get-day-time-navigator db :no-op)
