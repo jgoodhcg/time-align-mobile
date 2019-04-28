@@ -11,6 +11,7 @@
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :as helpers]
             [re-frame.core :refer [subscribe dispatch]]
+            [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [time-align-mobile.components.day :refer [time-indicators
                                                       top-bar-outer-style
                                                       bottom-bar
@@ -57,7 +58,7 @@
                                                           #(dispatch [:select-template id]))
                              :period-in-play       nil}))))))))))])
 
-(defn selection-menu-buttons [selected-template]
+(defn selection-menu-buttons [selected-template pattern-form]
   (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}
      ;; cancel edit
@@ -73,7 +74,155 @@
                    {:current-screen :template
                     :params         {:template-id (:id selected-template)}}])]]
 
-          ]))
+     ;; start-later
+     [view row-style
+      [selection-menu-button
+       "start later"
+       [mci {:name "arrow-collapse-down"}]
+       (fn []
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :start :minute]
+                                  #(+ 5 %)
+                                  pattern-form)
+                                 [:templates])]))
+       (fn []
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :start :hour]
+                                  #(+ 3 %)
+                                  pattern-form)
+                                 [:templates])]))]]
+
+     ;; ;; start-earlier
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "start earlier"
+     ;;   [mci {:name "arrow-expand-up"}]
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:start (-> selected-template
+     ;;                                                         (:start)
+     ;;                                                         (.valueOf)
+     ;;                                                         (- (* 5 60 1000))
+     ;;                                                         (js/Date.))}}])
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:start (-> selected-template
+     ;;                                                         (:start)
+     ;;                                                         (.valueOf)
+     ;;                                                         (- (* 60 60 1000))
+     ;;                                                         (js/Date.))}}])]]
+
+     ;; ;; up
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "up"
+     ;;   [mi {:name "arrow-upward"}]
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:start (-> selected-template
+     ;;                                                         (:start)
+     ;;                                                         (.valueOf)
+     ;;                                                         (- (* 5 60 1000)) ;; five minutes
+     ;;                                                         (js/Date.))
+     ;;                                              :stop  (-> selected-template
+     ;;                                                         (:stop)
+     ;;                                                         (.valueOf)
+     ;;                                                         (- (* 5 60 1000))
+     ;;                                                         (js/Date.))}}])
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:start (-> selected-template
+     ;;                                                         (:start)
+     ;;                                                         (.valueOf)
+     ;;                                                         (- (* 60 60 1000)) ;; sixty minutes
+     ;;                                                         (js/Date.))
+     ;;                                              :stop  (-> selected-template
+     ;;                                                         (:stop)
+     ;;                                                         (.valueOf)
+     ;;                                                         (- (* 60 60 1000))
+     ;;                                                         (js/Date.))}}])]]
+
+     ;; ;; down
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "down"
+     ;;   [mi {:name "arrow-downward"}]
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:start (-> selected-template
+     ;;                                                         (:start)
+     ;;                                                         (.valueOf)
+     ;;                                                         (+ (* 5 60 1000)) ;; five minutes
+     ;;                                                         (js/Date.))
+     ;;                                              :stop  (-> selected-template
+     ;;                                                         (:stop)
+     ;;                                                         (.valueOf)
+     ;;                                                         (+ (* 5 60 1000))
+     ;;                                                         (js/Date.))}}])
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:start (-> selected-template
+     ;;                                                         (:start)
+     ;;                                                         (.valueOf)
+     ;;                                                         (+ (* 60 60 1000)) ;; sixty minutes
+     ;;                                                         (js/Date.))
+     ;;                                              :stop  (-> selected-template
+     ;;                                                         (:stop)
+     ;;                                                         (.valueOf)
+     ;;                                                         (+ (* 60 60 1000))
+     ;;                                                         (js/Date.))}}])]]
+
+     ;; ;; stop-later
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "stop later"
+     ;;   [mci {:name "arrow-expand-down"}]
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:stop (-> selected-template
+     ;;                                                        (:stop)
+     ;;                                                        (.valueOf)
+     ;;                                                        (+ (* 5 60 1000))
+     ;;                                                        (js/Date.))}}])
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:stop (-> selected-template
+     ;;                                                        (:stop)
+     ;;                                                        (.valueOf)
+     ;;                                                        (+ (* 60 60 1000))
+     ;;                                                        (js/Date.))}}])]]
+
+     ;; ;; stop-earlier
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "stop earlier"
+     ;;   [mci {:name "arrow-collapse-up"}]
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:stop (-> selected-template
+     ;;                                                        (:stop)
+     ;;                                                        (.valueOf)
+     ;;                                                        (- (* 5 60 1000))
+     ;;                                                        (js/Date.))}}])
+     ;;   #(dispatch [:update-template {:id         (:id selected-template)
+     ;;                                 :update-map {:stop (-> selected-template
+     ;;                                                        (:stop)
+     ;;                                                        (.valueOf)
+     ;;                                                        (- (* 60 60 1000))
+     ;;                                                        (js/Date.))}}])]]
+
+     ;; ;; select-prev
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "select prev"
+     ;;   [mci {:name  "arrow-down-drop-circle"
+     ;;         :style {:transform [{:rotate "180deg"}]}}]
+     ;;   #(dispatch [:select-next-or-prev-template :prev])]]
+
+     ;; ;; select-next
+     ;; [view row-style
+     ;;  [selection-menu-button
+     ;;   "select next"
+     ;;   [mci {:name "arrow-down-drop-circle"}]
+     ;;   #(dispatch [:select-next-or-prev-template :next])]]
+     ]))
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
@@ -126,7 +275,7 @@
                                                             @selected-template
                                                             {:planned true})
                               :dimensions                  @dimensions}
-              [selection-menu-buttons @selected-template]])]]
+              [selection-menu-buttons @selected-template @pattern-form]])]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
           [:<>
