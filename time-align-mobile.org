@@ -1784,7 +1784,7 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
-      CLOCK: [2019-04-28 Sun 17:57]
+      CLOCK: [2019-04-28 Sun 17:57]--[2019-04-28 Sun 18:51] =>  0:54
       CLOCK: [2019-04-28 Sun 15:00]--[2019-04-28 Sun 15:03] =>  0:03
       CLOCK: [2019-04-28 Sun 14:53]--[2019-04-28 Sun 14:59] =>  0:06
       CLOCK: [2019-04-28 Sun 12:48]--[2019-04-28 Sun 13:14] =>  0:26
@@ -1814,7 +1814,7 @@ I don't know what this was for
   - [X] Time indicators
   - [X] Template rendering
   - [X] Top bar (pattern label)
-  - [ ] Bottom bar
+  - [-] Bottom bar
     - [X] Back to pattern form
     - [X] Save pattern form
       - [X] Get pattern form changes sub
@@ -1823,6 +1823,8 @@ I don't know what this was for
   - [ ] Selection menu
     - [X] Ability to select
     - [ ] Selection menu buttons
+      - [X] Copy over relevant day buttons
+      - [ ] Translate to pattern form updates
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?
 *** TODO Put something between two selected periods
