@@ -205,13 +205,7 @@
                                              :flex-wrap        "wrap"
                                              :flex             1})
 
-(defn selection-menu-buttons-templates []
-  (let [row-style selection-menu-button-row-style]
-    [view {:style selection-menu-button-container-style}
-     [view {:style row-style}
-      [text "buttons here"]]]))
-
-(defn selection-menu-buttons-periods [{:keys [dimensions
+(defn selection-menu-buttons [{:keys [dimensions
                                               selected-period
                                               period-in-play
                                               displayed-day]}]

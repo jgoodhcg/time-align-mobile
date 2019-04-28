@@ -34,7 +34,7 @@
                                                       padding
                                                       selection-menu
                                                       selection-menu-button
-                                                      selection-menu-buttons-periods]]
+                                                      selection-menu-buttons]]
             [reagent.core :as r]))
 
 ;; constants
@@ -223,7 +223,7 @@
            (when (some? @selected-period)
              [selection-menu {:dimensions                  @dimensions
                               :selected-period-or-template @selected-period}
-              [selection-menu-buttons-periods
+              [selection-menu-buttons
                {:dimensions      @dimensions
                 :selected-period @selected-period
                 :displayed-day   @displayed-day

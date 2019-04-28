@@ -11,7 +11,9 @@
             [time-align-mobile.components.day :refer [time-indicators
                                                       render-period
                                                       selection-menu
-                                                      selection-menu-buttons-templates
+                                                      selection-menu-button-row-style
+                                                      selection-menu-button-container-style
+                                                      selection-menu-button-container-style
                                                       padding]]
             [reagent.core :as r]))
 
@@ -46,6 +48,12 @@
                              :dimensions           dimensions
                              :selected-period      nil
                              :period-in-play       nil}))))))))))])
+
+(defn selection-menu-buttons []
+  (let [row-style selection-menu-button-row-style]
+    [view {:style selection-menu-button-container-style}
+     [view {:style row-style}
+      [text "buttons here"]]]))
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
@@ -103,4 +111,4 @@
                                                           :bucket-label "testing"
                                                           :start        (js/Date.)
                                                           :stop         (js/Date.)}}
-            [selection-menu-buttons-templates]]]]])})))
+            [selection-menu-buttons]]]]])})))
