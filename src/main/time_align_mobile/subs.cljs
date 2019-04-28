@@ -200,6 +200,25 @@
                               :color        (:color bucket)})
       nil)))
 
+(defn get-selected-template [db _]
+  (let [selected-id         (get-in db [:selected-template])
+        [pattern template ] (select-one [:patterns sp/ALL
+                                         (sp/collect-one (sp/submap [:id :label]))
+                                         :templates sp/ALL
+                                         #(= (:id %) selected-id)] db)
+        bucket              (select-one [:buckets sp/ALL
+                                         #(= (:id %) (:bucket-id template))]
+                                        db)]
+
+    (if (some? selected-id)
+      (merge template
+             {:bucket-id     (:id bucket)
+              :bucket-label  (:label bucket)
+              :pattern-id    (:id pattern)
+              :pattern-label (:label pattern)
+              :color         (:color bucket)})
+      nil)))
+
 (defn get-day-time-navigator [db _]
   (get-in db [:time-navigators :day]))
 
@@ -306,6 +325,7 @@
 (reg-sub :get-active-filter get-active-filter)
 (reg-sub :get-periods get-periods)
 (reg-sub :get-selected-period get-selected-period)
+(reg-sub :get-selected-template get-selected-template)
 (reg-sub :get-day-time-navigator get-day-time-navigator)
 (reg-sub :get-now get-now)
 (reg-sub :get-period-in-play get-period-in-play)

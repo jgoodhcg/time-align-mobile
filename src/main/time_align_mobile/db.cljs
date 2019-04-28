@@ -204,6 +204,7 @@
                                                       {:sort string?}))}
                    :active-filter   (ds/maybe uuid?)
                    :selected-period (ds/maybe uuid?)
+                   :selected-template (ds/maybe uuid?)
                    :filters         [filter-data-spec]
                    :navigation      {:current-screen ::screen
                                      :params         (ds/maybe map?)}
@@ -289,6 +290,7 @@
    :config            {:auto-log-time-align true}
    :period-in-play-id default-period-id
    :selected-period   default-period-id
+   :selected-template nil
    :now               now})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app

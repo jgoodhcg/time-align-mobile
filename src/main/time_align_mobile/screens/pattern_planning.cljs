@@ -52,6 +52,8 @@
                              :displayed-day        now
                              :dimensions           dimensions
                              :selected-period      nil
+                             :select-function-generator (fn [id]
+                                                          #(dispatch [:select-template id]))
                              :period-in-play       nil}))))))))))])
 
 (defn selection-menu-buttons []
@@ -63,6 +65,7 @@
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
         changes           (subscribe [:get-pattern-form-changes])
+        selected-template (subscribe [:get-selected-template])
         top-bar-height    styles/top-bar-height
         bottom-bar-height styles/bottom-bar-height
         dimensions        (r/atom {:width nil :height nil})]
@@ -105,14 +108,12 @@
                                                         (:start %)))
                                              (helpers/get-collision-groups))
                             :dimensions @dimensions}]
-           ;; [selection-menu {:selected-period-or-template {:planned      true
-           ;;                                                :label        "testing"
-           ;;                                                :bucket-label "testing"
-           ;;                                                :start        (js/Date.)
-           ;;                                                :stop         (js/Date.)}
-           ;;                  :dimensions                  @dimensions}
-           ;;  [selection-menu-buttons]]
-           ]]
+           (when (some? @selected-template)
+             [selection-menu {:selected-period-or-template (merge
+                                                            @selected-template
+                                                            {:planned true})
+                              :dimensions                  @dimensions}
+              [selection-menu-buttons]])]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
           [:<>

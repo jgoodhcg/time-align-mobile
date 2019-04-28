@@ -482,6 +482,9 @@
 (defn select-period [db [_ id]]
   (assoc-in db [:selected-period] id))
 
+(defn select-template [db [_ id]]
+  (assoc-in db [:selected-template] id))
+
 (defn update-period [db [_ {:keys [id update-map]}]]
   ;; TODO add an interceptor? for last edited
   (transform [:buckets sp/ALL
@@ -674,6 +677,7 @@
 (reg-event-fx :delete-template [validate-spec persist-secure-store] delete-template)
 (reg-event-fx :delete-filter [validate-spec persist-secure-store] delete-filter)
 (reg-event-db :select-period [validate-spec persist-secure-store] select-period)
+(reg-event-db :select-template [validate-spec persist-secure-store] select-template)
 (reg-event-db :update-period [validate-spec persist-secure-store] update-period)
 (reg-event-db :add-period [validate-spec persist-secure-store] add-period)
 (reg-event-db :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)

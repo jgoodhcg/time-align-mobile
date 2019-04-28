@@ -1525,6 +1525,7 @@ Basically I'm an idiot...
     CLOCK: [2019-04-07 Sun 10:55]--[2019-04-07 Sun 11:31] =>  0:36
     :END:
 *** TODO Multiple in-play at once
+*** TODO Migrations of app-db
 ** DOSUB Dog food
 *** DONE Add now indicator
     CLOSED: [2018-12-07 Fri 00:32]
@@ -1783,6 +1784,8 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-04-28 Sun 14:53]--[2019-04-28 Sun 14:59] =>  0:06
+      CLOCK: [2019-04-28 Sun 12:48]--[2019-04-28 Sun 13:14] =>  0:26
       CLOCK: [2019-04-28 Sun 11:45]--[2019-04-28 Sun 12:22] =>  0:37
       CLOCK: [2019-04-27 Sat 19:33]--[2019-04-27 Sat 20:27] =>  0:54
       CLOCK: [2019-04-27 Sat 18:07]--[2019-04-27 Sat 18:26] =>  0:19
@@ -1816,7 +1819,7 @@ I don't know what this was for
         - It was already done
     - [ ] Apply pattern form to day
   - [ ] Selection menu
-    - [ ] Ability to select
+    - [X] Ability to select
     - [ ] Selection menu buttons
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?

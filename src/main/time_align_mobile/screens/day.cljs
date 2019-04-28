@@ -101,13 +101,15 @@
                       (map-indexed
                        (fn [index period]
                          (render-period
-                          {:period period
-                           :collision-index index
+                          {:period               period
+                           :collision-index      index
                            :collision-group-size (count collision-group)
-                           :displayed-day   @displayed-day
-                           :dimensions      @dimensions
-                           :selected-period @selected-period
-                           :period-in-play  @period-in-play})))))))))])
+                           :displayed-day        @displayed-day
+                           :dimensions           @dimensions
+                           :select-function-generator  (fn [id]
+                                                         #(dispatch [:select-period id]))
+                           :selected-period      @selected-period
+                           :period-in-play       @period-in-play})))))))))])
 
 (defn play-modal-content [{:keys [templates
                                   buckets]}]

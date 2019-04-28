@@ -72,6 +72,7 @@
       [text {:style text-style} "18"]]])))
 
 (defn render-period [{:keys [period
+                             select-function-generator
                              collision-index
                              collision-group-size
                              dimensions
@@ -132,7 +133,7 @@
                                        :padding-right  10
                                        :padding-top    0
                                        :padding-bottom 0}
-                            :on-press #(dispatch [:select-period id])}
+                            :on-press (select-function-generator id)}
        [view
         ;; [text label]
         ;; [text bucket-label]
@@ -505,7 +506,18 @@
                       buttons-comp]
   (let [width (-> dimensions
                   (:width)
-                  (/ 2))]
+                  (/ 2))
+        format-relative-or-date #(if (inst? %)
+                                  (format-time %)
+                                  (str (:hour %) "-" (if (< (:minute %) 10)
+                                                       (str "0" (:minute %))
+                                                       (:minute %))))
+        start-formatted (->> selected-period-or-template
+                             :start
+                             format-relative-or-date)
+        stop-formatted (->> selected-period-or-template
+                             :stop
+                             format-relative-or-date)]
     [view {:style {:position         "absolute"
                    :background-color "white"
                    :top              0
@@ -523,7 +535,6 @@
 
       ;; [selection-menu-info dimensions selected-period]
 
-      ;; buttons
       buttons-comp]
 
      ;; [selection-menu-arrow dimensions selected-period displayed-day]
@@ -532,8 +543,8 @@
      [view {:style {:padding 10}}
       [text (:label selected-period-or-template)]
       [text (:bucket-label selected-period-or-template)]
-      [text (format-time (:start selected-period-or-template))]
-      [text (format-time (:stop selected-period-or-template))]]]))
+      [text start-formatted]
+      [text stop-formatted]]]))
 
 (defn top-bar-outer-style [top-bar-height dimensions]
   {:height           top-bar-height
