@@ -241,7 +241,7 @@
                                    :update-map {:start (-> selected-period
                                                            (:start)
                                                            (.valueOf)
-                                                           (+ (* 60 60 1000))
+                                                           (+ (* 3 60 60 1000))
                                                            (js/Date.))}}])]]
 
      ;; start-earlier
@@ -259,7 +259,7 @@
                                    :update-map {:start (-> selected-period
                                                            (:start)
                                                            (.valueOf)
-                                                           (- (* 60 60 1000))
+                                                           (- (* 3 60 60 1000))
                                                            (js/Date.))}}])]]
 
      ;; up
@@ -282,12 +282,12 @@
                                    :update-map {:start (-> selected-period
                                                            (:start)
                                                            (.valueOf)
-                                                           (- (* 60 60 1000)) ;; sixty minutes
+                                                           (- (* 3 60 60 1000)) ;; sixty minutes
                                                            (js/Date.))
                                                 :stop  (-> selected-period
                                                            (:stop)
                                                            (.valueOf)
-                                                           (- (* 60 60 1000))
+                                                           (- (* 3 60 60 1000))
                                                            (js/Date.))}}])]]
 
      ;; copy-previous-day copy-over copy-next-day
@@ -396,12 +396,12 @@
                                    :update-map {:start (-> selected-period
                                                            (:start)
                                                            (.valueOf)
-                                                           (+ (* 60 60 1000)) ;; sixty minutes
+                                                           (+ (* 3 60 60 1000)) ;; sixty minutes
                                                            (js/Date.))
                                                 :stop  (-> selected-period
                                                            (:stop)
                                                            (.valueOf)
-                                                           (+ (* 60 60 1000))
+                                                           (+ (* 3 60 60 1000))
                                                            (js/Date.))}}])]]
 
      ;; stop-later
@@ -419,7 +419,7 @@
                                    :update-map {:stop (-> selected-period
                                                           (:stop)
                                                           (.valueOf)
-                                                          (+ (* 60 60 1000))
+                                                          (+ (* 3 60 60 1000))
                                                           (js/Date.))}}])]]
 
      ;; stop-earlier
@@ -437,7 +437,7 @@
                                    :update-map {:stop (-> selected-period
                                                           (:stop)
                                                           (.valueOf)
-                                                          (- (* 60 60 1000))
+                                                          (- (* 3 60 60 1000))
                                                           (js/Date.))}}])]]
 
      ;; select-prev
