@@ -1,6 +1,7 @@
 (ns time-align-mobile.screens.pattern-planning
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
+                                                  mi
                                                   status-bar
                                                   touchable-highlight]]
             [time-align-mobile.styles :as styles]
@@ -14,6 +15,7 @@
                                                       render-period
                                                       selection-menu
                                                       selection-menu-button-row-style
+                                                      selection-menu-button
                                                       selection-menu-button-container-style
                                                       selection-menu-button-container-style
                                                       padding]]
@@ -110,4 +112,11 @@
             [selection-menu-buttons]]]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
-          [text "buttons here"]]])})))
+          [:<>
+           [selection-menu-button
+            ;; TODO prompt user that this will lose any unsaved changes
+            "back to form"
+            [mi {:name "arrow-back"}]
+            #(dispatch [:navigate-to {:current-screen :pattern
+                                      :params         {:pattern-id (:id @pattern-form)}}])
+            ]]]])})))
