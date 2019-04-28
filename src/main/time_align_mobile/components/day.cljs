@@ -507,11 +507,18 @@
   (let [width (-> dimensions
                   (:width)
                   (/ 2))
+        ;; TODO move this to helpers
         format-relative-or-date #(if (inst? %)
                                   (format-time %)
-                                  (str (:hour %) "-" (if (< (:minute %) 10)
-                                                       (str "0" (:minute %))
-                                                       (:minute %))))
+                                  (str (if (< (:hour %) 10)
+                                         ;; prepend the zero
+                                         (str "0" (:hour %))
+                                         (:hour %))
+                                       "-"
+                                       (if (< (:minute %) 10)
+                                         ;; prepend the zero
+                                         (str "0" (:minute %))
+                                         (:minute %))))
         start-formatted (->> selected-period-or-template
                              :start
                              format-relative-or-date)
