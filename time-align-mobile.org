@@ -1783,6 +1783,7 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-04-28 Sun 11:45]--[2019-04-28 Sun 12:22] =>  0:37
       CLOCK: [2019-04-27 Sat 19:33]--[2019-04-27 Sat 20:27] =>  0:54
       CLOCK: [2019-04-27 Sat 18:07]--[2019-04-27 Sat 18:26] =>  0:19
       CLOCK: [2019-04-27 Sat 16:29]--[2019-04-27 Sat 16:30] =>  0:01
@@ -1810,8 +1811,9 @@ I don't know what this was for
   - [X] Top bar (pattern label)
   - [ ] Bottom bar
     - [X] Back to pattern form
-    - [ ] Save pattern form
-      - [ ] Get pattern form changes sub
+    - [X] Save pattern form
+      - [X] Get pattern form changes sub
+        - It was already done
     - [ ] Apply pattern form to day
   - [ ] Selection menu
     - [ ] Ability to select

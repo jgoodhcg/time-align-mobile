@@ -1,0 +1,150 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.22.0snapshot (package: 20190329.1924), nREPL 0.6.0
+;; Clojure 1.10.0, Java 1.8.0_191
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+WARNING: No Clojure project was detected. The
+refactor-nrepl middleware was not enabled. (You can mute this
+warning by customizing `cljr-suppress-no-project-warning'.)To quit, type: :cljs/quit
+[:selected :app]
+shadow.user> 
+cljs.user> (ns time-align-mobile.subs)
+time-align-mobile.subs
+time-align-mobile.subs> (defn get-pattern-form-changes [db _]
+  (let [pattern-form (get-in db [:forms :pattern-form])]
+    (if (some? (:id pattern-form))
+      (let [pattern (first
+                    (select [:patterns sp/ALL #(= (:id %) (:id pattern-form))]
+                            db))
+            ;; data needs to be coerced to compare to form
+            new-data (helpers/print-data (:data pattern))
+            ;; (.stringify js/JSON
+            ;;                      (clj->js (:data bucket))
+            ;;                      nil 2)
+            altered-pattern (merge pattern {:data new-data})
+            different-keys (->> (clojure.data/diff pattern-form altered-pattern)
+                                (first))]
+        (if (nil? different-keys)
+          {} ;; empty map if no changes
+          different-keys))
+      ;; return an empty map if there is no loaded bucket in the form
+      {})))
+#'time-align-mobile.subs/get-pattern-form-changes
+time-align-mobile.subs> (get-in @re-frame.db/app-db [:forms :pattern-form])
+{:id #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896", :label "new pattern", :created #inst "2019-04-23T03:16:00.224-00:00", :last-edited #inst "2019-04-23T03:16:06.360-00:00", :data "{}", :templates [{:start {:hour 12, :minute 30}, :created #inst "2019-04-23T03:15:23.325-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T03:16:23.404-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :data {}}]}
+time-align-mobile.subs> (select [:patterns sp/ALL #(= (:id %) :id #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896")] @re-frame.db/app-db )
+[]
+time-align-mobile.subs> (select [:patterns sp/ALL #(= (:id %) #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896")] @re-frame.db/app-db )
+[{:id #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896", :label "new pattern", :created #inst "2019-04-23T03:16:00.224-00:00", :last-edited #inst "2019-04-23T03:16:06.360-00:00", :data {}, :templates [{:start {:hour 12, :minute 30}, :created #inst "2019-04-23T03:15:23.325-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T03:16:23.404-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :data {}}]}]
+time-align-mobile.subs> (def app-db @re-frame.db/app-db)
+#'time-align-mobile.subs/app-db
+time-align-mobile.subs> (get-in app-db [:forms :pattern-form])
+{:id #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896", :label "new pattern", :created #inst "2019-04-23T03:16:00.224-00:00", :last-edited #inst "2019-04-23T03:16:06.360-00:00", :data "{}", :templates [{:start {:hour 12, :minute 30}, :created #inst "2019-04-23T03:15:23.325-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T03:16:23.404-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :data {}}]}
+time-align-mobile.subs> (select [:patterns sp/ALL #(= (:id %) #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896")] app-db )
+[{:id #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896", :label "new pattern", :created #inst "2019-04-23T03:16:00.224-00:00", :last-edited #inst "2019-04-23T03:16:06.360-00:00", :data {}, :templates [{:start {:hour 12, :minute 30}, :created #inst "2019-04-23T03:15:23.325-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T03:16:23.404-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :data {}}]}]
+time-align-mobile.subs> (get-pattern-form-changes app-db :no-op)
+{}
+time-align-mobile.subs> (def new-db (transform [:forms :pattern-form :templates sp/FIRST :start] #(js/Date. (- (.valueOf %) 10000)) app-db))
+#'time-align-mobile.subs/new-db
+time-align-mobile.subs> new-db
+;; output cleared
+
+time-align-mobile.subs> (select [:patterns sp/ALL #(= (:id %) #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896")] new-db )
+[{:id #uuid "c4984ed1-67b2-44d6-b4f9-09623169d896", :label "new pattern", :created #inst "2019-04-23T03:16:00.224-00:00", :last-edited #inst "2019-04-23T03:16:06.360-00:00", :data {}, :templates [{:start {:hour 12, :minute 30}, :created #inst "2019-04-23T03:15:23.325-00:00", :stop {:hour 14, :minute 0}, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-04-23T03:16:23.404-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :data {}}]}]
+time-align-mobile.subs> (def new-db (transform [:forms :pattern-form :templates sp/FIRST :start] (fn [start]) app-db))
+#'time-align-mobile.subs/new-db
+time-align-mobile.subs> (def new-db 
+                          (transform [:forms :pattern-form :templates sp/FIRST :start]
+                                     (fn [start] 
+                                       {:hour (- (:hour %) 1)
+                                        :minute (:minute %)}) 
+                                     app-db))
+WARNING: Use of undeclared Var time-align-mobile.subs/% (<stdin> at 4:57)
+WARNING: Use of undeclared Var time-align-mobile.subs/% (<stdin> at 5:58)
+#'time-align-mobile.subs/new-db
+time-align-mobile.subs> (def new-db 
+                          (transform [:forms :pattern-form :templates sp/FIRST :start]
+                                     (fn [start] 
+                                       {:hour (- (:hour start) 1)
+                                        :minute (:minute start)}) 
+                                     app-db))
+#'time-align-mobile.subs/new-db
+time-align-mobile.subs> (select [:forms :pattern-form :templates sp/FIRST :start] app-db)
+[{:hour 12, :minute 30}]
+time-align-mobile.subs> (select [:forms :pattern-form :templates sp/FIRST :start] new-db)
+[{:hour 11, :minute 30}]
+time-align-mobile.subs> (get-pattern-form-changes new-db :no-op)
+{:templates [{:start {:hour 11}}]}[:app] Compiling ...
+[:app] Build completed. (180 files, 3 compiled, 1 warnings, 0.40s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/pattern_planning.cljs:132:41
+--------------------------------------------------------------------------------
+ 129 |                                                           :type  "font-awesome"
+ 130 |                                                           :color "#fff"}])
+ 131 |                     :on-press #(println "save pattern form changes...")}
+ 132 |                    (when-not (> (count @changes) 0)
+-----------------------------------------------^--------------------------------
+ Use of undeclared Var time-align-mobile.screens.pattern-planning/changes
+--------------------------------------------------------------------------------
+ 133 |                      {:disabled true}))]
+ 134 |            ]]])})))
+ 135 | 
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.13s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.11s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.13s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.13s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.15s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.16s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.12s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.14s)
+[:app] Compiling ...
+[:app] Build completed. (180 files, 2 compiled, 0 warnings, 0.14s)
+
+time-align-mobile.subs> 

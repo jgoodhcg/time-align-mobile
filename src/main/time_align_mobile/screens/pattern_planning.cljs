@@ -4,6 +4,7 @@
                                                   mi
                                                   status-bar
                                                   touchable-highlight]]
+            ["react-native-elements" :as rne]
             [time-align-mobile.styles :as styles]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -61,6 +62,7 @@
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
+        changes           (subscribe [:get-pattern-form-changes])
         top-bar-height    styles/top-bar-height
         bottom-bar-height styles/bottom-bar-height
         dimensions        (r/atom {:width nil :height nil})]
@@ -103,20 +105,32 @@
                                                         (:start %)))
                                              (helpers/get-collision-groups))
                             :dimensions @dimensions}]
-           [selection-menu {:dimensions                  @dimensions
-                            :selected-period-or-template {:planned      true
-                                                          :label        "testing"
-                                                          :bucket-label "testing"
-                                                          :start        (js/Date.)
-                                                          :stop         (js/Date.)}}
-            [selection-menu-buttons]]]]
+           ;; [selection-menu {:selected-period-or-template {:planned      true
+           ;;                                                :label        "testing"
+           ;;                                                :bucket-label "testing"
+           ;;                                                :start        (js/Date.)
+           ;;                                                :stop         (js/Date.)}
+           ;;                  :dimensions                  @dimensions}
+           ;;  [selection-menu-buttons]]
+           ]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
           [:<>
-           [selection-menu-button
+           [:> rne/Button
             ;; TODO prompt user that this will lose any unsaved changes
-            "back to form"
-            [mi {:name "arrow-back"}]
-            #(dispatch [:navigate-to {:current-screen :pattern
-                                      :params         {:pattern-id (:id @pattern-form)}}])
-            ]]]])})))
+            {:icon     (r/as-element [:> rne/Icon {:name  "arrow-back"
+                                                   :type  "material-icons"
+                                                   :color "#fff"}])
+             :on-press #(dispatch [:navigate-to {:current-screen :pattern
+                                                 :params         {:pattern-id (:id @pattern-form)}}])
+             :container-style {:margin-right 4}}]
+
+           [:> rne/Button
+            (merge {:container-style {:margin-left 4}
+                    :icon     (r/as-element [:> rne/Icon {:name  "save"
+                                                          :type  "font-awesome"
+                                                          :color "#fff"}])
+                    :on-press #(dispatch [:save-pattern-form (js/Date.)])}
+                   (when-not (> (count @changes) 0)
+                     {:disabled true}))]
+           ]]])})))
