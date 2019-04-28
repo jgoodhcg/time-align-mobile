@@ -535,14 +535,21 @@
       [text (format-time (:start selected-period-or-template))]
       [text (format-time (:stop selected-period-or-template))]]]))
 
+(defn top-bar-outer-style [top-bar-height dimensions]
+  {:height           top-bar-height
+   :width            (:width @dimensions)
+   :background-color styles/background-color
+   :elevation        2
+   :flex-direction   "column"
+   :justify-content  "center"
+   :align-items      "center"})
+
+(def top-bar-inner-style {:flex-direction  "row"
+                          :align-items     "center"
+                          :justify-content "center"})
+
 (defn top-bar [{:keys [top-bar-height dimensions displayed-day now]}]
-  (let [outer-style              {:height           top-bar-height
-                                  :width            (:width @dimensions)
-                                  :background-color styles/background-color
-                                  :elevation        2
-                                  :flex-direction   "column"
-                                  :justify-content  "center"
-                                  :align-items      "center"}
+  (let [outer-style              (top-bar-outer-style top-bar-height dimensions)
         inner-style              {:flex-direction  "row"
                                   :align-items     "center"
                                   :justify-content "center"}

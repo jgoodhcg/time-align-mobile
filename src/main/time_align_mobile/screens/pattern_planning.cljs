@@ -9,6 +9,8 @@
             [time-align-mobile.helpers :as helpers]
             [re-frame.core :refer [subscribe dispatch]]
             [time-align-mobile.components.day :refer [time-indicators
+                                                      top-bar-outer-style
+                                                      bottom-bar
                                                       render-period
                                                       selection-menu
                                                       selection-menu-button-row-style
@@ -81,13 +83,7 @@
                                                   bottom-bar-height)}))))}
          ;; top bar stuff
          [status-bar {:hidden true}]
-         [view {:style {:height           top-bar-height
-                        :width            (:width @dimensions)
-                        :background-color styles/background-color
-                        :elevation        2
-                        :flex-direction   "column"
-                        :justify-content  "center"
-                        :align-items      "center"}}
+         [view {:style (top-bar-outer-style top-bar-height dimensions)}
           [text (:label @pattern-form)]]
 
          ;; view that stretches to fill what is left of the screen
@@ -96,7 +92,7 @@
 
           [view {:style {:height           (:height @dimensions)
                          :width            (:width @dimensions)
-                         :background-color "grey"}}
+                         :background-color styles/background-color}}
 
            [time-indicators @dimensions :left]
            [templates-comp {:templates  (->> @pattern-form
@@ -111,4 +107,7 @@
                                                           :bucket-label "testing"
                                                           :start        (js/Date.)
                                                           :stop         (js/Date.)}}
-            [selection-menu-buttons]]]]])})))
+            [selection-menu-buttons]]]]
+
+         [bottom-bar {:bottom-bar-height bottom-bar-height}
+          [text "buttons here"]]])})))
