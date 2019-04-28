@@ -2,6 +2,7 @@
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
                                                   mi
+                                                  mci
                                                   status-bar
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
@@ -56,11 +57,23 @@
                                                           #(dispatch [:select-template id]))
                              :period-in-play       nil}))))))))))])
 
-(defn selection-menu-buttons []
-  (let [row-style selection-menu-button-row-style]
+(defn selection-menu-buttons [selected-template]
+  (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}
-     [view {:style row-style}
-      [text "buttons here"]]]))
+     ;; cancel edit
+     [view row-style
+      [selection-menu-button
+       "cancel"
+       [mci {:name "backburger"}]
+       #(dispatch [:select-template nil])]
+      [selection-menu-button
+       "edit"
+       [mi {:name "edit"}]
+       #(dispatch [:navigate-to
+                   {:current-screen :template
+                    :params         {:template-id (:id selected-template)}}])]]
+
+          ]))
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
@@ -113,25 +126,25 @@
                                                             @selected-template
                                                             {:planned true})
                               :dimensions                  @dimensions}
-              [selection-menu-buttons]])]]
+              [selection-menu-buttons @selected-template]])]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
           [:<>
            [:> rne/Button
             ;; TODO prompt user that this will lose any unsaved changes
-            {:icon     (r/as-element [:> rne/Icon {:name  "arrow-back"
-                                                   :type  "material-icons"
-                                                   :color "#fff"}])
-             :on-press #(dispatch [:navigate-to {:current-screen :pattern
-                                                 :params         {:pattern-id (:id @pattern-form)}}])
+            {:icon            (r/as-element [:> rne/Icon {:name  "arrow-back"
+                                                          :type  "material-icons"
+                                                          :color "#fff"}])
+             :on-press        #(dispatch [:navigate-to {:current-screen :pattern
+                                                        :params         {:pattern-id (:id @pattern-form)}}])
              :container-style {:margin-right 4}}]
 
            [:> rne/Button
             (merge {:container-style {:margin-left 4}
-                    :icon     (r/as-element [:> rne/Icon {:name  "save"
-                                                          :type  "font-awesome"
-                                                          :color "#fff"}])
-                    :on-press #(dispatch [:save-pattern-form (js/Date.)])}
+                    :icon            (r/as-element [:> rne/Icon {:name  "save"
+                                                                 :type  "font-awesome"
+                                                                 :color "#fff"}])
+                    :on-press        #(dispatch [:save-pattern-form (js/Date.)])}
                    (when-not (> (count @changes) 0)
                      {:disabled true}))]
            ]]])})))

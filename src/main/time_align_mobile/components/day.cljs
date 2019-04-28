@@ -211,7 +211,7 @@
                                               period-in-play
                                               displayed-day]}]
 
-  (let [row-style selection-menu-button-row-style]
+  (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}
 
      ;; cancel edit
