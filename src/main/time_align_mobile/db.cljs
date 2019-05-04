@@ -84,36 +84,25 @@
                                     (s/gen ::moment))}))
 
 ;; template
-(defn start-before-stop-template [template]
-  (let [start-hour   (:hour (:start template))
-        start-minute (:minute (:start template))
-        stop-hour    (:hour (:stop template))
-        stop-minute  (:minute (:stop template))]
-    (if
-        ;; Check that it has time stamps
-        (and
-         (contains? template :start)
-         (contains? template :stop)
-         (some? (:start template))
-         (some? (:stop template)))
+(defn start-before-stop-template [{:keys [start stop]}]
+  (if
+      (and ;; Check that it has time stamps
+       (some? start)
+       (some? stop))
 
-      ;; If it has time stamps they need to be valid
-      ;; Compare hours then minutes
-      (or (> stop-hour start-hour)
-          (if (= stop-hour start-hour)
-            (> stop-minute start-minute)))
+    ;; If it has time stamps they need to be valid
+    (> stop start)
+    ;; Passes if it has no time stamps
+    true))
 
-      ;; Passes if it has no time stamps
-      true)))
-
-(def template-data-spec {:id          uuid?
-                         :bucket-id   uuid?
-                         :label       string?
-                         :created     ::moment
-                         :last-edited ::moment
-                         :data        map?
-                         :start       (ds/maybe integer?) ;; relative ms of day
-                         :stop        (ds/maybe integer?)})
+(def template-data-spec {:id             uuid?
+                         :bucket-id      uuid?
+                         :label          string?
+                         :created        ::moment
+                         :last-edited    ::moment
+                         :data           map?
+                         (ds/opt :start) integer? ;; relative ms of day
+                         (ds/opt :stop)  integer?})
 (def template-spec
   (st/create-spec {:spec (s/and
                           (ds/spec {:spec template-data-spec

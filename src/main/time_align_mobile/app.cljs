@@ -128,6 +128,7 @@
      (when (some? value)
        ;; If you are trying to use a different default db and it isn't working
        ;; clear the secure storage on the device or alter this loading function
+       ;; TODO should there be a try again and prompt?
        (let [app-db (read-string value)]
          (dispatch [:load-db app-db])))))
 

@@ -17,9 +17,9 @@
   "Throw an exception if db doesn't have a valid spec."
   [spec db]
   (when-not (s/valid? spec db)
-    (let [explaination (s/explain-data spec db)]
+    (let [explaination (s/explain-str spec db)]
       ;; (zprint (::clojure.spec.alpha/problems explaination) {:map {:force-nl? true}})
-      (println (str (::clojure.spec.alpha/problems explaination)))
+      (println explaination)
       ;; (throw (ex-info (str "Spec check failed: " explain-data) explain-data))
       (alert "Failed spec validation" "Check the command line output.")
       true)))

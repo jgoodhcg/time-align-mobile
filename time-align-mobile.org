@@ -1784,7 +1784,8 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
-      CLOCK: [2019-05-04 Sat 12:53]
+      CLOCK: [2019-05-04 Sat 15:27]
+      CLOCK: [2019-05-04 Sat 12:53]--[2019-05-04 Sat 13:45] =>  0:52
       CLOCK: [2019-05-04 Sat 12:09]--[2019-05-04 Sat 12:12] =>  0:03
       CLOCK: [2019-04-28 Sun 20:03]--[2019-04-28 Sun 20:39] =>  0:36
       CLOCK: [2019-04-28 Sun 17:57]--[2019-04-28 Sun 18:51] =>  0:54
@@ -1828,11 +1829,14 @@ I don't know what this was for
     - [-] Selection menu buttons
       - [X] Copy over relevant day buttons
       - [-] Translate to pattern form updates
-        - [-] Fix template start/stop data model
+        - [X] Fix template start/stop data model
           - Should probably be ms of 24 hours and then parse into a date time
-          - [X] update app.db specs and default
-          - [X] handlers
-          - [X] search ~start~ ~stop~
+          - [X] Update app.db specs and default
+          - [X] Handlers
+          - [X] Search ~start~ ~stop~
+          - [X] Compile it
+          - [X] Functional test
+          - [ ] 
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?
 *** TODO Put something between two selected periods

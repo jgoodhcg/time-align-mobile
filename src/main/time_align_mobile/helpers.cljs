@@ -50,7 +50,7 @@
       (* 1000)))
 
 (defn minutes->ms [minutes]
-  (-> hours
+  (-> minutes
       (* 60)
       (* 1000)))
 
@@ -155,6 +155,4 @@
   (->> periods
        (reduce insert-into-collision-group [[]])
        (remove empty?)))
-
-
 
