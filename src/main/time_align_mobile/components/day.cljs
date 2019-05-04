@@ -231,6 +231,7 @@
       [selection-menu-button
        "start later"
        [mci {:name "arrow-collapse-down"}]
+       ;; TODO stop from moving beyond stop
        #(dispatch [:update-period {:id         (:id selected-period)
                                    :update-map {:start (-> selected-period
                                                            (:start)
@@ -425,6 +426,7 @@
      ;; stop-earlier
      [view row-style
       [selection-menu-button
+       ;; TODO stop from moving before start
        "stop earlier"
        [mci {:name "arrow-collapse-up"}]
        #(dispatch [:update-period {:id         (:id selected-period)

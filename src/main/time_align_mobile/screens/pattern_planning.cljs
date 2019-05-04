@@ -79,7 +79,8 @@
       [selection-menu-button
        "start later"
        [mci {:name "arrow-collapse-down"}]
-       (fn []
+       (fn [_]
+         ;; TODO stop from moving past stop
          (dispatch [:update-pattern-form
                     (select-keys (transform
                                   [:templates sp/ALL
@@ -88,7 +89,8 @@
                                   #(+ 5 %)
                                   pattern-form)
                                  [:templates])]))
-       (fn []
+       (fn [_]
+         ;; TODO stop from moving past stop
          (dispatch [:update-pattern-form
                     (select-keys (transform
                                   [:templates sp/ALL
@@ -98,51 +100,71 @@
                                   pattern-form)
                                  [:templates])]))]]
 
-     ;; ;; start-earlier
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "start earlier"
-     ;;   [mci {:name "arrow-expand-up"}]
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:start (-> selected-template
-     ;;                                                         (:start)
-     ;;                                                         (.valueOf)
-     ;;                                                         (- (* 5 60 1000))
-     ;;                                                         (js/Date.))}}])
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:start (-> selected-template
-     ;;                                                         (:start)
-     ;;                                                         (.valueOf)
-     ;;                                                         (- (* 60 60 1000))
-     ;;                                                         (js/Date.))}}])]]
+     ;; start-earlier
+     [view row-style
+      [selection-menu-button
+       "start earlier"
+       [mci {:name "arrow-expand-up"}]
+       (fn [_]
+         ;; TODO stop from moving below 0
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :start :minute]
+                                  #(- % 5)
+                                  pattern-form)
+                                 [:templates])]))
+       (fn [_]
+         ;; TODO stop from moving below 0
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :start :hour]
+                                  #(- % 3)
+                                  pattern-form)
+                                 [:templates])]))]]
 
-     ;; ;; up
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "up"
-     ;;   [mi {:name "arrow-upward"}]
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:start (-> selected-template
-     ;;                                                         (:start)
-     ;;                                                         (.valueOf)
-     ;;                                                         (- (* 5 60 1000)) ;; five minutes
-     ;;                                                         (js/Date.))
-     ;;                                              :stop  (-> selected-template
-     ;;                                                         (:stop)
-     ;;                                                         (.valueOf)
-     ;;                                                         (- (* 5 60 1000))
-     ;;                                                         (js/Date.))}}])
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:start (-> selected-template
-     ;;                                                         (:start)
-     ;;                                                         (.valueOf)
-     ;;                                                         (- (* 60 60 1000)) ;; sixty minutes
-     ;;                                                         (js/Date.))
-     ;;                                              :stop  (-> selected-template
-     ;;                                                         (:stop)
-     ;;                                                         (.valueOf)
-     ;;                                                         (- (* 60 60 1000))
-     ;;                                                         (js/Date.))}}])]]
+     ;; up
+     [view row-style
+      [selection-menu-button
+       "up"
+       [mi {:name "arrow-upward"}]
+       (fn [_]
+         ;; TODO stop from moving below 0
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))]
+                                  (fn [template]
+                                    (->> template
+                                         (transform
+                                          [:start :minute]
+                                          #(min 0 (- % 5)))
+                                         (transform
+                                          [:stop :minute]
+                                          #(min 0 (- % 5)))))
+                                  pattern-form)
+                                 [:templates])]))
+       (fn [_]
+         ;; TODO stop from moving below 0
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))]
+                                  (fn [template]
+                                    (merge template
+                                           {:start (-> template
+                                                       :start
+                                                       :hour
+                                                       (- 3))
+                                            :stop  (-> template
+                                                       :stop
+                                                       :hour
+                                                       (- 3))}))
+                                  pattern-form)
+                                 [:templates])]))]]
 
      ;; ;; down
      ;; [view row-style
@@ -270,11 +292,24 @@
                                                         (:start %)))
                                              (helpers/get-collision-groups))
                             :dimensions @dimensions}]
+
+           ;; selection menu
            (when (some? @selected-template)
-             [selection-menu {:selected-period-or-template (merge
-                                                            @selected-template
-                                                            {:planned true})
-                              :dimensions                  @dimensions}
+             [selection-menu
+              {:selected-period-or-template (-> @selected-template
+                                                :id
+                                                ;; get the template from the form
+                                                ;; not from the pattern
+                                                (#(some (fn [template]
+                                                          (if (= (:id template)
+                                                                 %)
+                                                            template
+                                                            false))
+                                                        (:templates @pattern-form)))
+                                                (#(merge
+                                                   %
+                                                   {:planned true})))
+               :dimensions                  @dimensions}
               [selection-menu-buttons @selected-template @pattern-form]])]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
