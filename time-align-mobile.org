@@ -1784,7 +1784,7 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
-      CLOCK: [2019-05-04 Sat 15:27]
+      CLOCK: [2019-05-04 Sat 15:27]--[2019-05-04 Sat 17:26] =>  1:59
       CLOCK: [2019-05-04 Sat 12:53]--[2019-05-04 Sat 13:45] =>  0:52
       CLOCK: [2019-05-04 Sat 12:09]--[2019-05-04 Sat 12:12] =>  0:03
       CLOCK: [2019-04-28 Sun 20:03]--[2019-04-28 Sun 20:39] =>  0:36
@@ -1836,7 +1836,6 @@ I don't know what this was for
           - [X] Search ~start~ ~stop~
           - [X] Compile it
           - [X] Functional test
-          - [ ] 
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?
 *** TODO Put something between two selected periods

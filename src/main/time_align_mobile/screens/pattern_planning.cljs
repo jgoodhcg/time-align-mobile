@@ -73,13 +73,13 @@
        "start later"
        [mci {:name "arrow-collapse-down"}]
        (fn [_]
-         ;; TODO stop from moving past stop
+         ;; TODO stop from moving past stop ? or does spec do that?
          (dispatch [:update-pattern-form
                     (select-keys (transform
                                   [:templates sp/ALL
                                    #(= (:id %) (:id selected-template))
-                                   :start :minute]
-                                  #(+ 5 %)
+                                   :start]
+                                  #(+ (helpers/minutes->ms 5) %)
                                   pattern-form)
                                  [:templates])]))
        (fn [_]
@@ -88,8 +88,8 @@
                     (select-keys (transform
                                   [:templates sp/ALL
                                    #(= (:id %) (:id selected-template))
-                                   :start :hour]
-                                  #(+ 3 %)
+                                   :start]
+                                  #(+ (helpers/hours->ms 3) %)
                                   pattern-form)
                                  [:templates])]))]]
 
@@ -104,8 +104,8 @@
                     (select-keys (transform
                                   [:templates sp/ALL
                                    #(= (:id %) (:id selected-template))
-                                   :start :minute]
-                                  #(- % 5)
+                                   :start]
+                                  #(- % (helpers/minutes->ms 5))
                                   pattern-form)
                                  [:templates])]))
        (fn [_]
@@ -114,8 +114,8 @@
                     (select-keys (transform
                                   [:templates sp/ALL
                                    #(= (:id %) (:id selected-template))
-                                   :start :hour]
-                                  #(- % 3)
+                                   :start]
+                                  #(- % (helpers/hours->ms 3))
                                   pattern-form)
                                  [:templates])]))]]
 
@@ -125,7 +125,6 @@
        "up"
        [mi {:name "arrow-upward"}]
        (fn [_]
-         ;; TODO stop from moving below 0
          (dispatch [:update-pattern-form
                     (select-keys (transform
                                   [:templates sp/ALL
@@ -133,59 +132,68 @@
                                   (fn [template]
                                     (->> template
                                          (transform
-                                          [:start :minute]
-                                          #(min 0 (- % 5)))
+                                          [:start]
+                                          #(max 0 (- % (helpers/minutes->ms 5))))
                                          (transform
-                                          [:stop :minute]
-                                          #(min 0 (- % 5)))))
+                                          [:stop]
+                                          #(max 1 (- % (helpers/minutes->ms 5))))))
                                   pattern-form)
                                  [:templates])]))
        (fn [_]
-         ;; TODO stop from moving below 0
          (dispatch [:update-pattern-form
                     (select-keys (transform
                                   [:templates sp/ALL
                                    #(= (:id %) (:id selected-template))]
                                   (fn [template]
-                                    (merge template
-                                           {:start (-> template
-                                                       :start
-                                                       :hour
-                                                       (- 3))
-                                            :stop  (-> template
-                                                       :stop
-                                                       :hour
-                                                       (- 3))}))
+                                    (->> template
+                                         (transform
+                                          [:start]
+                                          #(max 0 (- % (helpers/hours->ms 3))))
+                                         (transform
+                                          [:stop]
+                                          #(max 1 (- % (helpers/hours->ms 3))))))
                                   pattern-form)
                                  [:templates])]))]]
 
-     ;; ;; down
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "down"
-     ;;   [mi {:name "arrow-downward"}]
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:start (-> selected-template
-     ;;                                                         (:start)
-     ;;                                                         (.valueOf)
-     ;;                                                         (+ (* 5 60 1000)) ;; five minutes
-     ;;                                                         (js/Date.))
-     ;;                                              :stop  (-> selected-template
-     ;;                                                         (:stop)
-     ;;                                                         (.valueOf)
-     ;;                                                         (+ (* 5 60 1000))
-     ;;                                                         (js/Date.))}}])
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:start (-> selected-template
-     ;;                                                         (:start)
-     ;;                                                         (.valueOf)
-     ;;                                                         (+ (* 60 60 1000)) ;; sixty minutes
-     ;;                                                         (js/Date.))
-     ;;                                              :stop  (-> selected-template
-     ;;                                                         (:stop)
-     ;;                                                         (.valueOf)
-     ;;                                                         (+ (* 60 60 1000))
-     ;;                                                         (js/Date.))}}])]]
+     ;; down
+     [view row-style
+      [selection-menu-button
+       "down"
+       [mi {:name "arrow-downward"}]
+       (fn [_]
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))]
+                                  (fn [template]
+                                    (->> template
+                                         (transform
+                                          [:start]
+                                          #(min (helpers/hours->ms 23.8)
+                                                (+ % (helpers/minutes->ms 5))))
+                                         (transform
+                                          [:stop]
+                                          #(min (helpers/hours->ms 23.9)
+                                                (+ % (helpers/minutes->ms 5))))))
+                                  pattern-form)
+                                 [:templates])]))
+       (fn [_]
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))]
+                                  (fn [template]
+                                    (->> template
+                                         (transform
+                                          [:start]
+                                          #(min (helpers/hours->ms 23.8)
+                                                (+ % (helpers/hours->ms 3))))
+                                         (transform
+                                          [:stop]
+                                          #(min (helpers/hours->ms 23.9)
+                                                (+ % (helpers/hours->ms 3))))))
+                                  pattern-form)
+                                 [:templates])]))]]
 
      ;; ;; stop-later
      ;; [view row-style

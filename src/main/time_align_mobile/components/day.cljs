@@ -512,15 +512,8 @@
         ;; TODO move this to helpers
         format-relative-or-date #(if (inst? %)
                                   (format-time %)
-                                  (str (if (< (:hour %) 10)
-                                         ;; prepend the zero
-                                         (str "0" (:hour %))
-                                         (:hour %))
-                                       "-"
-                                       (if (< (:minute %) 10)
-                                         ;; prepend the zero
-                                         (str "0" (:minute %))
-                                         (:minute %))))
+                                  (format-time
+                                   (helpers/reset-relative-ms % (js/Date.))))
         start-formatted (->> selected-period-or-template
                              :start
                              format-relative-or-date)
