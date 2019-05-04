@@ -112,10 +112,8 @@
                          :created     ::moment
                          :last-edited ::moment
                          :data        map?
-                         :start       (ds/maybe {:hour   integer?
-                                                 :minute integer?})
-                         :stop        (ds/maybe {:hour   integer?
-                                                 :minute integer?})})
+                         :start       (ds/maybe integer?) ;; relative ms of day
+                         :stop        (ds/maybe integer?)})
 (def template-spec
   (st/create-spec {:spec (s/and
                           (ds/spec {:spec template-data-spec
@@ -238,10 +236,14 @@
                                        :created     now
                                        :last-edited now
                                        :data        {}
-                                       :start       {:hour   12
-                                                     :minute 30}
-                                       :stop        {:hour   14
-                                                     :minute 0}}]}]
+                                       :start       (-> 12.5 ;; hours from start of day
+                                                        (* 60) ;; minutes
+                                                        (* 60) ;; seconds
+                                                        (* 1000)) ;; millis
+                                       :stop        (-> 14
+                                                        (* 60)
+                                                        (* 60)
+                                                        (* 1000))}]}]
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"

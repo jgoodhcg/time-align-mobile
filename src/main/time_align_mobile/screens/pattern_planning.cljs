@@ -24,13 +24,6 @@
                                                       padding]]
             [reagent.core :as r]))
 
-(defn relative-time-to-date-obj [{:keys [hour minute]} date]
-  (js/Date. (.getFullYear date)
-            (.getMonth date)
-            (.getDate date)
-            hour
-            minute))
-
 (defn templates-comp [{:keys [templates dimensions]}]
   [view
    (doall
@@ -43,9 +36,9 @@
                          (let [now (js/Date.)]
                            (render-period
                             {:period (merge template  ;; TODO refactor :period key?
-                                            {:start   (relative-time-to-date-obj
+                                            {:start   (helpers/reset-relative-ms
                                                        start now)
-                                             :stop    (relative-time-to-date-obj
+                                             :stop    (helpers/reset-relative-ms
                                                        stop now)
                                              :planned true})
 
@@ -288,8 +281,7 @@
            [time-indicators @dimensions :left]
            [templates-comp {:templates  (->> @pattern-form
                                              :templates
-                                             (sort-by #(helpers/relative-to-minutes
-                                                        (:start %)))
+                                             (sort-by :start)
                                              (helpers/get-collision-groups))
                             :dimensions @dimensions}]
 

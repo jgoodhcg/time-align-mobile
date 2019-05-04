@@ -43,6 +43,20 @@
      (-> s (* 1000))
      ms)))
 
+(defn hours->ms [hours]
+  (-> hours
+      (* 60)
+      (* 60)
+      (* 1000)))
+
+(defn minutes->ms [minutes]
+  (-> hours
+      (* 60)
+      (* 1000)))
+
+(defn sec->ms [seconds]
+  (* seconds 1000))
+
 (defn date->y-pos [date-time total-height]
   (-> date-time
       (get-ms)
@@ -98,26 +112,19 @@
         zero-day-ms (.valueOf zero-day)]
     (js/Date. (+ zero-day-ms ms))))
 
-(defn relative-to-minutes [{:keys [hour minute]}]
-  (-> hour (* 60) (+ minute)))
-
 (defn overlapping-timestamps? [{start-a :start stop-a :stop}
                                {start-b :start stop-b :stop}]
   (and (<= (.valueOf start-b) (.valueOf stop-a))
        (<= (.valueOf start-a) (.valueOf stop-b))))
 
-(defn overlapping-relative-timestamps? [a b]
-  (let [start-a (relative-to-minutes (:start a))
-        stop-a  (relative-to-minutes (:stop a))
-        start-b (relative-to-minutes (:start b))
-        stop-b  (relative-to-minutes (:stop b))]
-
-    (and (<= start-b stop-a)
-         (<= start-a stop-b))))
+(defn overlapping-relative-timestamps? [{start-a :start stop-a :stop}
+                                        {start-b :start stop-b :stop}]
+  (and (<= start-b stop-a)
+       (<= start-a stop-b)))
 
 (defn overlapping-relative-time-or-date-obj? [a b]
-  (if (map? (:start a))
-    ;; If it is a map then it is the {:h 1 :m 2} style relative for a template
+  (if (int? (:start a))
+    ;; If it is an integer then it is the relative time for a template
     (overlapping-relative-timestamps? a b)
     ;; Otherwise it is a date object
     (overlapping-timestamps? a b)))

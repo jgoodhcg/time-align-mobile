@@ -375,43 +375,43 @@
    :dispatch [:navigate-to {:current-screen :period
                             :params {:period-id id}}]})
 
-(defn add-template-period [{:keys [db]} [_ {:keys [template id now]}]]
-  ;; template needs bucket-id
-  ;; TODO refactor so that this function takes in a template id (maybe bucket id)
-  ;; and then queries the db for the template
-  (let [new-data       (merge (:data template)
-                              {:template-id (:id template)})
-        start-relative (:start template)
-        duration       (:duration template)
-        start          (if (some? start-relative)
-                         (new js/Date
-                              (.getFullYear now)
-                              (.getMonth now)
-                              (.getDate now)
-                              (:hour start-relative)
-                              (:minute start-relative))
-                         now)
-        stop           (if (some? duration)
-                         (new js/Date (+ (.valueOf start) duration))
-                         (new js/Date (+ (.valueOf start) (* 1000 60))))
-        period         (merge template
-                              {:id    id
-                               :data  new-data
-                               :created now
-                               :last-edited now
-                               :start start
-                               :stop  stop})
-        period-clean   (clean-period period)]
+;; (defn add-template-period [{:keys [db]} [_ {:keys [template id now]}]]
+;;   ;; template needs bucket-id
+;;   ;; TODO refactor so that this function takes in a template id (maybe bucket id)
+;;   ;; and then queries the db for the template
+;;   (let [new-data       (merge (:data template)
+;;                               {:template-id (:id template)})
+;;         start-relative (:start template)
+;;         duration       (:duration template)
+;;         start          (if (some? start-relative)
+;;                          (new js/Date
+;;                               (.getFullYear now)
+;;                               (.getMonth now)
+;;                               (.getDate now)
+;;                               (:hour start-relative)
+;;                               (:minute start-relative))
+;;                          now)
+;;         stop           (if (some? duration)
+;;                          (new js/Date (+ (.valueOf start) duration))
+;;                          (new js/Date (+ (.valueOf start) (* 1000 60))))
+;;         period         (merge template
+;;                               {:id    id
+;;                                :data  new-data
+;;                                :created now
+;;                                :last-edited now
+;;                                :start start
+;;                                :stop  stop})
+;;         period-clean   (clean-period period)]
 
-    {:db       (setval [:buckets sp/ALL
-                        #(= (:id %) (:bucket-id template))
-                        :periods
-                        sp/NIL->VECTOR
-                        sp/AFTER-ELEM]
-                       period-clean
-                       db)
-     :dispatch [:navigate-to {:current-screen :period
-                              :params         {:period-id id}}]}))
+;;     {:db       (setval [:buckets sp/ALL
+;;                         #(= (:id %) (:bucket-id template))
+;;                         :periods
+;;                         sp/NIL->VECTOR
+;;                         sp/AFTER-ELEM]
+;;                        period-clean
+;;                        db)
+;;      :dispatch [:navigate-to {:current-screen :period
+;;                               :params         {:period-id id}}]}))
 
 (defn add-new-template [{:keys [db]} [_ {:keys [pattern-id bucket-id id now]}]]
   {:db       (setval [:patterns sp/ALL
@@ -426,10 +426,9 @@
                       :label       ""
                       :data        {}
                       :planned     true
-                      :start       {:hour   (.getHours now)
-                                    :minute (.getMinutes now)}
-                      :stop        {:hour   (.getHours now)
-                                    :minute (+ 5 (.getMinutes now))}}
+                      :start       (helpers/get-ms now)
+                      :stop        (+ (helpers/minutes->ms 5)
+                                      (helpers/get-ms now))}
                      db)
    :dispatch [:navigate-to {:current-screen :template
                             :params         {:template-id id}}]})
@@ -669,7 +668,7 @@
 (reg-event-db :update-active-filter [validate-spec persist-secure-store] update-active-filter)
 (reg-event-fx :add-new-bucket [validate-spec persist-secure-store] add-new-bucket)
 (reg-event-fx :add-new-period [validate-spec persist-secure-store] add-new-period)
-(reg-event-fx :add-template-period [validate-spec persist-secure-store] add-template-period)
+;; (reg-event-fx :add-template-period [validate-spec persist-secure-store] add-template-period)
 (reg-event-fx :add-new-template [validate-spec persist-secure-store] add-new-template)
 (reg-event-fx :add-new-filter [validate-spec persist-secure-store] add-new-filter)
 (reg-event-fx :delete-bucket [validate-spec persist-secure-store] delete-bucket)
