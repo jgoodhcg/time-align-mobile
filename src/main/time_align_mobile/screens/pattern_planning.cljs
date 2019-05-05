@@ -24,7 +24,7 @@
                                                       padding]]
             [reagent.core :as r]))
 
-(defn templates-comp [{:keys [templates dimensions]}]
+(defn templates-comp [{:keys [templates dimensions selected-template]}]
   [view
    (doall
     (->> templates
@@ -46,7 +46,7 @@
                              :collision-group-size (count collision-group)
                              :displayed-day        now
                              :dimensions           dimensions
-                             :selected-period      nil
+                             :selected-period      selected-template
                              :select-function-generator (fn [id]
                                                           #(dispatch [:select-template id]))
                              :period-in-play       nil}))))))))))])
@@ -248,20 +248,19 @@
                                  [:templates])]))]]
 
      ;; select-prev
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "select prev"
-     ;;   [mci {:name  "arrow-down-drop-circle"
-     ;;         :style {:transform [{:rotate "180deg"}]}}]
-     ;;   #(dispatch [:select-next-or-prev-template :prev])]]
+     [view row-style
+      [selection-menu-button
+       "select prev"
+       [mci {:name  "arrow-down-drop-circle"
+             :style {:transform [{:rotate "180deg"}]}}]
+       #(dispatch [:select-next-or-prev-template-in-form :prev])]]
 
      ;; select-next
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "select next"
-     ;;   [mci {:name "arrow-down-drop-circle"}]
-     ;;   #(dispatch [:select-next-or-prev-template :next])]]
-     ]))
+     [view row-style
+      [selection-menu-button
+       "select next"
+       [mci {:name "arrow-down-drop-circle"}]
+       #(dispatch [:select-next-or-prev-template-in-form :next])]]]))
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
@@ -303,10 +302,13 @@
                          :background-color styles/background-color}}
 
            [time-indicators @dimensions :left]
+
+           ;; templates
            [templates-comp {:templates  (->> @pattern-form
                                              :templates
                                              (sort-by :start)
                                              (helpers/get-collision-groups))
+                            :selected-template @selected-template
                             :dimensions @dimensions}]
 
            ;; selection menu

@@ -1784,7 +1784,7 @@ I don't know what this was for
       :END:
 ***** TODO Planning
       :LOGBOOK:
-      CLOCK: [2019-05-05 Sun 14:45]
+      CLOCK: [2019-05-05 Sun 14:45]--[2019-05-05 Sun 16:11] =>  1:26
       CLOCK: [2019-05-04 Sat 15:27]--[2019-05-04 Sat 17:26] =>  1:59
       CLOCK: [2019-05-04 Sat 12:53]--[2019-05-04 Sat 13:45] =>  0:52
       CLOCK: [2019-05-04 Sat 12:09]--[2019-05-04 Sat 12:12] =>  0:03
@@ -1808,28 +1808,28 @@ I don't know what this was for
       CLOCK: [2019-04-23 Tue 14:05]--[2019-04-23 Tue 14:37] =>  0:32
       :END:
 - [X] Screen stub
-- [-] Nav
+- [ ] Nav
   - [X] Navigation.cljs
-  - [-] Handlers ~:navigate-to~
+  - [ ] Handlers ~:navigate-to~
     - Might have to one day load the form again
   - [X] Temporary drawer item
-- [-] Subs
-- [-] Screen
+- [X] Subs
+- [ ] Screen
   - [X] Dimension awareness
   - [X] Time indicators
   - [X] Template rendering
   - [X] Top bar (pattern label)
-  - [-] Bottom bar
+  - [ ] Bottom bar
     - [X] Back to pattern form
     - [X] Save pattern form
       - [X] Get pattern form changes sub
         - It was already done
     - [ ] Apply pattern form to day
-  - [-] Selection menu
+  - [X] Selection menu
     - [X] Ability to select
-    - [-] Selection menu buttons
+    - [X] Selection menu buttons
       - [X] Copy over relevant day buttons
-      - [-] Translate period buttons to pattern form updates
+      - [X] Translate period buttons to pattern form updates
         - [X] Fix template start/stop data model
           - Should probably be ms of 24 hours and then parse into a date time
           - [X] Update app.db specs and default
@@ -1837,12 +1837,12 @@ I don't know what this was for
           - [X] Search ~start~ ~stop~
           - [X] Compile it
           - [X] Functional test
-        - [ ] Rest of the buttons
-          - [ ] Select next or prev button
-            - [ ] Fix template form
+        - [X] Rest of the buttons
+          - [X] Select next or prev button
+            - [X] Fix template form
               - [X] Start stop comps
               - [X] Bucket label parent picker comp
-            - [ ] Test in repl
+            - [X] Test in repl
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?
 - [ ] Remove stub menu entry

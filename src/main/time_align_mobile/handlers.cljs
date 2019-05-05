@@ -536,6 +536,35 @@
         db))
     db))
 
+(defn select-next-or-prev-template-in-form [db [_ direction]]
+  (if-let [selected-template-id (get-in db [:selected-template])]
+    (let [[pattern selected-template]
+          (select-one [:patterns sp/ALL
+                       (sp/collect-one (sp/submap [:id]))
+                       :templates sp/ALL
+                       #(= selected-template-id (:id %))] db)
+
+          sorted-templates (->> db
+                                (select [:patterns sp/ALL
+                                         #(= (:id %) (:id pattern))
+                                         :templates sp/ALL])
+                              (sort-by :start)
+                              (#(if (= direction :prev)
+                                  (reverse %)
+                                  %)))
+          next-template    (->> sorted-templates
+                                ;; Since they are sorted,
+                                ;; drop them until you get to
+                                ;; the current selected period.
+                                ;; Then take the next one.
+                                (drop-while
+                                 #(not (= (:id %) selected-template-id)))
+                                (second))]
+      (if (some? next-template)
+        (assoc-in db [:selected-template] (:id next-template))
+        db))
+    db))
+
 (defn update-day-time-navigator [db [_ new-date]]
   (assoc-in db [:time-navigators :day] new-date))
 
@@ -693,3 +722,4 @@
 (reg-event-db :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
 (reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
+(reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
