@@ -1841,7 +1841,7 @@ I don't know what this was for
           - [ ] Select next or prev button
             - [ ] Fix template form
               - [X] Start stop comps
-              - [ ] Bucket label parent picker comp
+              - [X] Bucket label parent picker comp
             - [ ] Test in repl
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?

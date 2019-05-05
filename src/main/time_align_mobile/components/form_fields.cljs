@@ -81,8 +81,8 @@
                   :style           {:width 250}
                   :on-value-change #(dispatch [update-key {:bucket-id %}])}
     (map (fn [bucket] [picker-item {:label (:label bucket)
-                                    :key   (:id bucket)
-                                    :value (:id bucket)}])
+                                    :key   (str (:id bucket))
+                                    :value (str (:id bucket))}])
          @buckets)]])
 
 (defn pattern-parent-picker-comp [form changes patterns update-key]
@@ -98,8 +98,8 @@
                   :style           {:width 250}
                   :on-value-change #(dispatch [update-key {:pattern-id %}])}
     (map (fn [pattern] [picker-item {:label (:label pattern)
-                                    :key   (:id pattern)
-                                    :value (:id pattern)}])
+                                     :key   (str (:id pattern))
+                                     :value (str (:id pattern))}])
          @patterns)]])
 
 (defn planned-comp [form changes update-key]

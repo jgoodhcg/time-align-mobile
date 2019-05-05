@@ -76,6 +76,7 @@
                                  (dispatch
                                   [:update-template-form {:data new-data}]))
         changes                (subscribe [:get-template-form-changes])
+        buckets                (subscribe [:get-buckets])
         patterns               (subscribe [:get-patterns])]
     [keyboard-aware-scroll-view
      ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1
@@ -97,7 +98,7 @@
 
       [bucket-parent-id-comp template-form changes]
 
-      [bucket-parent-picker-comp template-form changes patterns :update-template-form]
+      [bucket-parent-picker-comp template-form changes buckets :update-template-form]
 
       [id-comp template-form]
 
