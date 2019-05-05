@@ -197,19 +197,21 @@
                                       :flex            1})
 
 (def selection-menu-button-container-style {:background-color "#b9b9b9"
-                                             :width            "100%"
-                                             :padding-top      10
-                                             :padding-right    padding
-                                             :padding-left     padding
-                                             :height           "100%"
-                                             :flex-direction   "column"
-                                             :flex-wrap        "wrap"
-                                             :flex             1})
+                                            :width            "100%"
+                                            :padding-top      10
+                                            :padding-right    padding
+                                            :padding-left     padding
+                                            :height           "100%"
+                                            :flex-direction   "column"
+                                            :justify-content  "center"
+                                            :align-items      "center"
+                                            :flex-wrap        "wrap"
+                                            :flex             1})
 
 (defn selection-menu-buttons [{:keys [dimensions
-                                              selected-period
-                                              period-in-play
-                                              displayed-day]}]
+                                      selected-period
+                                      period-in-play
+                                      displayed-day]}]
 
   (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}

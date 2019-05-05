@@ -314,6 +314,7 @@
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
           [:<>
+           ;; back button
            [:> rne/Button
             ;; TODO prompt user that this will lose any unsaved changes
             {:icon            (r/as-element [:> rne/Icon {:name  "arrow-back"
@@ -323,6 +324,7 @@
                                                         :params         {:pattern-id (:id @pattern-form)}}])
              :container-style {:margin-right 4}}]
 
+           ;; save button
            [:> rne/Button
             (merge {:container-style {:margin-left 4}
                     :icon            (r/as-element [:> rne/Icon {:name  "save"
