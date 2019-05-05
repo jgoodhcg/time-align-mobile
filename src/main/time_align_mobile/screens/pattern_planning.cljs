@@ -195,43 +195,59 @@
                                   pattern-form)
                                  [:templates])]))]]
 
-     ;; ;; stop-later
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "stop later"
-     ;;   [mci {:name "arrow-expand-down"}]
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:stop (-> selected-template
-     ;;                                                        (:stop)
-     ;;                                                        (.valueOf)
-     ;;                                                        (+ (* 5 60 1000))
-     ;;                                                        (js/Date.))}}])
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:stop (-> selected-template
-     ;;                                                        (:stop)
-     ;;                                                        (.valueOf)
-     ;;                                                        (+ (* 60 60 1000))
-     ;;                                                        (js/Date.))}}])]]
+     ;; stop-later
+     [view row-style
+      [selection-menu-button
+       "stop later"
+       [mci {:name "arrow-expand-down"}]
+       (fn [_]
+         ;; TODO keep from going beyond end of day
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :stop]
+                                  #(+ % (helpers/minutes->ms 5))
+                                  pattern-form)
+                                 [:templates])]))
+       (fn [_]
+         ;; TODO keep from going beyond end of day
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :stop]
+                                  #(+ % (helpers/hours->ms 3))
+                                  pattern-form)
+                                 [:templates])]))]]
 
-     ;; ;; stop-earlier
-     ;; [view row-style
-     ;;  [selection-menu-button
-     ;;   "stop earlier"
-     ;;   [mci {:name "arrow-collapse-up"}]
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:stop (-> selected-template
-     ;;                                                        (:stop)
-     ;;                                                        (.valueOf)
-     ;;                                                        (- (* 5 60 1000))
-     ;;                                                        (js/Date.))}}])
-     ;;   #(dispatch [:update-template {:id         (:id selected-template)
-     ;;                                 :update-map {:stop (-> selected-template
-     ;;                                                        (:stop)
-     ;;                                                        (.valueOf)
-     ;;                                                        (- (* 60 60 1000))
-     ;;                                                        (js/Date.))}}])]]
+     ;; stop-earlier
+     [view row-style
+      [selection-menu-button
+       "stop earlier"
+       [mci {:name "arrow-collapse-up"}]
+       (fn [_]
+         ;; TODO keep from going before start
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :stop]
+                                  #(- % (helpers/minutes->ms 5))
+                                  pattern-form)
+                                 [:templates])]))
+       (fn [_]
+         ;; TODO keep from going before start
+         (dispatch [:update-pattern-form
+                    (select-keys (transform
+                                  [:templates sp/ALL
+                                   #(= (:id %) (:id selected-template))
+                                   :stop]
+                                  #(- % (helpers/hours->ms 3))
+                                  pattern-form)
+                                 [:templates])]))]]
 
-     ;; ;; select-prev
+     ;; select-prev
      ;; [view row-style
      ;;  [selection-menu-button
      ;;   "select prev"
@@ -239,7 +255,7 @@
      ;;         :style {:transform [{:rotate "180deg"}]}}]
      ;;   #(dispatch [:select-next-or-prev-template :prev])]]
 
-     ;; ;; select-next
+     ;; select-next
      ;; [view row-style
      ;;  [selection-menu-button
      ;;   "select next"
