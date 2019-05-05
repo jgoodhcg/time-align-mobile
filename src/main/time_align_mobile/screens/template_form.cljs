@@ -29,6 +29,7 @@
                                                               planned-comp
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
+            [time-align-mobile.helpers :as helpers]
             [time-align-mobile.styles :refer [field-label-changeable-style
                                               field-label-style]]))
 
@@ -37,14 +38,8 @@
 (def stop-modal-visible (r/atom false))
 
 (defn start-comp [template-form changes]
-  (let [{:keys [hour minute]} (:start @template-form)
-        std                   (new js/Date)
-        start-time            (new js/Date
-                                   (.getFullYear std)
-                                   (.getMonth std)
-                                   (.getDate std)
-                                   hour
-                                   minute)]
+  (let [start-ms   (:start @template-form)
+        start-time (helpers/reset-relative-ms start-ms (js/Date.))]
     [view {:style {:flex-direction "row"}}
      [text {:style (merge {:margin-right 8}
                           (field-label-changeable-style @changes :stop))} ":start"]
@@ -54,20 +49,14 @@
                         :date       start-time
                         :mode       "time"
                         :on-confirm (fn [d]
-                                      (dispatch [:update-template-form {:start {:hour   (.getHours d)
-                                                                                :minute (.getMinutes d)}}])
+                                      (dispatch
+                                       [:update-template-form {:start (helpers/get-ms d)}])
                                       (reset! start-modal-visible false))
                         :on-cancel  #(reset! start-modal-visible false)}]]))
 
 (defn stop-comp [template-form changes]
-  (let [{:keys [hour minute]} (:stop @template-form)
-        std                   (new js/Date)
-        stop-time            (new js/Date
-                                   (.getFullYear std)
-                                   (.getMonth std)
-                                   (.getDate std)
-                                   hour
-                                   minute)]
+  (let [stop-ms (:stop @template-form)
+        stop-time (helpers/reset-relative-ms stop-ms (js/Date.))]
     [view {:style {:flex-direction "row"}}
      [text {:style (merge {:margin-right 8}
                           (field-label-changeable-style @changes :stop))} ":stop"]
@@ -77,8 +66,7 @@
                         :date       stop-time
                         :mode       "time"
                         :on-confirm (fn [d]
-                                      (dispatch [:update-template-form {:stop {:hour   (.getHours d)
-                                                                                :minute (.getMinutes d)}}])
+                                      (dispatch [:update-template-form {:stop (helpers/get-ms d)}])
                                       (reset! stop-modal-visible false))
                         :on-cancel  #(reset! stop-modal-visible false)}]]))
 
