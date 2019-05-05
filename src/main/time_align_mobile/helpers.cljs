@@ -25,24 +25,6 @@
   ;; (with-out-str (zprint data 40))  ;; TODO doesn't like zprint :(
 )
 
-(defn get-ms
-  "takes a js/date and returns milliseconds since 00:00 that day. Essentially relative ms for the day."
-  [date]
-  (let [h  (.getHours date)
-        m  (.getMinutes date)
-        s  (.getSeconds date)
-        ms (.getMilliseconds date)]
-    (+
-     (-> h
-         (* 60)
-         (* 60)
-         (* 1000))
-     (-> m
-         (* 60)
-         (* 1000))
-     (-> s (* 1000))
-     ms)))
-
 (defn hours->ms [hours]
   (-> hours
       (* 60)
@@ -56,6 +38,16 @@
 
 (defn sec->ms [seconds]
   (* seconds 1000))
+
+(defn get-ms [date]
+  (let [hours   (.getHours date)
+        minutes (.getMinutes date)
+        seconds (.getSeconds date)
+        millis  (.getMilliseconds date)]
+    (+ (hours->ms hours)
+       (minutes->ms minutes)
+       (sec->ms seconds)
+       millis)))
 
 (defn date->y-pos [date-time total-height]
   (-> date-time
