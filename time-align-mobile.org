@@ -1,8 +1,8 @@
 #+TODO: TODO DOSUB | DONE CANCELED 
 
-* Time Align Mobile
+* DOSUB Time Align Mobile
   :LOGBOOK:
-  CLOCK: [2019-05-09 Thu 20:30]
+  CLOCK: [2019-05-09 Thu 20:30]--[2019-05-09 Thu 20:55] =>  0:25
   CLOCK: [2018-09-21 Fri 07:39]--[2018-09-21 Fri 07:40] =>  0:01
   CLOCK: [2018-08-29 Wed 14:41]--[2018-08-29 Wed 14:46] =>  0:05
   CLOCK: [2018-08-19 Sun 16:05]--[2018-08-19 Sun 16:09] =>  0:04
