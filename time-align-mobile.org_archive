@@ -2524,3 +2524,237 @@ Needs to stay in the same track as the currently selected period with a sane def
   :END:
 ** CANCELED Data field mode
    CLOSED: [2019-05-09 Thu 20:36]
+
+* CANCELED Preserve ordering of data keys
+  CLOSED: [2019-05-09 Thu 20:41]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:41
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Data view modal on info section
+  CLOSED: [2019-05-09 Thu 20:42]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:42
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Create template from period
+  CLOSED: [2019-05-09 Thu 20:45]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:45
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED From last to now
+  CLOSED: [2019-05-09 Thu 20:48]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:48
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* DONE Play button outside selection
+  CLOSED: [2019-05-09 Thu 20:48]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:48
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* CANCELED Select closest period
+  CLOSED: [2019-05-09 Thu 20:49]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:49
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+Convert touch to time and select the closest period.
+
+
+* CANCELED Add as start now or as stop now
+  CLOSED: [2019-05-09 Thu 20:49]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:49
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Things hard to do
+  CLOSED: [2019-05-09 Thu 20:49]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:49
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+- make new buckets
+- make new templates
+- add a template to now
+- stretch shrink a period
+See
+
+
+* CANCELED Order tamplates by last usage or edit
+  CLOSED: [2019-05-09 Thu 20:49]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:49
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Entry ui
+  CLOSED: [2019-05-09 Thu 20:50]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:50
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+Duplicate
+
+
+* CANCELED Insert and shift
+  CLOSED: [2019-05-09 Thu 20:51]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:51
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+Start on start and shift down or stop on stop and shift up
+Wut does this even mean?
+
+* CANCELED Zoom in
+  CLOSED: [2019-05-09 Thu 20:51]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:51
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Jump to start stop
+  CLOSED: [2019-05-09 Thu 20:51]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:51
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Template group
+  CLOSED: [2019-05-09 Thu 20:51]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:51
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+A group of period templates that can be added at the same time.
+
+
+* CANCELED New starting after/ending  before
+  CLOSED: [2019-05-09 Thu 20:52]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:52
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Cancel add period on each modal
+  CLOSED: [2019-05-09 Thu 20:52]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:52
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Put something between two selected periods
+  CLOSED: [2019-05-09 Thu 20:53]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:53
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Plugin style other app linking (walking amd strava)
+  CLOSED: [2019-05-09 Thu 20:53]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:53
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Move left and right (next prev day)
+  CLOSED: [2019-05-09 Thu 20:54]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Template groups relative start
+  CLOSED: [2019-05-09 Thu 20:54]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+Either have all start times be absolute or relative. Maybe an option when creating the group.
+
+
+* CANCELED Long press to place a default
+  CLOSED: [2019-05-09 Thu 20:54]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Dog food
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+Long pressing shouldn't bring you to the edit screen, double tapping should.
+

@@ -2,6 +2,7 @@
 
 * Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-05-09 Thu 20:30]
   CLOCK: [2018-09-21 Fri 07:39]--[2018-09-21 Fri 07:40] =>  0:01
   CLOCK: [2018-08-29 Wed 14:41]--[2018-08-29 Wed 14:46] =>  0:05
   CLOCK: [2018-08-19 Sun 16:05]--[2018-08-19 Sun 16:09] =>  0:04
@@ -30,12 +31,6 @@
 
 https://medium.com/@inkdrop/a-simple-way-to-run-js-in-background-thread-on-react-native-8fff345576da
 
-*** TODO Use cofx to insert uuid instead of putting (random-uuid) on dispatches
-*** TODO Refactor specter selections and transformations into functions
-
-Don't want all those path's defined over and over again.
-
-*** TODO Move all modal visibility to app-state
 *** TODO Add filters to select (period/template/bucket) modals
 *** TODO Import
     :LOGBOOK:
@@ -81,29 +76,7 @@ Had to refactor some stuff to make it easier to do visual design.
       CLOCK: [2019-04-15 Mon 18:23]--[2019-04-15 Mon 18:48] =>  0:25
       :END:
 ***** TODO Better button menu
-*** TODO Fix production builds
-
-Solution right now is not to use on ~shadow-cljs watch app~ to compile code not ~shadow-cljs release app~.
-There were rumblings about suing a metro patch to fix the error that occurs with release.
-Also consider using ~:infer-externs :auto~ in shadow build configuration.
-
-***** Patch
-
- #+begin_src diff
- --- worker.js    2018-11-21 14:46:01.271844624 -0700
- +++ worker.js    2018-11-21 14:45:52.517615272 -0700
- @@ -218,7 +218,7 @@
-      }
- 
-      if (!options.transformOptions.dev) {
- -      plugins.push([constantFoldingPlugin, opts]);
- +      // plugins.push([constantFoldingPlugin, opts]);
-        plugins.push([inlinePlugin, opts]);
-      }var _transformFromAstSync =
- #+end_src
-
 *** TODO Multiple in-play at once
-*** TODO Migrations of app-db
 ** DOSUB Dog food
 *** TODO Make data collapsible
 *** TODO Default filters
@@ -113,70 +86,49 @@ Also consider using ~:infer-externs :auto~ in shadow build configuration.
 - actual
 
 *** TODO Stackable filters
-*** TODO Preserve ordering of data keys
-*** TODO Data view modal on info section
+Does this happen in the filter selection or composite filters creatable in the filter form?
 *** TODO Quick add on day view
-
+Long press to activate. Drag and release to set start, drag and release to set stop.
 - Modals for selecting bucket or templates
 - Press and drag for duration
 
 *** TODO Add bucket color in selection on period form
 *** TODO Add duration indication to period form (graphical?)
 *** TODO Move end to now
+Option when a period is selected
 *** TODO Add exit to modals
 *** TODO Play from new vs play from end
+Buttons for both playing a period that is
+- the same label/parent/data as the selected but starts now
+- _?the same label/parent/data?_ as the selected but starts when the selected ends
 *** TODO Play from should change displayed day
 *** TODO Add port indicator
 
 The export dialog takes awhile to pop up.
-
+If this is inevitable then add some kind of loading animation.
 *** TODO Create template from period
+Then it needs to be added to a pattern?
++Or do templates free float some times?+
+Yes it does need to be added to a pattern, option to make a new pattern that only has this template.
 *** TODO Play from id added to new period
+When a new period is created add a data field
 *** TODO Snap to hour and surrounding periods
+Options in the selection menu.
 *** TODO Free text or better data
 
 Maybe checklists that are easy to get to
 
 *** TODO Copy to next (today?) day plan
-*** TODO From last to now
-*** TODO Play button outside selection
 *** TODO Notifications
 
 Get notified with options to adjust plan (snooze) or start a timer.
 
 *** TODO Dont show stop time when in play
-*** TODO Select closest period
-
-Convert touch to time and select the closest period.
-
-*** TODO Add as start now or as stop now
-*** TODO Things hard to do
-
-- make new buckets
-- make new templates
-- add a template to now
-- stretch shrink a period
-See
-
-*** TODO Order tamplates by last usage or edit
-*** TODO Entry ui
-
-Long press to activate. Drag and release to set start, drag and release to set stop.
-
-*** TODO Insert and shift
-
-Start on start and shift down or stop on stop and shift up
-
-*** TODO Zoom in
-*** TODO Jump to start stop
-*** TODO Template group
-
-A group of period templates that can be added at the same time.
-
-*** TODO New starting after/ending  before
+Or at least color it to show it is changing.
 *** TODO Jump to playing when another period is selected
+In the selection menu.
 *** TODO Jump to today
-*** TODO Cancel add period on each modal
+In the top bar.
 *** TODO Back button should navigate to last screen
     :LOGBOOK:
     CLOCK: [2018-08-18 Sat 14:51]--[2018-08-18 Sat 14:56] =>  0:05
@@ -267,20 +219,37 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
 - [ ] Pattern form component (link to screen)
 - [ ] Apply pattern to day in ?pattern list?
 - [ ] Remove stub menu entry
-*** TODO Put something between two selected periods
-*** TODO Plugin style other app linking (walking amd strava)
-*** TODO Move left and right (next prev day)
-*** TODO Template groups relative start
-
-Either have all start times be absolute or relative. Maybe an option when creating the group.
-
-*** TODO Long press to place a default
-
-Long pressing shouldn't bring you to the edit screen, double tapping should.
-
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt
+*** TODO Fix production builds
+
+Solution right now is not to use on ~shadow-cljs watch app~ to compile code not ~shadow-cljs release app~.
+There were rumblings about suing a metro patch to fix the error that occurs with release.
+Also consider using ~:infer-externs :auto~ in shadow build configuration.
+
+***** Patch
+
+ #+begin_src diff
+ --- worker.js    2018-11-21 14:46:01.271844624 -0700
+ +++ worker.js    2018-11-21 14:45:52.517615272 -0700
+ @@ -218,7 +218,7 @@
+      }
+ 
+      if (!options.transformOptions.dev) {
+ -      plugins.push([constantFoldingPlugin, opts]);
+ +      // plugins.push([constantFoldingPlugin, opts]);
+        plugins.push([inlinePlugin, opts]);
+      }var _transformFromAstSync =
+ #+end_src
+
+*** TODO Migrations of app-db
+*** TODO Move all modal visibility to app-state
+*** TODO Refactor specter selections and transformations into functions
+
+Don't want all those path's defined over and over again.
+
+*** TODO Use cofx to insert uuid instead of putting (random-uuid) on dispatches
 *** TODO Fully namespaced keywords
 This is needed for serious refactoring
 *** TODO Unit tests
