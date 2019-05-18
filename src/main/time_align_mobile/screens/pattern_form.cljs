@@ -82,6 +82,16 @@
        ;; [data-comp pattern-form changes update-structured-data]
        ;; [templates-comp pattern-form]
        [id-comp pattern-form]
+       [view
+        {:style {:padding 10}}
+        [:> rne/Button
+         {:title                "Edit Plan"
+          :icon                 (r/as-element [:> rne/Icon {:name  "air"
+                                                            :type  "entypo"
+                                                            :color "#fff"}])
+          :on-press             #(dispatch [:navigate-to {:current-screen :pattern-planning
+                                                          :params         nil}])
+          :container-style      {:margin-right 4}}]]
        [last-edited-comp pattern-form]
        [created-comp pattern-form]]]
 
