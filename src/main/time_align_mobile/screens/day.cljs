@@ -32,6 +32,7 @@
                                                       bottom-bar
                                                       bottom-bar-buttons
                                                       padding
+                                                      get-touch-info-from-event
                                                       selection-menu
                                                       selection-menu-button
                                                       selection-menu-buttons]]
@@ -60,7 +61,18 @@
 
 (defn make-period-from-touch [{:keys [displayed-day dimensions]}]
   (fn [evt]
-    (let [now          (js/Date.)
+    (let [now (js/Date.)
+
+          ;; touch stuff, separated for reuse
+          {:keys [native-event
+                  location-y
+                  location-x
+                  relative-ms
+                  start]}
+          (get-touch-info-from-event {:evt           evt
+                                      :dimensions    @dimensions
+                                      :displayed-day @displayed-day})
+
           native-event (oget evt "nativeEvent")
           location-y   (oget native-event "locationY")
           location-x   (oget native-event "locationX")

@@ -433,6 +433,28 @@
    :dispatch [:navigate-to {:current-screen :template
                             :params         {:template-id id}}]})
 
+(defn add-new-template-to-planning-form
+  [{:keys [db]} [_ {:keys [pattern-id
+                           bucket-id
+                           id
+                           now
+                           start]}]]
+  {:db       (setval [:forms :pattern-form
+                      :templates
+                      sp/NIL->VECTOR
+                      sp/AFTER-ELEM]
+                     {:id          id
+                      :bucket-id   bucket-id
+                      :created     now
+                      :last-edited now
+                      :label       ""
+                      :data        {}
+                      :planned     true
+                      :start       (helpers/get-ms start)
+                      :stop        (+ (helpers/minutes->ms 60)
+                                      (helpers/get-ms start))}
+                     db)})
+
 (defn add-new-filter [{:keys [db]} [_ {:keys [id now]}]]
   {:db (setval [:filters
                 sp/NIL->VECTOR
@@ -699,6 +721,7 @@
 (reg-event-fx :add-new-period [validate-spec persist-secure-store] add-new-period)
 ;; (reg-event-fx :add-template-period [validate-spec persist-secure-store] add-template-period)
 (reg-event-fx :add-new-template [validate-spec persist-secure-store] add-new-template)
+(reg-event-fx :add-new-template-to-planning-form [validate-spec persist-secure-store] add-new-template-to-planning-form)
 (reg-event-fx :add-new-filter [validate-spec persist-secure-store] add-new-filter)
 (reg-event-fx :delete-bucket [validate-spec persist-secure-store] delete-bucket)
 (reg-event-fx :delete-period [validate-spec persist-secure-store] delete-period)

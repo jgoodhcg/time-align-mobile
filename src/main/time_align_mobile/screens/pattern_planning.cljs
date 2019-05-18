@@ -17,6 +17,7 @@
                                                       bottom-bar
                                                       render-period
                                                       selection-menu
+                                                      get-touch-info-from-event
                                                       selection-menu-button-row-style
                                                       selection-menu-button
                                                       selection-menu-button-container-style
@@ -56,10 +57,6 @@
     [view {:style selection-menu-button-container-style}
      ;; cancel edit
      [view row-style
-      [selection-menu-button
-       "cancel"
-       [mci {:name "backburger"}]
-       #(dispatch [:select-template nil])]
       [selection-menu-button
        "edit"
        [mi {:name "edit"}]
@@ -264,6 +261,7 @@
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
+        buckets           (subscribe [:get-buckets]) ;; this is just for selecting a random bucket for new template long press
         changes           (subscribe [:get-pattern-form-changes])
         selected-template (subscribe [:get-selected-template])
         top-bar-height    styles/top-bar-height
@@ -295,7 +293,23 @@
 
          ;; view that stretches to fill what is left of the screen
          [touchable-highlight
-          {:on-long-press #(println "should make a template on this pattern")}
+          {:on-long-press (fn [evt]
+                            (let [{:keys [native-event
+                                          location-y
+                                          location-x
+                                          relative-ms
+                                          start]}
+                                  (get-touch-info-from-event {:evt           evt
+                                                              :dimensions    @dimensions
+                                                              :displayed-day (js/Date.)})]
+                              (dispatch [:add-new-template-to-planning-form
+                                         {:pattern-id (:id @pattern-form)
+                                          :start      start
+                                          :bucket-id  (->> @buckets
+                                                           first
+                                                           :id)
+                                          :id         (random-uuid)
+                                          :now        (js/Date.)}])))}
 
           [view {:style {:height           (:height @dimensions)
                          :width            (:width @dimensions)
@@ -304,12 +318,12 @@
            [time-indicators @dimensions :left]
 
            ;; templates
-           [templates-comp {:templates  (->> @pattern-form
-                                             :templates
-                                             (sort-by :start)
-                                             (helpers/get-collision-groups))
+           [templates-comp {:templates         (->> @pattern-form
+                                                    :templates
+                                                    (sort-by :start)
+                                                    (helpers/get-collision-groups))
                             :selected-template @selected-template
-                            :dimensions @dimensions}]
+                            :dimensions        @dimensions}]
 
            ;; selection menu
            (when (some? @selected-template)

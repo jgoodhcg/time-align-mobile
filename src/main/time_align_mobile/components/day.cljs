@@ -634,3 +634,18 @@
          :background-color "grey"}
 
    buttons])
+
+(defn get-touch-info-from-event [{:keys [evt
+                                         dimensions
+                                         displayed-day]}]
+  (let [native-event (oget evt "nativeEvent")
+        location-y   (oget native-event "locationY")
+        location-x   (oget native-event "locationX")
+        relative-ms  (helpers/y-pos->ms location-y (:height dimensions))
+        start        (helpers/reset-relative-ms relative-ms displayed-day)]
+
+    {:native-event native-event
+     :location-y location-y
+     :location-x location-x
+     :relative-ms relative-ms
+     :start start}))

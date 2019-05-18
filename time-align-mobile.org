@@ -76,6 +76,8 @@ Had to refactor some stuff to make it easier to do visual design.
       CLOCK: [2019-04-15 Mon 18:23]--[2019-04-15 Mon 18:48] =>  0:25
       :END:
 ***** TODO Better button menu
+**** Copy style of _things_
+https://culturedcode.com/things/
 *** TODO Multiple in-play at once
 ** DOSUB Dog food
 *** TODO Make data collapsible
@@ -157,6 +159,7 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
 **** DOSUB After sketch 
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-05-18 Sat 18:33]--[2019-05-18 Sat 19:31] =>  0:58
       CLOCK: [2019-05-05 Sun 14:45]--[2019-05-05 Sun 16:11] =>  1:26
       CLOCK: [2019-05-04 Sat 15:27]--[2019-05-04 Sat 17:26] =>  1:59
       CLOCK: [2019-05-04 Sat 12:53]--[2019-05-04 Sat 13:45] =>  0:52
@@ -181,18 +184,18 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
       CLOCK: [2019-04-23 Tue 14:05]--[2019-04-23 Tue 14:37] =>  0:32
       :END:
 - [X] Screen stub
-- [ ] Nav
+- [-] Nav
   - [X] Navigation.cljs
   - [ ] Handlers ~:navigate-to~
     - Might have to one day load the form again
   - [X] Temporary drawer item
 - [X] Subs
-- [ ] Screen
+- [-] Screen
   - [X] Dimension awareness
   - [X] Time indicators
   - [X] Template rendering
   - [X] Top bar (pattern label)
-  - [ ] Bottom bar
+  - [-] Bottom bar
     - [X] Back to pattern form
     - [X] Save pattern form
       - [X] Get pattern form changes sub
@@ -216,7 +219,8 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
               - [X] Start stop comps
               - [X] Bucket label parent picker comp
             - [X] Test in repl
-- [ ] Pattern form component (link to screen)
+- [X] Pattern form component (link to screen)
+- [X] Add new template to pattern plan with long press
 - [ ] Apply pattern to day in ?pattern list?
 - [ ] Remove stub menu entry
 ** DOSUB Predicting
