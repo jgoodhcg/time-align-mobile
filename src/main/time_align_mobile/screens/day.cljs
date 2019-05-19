@@ -38,9 +38,10 @@
                                                       selection-menu-buttons]]
             [reagent.core :as r]))
 
-;; constants
-
+;; atoms
 (def play-modal-visible (r/atom false))
+
+(def pattern-modal-visible (r/atom false))
 
 ;; components
 
@@ -167,6 +168,33 @@
                                                                   :id       (random-uuid)
                                                                   :now      (js/Date.)}]))})))))}]]])
 
+(defn pattern-modal-content [{:keys [patterns]}]
+  [view {:style {:flex    1
+                 :padding 10}}
+   [touchable-highlight {:on-press #(reset! pattern-modal-visible false)}
+            [text "Cancel"]]
+   [scroll-view {:style {:height "50%"}}
+    [text "Select a pattern to apply to today"]
+    [flat-list {:data @patterns
+                :key-extractor (fn [x]
+                                 (-> x
+                                     (js->clj)
+                                     (get "id")
+                                     (str)))
+                :render-item
+                (fn [i]
+                  (let [item (:item (js->clj i :keywordize-keys true))]
+                    (r/as-element
+                     (list-items/pattern
+                      (merge
+                       item
+                       {:on-press
+                        (fn [_]
+                          (reset! pattern-modal-visible false)
+                          ;; passing dispatch the parent bucket id
+                          ;; for the period about to be created
+                          (println "this is where we apply the pattern to the day"))})))))}]]])
+
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
         top-bar-height    styles/top-bar-height
@@ -177,6 +205,7 @@
         period-in-play    (subscribe [:get-period-in-play])
         now               (subscribe [:get-now])
         buckets           (subscribe [:get-buckets])
+        patterns          (subscribe [:get-patterns])
         templates         (subscribe [:get-templates])]
 
     (r/create-class
@@ -243,10 +272,11 @@
                 :displayed-day   @displayed-day
                 :period-in-play  @period-in-play}]])]]
 
-         [bottom-bar {:bottom-bar-height  bottom-bar-height}
-          [bottom-bar-buttons {:period-in-play     period-in-play
-                               :selected-period    selected-period
-                               :play-modal-visible play-modal-visible}]]
+         [bottom-bar {:bottom-bar-height bottom-bar-height}
+          [bottom-bar-buttons {:period-in-play        period-in-play
+                               :selected-period       selected-period
+                               :pattern-modal-visible pattern-modal-visible
+                               :play-modal-visible    play-modal-visible}]]
 
          ;; play modal
          [modal {:animation-type   "slide"
@@ -254,5 +284,12 @@
                  :on-request-close #(reset! play-modal-visible false)
                  :visible          @play-modal-visible}
           [play-modal-content {:templates templates
-                               :buckets   buckets}]]])})))
+                               :buckets   buckets}]]
+
+         ;; pattern modal
+         [modal {:animation-type   "slide"
+                 :transparent      false
+                 :on-request-close #(reset! pattern-modal-visible false)
+                 :visible          @pattern-modal-visible}
+          [pattern-modal-content {:patterns patterns}]]])})))
 

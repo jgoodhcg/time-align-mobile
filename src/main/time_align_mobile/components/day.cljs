@@ -4,6 +4,7 @@
                                                   fa
                                                   mci
                                                   mi
+                                                  en
                                                   scroll-view
                                                   format-date
                                                   format-time
@@ -603,8 +604,14 @@
 
 (defn bottom-bar-buttons [{:keys [period-in-play
                                   selected-period
+                                  pattern-modal-visible
                                   play-modal-visible]}]
   [:<>
+   [selection-menu-button
+    "apply pattern"
+    [en {:name "air"}]
+    #(reset! pattern-modal-visible true)]
+
    (if (some? @period-in-play)
      [selection-menu-button
       "stop playing"

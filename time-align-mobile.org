@@ -159,6 +159,8 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
 **** DOSUB After sketch 
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-05-19 Sun 19:01]--[2019-05-19 Sun 19:18] =>  0:17
+      CLOCK: [2019-05-19 Sun 15:58]--[2019-05-19 Sun 16:05] =>  0:07
       CLOCK: [2019-05-18 Sat 18:33]--[2019-05-18 Sat 19:31] =>  0:58
       CLOCK: [2019-05-05 Sun 14:45]--[2019-05-05 Sun 16:11] =>  1:26
       CLOCK: [2019-05-04 Sat 15:27]--[2019-05-04 Sat 17:26] =>  1:59
@@ -222,6 +224,7 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
 - [X] Pattern form component (link to screen)
 - [X] Add new template to pattern plan with long press
 - [ ] Apply pattern to day in ?pattern list?
+  - [X] Set up modal with list to select from
 - [ ] Remove stub menu entry
 ** DOSUB Predicting
 *** TODO look into markov chains
