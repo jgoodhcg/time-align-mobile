@@ -15,6 +15,7 @@
                                                   animated-xy
                                                   pan-responder]]
             ["react-native-elements" :as rne]
+            [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :refer [same-day?]]
@@ -175,7 +176,7 @@
             [text "Cancel"]]
    [scroll-view {:style {:height "50%"}}
     [text "Select a pattern to apply to today"]
-    [flat-list {:data @patterns
+    [flat-list {:data          @patterns
                 :key-extractor (fn [x]
                                  (-> x
                                      (js->clj)
@@ -183,17 +184,27 @@
                                      (str)))
                 :render-item
                 (fn [i]
-                  (let [item (:item (js->clj i :keywordize-keys true))]
+                  (let [pattern (:item (js->clj i :keywordize-keys true))]
                     (r/as-element
                      (list-items/pattern
                       (merge
-                       item
+                       pattern
                        {:on-press
                         (fn [_]
                           (reset! pattern-modal-visible false)
-                          ;; passing dispatch the parent bucket id
-                          ;; for the period about to be created
-                          (println "this is where we apply the pattern to the day"))})))))}]]])
+                          (let [new-periods
+                                (->> pattern
+                                     (transform
+                                      [:templates sp/ALL]
+                                      (fn [template]
+                                        (merge template
+                                               {:id          (random-uuid)
+                                                :planned     true
+                                                :last-edited (js/Date.)}))))]
+
+                            (dispatch [:apply-pattern-to-displayed-day
+                                       {:pattern-id  (:id pattern)
+                                        :new-periods new-periods}])))})))))}]]])
 
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})

@@ -702,6 +702,47 @@
         [:filters sp/NIL->VECTOR sp/AFTER-ELEM]
         filter)))
 
+(defn pseudo-template->perfect-period [displayed-day period-to-be]
+  (-> period-to-be
+      (merge
+       {:start
+        (helpers/reset-relative-ms
+         (:start period-to-be)
+         displayed-day)
+        :stop
+        (helpers/reset-relative-ms
+         (:stop period-to-be)
+         displayed-day)})
+      (select-keys (keys period-data-spec))))
+
+(defn apply-pattern-to-displayed-day [db [_ {:keys [pattern-id new-periods]}]]
+  (let [displayed-day     (get-in db [:time-navigators :day])
+        pattern           (->> db
+                               (select-one [:patterns sp/ALL
+                                            #(= (:id %) pattern-id)]))
+
+        all-bucket-ids (->> new-periods
+                            (select [sp/ALL :bucket-id]))]
+
+    ;; put the periods in the buckets
+    (->> db
+         (transform [:buckets sp/ALL
+                     #(some #{(:id %)} all-bucket-ids)]
+
+                    (fn [bucket]
+                      (let [old-period-list (:periods bucket)
+
+                            periods-to-add
+                            (->> new-periods
+                                 (filter #(= (:bucket-id %)
+                                             (:id bucket)))
+                                 (partial
+                                  pseudo-template->perfect-period
+                                  displayed-day))]
+                        (merge bucket
+                               {:periods (into old-period-list
+                                               periods-to-add)})))))))
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
