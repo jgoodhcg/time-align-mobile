@@ -201,8 +201,11 @@
       nil)))
 
 (defn get-selected-template [db _]
+  ;; this is only for pattern *form* templates
+  ;; NOT pattern templates
+  ;; TODO rename this to reflect *form* context
   (let [selected-id         (get-in db [:selected-template])
-        [pattern template ] (select-one [:patterns sp/ALL
+        [pattern template ] (select-one [:forms :pattern-form
                                          (sp/collect-one (sp/submap [:id :label]))
                                          :templates sp/ALL
                                          #(= (:id %) selected-id)] db)

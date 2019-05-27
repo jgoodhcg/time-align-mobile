@@ -59,10 +59,13 @@
      [view row-style
       [selection-menu-button
        "edit"
-       [mi {:name "edit"}]
-       #(dispatch [:navigate-to
-                   {:current-screen :template
-                    :params         {:template-id (:id selected-template)}}])]]
+       [view [mi {:name "edit"}]
+             [mi {:name "save"}]]
+       (fn [_]
+         (dispatch [:save-pattern-form (js/Date.)])
+         (dispatch [:navigate-to
+                    {:current-screen :template
+                     :params         {:template-id (:id selected-template)}}]))]]
 
      ;; start-later
      [view row-style
@@ -293,6 +296,7 @@
 
          ;; view that stretches to fill what is left of the screen
          [touchable-highlight
+          ;; add new template on long press
           {:on-long-press (fn [evt]
                             (let [{:keys [native-event
                                           location-y
@@ -364,5 +368,4 @@
                                                                  :color "#fff"}])
                     :on-press        #(dispatch [:save-pattern-form (js/Date.)])}
                    (when-not (> (count @changes) 0)
-                     {:disabled true}))]
-           ]]])})))
+                     {:disabled true}))]]]])})))

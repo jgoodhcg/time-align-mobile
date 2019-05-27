@@ -159,6 +159,7 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
 **** DOSUB After sketch 
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-05-27 Mon 19:00]--[2019-05-27 Mon 19:17] =>  0:17
       CLOCK: [2019-05-27 Mon 18:02]--[2019-05-27 Mon 18:56] =>  0:54
       CLOCK: [2019-05-27 Mon 17:15]--[2019-05-27 Mon 17:52] =>  0:37
       CLOCK: [2019-05-19 Sun 19:43]--[2019-05-19 Sun 20:23] =>  0:40
@@ -221,8 +222,7 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
         - [X] Rest of the buttons
           - [X] Select next or prev button
             - [X] Fix template form
-              - [X] Start stop comps
-              - [X] Bucket label parent picker comp
+              - [X] Start sto             - [X] Bucket label parent picker comp
             - [X] Test in repl
 - [X] Pattern form component (link to screen)
 - [X] Add new template to pattern plan with long press
@@ -231,6 +231,8 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
   - [X] Write handler function to transform and insert templates as periods into buckets
   - [X] Test out the handler function
 - [ ] Remove stub menu entry
+- [X] Fix long press on pattern planning
+- [ ] Figure how to either navigate back to form once editing or fixing the form/actual pattern saving problem
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt
