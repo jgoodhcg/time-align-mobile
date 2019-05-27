@@ -194,13 +194,13 @@
                           (reset! pattern-modal-visible false)
                           (let [new-periods
                                 (->> pattern
-                                     (transform
-                                      [:templates sp/ALL]
-                                      (fn [template]
-                                        (merge template
-                                               {:id          (random-uuid)
-                                                :planned     true
-                                                :last-edited (js/Date.)}))))]
+                                     :templates
+                                     (map (fn [template]
+                                            (merge template
+                                                   {:id          (random-uuid)
+                                                    :planned     true
+                                                    :created     (js/Date.)
+                                                    :last-edited (js/Date.)}))))]
 
                             (dispatch [:apply-pattern-to-displayed-day
                                        {:pattern-id  (:id pattern)

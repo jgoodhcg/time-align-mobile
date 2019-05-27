@@ -727,21 +727,23 @@
     ;; put the periods in the buckets
     (->> db
          (transform [:buckets sp/ALL
-                     #(some #{(:id %)} all-bucket-ids)]
+                     ;; find the buckets that need to be transformed
+                     #(some? (some #{(:id %)} all-bucket-ids))
+                     (sp/collect-one (sp/submap [:id]))
+                     :periods]
 
-                    (fn [bucket]
-                      (let [old-period-list (:periods bucket)
-
-                            periods-to-add
+                    (fn [bucket old-period-list]
+                      (let [periods-to-add
                             (->> new-periods
-                                 (filter #(= (:bucket-id %)
-                                             (:id bucket)))
-                                 (partial
-                                  pseudo-template->perfect-period
-                                  displayed-day))]
-                        (merge bucket
-                               {:periods (into old-period-list
-                                               periods-to-add)})))))))
+                                 ;; select periods for this bucket
+                                 (filter #(= (:bucket-id %) (:id bucket)))
+
+                                 ;; make the periods valid
+                                 (map #(pseudo-template->perfect-period
+                                        displayed-day %)))]
+
+                        ;; put the periods in the bucket
+                        (into old-period-list periods-to-add)))))))
 
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
@@ -787,3 +789,4 @@
 (reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
 (reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
+(reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
