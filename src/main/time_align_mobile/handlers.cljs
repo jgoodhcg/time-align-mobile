@@ -76,10 +76,15 @@
                   ;; prevents using incompatible filters
                   (assoc-in [:active-filter] nil))}
 
+         ;; bucket
          (when (= current-screen :bucket)
            {:dispatch [:load-bucket-form (:bucket-id params)]})
+
+         ;; pattern
          (when (= current-screen :pattern)
            {:dispatch [:load-pattern-form (:pattern-id params)]})
+
+         ;; pattern-planning
          (when (= current-screen :pattern-planning)
            {:dispatch [:load-pattern-form
                        ;; TODO change this or remove it
@@ -91,10 +96,18 @@
                        ;;     first
                        ;;     :id)
                        ]})
+
+         ;; period
          (when (= current-screen :period)
            {:dispatch [:load-period-form (:period-id params)]})
+
+         ;; template
          (when (= current-screen :template)
-           {:dispatch [:load-template-form (:template-id params)]})
+           (if (contains? params :pattern-form-pattern-id)
+             {:dispatch [:load-template-form-from-pattern-planning (:template-id params)]}
+             {:dispatch [:load-template-form (:template-id params)]}))
+
+         ;; filter
          (when (= current-screen :filter)
            {:dispatch [:load-filter-form (:filter-id params)]})))
 
@@ -229,6 +242,27 @@
 
     (assoc-in db [:forms :template-form] template-form)))
 
+(defn load-template-form-from-pattern-planning [db [_ template-id]]
+  ;; TODO this and possibly other spots _assume_ that data in the rest of the db will be there
+  ;; Determine if that is an anti pattern
+  (let [[pattern template] (select-one
+                            [:forms :pattern-form
+                             (sp/collect-one (sp/submap [:id]))
+                             :templates
+                             sp/ALL #( = (:id %) template-id)]
+                            db)
+        bucket             (select-one [:buckets sp/ALL
+                                        #(= (:bucket-id template) (:id %))] db)
+        external-data      {:pattern-id   (:id pattern)
+                            :bucket-id    (:id bucket)
+                            :bucket-color (:color bucket)
+                            :bucket-label (:label bucket)}
+        template-form      (merge template
+                                  external-data
+                                  {:data (helpers/print-data (:data template))})]
+
+    (assoc-in db [:forms :template-form] template-form)))
+
 (defn update-template-form [db [_ template-form]]
   (let [template-form (if (and (contains? template-form :bucket-id)
                                (contains? template-form :pattern-id))
@@ -283,6 +317,39 @@
         {:db       new-db
          ;; load template form so that the data string gets re-formatted prettier
          :dispatch [:load-template-form (:id new-template)]})
+      (catch js/Error e
+        {:db    db
+         :alert (str "Failed data read validation " e)}))))
+
+(defn save-template-form-from-pattern-planning [{:keys [db]} [_ date-time]]
+  (let [template-form (get-in db [:forms :template-form])]
+    (try
+      (let [new-data            (read-string (:data template-form))
+            keys-wanted         (->> template-form
+                                     (keys)
+                                     (remove #(or (= :bucket-label %)
+                                                  (= :bucket-color %)
+                                                  (= :pattern-id %))))
+            new-template        (-> template-form
+                                    (merge {:data        new-data
+                                            :last-edited date-time})
+                                    (select-keys keys-wanted))
+            old-template        (select-one [:forms :pattern-form
+                                             :templates sp/ALL
+                                             #(= (:id %) (:id new-template))] db)
+            removed-template-db (setval [:forms :pattern-form
+                                         :templates sp/ALL
+                                         #(= (:id %) (:id old-template))]
+                                        sp/NONE db)
+            new-db              (setval [:forms :pattern-form
+                                         :templates
+                                         sp/NIL->VECTOR
+                                         sp/AFTER-ELEM]
+                                        new-template removed-template-db)]
+
+        {:db       new-db
+         ;; load template form so that the data string gets re-formatted prettier
+         :dispatch [:load-template-form-from-pattern-planning (:id new-template)]})
       (catch js/Error e
         {:db    db
          :alert (str "Failed data read validation " e)}))))
@@ -492,6 +559,15 @@
             (setval [:forms :pattern-form] nil))
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :templates}]})
+
+(defn delete-template-from-pattern-planning [{:keys [db]} [_ id]]
+  {:db (->> db
+            (setval [:forms :pattern-form :templates
+                     sp/ALL #(= id (:id %))] sp/NONE)
+            (setval [:forms :template-form] nil))
+   ;; TODO pop stack when possible
+   :dispatch [:navigate-to {:current-screen :pattern-planning
+                            :params {:pattern-id (get-in db [:forms :pattern-form :id])}}]})
 
 (defn delete-filter [{:keys [db]} [_ id]]
   {:db (->> db
@@ -754,8 +830,12 @@
 (reg-event-db :update-period-form [validate-spec persist-secure-store] update-period-form)
 (reg-event-fx :save-period-form [alert-message validate-spec persist-secure-store] save-period-form)
 (reg-event-db :load-template-form [validate-spec persist-secure-store] load-template-form)
+(reg-event-db :load-template-form-from-pattern-planning [validate-spec persist-secure-store]
+              load-template-form-from-pattern-planning)
 (reg-event-db :update-template-form [validate-spec persist-secure-store] update-template-form)
 (reg-event-fx :save-template-form [alert-message validate-spec persist-secure-store] save-template-form)
+(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec persist-secure-store]
+              save-template-form-from-pattern-planning)
 (reg-event-db :load-filter-form [validate-spec persist-secure-store] load-filter-form)
 (reg-event-db :update-filter-form [validate-spec persist-secure-store] update-filter-form)
 (reg-event-fx :save-filter-form [alert-message validate-spec persist-secure-store] save-filter-form)
@@ -769,6 +849,8 @@
 (reg-event-fx :delete-bucket [validate-spec persist-secure-store] delete-bucket)
 (reg-event-fx :delete-period [validate-spec persist-secure-store] delete-period)
 (reg-event-fx :delete-template [validate-spec persist-secure-store] delete-template)
+(reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store]
+              delete-template-from-pattern-planning)
 (reg-event-fx :delete-filter [validate-spec persist-secure-store] delete-filter)
 (reg-event-db :select-period [validate-spec persist-secure-store] select-period)
 (reg-event-db :select-template [validate-spec persist-secure-store] select-template)

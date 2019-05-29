@@ -55,17 +55,16 @@
 (defn selection-menu-buttons [selected-template pattern-form]
   (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}
-     ;; cancel edit
+     ;; edit
      [view row-style
       [selection-menu-button
        "edit"
-       [view [mi {:name "edit"}]
-             [mi {:name "save"}]]
+       [mi {:name "edit"}]
        (fn [_]
-         (dispatch [:save-pattern-form (js/Date.)])
          (dispatch [:navigate-to
                     {:current-screen :template
-                     :params         {:template-id (:id selected-template)}}]))]]
+                     :params         {:template-id             (:id selected-template)
+                                      :pattern-form-pattern-id (:id pattern-form)}}]))]]
 
      ;; start-later
      [view row-style

@@ -71,13 +71,15 @@
                         :on-cancel  #(reset! stop-modal-visible false)}]]))
 
 (defn root [params]
-  (let [template-form          (subscribe [:get-template-form])
-        update-structured-data (fn [new-data]
-                                 (dispatch
-                                  [:update-template-form {:data new-data}]))
-        changes                (subscribe [:get-template-form-changes])
-        buckets                (subscribe [:get-buckets])
-        patterns               (subscribe [:get-patterns])]
+  (let [template-form                  (subscribe [:get-template-form])
+        update-structured-data         (fn [new-data]
+                                         (dispatch
+                                          [:update-template-form {:data new-data}]))
+        changes                        (subscribe [:get-template-form-changes])
+        buckets                        (subscribe [:get-buckets])
+        patterns                       (subscribe [:get-patterns])
+        template-from-pattern-planning (contains? params :pattern-form-pattern-id)]
+
     [keyboard-aware-scroll-view
      ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1
      {:enable-on-android            true
@@ -114,8 +116,14 @@
 
       ;; [data-comp template-form changes update-structured-data]
 
-      [form-buttons/root
-       {:changed        (> (count @changes) 0)
-        :save-changes   #(dispatch [:save-template-form (new js/Date)])
-        :cancel-changes #(dispatch [:load-template-form (:id @template-form)])
-        :delete-item    #(dispatch [:delete-template (:id @template-form)])}]]]))
+      (if template-from-pattern-planning
+        [form-buttons/root
+         {:changed        (> count @changes 0)
+          :save-changes   #(dispatch [:save-template-form-from-pattern-planning (new js/Date)])
+          :cancel-changes #(dispatch [:load-template-form-from-pattern-planning (:id @template-form)])
+          :delete-item    #(dispatch [:delete-template-from-pattern-planning (:id @template-form)])}]
+        [form-buttons/root
+         {:changed        (> (count @changes) 0)
+          :save-changes   #(dispatch [:save-template-form (new js/Date)])
+          :cancel-changes #(dispatch [:load-template-form (:id @template-form)])
+          :delete-item    #(dispatch [:delete-template (:id @template-form)])}])]]))

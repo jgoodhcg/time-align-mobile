@@ -159,6 +159,9 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
 **** DOSUB After sketch 
 ***** TODO Planning
       :LOGBOOK:
+      CLOCK: [2019-05-28 Tue 18:51]--[2019-05-28 Tue 20:15] =>  1:24
+      CLOCK: [2019-05-28 Tue 18:50]--[2019-05-28 Tue 18:50] =>  0:00
+      CLOCK: [2019-05-28 Tue 16:45]--[2019-05-28 Tue 17:33] =>  0:48
       CLOCK: [2019-05-27 Mon 19:00]--[2019-05-27 Mon 19:17] =>  0:17
       CLOCK: [2019-05-27 Mon 18:02]--[2019-05-27 Mon 18:56] =>  0:54
       CLOCK: [2019-05-27 Mon 17:15]--[2019-05-27 Mon 17:52] =>  0:37
@@ -232,7 +235,12 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
   - [X] Test out the handler function
 - [ ] Remove stub menu entry
 - [X] Fix long press on pattern planning
-- [ ] Figure how to either navigate back to form once editing or fixing the form/actual pattern saving problem
+- [ ] Be able to edit templates on the form in the planning screen
+  - [X] Add special template form navigation case in handlers
+  - [X] Add new handler for loading special template form
+  - [X] Add other handlers from form buttons
+  - [X] Change edit button in pattern planning
+  - [ ] Adjust change detection
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt
