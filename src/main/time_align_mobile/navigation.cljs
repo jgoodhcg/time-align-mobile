@@ -50,10 +50,9 @@
 (def pattern-planning-screen {:id              :pattern-planning
                               :label           "pattern planning"
                               :screen          pattern-planning-screen/root
-                              :in-drawer       true
-                              :position-drawer 3.5
-                              :icon            {:family "Entypo"
-                                                :name   "500px"}})
+                              :in-drawer       false
+                              :position-drawer nil
+                              :icon            nil})
 
 (def period-screen {:id       :period
                     :label           "period"

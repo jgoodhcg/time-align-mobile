@@ -149,16 +149,22 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
     CLOCK: [2019-03-17 Sun 16:29]--[2019-03-17 Sun 16:29] =>  0:00
     :END:
 
-*** DOSUB [#A] Template a day
+*** DONE Template a day
+    CLOSED: [2019-05-29 Wed 20:50]
     :LOGBOOK:
     CLOCK: [2019-04-19 Fri 16:30]--[2019-04-19 Fri 16:47] =>  0:17
     CLOCK: [2019-04-17 Wed 17:19]--[2019-04-17 Wed 17:19] =>  0:00
     CLOCK: [2019-04-17 Wed 16:23]--[2019-04-17 Wed 16:33] =>  0:10
     CLOCK: [2019-04-16 Tue 13:30]--[2019-04-16 Tue 14:30] =>  1:00
     :END:
-**** DOSUB After sketch 
-***** TODO Planning
+**** DONE After sketch 
+     CLOSED: [2019-05-29 Wed 20:50]
+***** DONE Planning
+      CLOSED: [2019-05-29 Wed 20:50]
       :LOGBOOK:
+      CLOCK: [2019-05-29 Wed 20:22]--[2019-05-29 Wed 20:50] =>  0:28
+      CLOCK: [2019-05-29 Wed 20:04]--[2019-05-29 Wed 20:04] =>  0:00
+      CLOCK: [2019-05-29 Wed 19:31]--[2019-05-29 Wed 20:04] =>  0:33
       CLOCK: [2019-05-28 Tue 18:51]--[2019-05-28 Tue 20:15] =>  1:24
       CLOCK: [2019-05-28 Tue 18:50]--[2019-05-28 Tue 18:50] =>  0:00
       CLOCK: [2019-05-28 Tue 16:45]--[2019-05-28 Tue 17:33] =>  0:48
@@ -193,9 +199,9 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
       CLOCK: [2019-04-23 Tue 14:05]--[2019-04-23 Tue 14:37] =>  0:32
       :END:
 - [X] Screen stub
-- [-] Nav
+- [X] Nav
   - [X] Navigation.cljs
-  - [ ] Handlers ~:navigate-to~
+  - [X] Handlers ~:navigate-to~
     - Might have to one day load the form again
   - [X] Temporary drawer item
 - [X] Subs
@@ -204,12 +210,12 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
   - [X] Time indicators
   - [X] Template rendering
   - [X] Top bar (pattern label)
-  - [-] Bottom bar
+  - [X] Bottom bar
     - [X] Back to pattern form
     - [X] Save pattern form
       - [X] Get pattern form changes sub
         - It was already done
-    - [ ] Apply pattern form to day
+    - [X] Apply pattern form to day
   - [X] Selection menu
     - [X] Ability to select
     - [X] Selection menu buttons
@@ -233,14 +239,15 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
   - [X] Set up modal with list to select from
   - [X] Write handler function to transform and insert templates as periods into buckets
   - [X] Test out the handler function
-- [ ] Remove stub menu entry
+- [X] Remove stub menu entry
 - [X] Fix long press on pattern planning
-- [ ] Be able to edit templates on the form in the planning screen
+- [X] Be able to edit templates on the form in the planning screen
   - [X] Add special template form navigation case in handlers
   - [X] Add new handler for loading special template form
   - [X] Add other handlers from form buttons
   - [X] Change edit button in pattern planning
-  - [ ] Adjust change detection
+  - [X] Adjust change detection
+  - [X] Figure out how to navigate back to pattern planning without loading form
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt

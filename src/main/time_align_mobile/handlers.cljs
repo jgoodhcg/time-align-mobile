@@ -81,21 +81,14 @@
            {:dispatch [:load-bucket-form (:bucket-id params)]})
 
          ;; pattern
-         (when (= current-screen :pattern)
+         (when (and (= current-screen :pattern)
+                    (not (:do-not-load-form params)) )
            {:dispatch [:load-pattern-form (:pattern-id params)]})
 
          ;; pattern-planning
-         (when (= current-screen :pattern-planning)
-           {:dispatch [:load-pattern-form
-                       ;; TODO change this or remove it
-                       (select-one [:patterns sp/ALL
-                                    #(not-empty (:templates %)) :id]
-                                   db)
-                       ;; (-> db
-                       ;;     (get-in [:patterns])
-                       ;;     first
-                       ;;     :id)
-                       ]})
+         (when (and (= current-screen :pattern-planning)
+                    (not (:do-not-load-form params)))
+           {:dispatch [:load-pattern-form (:pattern-id params)]})
 
          ;; period
          (when (= current-screen :period)
@@ -325,6 +318,7 @@
   (let [template-form (get-in db [:forms :template-form])]
     (try
       (let [new-data            (read-string (:data template-form))
+            ;; TODO use the spec to get the wanted keys
             keys-wanted         (->> template-form
                                      (keys)
                                      (remove #(or (= :bucket-label %)

@@ -126,6 +126,36 @@
       ;; return an empty map if there is no loaded template in the form
       {})))
 
+(defn get-template-form-changes-from-pattern-planning [db _]
+  (let [template-form (get-in db [:forms :template-form])]
+    (if (some? (:id template-form))
+      (let [[pattern template] (select-one
+                                [:forms :pattern-form
+                                 (sp/collect-one
+                                  (sp/submap [:id :label]))
+                                 :templates sp/ALL
+                                 #(= (:id %) (:id template-form))]
+                                db)
+            ;; data needs to be coerced to compare to form
+            new-data           (helpers/print-data (:data template))
+            bucket             (select-one
+                                [:buckets sp/ALL
+                                 #(= (:id %) (:bucket-id template-form))]
+                                           db)
+            altered-template   (merge template {:data          new-data
+                                                :pattern-id    (:id pattern)
+                                                :pattern-label (:label pattern)
+                                                :bucket-color  (:color bucket)
+                                                :bucket-label  (:label bucket)})
+            different-keys     (->> (clojure.data/diff
+                                     template-form altered-template)
+                                    (first))]
+        (if (nil? different-keys)
+          {} ;; empty map if no changes
+          different-keys))
+      ;; return an empty map if there is no loaded template in the form
+      {})))
+
 (defn get-templates [db _]
   (->> (select [:patterns sp/ALL
                 (sp/collect-one (sp/submap [:id :label]))
@@ -322,6 +352,8 @@
 (reg-sub :get-templates get-templates)
 (reg-sub :get-template-form get-template-form)
 (reg-sub :get-template-form-changes get-template-form-changes)
+(reg-sub :get-template-form-changes-from-pattern-planning
+         get-template-form-changes-from-pattern-planning)
 (reg-sub :get-filter-form get-filter-form)
 (reg-sub :get-filter-form-changes get-filter-form-changes)
 (reg-sub :get-filters get-filters)

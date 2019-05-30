@@ -2,6 +2,7 @@
   (:require [time-align-mobile.js-imports :refer [view text]]
             [re-frame.core :refer [subscribe dispatch]]
             ["react" :as react]
+            ["react-native-elements" :as rne]
             [time-align-mobile.js-imports :refer [view
                                                   keyboard-aware-scroll-view
                                                   text
@@ -76,6 +77,7 @@
                                          (dispatch
                                           [:update-template-form {:data new-data}]))
         changes                        (subscribe [:get-template-form-changes])
+        changes-from-pattern-planning  (subscribe [:get-template-form-changes-from-pattern-planning])
         buckets                        (subscribe [:get-buckets])
         patterns                       (subscribe [:get-patterns])
         template-from-pattern-planning (contains? params :pattern-form-pattern-id)]
@@ -95,12 +97,16 @@
 
       [pattern-parent-id-comp template-form changes]
 
-      [pattern-parent-picker-comp template-form changes patterns :update-template-form]
-
+      (when (not template-from-pattern-planning)
+        [pattern-parent-picker-comp template-form changes patterns :update-template-form])
 
       [bucket-parent-id-comp template-form changes]
 
-      [bucket-parent-picker-comp template-form changes buckets :update-template-form]
+      [bucket-parent-picker-comp
+       template-form
+       changes
+       buckets
+       :update-template-form]
 
       [id-comp template-form]
 
@@ -115,13 +121,24 @@
       [stop-comp template-form changes]
 
       ;; [data-comp template-form changes update-structured-data]
+      (when template-from-pattern-planning
+        [:> rne/Button
+         {:icon            (r/as-element [:> rne/Icon {:name  "arrow-back"
+                                                       :type  "material-icons"
+                                                       :color "#fff"}])
+          :on-press        #(dispatch [:navigate-to {:current-screen :pattern-planning
+                                                     :params         {:do-not-load-form true}}])
+          :container-style {:margin-right 4}}])
 
       (if template-from-pattern-planning
         [form-buttons/root
-         {:changed        (> count @changes 0)
-          :save-changes   #(dispatch [:save-template-form-from-pattern-planning (new js/Date)])
-          :cancel-changes #(dispatch [:load-template-form-from-pattern-planning (:id @template-form)])
-          :delete-item    #(dispatch [:delete-template-from-pattern-planning (:id @template-form)])}]
+         {:changed        (> (count @changes-from-pattern-planning) 0)
+          :save-changes   #(dispatch [:save-template-form-from-pattern-planning
+                                      (new js/Date)])
+          :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
+                                      (:id @template-form)])
+          :delete-item    #(dispatch [:delete-template-from-pattern-planning
+                                      (:id @template-form)])}]
         [form-buttons/root
          {:changed        (> (count @changes) 0)
           :save-changes   #(dispatch [:save-template-form (new js/Date)])

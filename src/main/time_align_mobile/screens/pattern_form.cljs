@@ -90,7 +90,7 @@
                                                             :type  "entypo"
                                                             :color "#fff"}])
           :on-press             #(dispatch [:navigate-to {:current-screen :pattern-planning
-                                                          :params         nil}])
+                                                          :params         {:do-not-load-form true}}])
           :container-style      {:margin-right 4}}]]
        [last-edited-comp pattern-form]
        [created-comp pattern-form]]]
