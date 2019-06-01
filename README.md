@@ -39,6 +39,6 @@ app
 ## production build
 ```bash
 # $ shadow-cljs release app # doesn't work right now
-$ shadpow-cljs build app # this means we are publishing the
-$ expo build:android and expo-publish after cancelling the watch command
+$ shadpow-cljs compile app # this means we are publishing the non optimized source code
+$ expo build:android and expo publish after compile command runs or cancelling the watch command
 ```
