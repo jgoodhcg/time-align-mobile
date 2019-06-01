@@ -79,7 +79,7 @@
                   {:font-size 16})} "Bucket Label"]
    [:> rn/Picker {:selected-value  (str (:bucket-id @form))
                   :style           {:width 250}
-                  :on-value-change #(dispatch [update-key {:bucket-id %}])}
+                  :on-value-change #(dispatch [update-key {:bucket-id (uuid %)}])}
     (map (fn [bucket] [picker-item {:label (:label bucket)
                                     :key   (str (:id bucket))
                                     :value (str (:id bucket))}])
@@ -96,7 +96,7 @@
                   {:font-size 16})} "Pattern Label"]
    [:> rn/Picker {:selected-value  (str (:pattern-id @form))
                   :style           {:width 250}
-                  :on-value-change #(dispatch [update-key {:pattern-id %}])}
+                  :on-value-change #(dispatch [update-key {:pattern-id (uuid %)}])}
     (map (fn [pattern] [picker-item {:label (:label pattern)
                                      :key   (str (:id pattern))
                                      :value (str (:id pattern))}])

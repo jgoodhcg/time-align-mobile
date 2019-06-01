@@ -253,7 +253,11 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
     :LOGBOOK:
     CLOCK: [2019-06-01 Sat 13:40]--[2019-06-01 Sat 14:00] =>  0:20
     :END:
-*** TODO Fix changing bucket on template from day planning
+*** DONE Fix changing bucket on template from day planning
+    CLOSED: [2019-06-01 Sat 14:16]
+    :LOGBOOK:
+    CLOCK: [2019-06-01 Sat 14:00]--[2019-06-01 Sat 14:16] =>  0:16
+    :END:
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt
