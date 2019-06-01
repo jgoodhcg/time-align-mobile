@@ -248,6 +248,12 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
   - [X] Change edit button in pattern planning
   - [X] Adjust change detection
   - [X] Figure out how to navigate back to pattern planning without loading form
+*** DONE Fix bucket form showing changes when nothing is edited in the form
+    CLOSED: [2019-06-01 Sat 14:00]
+    :LOGBOOK:
+    CLOCK: [2019-06-01 Sat 13:40]--[2019-06-01 Sat 14:00] =>  0:20
+    :END:
+*** TODO Fix changing bucket on template from day planning
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt

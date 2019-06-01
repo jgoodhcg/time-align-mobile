@@ -19,11 +19,15 @@
        :data        {:please "wait"}})))
 
 (defn get-bucket-form-changes [db _]
-  (let [bucket-form (get-in db [:forms :bucket-form])]
+  (let [bucket-form (-> db
+                        (get-in [:forms :bucket-form])
+                        (dissoc :periods))] ;; dissoc periods in case there is a period playing for this bucket
     (if (some? (:id bucket-form))
-      (let [bucket (first
-                  (select [:buckets sp/ALL #(= (:id %) (:id bucket-form))]
-                          db))
+      (let [bucket (->> db
+                        (select [:buckets sp/ALL
+                                 #(= (:id %) (:id bucket-form))])
+                        first
+                        (#(dissoc % :periods))) ;; dissoc periods in case there is a period playing for this bucket
             ;; data needs to be coerced to compare to form
             new-data (helpers/print-data (:data bucket))
             ;; (.stringify js/JSON
