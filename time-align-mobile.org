@@ -45,23 +45,6 @@ Might have to wait for a share reciever expo api, or detach.
     CLOCK: [2019-03-16 Sat 19:39]--[2019-03-16 Sat 19:40] =>  0:01
     CLOCK: [2019-03-16 Sat 13:08]--[2019-03-16 Sat 13:38] =>  0:30
     :END:
-**** TODO Inputs on forms
-     :LOGBOOK:
-     CLOCK: [2019-03-17 Sun 16:34]--[2019-03-17 Sun 16:44] =>  0:10
-     CLOCK: [2019-03-17 Sun 15:18]--[2019-03-17 Sun 16:29] =>  1:11
-     CLOCK: [2019-03-17 Sun 14:27]--[2019-03-17 Sun 14:27] =>  0:00
-     CLOCK: [2019-03-16 Sat 19:40]--[2019-03-16 Sat 21:26] =>  1:46
-     :END:
-   - [X] Bucket
-   - [ ] Period
-   - [ ] Template
-   - [ ] Filter
-   - [ ] Shared components
-
-**** TODO Fix something I broke and then play with spec'ing functions
-     :LOGBOOK:
-     CLOCK: [2019-03-22 Fri 19:32]--[2019-03-22 Fri 20:41] =>  1:09
-     :END:
 **** DOSUB Day
      :LOGBOOK:
      CLOCK: [2019-03-23 Sat 18:43]--[2019-03-23 Sat 18:43] =>  0:00
@@ -76,8 +59,19 @@ Had to refactor some stuff to make it easier to do visual design.
       CLOCK: [2019-04-15 Mon 18:23]--[2019-04-15 Mon 18:48] =>  0:25
       :END:
 ***** TODO Better button menu
-**** Copy style of _things_
+**** Copy style of _things_ and _airtable_
+     :LOGBOOK:
+     :END:
 https://culturedcode.com/things/
+https://airtable.com
+
+***** DONE Make menu button backround dark
+      CLOSED: [2019-06-01 Sat 20:32]
+      :LOGBOOK:
+      CLOCK: [2019-06-01 Sat 20:32]--[2019-06-01 Sat 20:47] =>  0:15
+      CLOCK: [2019-06-01 Sat 20:32]--[2019-06-01 Sat 20:32] =>  0:00
+     CLOCK: [2019-06-01 Sat 19:50]--[2019-06-01 Sat 20:32] =>  0:42
+      :END:
 *** TODO Multiple in-play at once
 ** DOSUB Dog food
 *** TODO Make data collapsible

@@ -23,9 +23,11 @@
 
 (def border-color "#dadce0")
 (def background-color "#fff")
+(def background-color-dark "#333333")
 (def time-indicator-line-style {:background-color border-color
                                 :height           2})
 (def time-indicator-text-style {:color border-color})
 
 (def top-bar-height 50)
 (def bottom-bar-height 40)
+(def text-light "#fff")

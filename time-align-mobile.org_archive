@@ -2758,3 +2758,38 @@ Either have all start times be absolute or relative. Maybe an option when creati
 
 Long pressing shouldn't bring you to the edit screen, double tapping should.
 
+
+* DONE Fix something I broke and then play with spec'ing functions
+  CLOSED: [2019-06-01 Sat 19:44]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-01 Sat 19:44
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Misc/Overhaul style with react native elements
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-03-22 Fri 19:32]--[2019-03-22 Fri 20:41] =>  1:09
+  :END:
+
+* CANCELED Inputs on forms
+  CLOSED: [2019-06-01 Sat 19:44]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-01 Sat 19:44
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Misc/Overhaul style with react native elements
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-03-17 Sun 16:34]--[2019-03-17 Sun 16:44] =>  0:10
+  CLOCK: [2019-03-17 Sun 15:18]--[2019-03-17 Sun 16:29] =>  1:11
+  CLOCK: [2019-03-17 Sun 14:27]--[2019-03-17 Sun 14:27] =>  0:00
+  CLOCK: [2019-03-16 Sat 19:40]--[2019-03-16 Sat 21:26] =>  1:46
+  :END:
+- [X] Bucket
+- [ ] Period
+- [ ] Template
+- [ ] Filter
+- [ ] Shared components
+
