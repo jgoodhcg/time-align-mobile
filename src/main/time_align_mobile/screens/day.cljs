@@ -46,7 +46,7 @@
 
 ;; components
 
-(defn now-indicator [{:keys [dimensions now]}]
+(defn now-indicator [{:keys [dimensions now alignment]}]
   [view {:style (merge
                  styles/time-indicator-line-style
                  {:width            (:width @dimensions)
@@ -58,6 +58,12 @@
                                         (min (:height @dimensions)))})}
    [text {:style (merge
                   styles/time-indicator-text-style
+                  (cond
+                    (= alignment :left)   {:padding-left 1
+                                           :align-self   "flex-start"}
+                    (= alignment :center) {}
+                    (= alignment :right)  {:padding-right 1
+                                           :align-self    "flex-end"})
                   {:color "black"})}
     (format-time @now)]])
 
@@ -217,7 +223,10 @@
         now               (subscribe [:get-now])
         buckets           (subscribe [:get-buckets])
         patterns          (subscribe [:get-patterns])
-        templates         (subscribe [:get-templates])]
+        templates         (subscribe [:get-templates])
+        time-alignment-fn #(cond (nil? %)           :center
+                                 (:planned %)       :left
+                                 (not (:planned %)) :right)]
 
     (r/create-class
      {:reagent-render
@@ -256,15 +265,14 @@
            ;; time indicators
            [time-indicators
             @dimensions
-            (cond (nil? @selected-period)           :center
-                  (:planned @selected-period)       :left
-                  (not (:planned @selected-period)) :right)
+            (time-alignment-fn @selected-period)
             @displayed-day]
 
            ;; now indicator
            (when (same-day? @now @displayed-day)
              [now-indicator {:dimensions dimensions
-                             :now        now}])
+                             :now        now
+                             :alignment (time-alignment-fn @selected-period)}])
 
            ;; periods
            [periods-comp {:displayed-day   displayed-day
