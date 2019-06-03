@@ -252,6 +252,36 @@ Add horizontal bars (like the now indicator) sandwiching the period with ~hh:mm~
     :LOGBOOK:
     CLOCK: [2019-06-01 Sat 14:00]--[2019-06-01 Sat 14:16] =>  0:16
     :END:
+
+*** TODO Change day selection menu buttons to gestures
+    :LOGBOOK:
+    CLOCK: [2019-06-02 Sun 19:27]--[2019-06-02 Sun 19:27] =>  0:00
+    :END:
+**** DONE Create finite state machine diagram
+     CLOSED: [2019-06-02 Sun 19:59]
+
+     :LOGBOOK:
+     CLOCK: [2019-06-02 Sun 19:27]--[2019-06-02 Sun 19:59] =>  0:32
+     :END:
+#+begin_src markdown
+`https://mermaidjs.github.io/mermaid-live-editor/#/view/eyJjb2RlIjoiZ3JhcGggTFJcbmVkaXR7ZWRpdH0gLS0-IHxuYXZ8IHZpZXdcbnZpZXcgLS0-IHxsb25nIHByZXNzIG9ufCBlZGl0XG5hZGR7YWRkfSAtLT4gfG5hdnwgdmlld1xudmlldyAtLT4gfGxvbmcgcHJlc3MgYXJvdW5kfCBhZGRcbnZpZXcgLS0-IHx0YXAgb258IHNlbGVjdGVkXG5zZWxlY3RlZCAtLT4gfGxvbmcgcHJlc3MgYXJvdW5kfCBzdHJldGNoL3Nocmlua1xuc3RyZXRjaC9zaHJpbmsgLS0-IHx0YXAgYmVsb3d8IGJhY2stZm9yd2FyZHtzdG9wIGZvcndhcmR9XG5zdHJldGNoL3NocmluayAtLT4gfHRhcCBpbiBib3R0b20gaGFsZnwgc3RvcC1iYWNre3N0b3AgYmFja31cbnN0cmV0Y2gvc2hyaW5rIC0tPiB8dGFwIGluIHRvcCBoYWxmfCBzdGFydC1mb3J3YXJke3N0YXJ0IGZvcndhcmR9XG5zdHJldGNoL3NocmluayAtLT4gfHRhcCBhYm92ZXwgc3RhcnQtYmFja3tzdGFydCBiYWNrfVxuc3RyZXRjaC9zaHJpbmsgLS0-IHxmbG9hdGluZyBidXR0b24gY2FuY2VsfCBzZWxlY3RlZFxuc2VsZWN0ZWQgLS0-IHxsb25nIHByZXNzIG9ufCBtb3ZlXG5tb3ZlIC0tPiB8ZmxvYXRpbmcgYnV0dG9uIGNhbmNlbHwgc2VsZWN0ZWRcbm1vdmUgLS0-IHx0YXAgYWJvdmV8IHVwe3VwfVxubW92ZSAtLT4gfHRhcCBiZWxvd3wgZG93bntkb3dufVxuXG4iLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9fQ~
+graph LR
+edit{edit} --> |nav| view
+view --> |long press on| edit
+add{add} --> |nav| view
+view --> |long press around| add
+view --> |tap on| selected
+selected --> |long press around| stretch/shrink
+stretch/shrink --> |tap below| back-forward{stop forward}
+stretch/shrink --> |tap in bottom half| stop-back{stop back}
+stretch/shrink --> |tap in top half| start-forward{start forward}
+stretch/shrink --> |tap above| start-back{start back}
+stretch/shrink --> |floating button cancel| selected
+selected --> |long press on| move
+move --> |floating button cancel| selected
+move --> |tap above| up{up}
+move --> |tap below| down{down}
+#+end_src
 ** DOSUB Predicting
 *** TODO look into markov chains
 ** DOSUB Technical debt
