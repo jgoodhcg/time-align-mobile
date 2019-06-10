@@ -77,6 +77,10 @@ https://airtable.com
       CLOCK: [2019-06-02 Sun 20:01]--[2019-06-02 Sun 20:02] =>  0:01
       :END:
 
+****** TODO Add basic example of FAB
+       :LOGBOOK:
+       CLOCK: [2019-06-10 Mon 17:55]--[2019-06-10 Mon 18:40] =>  0:45
+       :END:
 ***** DONE Fix now indicator time alignment
       CLOSED: [2019-06-02 Sun 20:10]
       :LOGBOOK:
