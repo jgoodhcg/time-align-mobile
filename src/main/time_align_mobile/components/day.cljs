@@ -616,45 +616,46 @@
                                   selected-period
                                   pattern-modal-visible
                                   play-modal-visible]}]
-  (let [actions [{:render   (fn [x]
-                              (println x)
-                              (r/as-element
-                               [view {:style {:background-color "white"
-                                              :width            25
-                                              :height           25}}
-                                [en {:name "air"}]]))
-                  :name     "test-name"
-                  :position 1}]]
+  (let [action-style   {:background-color "white"
+                        :width            40
+                        :height           40
+                        :justify-content  "center"
+                        :align-items      "center"
+                        :border-radius    20}
+        action-element (fn [button-icon]
+                         (fn [x]
+                           (r/as-element
+                            [view {:key   (:key (js->clj x :keywordize-keys true))
+                                   :style action-style}
+                             button-icon])))
+        actions        (filter some? [{:render   (action-element [en {:name "air"}])
+                                       :name     "apply-pattern"
+                                       :position 1}
+                                      (when (some? @period-in-play)
+                                        {:render   (action-element [mi {:name "stop"}])
+                                         :name     "stop-playing"
+                                         :position 2})
+                                      {:render   (action-element [mi {:name "play-arrow"}])
+                                       :name     "play"
+                                       :position 3}
+                                      (when (some? @selected-period)
+                                        {:render   (action-element [mi {:name "play-circle-outline"}])
+                                         :name     "play-from"
+                                         :position 4})])]
 
     [:> fab/FloatingAction
      {:actions       (clj->js actions)
-      :color         "#ffffff"
-      :on-press-item #(println (str "pressed " %))}]))
-  ;; [:<>
-  ;;  [selection-menu-button
-  ;;   "apply pattern"
-  ;;   [en {:name "air"}]
-  ;;   #(reset! pattern-modal-visible true)]
-
-  ;;  (if (some? @period-in-play)
-  ;;    [selection-menu-button
-  ;;     "stop playing"
-  ;;     [mi {:name "stop"}]
-  ;;     #(dispatch [:stop-playing-period])]
-
-  ;;    [selection-menu-button
-  ;;     "play"
-  ;;     [mi {:name "play-arrow"}]
-  ;;     #(reset! play-modal-visible true)])
-
-  ;;  (when (some? @selected-period)
-  ;;    [selection-menu-button
-  ;;     "play from"
-  ;;     [mi {:name "play-circle-outline"}]
-  ;;     #(dispatch [:play-from-period  {:id           (:id @selected-period)
-  ;;                                     :time-started (js/Date.)
-  ;;                                     :new-id       (random-uuid)}])])]
-
+      :color         styles/background-color-dark
+      :on-press-item (fn [action-name]
+                       (println action-name)
+                       (case action-name
+                         "apply-pattern" (reset! pattern-modal-visible true)
+                         "stop-playing"  (dispatch [:stop-playing-period])
+                         "play"          (reset! play-modal-visible true)
+                         "play-from"     (dispatch [:play-from-period  {:id           (:id @selected-period)
+                                                                         :time-started (js/Date.)
+                                                                         :new-id       (random-uuid)}])
+                         :else (println "nothing matched")))}]))
 (defn bottom-bar  [_ buttons]
   buttons)
 

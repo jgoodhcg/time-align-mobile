@@ -82,15 +82,17 @@ https://airtable.com
        :LOGBOOK:
        CLOCK: [2019-06-10 Mon 17:55]--[2019-06-10 Mon 18:40] =>  0:45
        :END:
-****** TODO Make FAB useful
+****** DONE Make FAB useful
+       CLOSED: [2019-06-12 Wed 19:23]
        :LOGBOOK:
+       CLOCK: [2019-06-12 Wed 18:28]--[2019-06-12 Wed 19:22] =>  0:54
        CLOCK: [2019-06-11 Tue 19:43]--[2019-06-11 Tue 20:54] =>  1:11
        :END:
-- [ ] Change icon for main button
-- [ ] Add actions with icons
-  - [ ] Template
-  - [ ] Play
-  - [ ] Play from (if something selected)
+- [X] +Change icon for main button+
+- [X] Add actions with icons
+  - [X] Template
+  - [X] Play
+  - [X] Play from (if something selected)
 
 ***** DONE Fix now indicator time alignment
       CLOSED: [2019-06-02 Sun 20:10]
