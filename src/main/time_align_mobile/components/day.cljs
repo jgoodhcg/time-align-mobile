@@ -618,17 +618,17 @@
                                   play-modal-visible]}]
   (let [actions [{:render   (fn [x]
                               (println x)
-                              (r/as-element [en {:name "air"}]))
+                              (r/as-element
+                               [view {:style {:background-color "white"
+                                              :width            25
+                                              :height           25}}
+                                [en {:name "air"}]]))
                   :name     "test-name"
                   :position 1}]]
+
     [:> fab/FloatingAction
      {:actions       (clj->js actions)
-      :floating-icon (r/as-element [en {:name "air"}])
       :color         "#ffffff"
-      :shadow        {:shadowOpacity 0.99
-                      :shadowOffset  { :width 20 :height 7 }
-                      :shadowColor   "#ff0000"
-                      :shadowRadius  5 }
       :on-press-item #(println (str "pressed " %))}]))
   ;; [:<>
   ;;  [selection-menu-button
