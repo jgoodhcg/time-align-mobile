@@ -616,12 +616,20 @@
                                   selected-period
                                   pattern-modal-visible
                                   play-modal-visible]}]
-  (let [actions [{:text "test-text"
-                  :icon (js/require "../assets/shadow-cljs.png")
-                  :name "test-name"
+  (let [actions [{:render   (fn [x]
+                              (println x)
+                              (r/as-element [en {:name "air"}]))
+                  :name     "test-name"
                   :position 1}]]
     [:> fab/FloatingAction
-     {:actions (clj->js actions) :on-press-item #(println (str "pressed " %))}]))
+     {:actions       (clj->js actions)
+      :floating-icon (r/as-element [en {:name "air"}])
+      :color         "#ffffff"
+      :shadow        {:shadowOpacity 0.99
+                      :shadowOffset  { :width 20 :height 7 }
+                      :shadowColor   "#ff0000"
+                      :shadowRadius  5 }
+      :on-press-item #(println (str "pressed " %))}]))
   ;; [:<>
   ;;  [selection-menu-button
   ;;   "apply pattern"

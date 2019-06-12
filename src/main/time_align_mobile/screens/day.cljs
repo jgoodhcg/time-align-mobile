@@ -215,7 +215,7 @@
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
         top-bar-height    styles/top-bar-height
-        bottom-bar-height styles/bottom-bar-height
+        bottom-bar-height 0 ;; styles/bottom-bar-height
         periods           (subscribe [:get-collision-grouped-periods])
         displayed-day     (subscribe [:get-day-time-navigator])
         selected-period   (subscribe [:get-selected-period])
