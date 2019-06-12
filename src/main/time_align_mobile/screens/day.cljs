@@ -15,7 +15,6 @@
                                                   animated-xy
                                                   pan-responder]]
             ["react-native-elements" :as rne]
-            ["react-native-floating-action" :as fab]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -45,10 +44,6 @@
 
 (def pattern-modal-visible (r/atom false))
 
-(def fab-actions [{:text "test-text"
-                   :icon (js/require "../assets/shadow-cljs.png")
-                   :name "test-name"
-                   :position 1}])
 ;; components
 
 (defn now-indicator [{:keys [dimensions now alignment]}]
@@ -315,8 +310,5 @@
                  :transparent      false
                  :on-request-close #(reset! pattern-modal-visible false)
                  :visible          @pattern-modal-visible}
-          [pattern-modal-content {:patterns patterns}]]
-         [:> fab/FloatingAction
-          {:actions (clj->js fab-actions) :on-press-item #(println (str "pressed " %))}]
-         ])})))
+          [pattern-modal-content {:patterns patterns}]]])})))
 

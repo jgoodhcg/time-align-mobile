@@ -11,6 +11,7 @@
                                                   status-bar
                                                   touchable-highlight]]
             [time-align-mobile.styles :as styles]
+            ["react-native-floating-action" :as fab]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :as helpers :refer [same-day?]]
@@ -615,41 +616,39 @@
                                   selected-period
                                   pattern-modal-visible
                                   play-modal-visible]}]
-  [:<>
-   [selection-menu-button
-    "apply pattern"
-    [en {:name "air"}]
-    #(reset! pattern-modal-visible true)]
+  (let [actions [{:text "test-text"
+                  :icon (js/require "../assets/shadow-cljs.png")
+                  :name "test-name"
+                  :position 1}]]
+    [:> fab/FloatingAction
+     {:actions (clj->js actions) :on-press-item #(println (str "pressed " %))}]))
+  ;; [:<>
+  ;;  [selection-menu-button
+  ;;   "apply pattern"
+  ;;   [en {:name "air"}]
+  ;;   #(reset! pattern-modal-visible true)]
 
-   (if (some? @period-in-play)
-     [selection-menu-button
-      "stop playing"
-      [mi {:name "stop"}]
-      #(dispatch [:stop-playing-period])]
+  ;;  (if (some? @period-in-play)
+  ;;    [selection-menu-button
+  ;;     "stop playing"
+  ;;     [mi {:name "stop"}]
+  ;;     #(dispatch [:stop-playing-period])]
 
-     [selection-menu-button
-      "play"
-      [mi {:name "play-arrow"}]
-      #(reset! play-modal-visible true)])
+  ;;    [selection-menu-button
+  ;;     "play"
+  ;;     [mi {:name "play-arrow"}]
+  ;;     #(reset! play-modal-visible true)])
 
-   (when (some? @selected-period)
-     [selection-menu-button
-      "play from"
-      [mi {:name "play-circle-outline"}]
-      #(dispatch [:play-from-period  {:id           (:id @selected-period)
-                                      :time-started (js/Date.)
-                                      :new-id       (random-uuid)}])])])
+  ;;  (when (some? @selected-period)
+  ;;    [selection-menu-button
+  ;;     "play from"
+  ;;     [mi {:name "play-circle-outline"}]
+  ;;     #(dispatch [:play-from-period  {:id           (:id @selected-period)
+  ;;                                     :time-started (js/Date.)
+  ;;                                     :new-id       (random-uuid)}])])]
 
-(defn bottom-bar  [{:keys [bottom-bar-height]} buttons]
-
-  [view {:height           bottom-bar-height
-         :width            "100%"
-         :flex-direction   "row"
-         :justify-content  "center"
-         :align-items      "center"
-         :background-color "grey"}
-
-   buttons])
+(defn bottom-bar  [_ buttons]
+  buttons)
 
 (defn get-touch-info-from-event [{:keys [evt
                                          dimensions
