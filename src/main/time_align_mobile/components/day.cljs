@@ -10,6 +10,7 @@
                                                   format-time
                                                   status-bar
                                                   touchable-highlight]]
+            ["react-native-elements" :as rne]
             [time-align-mobile.styles :as styles]
             ["react-native-floating-action" :as fab]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
@@ -179,18 +180,15 @@
       ]]))
 
 (defn selection-menu-button [label icon on-press long-press]
-  [touchable-highlight {:on-press      on-press
-                        :on-long-press long-press
-                        :style         {:background-color "white"
-                                        :border-radius    2
-                                        :padding          8
-                                        :margin           4
-                                        :width            60
-                                        :align-self       "flex-start"}}
-   [view {:style {:flex-direction  "row"
-                  :justify-content "center"
-                  :align-items     "center"}}
-    icon]])
+  [:> rne/Button {:on-press      on-press
+                  :on-long-press long-press
+                  :icon          (r/as-element icon)
+                  :button-style  {:background-color "white"
+                                  :border-radius    2
+                                  :margin           1
+                                  :height           30
+                                  :width            40
+                                  :align-self       "flex-start"}}])
 
 (def selection-menu-button-row-style {:flex-direction  "row"
                                       :justify-content "center"
@@ -656,6 +654,7 @@
                                                                          :time-started (js/Date.)
                                                                          :new-id       (random-uuid)}])
                          :else (println "nothing matched")))}]))
+
 (defn bottom-bar  [_ buttons]
   buttons)
 

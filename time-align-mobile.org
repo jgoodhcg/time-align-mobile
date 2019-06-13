@@ -59,7 +59,7 @@ Had to refactor some stuff to make it easier to do visual design.
       CLOCK: [2019-04-15 Mon 18:23]--[2019-04-15 Mon 18:48] =>  0:25
       :END:
 ***** TODO Better button menu
-**** Copy style of _things_ and _airtable_
+**** DOSUB Copy style of _things_ and _airtable_
      :LOGBOOK:
      :END:
 https://culturedcode.com/things/
@@ -98,6 +98,10 @@ https://airtable.com
       CLOSED: [2019-06-02 Sun 20:10]
       :LOGBOOK:
       CLOCK: [2019-06-02 Sun 20:03]--[2019-06-02 Sun 20:10] =>  0:07
+      :END:
+***** TODO Fix buttons in selection menu
+      :LOGBOOK:
+      CLOCK: [2019-06-12 Wed 19:26]--[2019-06-12 Wed 20:03] =>  0:37
       :END:
 *** TODO Multiple in-play at once
 ** DOSUB Dog food
