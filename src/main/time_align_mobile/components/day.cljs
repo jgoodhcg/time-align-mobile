@@ -132,15 +132,22 @@
 
       [touchable-highlight {:style    {:width          "100%"
                                        :height         "100%"
-                                       :padding-left   10
-                                       :padding-right  10
-                                       :padding-top    0
+                                       :padding-left   4
+                                       :padding-right  0
+                                       :padding-top    4
                                        :padding-bottom 0}
                             :on-press (select-function-generator id)}
-       [view
-        ;; [text label]
-        ;; [text bucket-label]
-        ]]]]))
+
+       [view {:style (when (= id (:id selected-period))
+                       {:background-color styles/background-color-dark
+                        :opacity          0.5
+                        :padding          4})}
+        (when (= id (:id selected-period))
+          [:<>
+           [text {:style {:color   styles/text-light
+                          :opacity 1}} label]
+           [text {:style {:color   styles/text-light
+                          :opacity 1}} bucket-label]])]]]]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}
@@ -184,27 +191,22 @@
                   :on-long-press long-press
                   :icon          (r/as-element icon)
                   :button-style  {:background-color "white"
-                                  :border-radius    2
-                                  :margin           1
-                                  :height           30
-                                  :width            40
-                                  :align-self       "flex-start"}}])
+                                  :width            60
+                                  :margin 2
+                                  :height           "90%"}}])
 
 (def selection-menu-button-row-style {:flex-direction  "row"
+                                      :width           "100%"
                                       :justify-content "center"
-                                      :align-items     "center"
                                       :flex            1})
 
-(def selection-menu-button-container-style {:width            "100%"
-                                            :padding-top      5
-                                            :padding-right    5
-                                            :padding-left     5
-                                            :height           "100%"
-                                            :flex-direction   "column"
-                                            :justify-content  "center"
-                                            :align-items      "center"
-                                            :flex-wrap        "nowrap"
-                                            :flex             1})
+(def selection-menu-button-container-style {:width           "100%"
+                                            :padding-top     5
+                                            :padding-right   5
+                                            :padding-left    5
+                                            :flex-direction  "column"
+                                            :flex-wrap       "nowrap"
+                                            :flex            1})
 
 (defn selection-menu-buttons [{:keys [dimensions
                                       selected-period
@@ -514,36 +516,37 @@
 (defn selection-menu [{:keys [dimensions
                               selected-period-or-template]}
                       buttons-comp]
-  (let [width (-> dimensions
-                  (:width)
-                  (/ 2))
+  (let [width                   (-> dimensions
+                                    (:width)
+                                    (* 0.51))
         ;; TODO move this to helpers
         format-relative-or-date #(if (inst? %)
-                                  (format-time %)
-                                  (format-time
-                                   (helpers/reset-relative-ms % (js/Date.))))
-        start-formatted (->> selected-period-or-template
-                             :start
-                             format-relative-or-date)
-        stop-formatted (->> selected-period-or-template
-                             :stop
-                             format-relative-or-date)
-        info-text (fn [txt]
-                    [text {:style {:color styles/text-light}}
-                     txt])]
+                                   (format-time %)
+                                   (format-time
+                                    (helpers/reset-relative-ms % (js/Date.))))
+        start-formatted         (->> selected-period-or-template
+                                     :start
+                                     format-relative-or-date)
+        stop-formatted          (->> selected-period-or-template
+                                     :stop
+                                     format-relative-or-date)
+        info-text               (fn [txt]
+                                  [text {:style {:color styles/text-light}}
+                                   txt])]
     [view {:style {:position         "absolute"
+                   :elevation        5
                    :background-color styles/background-color-dark
                    :top              0
                    :height           (:height dimensions)
                    :width            width
                    :left             (-> dimensions
                                          (:width)
-                                         (/ 2)
+                                         (* 0.49)
                                          (#(if (:planned selected-period-or-template)
                                              % 0)))}}
 
-     [view {:style {:height           "85%"
-                    :width            width
+     [view {:style {:width            width
+                    :height           "100%"
                     :background-color styles/background-color-dark}}
 
       ;; [selection-menu-info dimensions selected-period]
@@ -553,11 +556,12 @@
      ;; [selection-menu-arrow dimensions selected-period displayed-day]
 
      ;; period info
-     [view {:style {:padding 10}}
-      [info-text (:label selected-period-or-template)]
-      [info-text (:bucket-label selected-period-or-template)]
-      [info-text start-formatted]
-      [info-text stop-formatted]]]))
+     ;; [view {:style {:padding 10}}
+     ;;  [info-text (:label selected-period-or-template)]
+     ;;  [info-text (:bucket-label selected-period-or-template)]
+     ;;  [info-text start-formatted]
+     ;;  [info-text stop-formatted]]
+     ]))
 
 (defn top-bar-outer-style [top-bar-height dimensions]
   {:height           top-bar-height

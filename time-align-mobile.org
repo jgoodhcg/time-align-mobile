@@ -101,6 +101,7 @@ https://airtable.com
       :END:
 ***** TODO Fix buttons in selection menu
       :LOGBOOK:
+      CLOCK: [2019-06-16 Sun 16:34]--[2019-06-16 Sun 17:30] =>  0:56
       CLOCK: [2019-06-12 Wed 19:26]--[2019-06-12 Wed 20:03] =>  0:37
       :END:
 *** TODO Multiple in-play at once

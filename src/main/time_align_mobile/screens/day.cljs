@@ -291,6 +291,7 @@
                 :displayed-day   @displayed-day
                 :period-in-play  @period-in-play}]])]]
 
+         ;; fab
          [bottom-bar {:bottom-bar-height bottom-bar-height}
           [bottom-bar-buttons {:period-in-play        period-in-play
                                :selected-period       selected-period
