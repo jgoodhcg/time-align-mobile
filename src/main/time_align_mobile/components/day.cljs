@@ -84,6 +84,7 @@
                              selected-period]}]
   (let [{:keys [id start stop planned color label bucket-label]} period
 
+        selected       (= id (:id selected-period))
         adjusted-stop  (helpers/bound-stop stop displayed-day)
         adjusted-start (helpers/bound-start start displayed-day)
         top            (-> adjusted-start
@@ -110,44 +111,14 @@
                            (max 1))]
 
     [view {:key id}
-     (when (= id (:id selected-period))
-       [view {:style {:position         "absolute"
-                      :top              top
-                      :left             left
-                      :width            width
-                      :height           height
-                      :elevation        4
-                      :border-radius    2
-                      :background-color "white"}}])
-
-     [view {:style (merge (when (= id (:id selected-period))
-                            {:elevation 5})
-                          {:position         "absolute"
-                           :top              top
-                           :left             left
-                           :width            width
-                           :height           height
-                           :border-radius    2
-                           :background-color color})}
-
-      [touchable-highlight {:style    {:width          "100%"
-                                       :height         "100%"
-                                       :padding-left   4
-                                       :padding-right  0
-                                       :padding-top    4
-                                       :padding-bottom 0}
-                            :on-press (select-function-generator id)}
-
-       [view {:style (when (= id (:id selected-period))
-                       {:background-color styles/background-color-dark
-                        :opacity          0.5
-                        :padding          4})}
-        (when (= id (:id selected-period))
-          [:<>
-           [text {:style {:color   styles/text-light
-                          :opacity 1}} label]
-           [text {:style {:color   styles/text-light
-                          :opacity 1}} bucket-label]])]]]]))
+     [touchable-highlight
+      [view {:style {:position         "absolute"
+                     :top              top
+                     :left             left
+                     :width            width
+                     :height           height
+                     :border-radius    2
+                     :background-color color}}]]]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}

@@ -15,7 +15,10 @@
 *** DOSUB Day UX refactor
 **** TODO Move selection buttons to float around selection
      :LOGBOOK:
+     CLOCK: [2019-06-17 Mon 18:17]--[2019-06-17 Mon 18:33] =>  0:16
      :END:
+- [X] Strip down render-periods fn
+- [ ] 
 **** TODO Move form to old selection menu
 ***** TODO Form fields 
 ***** TODO Form buttons
