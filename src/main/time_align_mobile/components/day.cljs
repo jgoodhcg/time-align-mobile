@@ -84,6 +84,8 @@
                              selected-period]}]
   (let [{:keys [id start stop planned color label bucket-label]} period
 
+        button-height 40
+
         selected       (= id (:id selected-period))
         adjusted-stop  (helpers/bound-stop stop displayed-day)
         adjusted-start (helpers/bound-start start displayed-day)
@@ -111,6 +113,7 @@
                            (max 1))]
 
     [view {:key id}
+     ;; Period itself
      [touchable-highlight
       [view {:style {:position         "absolute"
                      :top              top
@@ -118,7 +121,23 @@
                      :width            width
                      :height           height
                      :border-radius    2
-                     :background-color color}}]]]))
+                     :background-color color}}]]
+
+     ;; Top buttons
+     ;; TODO DRY styles between period and this button
+     ;; TODO DRY styles for top buttons
+     [view {:style {:position         "absolute"
+                    :top              (max 0 (- top button-height))
+                    :left             left
+                    :border-radius    2
+                    :height           button-height
+                    :width            (/ width 3)
+                    :opacity          0.5
+                    :background-color "grey"}}]
+     
+
+     ;; Buttom buttons
+     ]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}
