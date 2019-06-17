@@ -2,6 +2,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-06-17 Mon 17:42]--[2019-06-17 Mon 18:14] =>  0:32
   CLOCK: [2019-05-09 Thu 20:30]--[2019-05-09 Thu 20:55] =>  0:25
   CLOCK: [2018-09-21 Fri 07:39]--[2018-09-21 Fri 07:40] =>  0:01
   CLOCK: [2018-08-29 Wed 14:41]--[2018-08-29 Wed 14:46] =>  0:05
@@ -10,3 +11,27 @@
   CLOCK: [2018-08-18 Sat 15:07]--[2018-08-18 Sat 15:11] =>  0:04
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
+** DOSUB Release to strangers
+*** DOSUB Day UX refactor
+**** TODO Move selection buttons to float around selection
+     :LOGBOOK:
+     :END:
+**** TODO Move form to old selection menu
+***** TODO Form fields 
+***** TODO Form buttons
+***** TODO Extra buttons
+- Add period to pattern
+- Copy (<- 0 ->)
+- Edit on full form
+**** DOSUB Edit FAB
+***** TODO Play indication
+***** TODO Add day as pattern button
+*** DOSUB Forms UX refactor
+**** TODO Relvancy ordering
+**** TODO Lock buttons to bottom
+**** TODO Better start/stop comp
+*** TODO Import
+*** TODO Calendar Page
+*** TODO Report Page
+*** TODO Remove queue page
+*** TODO Analytics
