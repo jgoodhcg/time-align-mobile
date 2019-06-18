@@ -11,7 +11,7 @@
                                                   status-bar
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
-            [time-align-mobile.styles :as styles]
+            [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
             ["react-native-floating-action" :as fab]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -84,8 +84,6 @@
                              selected-period]}]
   (let [{:keys [id start stop planned color label bucket-label]} period
 
-        button-height 40
-
         selected       (= id (:id selected-period))
         adjusted-stop  (helpers/bound-stop stop displayed-day)
         adjusted-start (helpers/bound-start start displayed-day)
@@ -110,34 +108,59 @@
                            (- (.valueOf adjusted-start))
                            (helpers/duration->height (:height dimensions))
                            ;; max 1 to actually see recently played periods
-                           (max 1))]
+                           (max 1))
+
+        button-height 40
+        button-width  (/ width 3)
+        base-style    {:position      "absolute"
+                       :border-radius 2}
+        period-style  (merge base-style {:top              top
+                                         :left             left
+                                         :width            width
+                                         :height           height
+                                         :background-color color})
+        button-style  (merge base-style {:height           button-height
+                                         :justify-content  "center"
+                                         :align-items      "center"
+                                         :width            button-width
+                                         :opacity          0.5
+                                         :background-color "grey"})
+        top-style     (merge button-style {:top (min (max 0 (- top button-height))
+                                                     (-> dimensions
+                                                         :height
+                                                         (- (* 2 button-height))))})
+        bottom-style  (merge button-style {:top (max button-height
+                                                     (min (-> dimensions
+                                                              :height
+                                                              (- button-height))
+                                                          (+ top height)))})
+        icon-style    {:color styles/text-light}
+        mci-styled    (styled-icon-factory mci icon-style)
+        mi-styled     (styled-icon-factory mi icon-style)
+        icon-params   (fn [name] {:size 32 :name name})]
 
     [view {:key id}
      ;; Period itself
      [touchable-highlight
-      [view {:style {:position         "absolute"
-                     :top              top
-                     :left             left
-                     :width            width
-                     :height           height
-                     :border-radius    2
-                     :background-color color}}]]
+      [view {:style period-style}]]
 
      ;; Top buttons
-     ;; TODO DRY styles between period and this button
-     ;; TODO DRY styles for top buttons
-     [view {:style {:position         "absolute"
-                    :top              (max 0 (- top button-height))
-                    :left             left
-                    :border-radius    2
-                    :height           button-height
-                    :width            (/ width 3)
-                    :opacity          0.5
-                    :background-color "grey"}}]
-     
+     [:<>
+      [view {:style (merge top-style {:left left})}
+       [mi-styled (icon-params "arrow-upward")]]
+      [view {:style (merge top-style {:left (+ left button-width)})}
+       [mci-styled (icon-params "arrow-collapse-up")]]
+      [view {:style (merge top-style {:left (+ left (* 2 button-width))})}
+       [mci-styled (icon-params "arrow-collapse-down")]]]
 
      ;; Buttom buttons
-     ]))
+     [:<>
+      [view {:style (merge bottom-style {:left left})}
+       [mi-styled (icon-params "arrow-upward")]]
+      [view {:style (merge bottom-style {:left (+ left button-width)})}
+       [mci-styled (icon-params "arrow-expand-down")]]
+      [view {:style (merge bottom-style {:left (+ left (* 2 button-width))})}
+       [mci-styled (icon-params "arrow-expand-up")]]]]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}
@@ -205,13 +228,10 @@
 
   (let [row-style           {:style selection-menu-button-row-style}
         icon-style          {:color styles/background-color-dark}
-        styled-icon-factory (fn [icon-class]
-                              (fn [params]
-                                [icon-class (merge params icon-style)]))
-        mci-styled          (styled-icon-factory mci)
-        fa-styled           (styled-icon-factory fa)
-        mi-styled           (styled-icon-factory mi)
-        en-styled           (styled-icon-factory en)]
+        mci-styled          (styled-icon-factory mci icon-style)
+        fa-styled           (styled-icon-factory fa icon-style)
+        mi-styled           (styled-icon-factory mi icon-style)
+        en-styled           (styled-icon-factory en icon-style)]
     [view {:style selection-menu-button-container-style}
 
      ;; cancel edit
@@ -446,8 +466,8 @@
      [view row-style
       [selection-menu-button
        "select prev"
-       [mci-styled {:name "arrow-down-drop-circle"
-                    :style       {:transform [{:rotate "180deg"}]}}]
+       [mci-styled {:name  "arrow-down-drop-circle"
+                    :style {:transform [{:rotate "180deg"}]}}]
        #(dispatch [:select-next-or-prev-period :prev])]]
 
      ;; select-playing

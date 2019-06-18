@@ -31,3 +31,6 @@
 (def top-bar-height 50)
 (def bottom-bar-height 40)
 (def text-light "#fff")
+(defn styled-icon-factory [icon-class style]
+  (fn [params]
+    [icon-class (merge params style)]))
