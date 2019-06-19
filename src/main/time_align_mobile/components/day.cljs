@@ -145,27 +145,30 @@
         icon-params  (fn [name] {:size 32 :name name})]
 
     [view {:key id}
-     ;; Period itself
-     [touchable-highlight
-      [view {:style period-style}]]
+     ;; period
+     [view {:style period-style}
+      [touchable-highlight {:on-press (select-function-generator id)
+                            :style    {:height "100%"
+                                       :width  "100%"}}
+       [:<>]]]
 
-     ;; Top buttons
-     [:<>
-      [view {:style (merge top-style {:left left})}
-       [mi-styled (icon-params "arrow-upward")]]
-      [view {:style (merge top-style {:left (+ left button-width)})}
-       [mci-styled (icon-params "arrow-collapse-up")]]
-      [view {:style (merge top-style {:left (+ left (* 2 button-width))})}
-       [mci-styled (icon-params "arrow-collapse-down")]]]
-
-     ;; Buttom buttons
-     [:<>
-      [view {:style (merge bottom-style {:left left})}
-       [mi-styled (icon-params "arrow-upward")]]
-      [view {:style (merge bottom-style {:left (+ left button-width)})}
-       [mci-styled (icon-params "arrow-expand-down")]]
-      [view {:style (merge bottom-style {:left (+ left (* 2 button-width))})}
-       [mci-styled (icon-params "arrow-expand-up")]]]]))
+     ;; buttons
+     (when selected
+       [:<>
+        ;; Top buttons
+        [view {:style (merge top-style {:left left})}
+         [mi-styled (icon-params "arrow-upward")]]
+        [view {:style (merge top-style {:left (+ left button-width)})}
+         [mci-styled (icon-params "arrow-collapse-up")]]
+        [view {:style (merge top-style {:left (+ left (* 2 button-width))})}
+         [mci-styled (icon-params "arrow-collapse-down")]]
+        ;; Buttom buttons
+        [view {:style (merge bottom-style {:left left})}
+         [mi-styled (icon-params "arrow-upward")]]
+        [view {:style (merge bottom-style {:left (+ left button-width)})}
+         [mci-styled (icon-params "arrow-expand-down")]]
+        [view {:style (merge bottom-style {:left (+ left (* 2 button-width))})}
+         [mci-styled (icon-params "arrow-expand-up")]]])]))
 
 (defn selection-menu-info [dimensions selected-period]
   (let [heading-style    {:background-color "#bfbfbf"}
