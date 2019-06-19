@@ -154,24 +154,160 @@
      (when selected
        [:<>
         ;; Top buttons
+
+        ;; up
         [touchable-highlight {:style    (merge top-style {:left left})
-                              :on-press #(println "I should do something")}
+                              :on-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (- (* 5 60 1000)) ;; five mi-stylednutes
+                                                          (js/Date.))
+                                               :stop  (-> selected-period
+                                                          (:stop)
+                                                          (.valueOf)
+                                                          (- (* 5 60 1000))
+                                                          (js/Date.))}}])
+                              :on-long-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (- (* 3 60 60 1000)) ;; sixty mi-stylednutes
+                                                          (js/Date.))
+                                               :stop  (-> selected-period
+                                                          (:stop)
+                                                          (.valueOf)
+                                                          (- (* 3 60 60 1000))
+                                                          (js/Date.))}}])}
          [mi-styled (icon-params "arrow-upward")]]
-        [touchable-highlight {:style (merge top-style {:left (+ left button-width)})
-                              :on-press #(println "I should do something")}
+
+        ;; start-earlier
+        [touchable-highlight {:style (merge top-style
+                                            {:left (+ left button-width)})
+                              :on-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (- (* 5 60 1000))
+                                                          (js/Date.))}}])
+                              :on-long-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (- (* 3 60 60 1000))
+                                                          (js/Date.))}}])}
          [mci-styled (icon-params "arrow-collapse-up")]]
-        [touchable-highlight {:style (merge top-style {:left (+ left (* 2 button-width))})
-                              :on-press #(println "I should do something")}
+
+        ;; start-later
+        [touchable-highlight {:style (merge top-style
+                                            {:left (+ left (* 2 button-width))})
+                              :on-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (+ (* 5 60 1000))
+                                                          (js/Date.))}}])
+                              :on-long-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (+ (* 3 60 60 1000))
+                                                          (js/Date.))}}])}
+
          [mci-styled (icon-params "arrow-collapse-down")]]
         ;; Buttom buttons
+
+        ;; down
         [touchable-highlight {:style (merge bottom-style {:left left})
-                              :on-press #(println "I should do something")}
-         [mi-styled (icon-params "arrow-upward")]]
+                              :on-press #(dispatch
+                                          [:update-period
+                                           {:id         (:id selected-period)
+                                            :update-map {:start (-> selected-period
+                                                                    (:start)
+                                                                    (.valueOf)
+                                                                    (+ (* 5 60 1000)) ;; five mi-stylednutes
+                                                                    (js/Date.))
+                                                         :stop  (-> selected-period
+                                                                    (:stop)
+                                                                    (.valueOf)
+                                                                    (+ (* 5 60 1000))
+                                                                    (js/Date.))}}])
+                              :on-long-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:start (-> selected-period
+                                                          (:start)
+                                                          (.valueOf)
+                                                          (+ (* 3 60 60 1000)) ;; sixty mi-stylednutes
+                                                          (js/Date.))
+                                               :stop  (-> selected-period
+                                                          (:stop)
+                                                          (.valueOf)
+                                                          (+ (* 3 60 60 1000))
+                                                          (js/Date.))}}])}
+         [mi-styled (icon-params "arrow-downward")]]
+
+        ;; stop-later
         [touchable-highlight {:style (merge bottom-style {:left (+ left button-width)})
-                              :on-press #(println "I should do something")}
+                              :on-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:stop (-> selected-period
+                                                         (:stop)
+                                                         (.valueOf)
+                                                         (+ (* 5 60 1000))
+                                                         (js/Date.))}}])
+                              :on-long-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:stop (-> selected-period
+                                                         (:stop)
+                                                         (.valueOf)
+                                                         (+ (* 3 60 60 1000))
+                                                         (js/Date.))}}])}
          [mci-styled (icon-params "arrow-expand-down")]]
+
+        ;; stop-earlier
         [touchable-highlight {:style (merge bottom-style {:left (+ left (* 2 button-width))})
-                              :on-press #(println "I should do something")}
+                              :on-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:stop (-> selected-period
+                                                         (:stop)
+                                                         (.valueOf)
+                                                         (- (* 5 60 1000))
+                                                         (js/Date.))}}])
+                              :on-long-press
+                              #(dispatch
+                                [:update-period
+                                 {:id         (:id selected-period)
+                                  :update-map {:stop (-> selected-period
+                                                         (:stop)
+                                                         (.valueOf)
+                                                         (- (* 3 60 60 1000))
+                                                         (js/Date.))}}])}
          [mci-styled (icon-params "arrow-expand-up")]]])]))
 
 (defn selection-menu-info [dimensions selected-period]
@@ -258,71 +394,6 @@
        #(dispatch [:navigate-to {:current-screen :period
                                  :params         {:period-id (:id selected-period)}}])]]
 
-     ;; start-later
-     [view row-style
-      [selection-menu-button
-       "start later"
-       [mci-styled {:name "arrow-collapse-down"}]
-       ;; TODO stop from moving beyond stop
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 3 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; start-earlier
-     [view row-style
-      [selection-menu-button
-       "start earlier"
-       [mci-styled {:name "arrow-expand-up"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 3 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; up
-     [view row-style
-      [selection-menu-button
-       "up"
-       [mi-styled {:name "arrow-upward"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 5 60 1000)) ;; five mi-stylednutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (- (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (- (* 3 60 60 1000)) ;; sixty mi-stylednutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (- (* 3 60 60 1000))
-                                                           (js/Date.))}}])]]
-
      ;; copy-previous-day copy-over copy-next-day
      [view row-style
       [selection-menu-button
@@ -408,71 +479,6 @@
                                                            (.valueOf)
                                                            (+ (* 24 60 60 1000))
                                                            (js/Date.))}}])]]
-
-     ;; down
-     [view row-style
-      [selection-menu-button
-       "down"
-       [mi-styled {:name "arrow-downward"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 5 60 1000)) ;; five mi-stylednutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (+ (* 5 60 1000))
-                                                           (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:start (-> selected-period
-                                                           (:start)
-                                                           (.valueOf)
-                                                           (+ (* 3 60 60 1000)) ;; sixty mi-stylednutes
-                                                           (js/Date.))
-                                                :stop  (-> selected-period
-                                                           (:stop)
-                                                           (.valueOf)
-                                                           (+ (* 3 60 60 1000))
-                                                           (js/Date.))}}])]]
-
-     ;; stop-later
-     [view row-style
-      [selection-menu-button
-       "stop later"
-       [mci-styled {:name "arrow-expand-down"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (+ (* 5 60 1000))
-                                                          (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (+ (* 3 60 60 1000))
-                                                          (js/Date.))}}])]]
-
-     ;; stop-earlier
-     [view row-style
-      [selection-menu-button
-       ;; TODO stop from moving before start
-       "stop earlier"
-       [mci-styled {:name "arrow-collapse-up"}]
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (- (* 5 60 1000))
-                                                          (js/Date.))}}])
-       #(dispatch [:update-period {:id         (:id selected-period)
-                                   :update-map {:stop (-> selected-period
-                                                          (:stop)
-                                                          (.valueOf)
-                                                          (- (* 3 60 60 1000))
-                                                          (js/Date.))}}])]]
 
      ;; select-prev
      [view row-style

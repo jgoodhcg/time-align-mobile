@@ -13,8 +13,9 @@
   :END:
 ** DOSUB Release to strangers
 *** DOSUB Day UX refactor
-**** TODO Move selection buttons to float around selection
+**** TODO Move transform buttons to float around selection
      :LOGBOOK:
+     CLOCK: [2019-06-19 Wed 19:03]--[2019-06-19 Wed 19:21] =>  0:18
      CLOCK: [2019-06-19 Wed 18:49]--[2019-06-19 Wed 18:58] =>  0:09
      CLOCK: [2019-06-19 Wed 18:36]--[2019-06-19 Wed 18:46] =>  0:10
      CLOCK: [2019-06-19 Wed 18:04]--[2019-06-19 Wed 18:32] =>  0:28
@@ -28,7 +29,8 @@
 - [X] Change height to fill unused space
 - [X] Enable selection again
 - [X] Turn button stubs into touchable buttons
-- [ ] Assign on press functionality
+- [X] Assign on press functionality
+- [X] Remove buttons from selection menu and publish
 **** TODO Move form to old selection menu
 ***** TODO Form fields 
 ***** TODO Form buttons
