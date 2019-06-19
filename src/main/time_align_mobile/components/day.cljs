@@ -110,34 +110,39 @@
                            ;; max 1 to actually see recently played periods
                            (max 1))
 
-        button-height 40
-        button-width  (/ width 3)
-        base-style    {:position      "absolute"
-                       :border-radius 2}
-        period-style  (merge base-style {:top              top
-                                         :left             left
-                                         :width            width
-                                         :height           height
-                                         :background-color color})
-        button-style  (merge base-style {:height           button-height
-                                         :justify-content  "center"
-                                         :align-items      "center"
-                                         :width            button-width
-                                         :opacity          0.5
-                                         :background-color "grey"})
-        top-style     (merge button-style {:top (min (max 0 (- top button-height))
-                                                     (-> dimensions
-                                                         :height
-                                                         (- (* 2 button-height))))})
-        bottom-style  (merge button-style {:top (max button-height
-                                                     (min (-> dimensions
-                                                              :height
-                                                              (- button-height))
-                                                          (+ top height)))})
-        icon-style    {:color styles/text-light}
-        mci-styled    (styled-icon-factory mci icon-style)
-        mi-styled     (styled-icon-factory mi icon-style)
-        icon-params   (fn [name] {:size 32 :name name})]
+        button-height-default 40
+        button-height-top     (min (- (:height dimensions)
+                                      button-height-default)
+                                   (max top button-height-default))
+        button-height-bottom  (max (- (:height dimensions)
+                                      (+ top height))
+                                   button-height-default)
+
+        button-width (/ width 3)
+        base-style   {:position      "absolute"
+                      :border-radius 2}
+        period-style (merge base-style {:top              top
+                                        :left             left
+                                        :width            width
+                                        :height           height
+                                        :background-color color})
+        button-style (merge base-style {:justify-content  "center"
+                                        :align-items      "center"
+                                        :width            button-width
+                                        :opacity          0.5
+                                        :background-color "grey"})
+        top-style    (merge button-style {:height button-height-top
+                                          :top    0})
+        bottom-style (merge button-style {:height button-height-bottom
+                                          :top    (min (- (:height dimensions)
+                                                          button-height-default)
+                                                       (max (+ top height)
+                                                            button-height-default))
+                                          })
+        icon-style   {:color styles/text-light}
+        mci-styled   (styled-icon-factory mci icon-style)
+        mi-styled    (styled-icon-factory mi icon-style)
+        icon-params  (fn [name] {:size 32 :name name})]
 
     [view {:key id}
      ;; Period itself
