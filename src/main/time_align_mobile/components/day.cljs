@@ -146,28 +146,32 @@
 
     [view {:key id}
      ;; period
-     [view {:style period-style}
-      [touchable-highlight {:on-press (select-function-generator id)
-                            :style    {:height "100%"
-                                       :width  "100%"}}
-       [:<>]]]
+     [touchable-highlight {:style    period-style
+                           :on-press (select-function-generator id)}
+        [:<>]]
 
      ;; buttons
      (when selected
        [:<>
         ;; Top buttons
-        [view {:style (merge top-style {:left left})}
+        [touchable-highlight {:style    (merge top-style {:left left})
+                              :on-press #(println "I should do something")}
          [mi-styled (icon-params "arrow-upward")]]
-        [view {:style (merge top-style {:left (+ left button-width)})}
+        [touchable-highlight {:style (merge top-style {:left (+ left button-width)})
+                              :on-press #(println "I should do something")}
          [mci-styled (icon-params "arrow-collapse-up")]]
-        [view {:style (merge top-style {:left (+ left (* 2 button-width))})}
+        [touchable-highlight {:style (merge top-style {:left (+ left (* 2 button-width))})
+                              :on-press #(println "I should do something")}
          [mci-styled (icon-params "arrow-collapse-down")]]
         ;; Buttom buttons
-        [view {:style (merge bottom-style {:left left})}
+        [touchable-highlight {:style (merge bottom-style {:left left})
+                              :on-press #(println "I should do something")}
          [mi-styled (icon-params "arrow-upward")]]
-        [view {:style (merge bottom-style {:left (+ left button-width)})}
+        [touchable-highlight {:style (merge bottom-style {:left (+ left button-width)})
+                              :on-press #(println "I should do something")}
          [mci-styled (icon-params "arrow-expand-down")]]
-        [view {:style (merge bottom-style {:left (+ left (* 2 button-width))})}
+        [touchable-highlight {:style (merge bottom-style {:left (+ left (* 2 button-width))})
+                              :on-press #(println "I should do something")}
          [mci-styled (icon-params "arrow-expand-up")]]])]))
 
 (defn selection-menu-info [dimensions selected-period]
