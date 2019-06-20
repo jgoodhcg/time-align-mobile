@@ -15,6 +15,7 @@
 *** DOSUB Day UX refactor
 **** TODO Move transform buttons to float around selection
      :LOGBOOK:
+     CLOCK: [2019-06-20 Thu 18:32]--[2019-06-20 Thu 19:46] =>  1:14
      CLOCK: [2019-06-19 Wed 19:03]--[2019-06-19 Wed 19:21] =>  0:18
      CLOCK: [2019-06-19 Wed 18:49]--[2019-06-19 Wed 18:58] =>  0:09
      CLOCK: [2019-06-19 Wed 18:36]--[2019-06-19 Wed 18:46] =>  0:10
@@ -31,6 +32,7 @@
 - [X] Turn button stubs into touchable buttons
 - [X] Assign on press functionality
 - [X] Remove buttons from selection menu and publish
+- [X] Keep transform buttons and default width instead of scaling with stacked periods
 **** TODO Move form to old selection menu
 ***** TODO Form fields 
 ***** TODO Form buttons
