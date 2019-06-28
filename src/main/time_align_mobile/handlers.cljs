@@ -1,6 +1,6 @@
 (ns time-align-mobile.handlers
   (:require
-    [time-align-mobile.js-imports :refer [secure-store-set! secure-store-get! alert share]]
+    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share]]
     [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx]]
     ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
@@ -52,11 +52,11 @@
                                            ))
               (setval [:effects :alert] sp/NONE context)))))
 
-(def persist-secure-store
+(def persist-secure-store ;; TODO rename this
   (->interceptor
    :id :persist-secure-store
    :after (fn [context]
-            (secure-store-set! "app-db" (-> context :effects :db str))
+            (write-file-to-dd! "app-db" (-> context :effects :db str))
             context)))
 
 ;; -- Helpers ---------------------------------------------------------------

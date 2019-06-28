@@ -12,6 +12,21 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
+*** DOSUB Fix secure store size limit issue
+    :LOGBOOK:
+    :END:
+**** DONE Try to import the library and read/write 
+     CLOSED: [2019-06-28 Fri 18:53]
+     :LOGBOOK:
+     CLOCK: [2019-06-28 Fri 17:42]--[2019-06-28 Fri 18:53] =>  1:11
+     CLOCK: [2019-06-25 Tue 19:02]--[2019-06-25 Tue 20:16] =>  1:14
+     :END:
+ https://clojurians.slack.com/archives/C0E1SN0NM/p1561508036233600
+**** DONE Change secure store to file
+     CLOSED: [2019-06-28 Fri 19:07]
+     :LOGBOOK:
+     CLOCK: [2019-06-28 Fri 18:53]--[2019-06-28 Fri 19:07] =>  0:14
+     :END:
 *** DOSUB Day UX refactor
 **** TODO Move transform buttons to float around selection
      :LOGBOOK:
@@ -33,7 +48,7 @@
 - [X] Assign on press functionality
 - [X] Remove buttons from selection menu and publish
 - [X] Keep transform buttons and default width instead of scaling with stacked periods
-**** TODO Move form to old selection menu
+**** DOSUB Move form to old selection menu
 ***** TODO Form fields 
 ***** TODO Form buttons
 ***** TODO Extra buttons

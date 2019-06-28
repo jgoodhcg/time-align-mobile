@@ -24,6 +24,7 @@
                                           touchable-highlight
                                           gesture-handler
                                           drawer-layout
+                                          read-file-from-dd-async
                                           secure-store-get!]]))
 
 ;; must use defonce and must refresh full app so metro can fill these in
@@ -122,15 +123,13 @@
   (dispatch-sync [:initialize-db])
 
   ;; load previous state
-  (secure-store-get!
+  (read-file-from-dd-async
    "app-db"
    (fn [value]
-     (when (some? value)
-       ;; If you are trying to use a different default db and it isn't working
-       ;; clear the secure storage on the device or alter this loading function
-       ;; TODO should there be a try again and prompt?
-       (let [app-db (read-string value)]
-         (dispatch [:load-db app-db])))))
+     (let [app-db (read-string value)]
+       (dispatch [:load-db app-db])))
+   (fn [error]
+     (println "error reading file")))
 
   ;; start ticking
   (js/setInterval #(dispatch [:tick (js/Date.)]) 1000)

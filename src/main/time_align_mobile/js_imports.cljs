@@ -8,6 +8,7 @@
    ["react-native-modal-datetime-picker" :as react-native-date-picker]
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
+   ["expo-file-system" :as fs]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    [reagent.core :as r :refer [atom]]))
@@ -126,3 +127,17 @@
   (ocall (moment-tz date (get-default-timezone))
           "format"
           "HH-mm"))
+
+(def document-directory (-> fs
+                            (.-FileSystem)
+                            (.-documentDirectory)))
+(defn write-file-to-dd! [file-name contents-as-string]
+  (-> fs
+      (.-FileSystem)
+      (.writeAsStringAsync (str document-directory file-name)
+                           contents-as-string)))
+(defn read-file-from-dd-async [file-name success-callback error-callback]
+  (-> fs
+      (.-FileSystem)
+      (.readAsStringAsync (str document-directory file-name))
+      (.then success-callback error-callback)))
