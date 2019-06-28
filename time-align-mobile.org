@@ -12,7 +12,13 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
-*** DOSUB Fix secure store size limit issue
+*** DONE Add version identifier
+    CLOSED: [2019-06-28 Fri 19:26]
+    :LOGBOOK:
+    CLOCK: [2019-06-28 Fri 19:17]--[2019-06-28 Fri 19:26] =>  0:09
+    :END:
+*** DONE Fix secure store size limit issue
+    CLOSED: [2019-06-28 Fri 19:16]
     :LOGBOOK:
     :END:
 **** DONE Try to import the library and read/write 

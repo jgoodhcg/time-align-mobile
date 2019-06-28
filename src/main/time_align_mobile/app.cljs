@@ -15,6 +15,7 @@
                                           ei
                                           en
                                           fa
+                                          version
                                           app-state
                                           ic
                                           mi
@@ -92,7 +93,8 @@
                          :padding-left    20
                          :width           200}
                    icon-element
-                   label-element]]))))])
+                   label-element]]))))
+   [text {:style {:margin 8}} version]])
 
 (defn root []
   (fn []

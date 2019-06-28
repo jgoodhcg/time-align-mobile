@@ -9,6 +9,7 @@
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
    ["expo-file-system" :as fs]
+   ["expo-constants" :as expo-constants]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    [reagent.core :as r :refer [atom]]))
@@ -141,3 +142,8 @@
       (.-FileSystem)
       (.readAsStringAsync (str document-directory file-name))
       (.then success-callback error-callback)))
+
+(def version (-> expo-constants
+                 (.-default)
+                 (.-manifest)
+                 (.-version)))
