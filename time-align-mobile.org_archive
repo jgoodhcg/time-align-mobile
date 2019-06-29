@@ -3215,3 +3215,81 @@ This is needed for serious refactoring
 - helper functions
 ** TODO Spec'd functions
 Opens up for better dev experience and generative testing
+
+* DONE Add version identifier
+  CLOSED: [2019-06-28 Fri 19:26]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-29 Sat 18:06
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-06-28 Fri 19:17]--[2019-06-28 Fri 19:26] =>  0:09
+  :END:
+
+* DONE Fix secure store size limit issue
+  CLOSED: [2019-06-28 Fri 19:16]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-29 Sat 18:06
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  :END:
+** DONE Try to import the library and read/write 
+   CLOSED: [2019-06-28 Fri 18:53]
+    :LOGBOOK:
+    CLOCK: [2019-06-28 Fri 17:42]--[2019-06-28 Fri 18:53] =>  1:11
+    CLOCK: [2019-06-25 Tue 19:02]--[2019-06-25 Tue 20:16] =>  1:14
+    :END:
+https://clojurians.slack.com/archives/C0E1SN0NM/p1561508036233600
+** DONE Change secure store to file
+   CLOSED: [2019-06-28 Fri 19:07]
+   :LOGBOOK:
+   CLOCK: [2019-06-28 Fri 18:53]--[2019-06-28 Fri 19:07] =>  0:14
+   :END:
+
+* DONE Import
+  CLOSED: [2019-06-29 Sat 01:23]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-29 Sat 18:06
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-06-29 Sat 01:10]--[2019-06-29 Sat 01:23] =>  0:13
+  CLOCK: [2019-06-29 Sat 00:08]--[2019-06-29 Sat 00:18] =>  0:10
+  CLOCK: [2019-06-28 Fri 22:49]--[2019-06-28 Fri 23:17] =>  0:28
+  :END:
+
+* DONE Navigation
+  CLOSED: [2019-06-29 Sat 18:04]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-29 Sat 18:06
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+** DONE Refactor dispatching in navigation handler
+   CLOSED: [2019-06-29 Sat 14:37]
+     :LOGBOOK:
+     CLOCK: [2019-06-29 Sat 13:48]--[2019-06-29 Sat 14:36] =>  0:48
+     :END:
+Also rename the export of app-db
+** DONE History
+   CLOSED: [2019-06-29 Sat 15:10]
+   :LOGBOOK:
+   CLOCK: [2019-06-29 Sat 14:38]--[2019-06-29 Sat 15:10] =>  0:32
+   :END:
+** DONE Back button
+   CLOSED: [2019-06-29 Sat 18:04]
+   :LOGBOOK:
+   CLOCK: [2019-06-29 Sat 17:41]--[2019-06-29 Sat 18:04] =>  0:23
+   :END:
