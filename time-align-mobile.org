@@ -80,7 +80,8 @@
 *** TODO Remove queue page
 *** TODO Analytics
 *** TODO Notifications
-*** DOSUB Navigation
+*** DONE Navigation
+    CLOSED: [2019-06-29 Sat 18:04]
 **** DONE Refactor dispatching in navigation handler
      CLOSED: [2019-06-29 Sat 14:37]
      :LOGBOOK:
@@ -92,4 +93,8 @@ Also rename the export of app-db
      :LOGBOOK:
      CLOCK: [2019-06-29 Sat 14:38]--[2019-06-29 Sat 15:10] =>  0:32
      :END:
-**** TODO Back button
+**** DONE Back button
+     CLOSED: [2019-06-29 Sat 18:04]
+     :LOGBOOK:
+     CLOCK: [2019-06-29 Sat 17:41]--[2019-06-29 Sat 18:04] =>  0:23
+     :END:

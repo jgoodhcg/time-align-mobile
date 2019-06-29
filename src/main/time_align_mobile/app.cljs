@@ -16,6 +16,7 @@
                                           en
                                           fa
                                           version
+                                          back-handler
                                           app-state
                                           ic
                                           mi
@@ -123,6 +124,12 @@
 
 (defn init []
   (dispatch-sync [:initialize-db])
+
+  ;; set back handler
+  (.addEventListener back-handler
+                     "hardwareBackPress"
+                     (fn [] (dispatch [:navigate-back])
+                       true))
 
   ;; load previous state
   (read-file-from-dd-async

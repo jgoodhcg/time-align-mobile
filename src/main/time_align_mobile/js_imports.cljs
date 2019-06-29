@@ -159,3 +159,5 @@
       (.-DocumentPicker)
       (.getDocumentAsync)
       (.then callback)))
+
+(def back-handler (oget ReactNative "BackHandler"))
