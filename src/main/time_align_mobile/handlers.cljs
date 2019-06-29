@@ -1,6 +1,6 @@
 (ns time-align-mobile.handlers
   (:require
-    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share]]
+    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date]]
     [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx]]
     ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
@@ -768,13 +768,13 @@
 (reg-fx
  :share
  (fn [app-db]
-   (share (str "app-db-" (.toJSON (js/Date.))) (str app-db))))
+   (share (str (format-date (js/Date.)) "app-db.json") (str app-db))))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db
    :share db})
 
-(defn import-app-db [_ new-app-db] new-app-db)
+(defn import-app-db [_ [_ new-app-db]] new-app-db)
 
 (defn add-auto-filter [db [_ filter]]
   (->> db

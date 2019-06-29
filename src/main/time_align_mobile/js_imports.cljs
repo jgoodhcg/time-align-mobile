@@ -9,7 +9,7 @@
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
    ["expo-file-system" :as fs]
-   ["expo-document-picker" :as dp]
+   ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -154,9 +154,8 @@
                  (.-manifest)
                  (.-version)))
 
-
 (defn load-file-async [callback]
-  (-> dp
+  (-> expo ;; TODO changes to its own package in sdk-33
       (.-DocumentPicker)
       (.getDocumentAsync)
       (.then callback)))
