@@ -9,6 +9,7 @@
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
    ["expo-file-system" :as fs]
+   ["expo-document-picker" :as dp]
    ["expo-constants" :as expo-constants]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -137,13 +138,25 @@
       (.-FileSystem)
       (.writeAsStringAsync (str document-directory file-name)
                            contents-as-string)))
-(defn read-file-from-dd-async [file-name success-callback error-callback]
+(defn read-file-async [file-uri success-callback error-callback]
   (-> fs
       (.-FileSystem)
-      (.readAsStringAsync (str document-directory file-name))
+      (.readAsStringAsync file-uri)
       (.then success-callback error-callback)))
+(defn read-file-from-dd-async [file-name success-callback error-callback]
+  (read-file-async
+   (str document-directory file-name)
+   success-callback
+   error-callback))
 
 (def version (-> expo-constants
                  (.-default)
                  (.-manifest)
                  (.-version)))
+
+
+(defn load-file-async [callback]
+  (-> dp
+      (.-DocumentPicker)
+      (.getDocumentAsync)
+      (.then callback)))

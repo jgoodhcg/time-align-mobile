@@ -768,13 +768,13 @@
 (reg-fx
  :share
  (fn [app-db]
-   (share (str "app-db-" (.toJSON (js/Date.))) (str app-db)
-          ;; (with-out-str (zprint app-db))
-          )))
+   (share (str "app-db-" (.toJSON (js/Date.))) (str app-db))))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db
    :share db})
+
+(defn import-app-db [_ new-app-db] new-app-db)
 
 (defn add-auto-filter [db [_ filter]]
   (->> db
@@ -876,3 +876,4 @@
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
 (reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
+(reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)
