@@ -87,5 +87,9 @@
      CLOCK: [2019-06-29 Sat 13:48]--[2019-06-29 Sat 14:36] =>  0:48
      :END:
 Also rename the export of app-db
-**** TODO History
+**** DONE History
+     CLOSED: [2019-06-29 Sat 15:10]
+     :LOGBOOK:
+     CLOCK: [2019-06-29 Sat 14:38]--[2019-06-29 Sat 15:10] =>  0:32
+     :END:
 **** TODO Back button

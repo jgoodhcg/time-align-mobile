@@ -29,4 +29,12 @@
                    :padding          10
                    :margin           10
                    :border-radius    4}}
-     "import"]]])
+     "import"]]
+
+   [touchable-highlight
+    {:on-press #(dispatch [:navigate-back])}
+    [text {:style {:background-color "cyan"
+                   :padding          10
+                   :margin           10
+                   :border-radius    4}}
+     "back"]]])

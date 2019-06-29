@@ -1,13 +1,15 @@
 (ns time-align-mobile.handlers
   (:require
     [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date]]
-    [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx]]
+    [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
     ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
     [time-align-mobile.helpers :as helpers :refer [same-day?]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
+
+(def navigation-history (atom []))
 
 ;; -- Interceptors ----------------------------------------------------------
 ;;
@@ -52,7 +54,7 @@
                                            ))
               (setval [:effects :alert] sp/NONE context)))))
 
-(def persist-secure-store ;; TODO rename this
+(def persist-secure-store ;; TODO rename this to reflect file storage instead of secure store
   (->interceptor
    :id :persist-secure-store
    :after (fn [context]
@@ -69,14 +71,33 @@
 
 (defn load-db [old-db [_ db]] db)
 
+(reg-fx
+ :save-nav-screen
+ (fn [new-screen]
+   (swap! navigation-history conj new-screen)
+   (println @navigation-history)))
+
+(reg-fx
+ :go-back-nav-screen
+ (fn [_]
+   (let [[previous-screen _] (take-last 2 @navigation-history)]
+     (if (some? previous-screen)
+       (do
+         (swap! navigation-history #(do (drop-last 2 %)))
+         (dispatch [:navigate-to previous-screen]))))))
+
+(defn navigate-back [{:keys [db]}]
+  {:go-back-nav-screen true
+   :db db})
+
 (defn navigate-to [{:keys [db]} [_ {:keys [current-screen params]}]]
   (merge {:db (-> db
                   (assoc-in [:navigation] {:current-screen current-screen
                                            :params         params})
                   ;; prevents using incompatible filters
                   (assoc-in [:active-filter] nil))}
-         ;; {:new-nav-screen {:current-screen current-screen
-         ;;                   :params         params}}
+         {:save-nav-screen {:current-screen current-screen
+                            :params         params}}
          (let [dispatch
                (case current-screen
                  :bucket           [:load-bucket-form (:bucket-id params)]
@@ -867,3 +888,4 @@
 (reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
 (reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)
+(reg-event-fx :navigate-back [validate-spec persist-secure-store] navigate-back)
