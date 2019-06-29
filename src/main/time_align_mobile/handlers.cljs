@@ -75,34 +75,24 @@
                                            :params         params})
                   ;; prevents using incompatible filters
                   (assoc-in [:active-filter] nil))}
-
-         ;; bucket
-         (when (= current-screen :bucket)
-           {:dispatch [:load-bucket-form (:bucket-id params)]})
-
-         ;; pattern
-         (when (and (= current-screen :pattern)
-                    (not (:do-not-load-form params)) )
-           {:dispatch [:load-pattern-form (:pattern-id params)]})
-
-         ;; pattern-planning
-         (when (and (= current-screen :pattern-planning)
-                    (not (:do-not-load-form params)))
-           {:dispatch [:load-pattern-form (:pattern-id params)]})
-
-         ;; period
-         (when (= current-screen :period)
-           {:dispatch [:load-period-form (:period-id params)]})
-
-         ;; template
-         (when (= current-screen :template)
-           (if (contains? params :pattern-form-pattern-id)
-             {:dispatch [:load-template-form-from-pattern-planning (:template-id params)]}
-             {:dispatch [:load-template-form (:template-id params)]}))
-
-         ;; filter
-         (when (= current-screen :filter)
-           {:dispatch [:load-filter-form (:filter-id params)]})))
+         ;; {:new-nav-screen {:current-screen current-screen
+         ;;                   :params         params}}
+         (let [dispatch
+               (case current-screen
+                 :bucket           [:load-bucket-form (:bucket-id params)]
+                 :pattern          (when (not (:do-not-load-form params))
+                                     [:load-pattern-form (:pattern-id params)])
+                 :pattern-planning (when (not (:do-not-load-form params))
+                                     [:load-pattern-form (:pattern-id params)])
+                 :period           [:load-period-form (:period-id params)]
+                 :template         (if (contains? params :pattern-form-pattern-id)
+                                     [:load-template-form-from-pattern-planning
+                                      (:template-id params)]
+                                     [:load-template-form (:template-id params)])
+                 :filter           [:load-filter-form (:filter-id params)]
+                 nil)]
+           (when (some? dispatch)
+             {:dispatch dispatch}))))
 
 (defn load-bucket-form [db [_ bucket-id]]
   (let [bucket      (select-one [:buckets sp/ALL #(= (:id %) bucket-id)] db)
@@ -768,7 +758,7 @@
 (reg-fx
  :share
  (fn [app-db]
-   (share (str (format-date (js/Date.)) "app-db.json") (str app-db))))
+   (share (str (format-date (js/Date.)) "-app-db.json") (str app-db))))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db
