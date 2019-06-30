@@ -107,29 +107,53 @@
                                :params         {:period-id id}}]))))
 
 (defn periods-comp [{:keys [displayed-day
-                            selected-period
+                            selected-period ;; TODO handle deref better in the args name and/or function body
                             period-in-play
                             periods
                             dimensions]}]
   [view
-   (doall
-    (->> @periods
-         (#(concat (:actual %) (:planned %))) ;; TODO maybe refactor or find another way to do this?
-         (map (fn [collision-group]
-                (doall
-                 (->> collision-group
-                      (map-indexed
-                       (fn [index period]
-                         (render-period
-                          {:period                    period
-                           :collision-index           index
-                           :collision-group-size      (count collision-group)
-                           :displayed-day             @displayed-day
-                           :dimensions                @dimensions
-                           :select-function-generator (fn [id]
-                                                        #(dispatch [:select-period id]))
-                           :selected-period           @selected-period
-                           :period-in-play            @period-in-play})))))))))])
+   (let [periods-combined (->> @periods
+                               (#(concat (:actual %)
+                                         (:planned %)))) ;; TODO maybe refactor or find another way to do this?
+         sel-c-group      (->> periods-combined
+                               ;; select the collision group
+                               (some (fn [collision-group]
+                                       (when (some?
+                                              (->> collision-group
+                                                   (some
+                                                    #(=
+                                                      (:id %)
+                                                      (:id @selected-period)))))
+                                         collision-group)))
+                               ;; sort the collision group so selected is the last rendered
+                               ;; TODO this moves the period to the right, fix that somehow
+                               (sort-by #(if (= (:id %) (:id @selected-period))
+                                           2
+                                           1)))]
+     (doall
+      (->> periods-combined
+           (remove (fn [collision-group]
+                     (some? (->> collision-group
+                                 (map :id)
+                                 (some #{(:id @selected-period)}))))) ;; remove the group with the selected period
+           (cons sel-c-group)                                         ;; add back that group as first element
+           (reverse)                                                  ;; reverse the list so it is the last element
+           (map (fn [collision-group]
+                  (doall
+                   (->> collision-group
+                        (map-indexed
+                         (fn [index period]
+                           (render-period
+                            {:period                    period
+                             :collision-index           index
+                             :collision-group-size      (count collision-group)
+                             :displayed-day             @displayed-day
+                             :dimensions                @dimensions
+                             :select-function-generator (fn [id]
+                                                          #(dispatch [:select-period id]))
+                             :selected-period           @selected-period
+                             :period-in-play            @period-in-play})))))))))
+     )])
 
 (defn play-modal-content [{:keys [templates
                                   buckets]}]
