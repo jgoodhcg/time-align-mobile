@@ -18,6 +18,7 @@
                                           version
                                           back-handler
                                           app-state
+                                          paper-provider
                                           ic
                                           mi
                                           text
@@ -101,20 +102,21 @@
   (fn []
     (let [navigation (subscribe [:get-navigation])]
       (fn []
-        [view {:style {:flex             1
-                       :background-color "#ffffff"}}
-         [drawer-layout
-          {:drawer-width            200
-           :drawer-position         "left"
-           :drawer-type             "front"
-           :drawer-background-color "#ddd"
-           :render-navigation-view  (fn [] (r/as-element (drawer-list)))}
+        [paper-provider
+         [view {:style {:flex             1
+                        :background-color "#ffffff"}}
+          [drawer-layout
+           {:drawer-width            200
+            :drawer-position         "left"
+            :drawer-type             "front"
+            :drawer-background-color "#ddd"
+            :render-navigation-view  (fn [] (r/as-element (drawer-list)))}
 
-          (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
-                                        (:screen %))
-                                     nav/screens-map)]
-            [screen-comp (:params @navigation)]
-            [view [text "That screen doesn't exist"]])]]))))
+           (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
+                                         (:screen %))
+                                      nav/screens-map)]
+             [screen-comp (:params @navigation)]
+             [view [text "That screen doesn't exist"]])]]]))))
 
 (defn start
   {:dev/after-load true}

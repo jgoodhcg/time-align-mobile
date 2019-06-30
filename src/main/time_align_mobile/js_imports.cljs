@@ -5,6 +5,7 @@
    ["@expo/vector-icons" :as expo-icons]
    ["react-native-color-picker" :as react-native-color-picker]
    ["react-native-elements" :as react-native-elements]
+   ["react-native-paper" :as paper]
    ["react-native-modal-datetime-picker" :as react-native-date-picker]
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
@@ -161,3 +162,6 @@
       (.then callback)))
 
 (def back-handler (oget ReactNative "BackHandler"))
+
+(def Provider (oget paper "Provider"))
+(def paper-provider (r/adapt-react-class Provider))

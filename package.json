@@ -15,7 +15,8 @@
     "react-native-elements": "^1.1.0",
     "react-native-floating-action": "^1.17.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
-    "react-native-modal-datetime-picker": "^6.0.0"
+    "react-native-modal-datetime-picker": "^6.0.0",
+    "react-native-paper": "^2.16.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

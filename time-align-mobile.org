@@ -37,11 +37,19 @@
 - [X] Keep transform buttons and default width instead of scaling with stacked periods
 **** DOSUB Move form to old selection menu
 ***** TODO Form fields 
+      :LOGBOOK:
+      CLOCK: [2019-06-30 Sun 15:50]--[2019-06-30 Sun 15:51] =>  0:01
+      :END:
 ***** TODO Form buttons
 ***** TODO Extra buttons
 - Add period to pattern
 - Copy (<- 0 ->)
 - Edit on full form
+**** DONE Add react-native-paper dep
+     CLOSED: [2019-06-30 Sun 15:59]
+     :LOGBOOK:
+     CLOCK: [2019-06-30 Sun 15:51]--[2019-06-30 Sun 15:59] =>  0:08
+     :END:
 **** DOSUB Edit FAB
 ***** TODO Play indication
 ***** TODO Add day as pattern button
