@@ -106,54 +106,63 @@
       (dispatch [:navigate-to {:current-screen :period
                                :params         {:period-id id}}]))))
 
+(defn xor [a b]
+  (let [a-num (if a 1 0) b-num (if b 1 0)]
+    (if (= 1 (bit-xor a-num b-num))
+      true
+      false)))
+
+(defn render-periods-col
+  "Renders all non-selected only when `render-selected-only` is false. Only renders selected when it is true."
+  [{:keys [periods
+           displayed-day
+           dimensions
+           selected-period
+           period-in-play
+           render-selected-only]}]
+  (->> periods
+       (map (fn [collision-group]
+              (doall
+               (->> collision-group
+                    (map-indexed
+                     (fn [index period]
+                       (when (xor render-selected-only
+                                  (not= (:id period) (:id selected-period)))
+                         (render-period
+                          {:period                    period
+                           :collision-index           index
+                           :collision-group-size      (count collision-group)
+                           :displayed-day             displayed-day
+                           :dimensions                dimensions
+                           :select-function-generator (fn [id]
+                                                        #(dispatch [:select-period id]))
+                           :selected-period           selected-period
+                           :period-in-play            period-in-play}))))))))))
+
 (defn periods-comp [{:keys [displayed-day
                             selected-period ;; TODO handle deref better in the args name and/or function body
                             period-in-play
                             periods
                             dimensions]}]
-  [view
-   (let [periods-combined (->> @periods
-                               (#(concat (:actual %)
-                                         (:planned %)))) ;; TODO maybe refactor or find another way to do this?
-         sel-c-group      (->> periods-combined
-                               ;; select the collision group
-                               (some (fn [collision-group]
-                                       (when (some?
-                                              (->> collision-group
-                                                   (some
-                                                    #(=
-                                                      (:id %)
-                                                      (:id @selected-period)))))
-                                         collision-group)))
-                               ;; sort the collision group so selected is the last rendered
-                               ;; TODO this moves the period to the right, fix that somehow
-                               (sort-by #(if (= (:id %) (:id @selected-period))
-                                           2
-                                           1)))]
-     (doall
-      (->> periods-combined
-           (remove (fn [collision-group]
-                     (some? (->> collision-group
-                                 (map :id)
-                                 (some #{(:id @selected-period)}))))) ;; remove the group with the selected period
-           (cons sel-c-group)                                         ;; add back that group as first element
-           (reverse)                                                  ;; reverse the list so it is the last element
-           (map (fn [collision-group]
-                  (doall
-                   (->> collision-group
-                        (map-indexed
-                         (fn [index period]
-                           (render-period
-                            {:period                    period
-                             :collision-index           index
-                             :collision-group-size      (count collision-group)
-                             :displayed-day             @displayed-day
-                             :dimensions                @dimensions
-                             :select-function-generator (fn [id]
-                                                          #(dispatch [:select-period id]))
-                             :selected-period           @selected-period
-                             :period-in-play            @period-in-play})))))))))
-     )])
+  (let [periods-combined (->> @periods  ;; TODO maybe refactor or find another way to do this?
+                              (#(concat (:actual %)
+                                        (:planned %))))
+        sel-period @selected-period]
+    [view
+     ;; render everything but selected
+     (render-periods-col {:periods periods-combined
+                          :displayed-day @displayed-day
+                          :dimensions @dimensions
+                          :selected-period sel-period
+                          :period-in-play @period-in-play
+                          :render-selected-only false})
+     ;; render only the selected
+     (render-periods-col {:periods periods-combined
+                          :displayed-day @displayed-day
+                          :dimensions @dimensions
+                          :selected-period sel-period
+                          :period-in-play @period-in-play
+                          :render-selected-only true})]))
 
 (defn play-modal-content [{:keys [templates
                                   buckets]}]

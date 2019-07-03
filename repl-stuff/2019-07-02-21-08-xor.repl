@@ -1,0 +1,75 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.22.0snapshot (package: 20190329.1924), nREPL 0.6.0
+;; Clojure 1.10.0, Java 1.8.0_212
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+WARNING: No Clojure project was detected. The
+refactor-nrepl middleware was not enabled. (You can mute this
+warning by customizing `cljr-suppress-no-project-warning'.)To quit, type: :cljs/quit
+[:selected :app]
+shadow.user> 
+cljs.user> (+ 1 1)
+2
+cljs.user> (bit-xor true true)
+WARNING: cljs.core/bit-xor, all arguments must be numbers, got [boolean boolean] instead (<stdin> at 1:1)
+0
+cljs.user> (defn xor [a b] (let [a-num (if a 1 0) b-num (if b 1 0)] (bit-xor a-num b-num)))
+#'cljs.user/xor
+cljs.user> (xor true true)
+0
+cljs.user> (defn xor [a b] (let [a-num (if a 1 0) b-num (if b 1 0)] (when (= 1 (bit-xor a-num b-num)))))
+#'cljs.user/xor
+cljs.user> (xor true true)
+nil
+cljs.user> (defn xor [a b] (let [a-num (if a 1 0) b-num (if b 1 0)] (if (= 1 (bit-xor a-num b-num)) true false)))
+#'cljs.user/xor
+cljs.user> (xor true true)
+false
+cljs.user> (xor false true)
+true
+cljs.user> (xor 1 2)
+false
+cljs.user> (xor 1 nil)
+true
+cljs.user> (xor false true)
+true
+cljs.user> (xor false nil)
+false
+cljs.user> 

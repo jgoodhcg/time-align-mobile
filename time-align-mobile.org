@@ -37,3 +37,8 @@
 *** TODO Remove queue page
 *** TODO Analytics
 *** TODO Notifications
+*** DONE Fix moving selected period problem from ordering fix
+    CLOSED: [2019-07-02 Tue 21:24]
+    :LOGBOOK:
+    CLOCK: [2019-07-02 Tue 20:23]--[2019-07-02 Tue 21:23] =>  1:00
+    :END:
