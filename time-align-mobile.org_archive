@@ -3293,3 +3293,59 @@ Also rename the export of app-db
    :LOGBOOK:
    CLOCK: [2019-06-29 Sat 17:41]--[2019-06-29 Sat 18:04] =>  0:23
    :END:
+
+* DONE Move transform buttons to float around selection
+  CLOSED: [2019-06-29 Sat 18:07]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-02 Tue 20:22
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers/Day UX refactor
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+     :LOGBOOK:
+     CLOCK: [2019-06-20 Thu 18:32]--[2019-06-20 Thu 19:46] =>  1:14
+     CLOCK: [2019-06-19 Wed 19:03]--[2019-06-19 Wed 19:21] =>  0:18
+     CLOCK: [2019-06-19 Wed 18:49]--[2019-06-19 Wed 18:58] =>  0:09
+     CLOCK: [2019-06-19 Wed 18:36]--[2019-06-19 Wed 18:46] =>  0:10
+     CLOCK: [2019-06-19 Wed 18:04]--[2019-06-19 Wed 18:32] =>  0:28
+     CLOCK: [2019-06-18 Tue 18:32]--[2019-06-18 Tue 19:33] =>  1:01
+     CLOCK: [2019-06-17 Mon 18:34]--[2019-06-17 Mon 18:48] =>  0:14
+     CLOCK: [2019-06-17 Mon 18:17]--[2019-06-17 Mon 18:33] =>  0:16
+     :END:
+- [X] Strip down render-periods fn
+- [X] Get a button to show /around/
+- [X] Stub out six main buttons
+- [X] Change height to fill unused space
+- [X] Enable selection again
+- [X] Turn button stubs into touchable buttons
+- [X] Assign on press functionality
+- [X] Remove buttons from selection menu and publish
+- [X] Keep transform buttons and default width instead of scaling with stacked periods
+
+* DONE Add react-native-paper dep
+  CLOSED: [2019-06-30 Sun 15:59]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-02 Tue 20:22
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers/Day UX refactor
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-06-30 Sun 15:51]--[2019-06-30 Sun 15:59] =>  0:08
+  :END:
+
+* DONE Fix ordering problem
+  CLOSED: [2019-06-30 Sun 18:31]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-02 Tue 20:22
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers/Day UX refactor
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-06-30 Sun 18:05]--[2019-06-30 Sun 18:31] =>  0:26
+  CLOCK: [2019-06-30 Sun 16:08]--[2019-06-30 Sun 16:40] =>  0:32
+  :END:
