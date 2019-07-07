@@ -280,7 +280,7 @@
                        :report   (js/Date.)}
    :config            {:auto-log-time-align true}
    :period-in-play-id default-period-id
-   :selected-period   default-period-id
+   :selected-period   nil
    :selected-template nil
    :now               now})
 

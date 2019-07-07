@@ -25,7 +25,135 @@
                                                       padding]]
             [reagent.core :as r]))
 
-(defn templates-comp [{:keys [templates dimensions selected-template]}]
+(defn start-later
+  ([pattern-form selected-template]
+   (start-later pattern-form selected-template false))
+  ([pattern-form selected-template long]
+   (let [time (if long
+                (helpers/hours->ms 3)
+                (helpers/minutes->ms 5))]
+     #(dispatch [:update-pattern-form
+                (select-keys (transform
+                              [:templates sp/ALL
+                               (fn [template]
+                                 (= (:id template)
+                                    (:id selected-template)))
+                               :start]
+                              (partial (+ time))
+                              pattern-form)
+                             [:templates])]))))
+
+(defn start-earlier
+  ([pattern-form selected-template]
+   (start-earlier pattern-form selected-template false))
+  ([pattern-form selected-template long]
+   (let [time (if long
+                (helpers/hours->ms 3)
+                (helpers/minutes->ms 5))]
+     (fn [_]
+       ;; TODO stop from moving below 0
+       (dispatch [:update-pattern-form
+                  (select-keys (transform
+                                [:templates sp/ALL
+                                 #(= (:id %) (:id selected-template))
+                                 :start]
+                                #(- % time)
+                                pattern-form)
+                               [:templates])])))))
+
+(defn up
+  ([pattern-form selected-template]
+   (up pattern-form selected-template false))
+  ([pattern-form selected-template long]
+   (let [time (if long
+                (helpers/hours->ms 3)
+                (helpers/minutes->ms 5))]
+     (fn [_]
+       (dispatch [:update-pattern-form
+                  (select-keys (transform
+                                [:templates sp/ALL
+                                 #(= (:id %) (:id selected-template))]
+                                (fn [template]
+                                  (->> template
+                                       (transform
+                                        [:start]
+                                        #(max 0 (- % time)))
+                                       (transform
+                                        [:stop]
+                                        #(max 1 (- % time)))))
+                                pattern-form)
+                               [:templates])])))))
+
+(defn down
+  ([pattern-form selected-template]
+   (down pattern-form selected-template false))
+  ([pattern-form selected-template long]
+   (let [time (if long
+                (helpers/hours->ms 3)
+                (helpers/minutes->ms 5))]
+     (fn [_]
+       (dispatch [:update-pattern-form
+                  (select-keys (transform
+                                [:templates sp/ALL
+                                 #(= (:id %) (:id selected-template))]
+                                (fn [template]
+                                  (->> template
+                                       (transform
+                                        [:start]
+                                        #(min (helpers/hours->ms 23.8)
+                                              (+ % time)))
+                                       (transform
+                                        [:stop]
+                                        #(min (helpers/hours->ms 23.9)
+                                              (+ % time)))))
+                                pattern-form)
+                               [:templates])])))))
+
+(defn stop-later
+  ([pattern-form selected-template]
+   (stop-later pattern-form selected-template false))
+  ([pattern-form selected-template long]
+   (let [time (if long
+                (helpers/hours->ms 3)
+                (helpers/minutes->ms 5))]
+     (fn [_]
+       ;; TODO keep from going beyond end of day
+       (dispatch [:update-pattern-form
+                  (select-keys (transform
+                                [:templates sp/ALL
+                                 #(= (:id %) (:id selected-template))
+                                 :stop]
+                                #(+ % time)
+                                pattern-form)
+                               [:templates])])))))
+
+(defn stop-earlier
+  ([pattern-form selected-template]
+   (stop-earlier pattern-form selected-template false))
+  ([pattern-form selected-template long]
+   (let [time (if long
+                (helpers/hours->ms 3)
+                (helpers/minutes->ms 5))]
+     (fn [_]
+       ;; TODO keep from going before start
+       (dispatch [:update-pattern-form
+                  (select-keys (transform
+                                [:templates sp/ALL
+                                 #(= (:id %) (:id selected-template))
+                                 :stop]
+                                #(- % time)
+                                pattern-form)
+                               [:templates])])))))
+
+(defn generate-transform-functions [pattern-form]
+  {:up            (partial up pattern-form)
+   :down          (partial down pattern-form)
+   :start-earlier (partial start-earlier pattern-form)
+   :stop-earlier  (partial stop-earlier pattern-form)
+   :stop-later    (partial stop-later pattern-form)
+   :start-later   (partial start-later pattern-form)})
+
+(defn templates-comp [{:keys [templates dimensions selected-template pattern-form]}]
   [view
    (doall
     (->> templates
@@ -43,12 +171,7 @@
                                                        stop now)
                                              :planned true})
 
-                             :transform-functions       {:up            (fn [] #(println "transform function"))
-                                                         :down          (fn [] #(println "transform function"))
-                                                         :start-earlier (fn [] #(println "transform function"))
-                                                         :stop-earlier  (fn [] #(println "transform function"))
-                                                         :stop-later    (fn [] #(println "transform function"))
-                                                         :start-later   (fn [] #(println "transform function"))}
+                             :transform-functions       (generate-transform-functions pattern-form)
                              :entity-type               :template
                              :collision-index           index
                              :collision-group-size      (count collision-group)
@@ -72,186 +195,6 @@
                     {:current-screen :template
                      :params         {:template-id             (:id selected-template)
                                       :pattern-form-pattern-id (:id pattern-form)}}]))]]
-
-     ;; start-later
-     [view row-style
-      [selection-menu-button
-       "start later"
-       [mci {:name "arrow-collapse-down"}]
-       (fn [_]
-         ;; TODO stop from moving past stop ? or does spec do that?
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :start]
-                                  #(+ (helpers/minutes->ms 5) %)
-                                  pattern-form)
-                                 [:templates])]))
-       (fn [_]
-         ;; TODO stop from moving past stop
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :start]
-                                  #(+ (helpers/hours->ms 3) %)
-                                  pattern-form)
-                                 [:templates])]))]]
-
-     ;; start-earlier
-     [view row-style
-      [selection-menu-button
-       "start earlier"
-       [mci {:name "arrow-expand-up"}]
-       (fn [_]
-         ;; TODO stop from moving below 0
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :start]
-                                  #(- % (helpers/minutes->ms 5))
-                                  pattern-form)
-                                 [:templates])]))
-       (fn [_]
-         ;; TODO stop from moving below 0
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :start]
-                                  #(- % (helpers/hours->ms 3))
-                                  pattern-form)
-                                 [:templates])]))]]
-
-     ;; up
-     [view row-style
-      [selection-menu-button
-       "up"
-       [mi {:name "arrow-upward"}]
-       (fn [_]
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))]
-                                  (fn [template]
-                                    (->> template
-                                         (transform
-                                          [:start]
-                                          #(max 0 (- % (helpers/minutes->ms 5))))
-                                         (transform
-                                          [:stop]
-                                          #(max 1 (- % (helpers/minutes->ms 5))))))
-                                  pattern-form)
-                                 [:templates])]))
-       (fn [_]
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))]
-                                  (fn [template]
-                                    (->> template
-                                         (transform
-                                          [:start]
-                                          #(max 0 (- % (helpers/hours->ms 3))))
-                                         (transform
-                                          [:stop]
-                                          #(max 1 (- % (helpers/hours->ms 3))))))
-                                  pattern-form)
-                                 [:templates])]))]]
-
-     ;; down
-     [view row-style
-      [selection-menu-button
-       "down"
-       [mi {:name "arrow-downward"}]
-       (fn [_]
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))]
-                                  (fn [template]
-                                    (->> template
-                                         (transform
-                                          [:start]
-                                          #(min (helpers/hours->ms 23.8)
-                                                (+ % (helpers/minutes->ms 5))))
-                                         (transform
-                                          [:stop]
-                                          #(min (helpers/hours->ms 23.9)
-                                                (+ % (helpers/minutes->ms 5))))))
-                                  pattern-form)
-                                 [:templates])]))
-       (fn [_]
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))]
-                                  (fn [template]
-                                    (->> template
-                                         (transform
-                                          [:start]
-                                          #(min (helpers/hours->ms 23.8)
-                                                (+ % (helpers/hours->ms 3))))
-                                         (transform
-                                          [:stop]
-                                          #(min (helpers/hours->ms 23.9)
-                                                (+ % (helpers/hours->ms 3))))))
-                                  pattern-form)
-                                 [:templates])]))]]
-
-     ;; stop-later
-     [view row-style
-      [selection-menu-button
-       "stop later"
-       [mci {:name "arrow-expand-down"}]
-       (fn [_]
-         ;; TODO keep from going beyond end of day
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :stop]
-                                  #(+ % (helpers/minutes->ms 5))
-                                  pattern-form)
-                                 [:templates])]))
-       (fn [_]
-         ;; TODO keep from going beyond end of day
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :stop]
-                                  #(+ % (helpers/hours->ms 3))
-                                  pattern-form)
-                                 [:templates])]))]]
-
-     ;; stop-earlier
-     [view row-style
-      [selection-menu-button
-       "stop earlier"
-       [mci {:name "arrow-collapse-up"}]
-       (fn [_]
-         ;; TODO keep from going before start
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :stop]
-                                  #(- % (helpers/minutes->ms 5))
-                                  pattern-form)
-                                 [:templates])]))
-       (fn [_]
-         ;; TODO keep from going before start
-         (dispatch [:update-pattern-form
-                    (select-keys (transform
-                                  [:templates sp/ALL
-                                   #(= (:id %) (:id selected-template))
-                                   :stop]
-                                  #(- % (helpers/hours->ms 3))
-                                  pattern-form)
-                                 [:templates])]))]]
 
      ;; select-prev
      [view row-style
@@ -332,6 +275,7 @@
                                                     :templates
                                                     (sort-by :start)
                                                     (helpers/get-collision-groups))
+                            :pattern-form      @pattern-form
                             :selected-template @selected-template
                             :dimensions        @dimensions}]
 

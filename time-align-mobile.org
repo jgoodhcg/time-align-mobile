@@ -25,13 +25,15 @@
      CLOCK: [2019-07-07 Sun 12:52]--[2019-07-07 Sun 12:52] =>  0:00
      CLOCK: [2019-07-07 Sun 11:01]--[2019-07-07 Sun 12:00] =>  0:59
      :END:
-**** TODO Fix transform buttons to work for templates on pattern planning
+**** DONE Fix transform buttons to work for templates on pattern planning
+     CLOSED: [2019-07-07 Sun 18:43]
       :LOGBOOK:
+      CLOCK: [2019-07-07 Sun 17:58]--[2019-07-07 Sun 18:43] =>  0:45
       CLOCK: [2019-07-07 Sun 12:52]--[2019-07-07 Sun 13:41] =>  0:49
       :END:
-- [ ] Add transform buttons to pattern planning
+- [X] Add transform buttons to pattern planning
 **** DOSUB Move form to old selection menu
-***** TODO Form fields 
+***** TODO [#B] Form fields 
       :LOGBOOK:
       CLOCK: [2019-07-03 Wed 00:12]--[2019-07-03 Wed 00:20] =>  0:08
       CLOCK: [2019-07-02 Tue 23:12]--[2019-07-02 Tue 23:23] =>  0:11
