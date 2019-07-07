@@ -590,11 +590,13 @@
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :filters}]})
 
-(defn select-period [db [_ id]]
-  (assoc-in db [:selected-period] id))
+(defn select-period [{:keys [db]} [_ id]]
+  {:db (assoc-in db [:selected-period] id)
+   :dispatch [:load-period-form id]})
 
-(defn select-template [db [_ id]]
-  (assoc-in db [:selected-template] id))
+(defn select-template [{:keys [db]} [_ id]]
+  {:db (assoc-in db [:selected-template] id)
+   :dispatch [:load-template-form id]})
 
 (defn update-period [db [_ {:keys [id update-map]}]]
   ;; TODO add an interceptor? for last edited
@@ -866,8 +868,8 @@
 (reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store]
               delete-template-from-pattern-planning)
 (reg-event-fx :delete-filter [validate-spec persist-secure-store] delete-filter)
-(reg-event-db :select-period [validate-spec persist-secure-store] select-period)
-(reg-event-db :select-template [validate-spec persist-secure-store] select-template)
+(reg-event-fx :select-period [validate-spec persist-secure-store] select-period)
+(reg-event-fx :select-template [validate-spec persist-secure-store] select-template)
 (reg-event-db :update-period [validate-spec persist-secure-store] update-period)
 (reg-event-db :add-period [validate-spec persist-secure-store] add-period)
 (reg-event-db :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)

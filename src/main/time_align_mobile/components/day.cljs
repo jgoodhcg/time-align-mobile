@@ -7,11 +7,17 @@
                                                   en
                                                   scroll-view
                                                   format-date
+                                                  modal-paper
+                                                  portal
+                                                  surface
+                                                  card
                                                   format-time
                                                   status-bar
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
             [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
+            [time-align-mobile.screens.period-form :as period-form]
+            [time-align-mobile.screens.template-form :as template-form]
             ["react-native-floating-action" :as fab]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -74,123 +80,22 @@
       [view line-style]
       [text {:style text-style} "18"]]])))
 
-(defn start-earlier
-  ([selected-period]
-   (start-earlier selected-period false))
-  ([ selected-period long]
-   (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:start (-> selected-period
-                                 (:start)
-                                 (.valueOf)
-                                 (- time)
-                                 (js/Date.))}}]))))
-
-(defn start-later
-  ([selected-period]
-   (start-later selected-period false))
-  ([selected-period long]
-   (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-      [:update-period
-       {:id         (:id selected-period)
-        :update-map {:start (-> selected-period
-                                (:start)
-                                (.valueOf)
-                                (+ time)
-                                (js/Date.))}}]))))
-
-(defn down
-  ([selected-period]
-   (down selected-period false))
-  ([selected-period long]
-   (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:start (-> selected-period
-                                 (:start)
-                                 (.valueOf)
-                                 (+ time)
-                                 (js/Date.))
-                      :stop  (-> selected-period
-                                 (:stop)
-                                 (.valueOf)
-                                 (+ time)
-                                 (js/Date.))}}]))))
-
-(defn up
-  ([selected-period]
-   (up selected-period false))
-  ([selected-period long]
-   (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:start (-> selected-period
-                                 (:start)
-                                 (.valueOf)
-                                 (- time)
-                                 (js/Date.))
-                      :stop  (-> selected-period
-                                 (:stop)
-                                 (.valueOf)
-                                 (- time)
-                                 (js/Date.))}}]))))
-
-(defn stop-later
-  ([selected-period]
-   (stop-later selected-period false))
-  ([selected-period long]
-   (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:stop (-> selected-period
-                               (:stop)
-                               (.valueOf)
-                               (+ time)
-                               (js/Date.))}}]))))
-
-(defn stop-earlier
-  ([selected-period]
-   (stop-earlier selected-period false))
-  ([selected-period long]
-   (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:stop (-> selected-period
-                                (:stop)
-                                (.valueOf)
-                                (- time)
-                                (js/Date.))}}]))))
-
-(defn render-period [{:keys [period
+(defn render-period [{:keys [entity
+                             entity-type
+                             transform-functions
                              select-function-generator
                              collision-index
                              collision-group-size
                              dimensions
                              displayed-day
                              period-in-play
-                             selected-period]}]
-  (let [{:keys [id start stop planned color label bucket-label]} period
+                             selected-entity]}]
+  (let [{:keys [id start stop planned color label bucket-label]}
+        entity
+        {:keys [up down start-earlier stop-earlier start-later stop-later]}
+        transform-functions
 
-        selected       (= id (:id selected-period))
+        selected       (= id (:id selected-entity))
         adjusted-stop  (helpers/bound-stop stop displayed-day)
         adjusted-start (helpers/bound-start start displayed-day)
         top            (-> adjusted-start
@@ -264,42 +169,42 @@
 
         ;; up
         [touchable-highlight {:style         (merge top-style {:left base-left})
-                              :on-press      (up selected-period)
-                              :on-long-press (up selected-period true)}
+                              :on-press      (up selected-entity)
+                              :on-long-press (up selected-entity true)}
          [mi-styled (icon-params "arrow-upward")]]
 
         ;; start-earlier
         [touchable-highlight {:style         (merge top-style
                                                     {:left (+ base-left button-width)})
-                              :on-press      (start-earlier selected-period)
-                              :on-long-press (start-earlier selected-period true)}
+                              :on-press      (start-earlier selected-entity)
+                              :on-long-press (start-earlier selected-entity true)}
          [mci-styled (icon-params "arrow-collapse-up")]]
 
         ;; start-later
         [touchable-highlight {:style         (merge top-style
                                                     {:left (+ base-left (* 2 button-width))})
-                              :on-press      (start-later selected-period)
-                              :on-long-press (start-later selected-period true)}
+                              :on-press      (start-later selected-entity)
+                              :on-long-press (start-later selected-entity true)}
 
          [mci-styled (icon-params "arrow-collapse-down")]]
         ;; Buttom buttons
 
         ;; down
         [touchable-highlight {:style         (merge bottom-style {:left base-left})
-                              :on-press      (down selected-period)
-                              :on-long-press (down selected-period true)}
+                              :on-press      (down selected-entity)
+                              :on-long-press (down selected-entity true)}
          [mi-styled (icon-params "arrow-downward")]]
 
         ;; stop-later
         [touchable-highlight {:style         (merge bottom-style {:left (+ base-left button-width)})
-                              :on-press      (stop-later selected-period)
-                              :on-long-press (stop-later selected-period true)}
+                              :on-press      (stop-later selected-entity)
+                              :on-long-press (stop-later selected-entity true)}
          [mci-styled (icon-params "arrow-expand-down")]]
 
         ;; stop-earlier
         [touchable-highlight {:style         (merge bottom-style {:left (+ base-left (* 2 button-width))})
-                              :on-press      (stop-earlier selected-period)
-                              :on-long-press (stop-earlier selected-period true)}
+                              :on-press      (stop-earlier selected-entity)
+                              :on-long-press (stop-earlier selected-entity true)}
          [mci-styled (icon-params "arrow-expand-up")]]])]))
 
 (defn selection-menu-info [dimensions selected-period]
@@ -534,54 +439,35 @@
                                             [{:rotate "90deg"}])}}])))
 
 (defn selection-menu [{:keys [dimensions
+                              type
                               selected-period-or-template]}
                       buttons-comp]
-  (let [width                   (-> dimensions
-                                    (:width)
-                                    (* 0.51))
-        ;; TODO move this to helpers
-        format-relative-or-date #(if (inst? %)
-                                   (format-time %)
-                                   (format-time
-                                    (helpers/reset-relative-ms % (js/Date.))))
-        start-formatted         (->> selected-period-or-template
-                                     :start
-                                     format-relative-or-date)
-        stop-formatted          (->> selected-period-or-template
-                                     :stop
-                                     format-relative-or-date)
-        info-text               (fn [txt]
-                                  [text {:style {:color styles/text-light}}
-                                   txt])]
-    [view {:style {:position         "absolute"
-                   :elevation        5
-                   :background-color styles/background-color-dark
-                   :top              0
-                   :height           (:height dimensions)
-                   :width            width
-                   :left             (-> dimensions
-                                         (:width)
-                                         (* 0.49)
-                                         (#(if (:planned selected-period-or-template)
-                                             % 0)))}}
-
-     [view {:style {:width            width
-                    :height           "100%"
-                    :background-color styles/background-color-dark}}
-
-      ;; [selection-menu-info dimensions selected-period]
-
-      buttons-comp]
-
-     ;; [selection-menu-arrow dimensions selected-period displayed-day]
-
-     ;; period info
-     ;; [view {:style {:padding 10}}
-     ;;  [info-text (:label selected-period-or-template)]
-     ;;  [info-text (:bucket-label selected-period-or-template)]
-     ;;  [info-text start-formatted]
-     ;;  [info-text stop-formatted]]
-     ]))
+  (let [height           (:height dimensions)
+        width            (-> dimensions
+                             (:width)
+                             (* 0.51))
+        left             (-> dimensions
+                             (:width)
+                             (* 0.49)
+                             (#(if (:planned selected-period-or-template)
+                                 % 0)))
+        period-form-id   (:id @(subscribe [:get-period-form]))
+        template-form-id (:id @(subscribe [:get-template-form]))
+        selected-id      (:id selected-period-or-template)
+        selected-loaded  (or (= selected-id period-form-id)
+                             (= selected-id template-form-id))]
+    [surface {:style {:position  "absolute"
+                      :elevation 5
+                      :top       0
+                      :height    height
+                      :width     width
+                      :left      left}}
+     (if selected-loaded
+       (case type
+         :period   [period-form/root]
+         :template [template-form/root]
+         [text "Incorrect type passed to selection"])
+       [text "loading ..."])]))
 
 (defn top-bar-outer-style [top-bar-height dimensions]
   {:height           top-bar-height

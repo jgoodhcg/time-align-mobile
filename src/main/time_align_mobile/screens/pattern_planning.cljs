@@ -36,21 +36,28 @@
                        (fn [index {:keys [start stop] :as template}]
                          (let [now (js/Date.)]
                            (render-period
-                            {:period (merge template  ;; TODO refactor :period key?
+                            {:entity (merge template  ;; TODO refactor :period key?
                                             {:start   (helpers/reset-relative-ms
                                                        start now)
                                              :stop    (helpers/reset-relative-ms
                                                        stop now)
                                              :planned true})
 
-                             :collision-index      index
-                             :collision-group-size (count collision-group)
-                             :displayed-day        now
-                             :dimensions           dimensions
-                             :selected-period      selected-template
+                             :transform-functions       {:up            (fn [] #(println "transform function"))
+                                                         :down          (fn [] #(println "transform function"))
+                                                         :start-earlier (fn [] #(println "transform function"))
+                                                         :stop-earlier  (fn [] #(println "transform function"))
+                                                         :stop-later    (fn [] #(println "transform function"))
+                                                         :start-later   (fn [] #(println "transform function"))}
+                             :entity-type               :template
+                             :collision-index           index
+                             :collision-group-size      (count collision-group)
+                             :displayed-day             now
+                             :dimensions                dimensions
+                             :selected-entity           selected-template
                              :select-function-generator (fn [id]
                                                           #(dispatch [:select-template id]))
-                             :period-in-play       nil}))))))))))])
+                             :period-in-play            nil}))))))))))])
 
 (defn selection-menu-buttons [selected-template pattern-form]
   (let [row-style {:style selection-menu-button-row-style}]
@@ -344,6 +351,7 @@
                                                 (#(merge
                                                    %
                                                    {:planned true})))
+               :type                        :template
                :dimensions                  @dimensions}
               [selection-menu-buttons @selected-template @pattern-form]])]]
 

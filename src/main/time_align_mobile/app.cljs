@@ -110,7 +110,7 @@
            {:drawer-width            200
             :drawer-position         "left"
             :drawer-type             "front"
-            :drawer-background-color "#ddd"
+            :drawer-background-color (get-in theme [:colors :background])
             :render-navigation-view  (fn [] (r/as-element (drawer-list)))}
 
            (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))

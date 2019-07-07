@@ -19,16 +19,26 @@
      :LOGBOOK:
      CLOCK: [2019-07-07 Sun 10:34]--[2019-07-07 Sun 11:00] =>  0:26
      :END:
-**** TODO Work from root and replace with paper components
+**** CANCELED Work from root and replace with paper components
+     CLOSED: [2019-07-07 Sun 12:53]
      :LOGBOOK:
-     CLOCK: [2019-07-07 Sun 11:00]--[2019-07-07 Sun 11:00] =>  0:00
+     CLOCK: [2019-07-07 Sun 12:52]--[2019-07-07 Sun 12:52] =>  0:00
+     CLOCK: [2019-07-07 Sun 11:01]--[2019-07-07 Sun 12:00] =>  0:59
      :END:
+**** TODO Fix transform buttons to work for templates on pattern planning
+      :LOGBOOK:
+      CLOCK: [2019-07-07 Sun 12:52]--[2019-07-07 Sun 13:41] =>  0:49
+      :END:
+- [ ] Add transform buttons to pattern planning
 **** DOSUB Move form to old selection menu
 ***** TODO Form fields 
       :LOGBOOK:
+      CLOCK: [2019-07-03 Wed 00:12]--[2019-07-03 Wed 00:20] =>  0:08
+      CLOCK: [2019-07-02 Tue 23:12]--[2019-07-02 Tue 23:23] =>  0:11
       CLOCK: [2019-06-30 Sun 16:03]--[2019-06-30 Sun 16:08] =>  0:05
       CLOCK: [2019-06-30 Sun 15:50]--[2019-06-30 Sun 15:51] =>  0:01
       :END:
+- [ ] Make a sub component for mini form in the form screen ns
 ***** TODO Form buttons
 ***** TODO Extra buttons
 - Add period to pattern

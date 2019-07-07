@@ -20,7 +20,7 @@
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :refer [same-day?]]
             [time-align-mobile.components.list-items :as list-items]
-            [time-align-mobile.styles :as styles]
+            [time-align-mobile.styles :as styles :refer [theme]]
             [goog.string :as gstring]
             ;; [zprint.core :refer [zprint]]
             ["react" :as react]
@@ -112,6 +112,120 @@
       true
       false)))
 
+(defn start-earlier [{:keys [selected long entity-type]}]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [(case entity-type
+          :period   :update-period
+          :template :update-template
+          :update-period)
+        {:id         (:id selected)
+         :update-map {:start (-> selected
+                                 (:start)
+                                 (.valueOf)
+                                 (- time)
+                                 (js/Date.))}}])))
+
+(defn start-later
+  ([selected-period]
+   (start-later selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+      [:update-period
+       {:id         (:id selected-period)
+        :update-map {:start (-> selected-period
+                                (:start)
+                                (.valueOf)
+                                (+ time)
+                                (js/Date.))}}]))))
+
+(defn down
+  ([selected-period]
+   (down selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:start (-> selected-period
+                                 (:start)
+                                 (.valueOf)
+                                 (+ time)
+                                 (js/Date.))
+                      :stop  (-> selected-period
+                                 (:stop)
+                                 (.valueOf)
+                                 (+ time)
+                                 (js/Date.))}}]))))
+
+(defn up
+  ([selected-period]
+   (up selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:start (-> selected-period
+                                 (:start)
+                                 (.valueOf)
+                                 (- time)
+                                 (js/Date.))
+                      :stop  (-> selected-period
+                                 (:stop)
+                                 (.valueOf)
+                                 (- time)
+                                 (js/Date.))}}]))))
+
+(defn stop-later
+  ([selected-period]
+   (stop-later selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:stop (-> selected-period
+                               (:stop)
+                               (.valueOf)
+                               (+ time)
+                               (js/Date.))}}]))))
+
+(defn stop-earlier
+  ([selected-period]
+   (stop-earlier selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:stop (-> selected-period
+                                (:stop)
+                                (.valueOf)
+                                (- time)
+                                (js/Date.))}}]))))
+
+(def period-transform-functions {:up            up
+                                 :down          down
+                                 :start-earlier start-earlier
+                                 :start-later   start-later
+                                 :stop-earlier  stop-earlier
+                                 :stop-later    stop-later})
+
+
 (defn render-periods-col
   "Renders all non-selected only when `render-selected-only` is false. Only renders selected when it is true."
   [{:keys [periods
@@ -129,14 +243,16 @@
                        (when (xor render-selected-only
                                   (not= (:id period) (:id selected-period)))
                          (render-period
-                          {:period                    period
+                          {:entity                    period
+                           :entity-type               :period
+                           :transform-functions       period-transform-functions
                            :collision-index           index
                            :collision-group-size      (count collision-group)
                            :displayed-day             displayed-day
                            :dimensions                dimensions
                            :select-function-generator (fn [id]
                                                         #(dispatch [:select-period id]))
-                           :selected-period           selected-period
+                           :selected-entity           selected-period
                            :period-in-play            period-in-play}))))))))))
 
 (defn periods-comp [{:keys [displayed-day
@@ -293,7 +409,7 @@
           [view {:style {:height           (:height @dimensions)
                          ;; ^ height is already adjusted to account for top-bar
                          :width            (:width @dimensions)
-                         :background-color "white"}}
+                         :background-color (get-in theme [:colors :background])}}
 
            ;; time indicators
            [time-indicators
@@ -305,7 +421,7 @@
            (when (same-day? @now @displayed-day)
              [now-indicator {:dimensions dimensions
                              :now        now
-                             :alignment (time-alignment-fn @selected-period)}])
+                             :alignment  (time-alignment-fn @selected-period)}])
 
            ;; periods
            [periods-comp {:displayed-day   displayed-day
@@ -317,6 +433,7 @@
            ;; selection menu
            (when (some? @selected-period)
              [selection-menu {:dimensions                  @dimensions
+                              :type                        :period
                               :selected-period-or-template @selected-period}
               [selection-menu-buttons
                {:dimensions      @dimensions
