@@ -74,8 +74,7 @@
 (reg-fx
  :save-nav-screen
  (fn [new-screen]
-   (swap! navigation-history conj new-screen)
-   (println @navigation-history)))
+   (swap! navigation-history conj new-screen)))
 
 (reg-fx
  :go-back-nav-screen

@@ -11,6 +11,7 @@
     [cljs.reader :refer [read-string]]
     [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                        oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
+    [time-align-mobile.styles :refer [theme]]
     [time-align-mobile.js-imports :refer [ReactNative
                                           ei
                                           en
@@ -102,9 +103,9 @@
   (fn []
     (let [navigation (subscribe [:get-navigation])]
       (fn []
-        [paper-provider
+        [paper-provider {:theme (clj->js theme)}
          [view {:style {:flex             1
-                        :background-color "#ffffff"}}
+                        :background-color (get-in theme [:colors :background])}}
           [drawer-layout
            {:drawer-width            200
             :drawer-position         "left"

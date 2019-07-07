@@ -2,7 +2,7 @@
   (:require
    ;; [cljs.spec.test.alpha :as stest]
    ;; [cljs.spec.alpha :as s]
-   ))
+   [time-align-mobile.js-imports :refer [default-theme]]))
 
 ;; https://github.com/react-native-training/react-native-elements/blob/master/src/config/colors.js#L9
 (defn field-label-changeable-style [changes field]
@@ -34,3 +34,7 @@
 (defn styled-icon-factory [icon-class style]
   (fn [params]
     [icon-class (merge params style)]))
+
+(def theme (-> default-theme
+               (js->clj :keywordize-keys true)
+               (merge {})))

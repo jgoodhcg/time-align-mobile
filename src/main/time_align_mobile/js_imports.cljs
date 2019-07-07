@@ -165,3 +165,6 @@
 
 (def Provider (oget paper "Provider"))
 (def paper-provider (r/adapt-react-class Provider))
+(def Card (oget paper "Card"))
+(def card (r/adapt-react-class Card))
+(def default-theme (oget paper "DefaultTheme"))

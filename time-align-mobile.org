@@ -14,6 +14,15 @@
   :END:
 ** DOSUB Release to strangers
 *** DOSUB Day UX refactor
+**** DONE Add theme to provider
+     CLOSED: [2019-07-07 Sun 11:00]
+     :LOGBOOK:
+     CLOCK: [2019-07-07 Sun 10:34]--[2019-07-07 Sun 11:00] =>  0:26
+     :END:
+**** TODO Work from root and replace with paper components
+     :LOGBOOK:
+     CLOCK: [2019-07-07 Sun 11:00]--[2019-07-07 Sun 11:00] =>  0:00
+     :END:
 **** DOSUB Move form to old selection menu
 ***** TODO Form fields 
       :LOGBOOK:
@@ -28,6 +37,8 @@
 **** DOSUB Edit FAB
 ***** TODO Play indication
 ***** TODO Add day as pattern button
+**** TODO Set up linting
+https://practicalli.github.io/spacemacs/improving-code/linting/
 *** DOSUB Forms UX refactor
 **** TODO Relevancy ordering
 **** TODO Lock buttons to bottom
