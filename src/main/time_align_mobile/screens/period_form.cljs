@@ -64,9 +64,6 @@
                                       (reset! stop-modal-visible false))
                         :on-cancel #(reset! stop-modal-visible false)}]]))
 
-(defn selection-menu-form []
-  )
-
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])
         update-structured-data (fn [new-data]
