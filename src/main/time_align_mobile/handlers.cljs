@@ -67,23 +67,42 @@
 
 ;; -- Handlers --------------------------------------------------------------
 
-(defn initialize-db [_ _] app-db)
-
-(defn load-db [old-db [_ db]] db)
+(defn initialize-db [_ _]
+  {:db app-db
+   :save-nav-screen (:navigation app-db)})
 
 (reg-fx
  :save-nav-screen
  (fn [new-screen]
-   (swap! navigation-history conj new-screen)))
+   (if (some? new-screen)
+     (println "---- saving screen ---")
+     (println "--- before ---")
+     (println @navigation-history)
+     (swap! navigation-history conj new-screen)
+     (println "--- after ---")
+     (println @navigation-history)
+     )
+   (println "saving a null screen ...")
+   ))
 
 (reg-fx
  :go-back-nav-screen
  (fn [_]
-   (let [[previous-screen _] (take-last 2 @navigation-history)]
+   (let [nav-history @navigation-history
+         [previous-screen current-screen] (take-last 2 nav-history)]
      (if (some? previous-screen)
        (do
-         (swap! navigation-history #(do (drop-last 2 %)))
+         (println "----- going back -----------")
+         (println " --- before ---")
+         (println nav-history)
+         (reset! navigation-history (do (drop-last 2 nav-history)))
+         (println " --- after ---")
+         (println nav-history)
          (dispatch [:navigate-to previous-screen]))))))
+
+(defn load-db [old-db [_ db]]
+  {:db db
+   :save-nav-screen (:navigation db)})
 
 (defn navigate-back [{:keys [db]}]
   {:go-back-nav-screen true
@@ -786,7 +805,10 @@
   {:db db
    :share db})
 
-(defn import-app-db [_ [_ new-app-db]] new-app-db)
+(defn import-app-db [_ [_ new-app-db]]
+  ;; TODO this is the same as load-db
+  {:db new-app-db
+   :save-nav-screen (:navigation new-app-db)})
 
 (defn add-auto-filter [db [_ filter]]
   (->> db
@@ -837,7 +859,7 @@
                         ;; put the periods in the bucket
                         (into old-period-list periods-to-add)))))))
 
-(reg-event-db :initialize-db [validate-spec] initialize-db)
+(reg-event-fx :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
 (reg-event-db :update-bucket-form [validate-spec persist-secure-store] update-bucket-form)
@@ -879,7 +901,7 @@
 (reg-event-db :stop-playing-period [validate-spec persist-secure-store] stop-playing-period)
 (reg-event-db :play-from-bucket [validate-spec persist-secure-store] play-from-bucket)
 (reg-event-db :play-from-template [validate-spec persist-secure-store] play-from-template)
-(reg-event-db :load-db [validate-spec] load-db)
+(reg-event-fx :load-db [validate-spec] load-db)
 (reg-event-fx :share-app-db [validate-spec] share-app-db)
 (reg-event-db :add-auto-filter [validate-spec persist-secure-store] add-auto-filter)
 (reg-event-db :load-pattern-form [validate-spec persist-secure-store] load-pattern-form)
@@ -888,5 +910,5 @@
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
 (reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
-(reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)
+(reg-event-fx :import-app-db [validate-spec persist-secure-store] import-app-db)
 (reg-event-fx :navigate-back [validate-spec persist-secure-store] navigate-back)
