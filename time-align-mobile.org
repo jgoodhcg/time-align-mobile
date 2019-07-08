@@ -65,3 +65,8 @@ https://practicalli.github.io/spacemacs/improving-code/linting/
     :LOGBOOK:
     CLOCK: [2019-07-02 Tue 20:23]--[2019-07-02 Tue 21:23] =>  1:00
     :END:
+*** TODO Fix navigation
+    :LOGBOOK:
+    CLOCK: [2019-07-08 Mon 13:16]--[2019-07-08 Mon 14:01] =>  0:45
+    :END:
+I think I just made a mess
