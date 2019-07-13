@@ -2,6 +2,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-07-13 Sat 18:20]--[2019-07-13 Sat 18:42] =>  0:22
   CLOCK: [2019-06-29 Sat 18:06]--[2019-06-29 Sat 18:10] =>  0:04
   CLOCK: [2019-06-17 Mon 17:42]--[2019-06-17 Mon 18:14] =>  0:32
   CLOCK: [2019-05-09 Thu 20:30]--[2019-05-09 Thu 20:55] =>  0:25
@@ -13,60 +14,47 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
-*** DOSUB Day UX refactor
-**** DONE Add theme to provider
-     CLOSED: [2019-07-07 Sun 11:00]
+*** DOSUB UX refactor
+**** DOSUB Fix the forms
      :LOGBOOK:
-     CLOCK: [2019-07-07 Sun 10:34]--[2019-07-07 Sun 11:00] =>  0:26
+     CLOCK: [2019-07-03 Wed 00:12]--[2019-07-03 Wed 00:20] =>  0:08
+     CLOCK: [2019-07-02 Tue 23:12]--[2019-07-02 Tue 23:23] =>  0:11
+     CLOCK: [2019-06-30 Sun 16:03]--[2019-06-30 Sun 16:08] =>  0:05
+     CLOCK: [2019-06-30 Sun 15:50]--[2019-06-30 Sun 15:51] =>  0:01
      :END:
-**** CANCELED Work from root and replace with paper components
-     CLOSED: [2019-07-07 Sun 12:53]
-     :LOGBOOK:
-     CLOCK: [2019-07-07 Sun 12:52]--[2019-07-07 Sun 12:52] =>  0:00
-     CLOCK: [2019-07-07 Sun 11:01]--[2019-07-07 Sun 12:00] =>  0:59
-     :END:
-**** DONE Fix transform buttons to work for templates on pattern planning
-     CLOSED: [2019-07-07 Sun 18:43]
-      :LOGBOOK:
-      CLOCK: [2019-07-07 Sun 17:58]--[2019-07-07 Sun 18:43] =>  0:45
-      CLOCK: [2019-07-07 Sun 12:52]--[2019-07-07 Sun 13:41] =>  0:49
-      :END:
-- [X] Add transform buttons to pattern planning
-**** DOSUB Move form to old selection menu
-***** TODO [#B] Form fields 
-      :LOGBOOK:
-      CLOCK: [2019-07-03 Wed 00:12]--[2019-07-03 Wed 00:20] =>  0:08
-      CLOCK: [2019-07-02 Tue 23:12]--[2019-07-02 Tue 23:23] =>  0:11
-      CLOCK: [2019-06-30 Sun 16:03]--[2019-06-30 Sun 16:08] =>  0:05
-      CLOCK: [2019-06-30 Sun 15:50]--[2019-06-30 Sun 15:51] =>  0:01
-      :END:
-- [ ] Make a sub component for mini form in the form screen ns
-***** TODO Form buttons
-***** TODO Extra buttons
+***** TODO Overhaul period form with react-native-paper elements
+***** TODO Move period form to selection menu
+***** TODO Overhaul template form with react-native-paper elements
+***** TODO Move template form to selection menu
+***** TODO Overhaul other forms with react-native-paper elements
+- [ ] Bucket
+- [ ] Filter
+***** TODO Add Extra buttons to selection menus
 - Add period to pattern
 - Copy (<- 0 ->)
-- Edit on full form
+- Edit on full form?
 **** DOSUB Edit FAB
-***** TODO Play indication
-***** TODO Add day as pattern button
-**** TODO Set up linting
-https://practicalli.github.io/spacemacs/improving-code/linting/
-*** DOSUB Forms UX refactor
-**** TODO Relevancy ordering
-**** TODO Lock buttons to bottom
-**** TODO Better start/stop comp
+***** TODO Add play indication
+- Option 1
+  - FAB elevated
+  - FAB plus the color of the in play item
+  - Animation?
+- Option 2
+  - Remove "+" FAB
+  - Add White FAB with a "stop" icon the color of the in play period
+***** TODO Change FAB buttons
+- Play (menu with most recently planned, or list of buckets/templates)
+- Apply pattern
+- Make pattern from day (select planned or actual)
+- Stop? (depends on play indication option)
+***** TODO Hide FAB on selection
 *** TODO Calendar Page
 *** TODO Report Page
 *** TODO Remove queue page
 *** TODO Analytics
-*** TODO Notifications
-*** DONE Fix moving selected period problem from ordering fix
-    CLOSED: [2019-07-02 Tue 21:24]
-    :LOGBOOK:
-    CLOCK: [2019-07-02 Tue 20:23]--[2019-07-02 Tue 21:23] =>  1:00
-    :END:
-*** TODO Fix navigation
-    :LOGBOOK:
-    CLOCK: [2019-07-08 Mon 13:16]--[2019-07-08 Mon 14:01] =>  0:45
-    :END:
-I think I just made a mess
+*** TODO Notifications (push?)
+** Dreams
+- Checklists on periods and templates
+- Meta data (with mobile friendly editor) on all entities
+- [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]
+- Multiple play timers
