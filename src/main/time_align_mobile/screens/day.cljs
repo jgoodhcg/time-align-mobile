@@ -442,11 +442,11 @@
                 :period-in-play  @period-in-play}]])]]
 
          ;; fab
-         [bottom-bar {:bottom-bar-height bottom-bar-height}
-          [bottom-bar-buttons {:period-in-play        period-in-play
-                               :selected-period       selected-period
-                               :pattern-modal-visible pattern-modal-visible
-                               :play-modal-visible    play-modal-visible}]]
+         (when (not (some? @selected-period))
+           [bottom-bar-buttons {:period-in-play        period-in-play
+                                :selected-period       selected-period
+                                :pattern-modal-visible pattern-modal-visible
+                                :play-modal-visible    play-modal-visible}])
 
          ;; play modal
          [modal {:animation-type   "slide"

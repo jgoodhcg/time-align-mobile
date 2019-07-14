@@ -116,11 +116,12 @@
                            (/ collision-group-size))
         base-left      (-> dimensions
                            (:width)
-                           (/ 2))
-        left           (-> base-left
+                           (/ 2)
                            (#(if planned
-                               padding
-                               (+ % padding)))
+                               0
+                               %)))
+        left           (-> base-left
+                           (+ padding)
                            (+ (* collision-index width)))
         height         (-> adjusted-stop
                            (.valueOf)
@@ -283,6 +284,11 @@
         mci-styled (styled-icon-factory mci icon-style)
         fa-styled  (styled-icon-factory fa icon-style)
         mi-styled  (styled-icon-factory mi icon-style)
+        mi-styled-disabled (styled-icon-factory
+                            mi
+                            (merge
+                             icon-style
+                             {:color (get-in styles/theme [:colors :disabled])}))
         en-styled  (styled-icon-factory en icon-style)]
     [view {:style selection-menu-button-container-style}
 
@@ -342,11 +348,12 @@
                                          :time-started (js/Date.)
                                          :new-id       (random-uuid)}])]
 
-        (when (some? period-in-play)
-          [selection-menu-button
-           "stop"
-           [mi-styled {:name "stop"}]
-           #(dispatch [:stop-playing-period])])])
+        [selection-menu-button
+         "stop"
+         (if (some? period-in-play)
+                    [mi-styled {:name "stop"}]
+                    [mi-styled-disabled {:name "stop"}])
+         #(dispatch [:stop-playing-period])]])
 
      ;; back-a-day forward-a-day
      [view row-style
@@ -388,11 +395,12 @@
        #(dispatch [:select-next-or-prev-period :prev])]
 
       ;; select-playing
-      (when (some? period-in-play)
-        [selection-menu-button
-         "select playing"
+      [selection-menu-button
+       "select playing"
+       (if (some? period-in-play)
          [mi-styled {:name "play-circle-filled"}]
-         #(dispatch [:select-period (:id period-in-play)])])
+         [mi-styled-disabled {:name "play-circle-filled"}])
+       #(dispatch [:select-period (:id period-in-play)])]
 
       ;; select-next
       [selection-menu-button

@@ -74,7 +74,15 @@
 - Apply pattern
 - Make pattern from day (select planned or actual)
 - Stop? (depends on play indication option)
-***** TODO Hide FAB on selection
+***** DONE Hide FAB on selection
+      CLOSED: [2019-07-14 Sun 15:57]
+      :LOGBOOK:
+      CLOCK: [2019-07-14 Sun 15:40]--[2019-07-14 Sun 15:57] =>  0:17
+      :END:
+Also fixed control buttons on day selection screen.
+Now they don't disappear, instead they /disable/.
+Also fixed the transform buttons on day view.
+Now they are set to the correct /absolute left/ value when planned.
 *** TODO Fix navigation
 - [ ] Move history to app-db
 - [ ] Limit to X items
