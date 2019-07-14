@@ -112,21 +112,21 @@
       true
       false)))
 
-(defn start-earlier [{:keys [selected long entity-type]}]
+(defn start-earlier
+  ([selected-period]
+   (start-earlier selected-period false))
+  ([selected-period long]
    (let [time (if long
                 (* 3 60 60 1000)
                 (* 5 60 1000))]
      #(dispatch
-       [(case entity-type
-          :period   :update-period
-          :template :update-template
-          :update-period)
-        {:id         (:id selected)
-         :update-map {:start (-> selected
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:start (-> selected-period
                                  (:start)
                                  (.valueOf)
                                  (- time)
-                                 (js/Date.))}}])))
+                                 (js/Date.))}}]))))
 
 (defn start-later
   ([selected-period]

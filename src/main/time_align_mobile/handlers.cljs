@@ -609,9 +609,8 @@
                     #(= id (:id %))]
                    #(merge % update-map)
                    db)}
-   (when (= (:selected-period db)
-            id)
-       {:dispatch [:load-period-form id]})))
+   (when (= (:selected-period db) id)
+     {:dispatch [:load-period-form id]})))
 
 (defn add-period [db [_ {:keys [period bucket-id]}]]
   (let [random-bucket-id (->> db

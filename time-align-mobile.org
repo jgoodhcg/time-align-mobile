@@ -83,6 +83,12 @@ Also fixed control buttons on day selection screen.
 Now they don't disappear, instead they /disable/.
 Also fixed the transform buttons on day view.
 Now they are set to the correct /absolute left/ value when planned.
+
+*** DONE Fix start earlier button 
+    CLOSED: [2019-07-14 Sun 18:06]
+    :LOGBOOK:
+    CLOCK: [2019-07-14 Sun 18:00]--[2019-07-14 Sun 18:06] =>  0:06
+    :END:
 *** TODO Fix navigation
 - [ ] Move history to app-db
 - [ ] Limit to X items
