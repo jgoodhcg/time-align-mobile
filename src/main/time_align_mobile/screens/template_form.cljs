@@ -71,6 +71,9 @@
                                       (reset! stop-modal-visible false))
                         :on-cancel  #(reset! stop-modal-visible false)}]]))
 
+(defn compact [params]
+  [text "compact form here"])
+
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])
         update-structured-data         (fn [new-data]

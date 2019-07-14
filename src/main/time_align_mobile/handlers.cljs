@@ -177,13 +177,14 @@
 
 (defn update-period-form [db [_ period-form]]
   (let [period-form (if (contains? period-form :bucket-id)
-                      (merge period-form
-                             {:bucket-label (:label
-                                             (select-one
-                                              [:buckets
-                                               sp/ALL
-                                               #(= (:id %) (:bucket-id period-form))]
-                                              db))})
+                      (let [bucket (select-one
+                                    [:buckets
+                                     sp/ALL
+                                     #(= (:id %) (:bucket-id period-form))]
+                                    db)]
+                        (merge period-form
+                               {:bucket-label (:label bucket)
+                                :bucket-color (:color bucket)}))
                       ;; ^ pulls out the label when selecting new parent
                       ;; because all that comes from the picker is id
                       period-form)]
@@ -591,8 +592,10 @@
    :dispatch [:navigate-to {:current-screen :filters}]})
 
 (defn select-period [{:keys [db]} [_ id]]
-  {:db (assoc-in db [:selected-period] id)
-   :dispatch [:load-period-form id]})
+  (merge
+   {:db (assoc-in db [:selected-period] id)}
+   (when (some? id)
+     {:dispatch [:load-period-form id]})))
 
 (defn select-template [{:keys [db]} [_ id]]
   {:db (assoc-in db [:selected-template] id)

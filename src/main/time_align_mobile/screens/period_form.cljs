@@ -5,64 +5,89 @@
             [time-align-mobile.js-imports :refer [view
                                                   keyboard-aware-scroll-view
                                                   text
+                                                  surface
+                                                  subheading
+                                                  button-paper
                                                   text-input
+                                                  text-input-paper
                                                   color-picker
                                                   date-time-picker
                                                   modal
                                                   switch
                                                   platform
+                                                  ic
                                                   picker
                                                   picker-item
                                                   touchable-highlight
-                                                  format-date]]
+                                                  format-date
+                                                  format-time
+                                                  format-date-day]]
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
                                                               last-edited-comp
                                                               label-comp
+                                                              label-style
                                                               bucket-parent-id-comp
+                                                              changeable-field
                                                               bucket-parent-picker-comp
+                                                              info-field-style
                                                               planned-comp
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
             [time-align-mobile.styles :refer [field-label-changeable-style
+                                              theme
                                               field-label-style]]))
 
-(def start-modal-visible (r/atom false))
+(def start-modal (r/atom {:visible false
+                          :mode    "date"})) ;; TODO spec type for "date" "time"
 
-(def stop-modal-visible (r/atom false))
+(def stop-modal (r/atom {:visible false
+                          :mode    "date"})) ;; TODO spec type for "date" "time"
 
-(defn start-comp [period-form changes]
-  (let [start (:start @period-form)]
-    [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style @changes :start)} ":start"]
-     [touchable-highlight {:on-press #(reset! start-modal-visible true)}
-      [text (if (some? start)
-              (format-date start)
-              "Add a start date-time")]]
-     [date-time-picker {:is-visible @start-modal-visible
-                        :date (if (some? start) start (js/Date.))
-                        :mode "datetime"
+(defn time-comp-buttons [period-form changes modal field-key label time]
+  [:<>
+   ;; Date
+     [button-paper {:on-press #(reset! modal {:visible true
+                                              :mode    "date"})
+                    :style    {:margin-right 4}
+                    :mode     "outlined"
+                    :icon     "date-range"}
+      [text (if (some? time)
+              (format-date-day time)
+              "Add a time date")]]
+
+     ;; Time
+     [button-paper {:on-press #(reset! modal {:visible true
+                                              :mode    "time"})
+                    :mode     "outlined"
+                    :icon     "access-time"}
+      [text (if (some? time)
+              (format-time time)
+              "Add a time time")]]
+
+     ;; Modal
+     [date-time-picker {:is-visible (:visible @modal)
+                        :date       (if (some? time) time (js/Date.))
+                        :mode       (:mode @modal)
                         :on-confirm (fn [d]
-                                      (dispatch [:update-period-form {:start d}])
-                                      (reset! start-modal-visible false))
-                        :on-cancel #(reset! start-modal-visible false)}]]))
+                                      (dispatch [:update-period-form {field-key d}])
+                                      (reset! modal {:visible false
+                                                     :mode    "date"}))
+                        :on-cancel  #(reset! modal {:visible false
+                                                    :mode    "date"})}]])
 
-(defn stop-comp [period-form changes]
-  (let [stop (:stop @period-form)]
-    [view {:style {:flex-direction "row"}}
-     [text {:style (field-label-changeable-style @changes :stop)} ":stop"]
-     [touchable-highlight {:on-press #(reset! stop-modal-visible true)} [text (if (some? stop)
-              (format-date stop)
-              "Add a stop date-time")]]
-     [date-time-picker {:is-visible @stop-modal-visible
-                        :date (if (some? stop) stop (js/Date.))
-                        :mode "datetime"
-                        :on-confirm (fn [d]
-                                      (dispatch [:update-period-form {:stop d}])
-                                      (reset! stop-modal-visible false))
-                        :on-cancel #(reset! stop-modal-visible false)}]]))
+(defn time-comp [period-form changes modal field-key label]
+  (let [time (field-key @period-form)]
+    [view {:style info-field-style}
+     (changeable-field {:changes changes
+                        :field-key field-key}
+                       [subheading {:style label-style} label])
+     [time-comp-buttons period-form changes modal field-key label time]]))
+
+(defn compact [params]
+  [text "compact form here"])
 
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])
@@ -71,41 +96,27 @@
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
-    [keyboard-aware-scroll-view
-     ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1
-     {:enable-on-android            true
-      :enable-auto-automatic-scroll (= (.-OS platform) "ios")}
-     [view {:style {:flex            1
-                    :flex-direction  "column"
-                    :justify-content "flex-start"
-                    :align-items     "flex-start"
-                    :padding-top     50
-                    :padding-left    10}}
+    [:<>
+     [bucket-parent-picker-comp period-form changes buckets :update-period-form]
 
-      [text "Period form"]
+     [label-comp period-form changes :update-period-form]
 
-      [bucket-parent-id-comp period-form changes]
+     [time-comp period-form changes start-modal :start "start"]
 
-      [bucket-parent-picker-comp period-form changes buckets :update-period-form]
+     [time-comp period-form changes stop-modal :stop "stop"]
 
-      [id-comp period-form]
+     [planned-comp period-form changes :update-period-form]
 
-      [created-comp period-form]
+     [id-comp period-form]
 
-      [last-edited-comp period-form]
+     [created-comp period-form]
 
-      [label-comp period-form changes :update-period-form]
+     [last-edited-comp period-form]
 
-      [planned-comp period-form changes :update-period-form]
+     ;; [data-comp period-form changes update-structured-data]
 
-      [start-comp period-form changes]
-
-      [stop-comp period-form changes]
-
-      ;; [data-comp period-form changes update-structured-data]
-
-      [form-buttons/root
-       {:changed        (> (count @changes) 0)
-        :save-changes   #(dispatch [:save-period-form (new js/Date)])
-        :cancel-changes #(dispatch [:load-period-form (:id @period-form)])
-        :delete-item    #(dispatch [:delete-period (:id @period-form)])}]]]))
+     [form-buttons/root
+      {:changed        (> (count @changes) 0)
+       :save-changes   #(dispatch [:save-period-form (new js/Date)])
+       :cancel-changes #(dispatch [:load-period-form (:id @period-form)])
+       :delete-item    #(dispatch [:delete-period (:id @period-form)])}]]))

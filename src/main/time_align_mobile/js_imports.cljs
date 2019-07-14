@@ -125,7 +125,11 @@
 (defn format-date [date]
   (ocall (moment-tz date (get-default-timezone))
          "format"
-         "YYYY-MM-DD-HH-mm-ss"))
+         "YYYY-MM-DD-HH-mm-ss")) ;; TODO rename this format-datetime
+(defn format-date-day [date] ;; TODO rename this format-date
+  (ocall (moment-tz date (get-default-timezone))
+         "format"
+         "YYYY-MM-DD"))
 (defn format-time [date]
   (ocall (moment-tz date (get-default-timezone))
           "format"
@@ -172,3 +176,8 @@
 (def modal-paper (r/adapt-react-class Modal))
 (def portal (r/adapt-react-class (oget paper "Portal")))
 (def surface (r/adapt-react-class (oget paper "Surface")))
+(def text-input-paper (r/adapt-react-class (oget paper "TextInput")))
+(def subheading (r/adapt-react-class (oget paper "Subheading")))
+(def chip (r/adapt-react-class (oget paper "Chip")))
+(def button-paper (r/adapt-react-class (oget paper "Button")))
+(def switch-paper (r/adapt-react-class (oget paper "Switch")))

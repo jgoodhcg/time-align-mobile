@@ -225,7 +225,6 @@
                                  :stop-earlier  stop-earlier
                                  :stop-later    stop-later})
 
-
 (defn render-periods-col
   "Renders all non-selected only when `render-selected-only` is false. Only renders selected when it is true."
   [{:keys [periods

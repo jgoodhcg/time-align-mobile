@@ -5,6 +5,7 @@
                                                   mci
                                                   mi
                                                   en
+                                                  button-paper
                                                   scroll-view
                                                   format-date
                                                   modal-paper
@@ -462,10 +463,15 @@
                       :height    height
                       :width     width
                       :left      left}}
+
+     [button-paper {:icon "close"
+                    :align-self "flex-start"
+                    :on-press #(dispatch [:select-period nil])}]
+
      (if selected-loaded
        (case type
-         :period   [period-form/root]
-         :template [template-form/root]
+         :period   [period-form/compact]
+         :template [template-form/compact]
          [text "Incorrect type passed to selection"])
        [text "loading ..."])]))
 

@@ -1,6 +1,7 @@
 (ns time-align-mobile.components.form-buttons
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
+                                                  button-paper
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
             [reagent.core :as r :refer [atom]]
@@ -15,22 +16,22 @@
                  :align-items     "space-between"
                  :justify-content "space-between"}}
 
-   [:> rne/Button
-    (merge {:icon     (r/as-element [:> rne/Icon {:name  "save"
-                                                  :type  "font-awesome"
-                                                  :color "#fff"}])
+   [button-paper
+    (merge {:icon     "save"
+            :mode     "outlined"
             :on-press save-changes}
-           (when-not changed {:disabled true}))]
+           (when-not changed {:disabled true}))
+    "Save"]
 
-   [:> rne/Button
-    (merge {:icon     (r/as-element [:> rne/Icon {:name  "cancel"
-                                                  :type  "material"
-                                                  :color "#fff"}])
+   [button-paper
+    (merge {:icon     "cancel"
+            :mode     "outlined"
             :on-press cancel-changes}
-           (when-not changed {:disabled true}))]
+           (when-not changed {:disabled true}))
+    "Cancel"]
 
-   [:> rne/Button {:icon     (r/as-element [:> rne/Icon {:name  "delete-forever"
-                                                         :type  "material-community"
-                                                         :color "#fff"}])
-                   :on-press delete-item}]])
+   [button-paper {:icon     "delete"
+                  :mode     "outlined"
+                  :on-press delete-item}
+    "Delete"]])
 

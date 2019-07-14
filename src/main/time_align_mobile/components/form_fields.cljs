@@ -1,5 +1,6 @@
 (ns time-align-mobile.components.form-fields
   (:require [time-align-mobile.styles :refer [field-label-changeable-style
+                                              theme
                                               field-label-style]]
             [re-frame.core :refer [dispatch]]
             [reagent.core :as r :refer [atom]]
@@ -9,42 +10,71 @@
             [time-align-mobile.js-imports :refer [view
                                                   text
                                                   text-input
+                                                  surface
+                                                  subheading
+                                                  ic
+                                                  chip
+                                                  text-input-paper
+                                                  switch-paper
+                                                  button-paper
                                                   switch
                                                   picker
                                                   picker-item
                                                   format-date]]
             [time-align-mobile.components.structured-data :refer [structured-data]]))
 
+(defn changeable-field [{:keys [changes field-key]} field]
+  [view {:flex-direction "row"}
+   [view {:style {:width           16
+                  :margin-right    4
+                  :justify-content "center"
+                  :align-items     "center"}}
+    (when (-> @changes (contains? field-key))
+      [ic {:name  "ios-alert"
+           :size  16
+           :color (get-in theme [:colors :primary])}])]
+   field])
+
 (def field-style {:flex-direction "row"
                   :margin-bottom  20})
 
+(def info-field-style {:padding-left   8
+                       :margin-bottom  2
+                       :align-items    "center"
+                       :flex-direction "row"})
+
+(def label-style {:margin-right 8})
+
 (defn id-comp [form]
-  [view {:style field-style}
-   [:> rne/Input {:label "ID"
-                  :value (str (:id @form))
-                  :editable false}]])
+  [view {:style info-field-style}
+   [subheading {:style label-style} "ID"]
+   [text (str (:id @form))]])
 
 (defn created-comp [form]
-  [view {:style field-style}
-   [:> rne/Input {:label "Created"
-                  :value (str (:created @form))
-                  :editable false}]])
+  [view {:style info-field-style}
+   [subheading {:style label-style} "Created"]
+   [text (str (format-date (:created @form)))]])
 
 (defn last-edited-comp [form]
-  [view {:style field-style}
-   [:> rne/Input {:label "Last Edited"
-                  :value (str (:last-edited @form))
-                  :editable false}]])
+  [view {:style info-field-style}
+   [subheading {:style label-style} "last-edited"]
+   [text (str (format-date (:last-edited @form)))]])
 
 (defn label-comp [form changes update-key]
-  [view {:style field-style}
-   [:> rne/Input {:label          "Label"
-                  :label-style    (field-label-changeable-style changes :label)
-                  :default-value  (:label @form)
-                  :spell-check    true
-                  :on-change-text (fn [text]
-                                    (dispatch [update-key
-                                               {:label text}]))}]])
+  (changeable-field
+   {:changes changes
+    :field-key :label}
+   [text-input-paper {:label           ""
+                      :underline-color (:color (field-label-changeable-style
+                                                changes :label))
+                      :dense           true
+                      :style           {:margin-bottom 4
+                                        :width "100%"}
+                      :default-value   (:label @form)
+                      :placeholder     "Label"
+                      :on-change-text  (fn [text]
+                                         (dispatch [update-key
+                                                    {:label text}]))}]))
 
 (defn data-comp [form changes update-structured-data]
   [view {:style {:flex           1
@@ -69,21 +99,42 @@
                   :editable false}]])
 
 (defn bucket-parent-picker-comp [form changes buckets update-key]
-  [view {:style (merge field-style {:flex-direction  "column"
-                                    :padding         8
-                                    :justify-content "flex-start"
-                                    :align-items     "flex-start"})}
-   [:> rne/Text {:h4 true :h4-style
-                 (merge
-                  (field-label-changeable-style @changes :bucket-label)
-                  {:font-size 16})} "Bucket Label"]
-   [:> rn/Picker {:selected-value  (str (:bucket-id @form))
-                  :style           {:width 250}
-                  :on-value-change #(dispatch [update-key {:bucket-id (uuid %)}])}
-    (map (fn [bucket] [picker-item {:label (:label bucket)
-                                    :key   (str (:id bucket))
-                                    :value (str (:id bucket))}])
-         @buckets)]])
+  [view {:style (merge field-style
+                       {:flex-direction  "row"
+                        :padding         8
+                        :border-bottom-color (:bucket-color @form)
+                        :border-bottom-width 8
+                        :padding-top     24
+                        :justify-content "space-between"
+                        :align-items     "center"})}
+
+   [view {:style {:flex-direction "column"
+                  :margin-right   8}}
+
+    (changeable-field {:changes changes
+                       :field-key :bucket-id}
+                      [view {:flex-direction "column"}
+                       [subheading "Bucket"]
+                       [surface {:style {:border-radius 4}}
+                        [:> rn/Picker {:selected-value  (str (:bucket-id @form))
+                                       :style           {:width 250}
+                                       :on-value-change #(dispatch
+                                                          ;; use uuid because picker works with strings
+                                                          [update-key {:bucket-id (uuid %)}])}
+                         (map (fn [bucket]
+                                [picker-item {:label (:label bucket)
+                                              :key   (str (:id bucket))
+                                              :value (str (:id bucket))}])
+                              @buckets)]]])]
+
+   [button-paper {:icon    "edit"
+                  :mode    "outlined"
+                  :compact true
+                  :on-press
+                  #(dispatch
+                    [:navigate-to
+                     {:current-screen :bucket
+                      :params         {:bucket-id (:bucket-id @form)}}])}]])
 
 (defn pattern-parent-picker-comp [form changes patterns update-key]
   [view {:style (merge field-style {:flex-direction  "column"
@@ -103,12 +154,12 @@
          @patterns)]])
 
 (defn planned-comp [form changes update-key]
-  [view {:style (merge field-style {:flex-direction  "column"
-                                    :padding         8
-                                    :justify-content "flex-start"
-                                    :align-items     "flex-start"})}
-   [:> rne/Text {:h4 true :h4-style (merge
-                                     (field-label-changeable-style @changes :planned)
-                                     {:font-size 16})} "Planned"]
-   [switch {:value (:planned @form)
-            :on-value-change #(dispatch [update-key {:planned %}])}]])
+  [view {:style {:flex-direction  "row"
+                 :padding         8
+                 :justify-content "flex-start"
+                 :align-items     "flex-start"}}
+   (changeable-field {:changes   changes
+                      :field-key :planned}
+                     [subheading {:style label-style} "Planned"]                  )
+   [switch-paper {:value           (:planned @form)
+                  :on-value-change #(dispatch [update-key {:planned %}])}]])
