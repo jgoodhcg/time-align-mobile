@@ -60,21 +60,26 @@
    [subheading {:style label-style} "last-edited"]
    [text (str (format-date (:last-edited @form)))]])
 
-(defn label-comp [form changes update-key]
-  (changeable-field
-   {:changes changes
-    :field-key :label}
-   [text-input-paper {:label           ""
-                      :underline-color (:color (field-label-changeable-style
-                                                changes :label))
-                      :dense           true
-                      :style           {:margin-bottom 4
-                                        :width "100%"}
-                      :default-value   (:label @form)
-                      :placeholder     "Label"
-                      :on-change-text  (fn [text]
-                                         (dispatch [update-key
-                                                    {:label text}]))}]))
+(defn label-comp
+  ([form changes update-key]
+   (label-comp form changes update-key false))
+  ([form changes update-key compact]
+   (changeable-field
+    {:changes changes
+     :field-key :label}
+    [text-input-paper {:label           ""
+                       :underline-color (:color (field-label-changeable-style
+                                                 changes :label))
+                       :dense           true
+                       :style           (merge {:margin-bottom 4}
+                                               (if compact
+                                                 {:width "85%"}
+                                                 {:width "100%"}))
+                       :default-value   (:label @form)
+                       :placeholder     "Label"
+                       :on-change-text  (fn [text]
+                                          (dispatch [update-key
+                                                     {:label text}]))}])))
 
 (defn data-comp [form changes update-structured-data]
   [view {:style {:flex           1
@@ -98,7 +103,7 @@
                   :value  (str (:pattern-id @form))
                   :editable false}]])
 
-(defn bucket-parent-picker-comp [form changes buckets update-key]
+(defn bucket-parent-picker-comp [{:keys [form changes buckets update-key compact]}]
   [view {:style (merge field-style
                        {:flex-direction  "row"
                         :padding         8
@@ -114,10 +119,14 @@
     (changeable-field {:changes changes
                        :field-key :bucket-id}
                       [view {:flex-direction "column"}
-                       [subheading "Bucket"]
-                       [surface {:style {:border-radius 4}}
+                       (when (not compact)
+                         [subheading "Bucket"])
+                       [surface {:style {:border-radius 4}
+                                 :elevation 1}
                         [:> rn/Picker {:selected-value  (str (:bucket-id @form))
-                                       :style           {:width 250}
+                                       :style           (if compact
+                                                          {:width 150}
+                                                          {:width 250})
                                        :on-value-change #(dispatch
                                                           ;; use uuid because picker works with strings
                                                           [update-key {:bucket-id (uuid %)}])}
@@ -127,14 +136,15 @@
                                               :value (str (:id bucket))}])
                               @buckets)]]])]
 
-   [button-paper {:icon    "edit"
-                  :mode    "outlined"
-                  :compact true
-                  :on-press
-                  #(dispatch
-                    [:navigate-to
-                     {:current-screen :bucket
-                      :params         {:bucket-id (:bucket-id @form)}}])}]])
+   (when (not compact)
+     [button-paper {:icon    "edit"
+                    :mode    "outlined"
+                    :compact true
+                    :on-press
+                    #(dispatch
+                      [:navigate-to
+                       {:current-screen :bucket
+                        :params         {:bucket-id (:bucket-id @form)}}])}])])
 
 (defn pattern-parent-picker-comp [form changes patterns update-key]
   [view {:style (merge field-style {:flex-direction  "column"

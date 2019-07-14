@@ -457,6 +457,13 @@
         selected-id      (:id selected-period-or-template)
         selected-loaded  (or (= selected-id period-form-id)
                              (= selected-id template-form-id))]
+
+    ;; side-effect !!!
+    (if (not selected-loaded)
+      (case type
+        :period   (dispatch [:load-period-form (:id selected-period-or-template)])
+        :template (dispatch [:load-template-form (:id selected-period-or-template)])))
+
     [surface {:style {:position  "absolute"
                       :elevation 5
                       :top       0
@@ -464,9 +471,9 @@
                       :width     width
                       :left      left}}
 
-     [button-paper {:icon "close"
+     [button-paper {:icon       "close"
                     :align-self "flex-start"
-                    :on-press #(dispatch [:select-period nil])}]
+                    :on-press   #(dispatch [:select-period nil])}]
 
      (if selected-loaded
        (case type

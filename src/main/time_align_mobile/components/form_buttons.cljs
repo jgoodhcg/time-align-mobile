@@ -7,15 +7,8 @@
             [reagent.core :as r :refer [atom]]
             ["react" :as react]))
 
-(defn root [{:keys [changed save-changes cancel-changes delete-item]}]
-  [view {:style {:flex            1
-                 :flex-direction  "row"
-                 :width           "100%"
-                 :margin-top      4
-                 :padding         10
-                 :align-items     "space-between"
-                 :justify-content "space-between"}}
-
+(defn buttons [{:keys [changed save-changes cancel-changes delete-item]}]
+  [:<>
    [button-paper
     (merge {:icon     "save"
             :mode     "outlined"
@@ -28,10 +21,24 @@
             :mode     "outlined"
             :on-press cancel-changes}
            (when-not changed {:disabled true}))
-    "Cancel"]
+    "Revert"]
 
    [button-paper {:icon     "delete"
                   :mode     "outlined"
                   :on-press delete-item}
     "Delete"]])
+
+(defn root [{:keys [changed save-changes cancel-changes delete-item]}]
+  [view {:style {:flex            1
+                 :flex-direction  "row"
+                 :width           "100%"
+                 :margin-top      4
+                 :padding         10
+                 :align-items     "space-between"
+                 :justify-content "space-between"}}
+
+   (buttons {:changed changed
+             :save-changes save-changes
+             :cancel-changes cancel-changes
+             :delete-item delete-item})])
 

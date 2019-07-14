@@ -49,34 +49,35 @@
 (defn time-comp-buttons [period-form changes modal field-key label time]
   [:<>
    ;; Date
-     [button-paper {:on-press #(reset! modal {:visible true
-                                              :mode    "date"})
-                    :style    {:margin-right 4}
-                    :mode     "outlined"
-                    :icon     "date-range"}
+   [button-paper {:on-press #(reset! modal {:visible true
+                                            :mode    "date"})
+                  :style    {:margin-right  4
+                             :margin-bottom 4}
+                  :mode     "outlined"
+                  :icon     "date-range"}
       [text (if (some? time)
               (format-date-day time)
               "Add a time date")]]
 
      ;; Time
-     [button-paper {:on-press #(reset! modal {:visible true
-                                              :mode    "time"})
-                    :mode     "outlined"
-                    :icon     "access-time"}
+   [button-paper {:on-press #(reset! modal {:visible true
+                                            :mode    "time"})
+                  :mode     "outlined"
+                  :icon     "access-time"}
       [text (if (some? time)
               (format-time time)
               "Add a time time")]]
 
      ;; Modal
-     [date-time-picker {:is-visible (:visible @modal)
-                        :date       (if (some? time) time (js/Date.))
-                        :mode       (:mode @modal)
-                        :on-confirm (fn [d]
-                                      (dispatch [:update-period-form {field-key d}])
-                                      (reset! modal {:visible false
-                                                     :mode    "date"}))
-                        :on-cancel  #(reset! modal {:visible false
-                                                    :mode    "date"})}]])
+   [date-time-picker {:is-visible (:visible @modal)
+                      :date       (if (some? time) time (js/Date.))
+                      :mode       (:mode @modal)
+                      :on-confirm (fn [d]
+                                    (dispatch [:update-period-form {field-key d}])
+                                    (reset! modal {:visible false
+                                                   :mode    "date"}))
+                      :on-cancel  #(reset! modal {:visible false
+                                                  :mode    "date"})}]])
 
 (defn time-comp [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
@@ -86,8 +87,47 @@
                        [subheading {:style label-style} label])
      [time-comp-buttons period-form changes modal field-key label time]]))
 
+(defn time-comp-compact [period-form changes modal field-key label]
+  (let [time (field-key @period-form)]
+    [view {:style {:flex-direction "row"
+                   :margin-bottom  4}}
+     (changeable-field {:changes   changes
+                        :field-key field-key} [view])
+     [view {:style {:flex-direction "column"}}
+      [time-comp-buttons period-form changes modal field-key label time]]]))
+
 (defn compact [params]
-  [text "compact form here"])
+  (let [period-form            (subscribe [:get-period-form])
+        update-structured-data (fn [new-data]
+                                 (dispatch
+                                  [:update-period-form {:data new-data}]))
+        changes                (subscribe [:get-period-form-changes])
+        buckets                (subscribe [:get-buckets])]
+    [view
+
+     [bucket-parent-picker-comp {:form       period-form
+                                 :changes    changes
+                                 :buckets    buckets
+                                 :update-key :update-period-form
+                                 :compact    true}]
+
+     [label-comp period-form changes :update-period-form true]
+
+     [time-comp-compact period-form changes start-modal :start "start"]
+
+     [time-comp-compact period-form changes stop-modal :stop "stop"]
+
+     [view {:style {:flex-direction  "column"
+                    :margin-top      16
+                    :align-self      "center"
+                    :justify-content "center"
+                    :align-items     "center"}}
+      [form-buttons/buttons
+       {:changed        (> (count @changes) 0)
+        :save-changes   #(dispatch [:save-period-form (new js/Date)])
+        :cancel-changes #(dispatch [:load-period-form (:id @period-form)])
+        :delete-item    #(dispatch [:delete-period (:id @period-form)])}]]
+     ]))
 
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])
@@ -97,9 +137,13 @@
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
     [:<>
-     [bucket-parent-picker-comp period-form changes buckets :update-period-form]
+     [bucket-parent-picker-comp {:form       period-form
+                                 :changes    changes
+                                 :buckets    buckets
+                                 :update-key :update-period-form
+                                 :compact    false}]
 
-     [label-comp period-form changes :update-period-form]
+     [label-comp period-form changes :update-period-form false]
 
      [time-comp period-form changes start-modal :start "start"]
 

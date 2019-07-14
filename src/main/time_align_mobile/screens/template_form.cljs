@@ -106,10 +106,11 @@
       [bucket-parent-id-comp template-form changes]
 
       [bucket-parent-picker-comp
-       template-form
-       changes
-       buckets
-       :update-template-form]
+       {:form       template-form
+        :changes    changes
+        :buckets    buckets
+        :update-key :update-template-form
+        :compact    false}]
 
       [id-comp template-form]
 
