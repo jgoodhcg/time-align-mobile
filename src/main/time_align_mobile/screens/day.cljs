@@ -437,6 +437,7 @@
               [selection-menu-buttons
                {:dimensions      @dimensions
                 :selected-period @selected-period
+                :type            :period
                 :displayed-day   @displayed-day
                 :period-in-play  @period-in-play}]])]]
 

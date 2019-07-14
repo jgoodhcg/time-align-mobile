@@ -117,17 +117,19 @@
 
      [time-comp-compact period-form changes stop-modal :stop "stop"]
 
-     [view {:style {:flex-direction  "column"
+     [view {:style {:flex-direction  "row"
+                    :padding          8
                     :margin-top      16
+                    :width           "100%"
                     :align-self      "center"
-                    :justify-content "center"
-                    :align-items     "center"}}
+                    :justify-content "space-between"
+                    :align-items     "space-between"}}
       [form-buttons/buttons
        {:changed        (> (count @changes) 0)
         :save-changes   #(dispatch [:save-period-form (new js/Date)])
         :cancel-changes #(dispatch [:load-period-form (:id @period-form)])
-        :delete-item    #(dispatch [:delete-period (:id @period-form)])}]]
-     ]))
+        :delete-item    #(dispatch [:delete-period (:id @period-form)])
+        :compact        true}]]]))
 
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])

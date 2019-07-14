@@ -7,6 +7,7 @@
                                                   en
                                                   button-paper
                                                   scroll-view
+                                                  touchable-ripple
                                                   format-date
                                                   modal-paper
                                                   portal
@@ -97,6 +98,9 @@
         transform-functions
 
         selected       (= id (:id selected-entity))
+        opacity        (if (some? selected-entity)
+                         (if selected 1 0.5)
+                         1)
         adjusted-stop  (helpers/bound-stop stop displayed-day)
         adjusted-start (helpers/bound-start start displayed-day)
         top            (-> adjusted-start
@@ -106,16 +110,18 @@
         base-width     (-> dimensions
                            (:width)
                            (/ 2)
-                           (- (* 2 padding)))
-        width          (/ base-width collision-group-size)
+                           )
+        width          (-> base-width
+                           (- (* 2 padding))
+                           (/ collision-group-size))
         base-left      (-> dimensions
                            (:width)
-                           (/ 2)
+                           (/ 2))
+        left           (-> base-left
                            (#(if planned
                                padding
-                               (+ % padding))))
-        left           (+ base-left
-                          (* collision-index width))
+                               (+ % padding)))
+                           (+ (* collision-index width)))
         height         (-> adjusted-stop
                            (.valueOf)
                            (- (.valueOf adjusted-start))
@@ -137,6 +143,7 @@
         period-style (merge base-style {:top              top
                                         :left             left
                                         :width            width
+                                        :opacity          opacity
                                         :height           height
                                         :background-color color})
         button-style (merge base-style {:justify-content  "center"
@@ -246,13 +253,11 @@
       ]]))
 
 (defn selection-menu-button [label icon on-press long-press]
-  [:> rne/Button {:on-press      on-press
-                  :on-long-press long-press
-                  :icon          (r/as-element icon)
-                  :button-style  {:background-color "white"
-                                  :width            60
-                                  :margin 2
-                                  :height           "90%"}}])
+  [touchable-ripple {:on-press      on-press
+                     :on-long-press long-press
+                     :style         {:margin  2
+                                     :padding 16}}
+   icon])
 
 (def selection-menu-button-row-style {:flex-direction  "row"
                                       :width           "100%"
@@ -268,29 +273,18 @@
                                             :flex            1})
 
 (defn selection-menu-buttons [{:keys [dimensions
-                                      selected-period
                                       period-in-play
-                                      displayed-day]}]
+                                      type
+                                      selected-period]}]
 
-  (let [row-style           {:style selection-menu-button-row-style}
-        icon-style          {:color styles/background-color-dark}
-        mci-styled          (styled-icon-factory mci icon-style)
-        fa-styled           (styled-icon-factory fa icon-style)
-        mi-styled           (styled-icon-factory mi icon-style)
-        en-styled           (styled-icon-factory en icon-style)]
+  (let [row-style  {:style selection-menu-button-row-style}
+        icon-style {:color (get-in styles/theme [:colors :primary])
+                    :size  16}
+        mci-styled (styled-icon-factory mci icon-style)
+        fa-styled  (styled-icon-factory fa icon-style)
+        mi-styled  (styled-icon-factory mi icon-style)
+        en-styled  (styled-icon-factory en icon-style)]
     [view {:style selection-menu-button-container-style}
-
-     ;; cancel edit
-     [view row-style
-      [selection-menu-button
-     "cancel"
-       [mci-styled {:name "backburger"}]
-     #(dispatch [:select-period nil])]
-      [selection-menu-button
-     "edit"
-       [mi-styled {:name "edit"}]
-       #(dispatch [:navigate-to {:current-screen :period
-                                 :params         {:period-id (:id selected-period)}}])]]
 
      ;; copy-previous-day copy-over copy-next-day
      [view row-style
@@ -339,13 +333,20 @@
                                 :bucket-id (:bucket-id selected-period)}])]]
 
      ;; play-from
-     [view row-style
-      [selection-menu-button
-       "play from"
-       [mi-styled {:name "play-circle-outline"}]
-       #(dispatch [:play-from-period  {:id           (:id selected-period)
-                                       :time-started (js/Date.)
-                                       :new-id       (random-uuid)}])]]
+     (when (= type :period)
+       [view row-style
+        [selection-menu-button
+         "play from"
+         [mi-styled {:name "play-circle-outline"}]
+         #(dispatch [:play-from-period  {:id           (:id selected-period)
+                                         :time-started (js/Date.)
+                                         :new-id       (random-uuid)}])]
+
+        (when (some? period-in-play)
+          [selection-menu-button
+           "stop"
+           [mi-styled {:name "stop"}]
+           #(dispatch [:stop-playing-period])])])
 
      ;; back-a-day forward-a-day
      [view row-style
@@ -384,31 +385,27 @@
        "select prev"
        [mci-styled {:name  "arrow-down-drop-circle"
                     :style {:transform [{:rotate "180deg"}]}}]
-       #(dispatch [:select-next-or-prev-period :prev])]]
+       #(dispatch [:select-next-or-prev-period :prev])]
 
-     ;; select-playing
-     (when (some? period-in-play)
-       [view row-style
+      ;; select-playing
+      (when (some? period-in-play)
         [selection-menu-button
          "select playing"
          [mi-styled {:name "play-circle-filled"}]
-         #(dispatch [:select-period (:id period-in-play)])]])
+         #(dispatch [:select-period (:id period-in-play)])])
 
-     ;; select-next
-     [view row-style
+      ;; select-next
       [selection-menu-button
        "select next"
        [mci-styled {:name "arrow-down-drop-circle"}]
        #(dispatch [:select-next-or-prev-period :next])]]
 
      ;; jump-to-selected
-     (when (not (or (same-day? (:start selected-period) displayed-day)
-                    (same-day? (:stop selected-period) displayed-day)))
-       [view row-style
-        [selection-menu-button
-         "jump to selected"
-         [fa-styled {:name "dot-circle-o"}]
-         #(dispatch [:update-day-time-navigator (:start selected-period)])]])]))
+     [view row-style
+      [selection-menu-button
+       "jump to selected"
+       [fa-styled {:name "dot-circle-o"}]
+       #(dispatch [:update-day-time-navigator (:start selected-period)])]]]))
 
 (defn selection-menu-arrow [dimensions selected-period displayed-day]
   (let [adjusted-start             (helpers/bound-start (:start selected-period) displayed-day)
@@ -454,11 +451,10 @@
                                  % 0)))
         period-form-id   (:id @(subscribe [:get-period-form]))
         template-form-id (:id @(subscribe [:get-template-form]))
-        selected-id      (:id selected-period-or-template)
-        selected-loaded  (or (= selected-id period-form-id)
-                             (= selected-id template-form-id))]
+        selected-id      (:id selected-period-or-template) selected-loaded (or (= selected-id period-form-id)
+                                                                               (= selected-id template-form-id))]
 
-    ;; side-effect !!!
+    ;; TODO move this !!! side-effect !!! into handlers some how
     (if (not selected-loaded)
       (case type
         :period   (dispatch [:load-period-form (:id selected-period-or-template)])
@@ -476,10 +472,12 @@
                     :on-press   #(dispatch [:select-period nil])}]
 
      (if selected-loaded
-       (case type
-         :period   [period-form/compact]
-         :template [template-form/compact]
-         [text "Incorrect type passed to selection"])
+       [:<>
+        (case type
+          :period   [period-form/compact]
+          :template [template-form/compact]
+          [text "Incorrect type passed to selection"])
+        buttons-comp]
        [text "loading ..."])]))
 
 (defn top-bar-outer-style [top-bar-height dimensions]

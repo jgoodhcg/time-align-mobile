@@ -181,3 +181,4 @@
 (def chip (r/adapt-react-class (oget paper "Chip")))
 (def button-paper (r/adapt-react-class (oget paper "Button")))
 (def switch-paper (r/adapt-react-class (oget paper "Switch")))
+(def touchable-ripple (r/adapt-react-class (oget paper "TouchableRipple")))

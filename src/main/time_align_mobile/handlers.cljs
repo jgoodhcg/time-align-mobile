@@ -601,13 +601,17 @@
   {:db (assoc-in db [:selected-template] id)
    :dispatch [:load-template-form id]})
 
-(defn update-period [db [_ {:keys [id update-map]}]]
+(defn update-period [{:keys [db]} [_ {:keys [id update-map]}]]
   ;; TODO add an interceptor? for last edited
-  (transform [:buckets sp/ALL
-              :periods sp/ALL
-              #(= id (:id %))]
-             #(merge % update-map)
-             db))
+  (merge
+   {:db (transform [:buckets sp/ALL
+                    :periods sp/ALL
+                    #(= id (:id %))]
+                   #(merge % update-map)
+                   db)}
+   (when (= (:selected-period db)
+            id)
+       {:dispatch [:load-period-form id]})))
 
 (defn add-period [db [_ {:keys [period bucket-id]}]]
   (let [random-bucket-id (->> db
@@ -873,7 +877,7 @@
 (reg-event-fx :delete-filter [validate-spec persist-secure-store] delete-filter)
 (reg-event-fx :select-period [validate-spec persist-secure-store] select-period)
 (reg-event-fx :select-template [validate-spec persist-secure-store] select-template)
-(reg-event-db :update-period [validate-spec persist-secure-store] update-period)
+(reg-event-fx :update-period [validate-spec persist-secure-store] update-period)
 (reg-event-db :add-period [validate-spec persist-secure-store] add-period)
 (reg-event-db :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-db :update-day-time-navigator [validate-spec persist-secure-store] update-day-time-navigator)
