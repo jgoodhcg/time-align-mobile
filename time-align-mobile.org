@@ -55,6 +55,11 @@
 ***** TODO Overhaul other forms with react-native-paper elements
 - [ ] Bucket
 - [ ] Filter
+**** DONE Fix day nav buttons
+     CLOSED: [2019-07-14 Sun 14:48]
+     :LOGBOOK:
+     CLOCK: [2019-07-14 Sun 14:43]--[2019-07-14 Sun 14:48] =>  0:05
+     :END:
 **** DOSUB Edit FAB
 ***** TODO Add play indication
 - Option 1

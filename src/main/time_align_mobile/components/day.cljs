@@ -483,7 +483,6 @@
 (defn top-bar-outer-style [top-bar-height dimensions]
   {:height           top-bar-height
    :width            (:width @dimensions)
-   :background-color styles/background-color
    :elevation        2
    :flex-direction   "column"
    :justify-content  "center"
@@ -502,34 +501,34 @@
                                   :align-items     "center"
                                   :width           "75%"}
         displayed-day-text-style (merge
-                                  {:padding 6}
+                                  {:padding 6
+                                   :color (get-in styles/theme [:colors :primary])}
                                   (when (same-day? displayed-day now)
-                                    {:border-color        "black"
+                                    {:border-color        (get-in styles/theme [:colors :primary])
                                      :border-radius       4
                                      :border-bottom-width 2
                                      ;; adjust padding for border
-                                     :padding-bottom      4}))]
+                                     :padding-bottom      4}))
+        icon-style {:size 32 :color (get-in styles/theme [:colors :primary])}]
 
-    [view {:style outer-style}
+    [surface {:style outer-style}
      [view {:style inner-style}
       ;; back
-      [touchable-highlight
+      [touchable-ripple
        {:on-press      #(dispatch [:update-day-time-navigator (helpers/back-n-days displayed-day 1)])
         :on-long-press #(dispatch [:update-day-time-navigator (helpers/back-n-days displayed-day 7)])}
-       [mi {:name "fast-rewind"
-            :size 32 }]]
+       [mi (merge  icon-style {:name "fast-rewind"})]]
 
       ;; displayed day
       [view {:style displayed-day-style}
-       [touchable-highlight {:on-press #(dispatch [:update-day-time-navigator now])}
+       [touchable-ripple {:on-press #(dispatch [:update-day-time-navigator now])}
         [text {:style displayed-day-text-style} (.toDateString displayed-day)]]]
 
       ;; forward
-      [touchable-highlight
+      [touchable-ripple
        {:on-press      #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 1)])
         :on-long-press #(dispatch [:update-day-time-navigator (helpers/forward-n-days displayed-day 7)])}
-       [mi {:name "fast-forward"
-            :size 32}]]]]))
+       [mi (merge icon-style {:name "fast-forward"})]]]]))
 
 (defn bottom-bar-buttons [{:keys [period-in-play
                                   selected-period
