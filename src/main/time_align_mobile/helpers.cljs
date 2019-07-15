@@ -148,3 +148,8 @@
        (reduce insert-into-collision-group [[]])
        (remove empty?)))
 
+(defn xor [a b]
+  (let [a-num (if a 1 0) b-num (if b 1 0)]
+    (if (= 1 (bit-xor a-num b-num))
+      true
+      false)))

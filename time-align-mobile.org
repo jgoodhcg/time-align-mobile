@@ -83,12 +83,31 @@ Also fixed control buttons on day selection screen.
 Now they don't disappear, instead they /disable/.
 Also fixed the transform buttons on day view.
 Now they are set to the correct /absolute left/ value when planned.
-
 *** DONE Fix start earlier button 
     CLOSED: [2019-07-14 Sun 18:06]
     :LOGBOOK:
     CLOCK: [2019-07-14 Sun 18:00]--[2019-07-14 Sun 18:06] =>  0:06
     :END:
+*** TODO Fix pattern planning
+    :LOGBOOK:
+    CLOCK: [2019-07-15 Mon 07:44]--[2019-07-15 Mon 08:53] =>  1:09
+    CLOCK: [2019-07-14 Sun 19:07]--[2019-07-14 Sun 19:52] =>  0:45
+    :END:
+- [X] Add compact pattern form
+- [X] Fix loading empty template on opening pattern planning (no selection)
+- [X] Fix closing to deselect template
+- [X] Add event to failed validation
+- [X] Change ~update-pattern-form~ to load compact template
+- [X] Change ~select-template~ to load compact form from pattern planning
+- [X] Move xor to helpers
+- [X] Fix selected rendering on pattern planning
+- [X] Add functional buttons to selection menu
+- [X] Fix save pattern form button on pattern planning
+- [ ] Fix saving
+  - Disable save buttons on compact form
+  - Changes to compact form update the pattern form directly
+  - Save button on the pattern form saves changes
+  - Compact form should still indicate changes
 *** TODO Fix navigation
 - [ ] Move history to app-db
 - [ ] Limit to X items

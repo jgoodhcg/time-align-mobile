@@ -9,7 +9,7 @@
             [time-align-mobile.styles :as styles]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-            [time-align-mobile.helpers :as helpers]
+            [time-align-mobile.helpers :as helpers :refer [xor]]
             [re-frame.core :refer [subscribe dispatch]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [time-align-mobile.components.day :refer [time-indicators
@@ -32,16 +32,15 @@
    (let [time (if long
                 (helpers/hours->ms 3)
                 (helpers/minutes->ms 5))]
-     #(dispatch [:update-pattern-form
-                (select-keys (transform
-                              [:templates sp/ALL
-                               (fn [template]
-                                 (= (:id template)
-                                    (:id selected-template)))
-                               :start]
-                              (partial (+ time))
-                              pattern-form)
-                             [:templates])]))))
+     (fn [_]
+       (dispatch [:update-pattern-form
+                  (select-keys (transform
+                                [:templates sp/ALL
+                                 #(= (:id %) (:id selected-template))
+                                 :start]
+                                #(+ % time)
+                                pattern-form)
+                               [:templates])])))))
 
 (defn start-earlier
   ([pattern-form selected-template]
@@ -153,15 +152,22 @@
    :stop-later    (partial stop-later pattern-form)
    :start-later   (partial start-later pattern-form)})
 
-(defn templates-comp [{:keys [templates dimensions selected-template pattern-form]}]
-  [view
-   (doall
-    (->> templates
-         (map (fn [collision-group]
-                (doall
-                 (->> collision-group
-                      (map-indexed
-                       (fn [index {:keys [start stop] :as template}]
+(defn render-templates-col
+  "Renders all non-selected only when `render-selected-only` is false. Only renders selected when it is true."
+  [{:keys [templates
+           dimensions
+           selected-template
+           pattern-form
+           render-selected-only]}]
+  (->> templates
+       (map (fn [collision-group]
+              (doall
+               (->> collision-group
+                    (map-indexed
+                     (fn [index {:keys [start stop] :as template}]
+                       (when (xor render-selected-only
+                                  (not= (:id template)
+                                        (:id selected-template)))
                          (let [now (js/Date.)]
                            (render-period
                             {:entity (merge template  ;; TODO refactor :period key?
@@ -180,13 +186,36 @@
                              :selected-entity           selected-template
                              :select-function-generator (fn [id]
                                                           #(dispatch [:select-template id]))
-                             :period-in-play            nil}))))))))))])
+                             :period-in-play            nil})))))))))))
+
+(defn templates-comp [{:keys [templates dimensions selected-template pattern-form]}]
+  [view
+   ;; render everything but selected
+   (render-templates-col {:templates            templates
+                          :dimensions           dimensions
+                          :selected-template    selected-template
+                          :pattern-form         pattern-form
+                          :render-selected-only false})
+
+   ;; render only the selected
+   (render-templates-col {:templates            templates
+                          :dimensions           dimensions
+                          :selected-template    selected-template
+                          :pattern-form         pattern-form
+                          :render-selected-only true})])
 
 (defn selection-menu-buttons [selected-template pattern-form]
   (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}
-     ;; edit
      [view row-style
+      ;; select-prev
+      [selection-menu-button
+       "select prev"
+       [mci {:name  "arrow-down-drop-circle"
+             :style {:transform [{:rotate "180deg"}]}}]
+       #(dispatch [:select-next-or-prev-template-in-form :prev])]
+
+      ;; edit
       [selection-menu-button
        "edit"
        [mi {:name "edit"}]
@@ -194,18 +223,8 @@
          (dispatch [:navigate-to
                     {:current-screen :template
                      :params         {:template-id             (:id selected-template)
-                                      :pattern-form-pattern-id (:id pattern-form)}}]))]]
-
-     ;; select-prev
-     [view row-style
-      [selection-menu-button
-       "select prev"
-       [mci {:name  "arrow-down-drop-circle"
-             :style {:transform [{:rotate "180deg"}]}}]
-       #(dispatch [:select-next-or-prev-template-in-form :prev])]]
-
-     ;; select-next
-     [view row-style
+                                      :pattern-form-pattern-id (:id pattern-form)}}]))]
+      ;; select-next
       [selection-menu-button
        "select next"
        [mci {:name "arrow-down-drop-circle"}]
@@ -300,7 +319,7 @@
               [selection-menu-buttons @selected-template @pattern-form]])]]
 
          [bottom-bar {:bottom-bar-height bottom-bar-height}
-          [:<>
+          [view {:flex-direction "row"}
            ;; back button
            [:> rne/Button
             ;; TODO prompt user that this will lose any unsaved changes

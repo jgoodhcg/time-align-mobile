@@ -463,7 +463,9 @@
                                                                                (= selected-id template-form-id))]
 
     ;; TODO move this !!! side-effect !!! into handlers some how
-    (if (not selected-loaded)
+    (if (and (some? selected-period-or-template)
+             (some? (:id selected-period-or-template))
+             (not selected-loaded))
       (case type
         :period   (dispatch [:load-period-form (:id selected-period-or-template)])
         :template (dispatch [:load-template-form (:id selected-period-or-template)])))
@@ -477,7 +479,9 @@
 
      [button-paper {:icon       "close"
                     :align-self "flex-start"
-                    :on-press   #(dispatch [:select-period nil])}]
+                    :on-press   (case type
+                                  :period   #(dispatch [:select-period nil])
+                                  :template #(dispatch [:select-template nil]))}]
 
      (if selected-loaded
        [:<>

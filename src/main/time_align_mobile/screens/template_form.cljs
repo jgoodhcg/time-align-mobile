@@ -71,8 +71,47 @@
                                       (reset! stop-modal-visible false))
                         :on-cancel  #(reset! stop-modal-visible false)}]]))
 
-(defn compact [params]
-  [text "compact form here"])
+(defn compact []
+  (let [template-form                 (subscribe [:get-template-form])
+        update-structured-data        (fn [new-data]
+                                        (dispatch
+                                         [:update-template-form {:data new-data}]))
+        changes                       (subscribe [:get-template-form-changes])
+        changes-from-pattern-planning (subscribe [:get-template-form-changes-from-pattern-planning])
+        buckets                       (subscribe [:get-buckets])
+        patterns                      (subscribe [:get-patterns])]
+
+    [view
+     [bucket-parent-picker-comp
+      {:form       template-form
+       :changes    changes
+       :buckets    buckets
+       :update-key :update-template-form
+       :compact    true}]
+
+     [label-comp template-form changes-from-pattern-planning :update-template-form]
+
+     [start-comp template-form changes-from-pattern-planning]
+
+     [stop-comp template-form changes-from-pattern-planning]
+
+     [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
+                    :padding         8
+                    :margin-top      16
+                    :width           "100%"
+                    :align-self      "center"
+                    :justify-content "space-between"
+                    :align-items     "space-between"}}
+
+      [form-buttons/buttons
+       {:compact        true
+        :changed        (> (count @changes-from-pattern-planning) 0)
+        :save-changes   #(dispatch [:save-template-form-from-pattern-planning
+                                    (new js/Date)])
+        :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
+                                    (:id @template-form)])
+        :delete-item    #(dispatch [:delete-template-from-pattern-planning
+                                    (:id @template-form)])}]]]))
 
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])

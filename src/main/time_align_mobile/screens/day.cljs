@@ -18,7 +18,7 @@
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-            [time-align-mobile.helpers :refer [same-day?]]
+            [time-align-mobile.helpers :refer [same-day? xor]]
             [time-align-mobile.components.list-items :as list-items]
             [time-align-mobile.styles :as styles :refer [theme]]
             [goog.string :as gstring]
@@ -105,12 +105,6 @@
                               :data        {}}}])
       (dispatch [:navigate-to {:current-screen :period
                                :params         {:period-id id}}]))))
-
-(defn xor [a b]
-  (let [a-num (if a 1 0) b-num (if b 1 0)]
-    (if (= 1 (bit-xor a-num b-num))
-      true
-      false)))
 
 (defn start-earlier
   ([selected-period]

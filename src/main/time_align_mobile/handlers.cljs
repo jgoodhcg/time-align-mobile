@@ -17,11 +17,12 @@
 ;;
 (defn check-and-throw
   "Throw an exception if db doesn't have a valid spec."
-  [spec db]
+  [spec db event]
   (when-not (s/valid? spec db)
     (let [explaination (s/explain-str spec db)]
       ;; (zprint (::clojure.spec.alpha/problems explaination) {:map {:force-nl? true}})
       (println explaination)
+      (println (str "Failed on event - " event))
       ;; (throw (ex-info (str "Spec check failed: " explain-data) explain-data))
       (alert "Failed spec validation" "Check the command line output.")
       true)))
@@ -32,8 +33,9 @@
         :id :validate-spec
         :after (fn [context]
                  (let [db (-> context :effects :db)
-                       old-db (-> context :coeffects :db)]
-                   (if (some? (check-and-throw app-db-spec db))
+                       old-db (-> context :coeffects :db)
+                       event (-> context :coeffects :event)]
+                   (if (some? (check-and-throw app-db-spec db event))
                      (assoc-in context [:effects :db] old-db) ;; put the old db back as the new db
                      context))))
     ->interceptor))
@@ -127,8 +129,12 @@
 (defn update-bucket-form [db [_ bucket-form]]
   (transform [:forms :bucket-form] #(merge % bucket-form) db))
 
-(defn update-pattern-form [db [_ pattern-form]]
-  (transform [:forms :pattern-form] #(merge % pattern-form) db))
+(defn update-pattern-form [{:keys [db]} [_ pattern-form]]
+  (let [selected-template (:selected-template db)]
+    (merge
+     {:db (transform [:forms :pattern-form] #(merge % pattern-form) db)}
+     (when (some? selected-template)
+       {:dispatch [:load-template-form-from-pattern-planning selected-template]}))))
 
 (defn save-bucket-form [{:keys [db]} [_ date-time]]
   (let [bucket-form (get-in db [:forms :bucket-form])]
@@ -598,8 +604,11 @@
      {:dispatch [:load-period-form id]})))
 
 (defn select-template [{:keys [db]} [_ id]]
-  {:db (assoc-in db [:selected-template] id)
-   :dispatch [:load-template-form id]})
+  (merge
+   {:db (assoc-in db [:selected-template] id)}
+   (when (some? id)
+     ;; This should only ever get called from pattern planning
+     {:dispatch [:load-template-form-from-pattern-planning id]})))
 
 (defn update-period [{:keys [db]} [_ {:keys [id update-map]}]]
   ;; TODO add an interceptor? for last edited
@@ -889,7 +898,7 @@
 (reg-event-fx :share-app-db [validate-spec] share-app-db)
 (reg-event-db :add-auto-filter [validate-spec persist-secure-store] add-auto-filter)
 (reg-event-db :load-pattern-form [validate-spec persist-secure-store] load-pattern-form)
-(reg-event-db :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
+(reg-event-fx :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
 (reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
 (reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
