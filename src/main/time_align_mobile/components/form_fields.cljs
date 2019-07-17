@@ -79,7 +79,8 @@
                        :placeholder     "Label"
                        :on-change-text  (fn [text]
                                           (dispatch [update-key
-                                                     {:label text}]))}])))
+                                                     {:label text
+                                                      :id (:id @form)}]))}])))
 
 (defn data-comp [form changes update-structured-data]
   [view {:style {:flex           1
@@ -129,7 +130,8 @@
                                                           {:width 250})
                                        :on-value-change #(dispatch
                                                           ;; use uuid because picker works with strings
-                                                          [update-key {:bucket-id (uuid %)}])}
+                                                          [update-key {:bucket-id (uuid %)
+                                                                       :id (:id @form)}])}
                          (map (fn [bucket]
                                 [picker-item {:label (:label bucket)
                                               :key   (str (:id bucket))

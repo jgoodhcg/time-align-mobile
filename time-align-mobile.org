@@ -88,7 +88,8 @@ Now they are set to the correct /absolute left/ value when planned.
     :LOGBOOK:
     CLOCK: [2019-07-14 Sun 18:00]--[2019-07-14 Sun 18:06] =>  0:06
     :END:
-*** TODO Fix pattern planning
+*** DONE Fix pattern planning
+    CLOSED: [2019-07-17 Wed 18:45]
     :LOGBOOK:
     CLOCK: [2019-07-15 Mon 07:44]--[2019-07-15 Mon 08:53] =>  1:09
     CLOCK: [2019-07-14 Sun 19:07]--[2019-07-14 Sun 19:52] =>  0:45
@@ -103,12 +104,18 @@ Now they are set to the correct /absolute left/ value when planned.
 - [X] Fix selected rendering on pattern planning
 - [X] Add functional buttons to selection menu
 - [X] Fix save pattern form button on pattern planning
-**** Fix saving
+**** DONE Fix saving
+     CLOSED: [2019-07-17 Wed 18:45]
      :LOGBOOK:
+     CLOCK: [2019-07-17 Wed 18:03]--[2019-07-17 Wed 18:45] =>  0:42
+     CLOCK: [2019-07-17 Wed 17:59]--[2019-07-17 Wed 18:00] =>  0:01
+     CLOCK: [2019-07-16 Tue 21:06]--[2019-07-16 Tue 21:18] =>  0:12
+     CLOCK: [2019-07-16 Tue 20:55]--[2019-07-16 Tue 21:04] =>  0:09
      CLOCK: [2019-07-16 Tue 20:45]--[2019-07-16 Tue 20:49] =>  0:04
      CLOCK: [2019-07-16 Tue 20:25]--[2019-07-16 Tue 20:32] =>  0:07
      CLOCK: [2019-07-16 Tue 19:25]--[2019-07-16 Tue 19:56] =>  0:31
      :END:
+Also did a minor fix to get rid of an error message loading the app-db on a cold start.
 ***** Original idea
     - Disable save buttons on compact form
     - Changes to compact form update the pattern form directly
@@ -138,3 +145,6 @@ There needs to be no interaction with the template form. Just use of it's compon
 - Add Extra buttons to selection menus
   - Add period to pattern
   - Edit on full form
+- DRY up spectre paths
+- Spec everything
+- Unit test every function

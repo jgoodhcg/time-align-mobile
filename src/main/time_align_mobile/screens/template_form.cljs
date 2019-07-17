@@ -39,7 +39,8 @@
 
 (def stop-modal-visible (r/atom false))
 
-(defn start-comp [template-form changes]
+;; TODO consolidate both comps into one
+(defn start-comp [template-form changes update-key]
   (let [start-ms   (:start @template-form)
         start-time (helpers/reset-relative-ms start-ms (js/Date.))]
     [view {:style {:flex-direction "row"}}
@@ -52,12 +53,13 @@
                         :mode       "time"
                         :on-confirm (fn [d]
                                       (dispatch
-                                       [:update-template-form {:start (helpers/get-ms d)}])
+                                       [update-key {:start (helpers/get-ms d)
+                                                    :id    (:id @template-form)}])
                                       (reset! start-modal-visible false))
                         :on-cancel  #(reset! start-modal-visible false)}]]))
 
-(defn stop-comp [template-form changes]
-  (let [stop-ms (:stop @template-form)
+(defn stop-comp [template-form changes update-key]
+  (let [stop-ms   (:stop @template-form)
         stop-time (helpers/reset-relative-ms stop-ms (js/Date.))]
     [view {:style {:flex-direction "row"}}
      [text {:style (merge {:margin-right 8}
@@ -68,29 +70,42 @@
                         :date       stop-time
                         :mode       "time"
                         :on-confirm (fn [d]
-                                      (dispatch [:update-template-form {:stop (helpers/get-ms d)}])
+                                      (dispatch [update-key {:stop (helpers/get-ms d)
+                                                             :id   (:id @template-form)}])
                                       (reset! stop-modal-visible false))
                         :on-cancel  #(reset! stop-modal-visible false)}]]))
 
 (defn compact []
-  (let [template-form         (subscribe [:get-template-form])
-        template-form-changes (subscribe [:get-template-form-changes-from-pattern-planning])
+  (let [pattern-form          (subscribe [:get-pattern-form])
+        selected-id           (:selected-template-id @pattern-form)
+        template-form         (atom (select-one
+                                     [:templates sp/ALL
+                                      #(= (:id %) selected-id)]
+                                     @pattern-form))
+        pattern-form-changes  (subscribe [:get-pattern-form-changes])
+        template-form-changes (atom (when-let [t (select-one
+                                                  [:templates sp/ALL
+                                                   #(= (:id %) selected-id)]
+                                                  @pattern-form-changes)]
+                                      t {}))
         buckets               (subscribe [:get-buckets])
         patterns              (subscribe [:get-patterns])]
 
+    (println selected-id)
+    (println @template-form)
     [view
      [bucket-parent-picker-comp
       {:form       template-form
        :changes    template-form-changes
        :buckets    buckets
-       :update-key :update-template-form
+       :update-key :update-template-on-pattern-planning-form
        :compact    true}]
 
-     [label-comp template-form template-form-changes :update-template-form]
+     [label-comp template-form template-form-changes :update-template-on-pattern-planning-form]
 
-     [start-comp template-form template-form-changes]
+     [start-comp template-form template-form-changes :update-template-on-pattern-planning-form]
 
-     [stop-comp template-form template-form-changes]
+     [stop-comp template-form template-form-changes :update-template-on-pattern-planning-form]
 
      [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
                     :padding         8
@@ -102,14 +117,11 @@
 
       [form-buttons/buttons
        {:compact        true
-        :changed        (> (count @template-form-changes) 0)
-        :save-changes   #(dispatch [:save-template-form-from-pattern-planning
-                                    (new js/Date)])
-        :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
-                                    (:id @template-form)])
+        :changed        false ;; TODO maybe just remove these buttons
+        :save-changes   #(str "noop")
+        :cancel-changes #(str "noop")
         :delete-item    #(dispatch [:delete-template-from-pattern-planning
-                                    (:id @template-form)])}]
-      ]]))
+                                    (:id @template-form)])}]]]))
 
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])

@@ -139,7 +139,8 @@
    "app-db"
    (fn [value]
      (let [app-db (read-string value)]
-       (dispatch [:load-db app-db])))
+       (if (some? app-db)
+         (dispatch-sync [:load-db app-db]))))
    (fn [error]
      (println "error reading file")))
 

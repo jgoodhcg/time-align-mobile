@@ -852,6 +852,13 @@
                         ;; put the periods in the bucket
                         (into old-period-list periods-to-add)))))))
 
+(defn update-template-on-pattern-planning-form [db [_ update-map]]
+  (let [id (:id update-map)]
+    (->> db
+         (transform
+          [:forms :pattern-form :templates sp/ALL #(= (:id %) id)]
+          (fn [template] (merge template update-map))))))
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
@@ -901,7 +908,10 @@
 (reg-event-fx :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
 (reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
-(reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
+(reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store]
+              select-next-or-prev-template-in-form)
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
 (reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)
 (reg-event-fx :navigate-back [validate-spec persist-secure-store] navigate-back)
+(reg-event-db :update-template-on-pattern-planning-form [validate-spec persist-secure-store]
+              update-template-on-pattern-planning-form)
