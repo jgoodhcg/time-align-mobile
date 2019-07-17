@@ -103,11 +103,22 @@ Now they are set to the correct /absolute left/ value when planned.
 - [X] Fix selected rendering on pattern planning
 - [X] Add functional buttons to selection menu
 - [X] Fix save pattern form button on pattern planning
-- [ ] Fix saving
-  - Disable save buttons on compact form
-  - Changes to compact form update the pattern form directly
-  - Save button on the pattern form saves changes
-  - Compact form should still indicate changes
+**** Fix saving
+     :LOGBOOK:
+     CLOCK: [2019-07-16 Tue 20:45]--[2019-07-16 Tue 20:49] =>  0:04
+     CLOCK: [2019-07-16 Tue 20:25]--[2019-07-16 Tue 20:32] =>  0:07
+     CLOCK: [2019-07-16 Tue 19:25]--[2019-07-16 Tue 19:56] =>  0:31
+     :END:
+***** Original idea
+    - Disable save buttons on compact form
+    - Changes to compact form update the pattern form directly
+    - Save button on the pattern form saves changes
+    - Compact form should still indicate changes
+***** New thoughts
+Updating the compact template form on day planning should automatically update the pattern form.
+The flow right now is update the compact form which when saved updates the pattern form.
+There needs to be no interaction with the template form. Just use of it's components. The source is the pattern form and the selected template from it.
+*** TODO Fix Jump to selected so that it also changes displayed day
 *** TODO Fix navigation
 - [ ] Move history to app-db
 - [ ] Limit to X items
