@@ -21,6 +21,8 @@
                                           app-state
                                           paper-provider
                                           ic
+                                          card
+                                          surface
                                           mi
                                           text
                                           view
@@ -51,7 +53,7 @@
           (rn/StyleSheet.create)))
 
 (defn drawer-list []
-  [view {:style {:flex 1 :justify-content "center" :align-items "flex-start"}}
+  [surface {:style {:flex 1 :justify-content "center" :align-items "center"}}
    (->> nav/screens-map
         (filter #(:in-drawer %))
         (sort-by #(:position-drawer %))
@@ -60,6 +62,7 @@
                      params                {:name  name
                                             :style {:margin-right 25
                                                     :width 32}
+                                            :color (->> theme :colors :primary)
                                             :size  32}
                      label-element         [text  label]
                      icon-element          (case family

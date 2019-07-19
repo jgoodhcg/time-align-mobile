@@ -277,32 +277,35 @@
   (let [template-form-with-labels
         (->> template-form
 
-             ;; add bucket-label if needed
-             (fn [template-form]
-               (if (contains? template-form :bucket-id)
-                 (merge
-                  template-form
-                  {:bucket-label (:label
-                                  (select-one
-                                   [:buckets
-                                    sp/ALL
-                                    #(= (:id %) (:bucket-id template-form))]
-                                   db))})
-                 template-form))
+             ((fn [template-form]
+                ;; add bucket label + color if needed
+                (if (contains? template-form :bucket-id)
+                  (let [bucket (select-one
+                                [:buckets
+                                 sp/ALL
+                                 #(= (:id %) (:bucket-id template-form))]
+                                db)]
+                    (merge
+                     template-form
+                     {:bucket-label (:label bucket)
+                      :bucket-color (:color bucket)}))
+
+                  template-form)))
 
              ;; add pattern-label if needed
-             (fn [template-form]
-               (if (contains? template-form :pattern-id)
-                 (merge
-                  template-form
-                  {:pattern-label (:label
-                                   (select-one
-                                    [:patterns
-                                     sp/ALL
-                                     #(= (:id %) (:pattern-id template-form))]
-                                    db))})template-form)))]
+             ((fn [template-form]
+                (if (contains? template-form :pattern-id)
+                  (merge
+                   template-form
+                   {:pattern-label (:label
+                                    (select-one
+                                     [:patterns
+                                      sp/ALL
+                                      #(= (:id %) (:pattern-id template-form))]
+                                     db))})
+                  template-form))))]
 
-    (transform [:forms :template-form] #(merge % template-form) db)))
+    (transform [:forms :template-form] #(merge % template-form-with-labels) db)))
 
 (defn save-template-form [{:keys [db]} [_ date-time]]
   (let [template-form (get-in db [:forms :template-form])]

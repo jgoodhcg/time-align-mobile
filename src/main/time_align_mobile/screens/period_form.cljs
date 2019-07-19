@@ -29,7 +29,6 @@
                                                               last-edited-comp
                                                               label-comp
                                                               label-style
-                                                              bucket-parent-id-comp
                                                               changeable-field
                                                               bucket-parent-picker-comp
                                                               info-field-style

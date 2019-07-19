@@ -47,7 +47,17 @@
 - Copy (<- 0 ->)
 - Select prev/next
 - Stop
-***** TODO Overhaul template form with react-native-paper elements
+***** DONE Overhaul template form with react-native-paper elements
+      CLOSED: [2019-07-19 Fri 09:09]
+      :LOGBOOK:
+      CLOCK: [2019-07-19 Fri 07:36]--[2019-07-19 Fri 09:09] =>  1:33
+      CLOCK: [2019-07-18 Thu 11:09]--[2019-07-18 Thu 11:15] =>  0:06
+      CLOCK: [2019-07-17 Wed 18:54]--[2019-07-17 Wed 19:36] =>  0:42
+      :END:
+- [X] Update the pattern parent picker component
+- [X] Fix the bucket picker color not updating on new selection
+- [X] Fix the width of the bucket picker
+- [X] Update the relative time components
 ***** TODO Move template form to pattern planning selection menu
 ***** TODO Add utility buttons to template selection menu
 - Copy (<- 0 ->)
@@ -83,6 +93,7 @@ Also fixed control buttons on day selection screen.
 Now they don't disappear, instead they /disable/.
 Also fixed the transform buttons on day view.
 Now they are set to the correct /absolute left/ value when planned.
+**** TODO Add duration field to forms
 *** DONE Fix start earlier button 
     CLOSED: [2019-07-14 Sun 18:06]
     :LOGBOOK:

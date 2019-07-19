@@ -14,6 +14,7 @@
                                                   subheading
                                                   ic
                                                   chip
+                                                  card
                                                   text-input-paper
                                                   switch-paper
                                                   button-paper
@@ -90,53 +91,56 @@
    [structured-data {:data   (:data @form)
                      :update update-structured-data}]])
 
-(defn bucket-parent-id-comp [form changes]
-  [view {:style field-style}
-   [:> rne/Input {:label          "Bucket ID"
-                  :label-style    (field-label-changeable-style @changes :bucket-id)
-                  :value  (str (:bucket-id @form))
-                  :editable false}]])
+(def picker-comp-outer-style
+  (merge field-style
+         {:flex-direction      "row"
+          :padding             8
+          :padding-top         24
+          :justify-content     "space-between"
+          :align-items         "center"}))
 
-(defn pattern-parent-id-comp [form changes]
-  [view {:style field-style}
-   [:> rne/Input {:label          "Pattern ID"
-                  :label-style    (field-label-changeable-style @changes :pattern-id)
-                  :value  (str (:pattern-id @form))
-                  :editable false}]])
+(def picker-comp-inner-style {:flex-direction "column"
+                              :margin-right   8})
 
-(defn bucket-parent-picker-comp [{:keys [form changes buckets update-key compact]}]
-  [view {:style (merge field-style
-                       {:flex-direction  "row"
-                        :padding         8
-                        :border-bottom-color (:bucket-color @form)
-                        :border-bottom-width 8
-                        :padding-top     24
-                        :justify-content "space-between"
-                        :align-items     "center"})}
+(defn parent-picker-base [{:keys [form
+                                  changes
+                                  entities
+                                  field-key
+                                  screen-key
+                                  disabled
+                                  label
+                                  update-key
+                                  bucket-underline
+                                  compact]}]
+  [view {:style (merge
+                 picker-comp-outer-style
+                 (when bucket-underline
+                   {:border-bottom-width 8
+                    :border-bottom-color (:bucket-color @form)}))}
 
-   [view {:style {:flex-direction "column"
-                  :margin-right   8}}
+   [view {:style picker-comp-inner-style}
 
-    (changeable-field {:changes changes
-                       :field-key :bucket-id}
+    (changeable-field {:changes   changes
+                       :field-key field-key}
                       [view {:flex-direction "column"}
                        (when (not compact)
-                         [subheading "Bucket"])
-                       [surface {:style {:border-radius 4}
-                                 :elevation 1}
-                        [:> rn/Picker {:selected-value  (str (:bucket-id @form))
+                         [subheading label])
+                       [card {:style     {:border-radius 4}
+                              :elevation 0}
+                        [:> rn/Picker {:selected-value  (str (field-key @form))
                                        :style           (if compact
                                                           {:width 150}
                                                           {:width 250})
+                                       :enabled         (not disabled)
                                        :on-value-change #(dispatch
                                                           ;; use uuid because picker works with strings
-                                                          [update-key {:bucket-id (uuid %)
-                                                                       :id (:id @form)}])}
-                         (map (fn [bucket]
-                                [picker-item {:label (:label bucket)
-                                              :key   (str (:id bucket))
-                                              :value (str (:id bucket))}])
-                              @buckets)]]])]
+                                                          [update-key {field-key (uuid %)
+                                                                       :id       (:id @form)}])}
+                         (map (fn [entity]
+                                [picker-item {:label (:label entity)
+                                              :key   (str (:id entity))
+                                              :value (str (:id entity))}])
+                              @entities)]]])]
 
    (when (not compact)
      [button-paper {:icon    "edit"
@@ -145,25 +149,38 @@
                     :on-press
                     #(dispatch
                       [:navigate-to
-                       {:current-screen :bucket
-                        :params         {:bucket-id (:bucket-id @form)}}])}])])
+                       {:current-screen screen-key
+                        :params         {field-key (field-key @form)}}])}])])
 
-(defn pattern-parent-picker-comp [form changes patterns update-key]
-  [view {:style (merge field-style {:flex-direction  "column"
-                                    :padding         8
-                                    :justify-content "flex-start"
-                                    :align-items     "flex-start"})}
-   [:> rne/Text {:h4 true :h4-style
-                 (merge
-                  (field-label-changeable-style @changes :pattern-label)
-                  {:font-size 16})} "Pattern Label"]
-   [:> rn/Picker {:selected-value  (str (:pattern-id @form))
-                  :style           {:width 250}
-                  :on-value-change #(dispatch [update-key {:pattern-id (uuid %)}])}
-    (map (fn [pattern] [picker-item {:label (:label pattern)
-                                     :key   (str (:id pattern))
-                                     :value (str (:id pattern))}])
-         @patterns)]])
+(defn bucket-parent-picker-comp [{:keys [form
+                                         changes
+                                         buckets
+                                         update-key
+                                         compact]}]
+
+  (parent-picker-base {:form             form
+                       :changes          changes
+                       :entities         buckets
+                       :field-key        :bucket-id
+                       :screen-key       :bucket
+                       :label            "Bucket"
+                       :update-key       update-key
+                       :compact          compact
+                       :disabled         false
+                       :bucket-underline true}))
+
+(defn pattern-parent-picker-comp [form changes patterns update-key disabled]
+
+  (parent-picker-base {:form             form
+                       :changes          changes
+                       :entities         patterns
+                       :field-key        :pattern-id
+                       :screen-key       :pattern
+                       :label            "Pattern"
+                       :update-key       update-key
+                       :compact          false
+                       :bucket-underline false
+                       :disabled         disabled}))
 
 (defn planned-comp [form changes update-key]
   [view {:style {:flex-direction  "row"

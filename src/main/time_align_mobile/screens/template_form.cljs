@@ -10,9 +10,11 @@
                                                   text-input
                                                   color-picker
                                                   date-time-picker
+                                                  subheading
                                                   modal
                                                   switch
                                                   platform
+                                                  button-paper
                                                   picker
                                                   picker-item
                                                   touchable-highlight
@@ -24,10 +26,11 @@
                                                               created-comp
                                                               last-edited-comp
                                                               label-comp
-                                                              pattern-parent-id-comp
+                                                              label-style
                                                               pattern-parent-picker-comp
-                                                              bucket-parent-id-comp
                                                               bucket-parent-picker-comp
+                                                              changeable-field
+                                                              info-field-style
                                                               planned-comp
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
@@ -39,41 +42,38 @@
 
 (def stop-modal-visible (r/atom false))
 
-;; TODO consolidate both comps into one
-(defn start-comp [template-form changes update-key]
-  (let [start-ms   (:start @template-form)
-        start-time (helpers/reset-relative-ms start-ms (js/Date.))]
-    [view {:style {:flex-direction "row"}}
-     [text {:style (merge {:margin-right 8}
-                          (field-label-changeable-style @changes :stop))} ":start"]
-     [touchable-highlight {:on-press #(reset! start-modal-visible true)}
-      [text (format-time start-time)]]
-     [date-time-picker {:is-visible @start-modal-visible
-                        :date       start-time
-                        :mode       "time"
-                        :on-confirm (fn [d]
-                                      (dispatch
-                                       [update-key {:start (helpers/get-ms d)
-                                                    :id    (:id @template-form)}])
-                                      (reset! start-modal-visible false))
-                        :on-cancel  #(reset! start-modal-visible false)}]]))
+(defn time-comp-buttons [time modal form update-key field-key]
+  [:<>
+   [button-paper {:on-press #(reset! modal true)
+                  :mode     "outlined"
+                  :icon     "access-time"}
+    [text (if (some? time)
+            (format-time time)
+            "Add a time time")]]
+   [date-time-picker {:is-visible @modal
+                      :date       time
+                      :mode       "time"
+                      :on-confirm (fn [d]
+                                    (dispatch
+                                     [update-key {field-key (helpers/get-ms d)
+                                                  :id    (:id @form)}])
+                                    (reset! modal false))
+                      :on-cancel  #(reset! modal false)}]])
 
-(defn stop-comp [template-form changes update-key]
-  (let [stop-ms   (:stop @template-form)
-        stop-time (helpers/reset-relative-ms stop-ms (js/Date.))]
-    [view {:style {:flex-direction "row"}}
-     [text {:style (merge {:margin-right 8}
-                          (field-label-changeable-style @changes :stop))} ":stop"]
-     [touchable-highlight {:on-press #(reset! stop-modal-visible true)}
-      [text (format-time stop-time)]]
-     [date-time-picker {:is-visible @stop-modal-visible
-                        :date       stop-time
-                        :mode       "time"
-                        :on-confirm (fn [d]
-                                      (dispatch [update-key {:stop (helpers/get-ms d)
-                                                             :id   (:id @template-form)}])
-                                      (reset! stop-modal-visible false))
-                        :on-cancel  #(reset! stop-modal-visible false)}]]))
+;; TODO consolidate both comps into one
+(defn time-comp [{:keys [template-form
+                         changes
+                         update-key
+                         modal
+                         field-key
+                         label]}]
+  (let [time-ms   (field-key @template-form)
+        time-as-date (helpers/reset-relative-ms time-ms (js/Date.))]
+    [view {:style info-field-style}
+     (changeable-field {:changes changes
+                        :field-key field-key}
+                       [subheading {:style label-style} label])
+     [time-comp-buttons time-as-date modal template-form update-key field-key]]))
 
 (defn compact []
   (let [pattern-form          (subscribe [:get-pattern-form])
@@ -91,8 +91,6 @@
         buckets               (subscribe [:get-buckets])
         patterns              (subscribe [:get-patterns])]
 
-    (println selected-id)
-    (println @template-form)
     [view
      [bucket-parent-picker-comp
       {:form       template-form
@@ -103,9 +101,20 @@
 
      [label-comp template-form template-form-changes :update-template-on-pattern-planning-form]
 
-     [start-comp template-form template-form-changes :update-template-on-pattern-planning-form]
-
-     [stop-comp template-form template-form-changes :update-template-on-pattern-planning-form]
+     ;; start
+     [time-comp {:template-form template-form
+                 :changes       template-form-changes
+                 :update-key    :update-template-on-pattern-planning-form
+                 :modal         start-modal-visible
+                 :field-key     :start
+                 :label         "Start"}]
+     ;; stop
+     [time-comp {:template-form template-form
+                 :changes       template-form-changes
+                 :update-key    :update-template-on-pattern-planning-form
+                 :modal         stop-modal-visible
+                 :field-key     :stop
+                 :label         "Stop"}]
 
      [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
                     :padding         8
@@ -134,66 +143,65 @@
         patterns                       (subscribe [:get-patterns])
         template-from-pattern-planning (contains? params :pattern-form-pattern-id)]
 
-    [keyboard-aware-scroll-view
-     ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1
-     {:enable-on-android            true
-      :enable-auto-automatic-scroll (= (.-OS platform) "ios")}
-     [view {:style {:flex            1
-                    :flex-direction  "column"
-                    :justify-content "flex-start"
-                    :align-items     "flex-start"
-                    :padding-top     50
-                    :padding-left    10}}
+    [:<>
+     [pattern-parent-picker-comp
+      template-form
+      changes
+      patterns
+      :update-template-form
+      template-from-pattern-planning]
 
-      [text "Template form"]
+     [bucket-parent-picker-comp
+      {:form       template-form
+       :changes    changes
+       :buckets    buckets
+       :update-key :update-template-form
+       :compact    false}]
 
-      [pattern-parent-id-comp template-form changes]
+     [label-comp template-form changes :update-template-form]
 
-      (when (not template-from-pattern-planning)
-        [pattern-parent-picker-comp template-form changes patterns :update-template-form])
+     ;; start
+     [time-comp {:template-form template-form
+                 :changes       changes
+                 :update-key    :update-template-form
+                 :modal         start-modal-visible
+                 :field-key     :start
+                 :label         "Start"}]
+     ;; stop
+     [time-comp {:template-form template-form
+                 :changes       changes
+                 :update-key    :update-template-form
+                 :modal         stop-modal-visible
+                 :field-key     :stop
+                 :label         "Stop"}]
 
-      [bucket-parent-id-comp template-form changes]
+     [id-comp template-form]
 
-      [bucket-parent-picker-comp
-       {:form       template-form
-        :changes    changes
-        :buckets    buckets
-        :update-key :update-template-form
-        :compact    false}]
+     [created-comp template-form]
 
-      [id-comp template-form]
+     [last-edited-comp template-form]
+     ;; [data-comp template-form changes update-structured-data]
 
-      [created-comp template-form]
+     (when template-from-pattern-planning
+       [:> rne/Button
+        {:icon            (r/as-element [:> rne/Icon {:name  "arrow-back"
+                                                      :type  "material-icons"
+                                                      :color "#fff"}])
+         :on-press        #(dispatch [:navigate-to {:current-screen :pattern-planning
+                                                    :params         {:do-not-load-form true}}])
+         :container-style {:margin-right 4}}])
 
-      [last-edited-comp template-form]
-
-      [label-comp template-form changes :update-template-form]
-
-      [start-comp template-form changes]
-
-      [stop-comp template-form changes]
-
-      ;; [data-comp template-form changes update-structured-data]
-      (when template-from-pattern-planning
-        [:> rne/Button
-         {:icon            (r/as-element [:> rne/Icon {:name  "arrow-back"
-                                                       :type  "material-icons"
-                                                       :color "#fff"}])
-          :on-press        #(dispatch [:navigate-to {:current-screen :pattern-planning
-                                                     :params         {:do-not-load-form true}}])
-          :container-style {:margin-right 4}}])
-
-      (if template-from-pattern-planning
-        [form-buttons/root
-         {:changed        (> (count @changes-from-pattern-planning) 0)
-          :save-changes   #(dispatch [:save-template-form-from-pattern-planning
-                                      (new js/Date)])
-          :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
-                                      (:id @template-form)])
-          :delete-item    #(dispatch [:delete-template-from-pattern-planning
-                                      (:id @template-form)])}]
-        [form-buttons/root
-         {:changed        (> (count @changes) 0)
-          :save-changes   #(dispatch [:save-template-form (new js/Date)])
-          :cancel-changes #(dispatch [:load-template-form (:id @template-form)])
-          :delete-item    #(dispatch [:delete-template (:id @template-form)])}])]]))
+     (if template-from-pattern-planning
+       [form-buttons/root
+        {:changed        (> (count @changes-from-pattern-planning) 0)
+         :save-changes   #(dispatch [:save-template-form-from-pattern-planning
+                                     (new js/Date)])
+         :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
+                                     (:id @template-form)])
+         :delete-item    #(dispatch [:delete-template-from-pattern-planning
+                                     (:id @template-form)])}]
+       [form-buttons/root
+        {:changed        (> (count @changes) 0)
+         :save-changes   #(dispatch [:save-template-form (new js/Date)])
+         :cancel-changes #(dispatch [:load-template-form (:id @template-form)])
+         :delete-item    #(dispatch [:delete-template (:id @template-form)])}])]))
