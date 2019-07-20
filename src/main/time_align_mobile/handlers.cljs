@@ -6,7 +6,7 @@
     [cljs.reader :refer [read-string]]
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
-    [time-align-mobile.helpers :as helpers :refer [same-day?]]
+    [time-align-mobile.helpers :as helpers :refer [same-day? get-ms]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (def navigation-history (atom []))
@@ -862,6 +862,40 @@
           [:forms :pattern-form :templates sp/ALL #(= (:id %) id)]
           (fn [template] (merge template update-map))))))
 
+(defn make-pattern-from-day [db [_ {:keys [date planned now]}]]
+  (let [periods       (select [:buckets sp/ALL
+                               (sp/collect-one (sp/submap [:id :color :label]))
+                               :periods sp/ALL
+                               #(and (or (same-day? date (:start %))
+                                         (same-day? date (:stop %)))
+                                     (= (:planned %) planned))]
+                              db)
+        new-templates (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     now
+                                     :last-edited now
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        stop-rel}))))
+        new-pattern {:id          (random-uuid) ;; TODO this needs to not be here
+                     :label       (str (format-date date) " generated pattern")
+                     :created     now
+                     :last-edited now
+                     :data        {}
+                     :templates   new-templates}]
+    (->> db
+         (setval [:patterns
+                  sp/AFTER-ELEM]
+                 new-pattern))))
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
@@ -918,3 +952,4 @@
 (reg-event-fx :navigate-back [validate-spec persist-secure-store] navigate-back)
 (reg-event-db :update-template-on-pattern-planning-form [validate-spec persist-secure-store]
               update-template-on-pattern-planning-form)
+(reg-event-db :make-pattern-from-day [validate-spec persist-secure-store] make-pattern-from-day)

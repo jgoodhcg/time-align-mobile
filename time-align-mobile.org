@@ -2,6 +2,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-07-20 Sat 18:55]--[2019-07-20 Sat 18:56] =>  0:01
   CLOCK: [2019-07-13 Sat 18:20]--[2019-07-13 Sat 18:42] =>  0:22
   CLOCK: [2019-06-29 Sat 18:06]--[2019-06-29 Sat 18:10] =>  0:04
   CLOCK: [2019-06-17 Mon 17:42]--[2019-06-17 Mon 18:14] =>  0:32
@@ -118,6 +119,9 @@ Went with just changing the color...
 - Make pattern from day (select planned or actual)
 - Stop? (depends on play indication option)
 ***** TODO Make pattern from day
+      :LOGBOOK:
+      CLOCK: [2019-07-20 Sat 17:51]--[2019-07-20 Sat 18:55] =>  1:04
+      :END:
 ***** DONE Hide FAB on selection
       CLOSED: [2019-07-14 Sun 15:57]
       :LOGBOOK:
@@ -127,6 +131,10 @@ Also fixed control buttons on day selection screen.
 Now they don't disappear, instead they /disable/.
 Also fixed the transform buttons on day view.
 Now they are set to the correct /absolute left/ value when planned.
+
+**** TODO Refactor pattern form 
+- [ ] Pattern form
+- [ ] Pattern planning bottom buttons
 *** TODO Add make plan from day action
 *** DONE Fix start earlier button 
     CLOSED: [2019-07-14 Sun 18:06]

@@ -437,6 +437,7 @@
          ;; fab
          (when (not (some? @selected-period))
            [bottom-bar-buttons {:period-in-play        period-in-play
+                                :displayed-day         displayed-day
                                 :selected-period       selected-period
                                 :pattern-modal-visible pattern-modal-visible
                                 :play-modal-visible    play-modal-visible}])

@@ -1,0 +1,634 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.22.0snapshot (package: 20190329.1924), nREPL 0.6.0
+;; Clojure 1.10.0, Java 1.8.0_212
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+WARNING: No Clojure project was detected. The
+refactor-nrepl middleware was not enabled. (You can mute this
+warning by customizing `cljr-suppress-no-project-warning'.)To quit, type: :cljs/quit
+[:selected :app]
+shadow.user> 
+cljs.user> (+ 1 1)
+2
+cljs.user> (in-ns '[time-align-mobile.handlers])
+[:did-not-find [time-align-mobile.handlers]]
+REPL command timed out.
+cljs.user> (+ 1 1)
+2
+cljs.user> (ns time-align-mobile.handlers)
+time-align-mobile.handlers
+time-align-mobile.handlers> (def app-db @re-frame.db/app-db)
+WARNING: app-db already refers to: time-align-mobile.db/app-db being replaced by: time-align-mobile.handlers/app-db (<stdin> at 1:1)
+#'time-align-mobile.db/app-db
+time-align-mobile.handlers> app-db
+;; output cleared
+
+time-align-mobile.handlers> (select [:buckets sp/ALL :periods sp/ALL
+                               #(or (same-day? (js/Date.) (:start %))
+                                    (same-day? (js/Date.) (:stop %)))]
+                              app-db)
+;; output cleared
+
+time-align-mobile.handlers> (def periods (select [:buckets sp/ALL :periods sp/ALL
+                               #(or (same-day? (js/Date.) (:start %))
+                                    (same-day? (js/Date.) (:stop %)))]
+                              app-db))
+#'time-align-mobile.handlers/periods
+time-align-mobile.handlers> (->> periods
+                           (map (fn [{:keys [label bucket-id data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   bucket-id
+                                     :label       label
+                                     :created     now
+                                     :last-edited now
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+WARNING: Use of undeclared Var time-align-mobile.handlers/now (<stdin> at 9:51)
+WARNING: Use of undeclared Var time-align-mobile.handlers/now (<stdin> at 10:51)
+time-align-mobile.handlers> (let [now (js/Date.)] (->> periods
+                           (map (fn [{:keys [label bucket-id data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   bucket-id
+                                     :label       label
+                                     :created     now
+                                     :last-edited now
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)})))))
+time-align-mobile.handlers> (let [now (js/Date.)] (->> periods
+                           (map (fn [{:keys [label bucket-id data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   bucket-id
+                                     :label       label
+                                     :created     now
+                                     :last-edited now
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)})))))
+time-align-mobile.handlers> periods
+[{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]
+time-align-mobile.handlers> (->> periods
+                           (map (fn [{:keys [label bucket-id data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   bucket-id
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+time-align-mobile.handlers> (->> periods (map #(str (:id %))))
+("a8404f81-38d4-4d4f-ab19-a7cef18c4531" "bbf4ef81-83e3-416b-a158-eeea4c7437be" "54fdc441-8878-4adf-a79f-e76bd929c0e2" "e37c5085-3cd5-440e-92d1-9a80aaf162cf" "aecf0ad8-271d-4d39-a749-e11a9436bcb8")[:app] Compiling ...
+[:app] Build completed. (184 files, 2 compiled, 0 warnings, 0.92s)
+nil
+
+time-align-mobile.handlers> (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created    (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+WARNING: Use of undeclared Var time-align-mobile.handlers/periods (<stdin> at 1:6)
+time-align-mobile.handlers> (select [:buckets sp/ALL
+                               (sp/collect-one (sp/submap [:id :color :label]))
+                               :periods sp/ALL
+                               #(or (same-day? date (:start %))
+                                    (same-day? date (:stop %)))]
+                              app-db)
+WARNING: Use of undeclared Var time-align-mobile.handlers/date (<stdin> at 4:48)
+WARNING: Use of undeclared Var time-align-mobile.handlers/date (<stdin> at 5:48)
+WARNING: Use of undeclared Var time-align-mobile.handlers/date (<stdin> at 4:48)
+WARNING: Use of undeclared Var time-align-mobile.handlers/date (<stdin> at 5:48)
+WARNING: Use of undeclared Var time-align-mobile.handlers/date (<stdin> at 4:48)
+WARNING: Use of undeclared Var time-align-mobile.handlers/date (<stdin> at 5:48)
+[]
+time-align-mobile.handlers> (select [:buckets sp/ALL
+                               (sp/collect-one (sp/submap [:id :color :label]))
+                               :periods sp/ALL
+                               #(or (same-day? (js/Date.) (:start %))
+                                    (same-day? (js/Date.) (:stop %)))]
+                              app-db)
+[[{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]]
+time-align-mobile.handlers> (def periods (select [:buckets sp/ALL
+                               (sp/collect-one (sp/submap [:id :color :label]))
+                               :periods sp/ALL
+                               #(or (same-day? (js/Date.) (:start %))
+                                    (same-day? (js/Date.) (:stop %)))]
+                              app-db))
+#'time-align-mobile.handlers/periods
+time-align-mobile.handlers> (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+time-align-mobile.handlers> (doall (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)})))))
+;; output cleared
+
+time-align-mobile.handlers> (do (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)})))))
+time-align-mobile.handlers> (take 1 (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)})))))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    (:id bucket)))))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (str "hello"))))
+("hello" "hello" "hello" "hello" "hello")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (str bucket))))
+("[{:id #uuid \"a7396f81-38d4-4d4f-ab19-a7cef18c4ea2\", :color \"#11aa11\", :label \"time align\"} {:id #uuid \"a8404f81-38d4-4d4f-ab19-a7cef18c4531\", :created #inst \"2019-07-20T18:42:55.947-00:00\", :last-edited #inst \"2019-07-20T18:42:55.947-00:00\", :label \"start using\", :planned false, :start #inst \"2019-07-20T18:42:55.947-00:00\", :stop #inst \"2019-07-20T18:55:01.719-00:00\", :data {}}]" "[{:id #uuid \"a7396f81-38d4-4d4f-ab19-a7cef18c4ea2\", :color \"#11aa11\", :label \"time align\"} {:planned false, :start #inst \"2019-07-20T20:07:42.026-00:00\", :created #inst \"2019-07-20T19:01:19.364-00:00\", :stop #inst \"2019-07-20T21:44:30.171-00:00\", :label \"\", :id #uuid \"bbf4ef81-83e3-416b-a158-eeea4c7437be\", :last-edited #inst \"2019-07-20T21:01:46.421-00:00\", :data {}}]" "[{:id #uuid \"a7396f81-38d4-4d4f-ab19-a7cef18c4ea2\", :color \"#11aa11\", :label \"time align\"} {:planned false, :start #inst \"2019-07-20T21:44:34.480-00:00\", :created #inst \"2019-07-20T19:01:19.364-00:00\", :stop #inst \"2019-07-20T21:44:42.289-00:00\", :label \"\", :id #uuid \"54fdc441-8878-4adf-a79f-e76bd929c0e2\", :last-edited #inst \"2019-07-20T21:01:46.421-00:00\", :data {}}]" "[{:id #uuid \"a7396f81-38d4-4d4f-ab19-a7cef18c4ea2\", :color \"#11aa11\", :label \"time align\"} {:id #uuid \"e37c5085-3cd5-440e-92d1-9a80aaf162cf\", :planned false, :start #inst \"2019-07-20T21:44:42.660-00:00\", :stop #inst \"2019-07-20T21:44:55.417-00:00\", :created #inst \"2019-07-20T21:44:42.660-00:00\", :last-edited #inst \"2019-07-20T21:44:42.660-00:00\", :label \"\", :data {}}]" "[{:id #uuid \"a7396f81-38d4-4d4f-ab19-a7cef18c4ea2\", :color \"#11aa11\", :label \"time align\"} {:color \"#11aa11\", :planned false, :bucket-label \"time align\", :start #inst \"2019-07-20T21:46:14.171-00:00\", :pattern-id #uuid \"ffa49881-38d4-4d4f-ab19-a7cef18c4465\", :created #inst \"2019-07-20T21:46:14.171-00:00\", :stop #inst \"2019-07-20T21:47:14.792-00:00\", :label \"do something in time align\", :id #uuid \"aecf0ad8-271d-4d39-a749-e11a9436bcb8\", :last-edited #inst \"2019-07-20T21:46:14.171-00:00\", :bucket-id #uuid \"a7396f81-38d4-4d4f-ab19-a7cef18c4ea2\", :pattern-label \"an example pattern\", :data {}}]")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [bucket {:keys [label data start stop]}]
+                                  (:id bucket))))
+(nil nil nil nil nil)
+time-align-mobile.handlers> (->> periods
+                           (map (fn [arg]
+                                  (count arg))))
+(2 2 2 2 2)
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket] [{:keys [label]}]]
+                                  bucket)))
+(nil nil nil nil nil)
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket] [{:keys [label]}]]
+                                  bucket)))
+({:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket] [period]]
+                                  period)))
+(nil nil nil nil nil)
+time-align-mobile.handlers> periods
+[[{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}}] [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :color "#11aa11", :label "time align"} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]]
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket period] ]
+                                  period)))
+({:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket [{:keys [label data start stop]}]]]
+                                 label )))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket period]]
+                                 (:label period) )))
+("start using" "" "" "" "do something in time align")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label]}]]
+                                 label )))
+("start using" "" "" "" "do something in time align")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  label)))
+("start using" "" "" "" "do something in time align")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  data)))
+({} {} {} {} {})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  start)))
+(#inst "2019-07-20T18:42:55.947-00:00" #inst "2019-07-20T20:07:42.026-00:00" #inst "2019-07-20T21:44:34.480-00:00" #inst "2019-07-20T21:44:42.660-00:00" #inst "2019-07-20T21:46:14.171-00:00")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  stop)))
+(#inst "2019-07-20T18:55:01.719-00:00" #inst "2019-07-20T21:44:30.171-00:00" #inst "2019-07-20T21:44:42.289-00:00" #inst "2019-07-20T21:44:55.417-00:00" #inst "2019-07-20T21:47:14.792-00:00")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    (str start-rel " " stop-rel)))))
+("52975947 53701719" "58062026 63870171" "63874480 63882289" "63882660 63895417" "63974171 64034792")
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:test "test"}))))
+({:test "test"} {:test "test"} {:test "test"} {:test "test"} {:test "test"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)}))))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     ;; :bucket-id   (:id bucket)
+                                     ;; :label       label
+                                     ;; :created     (js/Date.)
+                                     ;; :last-edited (js/Date.)
+                                     ;; :data        data
+                                     ;; :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                     ;;                start-rel
+                                     ;;                (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "5ea2bd83-c8f0-49d8-928f-ef9766ca2a05"} {:id #uuid "c2c45066-7aa2-41cf-b79d-16e336ecc0f5"} {:id #uuid "d08977d0-1f96-4513-949e-4fe6d67c1a3d"} {:id #uuid "75500eee-5d21-4da7-abf0-b480c678c4e9"} {:id #uuid "d0144e86-aaa9-4546-b221-a25f56c09494"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     ;; :label       label
+                                     ;; :created     (js/Date.)
+                                     ;; :last-edited (js/Date.)
+                                     ;; :data        data
+                                     ;; :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                     ;;                start-rel
+                                     ;;                (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "581a514c-60d6-4221-9ec4-cd3a748020aa", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"} {:id #uuid "9994aa05-282a-42da-b9f3-b53bc657c3c3", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"} {:id #uuid "26995e70-78f1-4351-ae11-8b3395d3fca2", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"} {:id #uuid "c281a3d7-d606-409b-b97b-4c7e370e6584", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"} {:id #uuid "2b437f1c-8684-42cf-a8e4-3994d07711b3", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     ;; :created     (js/Date.)
+                                     ;; :last-edited (js/Date.)
+                                     ;; :data        data
+                                     ;; :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                     ;;                start-rel
+                                     ;;                (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "8317a12f-67ca-489b-8e65-5eacbb0bfca6", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using"} {:id #uuid "a03c0889-95a7-4417-bcb1-e93a3ce389b5", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label ""} {:id #uuid "83d47e12-94f6-404d-be9a-07b57cd5908d", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label ""} {:id #uuid "c8ce02c1-4e47-4279-8533-7e03b14af150", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label ""} {:id #uuid "d02d2eb2-1663-4c19-9d7c-a2df2a6e5cb7", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     ;; :last-edited (js/Date.)
+                                     ;; :data        data
+                                     ;; :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                     ;;                start-rel
+                                     ;;                (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "66b08170-275a-4f04-bb77-43e8967d6b74", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:38:19.225-00:00"} {:id #uuid "a91fa68d-c47b-4fe2-9f3b-423c60be3ea8", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:19.225-00:00"} {:id #uuid "1e1b5f06-f901-474e-86a1-57cbb90ecd61", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:19.226-00:00"} {:id #uuid "3e66501a-1e8a-4742-b6c0-5da271b01c18", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:19.226-00:00"} {:id #uuid "5cab2936-42f6-4f8f-84b7-468b4c7fe95f", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:38:19.226-00:00"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     ;; :data        data
+                                     ;; :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                     ;;                start-rel
+                                     ;;                (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "fc92f9d0-c553-45e7-aa4b-21c2c27290c7", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:38:27.812-00:00", :last-edited #inst "2019-07-20T22:38:27.812-00:00"} {:id #uuid "e16a7446-aacd-4a5d-977e-389d551f637b", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:27.812-00:00", :last-edited #inst "2019-07-20T22:38:27.812-00:00"} {:id #uuid "bba5a536-f232-4a68-bad4-e0c451aa5d82", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:27.812-00:00", :last-edited #inst "2019-07-20T22:38:27.812-00:00"} {:id #uuid "685f9997-d1c0-4681-903e-c2ecaa25c0ac", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:27.812-00:00", :last-edited #inst "2019-07-20T22:38:27.812-00:00"} {:id #uuid "d475ccd6-305b-4df4-9f37-2d8ef8618ee7", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:38:27.812-00:00", :last-edited #inst "2019-07-20T22:38:27.812-00:00"})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     ;; :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                     ;;                start-rel
+                                     ;;                (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "34b55d73-2426-4fd3-8d4e-654518181414", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:38:33.977-00:00", :last-edited #inst "2019-07-20T22:38:33.977-00:00", :data {}} {:id #uuid "ad6abb9f-a32f-4030-bab2-db5503b18a0e", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:33.977-00:00", :last-edited #inst "2019-07-20T22:38:33.977-00:00", :data {}} {:id #uuid "b2796024-d964-408d-b6dd-9fd5ebacb16e", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:33.978-00:00", :last-edited #inst "2019-07-20T22:38:33.978-00:00", :data {}} {:id #uuid "25c1c5f3-1a68-44fd-8e89-3453d87c6137", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:33.978-00:00", :last-edited #inst "2019-07-20T22:38:33.978-00:00", :data {}} {:id #uuid "5896ff4e-42ad-4c15-b3db-43b75aa2fccc", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:38:33.978-00:00", :last-edited #inst "2019-07-20T22:38:33.978-00:00", :data {}})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     ;; :stop        (get-ms stop-rel)
+                                     }))))
+({:id #uuid "7ce5a319-edf0-43ae-9eba-29cffea5c6d8", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:38:48.418-00:00", :last-edited #inst "2019-07-20T22:38:48.418-00:00", :data {}, :start 52975947} {:id #uuid "61dd74cc-eba5-4f18-88dd-d2032aa92e54", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:48.419-00:00", :last-edited #inst "2019-07-20T22:38:48.419-00:00", :data {}, :start 58062026} {:id #uuid "5d8d9e7d-3fa0-40e3-ae6f-5fc2bf2c927b", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:48.419-00:00", :last-edited #inst "2019-07-20T22:38:48.419-00:00", :data {}, :start 63874480} {:id #uuid "34632759-512c-47f5-ac78-5be33c7fe4a3", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:38:48.419-00:00", :last-edited #inst "2019-07-20T22:38:48.419-00:00", :data {}, :start 63882660} {:id #uuid "82b9e131-d560-4a7e-be4c-59c2c802e675", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:38:48.419-00:00", :last-edited #inst "2019-07-20T22:38:48.419-00:00", :data {}, :start 63974171})
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        (get-ms stop-rel)
+                                     }))))
+time-align-mobile.handlers> (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     (js/Date.)
+                                     :last-edited (js/Date.)
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop       stop-rel 
+                                     }))))
+({:id #uuid "094f372b-98f6-4fb7-9ea4-670a38b0c1bb", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:39:14.760-00:00", :last-edited #inst "2019-07-20T22:39:14.760-00:00", :data {}, :start 52975947, :stop 53701719} {:id #uuid "acc9018d-3035-4047-8b8c-352c4d84bac8", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:39:14.760-00:00", :last-edited #inst "2019-07-20T22:39:14.760-00:00", :data {}, :start 58062026, :stop 63870171} {:id #uuid "f18d523d-6b79-4043-abe0-bc6dbdac7852", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:39:14.760-00:00", :last-edited #inst "2019-07-20T22:39:14.760-00:00", :data {}, :start 63874480, :stop 63882289} {:id #uuid "b2392fc3-b655-47ed-97fe-667ca8b97de5", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:39:14.760-00:00", :last-edited #inst "2019-07-20T22:39:14.760-00:00", :data {}, :start 63882660, :stop 63895417} {:id #uuid "f4d7c29a-487a-4e52-8d7c-9f1b85546300", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:39:14.761-00:00", :last-edited #inst "2019-07-20T22:39:14.761-00:00", :data {}, :start 63974171, :stop 64034792})[:app] Compiling ...
+[:app] Build completed. (184 files, 2 compiled, 0 warnings, 0.64s)
+nil
+
+time-align-mobile.handlers> app-db
+{:active-filter nil, :time-navigators {:day #inst "2019-07-20T21:12:42.026-00:00", :calendar #inst "2019-07-20T18:42:55.948-00:00", :report #inst "2019-07-20T18:42:55.948-00:00"}, :now #inst "2019-07-20T22:18:25.853-00:00", :config {:auto-log-time-align true}, :filters [{:id #uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299", :label "sort by label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:bucket :filter :period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort {:path [:label], :ascending true}, :predicates []} {:id #uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444", :label "time align bucket filter", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort nil, :predicates [{:path [:bucket-id], :value "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :negate false}]} {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort {:path [:bucket-label], :ascending false}, :predicates []}], :patterns [{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}], :navigation {:current-screen :day, :params nil}, :period-in-play-id nil, :buckets [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]}], :selected-period nil, :forms {:bucket-form {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}]}, :period-form {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:46:14.192-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :pattern-label "an example pattern", :data "{}"}, :pattern-form {:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}, :template-form {:bucket-label "time align", :start 45000000, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T18:42:55.947-00:00", :stop 50400000, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}, :filter-form {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort "{:path [:bucket-label], :ascending false}", :predicates "[]"}}, :selected-template #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"}
+time-align-mobile.handlers> (select [:buckets sp/ALl :periods sp/ALL :label] app-db)
+Error in phase :compilation
+Unable to resolve var: ALl in this context at line 1 time_align_mobile/handlers.cljs
+time-align-mobile.handlers> (select [:buckets sp/ALL :periods sp/ALL :label] app-db)
+["start using" "" "" "" "" "" "" "" "" "do something in time align"]
+time-align-mobile.handlers> (def new-db (make-pattern-from-day app-db {:date (js/Date.) :planned false :now (js/Date.)}))
+;; output cleared
+
+time-align-mobile.handlers> (def new-db (make-pattern-from-day app-db [:no-op {:date (js/Date.) :planned false :now (js/Date.)}]))
+#'time-align-mobile.handlers/new-db
+time-align-mobile.handlers> (dif app-db new-db)
+WARNING: Use of undeclared Var time-align-mobile.handlers/dif (<stdin> at 1:2)
+eval code
+eval@[native code]
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81700:20
+shadow$cljs$devtools$client$env$repl_call@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:80829:117
+shadow$cljs$devtools$client$react_native$repl_invoke@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81698:59
+shadow$cljs$devtools$client$react_native$handle_message@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81771:68
+shadow$cljs$devtools$client$env$process_ws_msg@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:80976:113
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:81838:62
+dispatchEvent@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:104459:31
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:105618:31
+emit@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:83697:42
+__callFunction@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82992:49
+http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82765:31
+__guard@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82946:15
+callFunctionReturnFlushedQueue@http://192.168.1.71:19001/./app/index.bundle?platform=android&dev=true&minify=false&hot=false&assetPlugin=%2Fhome%2Fjustin%2Fprojects%2Ftime-align-mobile%2Fnode_modules%2Fexpo%2Ftools%2FhashAssetFiles.js:82764:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (clojure.data/diff app-db new-db)
+(nil {:patterns [nil {:id #uuid "7e543ab5-f974-4b36-8a5a-d20c3906eba0", :label "2019-07-20-18-42-24 generated pattern", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :templates ({:id #uuid "b00c981f-fb58-4c0b-a269-d51ced4dd36f", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 52975947, :stop 53701719} {:id #uuid "cb8532a4-14bd-492e-8d3c-87314f2e467c", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 58062026, :stop 63870171} {:id #uuid "9e6288ca-ed4b-4a8a-b432-9be34454dd32", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 63874480, :stop 63882289} {:id #uuid "892622cb-ed88-493b-b517-f9207f602655", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 63882660, :stop 63895417} {:id #uuid "bfe5b0fa-8abc-428e-b989-eea48d0d65a6", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 63974171, :stop 64034792})}]} {:active-filter nil, :time-navigators {:day #inst "2019-07-20T21:12:42.026-00:00", :calendar #inst "2019-07-20T18:42:55.948-00:00", :report #inst "2019-07-20T18:42:55.948-00:00"}, :now #inst "2019-07-20T22:18:25.853-00:00", :config {:auto-log-time-align true}, :filters [{:id #uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299", :label "sort by label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:bucket :filter :period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort {:path [:label], :ascending true}, :predicates []} {:id #uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444", :label "time align bucket filter", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort nil, :predicates [{:path [:bucket-id], :value "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :negate false}]} {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort {:path [:bucket-label], :ascending false}, :predicates []}], :patterns [{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}], :navigation {:current-screen :day, :params nil}, :period-in-play-id nil, :buckets [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]}], :selected-period nil, :forms {:bucket-form {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}]}, :period-form {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:46:14.192-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :pattern-label "an example pattern", :data "{}"}, :pattern-form {:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}, :template-form {:bucket-label "time align", :start 45000000, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T18:42:55.947-00:00", :stop 50400000, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}, :filter-form {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort "{:path [:bucket-label], :ascending false}", :predicates "[]"}}, :selected-template #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"})
+time-align-mobile.handlers> {:patterns [nil {:id #uuid "7e543ab5-f974-4b36-8a5a-d20c3906eba0", :label "2019-07-20-18-42-24 generated pattern", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :templates ({:id #uuid "b00c981f-fb58-4c0b-a269-d51ced4dd36f", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 52975947, :stop 53701719} {:id #uuid "cb8532a4-14bd-492e-8d3c-87314f2e467c", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 58062026, :stop 63870171} {:id #uuid "9e6288ca-ed4b-4a8a-b432-9be34454dd32", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 63874480, :stop 63882289} {:id #uuid "892622cb-ed88-493b-b517-f9207f602655", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 63882660, :stop 63895417} {:id #uuid "bfe5b0fa-8abc-428e-b989-eea48d0d65a6", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:42:24.135-00:00", :last-edited #inst "2019-07-20T22:42:24.135-00:00", :data {}, :start 63974171, :stop 64034792})}]}
+;; output cleared
+[:app] Compiling ...
+[:app] Build completed. (184 files, 2 compiled, 0 warnings, 0.65s)
+nil
+
+time-align-mobile.handlers> (def new-db (make-pattern-from-day app-db [:no-op {:date (js/Date.) :planned false :now (js/Date.)}]))
+#'time-align-mobile.handlers/new-db
+time-align-mobile.handlers> (clojure.data/diff app-db new-db)
+(nil {:patterns [nil {:id #uuid "f9cfdeb4-580e-4ffe-9561-131f46166544", :label "2019-07-20-18-45-48 generated pattern", :created #inst "2019-07-20T22:45:48.748-00:00", :last-edited #inst "2019-07-20T22:45:48.748-00:00", :data {}, :templates ({:id #uuid "79b89eff-dbc1-42eb-8524-4a6940924d7d", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:45:48.748-00:00", :last-edited #inst "2019-07-20T22:45:48.748-00:00", :data {}, :start 52975947, :stop 53701719} {:id #uuid "16b9f314-920b-4ca8-9972-1d7d3fd2a3a0", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:45:48.748-00:00", :last-edited #inst "2019-07-20T22:45:48.748-00:00", :data {}, :start 58062026, :stop 63870171} {:id #uuid "f0adf710-ffa2-4ce6-bbef-573e9a6f49f4", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:45:48.748-00:00", :last-edited #inst "2019-07-20T22:45:48.748-00:00", :data {}, :start 63874480, :stop 63882289} {:id #uuid "e21cf5f8-64c7-4c93-9dad-017d6a39f7c7", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:45:48.748-00:00", :last-edited #inst "2019-07-20T22:45:48.748-00:00", :data {}, :start 63882660, :stop 63895417} {:id #uuid "0bbaa46c-047a-4af3-acba-71b64e331c48", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:45:48.748-00:00", :last-edited #inst "2019-07-20T22:45:48.748-00:00", :data {}, :start 63974171, :stop 64034792})}]} {:active-filter nil, :time-navigators {:day #inst "2019-07-20T21:12:42.026-00:00", :calendar #inst "2019-07-20T18:42:55.948-00:00", :report #inst "2019-07-20T18:42:55.948-00:00"}, :now #inst "2019-07-20T22:18:25.853-00:00", :config {:auto-log-time-align true}, :filters [{:id #uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299", :label "sort by label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:bucket :filter :period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort {:path [:label], :ascending true}, :predicates []} {:id #uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444", :label "time align bucket filter", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort nil, :predicates [{:path [:bucket-id], :value "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :negate false}]} {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort {:path [:bucket-label], :ascending false}, :predicates []}], :patterns [{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}], :navigation {:current-screen :day, :params nil}, :period-in-play-id nil, :buckets [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]}], :selected-period nil, :forms {:bucket-form {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}]}, :period-form {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:46:14.192-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :pattern-label "an example pattern", :data "{}"}, :pattern-form {:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}, :template-form {:bucket-label "time align", :start 45000000, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T18:42:55.947-00:00", :stop 50400000, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}, :filter-form {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort "{:path [:bucket-label], :ascending false}", :predicates "[]"}}, :selected-template #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"})
+time-align-mobile.handlers> (defn make-pattern-from-day [db [_ {:keys [date planned now]}]]
+  (let [periods       (select [:buckets sp/ALL
+                               (sp/collect-one (sp/submap [:id :color :label]))
+                               :periods sp/ALL
+                               #(or (same-day? date (:start %))
+                                    (same-day? date (:stop %)))]
+                              db)
+        new-templates (->> periods
+                           (map (fn [[bucket {:keys [label data start stop]}]]
+                                  (let [start-rel (get-ms start)
+                                        stop-rel (get-ms stop)]
+
+                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                     :bucket-id   (:id bucket)
+                                     :label       label
+                                     :created     now
+                                     :last-edited now
+                                     :data        data
+                                     :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
+                                                    start-rel
+                                                    (min (- stop-rel 1000) 0))
+                                     :stop        stop-rel}))))
+        new-pattern {:id          (random-uuid) ;; TODO this needs to not be here
+                     :label       (str (format-date date) " generated pattern")
+                     :created     now
+                     :last-edited now
+                     :data        {}
+                     :templates   new-templates}]
+    (->> db
+         (setval [:patterns
+                  sp/AFTER-ELEM]
+                 new-pattern))))
+#'time-align-mobile.handlers/make-pattern-from-day
+time-align-mobile.handlers> (def new-db (make-pattern-from-day app-db [:no-op {:date (js/Date.) :planned false :now (js/Date.)}]))
+#'time-align-mobile.handlers/new-db
+time-align-mobile.handlers> (clojure.data/diff app-db new-db)
+(nil {:patterns [nil {:id #uuid "f3931249-d8eb-44b7-baf6-e57228a0e7e8", :label "2019-07-20-18-46-44 generated pattern", :created #inst "2019-07-20T22:46:44.082-00:00", :last-edited #inst "2019-07-20T22:46:44.082-00:00", :data {}, :templates ({:id #uuid "5b143e14-ad5c-401c-8fba-b3214fa9a719", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "start using", :created #inst "2019-07-20T22:46:44.082-00:00", :last-edited #inst "2019-07-20T22:46:44.082-00:00", :data {}, :start 52975947, :stop 53701719} {:id #uuid "ef1bc71d-7078-4b3c-8bd6-78e340d4800b", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:46:44.082-00:00", :last-edited #inst "2019-07-20T22:46:44.082-00:00", :data {}, :start 58062026, :stop 63870171} {:id #uuid "ef9fc8ef-081d-4a54-9ca3-239e18836b91", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:46:44.082-00:00", :last-edited #inst "2019-07-20T22:46:44.082-00:00", :data {}, :start 63874480, :stop 63882289} {:id #uuid "88ed16bb-6c12-4959-8ffd-565e486f6879", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "", :created #inst "2019-07-20T22:46:44.082-00:00", :last-edited #inst "2019-07-20T22:46:44.082-00:00", :data {}, :start 63882660, :stop 63895417} {:id #uuid "9f4c70f8-711a-4426-9f15-1bd96cb4bba3", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T22:46:44.082-00:00", :last-edited #inst "2019-07-20T22:46:44.082-00:00", :data {}, :start 63974171, :stop 64034792})}]} {:active-filter nil, :time-navigators {:day #inst "2019-07-20T21:12:42.026-00:00", :calendar #inst "2019-07-20T18:42:55.948-00:00", :report #inst "2019-07-20T18:42:55.948-00:00"}, :now #inst "2019-07-20T22:18:25.853-00:00", :config {:auto-log-time-align true}, :filters [{:id #uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299", :label "sort by label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:bucket :filter :period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort {:path [:label], :ascending true}, :predicates []} {:id #uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444", :label "time align bucket filter", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:42:55.947-00:00", :sort nil, :predicates [{:path [:bucket-id], :value "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :negate false}]} {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort {:path [:bucket-label], :ascending false}, :predicates []}], :patterns [{:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}], :navigation {:current-screen :day, :params nil}, :period-in-play-id nil, :buckets [{:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T20:07:42.026-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:30.171-00:00", :label "", :id #uuid "bbf4ef81-83e3-416b-a158-eeea4c7437be", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:planned false, :start #inst "2019-07-20T21:44:34.480-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-20T21:44:42.289-00:00", :label "", :id #uuid "54fdc441-8878-4adf-a79f-e76bd929c0e2", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}} {:id #uuid "e37c5085-3cd5-440e-92d1-9a80aaf162cf", :planned false, :start #inst "2019-07-20T21:44:42.660-00:00", :stop #inst "2019-07-20T21:44:55.417-00:00", :created #inst "2019-07-20T21:44:42.660-00:00", :last-edited #inst "2019-07-20T21:44:42.660-00:00", :label "", :data {}} {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:47:14.792-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label "an example pattern", :data {}}]}], :selected-period nil, :forms {:bucket-form {:id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :color "#11aa11", :periods [{:id #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :label "start using", :planned false, :start #inst "2019-07-20T18:42:55.947-00:00", :stop #inst "2019-07-20T18:55:01.719-00:00", :data {}} {:id #uuid "e9946d1c-549b-4efd-a1c0-d313359f09d4", :created #inst "2019-07-20T18:56:26.266-00:00", :last-edited #inst "2019-07-20T18:56:26.266-00:00", :label "", :planned false, :start #inst "2019-07-19T12:43:25.018-00:00", :stop #inst "2019-07-19T13:43:25.018-00:00", :data {}} {:id #uuid "790a3b13-8548-4148-9fce-740c412e1fbf", :created #inst "2019-07-20T18:56:39.606-00:00", :last-edited #inst "2019-07-20T18:56:39.606-00:00", :label "", :planned true, :start #inst "2019-07-19T05:13:19.781-00:00", :stop #inst "2019-07-19T06:13:19.781-00:00", :data {}} {:planned true, :start #inst "2019-07-19T14:41:00.000-00:00", :created #inst "2019-07-20T19:01:22.613-00:00", :stop #inst "2019-07-19T16:41:56.335-00:00", :label "", :id #uuid "d15a1b37-d207-44f4-a19d-a2cb7dd93217", :last-edited #inst "2019-07-20T19:01:34.701-00:00", :data {}} {:id #uuid "d8072e17-3fef-46da-87cd-84c1fa354663", :created #inst "2019-07-20T19:05:20.666-00:00", :last-edited #inst "2019-07-20T19:05:20.666-00:00", :label "", :planned true, :start #inst "2019-07-19T10:33:18.461-00:00", :stop #inst "2019-07-19T11:33:18.461-00:00", :data {}} {:planned false, :start #inst "2019-07-19T08:58:45.093-00:00", :created #inst "2019-07-20T19:01:19.364-00:00", :stop #inst "2019-07-19T19:23:45.093-00:00", :label "", :id #uuid "6364f82a-2c15-4e46-82d7-df55da9e1e49", :last-edited #inst "2019-07-20T21:01:46.421-00:00", :data {}}]}, :period-form {:color "#11aa11", :planned false, :bucket-label "time align", :start #inst "2019-07-20T21:46:14.171-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T21:46:14.171-00:00", :stop #inst "2019-07-20T21:46:14.192-00:00", :label "do something in time align", :id #uuid "aecf0ad8-271d-4d39-a749-e11a9436bcb8", :last-edited #inst "2019-07-20T21:46:14.171-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :pattern-label "an example pattern", :data "{}"}, :pattern-form {:id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :label "an example pattern", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data "{}", :templates [{:id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :label "do something in time align", :created #inst "2019-07-20T18:42:55.947-00:00", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :data {}, :start 45000000, :stop 50400000}]}, :template-form {:bucket-label "time align", :start 45000000, :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T18:42:55.947-00:00", :stop 50400000, :label "do something in time align", :id #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647", :last-edited #inst "2019-07-20T18:42:55.947-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :bucket-color "#11aa11", :data "{}"}, :filter-form {:id #uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212", :label "sort by bucket label", :created #inst "2019-07-20T18:42:55.947-00:00", :compatible [:period :template], :last-edited #inst "2019-07-20T18:45:00.821-00:00", :sort "{:path [:bucket-label], :ascending false}", :predicates "[]"}}, :selected-template #uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647"})[:app] Compiling ...
+[:app] Build completed. (184 files, 2 compiled, 0 warnings, 0.60s)
+nil
+[:app] Compiling ...
+[:app] Build completed. (184 files, 2 compiled, 0 warnings, 0.57s)
+nil
+[:app] Compiling ...
+[:app] Build completed. (184 files, 3 compiled, 0 warnings, 0.24s)
+nil
+[:app] Compiling ...
+[:app] Build completed. (184 files, 2 compiled, 0 warnings, 0.13s)
+nil
+generate-pattern
+nil
+generate-pattern
+nil
+play
+{:color #11aa11, :planned false, :bucket-label time align, :start #inst "2019-07-20T22:55:00.087-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T22:55:00.087-00:00", :stop #inst "2019-07-20T22:55:03.265-00:00", :label do something in time align, :id #uuid "56f8ab3b-18c0-43ab-a52d-c1d06ce2b701", :last-edited #inst "2019-07-20T22:55:00.087-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label an example pattern, :data {}}
+{:color #11aa11, :planned false, :bucket-label time align, :start #inst "2019-07-20T22:55:00.087-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T22:55:00.087-00:00", :stop #inst "2019-07-20T22:55:04.268-00:00", :label do something in time align, :id #uuid "56f8ab3b-18c0-43ab-a52d-c1d06ce2b701", :last-edited #inst "2019-07-20T22:55:00.087-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label an example pattern, :data {}}
+{:color #11aa11, :planned false, :bucket-label time align, :start #inst "2019-07-20T22:55:00.087-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T22:55:00.087-00:00", :stop #inst "2019-07-20T22:55:05.269-00:00", :label do something in time align, :id #uuid "56f8ab3b-18c0-43ab-a52d-c1d06ce2b701", :last-edited #inst "2019-07-20T22:55:00.087-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label an example pattern, :data {}}
+{:color #11aa11, :planned false, :bucket-label time align, :start #inst "2019-07-20T22:55:00.087-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T22:55:00.087-00:00", :stop #inst "2019-07-20T22:55:06.272-00:00", :label do something in time align, :id #uuid "56f8ab3b-18c0-43ab-a52d-c1d06ce2b701", :last-edited #inst "2019-07-20T22:55:00.087-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label an example pattern, :data {}}
+{:color #11aa11, :planned false, :bucket-label time align, :start #inst "2019-07-20T22:55:00.087-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T22:55:00.087-00:00", :stop #inst "2019-07-20T22:55:07.275-00:00", :label do something in time align, :id #uuid "56f8ab3b-18c0-43ab-a52d-c1d06ce2b701", :last-edited #inst "2019-07-20T22:55:00.087-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label an example pattern, :data {}}
+{:color #11aa11, :planned false, :bucket-label time align, :start #inst "2019-07-20T22:55:00.087-00:00", :pattern-id #uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465", :created #inst "2019-07-20T22:55:00.087-00:00", :stop #inst "2019-07-20T22:55:08.279-00:00", :label do something in time align, :id #uuid "56f8ab3b-18c0-43ab-a52d-c1d06ce2b701", :last-edited #inst "2019-07-20T22:55:00.087-00:00", :bucket-id #uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2", :pattern-label an example pattern, :data {}}
+stop-playing
+nil
+generate-pattern
+
+time-align-mobile.handlers> 
