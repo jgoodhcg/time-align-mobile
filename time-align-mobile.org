@@ -64,12 +64,14 @@
       CLOSED: [2019-07-19 Fri 19:35]
 - +Copy (<- 0 ->)+
 - Select prev/next
-***** TODO Overhaul other forms with react-native-paper elements
+***** DONE Overhaul other forms with react-native-paper elements
+      CLOSED: [2019-07-20 Sat 14:52]
       :LOGBOOK:
-      CLOCK: [2019-07-19 Fri 19:36]
+      CLOCK: [2019-07-20 Sat 14:38]--[2019-07-20 Sat 14:51] =>  0:13
+      CLOCK: [2019-07-19 Fri 19:36]--[2019-07-19 Fri 20:33] =>  0:57
       :END:
 - [X] Bucket
-- [ ] Filter
+- [X] Filter
 ***** TODO Cleanup other visual stuff
 - Close button on selection menus
 ***** TODO Add duration field to forms

@@ -33,16 +33,25 @@
 
 (def filterable-types #{:bucket :period :template :filter :pattern})
 
-(defn predicates-comp [form changes update-structured-data]
-  [view {:style {:flex           1
-                 :flex-direction "row"
-                 :align-items    "flex-start"}}
-   [text {:style (field-label-changeable-style changes :predicates)}
-    ":predicates"]
-   [structured-data {:data   (:predicates @form)
-                     :update update-structured-data}]])
+(defn predicates-comp [form changes update-key]
+  (changeable-field {:changes     changes
+                     :field-key :predicates}
+                    [view {:style {:flex           1
+                                   :flex-direction "column"
+                                   :align-items    "flex-start"}}
+                     [subheading "Predicates"]
+                     [text-input-paper {:label          ""
+                                        :dense          true
+                                        :style          {:margin-bottom 4
+                                                         :width         "100%"}
+                                        :default-value  (str (:predicates @form))
+                                        :placeholder    "label"
+                                        :on-change-text (fn [text]
+                                                          (dispatch [update-key
+                                                                     {:predicates text
+                                                                      :id   (:id @form)}]))}]]))
 
-(defn sort-comp [form changes update-structured-data]
+(defn sort-comp [form changes update-key]
   (changeable-field {:changes changes
                      :field-key :sort}
                     [view {:style {:flex           1
@@ -51,18 +60,14 @@
                      [subheading "Sort"]
                      [text-input-paper {:label           ""
                                         :dense           true
-                                        :style           (merge {:margin-bottom 4}
-                                                                (if compact
-                                                                  {:width "85%"}
-                                                                  {:width "100%"}))
+                                        :style           {:margin-bottom 4
+                                                          :width "100%"}
                                         :default-value   (str (:sort @form))
                                         :placeholder     "Label"
                                         :on-change-text  (fn [text]
                                                            (dispatch [update-key
-                                                                      {:label text
-                                                                       :id (:id @form)}]))}]
-                     [text-input {:data        (:sort @form)
-                                  :update update-structured-data}]]))
+                                                                      {:sort text
+                                                                       :id (:id @form)}]))}]]))
 
 (defn compatible-list-comp [form changes]
   (let [compatible-list (:compatible @form)
@@ -88,7 +93,8 @@
                         (->> filterable-types
                              vec
                              (map (fn [comp-key]
-                                    [view {:key (str comp-key "-compatible-list-option")}
+                                    [view {:style {:flex-direction "column"}
+                                           :key (str comp-key "-compatible-list-option")}
                                      [toggle-button
                                       {:status (if (some #{comp-key} compatible-list)
                                                  "checked"
@@ -99,20 +105,11 @@
                                                :bucket "group-work"
                                                :pattern "repeat"
                                                :template "panorama-fish-eye")
-                                       :on-press (on-press comp-key)}]])))])))
+                                       :on-press (on-press comp-key)}]
+                                     [text (->> comp-key str)]])))])))
 
 (defn root [params]
   (let [filter-form (subscribe [:get-filter-form])
-
-        update-structured-data-predicates
-        (fn [new-data]
-          (dispatch
-           [:update-filter-form {:predicates new-data}]))
-
-        update-structured-data-sort
-        (fn [new-data]
-          (dispatch [:update-filter-form {:sort new-data}]))
-
         changes     (subscribe [:get-filter-form-changes])]
     [keyboard-aware-scroll-view
      ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1
@@ -130,9 +127,9 @@
 
       [compatible-list-comp filter-form changes]
 
-      [sort-comp filter-form changes update-structured-data-sort]
+      [sort-comp filter-form changes :update-filter-form]
 
-      [predicates-comp filter-form changes update-structured-data-predicates]
+      [predicates-comp filter-form changes :update-filter-form]
 
       [id-comp filter-form]
       [created-comp filter-form]
