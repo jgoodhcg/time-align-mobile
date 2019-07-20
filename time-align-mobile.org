@@ -15,7 +15,8 @@
   :END:
 ** DOSUB Release to strangers
 *** DOSUB UX refactor
-**** DOSUB Fix the forms
+**** DONE Fix the forms
+     CLOSED: [2019-07-20 Sat 17:11]
      :LOGBOOK:
      CLOCK: [2019-07-03 Wed 00:12]--[2019-07-03 Wed 00:20] =>  0:08
      CLOCK: [2019-07-02 Tue 23:12]--[2019-07-02 Tue 23:23] =>  0:11
@@ -96,7 +97,11 @@ Also update quick add period.
      CLOCK: [2019-07-14 Sun 14:43]--[2019-07-14 Sun 14:48] =>  0:05
      :END:
 **** DOSUB Edit FAB
-***** TODO Add play indication
+***** DONE Add play indication
+      CLOSED: [2019-07-20 Sat 17:46]
+      :LOGBOOK:
+      CLOCK: [2019-07-20 Sat 17:13]--[2019-07-20 Sat 17:46] =>  0:33
+      :END:
 - Option 1
   - FAB elevated
   - FAB plus the color of the in play item
@@ -104,11 +109,15 @@ Also update quick add period.
 - Option 2
   - Remove "+" FAB
   - Add White FAB with a "stop" icon the color of the in play period
-***** TODO Change FAB buttons
+ 
+Went with just changing the color...
+***** CANCELED Change FAB buttons
+      CLOSED: [2019-07-20 Sat 17:47]
 - Play (menu with most recently planned, or list of buckets/templates)
 - Apply pattern
 - Make pattern from day (select planned or actual)
 - Stop? (depends on play indication option)
+***** TODO Make pattern from day
 ***** DONE Hide FAB on selection
       CLOSED: [2019-07-14 Sun 15:57]
       :LOGBOOK:

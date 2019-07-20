@@ -582,9 +582,12 @@
                                          :name     "play-from"
                                          :position 4})])]
 
+    (println @period-in-play)
     [:> fab/FloatingAction
      {:actions       (clj->js actions)
-      :color         styles/background-color-dark
+      :color         (if (some? @period-in-play)
+                       (:color @period-in-play)
+                       (-> styles/theme :colors :primary))
       :on-press-item (fn [action-name]
                        (println action-name)
                        (case action-name
