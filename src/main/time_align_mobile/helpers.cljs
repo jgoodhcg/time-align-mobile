@@ -49,6 +49,16 @@
        (sec->ms seconds)
        millis)))
 
+(defn ms->hhmm [ms]
+  (let [hours   (-> ms
+                    (quot (hours->ms 1)))
+        minutes (-> ms
+                    (rem (hours->ms 1)) ;; minutes left over after hours
+                    (/ 1000) ;; converted from ms to s
+                    (/ 60)   ;; converted from s to m
+                    (.toFixed 0))]
+    (str hours ":" minutes)))
+
 (defn date->y-pos [date-time total-height]
   (-> date-time
       (get-ms)

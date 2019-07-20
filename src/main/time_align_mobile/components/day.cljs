@@ -409,8 +409,13 @@
        [mci-styled {:name "arrow-down-drop-circle"}]
        #(dispatch [:select-next-or-prev-period :next])]]
 
-     ;; jump-to-selected
+     ;; edit & jump-to-selected
      [view row-style
+      [selection-menu-button
+       "edit"
+       [mi-styled {:name "edit"}]
+       #(dispatch [:navigate-to {:current-screen :period
+                                 :params {:period-id (:id selected-period)}}])]
       [selection-menu-button
        "jump to selected"
        [fa-styled {:name "dot-circle-o"}]

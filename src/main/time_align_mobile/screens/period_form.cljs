@@ -30,6 +30,7 @@
                                                               label-comp
                                                               label-style
                                                               changeable-field
+                                                              duration-comp
                                                               bucket-parent-picker-comp
                                                               info-field-style
                                                               planned-comp
@@ -102,6 +103,7 @@
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
+
     [view
 
      [bucket-parent-picker-comp {:form       period-form
@@ -112,9 +114,13 @@
 
      [label-comp period-form changes :update-period-form true]
 
+     [planned-comp period-form changes :update-period-form]
+
      [time-comp-compact period-form changes start-modal :start "start"]
 
      [time-comp-compact period-form changes stop-modal :stop "stop"]
+
+     [duration-comp (:start @period-form) (:stop @period-form)]
 
      [view {:style {:flex-direction  "row"
                     :padding          8
@@ -137,7 +143,8 @@
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
-    [:<>
+    [view {:style {:margin-top 16
+                   :flex 1}}
      [bucket-parent-picker-comp {:form       period-form
                                  :changes    changes
                                  :buckets    buckets
@@ -146,11 +153,13 @@
 
      [label-comp period-form changes :update-period-form false]
 
+     [planned-comp period-form changes :update-period-form]
+
      [time-comp period-form changes start-modal :start "start"]
 
      [time-comp period-form changes stop-modal :stop "stop"]
 
-     [planned-comp period-form changes :update-period-form]
+     [duration-comp (:start @period-form) (:stop @period-form)]
 
      [id-comp period-form]
 

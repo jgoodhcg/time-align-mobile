@@ -7,6 +7,7 @@
             ["react" :as react]
             ["react-native-elements" :as rne]
             ["react-native" :as rn]
+            [time-align-mobile.helpers :refer [ms->hhmm]]
             [time-align-mobile.js-imports :refer [view
                                                   text
                                                   text-input
@@ -95,7 +96,6 @@
   (merge field-style
          {:flex-direction      "row"
           :padding             8
-          :padding-top         24
           :justify-content     "space-between"
           :align-items         "center"}))
 
@@ -192,3 +192,11 @@
                      [subheading {:style label-style} "Planned"]                  )
    [switch-paper {:value           (:planned @form)
                   :on-value-change #(dispatch [update-key {:planned %}])}]])
+
+(defn duration-comp [start stop]
+  (let [duration (->> (.valueOf start)
+                      (- (.valueOf stop))
+                      ms->hhmm)]
+    [view {:style info-field-style}
+     [subheading {:style label-style} "Duration"]
+     [text duration]]))

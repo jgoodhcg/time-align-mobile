@@ -25,6 +25,7 @@
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
                                                               last-edited-comp
+                                                              duration-comp
                                                               label-comp
                                                               label-style
                                                               pattern-parent-picker-comp
@@ -116,6 +117,9 @@
                  :field-key     :stop
                  :label         "Stop"}]
 
+
+     [duration-comp (:start @template-form) (:stop @template-form)]
+
      [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
                     :padding         8
                     :margin-top      16
@@ -143,7 +147,8 @@
         patterns                       (subscribe [:get-patterns])
         template-from-pattern-planning (contains? params :pattern-form-pattern-id)]
 
-    [:<>
+    [view {:style {:margin-top 16
+                   :flex 1}}
      [pattern-parent-picker-comp
       template-form
       changes
@@ -174,6 +179,8 @@
                  :modal         stop-modal-visible
                  :field-key     :stop
                  :label         "Stop"}]
+
+     [duration-comp (:start @template-form) (:stop @template-form)]
 
      [id-comp template-form]
 

@@ -35,6 +35,7 @@
   [view {:style {:flex            1
                  :flex-direction  "row"
                  :width           "100%"
+                 :height          60
                  :margin-top      4
                  :padding         10
                  :align-items     "space-between"
