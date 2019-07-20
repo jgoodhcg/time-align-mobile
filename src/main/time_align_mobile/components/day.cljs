@@ -12,6 +12,7 @@
                                                   modal-paper
                                                   portal
                                                   surface
+                                                  touchable-without-feedback
                                                   card
                                                   format-time
                                                   status-bar
@@ -470,27 +471,30 @@
         :period   (dispatch [:load-period-form (:id selected-period-or-template)])
         :template (dispatch [:load-template-form (:id selected-period-or-template)])))
 
-    [surface {:style {:position  "absolute"
-                      :elevation 5
-                      :top       0
-                      :height    height
-                      :width     width
-                      :left      left}}
+    [touchable-without-feedback {:on-press #(str "no-op")}
+     [surface {:style {:position  "absolute"
+                       :elevation 5
+                       :top       0
+                       :height    height
+                       :width     width
+                       :left      left}}
 
-     [button-paper {:icon       "close"
-                    :align-self "flex-start"
-                    :on-press   (case type
-                                  :period   #(dispatch [:select-period nil])
-                                  :template #(dispatch [:select-template nil]))}]
+      [button-paper {:icon          "close"
+                     :align-self    "flex-start"
+                     :content-style {:width  60
+                                     :height 40}
+                     :on-press      (case type
+                                      :period   #(dispatch [:select-period nil])
+                                      :template #(dispatch [:select-template nil]))}]
 
-     (if selected-loaded
-       [:<>
-        (case type
-          :period   [period-form/compact]
-          :template [template-form/compact]
-          [text "Incorrect type passed to selection"])
-        buttons-comp]
-       [text "loading ..."])]))
+      (if selected-loaded
+        [:<>
+         (case type
+           :period   [period-form/compact]
+           :template [template-form/compact]
+           [text "Incorrect type passed to selection"])
+         buttons-comp]
+        [text "loading ..."])]]))
 
 (defn top-bar-outer-style [top-bar-height dimensions]
   {:height           top-bar-height

@@ -10,7 +10,7 @@
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :as helpers :refer [xor]]
-            [re-frame.core :refer [subscribe dispatch]]
+            [re-frame.core :refer [subscribe dispatch dispatch-sync]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [time-align-mobile.components.day :refer [time-indicators
                                                       top-bar-outer-style
@@ -273,15 +273,17 @@
                                           start]}
                                   (get-touch-info-from-event {:evt           evt
                                                               :dimensions    @dimensions
-                                                              :displayed-day (js/Date.)})]
-                              (dispatch [:add-new-template-to-planning-form
-                                         {:pattern-id (:id @pattern-form)
-                                          :start      start
-                                          :bucket-id  (->> @buckets
-                                                           first
-                                                           :id)
-                                          :id         (random-uuid)
-                                          :now        (js/Date.)}])))}
+                                                              :displayed-day (js/Date.)})
+                                  id (random-uuid)]
+                              (dispatch-sync [:add-new-template-to-planning-form
+                                              {:pattern-id (:id @pattern-form)
+                                               :start      start
+                                               :bucket-id  (->> @buckets
+                                                                first
+                                                                :id)
+                                               :id         id
+                                               :now        (js/Date.)}])
+                              (dispatch [:select-template id])))}
 
           [view {:style {:height           (:height @dimensions)
                          :width            (:width @dimensions)

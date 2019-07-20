@@ -25,7 +25,7 @@
             ;; [zprint.core :refer [zprint]]
             ["react" :as react]
             [goog.string.format]
-            [re-frame.core :refer [subscribe dispatch]]
+            [re-frame.core :refer [subscribe dispatch dispatch-sync]]
             [time-align-mobile.helpers :as helpers]
             [time-align-mobile.components.day :refer [time-indicators
                                                       render-period
@@ -90,21 +90,20 @@
           relative-ms  (helpers/y-pos->ms location-y (:height @dimensions))
           start        (helpers/reset-relative-ms relative-ms @displayed-day)
           id           (random-uuid)]
-      (dispatch [:add-period
-                 {:bucket-id nil
-                  :period    {:id          id
-                              :start       start
-                              :stop        (-> start
-                                               (.valueOf)
-                                               (+ (* 1000 60 60 1))
-                                               (js/Date.))
-                              :planned     planned
-                              :created     now
-                              :last-edited now
-                              :label       ""
-                              :data        {}}}])
-      (dispatch [:navigate-to {:current-screen :period
-                               :params         {:period-id id}}]))))
+      (dispatch-sync [:add-period
+                      {:bucket-id nil
+                       :period    {:id          id
+                                   :start       start
+                                   :stop        (-> start
+                                                    (.valueOf)
+                                                    (+ (* 1000 60 60 1))
+                                                    (js/Date.))
+                                   :planned     planned
+                                   :created     now
+                                   :last-edited now
+                                   :label       ""
+                                   :data        {}}}])
+      (dispatch [:select-period id]))))
 
 (defn start-earlier
   ([selected-period]

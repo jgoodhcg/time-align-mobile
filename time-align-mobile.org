@@ -72,8 +72,18 @@
       :END:
 - [X] Bucket
 - [X] Filter
-***** TODO Cleanup other visual stuff
-- Close button on selection menus
+***** DONE Close button size
+      CLOSED: [2019-07-20 Sat 14:55]
+      :LOGBOOK:
+      CLOCK: [2019-07-20 Sat 14:53]--[2019-07-20 Sat 14:55] =>  0:02
+      :END:
+***** DONE Fix clickability under menu
+      CLOSED: [2019-07-20 Sat 15:05]
+      :LOGBOOK:
+      CLOCK: [2019-07-20 Sat 15:01]--[2019-07-20 Sat 15:05] =>  0:04
+      CLOCK: [2019-07-20 Sat 14:55]--[2019-07-20 Sat 15:01] =>  0:06
+      :END:
+Also update quick add period.
 ***** TODO Add duration field to forms
 **** DONE Fix day nav buttons
      CLOSED: [2019-07-14 Sun 14:48]

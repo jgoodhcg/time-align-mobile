@@ -49,6 +49,7 @@
 (def image (r/adapt-react-class (oget ReactNative "Image")))
 (def flat-list (r/adapt-react-class (oget ReactNative "FlatList")))
 (def touchable-highlight (r/adapt-react-class (oget ReactNative "TouchableHighlight")))
+(def touchable-without-feedback (r/adapt-react-class (oget ReactNative "TouchableWithoutFeedback")))
 (def modal (r/adapt-react-class (oget ReactNative "Modal")))
 (def picker (r/adapt-react-class (oget ReactNative "Picker")))
 (def picker-item (r/adapt-react-class (oget ReactNative "Picker" "Item")))
