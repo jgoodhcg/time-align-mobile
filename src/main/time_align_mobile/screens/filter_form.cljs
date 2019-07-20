@@ -12,15 +12,19 @@
                                                   switch
                                                   flat-list
                                                   platform
+                                                  subheading
                                                   picker
                                                   picker-item
                                                   touchable-highlight
+                                                  text-input-paper
+                                                  toggle-button
                                                   format-time
                                                   format-date]]
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
+                                                              changeable-field
                                                               last-edited-comp
                                                               label-comp]]
             [reagent.core :as r :refer [atom]]
@@ -39,13 +43,26 @@
                      :update update-structured-data}]])
 
 (defn sort-comp [form changes update-structured-data]
-  [view {:style {:flex           1
-                 :flex-direction "row"
-                 :align-items    "flex-start"}}
-   [text {:style (field-label-changeable-style changes :sort)}
-    ":sort"]
-   [structured-data {:data   (:sort @form)
-                     :update update-structured-data}]])
+  (changeable-field {:changes changes
+                     :field-key :sort}
+                    [view {:style {:flex           1
+                                   :flex-direction "column"
+                                   :align-items    "flex-start"}}
+                     [subheading "Sort"]
+                     [text-input-paper {:label           ""
+                                        :dense           true
+                                        :style           (merge {:margin-bottom 4}
+                                                                (if compact
+                                                                  {:width "85%"}
+                                                                  {:width "100%"}))
+                                        :default-value   (str (:sort @form))
+                                        :placeholder     "Label"
+                                        :on-change-text  (fn [text]
+                                                           (dispatch [update-key
+                                                                      {:label text
+                                                                       :id (:id @form)}]))}]
+                     [text-input {:data        (:sort @form)
+                                  :update update-structured-data}]]))
 
 (defn compatible-list-comp [form changes]
   (let [compatible-list (:compatible @form)
@@ -62,21 +79,27 @@
                      #(dispatch [:update-filter-form
                                  {:compatible (conj compatible-list
                                                     comp-key)}])))]
-    [view {:style {:flex           1
-                   :flex-direction "row"
-                   :align-items    "flex-start"}}
-     [text {:style (merge (field-label-changeable-style changes :compatible)
-                          {:margin-right 8})}
-      ":compatible"]
-     [view {:style {:flex-direction "row"}}
-      ;; TODO pull all compatible-options from common place?
-      (->> filterable-types
-           vec
-           (map (fn [comp-key]
-                  [touchable-highlight
-                   {:key (str comp-key "-compatible-list-option")
-                    :on-press (on-press comp-key)}
-                   [text {:style (style comp-key)} (str comp-key)]])))]]))
+    (changeable-field {:changes changes
+                       :field-key :compatible}
+                      [view {:style {:flex-direction "row"
+                                     :justify-content "space-between"
+                                     :width "85%"}}
+                        ;; TODO pull all compatible-options from common place?
+                        (->> filterable-types
+                             vec
+                             (map (fn [comp-key]
+                                    [view {:key (str comp-key "-compatible-list-option")}
+                                     [toggle-button
+                                      {:status (if (some #{comp-key} compatible-list)
+                                                 "checked"
+                                                 "unchecked")
+                                       :icon (case comp-key
+                                               :filter "filter-list"
+                                               :period "timelapse"
+                                               :bucket "group-work"
+                                               :pattern "repeat"
+                                               :template "panorama-fish-eye")
+                                       :on-press (on-press comp-key)}]])))])))
 
 (defn root [params]
   (let [filter-form (subscribe [:get-filter-form])
@@ -102,13 +125,6 @@
                     :padding-top     50
                     :padding-left    10}}
 
-      [text "Filter form"]
-
-      [id-comp filter-form]
-
-      [created-comp filter-form]
-
-      [last-edited-comp filter-form]
 
       [label-comp filter-form changes :update-filter-form]
 
@@ -117,6 +133,10 @@
       [sort-comp filter-form changes update-structured-data-sort]
 
       [predicates-comp filter-form changes update-structured-data-predicates]
+
+      [id-comp filter-form]
+      [created-comp filter-form]
+      [last-edited-comp filter-form]
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)

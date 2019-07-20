@@ -182,3 +182,4 @@
 (def button-paper (r/adapt-react-class (oget paper "Button")))
 (def switch-paper (r/adapt-react-class (oget paper "Switch")))
 (def touchable-ripple (r/adapt-react-class (oget paper "TouchableRipple")))
+(def toggle-button (r/adapt-react-class (oget paper "ToggleButton")))

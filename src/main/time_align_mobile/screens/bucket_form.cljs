@@ -3,7 +3,9 @@
                                                   keyboard-aware-scroll-view
                                                   text
                                                   text-input
+                                                  subheading
                                                   color-picker
+                                                  button-paper
                                                   date-time-picker
                                                   modal
                                                   platform
@@ -15,6 +17,7 @@
                                               field-label-style]]
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
+                                                              changeable-field
                                                               last-edited-comp
                                                               label-comp
                                                               data-comp]]
@@ -32,19 +35,16 @@
     {:on-press #(println "navigate to periods list with filter")}
     [text (str (count (:periods @bucket-form)))]]])
 
-(defn templates-comp [bucket-form]
-  [view {:style {:flex-direction "row"}}
-   [text {:style field-label-style} ":templates"]
-   [touchable-highlight
-    {:on-press #(println "navigate to templates list with filter")}
-    [text (str (count (:templates @bucket-form)))]]])
-
 (defn color-comp [bucket-form changes]
-  [:> rne/Button {:button-style    {:background-color (:color @bucket-form)
-                                    :height           40}
-                  :container-style {:width         "100%"
-                                    :margin-bottom 4}
-                  :on-press        #(reset! color-modal-visible true)}])
+  (changeable-field {:changes   changes
+                     :field-key :color}
+                    [view {:flex-direction "column"}
+                     [button-paper {:color         (:color @bucket-form)
+                                    :mode          "contained"
+                                    :content-style {:height 40 :width "100%"}
+                                    :style         {:margin 8}
+                                    :icon          "format-color-fill"
+                                    :on-press      #(reset! color-modal-visible true)}]]))
 
 (defn filter-button [bucket-form]
   [:> rne/Button {:icon     (r/as-element [:> rne/Icon {:name  "filter"
@@ -94,11 +94,11 @@
                      :padding-right   4}}
 
        [color-comp bucket-form changes]
-       [id-comp bucket-form]
        [label-comp bucket-form changes :update-bucket-form]
        ;; [data-comp bucket-form changes update-structured-data]
        ;; [periods-comp bucket-form]
        ;; [templates-comp bucket-form]
+       [id-comp bucket-form]
        [last-edited-comp bucket-form]
        [created-comp bucket-form]
        [modal {:animation-type   "slide"

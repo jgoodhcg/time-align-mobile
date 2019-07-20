@@ -58,13 +58,21 @@
 - [X] Fix the bucket picker color not updating on new selection
 - [X] Fix the width of the bucket picker
 - [X] Update the relative time components
-***** TODO Move template form to pattern planning selection menu
-***** TODO Add utility buttons to template selection menu
-- Copy (<- 0 ->)
+***** DONE Move template form to pattern planning selection menu
+      CLOSED: [2019-07-19 Fri 19:34]
+***** DONE Add utility buttons to template selection menu
+      CLOSED: [2019-07-19 Fri 19:35]
+- +Copy (<- 0 ->)+
 - Select prev/next
 ***** TODO Overhaul other forms with react-native-paper elements
-- [ ] Bucket
+      :LOGBOOK:
+      CLOCK: [2019-07-19 Fri 19:36]
+      :END:
+- [X] Bucket
 - [ ] Filter
+***** TODO Cleanup other visual stuff
+- Close button on selection menus
+***** TODO Add duration field to forms
 **** DONE Fix day nav buttons
      CLOSED: [2019-07-14 Sun 14:48]
      :LOGBOOK:
@@ -93,7 +101,7 @@ Also fixed control buttons on day selection screen.
 Now they don't disappear, instead they /disable/.
 Also fixed the transform buttons on day view.
 Now they are set to the correct /absolute left/ value when planned.
-**** TODO Add duration field to forms
+*** TODO Add make plan from day action
 *** DONE Fix start earlier button 
     CLOSED: [2019-07-14 Sun 18:06]
     :LOGBOOK:
@@ -147,6 +155,7 @@ There needs to be no interaction with the template form. Just use of it's compon
 *** TODO Remove queue page
 *** TODO Analytics
 *** TODO Notifications (push?)
+*** TODO Markov chain prediction
 ** Dreams
 - Checklists on periods and templates
 - Meta data (with mobile friendly editor) on all entities
