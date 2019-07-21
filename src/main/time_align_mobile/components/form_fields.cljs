@@ -200,3 +200,9 @@
     [view {:style info-field-style}
      [subheading {:style label-style} "Duration"]
      [text duration]]))
+
+(defn filter-button [pattern-form on-press]
+  [button-paper {:icon     "filter-list"
+                 :mode     "contained"
+                 :on-press on-press}
+   "Add filter"])

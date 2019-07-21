@@ -499,7 +499,7 @@
            :template [template-form/compact]
            [text "Incorrect type passed to selection"])
          buttons-comp]
-        [text "loading ..."])]]))
+        [text "Waiting for selection ..."])]]))
 
 (defn top-bar-outer-style [top-bar-height dimensions]
   {:height           top-bar-height
@@ -588,7 +588,6 @@
                                          :name     "play-from"
                                          :position 5})])]
 
-    (println @period-in-play)
     [:> fab/FloatingAction
      {:actions       (clj->js actions)
       :color         (if (some? @period-in-play)

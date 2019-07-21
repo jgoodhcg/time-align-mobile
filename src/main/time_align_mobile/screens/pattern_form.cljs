@@ -6,6 +6,8 @@
                                                   color-picker
                                                   date-time-picker
                                                   modal
+                                                en
+                                                button-paper
                                                   platform
                                                   touchable-highlight
                                                   format-date]]
@@ -16,6 +18,8 @@
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
                                                               last-edited-comp
+                                                              changeable-field
+                                                              filter-button
                                                               label-comp
                                                               data-comp]]
             ["react" :as react]
@@ -29,25 +33,6 @@
    [touchable-highlight
     {:on-press #(println "navigate to templates list with filter")}
     [text (str (count (:templates @pattern-form)))]]])
-
-(defn filter-button [pattern-form]
-  [:> rne/Button {:icon     (r/as-element [:> rne/Icon {:name  "filter"
-                                                        :type  "font-awesome"
-                                                        :color "#fff"}])
-                  :title    "Add Filter"
-                  :on-press #(dispatch
-                              [:add-auto-filter
-                               {:id          (random-uuid)
-                                :label       (str (:label @pattern-form)
-                                                  " pattern filter")
-                                :created     (js/Date.)
-                                :last-edited (js/Date.)
-                                :compatible  [:pattern]
-                                :sort        {:path      [:start]
-                                              :ascending true}
-                                :predicates  [{:path   [:pattern-id]
-                                               :negate false
-                                               :value  (str (:id @pattern-form))}]}])}])
 
 (defn filter-for-id? [filters id]
   (let [values (->> filters
@@ -81,17 +66,20 @@
        [label-comp pattern-form changes :update-pattern-form]
        ;; [data-comp pattern-form changes update-structured-data]
        ;; [templates-comp pattern-form]
+       (changeable-field {:changes changes
+                          :field-key :templates}
+                         [button-paper
+                          {:mode     "outlined"
+                           :icon     (fn [obj]
+                                       (let [{:keys [color size]} (js->clj obj :keywordize-keys)]
+                                         (r/as-element [view {:style {:flex-direction "row"}}
+                                                        [en {:name "edit" :color color :size size}]
+                                                        [en {:name "air" :color color :size size}]])))
+                           :on-press #(dispatch [:navigate-to {:current-screen :pattern-planning
+                                                               :params         {:do-not-load-form true}}])}
+                          "Edit templates"])
+
        [id-comp pattern-form]
-       [view
-        {:style {:padding 10}}
-        [:> rne/Button
-         {:title                "Edit Plan"
-          :icon                 (r/as-element [:> rne/Icon {:name  "air"
-                                                            :type  "entypo"
-                                                            :color "#fff"}])
-          :on-press             #(dispatch [:navigate-to {:current-screen :pattern-planning
-                                                          :params         {:do-not-load-form true}}])
-          :container-style      {:margin-right 4}}]]
        [last-edited-comp pattern-form]
        [created-comp pattern-form]]]
 
@@ -101,7 +89,21 @@
             :padding        4}
 
       (when-not (filter-for-id? @filters (:id @pattern-form))
-        [filter-button pattern-form])
+        [filter-button
+         pattern-form
+         #(dispatch
+           [:add-auto-filter
+            {:id          (random-uuid)
+             :label       (str (:label @pattern-form)
+                               " pattern filter")
+             :created     (js/Date.)
+             :last-edited (js/Date.)
+             :compatible  [:pattern]
+             :sort        {:path      [:start]
+                           :ascending true}
+             :predicates  [{:path   [:pattern-id]
+                            :negate false
+                            :value  (str (:id @pattern-form))}]}])])
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)

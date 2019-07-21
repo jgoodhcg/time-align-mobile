@@ -18,6 +18,7 @@
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
                                                               changeable-field
+                                                              filter-button
                                                               last-edited-comp
                                                               label-comp
                                                               data-comp]]
@@ -45,25 +46,6 @@
                                     :style         {:margin 8}
                                     :icon          "format-color-fill"
                                     :on-press      #(reset! color-modal-visible true)}]]))
-
-(defn filter-button [bucket-form]
-  [:> rne/Button {:icon     (r/as-element [:> rne/Icon {:name  "filter"
-                                                        :type  "font-awesome"
-                                                        :color "#fff"}])
-                  :title    "Add Filter"
-                  :on-press #(dispatch
-                              [:add-auto-filter
-                               {:id          (random-uuid)
-                                :label       (str (:label @bucket-form)
-                                                  " bucket filter")
-                                :created     (js/Date.)
-                                :last-edited (js/Date.)
-                                :compatible  [:period :template]
-                                :sort        {:path      [:start]
-                                              :ascending true}
-                                :predicates  [{:path   [:bucket-id]
-                                               :negate false
-                                               :value  (str (:id @bucket-form))}]}])}])
 
 (defn filter-for-id? [filters id]
   (let [values (->> filters
@@ -93,8 +75,8 @@
                      :padding-left    4
                      :padding-right   4}}
 
-       [color-comp bucket-form changes]
        [label-comp bucket-form changes :update-bucket-form]
+       [color-comp bucket-form changes]
        ;; [data-comp bucket-form changes update-structured-data]
        ;; [periods-comp bucket-form]
        ;; [templates-comp bucket-form]
@@ -118,7 +100,21 @@
             :padding        4}
 
       (when-not (filter-for-id? @filters (:id @bucket-form))
-        [filter-button bucket-form])
+        [filter-button
+         bucket-form
+         #(dispatch
+           [:add-auto-filter
+            {:id          (random-uuid)
+             :label       (str (:label @bucket-form)
+                               " bucket filter")
+             :created     (js/Date.)
+             :last-edited (js/Date.)
+             :compatible  [:period :template]
+             :sort        {:path      [:start]
+                           :ascending true}
+             :predicates  [{:path   [:bucket-id]
+                            :negate false
+                            :value  (str (:id @bucket-form))}]}])])
 
       [form-buttons/root
        {:changed        (> (count @changes) 0)

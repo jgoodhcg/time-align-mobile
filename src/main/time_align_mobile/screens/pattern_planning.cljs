@@ -2,6 +2,7 @@
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
                                                   mi
+                                                  button-paper
                                                   mci
                                                   status-bar
                                                   touchable-highlight]]
@@ -204,7 +205,7 @@
                           :pattern-form         pattern-form
                           :render-selected-only true})])
 
-(defn selection-menu-buttons [selected-template pattern-form]
+(defn selection-menu-buttons [selected-template pattern-form changes]
   (let [row-style {:style selection-menu-button-row-style}]
     [view {:style selection-menu-button-container-style}
      [view row-style
@@ -228,7 +229,30 @@
       [selection-menu-button
        "select next"
        [mci {:name "arrow-down-drop-circle"}]
-       #(dispatch [:select-next-or-prev-template-in-form :next])]]]))
+       #(dispatch [:select-next-or-prev-template-in-form :next])]]
+
+     [view {:style (merge
+                    selection-menu-button-row-style
+                    {:padding         8
+                     :flex-direction  "column"
+                     :justify-content "space-around"})}
+      ;; back button
+      [button-paper
+       ;; TODO prompt user that this will lose any unsaved changes
+       {:icon     "arrow-back"
+        :mode     "outlined"
+        :on-press #(dispatch [:navigate-to {:current-screen :pattern
+                                            :params         {:pattern-id (:id pattern-form)}}])}
+       "Back to pattern"]
+
+      ;; save button
+      [button-paper
+       (merge {:icon     "save"
+               :mode     "contained"
+               :on-press #(dispatch [:save-pattern-form (js/Date.)])}
+              (when-not (> (count changes) 0)
+                {:disabled true}))
+       "Save pattern"]]]))
 
 (defn root []
   (let [pattern-form      (subscribe [:get-pattern-form])
@@ -236,7 +260,6 @@
         changes           (subscribe [:get-pattern-form-changes])
         selected-template (subscribe [:get-selected-template])
         top-bar-height    styles/top-bar-height
-        bottom-bar-height styles/bottom-bar-height
         dimensions        (r/atom {:width nil :height nil})]
 
     (r/create-class
@@ -255,8 +278,7 @@
                      (reset! dimensions {:width  (:width layout)
                                          :height (-
                                                   (:height layout)
-                                                  top-bar-height
-                                                  bottom-bar-height)}))))}
+                                                  top-bar-height)}))))}
          ;; top bar stuff
          [status-bar {:hidden true}]
          [view {:style (top-bar-outer-style top-bar-height dimensions)}
@@ -301,43 +323,20 @@
                             :dimensions        @dimensions}]
 
            ;; selection menu
-           (when (some? @selected-template)
-             [selection-menu
-              {:selected-period-or-template (-> @selected-template
-                                                :id
-                                                ;; get the template from the form
-                                                ;; not from the pattern
-                                                (#(some (fn [template]
-                                                          (if (= (:id template)
-                                                                 %)
-                                                            template
-                                                            false))
-                                                        (:templates @pattern-form)))
-                                                (#(merge
-                                                   %
-                                                   {:planned true})))
-               :type                        :template
-               :dimensions                  @dimensions}
-              [selection-menu-buttons @selected-template @pattern-form]])]]
-
-         [bottom-bar {:bottom-bar-height bottom-bar-height}
-          [view {:flex-direction "row"}
-           ;; back button
-           [:> rne/Button
-            ;; TODO prompt user that this will lose any unsaved changes
-            {:icon            (r/as-element [:> rne/Icon {:name  "arrow-back"
-                                                          :type  "material-icons"
-                                                          :color "#fff"}])
-             :on-press        #(dispatch [:navigate-to {:current-screen :pattern
-                                                        :params         {:pattern-id (:id @pattern-form)}}])
-             :container-style {:margin-right 4}}]
-
-           ;; save button
-           [:> rne/Button
-            (merge {:container-style {:margin-left 4}
-                    :icon            (r/as-element [:> rne/Icon {:name  "save"
-                                                                 :type  "font-awesome"
-                                                                 :color "#fff"}])
-                    :on-press        #(dispatch [:save-pattern-form (js/Date.)])}
-                   (when-not (> (count @changes) 0)
-                     {:disabled true}))]]]])})))
+           [selection-menu
+            {:selected-period-or-template (-> @selected-template
+                                              :id
+                                              ;; get the template from the form
+                                              ;; not from the pattern
+                                              (#(some (fn [template]
+                                                        (if (= (:id template)
+                                                               %)
+                                                          template
+                                                          false))
+                                                      (:templates @pattern-form)))
+                                              (#(merge
+                                                 %
+                                                 {:planned true})))
+             :type                        :template
+             :dimensions                  @dimensions}
+            [selection-menu-buttons @selected-template @pattern-form @changes]]]]])})))
