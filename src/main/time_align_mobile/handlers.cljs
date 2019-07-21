@@ -574,24 +574,29 @@
             (setval [:forms :period-form] nil)
             (setval [:selected-period] nil))
    ;; TODO pop stack when possible
-   :dispatch [:navigate-to {:current-screen :periods}]})
+   :dispatch [:navigate-to {:current-screen :day}]})
 
 (defn delete-template [{:keys [db]} [_ id]]
-  {:db (->> db
-            (setval [:patterns sp/ALL :templates sp/ALL #(= id (:id %))] sp/NONE)
-            (setval [:forms :template-form] nil)
-            (setval [:forms :pattern-form] nil))
-   ;; TODO pop stack when possible
-   :dispatch [:navigate-to {:current-screen :templates}]})
+  (merge
+   {:db (->> db
+             (setval [:patterns sp/ALL :templates sp/ALL #(= id (:id %))] sp/NONE)
+             (setval [:forms :template-form] nil)
+             (setval [:forms :pattern-form] nil))}
+   ;; TODO pop stack when implemented
+   (when (= :template (-> db :navigation :current-screen))
+     {:dispatch [:navigate-to {:current-screen :templates}]})))
 
 (defn delete-template-from-pattern-planning [{:keys [db]} [_ id]]
-  {:db (->> db
-            (setval [:forms :pattern-form :templates
-                     sp/ALL #(= id (:id %))] sp/NONE)
-            (setval [:forms :template-form] nil))
-   ;; TODO pop stack when possible
-   :dispatch [:navigate-to {:current-screen :pattern-planning
-                            :params {:pattern-id (get-in db [:forms :pattern-form :id])}}]})
+  (merge
+   {:db (->> db
+             (setval [:forms :pattern-form :templates
+                      sp/ALL #(= id (:id %))] sp/NONE)
+             (setval [:forms :template-form] nil))}
+
+   ;; TODO pop stack when implemented
+   (when (= :template (-> db :navigation :current-screen))
+     {:dispatch [:navigate-to {:current-screen :pattern-planning
+                               :params {:pattern-id (get-in db [:forms :pattern-form :id])}}]})))
 
 (defn delete-filter [{:keys [db]} [_ id]]
   {:db (->> db

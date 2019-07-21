@@ -95,7 +95,7 @@
 (def picker-comp-outer-style
   (merge field-style
          {:flex-direction      "row"
-          :padding             8
+          :padding-bottom      4
           :justify-content     "space-between"
           :align-items         "center"}))
 

@@ -50,7 +50,7 @@
   [view {:style (merge
                  styles/time-indicator-line-style
                  {:width            (:width @dimensions)
-                  :background-color "black"
+                  :background-color (-> styles/theme :colors :primary)
                   :align-items      "center"
                   :top              (-> @now
                                         (helpers/date->y-pos (:height @dimensions))
@@ -64,7 +64,7 @@
                     (= alignment :center) {}
                     (= alignment :right)  {:padding-right 1
                                            :align-self    "flex-end"})
-                  {:color "black"})}
+                  {:color (-> styles/theme :colors :primary)})}
     (format-time @now)]])
 
 (defn make-period-from-touch [{:keys [displayed-day dimensions]}]
@@ -390,18 +390,19 @@
             (time-alignment-fn @selected-period)
             @displayed-day]
 
+            ;; periods
+           [periods-comp {:displayed-day   displayed-day
+                          :selected-period selected-period
+                          :period-in-play  period-in-play
+                          :periods         periods
+                          :dimensions      dimensions}]
+
            ;; now indicator
            (when (same-day? @now @displayed-day)
              [now-indicator {:dimensions dimensions
                              :now        now
                              :alignment  (time-alignment-fn @selected-period)}])
 
-           ;; periods
-           [periods-comp {:displayed-day   displayed-day
-                          :selected-period selected-period
-                          :period-in-play  period-in-play
-                          :periods         periods
-                          :dimensions      dimensions}]
 
            ;; selection menu
            (when (some? @selected-period)

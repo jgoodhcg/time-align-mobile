@@ -296,47 +296,21 @@
      ;; copy-previous-day copy-over copy-next-day
      [view row-style
       [selection-menu-button
-       "copy previous day"
-       [view {:flex-direction "row"}
-        [mi-styled {:name "content-copy"}]
-        [mi-styled {:name "arrow-back"}]]
-       #(dispatch [:add-period {:period    (merge selected-period
-                                                  {:start (-> selected-period
-                                                              (:start)
-                                                              (.valueOf)
-                                                              (- (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :stop  (-> selected-period
-                                                              (:stop)
-                                                              (.valueOf)
-                                                              (- (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :id    (random-uuid)})
-                                :bucket-id (:bucket-id selected-period)}])]
+       "edit"
+       [mi-styled {:name "edit"}]
+       #(dispatch [:navigate-to {:current-screen :period
+                                 :params {:period-id (:id selected-period)}}])]
+      [selection-menu-button
+       "jump to selected"
+       [fa-styled {:name "dot-circle-o"}]
+       #(dispatch [:update-day-time-navigator (:start selected-period)])]
+
       [selection-menu-button
        "copy over"
        [mi-styled {:name "content-copy"}]
        #(dispatch [:add-period {:period    (merge selected-period
                                                   {:planned (not (:planned selected-period))
                                                    :id      (random-uuid)})
-                                :bucket-id (:bucket-id selected-period)}])]
-      [selection-menu-button
-       "copy next day"
-       [view {:flex-direction "row"}
-        [mi-styled {:name "arrow-forward"}]
-        [mi-styled {:name "content-copy"}]]
-       #(dispatch [:add-period {:period    (merge selected-period
-                                                  {:start (-> selected-period
-                                                              (:start)
-                                                              (.valueOf)
-                                                              (+ (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :stop  (-> selected-period
-                                                              (:stop)
-                                                              (.valueOf)
-                                                              (+ (* 24 60 60 1000))
-                                                              (js/Date.))
-                                                   :id    (random-uuid)})
                                 :bucket-id (:bucket-id selected-period)}])]]
 
      ;; play-from
@@ -407,19 +381,7 @@
       [selection-menu-button
        "select next"
        [mci-styled {:name "arrow-down-drop-circle"}]
-       #(dispatch [:select-next-or-prev-period :next])]]
-
-     ;; edit & jump-to-selected
-     [view row-style
-      [selection-menu-button
-       "edit"
-       [mi-styled {:name "edit"}]
-       #(dispatch [:navigate-to {:current-screen :period
-                                 :params {:period-id (:id selected-period)}}])]
-      [selection-menu-button
-       "jump to selected"
-       [fa-styled {:name "dot-circle-o"}]
-       #(dispatch [:update-day-time-navigator (:start selected-period)])]]]))
+       #(dispatch [:select-next-or-prev-period :next])]]]))
 
 (defn selection-menu-arrow [dimensions selected-period displayed-day]
   (let [adjusted-start             (helpers/bound-start (:start selected-period) displayed-day)
