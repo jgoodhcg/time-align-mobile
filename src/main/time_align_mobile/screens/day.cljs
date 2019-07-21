@@ -295,26 +295,7 @@
                                   ;; for the period about to be created
                                   (dispatch [:play-from-bucket {:bucket-id (:id item)
                                                                 :id        (random-uuid)
-                                                                :now       (new js/Date)}]))})))))}]]
-
-           [scroll-view {:style {:height "50%"}}
-            [text "Or select a template"]
-            [flat-list {:data @templates
-                        :render-item
-                        (fn [i]
-                          (let [item (:item (js->clj i :keywordize-keys true))]
-                            (r/as-element
-                             (list-items/template
-                              (merge
-                               item
-                               {:on-press
-                                (fn [_]
-                                  (reset! play-modal-visible false)
-                                  ;; passing dispatch the parent bucket id
-                                  ;; for the period about to be created
-                                  (dispatch [:play-from-template {:template item
-                                                                  :id       (random-uuid)
-                                                                  :now      (js/Date.)}]))})))))}]]])
+                                                                :now       (new js/Date)}]))})))))}]]])
 
 (defn pattern-modal-content [{:keys [patterns]}]
   [view {:style {:flex    1
