@@ -2,6 +2,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-07-20 Sat 21:52]--[2019-07-20 Sat 22:10] =>  0:18
   CLOCK: [2019-07-20 Sat 18:55]--[2019-07-20 Sat 18:56] =>  0:01
   CLOCK: [2019-07-13 Sat 18:20]--[2019-07-13 Sat 18:42] =>  0:22
   CLOCK: [2019-06-29 Sat 18:06]--[2019-06-29 Sat 18:10] =>  0:04
@@ -97,7 +98,8 @@ Also update quick add period.
      :LOGBOOK:
      CLOCK: [2019-07-14 Sun 14:43]--[2019-07-14 Sun 14:48] =>  0:05
      :END:
-**** DOSUB Edit FAB
+**** DONE Edit FAB
+     CLOSED: [2019-07-20 Sat 22:00]
 ***** DONE Add play indication
       CLOSED: [2019-07-20 Sat 17:46]
       :LOGBOOK:
@@ -118,7 +120,8 @@ Went with just changing the color...
 - Apply pattern
 - Make pattern from day (select planned or actual)
 - Stop? (depends on play indication option)
-***** TODO Make pattern from day
+***** DONE Make pattern from day
+      CLOSED: [2019-07-20 Sat 22:00]
       :LOGBOOK:
       CLOCK: [2019-07-20 Sat 17:51]--[2019-07-20 Sat 18:55] =>  1:04
       :END:
@@ -135,7 +138,23 @@ Now they are set to the correct /absolute left/ value when planned.
 **** TODO Refactor pattern form 
 - [ ] Pattern form
 - [ ] Pattern planning bottom buttons
-*** TODO Add make plan from day action
+**** DOSUB UX clenaup by screen
+***** TODO Day
+- [ ] Remove templates from play selector
+- [ ] Now indicator uses primary color
+- [ ] Time indicators use a color from theme
+- [ ] Another level of time indicators (thinner or dashed lines)
+***** TODO Buckets/Patterns/Templates/Periods
+- [ ] Filter component
+- [ ] Remove header
+- [ ] Item render component
+  - [ ] Bucket
+  - [ ] Pattern
+  - [ ] Template
+  - [ ] Periods
+- [ ] FAB for add
+***** TODO Port
+- [ ] Better option components
 *** DONE Fix start earlier button 
     CLOSED: [2019-07-14 Sun 18:06]
     :LOGBOOK:
@@ -190,6 +209,19 @@ There needs to be no interaction with the template form. Just use of it's compon
 *** TODO Analytics
 *** TODO Notifications (push?)
 *** TODO Markov chain prediction
+*** TODO Spec change migrations
+- [ ] Add an incremental version to app-db
+- [ ] Create an example up/down transformation function (checklist)
+- [ ] Figure out how to run through transformation function on app-db load/import
+*** TODO Checklists
+- [ ] Add basic data to spec template
+- [ ] Add basic data to spec period
+- [ ] Create components for forms
+  - [ ] Period
+  - [ ] Period compact (modal?)
+  - [ ] Template
+  - [ ] Template compact (modal?)
+  - [ ] Create complete state indicator
 ** Dreams
 - Checklists on periods and templates
 - Meta data (with mobile friendly editor) on all entities
