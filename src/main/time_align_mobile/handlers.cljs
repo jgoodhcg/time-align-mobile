@@ -571,8 +571,11 @@
 (defn delete-period [{:keys [db]} [_ id]]
   {:db (->> db
             (setval [:buckets sp/ALL :periods sp/ALL #(= id (:id %))] sp/NONE)
-            (setval [:forms :period-form] nil)
-            (setval [:selected-period] nil))
+            (setval [:forms :period-form] nil) ;; it must be deleted from the form
+            (setval [:selected-period] nil)    ;; it must be selected if it is deleted
+            (#(if (= (:period-in-play-id db) id)  ;; it _may_ be in play when it is deleted
+                (setval [:period-in-play-id] nil %)
+                %)))
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :day}]})
 

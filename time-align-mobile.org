@@ -16,6 +16,15 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
+*** DONE Fix deleting in play item bug
+    CLOSED: [2019-07-25 Thu 19:36]
+    :LOGBOOK:
+    CLOCK: [2019-07-25 Thu 19:09]--[2019-07-25 Thu 19:36] =>  0:27
+    :END:
+*** TODO Update README
+- Include deactivating live/hot reload
+- Remove --dev from expo start
+- Fix typo in bottom
 *** DOSUB UX refactor
 **** DONE Refactor pattern form 
      CLOSED: [2019-07-20 Sat 22:50]
@@ -57,7 +66,7 @@
 - [ ] Delete actions should nav-back
 *** TODO Calendar Page
 *** TODO Report Page
-*** TODO Remove queue page
+*** TODO Queue page
 *** TODO Analytics
 *** TODO Notifications (push?)
 *** TODO Markov chain prediction
