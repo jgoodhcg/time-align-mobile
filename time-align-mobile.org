@@ -16,22 +16,7 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
-*** DONE Update README
-    CLOSED: [2019-07-27 Sat 16:43]
-    :LOGBOOK:
-    CLOCK: [2019-07-27 Sat 16:03]--[2019-07-27 Sat 16:43] =>  0:40
-    :END:
-- Include deactivating live/hot reload
-- Remove --dev from expo start
-- Fix typo in bottom
 *** DOSUB UX refactor
-**** DONE Refactor pattern form 
-     CLOSED: [2019-07-20 Sat 22:50]
-     :LOGBOOK:
-     CLOCK: [2019-07-20 Sat 22:14]--[2019-07-20 Sat 22:50] =>  0:36
-     :END:
-- [X] Pattern form
-- [X] Pattern planning bottom buttons
 **** DOSUB UX clenaup by screen
 ***** TODO Day
       :LOGBOOK:
@@ -57,6 +42,17 @@
 - [ ] FAB for add
 ***** TODO Port
 - [ ] Better option components
+*** TODO Notifications (push?)
+    :LOGBOOK:
+    CLOCK: [2019-07-27 Sat 17:01]--[2019-07-27 Sat 17:54] =>  0:53
+    :END:
+- [[https://docs.expo.io/versions/latest/sdk/notifications/#notificationsschedulelocalnotificationasynclocalnotification-schedulingoptions][Schedule local notifications]]
+- [[https://docs.expo.io/versions/latest/sdk/notifications/#subscribing-to-notifications][Listen for notifications]]
+- [X] Test a local notification
+- [ ] Schedule a notification side effect on planned period creation
+  - [ ] Add period handler
+  - [ ] Apply pattern handler
+- [ ] Register a listener to navigate to day
 *** TODO Fix Jump to selected so that it also changes displayed day
 *** TODO Fix navigation
 - [ ] Move history to app-db
@@ -72,7 +68,6 @@
 **** TODO Add queue list
 **** TODO Add conversion to planned period function
 *** TODO Analytics
-*** TODO Notifications (push?)
 *** TODO Markov chain prediction
 *** TODO Spec change migrations
 - [ ] Add an incremental version to app-db
@@ -102,3 +97,4 @@
 - Unit test every function
 - Accessibility
 - Energy meter
+- Advanced notifications with interaction

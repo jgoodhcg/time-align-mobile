@@ -184,3 +184,17 @@
 (def switch-paper (r/adapt-react-class (oget paper "Switch")))
 (def touchable-ripple (r/adapt-react-class (oget paper "TouchableRipple")))
 (def toggle-button (r/adapt-react-class (oget paper "ToggleButton")))
+
+(def notifications (oget e "Notifications"))
+
+(defn schedule-notification [{:keys [title body date callback]}]
+  (-> notifications
+      (ocall "scheduleLocalNotificationAsync"
+             (-> {:title title
+                  :body  body}
+                 clj->js)
+             (-> {:time date}
+                 clj->js))
+      (ocall "then"
+             (fn [id]
+               (callback id)))))

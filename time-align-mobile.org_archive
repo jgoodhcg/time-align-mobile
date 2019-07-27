@@ -3631,3 +3631,34 @@ There needs to be no interaction with the template form. Just use of it's compon
   :LOGBOOK:
   CLOCK: [2019-07-25 Thu 19:09]--[2019-07-25 Thu 19:36] =>  0:27
   :END:
+
+* DONE Update README
+  CLOSED: [2019-07-27 Sat 16:43]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-27 Sat 17:00
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+    :LOGBOOK:
+    CLOCK: [2019-07-27 Sat 16:03]--[2019-07-27 Sat 16:43] =>  0:40
+    :END:
+- Include deactivating live/hot reload
+- Remove --dev from expo start
+- Fix typo in bottom
+
+* DONE Refactor pattern form 
+  CLOSED: [2019-07-20 Sat 22:50]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-27 Sat 17:00
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers/UX refactor
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+     :LOGBOOK:
+     CLOCK: [2019-07-20 Sat 22:14]--[2019-07-20 Sat 22:50] =>  0:36
+     :END:
+- [X] Pattern form
+- [X] Pattern planning bottom buttons
