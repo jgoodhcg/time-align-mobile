@@ -30,7 +30,8 @@ In editor connect to the shadow repl. Emacs specific command below.
 cider-connect (localhost:8202 or w/e the shadow log says the nrepl is running on)
 ```
 
-Once that clj repl is open then start a cljs repl than connect to the instance running on the device.  
+Once that clj repl is open then start a cljs repl.  
+It should connect to the instance running on the device.  
 Emacs specific commands bellow.
 ```
 cider-connect-sibling-cljs
