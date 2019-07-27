@@ -53,6 +53,6 @@ expo build:android
 ## Production Publish
 ```bash
 shadow-cljs release app
-expo build:android
+expo publish
 ```
 
