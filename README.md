@@ -1,32 +1,37 @@
 # Time Align Mobile
 
 ## Development && Deployment
-Install dependencies
+Install dependencies.
 ```bash
-$ yarn
+yarn
 ```
-Start shadow
+
+Start shadow.
 ```bash
-$ shadow-cljs watch app
+shadow-cljs watch app
 ```
-Wait for first compile to finish or expo gets confused
-In another command line start expo
+
+Wait for first compile to finish or expo gets confused.  
+In another process start expo.
 ```bash
-$ expo start --dev
+expo start
 ```
-Open the app in the expo client
-Close and re-open until the successful repl init message appears in the expo logs
+
+Open the app in the expo client and look for successful repl message.
 ```bash
 WebSocket connected!
 REPL init successful
 ```
-Open the [developer menu](https://docs.expo.io/versions/latest/workflow/development-mode/#showing-the-developer-menu) and make sure *live reload* and *hot reload* are disabled.
 
-In emacs editor
+Open the [developer menu](https://docs.expo.io/versions/latest/workflow/development-mode/#showing-the-developer-menu) and make sure *live reload* and *hot reload* are disabled.  
+
+In editor connect to the shadow repl. Emacs specific command below.
 ```
 cider-connect (localhost:8202 or w/e the shadow log says the nrepl is running on)
 ```
-Once that clj repl is open then connect to a cljs repl with
+
+Once that clj repl is open then start a cljs repl than connect to the instance running on the device.  
+Emacs specific commands bellow.
 ```
 cider-connect-sibling-cljs
 # for the prompts select
@@ -35,10 +40,18 @@ shadow
 app
 ```
 
+If the expo client displays an error `dismiss` it and do *not* _reload_.  
+Reloading kills the repl. The shadow watch, and expo start commands will have to be restarted and the editor re-connected to the repl.
 
-## production build
+## Production Build
 ```bash
-# $ shadow-cljs release app # doesn't work right now
-$ shadpow-cljs compile app # this means we are publishing the non optimized source code
-$ expo build:android and expo publish after compile command runs or cancelling the watch command
+shadow-cljs release app
+expo build:android
 ```
+
+## Production Publish
+```bash
+shadow-cljs release app
+expo build:android
+```
+

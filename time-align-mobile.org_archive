@@ -3618,3 +3618,16 @@ Also did a minor fix to get rid of an error message loading the app-db on a cold
 Updating the compact template form on day planning should automatically update the pattern form.
 The flow right now is update the compact form which when saved updates the pattern form.
 There needs to be no interaction with the template form. Just use of it's components. The source is the pattern form and the selected template from it.
+
+* DONE Fix deleting in play item bug
+  CLOSED: [2019-07-25 Thu 19:36]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-25 Thu 19:49
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-07-25 Thu 19:09]--[2019-07-25 Thu 19:36] =>  0:27
+  :END:

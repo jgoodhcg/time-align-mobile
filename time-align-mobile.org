@@ -16,12 +16,11 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
-*** DONE Fix deleting in play item bug
-    CLOSED: [2019-07-25 Thu 19:36]
+*** DONE Update README
+    CLOSED: [2019-07-27 Sat 16:43]
     :LOGBOOK:
-    CLOCK: [2019-07-25 Thu 19:09]--[2019-07-25 Thu 19:36] =>  0:27
+    CLOCK: [2019-07-27 Sat 16:03]--[2019-07-27 Sat 16:43] =>  0:40
     :END:
-*** TODO Update README
 - Include deactivating live/hot reload
 - Remove --dev from expo start
 - Fix typo in bottom
@@ -64,9 +63,14 @@
 - [ ] Limit to X items
 - [ ] Back should pop off history
 - [ ] Delete actions should nav-back
-*** TODO Calendar Page
-*** TODO Report Page
 *** TODO Queue page
+**** TODO Add queue definition to app-db
+- [ ] queue definition
+  - Include priority?
+- [ ] ~:queue~ key under ~:bucket~
+**** TODO Add queue form
+**** TODO Add queue list
+**** TODO Add conversion to planned period function
 *** TODO Analytics
 *** TODO Notifications (push?)
 *** TODO Markov chain prediction
@@ -83,6 +87,8 @@
   - [ ] Template
   - [ ] Template compact (modal?)
   - [ ] Create complete state indicator
+*** TODO Calendar Page
+*** TODO Report Page
 ** Dreams
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]
@@ -94,3 +100,5 @@
 - DRY up spectre paths
 - Spec everything
 - Unit test every function
+- Accessibility
+- Energy meter
