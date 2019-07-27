@@ -1,6 +1,6 @@
 # Time Align Mobile
 
-## Development && Deployment
+## Development
 Install dependencies.
 ```bash
 yarn
