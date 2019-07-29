@@ -124,7 +124,9 @@
 (defn load-pattern-form [db [_ pattern-id]]
   (let [pattern      (select-one [:patterns sp/ALL #(= (:id %) pattern-id)] db)
         pattern-form (merge pattern {:data (helpers/print-data (:data pattern))})]
-    (assoc-in db [:forms :pattern-form] pattern-form)))
+    (-> db
+     (assoc-in [:forms :pattern-form] pattern-form)
+     (assoc-in [:selected-template] nil))))
 
 (defn update-bucket-form [db [_ bucket-form]]
   (transform [:forms :bucket-form] #(merge % bucket-form) db))

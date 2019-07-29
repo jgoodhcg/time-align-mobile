@@ -16,6 +16,12 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
+*** DONE Fix new pattern editing spec failure
+    CLOSED: [2019-07-28 Sun 21:50]
+    :LOGBOOK:
+    CLOCK: [2019-07-28 Sun 21:45]--[2019-07-28 Sun 21:50] =>  0:05
+    :END:
+
 *** DOSUB UX refactor
 **** DOSUB UX clenaup by screen
 ***** TODO Day
