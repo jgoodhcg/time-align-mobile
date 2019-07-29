@@ -16,6 +16,8 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
+*** TODO Fix bug on select next/prev bug on pattern planning
+Can't select anything that hasn't been saved.
 *** DOSUB UX refactor
 **** DOSUB UX clenaup by screen
 ***** TODO Day
