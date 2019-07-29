@@ -16,6 +16,14 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
+*** TODO Add locked period mechanism
+When using the transform arrows to move things around the other periods (in the day?) should get pushed unless locked.
+Have a lock / unlock all button.
+*** TODO Fix template editing bug with end time
+Using the arrows to have the start go to the day before or end to day after seems to work fine.
+Check that it works past 24+ hours.
+Using the button to set the time into yesterday or tomorrow doesn't work.
+*** TODO Add insert before/after button to selection menu
 *** TODO Fix bug on select next/prev bug on pattern planning
 Can't select anything that hasn't been saved.
 *** DOSUB UX refactor
