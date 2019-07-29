@@ -3662,3 +3662,17 @@ There needs to be no interaction with the template form. Just use of it's compon
      :END:
 - [X] Pattern form
 - [X] Pattern planning bottom buttons
+
+* DONE Fix new pattern editing spec failure
+  CLOSED: [2019-07-28 Sun 21:50]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-28 Sun 22:26
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-07-28 Sun 21:45]--[2019-07-28 Sun 21:50] =>  0:05
+  :END:
+
