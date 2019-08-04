@@ -3676,3 +3676,47 @@ There needs to be no interaction with the template form. Just use of it's compon
   CLOCK: [2019-07-28 Sun 21:45]--[2019-07-28 Sun 21:50] =>  0:05
   :END:
 
+
+* DONE Fix bug on select next/prev bug on pattern planning
+  CLOSED: [2019-08-04 Sun 15:18]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-04 Sun 17:57
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+    :LOGBOOK:
+    CLOCK: [2019-08-04 Sun 13:51]--[2019-08-04 Sun 15:18] =>  1:27
+    :END:
+Can't select anything that hasn't been saved.
+- [X] Swapped the source of truth for the operation to the form instead of the actual pattern
+- [X] Switched the selection to a dispatch event instead of editing app-db
+- [X] Figured out that there was an orphaned template from the deletion of a bucket in the app-db
+- [X] Fixed deleting a bucket to remove templates from patterns as well
+- [X] Fixed side effect load on screen to use correct handler
+- [X] Also needed to export and import my actual db to fix that orphaned template
+
+* CANCELED Add spec definitions to everything
+  CLOSED: [2019-08-04 Sun 18:05]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-04 Sun 18:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Make it better
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+    :LOGBOOK:
+    CLOCK: [2019-08-04 Sun 17:58]--[2019-08-04 Sun 18:05] =>  0:07
+    CLOCK: [2019-08-03 Sat 23:10]--[2019-08-03 Sat 23:26] =>  0:16
+    CLOCK: [2019-08-03 Sat 21:12]--[2019-08-03 Sat 22:02] =>  0:50
+    CLOCK: [2019-08-03 Sat 17:52]--[2019-08-03 Sat 18:22] =>  0:30
+    CLOCK: [2019-08-03 Sat 16:49]--[2019-08-03 Sat 17:46] =>  0:00
+    :END:
+- [X] Add ghostwheel
+  - Inline is nice
+  - It might play well with shadow-cljs
+  - Requires remote debugging to be able to see any readable output (needs chrome debug console)
+  - Needs live reload to run (which breaks shadow react native repl)
+- [X] Attempt to use straight up spec
+  - [X] Maybe this isn't worth it?
