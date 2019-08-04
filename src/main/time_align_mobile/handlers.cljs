@@ -273,6 +273,7 @@
                                   external-data
                                   {:data (helpers/print-data (:data template))})]
 
+    (println (select [:forms :pattern-form :templates sp/ALL (sp/submap [:label :id])] db))
     (assoc-in db [:forms :template-form] template-form)))
 
 (defn update-template-form [db [_ template-form]]
@@ -566,7 +567,9 @@
 (defn delete-bucket [{:keys [db]} [_ id]]
   {:db (->> db
             (setval [:buckets sp/ALL #(= id (:id %))] sp/NONE)
-            (setval [:forms :bucket-form] nil))
+            (setval [:forms :bucket-form] nil)
+            (setval [:patterns :templates sp/ALL
+                     #(= id (:bucket-id %))]  sp/NONE)) ;; TODO think about removing it from forms too?
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :buckets}]})
 
@@ -678,17 +681,16 @@
         db))
     db))
 
-(defn select-next-or-prev-template-in-form [db [_ direction]]
+(defn select-next-or-prev-template-in-form [{:keys [db]} [_ direction]] ;; TODO add pattern form to docs or name
   (if-let [selected-template-id (get-in db [:selected-template])]
     (let [[pattern selected-template]
-          (select-one [:patterns sp/ALL
+          (select-one [:forms :pattern-form
                        (sp/collect-one (sp/submap [:id]))
                        :templates sp/ALL
                        #(= selected-template-id (:id %))] db)
 
           sorted-templates (->> db
-                                (select [:patterns sp/ALL
-                                         #(= (:id %) (:id pattern))
+                                (select [:forms :pattern-form
                                          :templates sp/ALL])
                               (sort-by :start)
                               (#(if (= direction :prev)
@@ -702,10 +704,10 @@
                                 (drop-while
                                  #(not (= (:id %) selected-template-id)))
                                 (second))]
-      (if (some? next-template)
-        (assoc-in db [:selected-template] (:id next-template))
-        db))
-    db))
+      (merge {:db db}
+             (when (some? next-template)
+               {:dispatch [:select-template (:id next-template)]})))
+    {:db db})) ;; if nothings is selected then why is this handler called?
 
 (defn update-day-time-navigator [db [_ new-date]]
   (assoc-in db [:time-navigators :day] new-date))
@@ -808,7 +810,7 @@
 (reg-fx
  :share
  (fn [app-db]
-   (share (str (format-date (js/Date.)) "-app-db.json") (str app-db))))
+   (share (str (format-date (js/Date.)) "-app-db.edn") (str app-db))))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db
@@ -955,7 +957,7 @@
 (reg-event-fx :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
 (reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
-(reg-event-db :select-next-or-prev-template-in-form [validate-spec persist-secure-store]
+(reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store]
               select-next-or-prev-template-in-form)
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
 (reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)

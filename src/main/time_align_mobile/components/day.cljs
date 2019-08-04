@@ -436,7 +436,7 @@
              (not selected-loaded))
       (case type
         :period   (dispatch [:load-period-form (:id selected-period-or-template)])
-        :template (dispatch [:load-template-form (:id selected-period-or-template)])))
+        :template (dispatch [:load-template-form-from-pattern-planning (:id selected-period-or-template)])))
 
     [touchable-without-feedback {:on-press #(str "no-op")}
      [surface {:style {:position  "absolute"

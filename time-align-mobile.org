@@ -15,6 +15,20 @@
   CLOCK: [2018-08-18 Sat 15:07]--[2018-08-18 Sat 15:11] =>  0:04
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
+** DOSUB Make it better
+*** TODO Add spec definitions to everything
+    :LOGBOOK:
+    CLOCK: [2019-08-03 Sat 23:10]--[2019-08-03 Sat 23:26] =>  0:16
+    CLOCK: [2019-08-03 Sat 21:12]--[2019-08-03 Sat 22:02] =>  0:50
+    CLOCK: [2019-08-03 Sat 17:52]--[2019-08-03 Sat 18:22] =>  0:30
+    CLOCK: [2019-08-03 Sat 16:49]--[2019-08-03 Sat 17:46] =>  0:00
+    :END:
+- [X] Add ghostwheel
+  - Inline is nice
+  - It might play well with shadow-cljs
+  - Requires remote debugging to be able to see any readable output (needs chrome debug console)
+  - Needs live reload to run (which breaks shadow react native repl)
+- [ ] Attempt to use straight up spec
 ** DOSUB Release to strangers
 *** TODO Add locked period mechanism
 When using the transform arrows to move things around the other periods (in the day?) should get pushed unless locked.
@@ -24,8 +38,18 @@ Using the arrows to have the start go to the day before or end to day after seem
 Check that it works past 24+ hours.
 Using the button to set the time into yesterday or tomorrow doesn't work.
 *** TODO Add insert before/after button to selection menu
-*** TODO Fix bug on select next/prev bug on pattern planning
+*** DONE Fix bug on select next/prev bug on pattern planning
+    CLOSED: [2019-08-04 Sun 15:18]
+    :LOGBOOK:
+    CLOCK: [2019-08-04 Sun 13:51]--[2019-08-04 Sun 15:18] =>  1:27
+    :END:
 Can't select anything that hasn't been saved.
+- [X] Swapped the source of truth for the operation to the form instead of the actual pattern
+- [X] Switched the selection to a dispatch event instead of editing app-db
+- [X] Figured out that there was an orphaned template from the deletion of a bucket in the app-db
+- [X] Fixed deleting a bucket to remove templates from patterns as well
+- [X] Fixed side effect load on screen to use correct handler
+- [X] Also needed to export and import my actual db to fix that orphaned template
 *** DOSUB UX refactor
 **** DOSUB UX clenaup by screen
 ***** TODO Day
