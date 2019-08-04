@@ -101,9 +101,7 @@
         transform-functions
 
         selected       (= id (:id selected-entity))
-        opacity        (if (some? selected-entity)
-                         (if selected 1 0.5)
-                         1)
+        opacity        1
         adjusted-stop  (helpers/bound-stop stop displayed-day)
         adjusted-start (helpers/bound-start start displayed-day)
         top            (-> adjusted-start
@@ -142,19 +140,21 @@
                                    button-height-default)
 
         button-width (/ base-width 3)
-        base-style   {:position      "absolute"
-                      :border-radius 2}
+        base-style   {:position      "absolute"}
         period-style (merge base-style {:top              top
                                         :left             left
                                         :width            width
+                                        :border-radius    2
                                         :overflow         "hidden"
                                         :opacity          opacity
                                         :height           height
                                         :background-color color})
-        button-style (merge base-style {:justify-content  "center"
+        button-style (merge base-style {:justify-content  "flex-start"
                                         :align-items      "center"
                                         :width            button-width
-                                        :opacity          0.5
+                                        :border-color     styles/text-light
+                                        :border-width     1
+                                        :opacity          0.35
                                         :background-color "grey"})
         top-style    (merge button-style {:height button-height-top
                                           :top    0})
@@ -424,10 +424,10 @@
   (let [height           (:height dimensions)
         width            (-> dimensions
                              (:width)
-                             (* 0.51))
+                             (* 0.40))
         left             (-> dimensions
                              (:width)
-                             (* 0.49)
+                             (* 0.60)
                              (#(if (:planned selected-period-or-template)
                                  % 0)))
         period-form-id   (:id @(subscribe [:get-period-form]))
@@ -453,7 +453,7 @@
 
       [button-paper {:icon          "close"
                      :align-self    "flex-start"
-                     :content-style {:width  60
+                     :content-style {:width  120
                                      :height 40}
                      :on-press      (case type
                                       :period   #(dispatch [:select-period nil])

@@ -129,7 +129,7 @@
                               :elevation 0}
                         [:> rn/Picker {:selected-value  (str (field-key @form))
                                        :style           (if compact
-                                                          {:width 150}
+                                                          {:width 120}
                                                           {:width 250})
                                        :enabled         (not disabled)
                                        :on-value-change #(dispatch

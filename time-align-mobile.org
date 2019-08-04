@@ -28,6 +28,7 @@ Using the button to set the time into yesterday or tomorrow doesn't work.
 **** DOSUB UX clenaup by screen
 ***** TODO Day
       :LOGBOOK:
+      CLOCK: [2019-08-04 Sun 18:30]--[2019-08-04 Sun 18:50] =>  0:20
       CLOCK: [2019-08-04 Sun 18:25]--[2019-08-04 Sun 18:34] =>  0:09
       CLOCK: [2019-08-04 Sun 18:07]--[2019-08-04 Sun 18:24] =>  0:17
       CLOCK: [2019-07-21 Sun 15:45]--[2019-07-21 Sun 15:59] =>  0:14
@@ -42,6 +43,8 @@ Using the button to set the time into yesterday or tomorrow doesn't work.
 - [ ] Time indicators use a color from theme
 - [ ] Another level of time indicators (thinner or dashed lines)
 - [X] Add labels to periods
+- [X] Shrink selection menu to show either side of planned and actual
+***** TODO Remove form indirection from editing periods
 ***** TODO Buckets/Patterns/Templates/Periods
 - [ ] Filter component
 - [ ] Remove header
