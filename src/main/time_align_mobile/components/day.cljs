@@ -1,6 +1,7 @@
 (ns time-align-mobile.components.day
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
+                                                  text-paper
                                                   fa
                                                   mci
                                                   mi
@@ -9,6 +10,7 @@
                                                   scroll-view
                                                   touchable-ripple
                                                   format-date
+                                                  touchable-ripple
                                                   modal-paper
                                                   portal
                                                   surface
@@ -145,6 +147,7 @@
         period-style (merge base-style {:top              top
                                         :left             left
                                         :width            width
+                                        :overflow         "hidden"
                                         :opacity          opacity
                                         :height           height
                                         :background-color color})
@@ -168,9 +171,11 @@
 
     [view {:key id}
      ;; period
-     [touchable-highlight {:style    period-style
-                           :on-press (select-function-generator id)}
-        [:<>]]
+     [touchable-ripple {:style    period-style
+                        :on-press (select-function-generator id)}
+      [:<>
+       [text-paper label]
+       [text-paper bucket-label]]]
 
      ;; buttons
      (when selected

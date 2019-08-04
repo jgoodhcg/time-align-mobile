@@ -184,6 +184,7 @@
 (def switch-paper (r/adapt-react-class (oget paper "Switch")))
 (def touchable-ripple (r/adapt-react-class (oget paper "TouchableRipple")))
 (def toggle-button (r/adapt-react-class (oget paper "ToggleButton")))
+(def text-paper (r/adapt-react-class (oget paper "Text")))
 
 (def notifications (oget e "Notifications"))
 

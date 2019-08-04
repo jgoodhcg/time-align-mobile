@@ -326,6 +326,7 @@
                                             db)]
                                 (merge template
                                        {:bucket-color (:color bucket)
+                                        :bucket-label (:label bucket)
                                         :color        (:color bucket)})))))})))
        ((fn [pattern-form]
           (merge pattern-form {:selected-template-id (get-in db [:selected-template])})))))
