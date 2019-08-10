@@ -44,11 +44,9 @@
 
    [text {:style {:height 60}} "top bar stuff"]])
 
-(def pixel-minute-ratio 5)
-
-(def total-height-pixel (* helpers/day-ms pixel-minute-ratio))
-
-(defn day-display []
+(defn day-display [{:keys [pixel-to-minute-ratio
+                           default-pxl-min-ratio]}]
+  (println pixel-to-minute-ratio)
   [scroll-view
    [view
     {:style (merge
@@ -57,36 +55,45 @@
              ;; actual styles
              {:flex 1})}
 
-    [view {:style {}}
+    [touchable-ripple {:style         {}
+                       :on-press      #(dispatch
+                                        [:set-current-pixel-to-minute-ratio
+                                         (* 1.1 pixel-to-minute-ratio)])
+                       :on-long-press #(dispatch
+                                        [:set-current-pixel-to-minute-ratio
+                                         default-pxl-min-ratio])}
 
-     ;; time indicators
-     (for [hour (range helpers/day-hour)]
-       (let [rel-min  (* 60 hour)
-             y-pos    (/ pixel-minute-ratio rel-min)
-             rel-ms   (helpers/hours->ms hour)
-             time-str (helpers/ms->hhmm rel-ms)]
+     [:<>
+      ;; time indicators
+      (for [hour (range helpers/day-hour)]
+        (let [rel-min  (* 60 hour)
+              y-pos    (/ pixel-to-minute-ratio rel-min)
+              rel-ms   (helpers/hours->ms hour)
+              time-str (helpers/ms->hhmm rel-ms)]
 
-         [view {:key   (str "hour-marker-" hour)
-                :style {:top    y-pos
-                        :height (* 60 pixel-minute-ratio)}}
+          [view {:key   (str "hour-marker-" hour)
+                 :style {:top    y-pos
+                         :height (* 60 pixel-to-minute-ratio)}}
 
-          [:<>
-           [divider]
-           [text-paper {:style {:padding-left 8
-                                :color        (-> styles/theme :colors :disabled)}}
-            time-str]]]))
+           [:<>
+            [divider]
+            [text-paper {:style {:padding-left 8
+                                 :color        (-> styles/theme :colors :disabled)}}
+             time-str]]]))
 
-     ;; periods
-     [view {:style {:left         60
-                    :right        0
-                    :border-color "blue"
-                    :border-width 8
-                    :position     "absolute"
-                    :height       "100%"}}
-      [text "periods"]]]]])
+      ;; periods
+      [touchable-ripple {:style    {:position "absolute"
+                                    :left     60
+                                    :right    0
+                                    :height   "100%"}
+                         :on-press #(println "pressed periods")}
+       [:<>]]]]]])
 
 (defn root []
-  [view {:style {:flex 1}}
-   [status-bar {:hidden true}]
-   [top-bar]
-   [day-display]])
+  (let [px-ratio-config @(subscribe [:get-pixel-to-minute-ratio])]
+
+    [view {:style {:flex 1}}
+     [status-bar {:hidden true}]
+     [top-bar]
+     [day-display {:pixel-to-minute-ratio (:current px-ratio-config)
+                   :default-pxl-min-ratio (:default px-ratio-config)}]]))

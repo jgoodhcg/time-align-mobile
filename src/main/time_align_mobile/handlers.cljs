@@ -6,7 +6,7 @@
     [cljs.reader :refer [read-string]]
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
-    [time-align-mobile.helpers :as helpers :refer [same-day? get-ms]]
+    [time-align-mobile.helpers :as helpers :refer [same-day? get-ms deep-merge]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (def navigation-history (atom []))
@@ -816,7 +816,8 @@
   {:db db
    :share db})
 
-(defn import-app-db [_ [_ new-app-db]] new-app-db)
+(defn import-app-db [_ [_ new-app-db]]
+  (deep-merge app-db new-app-db))
 
 (defn add-auto-filter [db [_ filter]]
   (->> db
@@ -908,6 +909,12 @@
                   sp/AFTER-ELEM]
                  new-pattern))))
 
+(defn set-current-pixel-to-minute-ratio [db [_ ratio]]
+  (setval [:config :pixel-to-minute-ratio :current] ratio db))
+
+(defn set-default-pixel-to-minute-ratio [db [_ ratio]]
+  (setval [:config :pixel-to-minute-ratio :default] ratio db))
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
@@ -965,3 +972,5 @@
 (reg-event-db :update-template-on-pattern-planning-form [validate-spec persist-secure-store]
               update-template-on-pattern-planning-form)
 (reg-event-db :make-pattern-from-day [validate-spec persist-secure-store] make-pattern-from-day)
+(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec persist-secure-store] set-current-pixel-to-minute-ratio)
+(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec persist-secure-store] set-default-pixel-to-minute-ratio)

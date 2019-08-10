@@ -201,7 +201,9 @@
                    :time-navigators {:day      ::moment
                                      :calendar ::moment
                                      :report   ::moment}
-                   :config          {:auto-log-time-align boolean?}
+                   :config          {:auto-log-time-align boolean?
+                                     :pixel-to-minute-ratio {:default number?
+                                                             :current number?}}
                    :period-in-play-id (ds/maybe uuid?)
                    :now             inst?}
             :name ::app-db}))
@@ -278,7 +280,9 @@
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
-   :config            {:auto-log-time-align true}
+   :config            {:auto-log-time-align true
+                       :pixel-to-minute-ratio {:default 0.5
+                                               :current 0.5}}
    :period-in-play-id default-period-id
    :selected-period   nil
    :selected-template nil

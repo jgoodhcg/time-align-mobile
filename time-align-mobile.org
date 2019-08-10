@@ -47,9 +47,14 @@
 - [X] Get relative positioning figured out
 - [X] Add dividers
 - [X] Figure out how it relates to periods
-**** TODO Add Zomming functionality
-- [ ] Put pixel ration in app-db
-- [ ] Make handlers to adjust
+**** DONE Add Zomming functionality
+     CLOSED: [2019-08-10 Sat 19:27]
+     :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 18:21]--[2019-08-10 Sat 19:27] =>  1:06
+     :END:
+- [X] Put pixel ration in app-db
+- [X] Make handlers/subs to adjust
+- [X] Use deep merge on loading and importing db to handle app-db accretion
 **** TODO Add bottom sheet
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
 *** TODO Add locked period mechanism

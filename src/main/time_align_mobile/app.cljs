@@ -6,12 +6,14 @@
     [re-frame.core :refer [subscribe dispatch dispatch-sync]]
     [shadow.expo :as expo]
     [time-align-mobile.handlers]
+    [time-align-mobile.helpers :refer [deep-merge]]
     [time-align-mobile.subs]
     [time-align-mobile.navigation :as nav]
     [cljs.reader :refer [read-string]]
     [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                        oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
     [time-align-mobile.styles :refer [theme]]
+    [time-align-mobile.db :refer [app-db] :rename {app-db default-app-db}]
     [time-align-mobile.js-imports :refer [ReactNative
                                           ei
                                           en
@@ -143,7 +145,7 @@
    (fn [value]
      (let [app-db (read-string value)]
        (if (some? app-db)
-         (dispatch-sync [:load-db app-db]))))
+         (dispatch-sync [:load-db (deep-merge default-app-db app-db)]))))
    (fn [error]
      (println "error reading file")))
 

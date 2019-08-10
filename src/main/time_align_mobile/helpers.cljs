@@ -179,3 +179,11 @@
     (if (= 1 (bit-xor a-num b-num))
       true
       false)))
+
+;; https://gist.github.com/danielpcox/c70a8aa2c36766200a95#gistcomment-2711849
+(defn deep-merge [& maps]
+  (apply merge-with (fn [& args]
+                      (if (every? map? args)
+                        (apply deep-merge args)
+                        (last args)))
+         maps))
