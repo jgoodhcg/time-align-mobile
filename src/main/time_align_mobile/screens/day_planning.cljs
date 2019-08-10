@@ -1,4 +1,4 @@
-(ns time-align-mobile.screens.day
+(ns time-align-mobile.screens.day-planning
   (:require [time-align-mobile.js-imports :refer [view
                                                   scroll-view
                                                   text

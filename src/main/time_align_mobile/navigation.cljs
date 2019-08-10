@@ -1,6 +1,6 @@
 (ns time-align-mobile.navigation
   (:require [time-align-mobile.screens.calendar :as calendar-screen]
-            [time-align-mobile.screens.day :as day-screen]
+            [time-align-mobile.screens.day-planning :as day-planning-screen]
             [time-align-mobile.screens.period-form :as period-form-screen]
             [time-align-mobile.screens.period-list :as period-list-screen]
             [time-align-mobile.screens.queue :as queue-screen]
@@ -99,9 +99,9 @@
                      :icon            {:family "FontAwesome"
                                        :name   "filter"}})
 
-(def day-screen {:id       :day
+(def day-planning-screen {:id       :day
                  :label           "day"
-                 :screen          day-screen/root
+                 :screen          day-planning-screen/root
                  :in-drawer       true
                  :position-drawer 1
                  :icon            {:family "FontAwesome"
@@ -150,7 +150,7 @@
                   templates-screen
                   filter-screen
                   filters-screen
-                  day-screen
+                  day-planning-screen
                   calendar-screen
                   report-screen
                   queue-screen

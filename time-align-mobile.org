@@ -23,6 +23,7 @@
     :END:
 **** Top bar with scroll view below
      :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 13:24]--[2019-08-10 Sat 13:28] =>  0:04
      CLOCK: [2019-08-10 Sat 13:15]--[2019-08-10 Sat 13:24] =>  0:09
      CLOCK: [2019-08-10 Sat 13:12]--[2019-08-10 Sat 13:14] =>  0:02
      :END:
@@ -30,6 +31,7 @@
 - [X] Blow away everything in day-screen ns and the day-comp ns
 - [X] Set up a day-comp ns with a placeholder
 - [X] Get code to compile and show placeholder for pattern-planning and day screens
+- [X] Change day screen ns
 - [ ] Add a top bar section
 - [ ] Add a scroll view below it
 *** TODO Add locked period mechanism
