@@ -38,12 +38,18 @@
 - [X] Change day screen ns
 - [X] Add a top bar section
 - [X] Add a scroll view below it
-**** TODO Add time section
+**** DONE Add time section
+     CLOSED: [2019-08-10 Sat 16:56]
      :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 16:45]--[2019-08-10 Sat 16:56] =>  0:11
      CLOCK: [2019-08-10 Sat 14:39]--[2019-08-10 Sat 15:40] =>  1:01
      :END:
 - [X] Get relative positioning figured out
+- [X] Add dividers
+- [X] Figure out how it relates to periods
 **** TODO Add Zomming functionality
+- [ ] Put pixel ration in app-db
+- [ ] Make handlers to adjust
 **** TODO Add bottom sheet
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
 *** TODO Add locked period mechanism

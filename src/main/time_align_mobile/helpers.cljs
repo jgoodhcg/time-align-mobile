@@ -57,12 +57,18 @@
 
 (defn ms->hhmm [ms]
   (let [hours   (-> ms
-                    (quot (hours->ms 1)))
+                    (quot (hours->ms 1))
+                    (#(if (< % 10) ;; add leading 0
+                        (str "0" %)
+                        (str %))))
         minutes (-> ms
                     (rem (hours->ms 1)) ;; minutes left over after hours
                     (/ 1000) ;; converted from ms to s
                     (/ 60)   ;; converted from s to m
-                    (.toFixed 0))]
+                    (.toFixed 0)
+                    (#(if (< % 10) ;; add leading 0
+                        (str "0" %)
+                        (str %))))]
     (str hours ":" minutes)))
 
 (defn rel-ms->y-pos [ms total-height]

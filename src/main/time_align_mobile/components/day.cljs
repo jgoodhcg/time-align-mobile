@@ -9,6 +9,7 @@
                                                   button-paper
                                                   scroll-view
                                                   touchable-ripple
+                                                  divider
                                                   format-date
                                                   touchable-ripple
                                                   modal-paper
@@ -43,7 +44,8 @@
 
    [text {:style {:height 60}} "top bar stuff"]])
 
-(def pixel-minute-ratio 0.50)
+(def pixel-minute-ratio 5)
+
 (def total-height-pixel (* helpers/day-ms pixel-minute-ratio))
 
 (defn day-display []
@@ -51,29 +53,37 @@
    [view
     {:style (merge
              ;; testing styles
-             {:border-color "blue"
-              :border-width 8}
+             {}
              ;; actual styles
              {:flex 1})}
 
-    (println "+++++++++++++++++++")
-    ;; time indicators
     [view {:style {}}
+
+     ;; time indicators
      (for [hour (range helpers/day-hour)]
-       (let [rel-min (* 60 hour)
-             y-pos   (/ pixel-minute-ratio rel-min)]
-         (println {:rel-min rel-min
-                   :hour    hour
-                   :y-pos   y-pos})
+       (let [rel-min  (* 60 hour)
+             y-pos    (/ pixel-minute-ratio rel-min)
+             rel-ms   (helpers/hours->ms hour)
+             time-str (helpers/ms->hhmm rel-ms)]
+
          [view {:key   (str "hour-marker-" hour)
-                :style {:top            y-pos
-                        :height         (* 60 pixel-minute-ratio)
-                        :padding-top    0
-                        :padding-bottom 4}}
-          [view {:style {:background-color "grey"
-                         :height           "100%"
-                         :width            "100%"}}
-           [text (str "hour-marker-" hour)]]]))]]])
+                :style {:top    y-pos
+                        :height (* 60 pixel-minute-ratio)}}
+
+          [:<>
+           [divider]
+           [text-paper {:style {:padding-left 8
+                                :color        (-> styles/theme :colors :disabled)}}
+            time-str]]]))
+
+     ;; periods
+     [view {:style {:left         60
+                    :right        0
+                    :border-color "blue"
+                    :border-width 8
+                    :position     "absolute"
+                    :height       "100%"}}
+      [text "periods"]]]]])
 
 (defn root []
   [view {:style {:flex 1}}
