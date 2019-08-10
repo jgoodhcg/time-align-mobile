@@ -12,6 +12,7 @@
                                                   format-date
                                                   touchable-ripple
                                                   modal-paper
+                                                  scroll-view
                                                   status-bar
                                                   portal
                                                   surface
@@ -33,18 +34,32 @@
 
 (defn top-bar []
   [view
-   {:style {:border-width 2
-            :border-color "red"}}
-   [text "top bar stuff"]])
+   {:style (merge
+            ;; testing styles
+            {:border-width 8
+             :border-color "red"}
+            ;; actual styles
+            {})}
+
+   [text {:style {:height 60}} "top bar stuff"]])
 
 (defn day-display []
-  [view
-   {:style {:border-width 2
-            :border-color "blue"}}
-   [text "day stuff"]])
+  [scroll-view
+   [view
+    {:style (merge
+             ;; testing styles
+             {:border-width    8
+              :border-color    "blue"
+              :flex-direction  "column"
+              :justify-content "space-between"}
+             ;; actual styles
+             {:height 1440})}
+
+    [view {:style {:height 50}}[text "day stuff top"]]
+    [view {:style {:height 50}}[text "day stuff bottom"]]]])
 
 (defn root []
-  [view
+  [view {:style {:flex 1}}
    [status-bar {:hidden true}]
    [top-bar]
    [day-display]])

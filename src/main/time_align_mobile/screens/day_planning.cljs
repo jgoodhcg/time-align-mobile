@@ -45,9 +45,5 @@
         time-alignment-fn #(cond (nil? %)           :center
                                  (:planned %)       :left
                                  (not (:planned %)) :right)]
-
-    (r/create-class
-     {:reagent-render
-      (fn [params]
-        [day-comp/root])})))
+    [day-comp/root]))
 
