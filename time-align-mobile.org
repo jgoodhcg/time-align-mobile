@@ -2,6 +2,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-08-10 Sat 12:51]--[2019-08-10 Sat 13:11] =>  0:20
   CLOCK: [2019-07-20 Sat 21:52]--[2019-07-20 Sat 22:10] =>  0:18
   CLOCK: [2019-07-20 Sat 18:55]--[2019-07-20 Sat 18:56] =>  0:01
   CLOCK: [2019-07-13 Sat 18:20]--[2019-07-13 Sat 18:42] =>  0:22
@@ -16,46 +17,38 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
+*** TODO New day design
+    :LOGBOOK:
+    CLOCK: [2019-08-10 Sat 13:11]--[2019-08-10 Sat 13:12] =>  0:01
+    :END:
+**** Top bar with scroll view below
+     :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 13:12]--[2019-08-10 Sat 13:14] =>  0:02
+     :END:
+- [ ] Get to a clean commit
+- [ ] Blow away everything in day-screen ns and the day-comp ns
+- [ ] Set up a day-comp ns with a placeholder
+- [ ] Get code to compile and show placeholder for pattern-planning and day screens
+- [ ] Add a top bar section
+- [ ] Add a scroll view below it
 *** TODO Add locked period mechanism
 When using the transform arrows to move things around the other periods (in the day?) should get pushed unless locked.
 Have a lock / unlock all button.
-*** TODO Fix template editing bug with end time
-Using the arrows to have the start go to the day before or end to day after seems to work fine.
-Check that it works past 24+ hours.
-Using the button to set the time into yesterday or tomorrow doesn't work.
-*** TODO Add insert before/after button to selection menu
-*** DOSUB UX refactor
-**** DOSUB UX clenaup by screen
-***** TODO Day
-      :LOGBOOK:
-      CLOCK: [2019-08-04 Sun 18:30]--[2019-08-04 Sun 18:50] =>  0:20
-      CLOCK: [2019-08-04 Sun 18:25]--[2019-08-04 Sun 18:34] =>  0:09
-      CLOCK: [2019-08-04 Sun 18:07]--[2019-08-04 Sun 18:24] =>  0:17
-      CLOCK: [2019-07-21 Sun 15:45]--[2019-07-21 Sun 15:59] =>  0:14
-      CLOCK: [2019-07-21 Sun 15:15]--[2019-07-21 Sun 15:26] =>  0:11
-      CLOCK: [2019-07-20 Sat 22:51]--[2019-07-20 Sat 22:52] =>  0:01
-      :END:
-- [X] Remove templates from play selector
-- [X] Fix button size in selection menu (real device)
-- [ ] Restyle play selector
-- [X] Now indicator uses primary color
-- [X] Now indicator renders over selected period
-- [ ] Time indicators use a color from theme
-- [ ] Another level of time indicators (thinner or dashed lines)
-- [X] Add labels to periods
-- [X] Shrink selection menu to show either side of planned and actual
-***** TODO Remove form indirection from editing periods
-***** TODO Buckets/Patterns/Templates/Periods
-- [ ] Filter component
-- [ ] Remove header
-- [ ] Item render component
-  - [ ] Bucket
-  - [ ] Pattern
+*** TODO Mobile friendly data editor
+    :LOGBOOK:
+    CLOCK: [2019-08-08 Thu 21:25]--[2019-08-08 Thu 22:56] =>  1:31
+    CLOCK: [2019-08-08 Thu 19:42]--[2019-08-08 Thu 20:42] =>  1:00
+    :END:
+https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
+*** TODO Checklists
+- [ ] Add basic data to spec template
+- [ ] Add basic data to spec period
+- [ ] Create components for forms
+  - [ ] Period
+  - [ ] Period compact (modal?)
   - [ ] Template
-  - [ ] Periods
-- [ ] FAB for add
-***** TODO Port
-- [ ] Better option components
+  - [ ] Template compact (modal?)
+  - [ ] Create complete state indicator
 *** TODO Notifications (push?)
     :LOGBOOK:
     CLOCK: [2019-07-27 Sat 17:01]--[2019-07-27 Sat 17:54] =>  0:53
@@ -67,15 +60,17 @@ Using the button to set the time into yesterday or tomorrow doesn't work.
   - [ ] Add period handler
   - [ ] Apply pattern handler
 - [ ] Register a listener to navigate to day
-*** TODO Add quick add to list pages
-Should be able to add something and set the label of it quickly in one screen.
-Either add an input line or put the form in a modal and saving brings the user back to the list page.
-*** TODO Fix Jump to selected so that it also changes displayed day
+*** TODO Fix template editing bug with end time
+Using the arrows to have the start go to the day before or end to day after seems to work fine.
+Check that it works past 24+ hours.
+Using the button to set the time into yesterday or tomorrow doesn't work.
 *** TODO Fix navigation
 - [ ] Move history to app-db
 - [ ] Limit to X items
 - [ ] Back should pop off history
 - [ ] Delete actions should nav-back
+*** TODO Markov chain prediction
+*** TODO Report Page
 *** TODO Queue page
 **** TODO Add queue definition to app-db
 - [ ] queue definition
@@ -84,23 +79,8 @@ Either add an input line or put the form in a modal and saving brings the user b
 **** TODO Add queue form
 **** TODO Add queue list
 **** TODO Add conversion to planned period function
-*** TODO Analytics
-*** TODO Markov chain prediction
-*** TODO Spec change migrations
-- [ ] Add an incremental version to app-db
-- [ ] Create an example up/down transformation function (checklist)
-- [ ] Figure out how to run through transformation function on app-db load/import
-*** TODO Checklists
-- [ ] Add basic data to spec template
-- [ ] Add basic data to spec period
-- [ ] Create components for forms
-  - [ ] Period
-  - [ ] Period compact (modal?)
-  - [ ] Template
-  - [ ] Template compact (modal?)
-  - [ ] Create complete state indicator
 *** TODO Calendar Page
-*** TODO Report Page
+*** TODO Analytics
 ** Dreams
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]

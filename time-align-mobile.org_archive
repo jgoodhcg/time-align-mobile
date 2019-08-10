@@ -3720,3 +3720,96 @@ Can't select anything that hasn't been saved.
   - Needs live reload to run (which breaks shadow react native repl)
 - [X] Attempt to use straight up spec
   - [X] Maybe this isn't worth it?
+
+* CANCELED UX refactor
+  CLOSED: [2019-08-10 Sat 12:58]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-10 Sat 12:58
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+** CANCELED UX clenaup by screen
+   CLOSED: [2019-08-10 Sat 12:58]
+*** CANCELED Day
+    CLOSED: [2019-08-10 Sat 12:58]
+      :LOGBOOK:
+      CLOCK: [2019-08-04 Sun 18:30]--[2019-08-04 Sun 18:50] =>  0:20
+      CLOCK: [2019-08-04 Sun 18:25]--[2019-08-04 Sun 18:34] =>  0:09
+      CLOCK: [2019-08-04 Sun 18:07]--[2019-08-04 Sun 18:24] =>  0:17
+      CLOCK: [2019-07-21 Sun 15:45]--[2019-07-21 Sun 15:59] =>  0:14
+      CLOCK: [2019-07-21 Sun 15:15]--[2019-07-21 Sun 15:26] =>  0:11
+      CLOCK: [2019-07-20 Sat 22:51]--[2019-07-20 Sat 22:52] =>  0:01
+      :END:
+- [X] Remove templates from play selector
+- [X] Fix button size in selection menu (real device)
+- [ ] Restyle play selector
+- [X] Now indicator uses primary color
+- [X] Now indicator renders over selected period
+- [ ] Time indicators use a color from theme
+- [ ] Another level of time indicators (thinner or dashed lines)
+- [X] Add labels to periods
+- [X] Shrink selection menu to show either side of planned and actual
+*** CANCELED Remove form indirection from editing periods
+    CLOSED: [2019-08-10 Sat 12:58]
+*** CANCELED Buckets/Patterns/Templates/Periods
+    CLOSED: [2019-08-10 Sat 12:58]
+- [ ] Filter component
+- [ ] Remove header
+- [ ] Item render component
+  - [ ] Bucket
+  - [ ] Pattern
+  - [ ] Template
+  - [ ] Periods
+- [ ] FAB for add
+*** CANCELED Port
+    CLOSED: [2019-08-10 Sat 12:58]
+- [ ] Better option components
+
+* CANCELED Add insert before/after button to selection menu
+  CLOSED: [2019-08-10 Sat 12:59]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-10 Sat 12:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Add quick add to list pages
+  CLOSED: [2019-08-10 Sat 12:59]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-10 Sat 12:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+Should be able to add something and set the label of it quickly in one screen.
+Either add an input line or put the form in a modal and saving brings the user back to the list page.
+
+* CANCELED Fix Jump to selected so that it also changes displayed day
+  CLOSED: [2019-08-10 Sat 12:59]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-10 Sat 12:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* CANCELED Spec change migrations
+  CLOSED: [2019-08-10 Sat 13:04]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-10 Sat 13:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+- [ ] Add an incremental version to app-db
+- [ ] Create an example up/down transformation function (checklist)
+- [ ] Figure out how to run through transformation function on app-db load/import
+
+Canceled because the app-db should only accrete out of alpha.
