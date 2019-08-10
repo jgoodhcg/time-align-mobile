@@ -19,6 +19,7 @@
 ** DOSUB Release to strangers
 *** TODO New day design
     :LOGBOOK:
+    CLOCK: [2019-08-10 Sat 19:29]--[2019-08-10 Sat 19:36] =>  0:07
     CLOCK: [2019-08-10 Sat 13:11]--[2019-08-10 Sat 13:12] =>  0:01
     :END:
 **** DONE Top bar with scroll view below
@@ -55,8 +56,11 @@
 - [X] Put pixel ration in app-db
 - [X] Make handlers/subs to adjust
 - [X] Use deep merge on loading and importing db to handle app-db accretion
-**** TODO Add bottom sheet
+**** TODO Add periods/templates (elements)
+**** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
+**** TODO Dragging element to move on selection
+**** TODO Stretch mode
 *** TODO Add locked period mechanism
 When using the transform arrows to move things around the other periods (in the day?) should get pushed unless locked.
 Have a lock / unlock all button.
