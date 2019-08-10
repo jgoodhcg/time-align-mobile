@@ -43,20 +43,37 @@
 
    [text {:style {:height 60}} "top bar stuff"]])
 
+(def pixel-minute-ratio 0.50)
+(def total-height-pixel (* helpers/day-ms pixel-minute-ratio))
+
 (defn day-display []
   [scroll-view
    [view
     {:style (merge
              ;; testing styles
-             {:border-width    8
-              :border-color    "blue"
-              :flex-direction  "column"
-              :justify-content "space-between"}
+             {:border-color "blue"
+              :border-width 8}
              ;; actual styles
-             {:height 1440})}
+             {:flex 1})}
 
-    [view {:style {:height 50}}[text "day stuff top"]]
-    [view {:style {:height 50}}[text "day stuff bottom"]]]])
+    (println "+++++++++++++++++++")
+    ;; time indicators
+    [view {:style {}}
+     (for [hour (range helpers/day-hour)]
+       (let [rel-min (* 60 hour)
+             y-pos   (/ pixel-minute-ratio rel-min)]
+         (println {:rel-min rel-min
+                   :hour    hour
+                   :y-pos   y-pos})
+         [view {:key   (str "hour-marker-" hour)
+                :style {:top            y-pos
+                        :height         (* 60 pixel-minute-ratio)
+                        :padding-top    0
+                        :padding-bottom 4}}
+          [view {:style {:background-color "grey"
+                         :height           "100%"
+                         :width            "100%"}}
+           [text (str "hour-marker-" hour)]]]))]]])
 
 (defn root []
   [view {:style {:flex 1}}

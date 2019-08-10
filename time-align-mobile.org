@@ -39,6 +39,10 @@
 - [X] Add a top bar section
 - [X] Add a scroll view below it
 **** TODO Add time section
+     :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 14:39]--[2019-08-10 Sat 15:40] =>  1:01
+     :END:
+- [X] Get relative positioning figured out
 **** TODO Add Zomming functionality
 **** TODO Add bottom sheet
 https://github.com/osdnk/react-native-reanimated-bottom-sheet

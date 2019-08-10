@@ -5,9 +5,15 @@
    [re-frame.core :refer [reg-sub]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
+(def day-hour 24)
+
 (def day-ms
   ;; 24 hours in millis
-  (* 24 60 60 1000))
+  (* day-hour 60 60 1000))
+
+(def day-min
+  ;; 24 hours in minutes
+  (* day-hour 60))
 
 (defn same-day? [date-a date-b]
   (if (and (inst? date-a)
@@ -59,11 +65,15 @@
                     (.toFixed 0))]
     (str hours ":" minutes)))
 
+(defn rel-ms->y-pos [ms total-height]
+  (-> ms
+      (/ day-ms)
+      (* total-height)))
+
 (defn date->y-pos [date-time total-height]
   (-> date-time
       (get-ms)
-      (/ day-ms)
-      (* total-height)))
+      (rel-ms->y-pos total-height)))
 
 (defn y-pos->ms [y-pos total-height]
   (-> y-pos
