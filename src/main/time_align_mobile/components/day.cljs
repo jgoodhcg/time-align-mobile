@@ -12,6 +12,7 @@
                                                   format-date
                                                   touchable-ripple
                                                   modal-paper
+                                                  status-bar
                                                   portal
                                                   surface
                                                   touchable-without-feedback
@@ -30,6 +31,20 @@
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]))
 
+(defn top-bar []
+  [view
+   {:style {:border-width 2
+            :border-color "red"}}
+   [text "top bar stuff"]])
+
+(defn day-display []
+  [view
+   {:style {:border-width 2
+            :border-color "blue"}}
+   [text "day stuff"]])
+
 (defn root []
-  [view {:style {:flex 1 :justify-content "center" :align-items "center"}}
-   [text "day component"]])
+  [view
+   [status-bar {:hidden true}]
+   [top-bar]
+   [day-display]])
