@@ -247,27 +247,33 @@
      [:<>
       ;; time indicators
       (for [hour (range helpers/day-hour)]
-        (let [rel-min  (* 60 hour)
-              y-pos    (/ pixel-to-minute-ratio rel-min)
-              rel-ms   (helpers/hours->ms hour)
-              time-str (helpers/ms->hhmm rel-ms)]
+        (let [rel-min     (* 60 hour)
+              y-pos       (/ pixel-to-minute-ratio rel-min)
+              rel-ms      (helpers/hours->ms hour)
+              time-str    (helpers/ms->hhmm rel-ms)
+              text-height 30]
 
           [view {:key   (str "hour-marker-" hour)
-                 :style {:top    y-pos
+                 :style {:top    (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
                          :height (* 60 pixel-to-minute-ratio)}}
 
            [view {:style {:flex-direction "row"
-                          :align-items    "center"}}
+                          :align-items    "flex-start"}}
             ;; time stamp
-            [text-paper {:style {:padding-left 8
-                                 :color        (-> styles/theme :colors :accent)}}
+            [text-paper {:style {:padding-left        8
+                                 :color               (-> styles/theme :colors :accent)
+                                 :height              text-height
+                                 :text-align-vertical "center"}}
              time-str]
             ;; bar
-            [view {:style {:border-color (-> styles/theme :colors :disabled)
-                           :border-width 0.50
-                           :margin-left  4
-                           :width        "100%"
-                           :height       0}}]]]))
+            [view {:style {:height         text-height
+                           :flex-direction "row"
+                           :align-items    "center"}}
+             [view {:style {:border-color (-> styles/theme :colors :disabled)
+                            :border-width 0.50
+                            :margin-left  4
+                            :width        "100%"
+                            :height       0}}]]]]))
 
       ;; periods
       [touchable-ripple {:style    {:position "absolute"
