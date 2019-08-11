@@ -236,7 +236,7 @@
              ;; actual styles
              {:flex 1})}
 
-    [touchable-ripple {:style         {}
+    [touchable-ripple {:style         {:flex 1}
                        :on-press      #(dispatch
                                         [:set-current-pixel-to-minute-ratio
                                          (* 1.1 pixel-to-minute-ratio)])
@@ -244,18 +244,25 @@
                                         [:set-current-pixel-to-minute-ratio
                                          default-pxl-min-ratio])}
 
-     [:<>
+     [view {:style {:height       (* helpers/day-min pixel-to-minute-ratio)
+                    :flex         1
+                    :border-color "blue"
+                    :border-width 4}}
+
       ;; time indicators
-      (for [hour (range helpers/day-hour)]
+      (for [hour (range 1 helpers/day-hour)]
         (let [rel-min     (* 60 hour)
-              y-pos       (/ pixel-to-minute-ratio rel-min)
+              y-pos       (* pixel-to-minute-ratio rel-min)
               rel-ms      (helpers/hours->ms hour)
               time-str    (helpers/ms->hhmm rel-ms)
               text-height 30]
 
           [view {:key   (str "hour-marker-" hour)
-                 :style {:top    (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
-                         :height (* 60 pixel-to-minute-ratio)}}
+                 :style {:flex     1
+                         :position "absolute"
+                         :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
+                         :height   (+ (* 60 pixel-to-minute-ratio)
+                                      (/ text-height 2))}}
 
            [view {:style {:flex-direction "row"
                           :align-items    "flex-start"}}

@@ -58,6 +58,7 @@
 - [X] Use deep merge on loading and importing db to handle app-db accretion
 **** TODO Add periods/templates (elements)
      :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 22:19]--[2019-08-10 Sat 23:09] =>  0:50
      CLOCK: [2019-08-10 Sat 22:09]--[2019-08-10 Sat 22:19] =>  0:10
      CLOCK: [2019-08-10 Sat 21:56]--[2019-08-10 Sat 22:08] =>  0:12
      CLOCK: [2019-08-10 Sat 20:58]--[2019-08-10 Sat 21:36] =>  0:38
@@ -67,6 +68,7 @@
  - [X] Move tim indicators
  - [X] Add reference from old rendering
  - [X] Make the time indicator bar position (center of text) the exact time of the indicator
+ - [X] Actually fix teh time indicator
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
 **** TODO Dragging element to move on selection
