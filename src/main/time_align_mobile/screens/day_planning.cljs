@@ -30,6 +30,17 @@
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
+(defn top-bar []
+  [view
+   {:style (merge
+            ;; testing styles
+            {:border-width 8
+             :border-color "yellow"}
+            ;; actual styles
+            {})}
+
+   [text {:style {:height 60}} "Day planning top bar"]])
+
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
         top-bar-height    styles/top-bar-height
@@ -45,5 +56,8 @@
         time-alignment-fn #(cond (nil? %)           :center
                                  (:planned %)       :left
                                  (not (:planned %)) :right)]
-    [day-comp/root]))
+    [view {:style {:flex 1}}
+     [status-bar {:hidden true}]
+     [top-bar]
+     [day-comp/root {:collision-grouped-elements @periods}]]))
 

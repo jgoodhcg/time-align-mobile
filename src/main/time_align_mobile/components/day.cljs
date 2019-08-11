@@ -33,21 +33,11 @@
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]))
 
-(defn top-bar []
-  [view
-   {:style (merge
-            ;; testing styles
-            {:border-width 8
-             :border-color "red"}
-            ;; actual styles
-            {})}
-
-   [text {:style {:height 60}} "top bar stuff"]])
-
-(defn day-display [{:keys [pixel-to-minute-ratio
-                           default-pxl-min-ratio]}]
-  (println pixel-to-minute-ratio)
-  [scroll-view
+(defn root [{:keys [collision-grouped-elements]}]
+  (let [px-ratio-config @(subscribe [:get-pixel-to-minute-ratio])
+        pixel-to-minute-ratio      (:current px-ratio-config)
+        default-pxl-min-ratio      (:default px-ratio-config)]
+   [scroll-view
    [view
     {:style (merge
              ;; testing styles
@@ -87,13 +77,4 @@
                                     :right    0
                                     :height   "100%"}
                          :on-press #(println "pressed periods")}
-       [:<>]]]]]])
-
-(defn root []
-  (let [px-ratio-config @(subscribe [:get-pixel-to-minute-ratio])]
-
-    [view {:style {:flex 1}}
-     [status-bar {:hidden true}]
-     [top-bar]
-     [day-display {:pixel-to-minute-ratio (:current px-ratio-config)
-                   :default-pxl-min-ratio (:default px-ratio-config)}]]))
+       [:<>]]]]]]))

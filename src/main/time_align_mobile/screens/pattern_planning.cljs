@@ -16,7 +16,18 @@
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
-(defn root []
+(defn top-bar []
+  [view
+   {:style (merge
+            ;; testing styles
+            {:border-width 8
+             :border-color "red"}
+            ;; actual styles
+            {})}
+
+   [text {:style {:height 60}} "Pattern planning top bar"]])
+
+(defn root [params]
   (let [pattern-form      (subscribe [:get-pattern-form])
         buckets           (subscribe [:get-buckets]) ;; this is just for selecting a random bucket for new template long press
         changes           (subscribe [:get-pattern-form-changes])
@@ -24,7 +35,12 @@
         top-bar-height    styles/top-bar-height
         dimensions        (r/atom {:width nil :height nil})]
 
-    (r/create-class
-     {:reagent-render
-      (fn [params]
-        [day-comp/root])})))
+    [view {:style {:flex 1}}
+     [status-bar {:hidden true}]
+     [top-bar]
+     [day-comp/root
+      {:collision-grouped-elements
+       (->> @pattern-form
+            :templates
+            (sort-by :start)
+            (helpers/get-collision-groups))}]]))

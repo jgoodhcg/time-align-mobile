@@ -17,7 +17,7 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
 ** DOSUB Release to strangers
-*** TODO New day design
+*** DOSUB New day design
     :LOGBOOK:
     CLOCK: [2019-08-10 Sat 19:29]--[2019-08-10 Sat 19:36] =>  0:07
     CLOCK: [2019-08-10 Sat 13:11]--[2019-08-10 Sat 13:12] =>  0:01
@@ -57,6 +57,10 @@
 - [X] Make handlers/subs to adjust
 - [X] Use deep merge on loading and importing db to handle app-db accretion
 **** TODO Add periods/templates (elements)
+     :LOGBOOK:
+     CLOCK: [2019-08-10 Sat 20:33]--[2019-08-10 Sat 20:57] =>  0:24
+     :END:
+- [X] Refactor the day comp
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
 **** TODO Dragging element to move on selection
