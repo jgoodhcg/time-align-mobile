@@ -8,6 +8,7 @@
                                                   touchable-highlight
                                                   status-bar
                                                   animated-view
+                                                  surface
                                                   mi
                                                   mci
                                                   fa
@@ -31,14 +32,7 @@
             [reagent.core :as r]))
 
 (defn top-bar []
-  [view
-   {:style (merge
-            ;; testing styles
-            {:border-width 8
-             :border-color "yellow"}
-            ;; actual styles
-            {})}
-
+  [view{:style {}}
    [text {:style {:height 60}} "Day planning top bar"]])
 
 (defn root [params]

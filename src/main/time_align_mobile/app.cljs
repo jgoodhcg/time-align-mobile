@@ -55,7 +55,7 @@
           (rn/StyleSheet.create)))
 
 (defn drawer-list []
-  [surface {:style {:flex 1 :justify-content "center" :align-items "center"}}
+  [view {:style        {:flex 1 :justify-content "center" :align-items "center"}}
    (->> nav/screens-map
         (filter #(:in-drawer %))
         (sort-by #(:position-drawer %))
@@ -63,7 +63,7 @@
                (let [{:keys [family name]} icon
                      params                {:name  name
                                             :style {:margin-right 25
-                                                    :width 32}
+                                                    :width        32}
                                             :color (->> theme :colors :primary)
                                             :size  32}
                      label-element         [text  label]
@@ -94,7 +94,7 @@
 
                                                         (= id :filter)
                                                         {:filter-id (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")}
-                                                        :else            nil)}]))}
+                                                        :else nil)}]))}
                   [view {:flex-direction  "row"
                          :justify-content "flex-start"
                          :align-items     "center"
@@ -114,7 +114,7 @@
           [drawer-layout
            {:drawer-width            200
             :drawer-position         "left"
-            :drawer-type             "front"
+            :drawer-type             "slide"
             :drawer-background-color (get-in theme [:colors :background])
             :render-navigation-view  (fn [] (r/as-element (drawer-list)))}
 
