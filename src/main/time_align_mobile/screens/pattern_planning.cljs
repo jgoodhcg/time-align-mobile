@@ -40,7 +40,7 @@
      [top-bar]
      [day-comp/root
       {:collision-grouped-elements
-       (->> @pattern-form
-            :templates
-            (sort-by :start)
-            (helpers/get-collision-groups))}]]))
+       {:planned (->> @pattern-form
+                      :templates
+                      (sort-by :start)
+                      (helpers/get-collision-groups))}}]]))
