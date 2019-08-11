@@ -224,6 +224,39 @@
 ;;                           :period-in-play @period-in-play
 ;;                           :render-selected-only true})]))
 
+(defn render-collision-group [{:keys [pixel-to-minute-ratio
+                                      displayed-day
+                                      alignment
+                                      collision-group]}]
+  (->> collision-group
+       (map (fn [element]
+              (let [start-ms    (helpers/abstract-element-timestamp
+                                 (:start element)
+                                 displayed-day)
+                    start-min   (helpers/ms->minutes start-ms)
+                    start-y-pos (* pixel-to-minute-ratio start-min)
+                    stop-ms     (helpers/abstract-element-timestamp
+                                 (:stop element)
+                                 displayed-day)
+                    stop-min    (helpers/ms->minutes stop-ms)
+                    height      (* pixel-to-minute-ratio (- stop-min start-min))]
+
+                [view {:key   (:id element)
+                       :style {:position "absolute"
+                               :left     "2%"
+                               :width    "96%"
+                               :top      start-y-pos
+                               :height   height}}
+                 [touchable-ripple {:style
+                                    {:height           "100%"
+                                     :width            "100%"
+                                     :overflow         "hidden"
+                                     :padding          2
+                                     :border-radius    4
+                                     :background-color (:color element)}
+                                    :on-press #(println "heyoo")}
+                  [text-paper (:label element)]]])))))
+
 (defn elements-comp [{:keys [elements
                              selected-element
                              in-play-element
@@ -242,35 +275,11 @@
 
     (->> elements
          :planned
-         (map (fn [collision-group]
-                (->> collision-group
-                     (map (fn [element]
-                            (let [start-ms    (helpers/abstract-element-timestamp
-                                               (:start element)
-                                               displayed-day)
-                                  start-min   (helpers/ms->minutes start-ms)
-                                  start-y-pos (* pixel-to-minute-ratio start-min)
-                                  stop-ms     (helpers/abstract-element-timestamp
-                                               (:stop element)
-                                               displayed-day)
-                                  stop-min    (helpers/ms->minutes stop-ms)
-                                  height      (* pixel-to-minute-ratio (- stop-min start-min))]
-
-                              [view {:key   (:id element)
-                                     :style {:position "absolute"
-                                             :left     "2%"
-                                             :width    "96%"
-                                             :top      start-y-pos
-                                             :height   height}}
-                               [touchable-ripple {:style
-                                                  {:height           "100%"
-                                                   :width            "100%"
-                                                   :overflow         "hidden"
-                                                   :padding          2
-                                                   :border-radius    4
-                                                   :background-color (:color element)}
-                                                  :on-press #(println "heyoo")}
-                                [text-paper (:label element)]]])))))))]
+         (map #(render-collision-group
+                {:pixel-to-minute-ratio pixel-to-minute-ratio
+                 :displayed-day         displayed-day
+                 :collision-group       %
+                 :alignment             :left})))]
 
    ;; actual
    [view {:style {:position           "absolute"
@@ -280,7 +289,14 @@
                   :height             "100%"
                   :border-color       (-> styles/theme :colors :disabled)
                   :border-left-width  0.5
-                  :border-right-width 0.5}}]])
+                  :border-right-width 0.5}}
+    (->> elements
+         :actual
+         (map #(render-collision-group
+                {:pixel-to-minute-ratio pixel-to-minute-ratio
+                 :displayed-day         displayed-day
+                 :collision-group       %
+                 :alignment             :right})))]])
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
