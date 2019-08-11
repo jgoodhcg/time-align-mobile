@@ -59,5 +59,7 @@
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
      [top-bar]
-     [day-comp/root {:collision-grouped-elements @periods}]]))
+     [day-comp/root {:selected-element @selected-period
+                     :in-play-element  @period-in-play
+                     :elements         @periods}]]))
 

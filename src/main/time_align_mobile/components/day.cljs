@@ -224,19 +224,41 @@
 ;;                           :period-in-play @period-in-play
 ;;                           :render-selected-only true})]))
 
-(defn root [{:keys [collision-grouped-elements]}]
+(defn elements-comp [{:keys [elements
+                             selected-element
+                             in-play-element]}]
+  [view {:style {:flex 1}}
+   [view {:style {:position           "absolute"
+                  :top                0
+                  :left               0
+                  :width              "45%"
+                  :height             "100%"
+                  :border-color       (-> styles/theme :colors :disabled)
+                  :border-left-width  0.5
+                  :border-right-width 0.5}}]
+   [view {:style {:position           "absolute"
+                  :top                0
+                  :left               "50%"
+                  :width              "45%"
+                  :height             "100%"
+                  :border-color       (-> styles/theme :colors :disabled)
+                  :border-left-width  0.5
+                  :border-right-width 0.5}}]])
+
+(defn root
+  "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
+  [{:keys [elements
+           selected-element
+           in-play-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)]
    [scroll-view
    [view
-    {:style (merge
-             ;; testing styles
-             {}
-             ;; actual styles
-             {:flex 1})}
+    {:style {:flex 1}}
 
     [touchable-ripple {:style         {:flex 1}
+                       :borderless    true
                        :on-press      #(dispatch
                                         [:set-current-pixel-to-minute-ratio
                                          (* 1.1 pixel-to-minute-ratio)])
@@ -244,10 +266,8 @@
                                         [:set-current-pixel-to-minute-ratio
                                          default-pxl-min-ratio])}
 
-     [view {:style {:height       (* helpers/day-min pixel-to-minute-ratio)
-                    :flex         1
-                    :border-color "blue"
-                    :border-width 4}}
+     [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
+                    :flex   1}}
 
       ;; time indicators
       (for [hour (range 1 helpers/day-hour)]
@@ -277,15 +297,18 @@
                            :flex-direction "row"
                            :align-items    "center"}}
              [view {:style {:border-color (-> styles/theme :colors :disabled)
-                            :border-width 0.50
+                            :border-width 0.25
                             :margin-left  4
                             :width        "100%"
                             :height       0}}]]]]))
 
       ;; periods
-      [touchable-ripple {:style    {:position "absolute"
-                                    :left     60
-                                    :right    0
-                                    :height   "100%"}
-                         :on-press #(println "pressed periods")}
-       [:<>]]]]]]))
+      [touchable-ripple {:style      {:position "absolute"
+                                      :left     60
+                                      :right    0
+                                      :height   "100%"}
+                         :borderless true
+                         :on-press   #(println "pressed periods")}
+       [elements-comp {:elements         elements
+                       :selected-element selected-element
+                       :in-play-element  in-play-element}]]]]]]))

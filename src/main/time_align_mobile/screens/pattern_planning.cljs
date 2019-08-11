@@ -39,8 +39,11 @@
      [status-bar {:hidden true}]
      [top-bar]
      [day-comp/root
-      {:collision-grouped-elements
-       {:planned (->> @pattern-form
+      {:selected-element @selected-template
+       :in-play-element  nil
+       :elements
+       {:actual  []
+        :planned (->> @pattern-form
                       :templates
                       (sort-by :start)
                       (helpers/get-collision-groups))}}]]))
