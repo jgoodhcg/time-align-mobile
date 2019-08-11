@@ -226,8 +226,11 @@
 
 (defn elements-comp [{:keys [elements
                              selected-element
-                             in-play-element]}]
+                             in-play-element
+                             pixel-to-minute-ratio
+                             displayed-day]}]
   [view {:style {:flex 1}}
+   ;; planned
    [view {:style {:position           "absolute"
                   :top                0
                   :left               0
@@ -235,7 +238,41 @@
                   :height             "100%"
                   :border-color       (-> styles/theme :colors :disabled)
                   :border-left-width  0.5
-                  :border-right-width 0.5}}]
+                  :border-right-width 0.5}}
+
+    (->> elements
+         :planned
+         (map (fn [collision-group]
+                (->> collision-group
+                     (map (fn [element]
+                            (let [start-ms    (helpers/abstract-element-timestamp
+                                               (:start element)
+                                               displayed-day)
+                                  start-min   (helpers/ms->minutes start-ms)
+                                  start-y-pos (* pixel-to-minute-ratio start-min)
+                                  stop-ms     (helpers/abstract-element-timestamp
+                                               (:stop element)
+                                               displayed-day)
+                                  stop-min    (helpers/ms->minutes stop-ms)
+                                  height      (* pixel-to-minute-ratio (- stop-min start-min))]
+
+                              [view {:key   (:id element)
+                                     :style {:position "absolute"
+                                             :left     2
+                                             :width    "96%"
+                                             :top      start-y-pos
+                                             :height   height}}
+                               [touchable-ripple {:style
+                                                  {:height           "100%"
+                                                   :width            "100%"
+                                                   :overflow         "hidden"
+                                                   :padding          2
+                                                   :border-radius    4
+                                                   :background-color (:color element)}
+                                                  :on-press #(println "heyoo")}
+                                [text-paper (:label element)]]])))))))]
+
+   ;; actual
    [view {:style {:position           "absolute"
                   :top                0
                   :left               "50%"
@@ -249,7 +286,8 @@
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
            selected-element
-           in-play-element]}]
+           in-play-element
+           displayed-day]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)]
@@ -309,6 +347,8 @@
                                       :height   "100%"}
                          :borderless true
                          :on-press   #(println "pressed periods")}
-       [elements-comp {:elements         elements
-                       :selected-element selected-element
-                       :in-play-element  in-play-element}]]]]]]))
+       [elements-comp {:elements              elements
+                       :selected-element      selected-element
+                       :in-play-element       in-play-element
+                       :pixel-to-minute-ratio pixel-to-minute-ratio
+                       :displayed-day         displayed-day}]]]]]]))

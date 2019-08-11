@@ -42,6 +42,11 @@
       (* 60)
       (* 1000)))
 
+(defn ms->minutes [millis]
+  (-> millis
+      (/ 1000)
+      (/ 60)))
+
 (defn sec->ms [seconds]
   (* seconds 1000))
 
@@ -100,6 +105,27 @@
               0
               0)))
 
+(defn reset-relative-ms [ms date]
+  (let [year           (.getFullYear date)
+        month          (.getMonth date)
+        day            (.getDate date)
+        zero-day    (js/Date. year month day 0 0 0)
+        zero-day-ms (.valueOf zero-day)]
+    (js/Date. (+ zero-day-ms ms))))
+
+(defn abstract-element-timestamp
+  "Returns relative ms to the displayed day"
+  [timestamp displayed-day]
+  (if (number? timestamp)
+    timestamp ;; already relative-ms (template)
+    (if (inst? timestamp)
+      ;; below will work no matter how far behind or ahead
+      ;; the timestamp is to the displayed day
+      (- (.valueOf timestamp) (->> displayed-day
+                                   (reset-relative-ms 0)
+                                   (.valueOf)))
+      (throw (js/Error. "timestamp wasn't a number or an inst")))))
+
 (defn bound-stop [stop day]
   (if (same-day? day stop)
     stop
@@ -121,14 +147,6 @@
         month (.getMonth date)
         year (.getFullYear date)]
     (js/Date. year month (+ days n))))
-
-(defn reset-relative-ms [ms date]
-  (let [year           (.getFullYear date)
-        month          (.getMonth date)
-        day            (.getDate date)
-        zero-day    (js/Date. year month day 0 0 0)
-        zero-day-ms (.valueOf zero-day)]
-    (js/Date. (+ zero-day-ms ms))))
 
 (defn overlapping-timestamps? [{start-a :start stop-a :stop}
                                {start-b :start stop-b :stop}]

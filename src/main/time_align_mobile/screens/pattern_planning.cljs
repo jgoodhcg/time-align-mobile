@@ -41,6 +41,7 @@
      [day-comp/root
       {:selected-element @selected-template
        :in-play-element  nil
+       :displayed-day    (js/Date.)
        :elements
        {:actual  []
         :planned (->> @pattern-form

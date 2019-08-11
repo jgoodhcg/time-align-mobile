@@ -58,6 +58,7 @@
 - [X] Use deep merge on loading and importing db to handle app-db accretion
 **** TODO Add periods/templates (elements)
      :LOGBOOK:
+     CLOCK: [2019-08-11 Sun 14:41]--[2019-08-11 Sun 15:47] =>  1:06
      CLOCK: [2019-08-11 Sun 14:40]--[2019-08-11 Sun 14:40] =>  0:00
      CLOCK: [2019-08-11 Sun 13:16]--[2019-08-11 Sun 13:43] =>  0:27
      CLOCK: [2019-08-10 Sat 23:43]--[2019-08-10 Sat 23:50] =>  0:07
@@ -74,13 +75,17 @@
  - [X] Make the time indicator bar position (center of text) the exact time of the indicator
  - [X] Actually fix teh time indicator
  - [X] Add elements comp and borders
- - [ ] Render some y-pos elements
+ - [X] Render some elements in the correct position
+ - [ ] Render everything in a collision groups
+ - [ ] Selection
+ - [ ] Dragging
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
 **** TODO Dragging element to move on selection
 **** TODO Stretch mode
 *** TODO Fix drawer bug
 When a contained button or surface element is used on the screen component it doesn't /go under/ the drawer overlay
+Also might need to replace drawer with another component library to support non swipe opening for a11y.
 *** TODO Add locked period mechanism
 When using the transform arrows to move things around the other periods (in the day?) should get pushed unless locked.
 Have a lock / unlock all button.

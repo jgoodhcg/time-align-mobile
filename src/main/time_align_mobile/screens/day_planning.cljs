@@ -7,7 +7,10 @@
                                                   format-time
                                                   touchable-highlight
                                                   status-bar
+                                                  format-date-day
                                                   animated-view
+                                                  text-paper
+                                                  subheading
                                                   surface
                                                   mi
                                                   mci
@@ -31,9 +34,11 @@
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
-(defn top-bar []
-  [view{:style {}}
-   [text {:style {:height 60}} "Day planning top bar"]])
+(defn top-bar [{:keys [displayed-day]}]
+  [surface {:style {:flex-direction  "row"
+                    :justify-content "center"
+                    :padding         8}}
+   [subheading (format-date-day displayed-day)]])
 
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
@@ -52,8 +57,9 @@
                                  (not (:planned %)) :right)]
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
-     [top-bar]
+     [top-bar {:displayed-day @displayed-day}]
      [day-comp/root {:selected-element @selected-period
                      :in-play-element  @period-in-play
+                     :displayed-day    @displayed-day
                      :elements         @periods}]]))
 
