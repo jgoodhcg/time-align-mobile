@@ -58,6 +58,7 @@
 - [X] Use deep merge on loading and importing db to handle app-db accretion
 **** TODO Add periods/templates (elements)
      :LOGBOOK:
+     CLOCK: [2019-08-11 Sun 17:47]--[2019-08-11 Sun 18:07] =>  0:20
      CLOCK: [2019-08-11 Sun 14:41]--[2019-08-11 Sun 15:47] =>  1:06
      CLOCK: [2019-08-11 Sun 14:40]--[2019-08-11 Sun 14:40] =>  0:00
      CLOCK: [2019-08-11 Sun 13:16]--[2019-08-11 Sun 13:43] =>  0:27
@@ -76,6 +77,7 @@
  - [X] Actually fix teh time indicator
  - [X] Add elements comp and borders
  - [X] Render some elements in the correct position
+ - [ ] Add navigators to day top bar
  - [ ] Render everything in a collision groups
  - [ ] Selection
  - [ ] Dragging

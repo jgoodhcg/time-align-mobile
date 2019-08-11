@@ -14,6 +14,7 @@
                                                   surface
                                                   mi
                                                   mci
+                                                  icon-button
                                                   fa
                                                   modal
                                                   animated-xy
@@ -35,10 +36,24 @@
             [reagent.core :as r]))
 
 (defn top-bar [{:keys [displayed-day]}]
-  [surface {:style {:flex-direction  "row"
-                    :justify-content "center"
-                    :padding         8}}
-   [subheading (format-date-day displayed-day)]])
+  [surface {:elevation 1
+            :style     {:flex-direction  "row"
+                        :justify-content "space-between"
+                        :align-items     "center"
+                        :padding         8}}
+   [icon-button {:icon     "keyboard-arrow-left"
+                 :size     20
+                 :on-press #(dispatch
+                             [:update-day-time-navigator
+                              (helpers/back-n-days displayed-day 1)])}]
+
+   [subheading (format-date-day displayed-day)]
+
+   [icon-button {:icon     "keyboard-arrow-right"
+                 :size     20
+                 :on-press #(dispatch
+                             [:update-day-time-navigator
+                              (helpers/forward-n-days displayed-day 1)])}]])
 
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})

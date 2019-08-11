@@ -258,7 +258,7 @@
 
                               [view {:key   (:id element)
                                      :style {:position "absolute"
-                                             :left     2
+                                             :left     "2%"
                                              :width    "96%"
                                              :top      start-y-pos
                                              :height   height}}
