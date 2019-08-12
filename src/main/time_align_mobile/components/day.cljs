@@ -228,34 +228,41 @@
                                       displayed-day
                                       alignment
                                       collision-group]}]
-  (->> collision-group
-       (map (fn [element]
-              (let [start-ms    (helpers/abstract-element-timestamp
-                                 (:start element)
-                                 displayed-day)
-                    start-min   (helpers/ms->minutes start-ms)
-                    start-y-pos (* pixel-to-minute-ratio start-min)
-                    stop-ms     (helpers/abstract-element-timestamp
-                                 (:stop element)
-                                 displayed-day)
-                    stop-min    (helpers/ms->minutes stop-ms)
-                    height      (* pixel-to-minute-ratio (- stop-min start-min))]
+  (let [col-grp-count (count collision-group)]
+    (->> collision-group
+         (map-indexed
+          (fn [index element]
+            (let [start-ms     (helpers/abstract-element-timestamp
+                                (:start element)
+                                displayed-day)
+                  start-min    (helpers/ms->minutes start-ms)
+                  start-y-pos  (* pixel-to-minute-ratio start-min)
+                  stop-ms      (helpers/abstract-element-timestamp
+                                (:stop element)
+                                displayed-day)
+                  stop-min     (helpers/ms->minutes stop-ms)
+                  height       (* pixel-to-minute-ratio (- stop-min start-min))
+                  index-offset (-> index
+                                   (* 16)
+                                   (+ 2))]
 
-                [view {:key   (:id element)
-                       :style {:position "absolute"
-                               :left     "2%"
-                               :width    "96%"
-                               :top      start-y-pos
-                               :height   height}}
-                 [touchable-ripple {:style
-                                    {:height           "100%"
-                                     :width            "100%"
-                                     :overflow         "hidden"
-                                     :padding          2
-                                     :border-radius    4
-                                     :background-color (:color element)}
-                                    :on-press #(println "heyoo")}
-                  [text-paper (:label element)]]])))))
+              [surface {:key   (:id element)
+                        :style {:position      "absolute"
+                                :left          (str index-offset "%")
+                                :width         (str (- 96 index-offset) "%")
+                                :top           start-y-pos
+                                :height        height
+                                :elevation     (* 2 index)
+                                :border-radius 4
+                                :overflow      "hidden"}}
+               [touchable-ripple {:style
+                                  {:height           "100%"
+                                   :width            "100%"
+                                   :overflow         "hidden"
+                                   :padding          4
+                                   :background-color (:color element)}
+                                  :on-press #(println "heyoo")}
+                [text-paper (:label element)]]]))))))
 
 (defn elements-comp [{:keys [elements
                              selected-element
@@ -267,11 +274,11 @@
    [view {:style {:position           "absolute"
                   :top                0
                   :left               0
-                  :width              "45%"
+                  :width              "50%"
                   :height             "100%"
                   :border-color       (-> styles/theme :colors :disabled)
                   :border-left-width  0.5
-                  :border-right-width 0.5}}
+                  :border-right-width 0.25}}
 
     (->> elements
          :planned
@@ -285,10 +292,10 @@
    [view {:style {:position           "absolute"
                   :top                0
                   :left               "50%"
-                  :width              "45%"
+                  :width              "50%"
                   :height             "100%"
                   :border-color       (-> styles/theme :colors :disabled)
-                  :border-left-width  0.5
+                  :border-left-width  0.25
                   :border-right-width 0.5}}
     (->> elements
          :actual

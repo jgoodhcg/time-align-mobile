@@ -3813,3 +3813,38 @@ Either add an input line or put the form in a modal and saving brings the user b
 - [ ] Figure out how to run through transformation function on app-db load/import
 
 Canceled because the app-db should only accrete out of alpha.
+
+* DONE Prediction
+  CLOSED: [2019-08-12 Mon 18:08]
+  :PROPERTIES:
+  :Effort:   1:00
+  :Confidence: 75
+  :ARCHIVE_TIME: 2019-08-12 Mon 18:08
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+    :LOGBOOK:
+    CLOCK: [2019-08-11 Sun 21:35]--[2019-08-11 Sun 21:35] =>  0:00
+    CLOCK: [2019-08-11 Sun 20:19]--[2019-08-11 Sun 21:35] =>  1:16
+    CLOCK: [2019-08-11 Sun 19:34]--[2019-08-11 Sun 20:18] =>  0:44
+    CLOCK: [2019-08-11 Sun 19:26]--[2019-08-11 Sun 19:30] =>  0:04
+    CLOCK: [2019-08-11 Sun 19:23]--[2019-08-11 Sun 19:25] =>  0:02
+    CLOCK: [2019-08-11 Sun 19:17]--[2019-08-11 Sun 19:22] =>  0:05
+    :END:
+- [X] Add hour estimation + confidence rating
+- [-] Write shadow-cljs node program to parse the file and give an estimation with confidence interval
+  - [X] Use this https://xiaoxinghu.github.io/orgajs/docs/basics-usages
+  - [X] Create project in playground
+  - [X] Get a repl up
+    - Needed to install some node deps for repl (ws and source maps)
+    - Then just run the output script
+  - [ ] Figure out how to parse some org content
+    - Orga doesn't seem to return the AST (maybe its a repl issue?)
+- [X] Use org columns for overview 
+  - [X] Set up basic columns
+  - [X] Look into custom org-columns-summary-types for confidence range
+- [X] Set up clock report
+  - [X] Use grep and vim replace to get weekly totals into a spreadsheet to get average
+    - Average was 5.5 hours/week

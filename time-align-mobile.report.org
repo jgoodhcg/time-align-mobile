@@ -1,0 +1,540 @@
+* Report
+** Active
+ #+BEGIN: clocktable :maxlevel 4 :step week :block thismonth :stepskip0 t :fileskip0 t :link t
+ #+END:
+** Including Archive
+
+ #+BEGIN: clocktable :scope ("./time-align-mobile.org_archive" "./time-align-mobile.org") :maxlevel 0 :step week :tstart "2018-01-01" :tend <now> :fileskip0 t :link t
+ 
+ Weekly report starting on: [2018-01-01 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-01-08 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-01-15 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-01-22 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-01-29 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-02-05 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-02-12 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-02-19 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-02-26 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-03-05 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-03-12 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-03-19 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-03-26 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-04-02 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-04-09 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-04-16 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-04-23 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-04-30 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-05-07 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-05-14 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-05-21 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-05-28 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-06-04 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-06-11 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *0:11* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-06-18 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-06-25 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-07-02 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-07-09 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-07-16 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *9:16* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-07-23 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *5:34* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-07-30 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *2:57* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-08-06 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *3:58* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-08-13 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:28* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-08-20 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *2:06* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-08-27 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *9:35* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-09-03 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *0:54* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-09-10 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-09-17 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *0:52* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-09-24 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-10-01 Mon]
+ | File                          | Headline         | Time    |
+ |-------------------------------+------------------+---------|
+ |                               | ALL *Total time* | *15:40* |
+ |-------------------------------+------------------+---------|
+ | time-align-mobile.org_archive | *File time*      | **      |
+ 
+ Weekly report starting on: [2018-10-08 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *5:48* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-10-15 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *1:13* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-10-22 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *1:19* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-10-29 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *1:05* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-11-05 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *1:05* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-11-12 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *7:22* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-11-19 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *5:30* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-11-26 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:12* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-12-03 Mon]
+ | File                          | Headline         | Time    |
+ |-------------------------------+------------------+---------|
+ |                               | ALL *Total time* | *14:07* |
+ |-------------------------------+------------------+---------|
+ | time-align-mobile.org_archive | *File time*      | **      |
+ 
+ Weekly report starting on: [2018-12-10 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *3:43* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2018-12-17 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-12-24 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2018-12-31 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *9:36* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-01-07 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *2:20* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-01-14 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2019-01-21 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *9:33* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-01-28 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *2:11* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-02-04 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2019-02-11 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2019-02-18 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2019-02-25 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *5:15* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-03-04 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *6:17* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-03-11 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *3:40* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-03-18 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *6:27* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-03-25 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *7:06* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-04-01 Mon]
+ | File                          | Headline         | Time    |
+ |-------------------------------+------------------+---------|
+ |                               | ALL *Total time* | *11:32* |
+ |-------------------------------+------------------+---------|
+ | time-align-mobile.org_archive | *File time*      | **      |
+ 
+ Weekly report starting on: [2019-04-08 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *0:33* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-04-15 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *8:11* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-04-22 Mon]
+ | File                          | Headline         | Time    |
+ |-------------------------------+------------------+---------|
+ |                               | ALL *Total time* | *12:01* |
+ |-------------------------------+------------------+---------|
+ | time-align-mobile.org_archive | *File time*      | **      |
+ 
+ Weekly report starting on: [2019-04-29 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:20* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-05-06 Mon]
+ | File                  | Headline         | Time   |
+ |-----------------------+------------------+--------|
+ |                       | ALL *Total time* | *0:25* |
+ |-----------------------+------------------+--------|
+ | time-align-mobile.org | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-05-13 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *2:02* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-05-20 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2019-05-27 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *7:14* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-06-03 Mon]
+ | File | Headline         | Time   |
+ |------+------------------+--------|
+ |      | ALL *Total time* | *0:00* |
+ 
+ Weekly report starting on: [2019-06-10 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:23* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-06-17 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:22* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-06-24 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *6:38* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-07-01 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:18* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-07-08 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *8:15* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-07-15 Mon]
+ | File                          | Headline         | Time    |
+ |-------------------------------+------------------+---------|
+ |                               | ALL *Total time* | *10:15* |
+ |-------------------------------+------------------+---------|
+ | time-align-mobile.org_archive | *File time*      | **      |
+ |-------------------------------+------------------+---------|
+ | time-align-mobile.org         | *File time*      | **      |
+ 
+ Weekly report starting on: [2019-07-22 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *2:05* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org         | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-07-29 Mon]
+ | File                          | Headline         | Time   |
+ |-------------------------------+------------------+--------|
+ |                               | ALL *Total time* | *4:53* |
+ |-------------------------------+------------------+--------|
+ | time-align-mobile.org_archive | *File time*      | **     |
+ 
+ Weekly report starting on: [2019-08-05 Mon]
+ | File                  | Headline         | Time    |
+ |-----------------------+------------------+---------|
+ |                       | ALL *Total time* | *11:58* |
+ |-----------------------+------------------+---------|
+ | time-align-mobile.org | *File time*      | **      |
+ #+END:
