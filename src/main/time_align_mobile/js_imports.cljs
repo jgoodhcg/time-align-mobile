@@ -12,6 +12,7 @@
    ["expo-file-system" :as fs]
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
+   ["react-native-gesture-handler" :as gesture-handler]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    [reagent.core :as r :refer [atom]]))
@@ -201,3 +202,5 @@
       (ocall "then"
              (fn [id]
                (callback id)))))
+
+(def pan-gesture-handler (r/adapt-react-class (oget gesture-handler "PanGestureHandler")))
