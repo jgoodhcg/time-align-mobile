@@ -42,6 +42,7 @@
       {:selected-element @selected-template
        :in-play-element  nil
        :displayed-day    (js/Date.)
+       :element-type     :template
        :elements
        {:actual  []
         :planned (->> @pattern-form

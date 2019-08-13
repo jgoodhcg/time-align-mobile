@@ -226,45 +226,55 @@
 
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
-                                      alignment
+                                      element-type
+                                      selected-element
                                       collision-group]}]
-  (let [col-grp-count (count collision-group)]
-    (->> collision-group
-         (map-indexed
-          (fn [index element]
-            (let [start-ms     (helpers/abstract-element-timestamp
-                                (:start element)
-                                displayed-day)
-                  start-min    (helpers/ms->minutes start-ms)
-                  start-y-pos  (* pixel-to-minute-ratio start-min)
-                  stop-ms      (helpers/abstract-element-timestamp
-                                (:stop element)
-                                displayed-day)
-                  stop-min     (helpers/ms->minutes stop-ms)
-                  height       (* pixel-to-minute-ratio (- stop-min start-min))
-                  index-offset (-> index
-                                   (* 16)
-                                   (+ 2))]
 
-              [surface {:key   (:id element)
-                        :style {:position      "absolute"
-                                :left          (str index-offset "%")
-                                :width         (str (- 96 index-offset) "%")
-                                :top           start-y-pos
-                                :height        height
-                                :elevation     (* 2 index)
-                                :border-radius 4
-                                :overflow      "hidden"}}
-               [touchable-ripple {:style
-                                  {:height           "100%"
-                                   :width            "100%"
-                                   :overflow         "hidden"
-                                   :padding          4
-                                   :background-color (:color element)}
-                                  :on-press #(println "heyoo")}
-                [text-paper (:label element)]]]))))))
+  (->> collision-group
+       (map-indexed
+        (fn [index element]
+          (let [start-ms     (helpers/abstract-element-timestamp
+                              (:start element)
+                              displayed-day)
+                start-min    (helpers/ms->minutes start-ms)
+                start-y-pos  (* pixel-to-minute-ratio start-min)
+                stop-ms      (helpers/abstract-element-timestamp
+                              (:stop element)
+                              displayed-day)
+                stop-min     (helpers/ms->minutes stop-ms)
+                height       (* pixel-to-minute-ratio (- stop-min start-min))
+                index-offset (-> index
+                                 (* 16)
+                                 (+ 2))
+                selected     (= (:id element) (:id selected-element))]
+
+            [surface {:key   (:id element)
+                      :style (merge {:position      "absolute"
+                                     :left          (str index-offset "%")
+                                     :width         (str (- 96 index-offset) "%")
+                                     :top           start-y-pos
+                                     :height        height
+                                     :elevation     (* 2 index)
+                                     :border-radius 4
+                                     :overflow      "hidden"}
+                                    (when selected
+                                      {:elevation    10
+                                       :border-color "white"
+                                       :border-width 4}))}
+             [touchable-ripple {:style
+                                {:height           "100%"
+                                 :width            "100%"
+                                 :overflow         "hidden"
+                                 :padding          4
+                                 :background-color (:color element)}
+                                :on-press #(case element-type
+                                             :period   (dispatch [:select-period (:id element)])
+                                             :template (dispatch [:select-template (:id element)])
+                                             (println (str "unexplainted element type" element-type)))}
+              [text-paper (:label element)]]])))))
 
 (defn elements-comp [{:keys [elements
+                             element-type
                              selected-element
                              in-play-element
                              pixel-to-minute-ratio
@@ -286,7 +296,8 @@
                 {:pixel-to-minute-ratio pixel-to-minute-ratio
                  :displayed-day         displayed-day
                  :collision-group       %
-                 :alignment             :left})))]
+                 :selected-element      selected-element
+                 :element-type          element-type})))]
 
    ;; actual
    [view {:style {:position           "absolute"
@@ -303,13 +314,15 @@
                 {:pixel-to-minute-ratio pixel-to-minute-ratio
                  :displayed-day         displayed-day
                  :collision-group       %
-                 :alignment             :right})))]])
+                 :selected-element      selected-element
+                 :element-type          element-type})))]])
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
            selected-element
            in-play-element
+           element-type
            displayed-day]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
@@ -372,6 +385,7 @@
                          :on-press   #(println "pressed periods")}
        [elements-comp {:elements              elements
                        :selected-element      selected-element
+                       :element-type          element-type
                        :in-play-element       in-play-element
                        :pixel-to-minute-ratio pixel-to-minute-ratio
                        :displayed-day         displayed-day}]]]]]]))

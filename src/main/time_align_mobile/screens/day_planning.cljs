@@ -76,5 +76,6 @@
      [day-comp/root {:selected-element @selected-period
                      :in-play-element  @period-in-play
                      :displayed-day    @displayed-day
+                     :element-type     :period
                      :elements         @periods}]]))
 
