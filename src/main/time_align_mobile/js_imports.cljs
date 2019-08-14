@@ -204,3 +204,13 @@
                (callback id)))))
 
 (def pan-gesture-handler (r/adapt-react-class (oget gesture-handler "PanGestureHandler")))
+(def pinch-gesture-handler (r/adapt-react-class (oget gesture-handler "PinchGestureHandler")))
+(def tap-gesture-handler (r/adapt-react-class (oget gesture-handler "TapGestureHandler")))
+(def gesture-handler-states (oget gesture-handler "State"))
+(def gesture-states {:active       (.-ACTIVE gesture-handler-states)
+                     :undetermined (.-UNDETERMINED gesture-handler-states)
+                     :failed       (.-FAILED gesture-handler-states)
+                     :began        (.-BEGAN gesture-handler-states)
+                     :cancelled     (.-CANCELLED gesture-handler-states)
+                     :end          (.-END gesture-handler-states)})
+
