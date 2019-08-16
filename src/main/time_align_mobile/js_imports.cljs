@@ -206,6 +206,7 @@
 (def pan-gesture-handler (r/adapt-react-class (oget gesture-handler "PanGestureHandler")))
 (def pinch-gesture-handler (r/adapt-react-class (oget gesture-handler "PinchGestureHandler")))
 (def tap-gesture-handler (r/adapt-react-class (oget gesture-handler "TapGestureHandler")))
+(def scroll-view-gesture-handler (r/adapt-react-class (oget gesture-handler "ScrollView")))
 (def gesture-handler-states (oget gesture-handler "State"))
 (def gesture-states {:active       (.-ACTIVE gesture-handler-states)
                      :undetermined (.-UNDETERMINED gesture-handler-states)
