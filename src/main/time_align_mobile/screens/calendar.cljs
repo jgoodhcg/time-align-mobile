@@ -39,7 +39,12 @@
       [pan-gesture-handler {:ref                     pan-ref
                             :enabled                 @selected
                             :on-handler-state-change #(println (str "pan " (get-state %)))
-                            :on-gesture-event        #(println "pan gesture")}
+                            :on-gesture-event        #(do
+                                                        (reset!
+                                                         top
+                                                         (obj/getValueByKeys % #js["nativeEvent" "y"]))
+                                                        (println
+                                                         (obj/getValueByKeys % #js["nativeEvent" "y"])))}
        [tap-gesture-handler {:ref                     double-tap-ref
                              :wait-for                pan-ref
                              :on-handler-state-change #(if (= (get-state %) "active")
