@@ -24,5 +24,4 @@
   {:target :react-native
    :init-fn time-align-mobile.app/init
    :output-dir "app"
-   :devtools {:autoload true
-              :preloads [shadow.expo.keep-awake]}}}}
+   :devtools {:autoload true}}}}

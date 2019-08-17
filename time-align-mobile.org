@@ -97,6 +97,9 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-17 Sat 10:43]--[2019-08-17 Sat 10:43] =>  0:00
+     CLOCK: [2019-08-17 Sat 10:42]--[2019-08-17 Sat 10:43] =>  0:01
+     CLOCK: [2019-08-17 Sat 09:28]--[2019-08-17 Sat 09:52] =>  0:24
      CLOCK: [2019-08-17 Sat 09:09]--[2019-08-17 Sat 09:28] =>  0:19
      CLOCK: [2019-08-16 Fri 18:11]--[2019-08-16 Fri 19:23] =>  1:12
      CLOCK: [2019-08-14 Wed 18:15]--[2019-08-14 Wed 19:29] =>  1:14
@@ -108,10 +111,15 @@
 - https://kmagiera.github.io/react-native-gesture-handler/docs/about-handlers.html
 - [X] Add a pan gesture handler to something
 - [X] Play with nested handlers and waitfor
-- [ ] Update app to remove scroll-view-gesture comp warnings
+- [-] Update app to remove scroll-view-gesture comp warnings
   - [X] Update to sdk 33
-  - [ ] Resolve warnings
-  - [ ] Update shadow-cljs
+  - [X] Update shadow-cljs
+    - Apparently only the devDependencies in package.json matters?
+  - [X] Resolve warnings
+    - File system warning doesn't make sense ...
+    - [X] Remove keep awake usage
+      - https://github.com/thheller/shadow-cljs/issues/513
+      - Might add it back later if it is an issue https://docs.expo.io/versions/latest/sdk/keep-awake/
   - [ ] Update to sdk 34
 - [ ] Figure out gesture handler stack
   - Selecting element

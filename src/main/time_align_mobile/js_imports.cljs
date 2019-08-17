@@ -138,7 +138,6 @@
           "HH-mm"))
 
 (def document-directory (-> fs
-                            (.-FileSystem)
                             (.-documentDirectory)))
 (defn write-file-to-dd! [file-name contents-as-string]
   (-> fs
