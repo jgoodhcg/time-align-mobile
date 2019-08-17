@@ -42,9 +42,15 @@
                             :on-gesture-event        #(do
                                                         (reset!
                                                          top
-                                                         (obj/getValueByKeys % #js["nativeEvent" "y"]))
+                                                         (obj/getValueByKeys % #js["nativeEvent" "absoluteY"]))
                                                         (println
-                                                         (obj/getValueByKeys % #js["nativeEvent" "y"])))}
+                                                         {:translation-y
+                                                          (obj/getValueByKeys % #js["nativeEvent" "translationY"])
+                                                          :y
+                                                          (obj/getValueByKeys % #js["nativeEvent" "y"])
+                                                          :absolute-y
+                                                          (obj/getValueByKeys % #js["nativeEvent" "absoluteY"])}
+                                                         ))}
        [tap-gesture-handler {:ref                     double-tap-ref
                              :wait-for                pan-ref
                              :on-handler-state-change #(if (= (get-state %) "active")
@@ -52,7 +58,7 @@
                                                              (swap! selected not))
                                                          (println "not active tap state change"))}
 
-        [view {:style {:background-color (if @selected "purple" "green")
+        [view {:style {:background-color (if @selected "red" "pink")
                        :position         "absolute"
                        :height           150
                        :width            150

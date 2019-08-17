@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-17 Sat 13:49]--[2019-08-17 Sat 13:59] =>  0:10
      CLOCK: [2019-08-17 Sat 11:20]--[2019-08-17 Sat 11:52] =>  0:32
      CLOCK: [2019-08-17 Sat 10:43]--[2019-08-17 Sat 10:43] =>  0:00
      CLOCK: [2019-08-17 Sat 10:42]--[2019-08-17 Sat 10:43] =>  0:01
@@ -122,6 +123,7 @@
       - https://github.com/thheller/shadow-cljs/issues/513
       - Might add it back later if it is an issue https://docs.expo.io/versions/latest/sdk/keep-awake/
   - [X] Update to sdk 34
+- [X] Figure out smooth pan movement
 - [ ] Figure out gesture handler stack
   - Selecting element
   - Dragging selected element
