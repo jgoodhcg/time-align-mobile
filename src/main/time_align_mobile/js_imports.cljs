@@ -9,10 +9,18 @@
    ["react-native-modal-datetime-picker" :as react-native-date-picker]
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
-   ["expo-file-system" :as fs]
+   ["expo-secure-store" :as SecureStore]
+   ["expo-file-system" :as fs
+    :refer []]
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
-   ["react-native-gesture-handler" :as gesture-handler]
+   ["react-native-gesture-handler"
+    :refer [PanGestureHandler
+            PinchGestureHandler
+            TapGestureHandler
+            ScrollView
+            DrawerLayout
+            State]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    [reagent.core :as r :refer [atom]]))
@@ -65,10 +73,6 @@
    (ocall Alert "alert" title subtitle options)))
 (def switch (r/adapt-react-class (oget ReactNative "Switch")))
 
-(def gesture-handler (oget expo "GestureHandler"))
-(def drawer-layout (r/adapt-react-class (oget gesture-handler "DrawerLayout")))
-;; (def position-left (oget gesture-handler "DrawerLayout" "positions" "Left")) ;; just using the string "left" because that is all this resolves to
-
 (def text-input (r/adapt-react-class (oget ReactNative "TextInput")))
 
 (def keyboard-aware-scroll-view (r/adapt-react-class (oget kasv "KeyboardAwareScrollView")))
@@ -85,7 +89,7 @@
 
 (def moment-tz (oget moment-timezone "tz"))
 
-(def secure-store (oget expo "SecureStore"))
+(def secure-store SecureStore)
 (def share-api (oget ReactNative "Share"))
 
 (defn share [title message]
@@ -141,12 +145,10 @@
                             (.-documentDirectory)))
 (defn write-file-to-dd! [file-name contents-as-string]
   (-> fs
-      (.-FileSystem)
       (.writeAsStringAsync (str document-directory file-name)
                            contents-as-string)))
 (defn read-file-async [file-uri success-callback error-callback]
   (-> fs
-      (.-FileSystem)
       (.readAsStringAsync file-uri)
       (.then success-callback error-callback)))
 (defn read-file-from-dd-async [file-name success-callback error-callback]
@@ -202,11 +204,12 @@
              (fn [id]
                (callback id)))))
 
-(def pan-gesture-handler (r/adapt-react-class (oget gesture-handler "PanGestureHandler")))
-(def pinch-gesture-handler (r/adapt-react-class (oget gesture-handler "PinchGestureHandler")))
-(def tap-gesture-handler (r/adapt-react-class (oget gesture-handler "TapGestureHandler")))
-(def scroll-view-gesture-handler (r/adapt-react-class (oget gesture-handler "ScrollView")))
-(def gesture-handler-states (oget gesture-handler "State"))
+(def drawer-layout (r/adapt-react-class DrawerLayout))
+(def pan-gesture-handler (r/adapt-react-class PanGestureHandler))
+(def pinch-gesture-handler (r/adapt-react-class PinchGestureHandler))
+(def tap-gesture-handler (r/adapt-react-class TapGestureHandler))
+(def scroll-view-gesture-handler (r/adapt-react-class ScrollView))
+(def gesture-handler-states State)
 (def gesture-states {:active       (.-ACTIVE gesture-handler-states)
                      :undetermined (.-UNDETERMINED gesture-handler-states)
                      :failed       (.-FAILED gesture-handler-states)

@@ -26,7 +26,6 @@
             [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
             [time-align-mobile.screens.period-form :as period-form]
             [time-align-mobile.screens.template-form :as template-form]
-            ["react-native-floating-action" :as fab]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :as helpers :refer [same-day?]]

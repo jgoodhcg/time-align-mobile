@@ -30,7 +30,6 @@
                                           view
                                           image
                                           touchable-highlight
-                                          gesture-handler
                                           drawer-layout
                                           read-file-from-dd-async
                                           secure-store-get!]]))
