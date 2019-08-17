@@ -1287,6 +1287,11 @@ array-slice@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/array-slice/-/array-slice-0.2.3.tgz#dd3cfb80ed7973a75117cdac69b0b99ec86186f5"
 
+array-smooth@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/array-smooth/-/array-smooth-1.0.0.tgz#d43be29f2b2d80fa67202b2861753f6da9db7465"
+  integrity sha1-1DvinystgPpnICsoYXU/banbdGU=
+
 array-unique@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.2.1.tgz#a1d97ccafcbc2625cc70fadceb36a50c58b01a53"

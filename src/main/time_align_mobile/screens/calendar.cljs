@@ -19,6 +19,12 @@
     (:end gesture-states)          "end"
     "something else happened"))
 
+;; this simulates some storage (might not be in redux state)
+(def buffer-atom (atom {:buffer []
+                        :working-avg 0}))
+
+
+;; r atom simulate redux state
 (def top (r/atom 0))
 
 (def selected (r/atom false))
@@ -32,25 +38,47 @@
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
      [view {:style {:flex             1
                     :flex-direction   "column"
-                    :height           2000
+                    :height           1440
                     :background-color "grey"
                     :justify-content  "space-between"
                     :align-items      "center"}}
       [pan-gesture-handler {:ref                     pan-ref
                             :enabled                 @selected
-                            :on-handler-state-change #(println (str "pan " (get-state %)))
-                            :on-gesture-event        #(do
-                                                        (reset!
-                                                         top
-                                                         (obj/getValueByKeys % #js["nativeEvent" "absoluteY"]))
-                                                        (println
-                                                         {:translation-y
-                                                          (obj/getValueByKeys % #js["nativeEvent" "translationY"])
-                                                          :y
-                                                          (obj/getValueByKeys % #js["nativeEvent" "y"])
-                                                          :absolute-y
-                                                          (obj/getValueByKeys % #js["nativeEvent" "absoluteY"])}
-                                                         ))}
+                            :on-handler-state-change #(when (= "end" (get-state %))
+                                                        (swap! buffer-atom
+                                                               (fn [b]
+                                                                 {:buffer      []
+                                                                  :working-avg 0})))
+                            :on-gesture-event        #(let [smooth-factor 0.25
+                                                            new-val
+                                                            (obj/getValueByKeys % #js["nativeEvent" "y"])
+                                                            buffer-stuff  @buffer-atom
+                                                            mode          (->> buffer-stuff
+                                                                               :buffer
+                                                                               frequencies
+                                                                               (sort-by second)
+                                                                               last
+                                                                               first)
+                                                            working-avg   (+
+                                                                           (* new-val smooth-factor)
+                                                                           (* (- 1 smooth-factor)
+                                                                              (:working-avg buffer-stuff)))
+                                                            buffer-count  (count (:buffer buffer-stuff))]
+
+                                                        (println (str new-val ", " mode ", " working-avg))
+                                                        ;; wait for the buffer to fill up
+                                                        (when (-> buffer-count (>= 10))
+                                                          ;; then use the working avg to update time
+                                                          (reset! top new-val))
+                                                        ;; always keep pushing stuff to the buffer
+                                                        (swap! buffer-atom
+                                                               (fn [b]
+                                                                 {:buffer      (->> b
+                                                                                    :buffer
+                                                                                    (cons new-val)
+                                                                                    (take 10))
+                                                                  :working-avg working-avg}))
+                                                        )}
        [tap-gesture-handler {:ref                     double-tap-ref
                              :wait-for                pan-ref
                              :on-handler-state-change #(if (= (get-state %) "active")
