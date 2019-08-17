@@ -7,9 +7,10 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^32.0.0",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "expo": "^33.0.0",
+    "moment-timezone": "^0.5.26",
+    "react": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-color-picker": "^0.4.0",
     "react-native-drawer": "^2.5.1",
     "react-native-elements": "^1.1.0",
