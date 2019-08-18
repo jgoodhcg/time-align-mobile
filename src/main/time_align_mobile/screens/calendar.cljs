@@ -29,6 +29,32 @@
 
 (def selected (r/atom false))
 
+(defn get-ys [nativeEvent]
+  {:y
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "y"])
+
+   :absolute
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "absoluteY"])
+
+   :translation
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "translationY"])
+
+   :velocity
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "velocityY"])})
+
+(defn determine-direction [start stop ys]
+  (let [midpoint       (-> stop
+                           (- start)
+                           (/ 2))
+        above-midpoint (-> ys
+                           :y
+                           (< midpoint))]
+    ))
+
 (defn root [params]
   (let [pan-ref        (.createRef react)
         pinch-ref      (.createRef react)
@@ -43,27 +69,15 @@
                                                               (fn [b]
                                                                 {:buffer      []
                                                                  :working-avg 0})))
-                           :on-gesture-event        #(let [y
-                                                           (obj/getValueByKeys
-                                                            % #js["nativeEvent" "y"])
+                           :on-gesture-event        #(let [ys (get-ys %)
+                                                           top-up 
+                                                           top-down
+                                                           bottomm-up
+                                                           bottom-down
+                                                           ]
 
-                                                           absolute-y
-                                                           (obj/getValueByKeys
-                                                            % #js["nativeEvent" "absoluteY"])
-
-                                                           translation-y
-                                                           (obj/getValueByKeys
-                                                            % #js["nativeEvent" "translationY"])
-
-                                                           velocity-y
-                                                           (obj/getValueByKeys
-                                                            % #js["nativeEvent" "velocityY"])]
-
-                                                       (println {:y             y :absolute-y absolute-y
-                                                                 :translation-y translation-y
-                                                                 :velocity-y    velocity-y})
-                                                       (reset! top y)
-                                                       )}
+                                                       (println ys)
+                                                       (reset! top (:y ys)))}
 
       [view {:style {:flex             1
                      :flex-direction   "column"
