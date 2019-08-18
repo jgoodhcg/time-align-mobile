@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-17 Sat 20:52]--[2019-08-17 Sat 22:08] =>  1:16
      CLOCK: [2019-08-17 Sat 15:27]--[2019-08-17 Sat 16:25] =>  0:58
      CLOCK: [2019-08-17 Sat 14:53]--[2019-08-17 Sat 15:00] =>  0:07
      CLOCK: [2019-08-17 Sat 14:06]--[2019-08-17 Sat 14:40] =>  0:34
@@ -126,14 +127,22 @@
       - https://github.com/thheller/shadow-cljs/issues/513
       - Might add it back later if it is an issue https://docs.expo.io/versions/latest/sdk/keep-awake/
   - [X] Update to sdk 34
-- [ ] Figure out smooth pan movement
+- [X] Figure out smooth pan movement
   - https://gist.github.com/scottdw/2960070#file-stats-clj-L5
   - https://stackoverflow.com/a/3761318/5040125
-- [ ] Figure out gesture handler stack
-  - Selecting element
-  - Dragging selected element
-  - Pinching to zoom
-  - Scrolling
+  - https://github.com/kmagiera/react-native-gesture-handler/issues/621#issuecomment-522272948
+  - After graphing it out it seems like the values jump by 100 for a handful of events then jump back
+  - +Need to use absoluteY but it seems to behave like a relative thing when I scroll+
+  - Solution is to wrap scroll in pan and use selected as a toggle (lock/mutex)
+    - Now ~nativeEvent.y~ can be used and it works for the entire screen or day view (hopefully).
+    - Can be resumed after pan ends
+- [-] Figure out gesture handler stack
+  - [X] Scrolling
+  - [X] Selecting element
+  - [X] Dragging selected element
+  - [ ] Pinching to zoom
+  - [ ] Transformation selection
+  - [ ] Scaling with two fingers
 - [ ] Add a pan gesture handler to elements
 - [ ] Update element on event
 **** TODO Stretch mode

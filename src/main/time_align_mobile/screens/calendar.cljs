@@ -33,52 +33,44 @@
   (let [pan-ref        (.createRef react)
         pinch-ref      (.createRef react)
         double-tap-ref (.createRef react)]
-    [scroll-view-gesture-handler {:wait-for                double-tap-ref
+    [scroll-view-gesture-handler {:enabled                 (not @selected)
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
-     [view {:style {:flex             1
-                    :flex-direction   "column"
-                    :height           1440
-                    :background-color "grey"
-                    :justify-content  "space-between"
-                    :align-items      "center"}}
-      [pan-gesture-handler {:ref                     pan-ref
-                            :enabled                 @selected
-                            :on-handler-state-change #(when (= "end" (get-state %))
-                                                        (swap! buffer-atom
-                                                               (fn [b]
-                                                                 {:buffer      []
-                                                                  :working-avg 0})))
-                            :on-gesture-event        #(let [smooth-factor 0.25
-                                                            new-val
-                                                            (obj/getValueByKeys % #js["nativeEvent" "y"])
-                                                            buffer-stuff  @buffer-atom
-                                                            mode          (->> buffer-stuff
-                                                                               :buffer
-                                                                               frequencies
-                                                                               (sort-by second)
-                                                                               last
-                                                                               first)
-                                                            working-avg   (+
-                                                                           (* new-val smooth-factor)
-                                                                           (* (- 1 smooth-factor)
-                                                                              (:working-avg buffer-stuff)))
-                                                            buffer-count  (count (:buffer buffer-stuff))]
+     [pan-gesture-handler {:ref                     pan-ref
+                           :enabled                 @selected
+                           :on-handler-state-change #(when (= "end" (get-state %))
+                                                       (swap! buffer-atom
+                                                              (fn [b]
+                                                                {:buffer      []
+                                                                 :working-avg 0})))
+                           :on-gesture-event        #(let [y
+                                                           (obj/getValueByKeys
+                                                            % #js["nativeEvent" "y"])
 
-                                                        (println (str new-val ", " mode ", " working-avg))
-                                                        ;; wait for the buffer to fill up
-                                                        (when (-> buffer-count (>= 10))
-                                                          ;; then use the working avg to update time
-                                                          (reset! top new-val))
-                                                        ;; always keep pushing stuff to the buffer
-                                                        (swap! buffer-atom
-                                                               (fn [b]
-                                                                 {:buffer      (->> b
-                                                                                    :buffer
-                                                                                    (cons new-val)
-                                                                                    (take 10))
-                                                                  :working-avg working-avg}))
-                                                        )}
+                                                           absolute-y
+                                                           (obj/getValueByKeys
+                                                            % #js["nativeEvent" "absoluteY"])
+
+                                                           translation-y
+                                                           (obj/getValueByKeys
+                                                            % #js["nativeEvent" "translationY"])
+
+                                                           velocity-y
+                                                           (obj/getValueByKeys
+                                                            % #js["nativeEvent" "velocityY"])]
+
+                                                       (println {:y             y :absolute-y absolute-y
+                                                                 :translation-y translation-y
+                                                                 :velocity-y    velocity-y})
+                                                       (reset! top y)
+                                                       )}
+
+      [view {:style {:flex             1
+                     :flex-direction   "column"
+                     :height           1440
+                     :background-color "white"
+                     :justify-content  "space-between"
+                     :align-items      "center"}}
        [tap-gesture-handler {:ref                     double-tap-ref
                              :wait-for                pan-ref
                              :on-handler-state-change #(if (= (get-state %) "active")
@@ -91,8 +83,8 @@
                        :height           150
                        :width            150
                        :top              @top}}
-         [text "this is a calendar page"]]]]
+         [text "this is a calendar page"]]]
 
-      [text "here is a thing"]
+       [text "here is a thing"]
 
-      [text "here is another thing"]]]))
+       [text "here is another thing"]]]]))
