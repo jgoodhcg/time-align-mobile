@@ -97,6 +97,8 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-24 Sat 18:05]--[2019-08-24 Sat 18:09] =>  0:04
+     CLOCK: [2019-08-24 Sat 17:54]--[2019-08-24 Sat 17:59] =>  0:05
      CLOCK: [2019-08-24 Sat 17:29]--[2019-08-24 Sat 17:53] =>  0:24
      CLOCK: [2019-08-24 Sat 16:26]--[2019-08-24 Sat 16:31] =>  0:05
      CLOCK: [2019-08-24 Sat 14:00]--[2019-08-24 Sat 14:29] =>  0:29
@@ -158,6 +160,7 @@
 - [-] Implement gesture handler experience on calendar page
   - [X] (scroll) Add scroll view that locks out on selection and waits for pinch
   - [X] (drag) Add pan gesture handler that locks out on no selection and waits for pinch
+    - [X] Fix top being at finger
   - [X] (zoom) Add pinch gesture
   - [ ] (bottom sheet pop up selection) Add tap handler that wraps element and waits on long press
   - [X] (movement selection) Add long press wrapping element directly

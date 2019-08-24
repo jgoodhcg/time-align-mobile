@@ -27,6 +27,8 @@
 ;; r atom simulate redux state
 (def top (r/atom 0))
 
+(def offset (r/atom 0))
+
 (def movement-selection (r/atom false))
 
 (def edit-selection (r/atom false))
@@ -66,8 +68,12 @@
 
      [pan-gesture-handler {:enabled                 @movement-selection
                            :wait-for                pinch-ref
-                           :on-gesture-event        #(reset! top (:y (get-ys %)))
-                           :on-handler-state-change #(println (str "pan " (get-state %)))}
+                           :on-gesture-event        #(reset! top (+ @offset (:y (get-ys %))))
+                           :on-handler-state-change #(let [y     (:y (get-ys %))
+                                                           state (get-state %)]
+                                                       (println (str "pan " ))
+                                                       (if (= "active" state)
+                                                         (reset! offset (- @top y))))}
 
       [pinch-gesture-handler {:ref                     pinch-ref
                               :on-gesture-event        #(do (println "Pinch gesture")
