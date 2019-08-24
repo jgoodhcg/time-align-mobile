@@ -87,18 +87,25 @@
                       :align-items      "center"}}
         [text "Stuff above"]
 
-        [long-press-gesture-handler {:ref                     long-ref
-                                     :on-handler-state-change #(let [state (get-state %)]
-                                                                 (println (str "long " state))
-                                                                 (if (= "active" state)
-                                                                   (swap! movement-selection not)))}
-         [view {:style {:background-color (if @movement-selection "red" "blue")
-                        :position         "absolute"
-                        :height           150
-                        :width            150
-                        :top              @top}}
+        [tap-gesture-handler {:wait-for                long-ref
+                              :on-handler-state-change #(let [state (get-state %)]
+                                                          (println (str "tap " state))
+                                                          (if (= "active" state)
+                                                            (do
+                                                              (println "edit selection made")
+                                                              (swap! edit-selection not))))}
+         [long-press-gesture-handler {:ref                     long-ref
+                                      :on-handler-state-change #(let [state (get-state %)]
+                                                                  (println (str "long " state))
+                                                                  (if (= "active" state)
+                                                                    (swap! movement-selection not)))}
+          [view {:style {:background-color (if @movement-selection "red" "blue")
+                         :position         "absolute"
+                         :height           150
+                         :width            150
+                         :top              @top}}
 
-          [text "Element"]]]
+           [text "Element"]]]]
 
 
         [text "Stuff below"]]]]]))
