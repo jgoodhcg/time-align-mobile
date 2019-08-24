@@ -26,7 +26,7 @@
 ;; r atom simulate redux state
 (def top (r/atom 0))
 
-(def selected (r/atom false))
+(def selected (r/atom true))
 
 (defn get-ys [nativeEvent]
   {:y
@@ -61,26 +61,30 @@
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
 
+     [pan-gesture-handler {:enabled                 @selected
+                           :wait-for                pinch-ref
+                           :on-gesture-event        #(reset! top (:y (get-ys %)))
+                           :on-handler-state-change #(println (str "pan " (get-state %)))}
 
-     [pinch-gesture-handler {:ref                     pinch-ref
-                             :on-gesture-event        #(do (println "Pinch gesture")
-                                                           (println %))
-                             :on-handler-state-change #(println (str "pinch " (get-state %)))}
-      [view {:style {:flex             1
-                     :flex-direction   "column"
-                     :height           1440
-                     :background-color "white"
-                     :justify-content  "space-between"
-                     :align-items      "center"}}
-       [text "Stuff above"]
+      [pinch-gesture-handler {:ref                     pinch-ref
+                              :on-gesture-event        #(do (println "Pinch gesture")
+                                                            (println %))
+                              :on-handler-state-change #(println (str "pinch " (get-state %)))}
+       [view {:style {:flex             1
+                      :flex-direction   "column"
+                      :height           1440
+                      :background-color "white"
+                      :justify-content  "space-between"
+                      :align-items      "center"}}
+        [text "Stuff above"]
 
-       [view {:style {:background-color (if @selected "yellow" "green")
-                      :position         "absolute"
-                      :height           150
-                      :width            150
-                      :top              10}}
+        [view {:style {:background-color (if @selected "yellow" "green")
+                       :position         "absolute"
+                       :height           150
+                       :width            150
+                       :top              @top}}
 
-        [text "Element"]]
+         [text "Element"]]
 
 
-       [text "Stuff below"]]]]))
+        [text "Stuff below"]]]]]))
