@@ -19,6 +19,7 @@
             PinchGestureHandler
             TapGestureHandler
             ScrollView
+            LongPressGestureHandler
             DrawerLayout
             State]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
@@ -208,6 +209,7 @@
 (def pan-gesture-handler (r/adapt-react-class PanGestureHandler))
 (def pinch-gesture-handler (r/adapt-react-class PinchGestureHandler))
 (def tap-gesture-handler (r/adapt-react-class TapGestureHandler))
+(def long-press-gesture-handler (r/adapt-react-class LongPressGestureHandler))
 (def scroll-view-gesture-handler (r/adapt-react-class ScrollView))
 (def gesture-handler-states State)
 (def gesture-states {:active       (.-ACTIVE gesture-handler-states)

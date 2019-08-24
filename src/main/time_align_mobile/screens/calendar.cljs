@@ -4,6 +4,7 @@
                                                   scroll-view-gesture-handler
                                                   pinch-gesture-handler
                                                   tap-gesture-handler
+                                                  long-press-gesture-handler
                                                   pan-gesture-handler]]
             ["react" :as react]
             [reagent.core :as r]
@@ -26,7 +27,9 @@
 ;; r atom simulate redux state
 (def top (r/atom 0))
 
-(def selected (r/atom true))
+(def movement-selection (r/atom false))
+
+(def edit-selection (r/atom false))
 
 (defn get-ys [nativeEvent]
   {:y
@@ -51,17 +54,17 @@
                            (/ 2))
         above-midpoint (-> ys
                            :y
-                           (< midpoint))]
-    ))
+                           (< midpoint))]))
 
 (defn root [params]
-  (let [pinch-ref (.createRef react)]
-    [scroll-view-gesture-handler {:enabled                 (not @selected)
+  (let [pinch-ref (.createRef react)
+        long-ref  (.createRef react)]
+    [scroll-view-gesture-handler {:enabled                 (not @movement-selection)
                                   :wait-for                pinch-ref
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
 
-     [pan-gesture-handler {:enabled                 @selected
+     [pan-gesture-handler {:enabled                 @movement-selection
                            :wait-for                pinch-ref
                            :on-gesture-event        #(reset! top (:y (get-ys %)))
                            :on-handler-state-change #(println (str "pan " (get-state %)))}
@@ -78,13 +81,18 @@
                       :align-items      "center"}}
         [text "Stuff above"]
 
-        [view {:style {:background-color (if @selected "yellow" "green")
-                       :position         "absolute"
-                       :height           150
-                       :width            150
-                       :top              @top}}
+        [long-press-gesture-handler {:ref                     long-ref
+                                     :on-handler-state-change #(let [state (get-state %)]
+                                                                 (println (str "long " state))
+                                                                 (if (= "active" state)
+                                                                   (swap! movement-selection not)))}
+         [view {:style {:background-color (if @movement-selection "red" "blue")
+                        :position         "absolute"
+                        :height           150
+                        :width            150
+                        :top              @top}}
 
-         [text "Element"]]
+          [text "Element"]]]
 
 
         [text "Stuff below"]]]]]))

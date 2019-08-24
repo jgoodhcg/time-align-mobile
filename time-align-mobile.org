@@ -97,6 +97,8 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-24 Sat 17:29]--[2019-08-24 Sat 17:53] =>  0:24
+     CLOCK: [2019-08-24 Sat 16:26]--[2019-08-24 Sat 16:31] =>  0:05
      CLOCK: [2019-08-24 Sat 14:00]--[2019-08-24 Sat 14:29] =>  0:29
      CLOCK: [2019-08-24 Sat 13:43]--[2019-08-24 Sat 14:00] =>  0:17
      CLOCK: [2019-08-24 Sat 13:18]--[2019-08-24 Sat 13:43] =>  0:25
@@ -155,10 +157,10 @@
     - ~Tap~ should not activate if the long press activates then ends
 - [-] Implement gesture handler experience on calendar page
   - [X] (scroll) Add scroll view that locks out on selection and waits for pinch
-  - [ ] (drag) Add pan gesture handler that locks out on no selection and waits for pinch
+  - [X] (drag) Add pan gesture handler that locks out on no selection and waits for pinch
   - [X] (zoom) Add pinch gesture
   - [ ] (bottom sheet pop up selection) Add tap handler that wraps element and waits on long press
-  - [ ] (movement selection) Add long press wrapping element directly
+  - [X] (movement selection) Add long press wrapping element directly
   - [ ] Use simultaneous prop for long press and pan
   - [ ] Lock out pan on 
 - [ ] Add a pan gesture handler to elements
