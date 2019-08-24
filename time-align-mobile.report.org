@@ -1,8 +1,139 @@
 * Report
 ** Active
- #+BEGIN: clocktable :maxlevel 4 :step week :block thismonth :stepskip0 t :fileskip0 t :link t
+ #+BEGIN: clocktable :scope ("./time-align-mobile.org") :maxlevel 4 :fileskip0 t :link t
+ #+CAPTION: Clock summary at [2019-08-20 Tue 19:18]
+ | File                  | Headline                                      | Time    |       |       |      |
+ |-----------------------+-----------------------------------------------+---------+-------+-------+------|
+ |                       | ALL *Total time*                              | *23:55* |       |       |      |
+ |-----------------------+-----------------------------------------------+---------+-------+-------+------|
+ | time-align-mobile.org | *File time*                                   | **      |       |       |      |
+ |                       | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Time%20Align%20Mobile][Time Align Mobile]]                             | 23:55   |       |       |      |
+ |                       | \_  [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Release%20to%20strangers][Release to strangers]]                      |         | 21:02 |       |      |
+ |                       | \_    [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::New%20day%20design][New day design]]                          |         |       | 17:38 |      |
+ |                       | \_      [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Top%20bar%20with%20scroll%20view%20below][Top bar with scroll view below]]        |         |       |       | 0:48 |
+ |                       | \_      [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Add%20time%20section][Add time section]]                      |         |       |       | 1:12 |
+ |                       | \_      [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Add%20Zomming%20functionality][Add Zomming functionality]]             |         |       |       | 1:06 |
+ |                       | \_      [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Add%20periods/templates%20(elements)][Add periods/templates (elements)]]      |         |       |       | 6:06 |
+ |                       | \_      [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Dragging%20element%20to%20move%20on%20selection][Dragging element to move on selection]] |         |       |       | 8:18 |
+ |                       | \_    [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Mobile%20friendly%20data%20editor][Mobile friendly data editor]]             |         |       |  2:31 |      |
+ |                       | \_    [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Notifications%20(push?)][Notifications (push?)]]                   |         |       |  0:53 |      |
  #+END:
-** Including Archive
+** Including archive
+ #+BEGIN: clocktable :scope ("./time-align-mobile.org_archive" "./time-align-mobile.org") :maxlevel 1 :fileskip0 t :link t
+ #+CAPTION: Clock summary at [2019-08-20 Tue 19:20]
+ | File                          | Headline                                 |     Time |
+ |-------------------------------+------------------------------------------+----------|
+ |                               | ALL *Total time*                         | *267:36* |
+ |-------------------------------+------------------------------------------+----------|
+ | time-align-mobile.org_archive | *File time*                              |       ** |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Define%20components][Define components]]                        |     0:11 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Bucket%20form][Bucket form]]                              |     5:25 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Period%20form][Period form]]                              |     6:48 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Template%20form][Template form]]                            |     2:52 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Templates%20list][Templates list]]                           |     1:27 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Periods%20list][Periods list]]                             |     0:32 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Bucket%20list][Bucket list]]                              |     0:09 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Filter%20list][Filter list]]                              |     0:29 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Explore%20and%20research][Explore and research]]                     |     6:12 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Period%20display%20function][Period display function]]                  |     2:58 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Period%20selection][Period selection]]                         |     0:25 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Orient%20and%20position%20the%20display][Orient and position the display]]          |     0:29 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Info%20section][Info section]]                             |     1:08 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Edit][Edit]]                                     |     0:05 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Setup%20icons][Setup icons]]                              |     0:22 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Cancel][Cancel]]                                   |     0:13 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Move%20up%20(w/%20long%20press)][Move up (w/ long press)]]                  |     1:19 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Move%20down%20(w/%20long%20press)][Move down (w/ long press)]]                |     0:08 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Expand%20from%20stop%20(w/%20long%20press)][Expand from stop (w/ long press)]]         |     0:09 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Expand%20from%20start%20(w/%20long%20press)][Expand from start (w/ long press)]]        |     0:06 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Contract%20from%20stop%20(w/%20long%20press)][Contract from stop (w/ long press)]]       |     0:01 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Copy%20to%20other%20side][Copy to other side]]                       |     0:28 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Move%20to%20tomorrow][Move to tomorrow]]                         |     0:15 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Move%20to%20yesterday%20&%20Both%20copies][Move to yesterday & Both copies]]          |     0:19 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Button%20groups][Button groups]]                            |     2:34 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Play%20/%20Pause][Play / Pause]]                             |    13:44 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Day%20navigator][Day navigator]]                            |     0:37 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::List%20action%20buttons][List action buttons]]                      |     4:40 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Form-buttons][Form-buttons]]                             |     2:09 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Filter][Filter]]                                   |     8:27 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Form%20fields][Form fields]]                              |     0:27 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Add%20persistence%20to%20+async%20storage+%20secure%20store][Add persistence to +async storage+...]]    |     3:42 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Refactor%20task%20to%20bucket][Refactor task to bucket]]                  |     0:20 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Time%20zone%20tinkering][Time zone tinkering]]                      |     1:50 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Hard%20MVP%20decisions][Hard MVP decisions]]                       |     0:01 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Better%20default%20app-db(s)][Better default app-db(s)]]                 |     0:56 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Clean%20drawer][Clean drawer]]                             |     0:44 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CRUD%20demo][CRUD demo]]                                |     0:10 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20build%20process][Fix build process]]                        |     9:45 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20add-period-from-template][Fix add-period-from-template]]             |     0:48 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Increase%20day%20selection%20button%20sizes][Increase day selection button sizes]]      |     0:19 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Initial%20Export][Initial Export]]                           |     3:28 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Let's%20just%20try%20and%20get%20something%20running][Let's just try and get something running]] |     1:59 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Play%20with%20ui%20component%20library][Play with ui component library]]           |     3:46 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20selected%20indicator][Fix selected indicator]]                   |     0:49 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Update%20expo%20sdk][Update expo sdk]]                          |    11:36 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Auto%20create%20bucket%20filter%20for%20periods%20and%20templates][Auto create bucket filter for periods...]] |     0:39 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Reset%20default%20db][Reset default db]]                         |     0:21 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Share%20space%20horizontally%20for%20overlapping%20periods][Share space horizontally for...]]          |    14:12 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20hot%20reloading][Fix hot reloading]]                        |     0:46 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Figure%20out%20why%20nrepl%20doesn't%20work][Figure out why nrepl doesn't work]]        |     6:14 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Update%20readme][Update readme]]                            |     0:36 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Add%20now%20indicator][Add now indicator]]                        |     0:10 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Monospaced%20font%20&&%20syntax%20highlighting%20in%20data][Monospaced font && syntax...]]             |     2:36 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Add%20things%20from%20the%20day%20view][Add things from the day view]]             |     3:55 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20spacing%20on%20data][Fix spacing on data]]                      |     1:11 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Make%20selection%20border%20slightly%20transparent][Make selection border slightly...]]        |     0:58 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Secure%20store%20over%20wrote%20on%20a%20crashed%20app?][Secure store over wrote on a crashed...]]  |     0:09 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Change%20bottom%20play%20tobplay%20from%20when%20selected][Change bottom play tobplay from when...]]  |     0:05 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Attempted%20implementation%20before%20sketching][Attempted implementation before...]]       |     4:34 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Pattern%20form][Pattern form]]                             |     1:13 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Patterns%20list][Patterns list]]                            |     0:57 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Templates?][Templates?]]                               |     0:41 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Expo%20vs%20PWA][Expo vs PWA]]                              |     0:17 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Handler%20validation%20and%20errors][CANCELED Handler validation and errors]]   |     0:21 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Dragging%20periods][CANCELED Dragging periods]]                |     0:17 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Fix%20cider%20after%20upgrading%20laptop][CANCELED Fix cider after upgrading...]]    |    15:07 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Attempt%20to%20upgrade%20expo%20template%20for%20new%20version%20of%20cider][CANCELED Attempt to upgrade expo...]]      |     0:32 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Set%20up%20a%20custom%20minimal%20ui%20component%20library][CANCELED Set up a custom minimal ui...]]   |     0:23 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Day][Day]]                                      |     2:54 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20something%20I%20broke%20and%20then%20play%20with%20spec'ing%20functions][Fix something I broke and then play...]]   |     1:09 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Inputs%20on%20forms][CANCELED Inputs on forms]]                 |     3:07 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Copy%20style%20of%20_things_%20and%20_airtable_][Copy style of _things_ and _airtable_]]    |     5:28 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Day][Day]]                                      |     3:13 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Overhaul%20style%20with%20react%20native%20elements][Overhaul style with react native...]]      |     0:31 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::DOSUB%20Reusable%20Components][DOSUB Reusable Components]]                |     0:02 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::DOSUB%20Misc][DOSUB Misc]]                               |     0:26 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::DOSUB%20Dog%20food][DOSUB Dog food]]                           |    24:29 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Add%20version%20identifier][Add version identifier]]                   |     0:09 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20secure%20store%20size%20limit%20issue][Fix secure store size limit issue]]        |     2:39 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Import][Import]]                                   |     0:51 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Navigation][Navigation]]                               |     1:43 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Move%20transform%20buttons%20to%20float%20around%20selection][Move transform buttons to float...]]       |     3:50 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Add%20react-native-paper%20dep][Add react-native-paper dep]]               |     0:08 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20ordering%20problem][Fix ordering problem]]                     |     0:58 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20moving%20selected%20period%20problem%20from%20ordering%20fix][Fix moving selected period problem...]]    |     1:00 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20navigation][Fix navigation]]                           |     0:45 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Add%20theme%20to%20provider][Add theme to provider]]                    |     0:26 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Work%20from%20root%20and%20replace%20with%20paper%20components][CANCELED Work from root and replace...]]   |     0:59 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20transform%20buttons%20to%20work%20for%20templates%20on%20pattern%20planning][Fix transform buttons to work for...]]     |     1:34 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20the%20forms][Fix the forms]]                            |    10:42 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20day%20nav%20buttons][Fix day nav buttons]]                      |     0:05 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Edit%20FAB][Edit FAB]]                                 |     1:54 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20start%20earlier%20button][Fix start earlier button]]                 |     0:06 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20pattern%20planning][Fix pattern planning]]                     |     3:40 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20deleting%20in%20play%20item%20bug][Fix deleting in play item bug]]            |     0:27 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Update%20README][Update README]]                            |     0:40 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Refactor%20pattern%20form][Refactor pattern form]]                    |     0:36 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20new%20pattern%20editing%20spec%20failure][Fix new pattern editing spec failure]]     |     0:05 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20bug%20on%20select%20next/prev%20bug%20on%20pattern%20planning][Fix bug on select next/prev bug on...]]    |     1:27 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Add%20spec%20definitions%20to%20everything][CANCELED Add spec definitions to...]]      |     2:40 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20UX%20refactor][CANCELED UX refactor]]                     |     1:12 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Prediction][Prediction]]                               |     2:11 |
+ |-------------------------------+------------------------------------------+----------|
+ | time-align-mobile.org         | *File time*                              |       ** |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Time%20Align%20Mobile][Time Align Mobile]]                        |    23:55 |
+ #+END:
+** Including Archive by week
 
  #+BEGIN: clocktable :scope ("./time-align-mobile.org_archive" "./time-align-mobile.org") :maxlevel 0 :step week :tstart "2018-01-01" :tend <now> :fileskip0 t :link t
  

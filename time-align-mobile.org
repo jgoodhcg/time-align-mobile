@@ -97,6 +97,8 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-24 Sat 13:18]--[2019-08-24 Sat 13:43] =>  0:25
+     CLOCK: [2019-08-20 Tue 19:13]--[2019-08-20 Tue 19:16] =>  0:03
      CLOCK: [2019-08-18 Sun 19:10]--[2019-08-18 Sun 19:20] =>  0:10
      CLOCK: [2019-08-18 Sun 12:45]--[2019-08-18 Sun 13:11] =>  0:26
      CLOCK: [2019-08-18 Sun 12:17]--[2019-08-18 Sun 12:38] =>  0:21
@@ -139,7 +141,7 @@
   - Solution is to wrap scroll in pan and use selected as a toggle (lock/mutex)
     - Now ~nativeEvent.y~ can be used and it works for the entire screen or day view (hopefully).
     - Can be resumed after pan ends
-- [ ] Figure out gesture handler experience
+- [X] Figure out gesture handler experience
   - Be able to scroll
   - When holding an element enter a state to drag it around updating start/stop on release
     - Needs a ~pan~ on the day view that is simultaneous with a ~long press~ on each element
@@ -149,7 +151,13 @@
   - ~Tap~ an element opens form in bottom sheet
     - Needs to wrap the ~long press~ and wait for it
     - ~Tap~ should not activate if the long press activates then ends
-  - 
+- [ ] Implement gesture handler experience on calendar page
+  - [ ] (zoom) Add top level pinch gesture that waits on scroll
+  - [ ] (scroll) Add scroll view that locks out on selection
+  - [ ] (drag) Add pan gesture handler that waits for tap handler and locks out on no selection
+  - [ ] (edit) Add tap handler that wraps element and waits on long press
+  - [ ] (selection) Add long press wrapping element directly
+  - [ ] Set up locking mechanism between long press and pan handlers
 - [ ] Add a pan gesture handler to elements
 - [ ] Update element on event
 **** TODO Stretch mode
