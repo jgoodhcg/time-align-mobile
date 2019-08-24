@@ -23,7 +23,6 @@
 (def buffer-atom (atom {:buffer []
                         :working-avg 0}))
 
-
 ;; r atom simulate redux state
 (def top (r/atom 0))
 
@@ -56,49 +55,32 @@
     ))
 
 (defn root [params]
-  (let [pan-ref        (.createRef react)
-        pinch-ref      (.createRef react)
-        double-tap-ref (.createRef react)]
+  (let [pinch-ref (.createRef react)]
     [scroll-view-gesture-handler {:enabled                 (not @selected)
+                                  :wait-for                pinch-ref
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
-     [pan-gesture-handler {:ref                     pan-ref
-                           :enabled                 @selected
-                           :on-handler-state-change #(when (= "end" (get-state %))
-                                                       (swap! buffer-atom
-                                                              (fn [b]
-                                                                {:buffer      []
-                                                                 :working-avg 0})))
-                           :on-gesture-event        #(let [ys (get-ys %)
-                                                           top-up 
-                                                           top-down
-                                                           bottomm-up
-                                                           bottom-down
-                                                           ]
 
-                                                       (println ys)
-                                                       (reset! top (:y ys)))}
 
+     [pinch-gesture-handler {:ref                     pinch-ref
+                             :on-gesture-event        #(do (println "Pinch gesture")
+                                                           (println %))
+                             :on-handler-state-change #(println (str "pinch " (get-state %)))}
       [view {:style {:flex             1
                      :flex-direction   "column"
                      :height           1440
                      :background-color "white"
                      :justify-content  "space-between"
                      :align-items      "center"}}
-       [tap-gesture-handler {:ref                     double-tap-ref
-                             :wait-for                pan-ref
-                             :on-handler-state-change #(if (= (get-state %) "active")
-                                                         (do (println "tapped!")
-                                                             (swap! selected not))
-                                                         (println "not active tap state change"))}
+       [text "Stuff above"]
 
-        [view {:style {:background-color (if @selected "red" "pink")
-                       :position         "absolute"
-                       :height           150
-                       :width            150
-                       :top              @top}}
-         [text "this is a calendar page"]]]
+       [view {:style {:background-color (if @selected "yellow" "green")
+                      :position         "absolute"
+                      :height           150
+                      :width            150
+                      :top              10}}
 
-       [text "here is a thing"]
+        [text "Element"]]
 
-       [text "here is another thing"]]]]))
+
+       [text "Stuff below"]]]]))
