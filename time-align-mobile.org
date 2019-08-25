@@ -97,6 +97,11 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-25 Sun 16:26]--[2019-08-25 Sun 16:32] =>  0:06
+     CLOCK: [2019-08-25 Sun 16:25]--[2019-08-25 Sun 16:25] =>  0:00
+     CLOCK: [2019-08-25 Sun 15:50]--[2019-08-25 Sun 16:24] =>  0:34
+     CLOCK: [2019-08-25 Sun 12:13]--[2019-08-25 Sun 12:13] =>  0:00
+     CLOCK: [2019-08-25 Sun 12:05]--[2019-08-25 Sun 12:13] =>  0:08
      CLOCK: [2019-08-24 Sat 18:21]--[2019-08-24 Sat 18:24] =>  0:03
      CLOCK: [2019-08-24 Sat 18:05]--[2019-08-24 Sat 18:09] =>  0:04
      CLOCK: [2019-08-24 Sat 17:54]--[2019-08-24 Sat 17:59] =>  0:05
@@ -165,10 +170,10 @@
   - [X] (zoom) Add pinch gesture
   - [X] (bottom sheet pop up selection) Add tap handler that wraps element and waits on long press
   - [X] (movement selection) Add long press wrapping element directly
-  - [ ] Use simultaneous prop for long press and pan
-  - [ ] Lock out pan on 
-- [ ] Add a pan gesture handler to elements
-- [ ] Update element on event
+  - [-] Use simultaneous prop for long press and pan
+    - Having a hard time achieving this
+    - https://github.com/kmagiera/react-native-gesture-handler/issues/434
+- [ ] Implement handlers on day page
 **** TODO Stretch mode
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet

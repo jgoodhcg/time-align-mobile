@@ -60,18 +60,23 @@
 
 (defn root [params]
   (let [pinch-ref (.createRef react)
+        pan-ref   (.createRef react)
         long-ref  (.createRef react)]
     [scroll-view-gesture-handler {:enabled                 (not @movement-selection)
                                   :wait-for                pinch-ref
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
 
-     [pan-gesture-handler {:enabled                 @movement-selection
+     [pan-gesture-handler {:ref                     pan-ref
+                           :simultaneous-handlers   long-ref
                            :wait-for                pinch-ref
-                           :on-gesture-event        #(reset! top (+ @offset (:y (get-ys %))))
+                           :on-gesture-event        #(do
+                                                       (println "pan gesture")
+                                                       (if @movement-selection
+                                                         (reset! top (+ @offset (:y (get-ys %))))))
                            :on-handler-state-change #(let [y     (:y (get-ys %))
                                                            state (get-state %)]
-                                                       (println (str "pan " ))
+                                                       (println (str "pan " state))
                                                        (if (= "active" state)
                                                          (reset! offset (- @top y))))}
 
@@ -79,12 +84,14 @@
                               :on-gesture-event        #(do (println "Pinch gesture")
                                                             (println %))
                               :on-handler-state-change #(println (str "pinch " (get-state %)))}
+
        [view {:style {:flex             1
                       :flex-direction   "column"
                       :height           1440
                       :background-color "white"
                       :justify-content  "space-between"
                       :align-items      "center"}}
+
         [text "Stuff above"]
 
         [tap-gesture-handler {:wait-for                long-ref
@@ -94,12 +101,15 @@
                                                             (do
                                                               (println "edit selection made")
                                                               (swap! edit-selection not))))}
+
          [long-press-gesture-handler {:ref                     long-ref
+                                      :simultaneous-handlers   pan-ref
                                       :on-handler-state-change #(let [state (get-state %)]
                                                                   (println (str "long " state))
                                                                   (if (= "active" state)
                                                                     (swap! movement-selection not)))}
-          [view {:style {:background-color (if @movement-selection "red" "blue")
+
+          [view {:style {:background-color (if @movement-selection "yellow" "green")
                          :position         "absolute"
                          :height           150
                          :width            150
