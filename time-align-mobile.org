@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-25 Sun 16:32]--[2019-08-25 Sun 17:11] =>  0:39
      CLOCK: [2019-08-25 Sun 16:26]--[2019-08-25 Sun 16:32] =>  0:06
      CLOCK: [2019-08-25 Sun 16:25]--[2019-08-25 Sun 16:25] =>  0:00
      CLOCK: [2019-08-25 Sun 15:50]--[2019-08-25 Sun 16:24] =>  0:34

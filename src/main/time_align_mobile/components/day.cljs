@@ -16,6 +16,7 @@
                                                   scroll-view
                                                   status-bar
                                                   portal
+                                                  rect-button
                                                   surface
                                                   touchable-without-feedback
                                                   card
@@ -260,16 +261,16 @@
                                       {:elevation    10
                                        :border-color "white"
                                        :border-width 4}))}
-             [touchable-ripple {:style
-                                {:height           "100%"
-                                 :width            "100%"
-                                 :overflow         "hidden"
-                                 :padding          4
-                                 :background-color (:color element)}
-                                :on-press #(case element-type
-                                             :period   (dispatch [:select-period (:id element)])
-                                             :template (dispatch [:select-template (:id element)])
-                                             (println (str "unexplainted element type" element-type)))}
+             [rect-button {:style
+                           {:height           "100%"
+                            :width            "100%"
+                            :overflow         "hidden"
+                            :padding          4
+                            :background-color (:color element)}
+                           :on-press #(case element-type
+                                        :period   (dispatch [:select-period (:id element)])
+                                        :template (dispatch [:select-template (:id element)])
+                                        (println (str "unexplainted element type" element-type)))}
               [text-paper (:label element)]]])))))
 
 (defn elements-comp [{:keys [elements
