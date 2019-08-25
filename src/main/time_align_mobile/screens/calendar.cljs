@@ -2,6 +2,7 @@
   (:require [time-align-mobile.js-imports :refer [view text
                                                   gesture-states
                                                   scroll-view-gesture-handler
+                                                  rect-button
                                                   pinch-gesture-handler
                                                   tap-gesture-handler
                                                   long-press-gesture-handler
@@ -94,13 +95,18 @@
 
         [text "Stuff above"]
 
-        [tap-gesture-handler {:wait-for                long-ref
-                              :on-handler-state-change #(let [state (get-state %)]
-                                                          (println (str "tap " state))
-                                                          (if (= "active" state)
-                                                            (do
-                                                              (println "edit selection made")
-                                                              (swap! edit-selection not))))}
+        [rect-button {:wait-for                long-ref
+                      :on-handler-state-change #(let [state (get-state %)]
+                                                  (println (str "tap " state))
+                                                  (if (= "active" state)
+                                                    (do
+                                                      (println "edit selection made")
+                                                      (swap! edit-selection not))))
+                      :style                   {:background-color (if @movement-selection "yellow" "green")
+                                                :position         "absolute"
+                                                :height           150
+                                                :width            150
+                                                :top              @top}}
 
          [long-press-gesture-handler {:ref                     long-ref
                                       :simultaneous-handlers   pan-ref
@@ -109,12 +115,8 @@
                                                                   (if (= "active" state)
                                                                     (swap! movement-selection not)))}
 
-          [view {:style {:background-color (if @movement-selection "yellow" "green")
-                         :position         "absolute"
-                         :height           150
-                         :width            150
-                         :top              @top}}
-
+          [view {:style {:width  "100%"
+                         :height "100%"}}
            [text "Element"]]]]
 
 

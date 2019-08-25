@@ -173,6 +173,7 @@
   - [-] Use simultaneous prop for long press and pan
     - Having a hard time achieving this
     - https://github.com/kmagiera/react-native-gesture-handler/issues/434
+  - [X] Use rect button
 - [ ] Implement handlers on day page
 **** TODO Stretch mode
 **** TODO Add bottom sheet for period editing and selection
