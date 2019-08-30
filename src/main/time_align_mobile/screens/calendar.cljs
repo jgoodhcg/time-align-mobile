@@ -60,17 +60,18 @@
                            (< midpoint))]))
 
 (defn root [params]
-  (let [pinch-ref (.createRef react)
-        pan-ref   (.createRef react)
-        long-ref  (.createRef react)]
+  (let [pinch-ref      (.createRef react)
+        pan-ref        (.createRef react)
+        tap-ref        (.createRef react)
+        double-tap-ref (.createRef react)]
     [scroll-view-gesture-handler {:enabled                 (not @movement-selection)
                                   :wait-for                pinch-ref
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
 
-     [pan-gesture-handler {:ref                     pan-ref
-                           :simultaneous-handlers   long-ref
-                           :wait-for                pinch-ref
+     [pan-gesture-handler {:enabled                 @movement-selection
+                           :ref                     pan-ref
+                           :wait-for                [pinch-ref tap-ref]
                            :on-gesture-event        #(do
                                                        (println "pan gesture")
                                                        (if @movement-selection
@@ -78,8 +79,10 @@
                            :on-handler-state-change #(let [y     (:y (get-ys %))
                                                            state (get-state %)]
                                                        (println (str "pan " state))
-                                                       (if (= "active" state)
-                                                         (reset! offset (- @top y))))}
+                                                       (case state
+                                                         "active" (reset! offset (- @top y))
+                                                         "end"    (reset! movement-selection false)
+                                                         nil))}
 
       [pinch-gesture-handler {:ref                     pinch-ref
                               :on-gesture-event        #(do (println "Pinch gesture")
@@ -95,7 +98,8 @@
 
         [text "Stuff above"]
 
-        [rect-button {:wait-for                long-ref
+        [rect-button {:ref                     tap-ref
+                      :wait-for                double-tap-ref
                       :on-handler-state-change #(let [state (get-state %)]
                                                   (println (str "tap " state))
                                                   (if (= "active" state)
@@ -108,12 +112,12 @@
                                                 :width            150
                                                 :top              @top}}
 
-         [long-press-gesture-handler {:ref                     long-ref
-                                      :simultaneous-handlers   pan-ref
-                                      :on-handler-state-change #(let [state (get-state %)]
-                                                                  (println (str "long " state))
-                                                                  (if (= "active" state)
-                                                                    (swap! movement-selection not)))}
+         [tap-gesture-handler {:ref                     double-tap-ref
+                               :number-of-taps          2
+                               :on-handler-state-change #(let [state (get-state %)]
+                                                           (println (str "double tap " state))
+                                                           (if (= "active" state)
+                                                             (swap! movement-selection not)))}
 
           [view {:style {:width  "100%"
                          :height "100%"}}
