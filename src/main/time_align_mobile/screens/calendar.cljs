@@ -68,22 +68,18 @@
                                   :on-gesture-event        #(println "scroll gesture")
                                   :on-handler-state-change #(println (str "scroll " (get-state %)))}
 
-     [pan-gesture-handler (merge (when @movement-selection
-                                   {:min-dist 1})
-                                 {:ref                     pan-ref
-                                  :simultaneous-handlers   long-ref
-                                  :wait-for                pinch-ref
-                                  :on-gesture-event        #(do
-                                                              (println "pan gesture")
-                                                              (if @movement-selection
-                                                                (reset! top (+ @offset (:y (get-ys %))))))
-                                  :on-handler-state-change #(let [y     (:y (get-ys %))
-                                                                  state (get-state %)]
-                                                              (println (str "pan " state))
-                                                              (case state
-                                                                "active" (reset! offset (- @top y))
-                                                                "end"    (reset! movement-selection false)
-                                                                nil))})
+     [pan-gesture-handler {:ref                     pan-ref
+                           :simultaneous-handlers   long-ref
+                           :wait-for                pinch-ref
+                           :on-gesture-event        #(do
+                                                       (println "pan gesture")
+                                                       (if @movement-selection
+                                                         (reset! top (+ @offset (:y (get-ys %))))))
+                           :on-handler-state-change #(let [y     (:y (get-ys %))
+                                                           state (get-state %)]
+                                                       (println (str "pan " state))
+                                                       (if (= "active" state)
+                                                         (reset! offset (- @top y))))}
 
       [pinch-gesture-handler {:ref                     pinch-ref
                               :on-gesture-event        #(do (println "Pinch gesture")
