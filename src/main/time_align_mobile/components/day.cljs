@@ -261,7 +261,7 @@
                                       {:elevation    10
                                        :border-color "white"
                                        :border-width 4}))}
-             [rect-button {:style
+             [rect-button {:style ;; TODO add react native gesture handler properties
                            {:height           "100%"
                             :width            "100%"
                             :overflow         "hidden"
@@ -271,6 +271,7 @@
                                         :period   (dispatch [:select-period (:id element)])
                                         :template (dispatch [:select-template (:id element)])
                                         (println (str "unexplainted element type" element-type)))}
+              ;; TODO add double tap
               [text-paper (:label element)]]])))))
 
 (defn elements-comp [{:keys [elements
@@ -328,7 +329,9 @@
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)]
 
-    [scroll-view
+    [scroll-view ;; TODO replace scroll view
+     ;; TODO add pan
+     ;; TODO add pinch
      [view
       {:style {:flex 1}}
 
