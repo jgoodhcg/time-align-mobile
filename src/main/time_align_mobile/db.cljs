@@ -136,7 +136,7 @@
                              :name ::bucket})}))
 
 (def screen-id-set (set (->> nav/screens-map
-                          (map (fn [{:keys [id]}] id)))))
+                             (map (fn [{:keys [id]}] id)))))
 (s/def ::screen screen-id-set)
 
 
@@ -147,10 +147,10 @@
    :created     ::moment
    :last-edited ::moment
    :compatible  [(s/spec filterable-types)]
-   :sort        (ds/maybe {:path [keyword?]
+   :sort        (ds/maybe {:path      [keyword?]
                            :ascending boolean?})
-   :predicates  [{:path [keyword?]
-                  :value string? ;; TODO the form uses read and that coerces all values to strings
+   :predicates  [{:path   [keyword?]
+                  :value  string? ;; TODO the form uses read and that coerces all values to strings
                   :negate boolean?}]})
 
 ;; pattern
@@ -167,47 +167,47 @@
                              :name ::pattern})}))
 ;; app-db
 (def app-db-spec
-  (ds/spec {:spec {:forms           {:bucket-form
-                                     (ds/maybe (merge bucket-data-spec
-                                                      {:data string?}))
-                                     :period-form
-                                     (ds/maybe (merge period-data-spec
-                                                      {:data         string?
-                                                       :bucket-id    uuid?
-                                                       :bucket-label string?
-                                                       :bucket-color ::color}))
-                                     :pattern-form
-                                     (ds/maybe (merge pattern-data-spec
-                                                      {:data string?}))
-                                     :template-form
-                                     (ds/maybe (merge template-data-spec
-                                                      {:data         string?
-                                                       :bucket-id    uuid?
-                                                       :bucket-label string?
-                                                       :bucket-color ::color}))
-                                     :filter-form
-                                     (ds/maybe (merge filter-data-spec
-                                                      {:predicates string?}
-                                                      {:sort string?}))}
-                   :active-filter   (ds/maybe uuid?)
-                   :selection {:period {:movement (ds/maybe uuid?)
-                                        :edit (ds/maybe uuid?)}
-                               :template {:movement (ds/maybe uuid?)
-                                          :edit (ds/maybe uuid?)}}
-                   :filters         [filter-data-spec]
-                   :navigation      {:current-screen ::screen
-                                     :params         (ds/maybe map?)}
+  (ds/spec {:spec {:forms         {:bucket-form
+                                   (ds/maybe (merge bucket-data-spec
+                                                    {:data string?}))
+                                   :period-form
+                                   (ds/maybe (merge period-data-spec
+                                                    {:data         string?
+                                                     :bucket-id    uuid?
+                                                     :bucket-label string?
+                                                     :bucket-color ::color}))
+                                   :pattern-form
+                                   (ds/maybe (merge pattern-data-spec
+                                                    {:data string?}))
+                                   :template-form
+                                   (ds/maybe (merge template-data-spec
+                                                    {:data         string?
+                                                     :bucket-id    uuid?
+                                                     :bucket-label string?
+                                                     :bucket-color ::color}))
+                                   :filter-form
+                                   (ds/maybe (merge filter-data-spec
+                                                    {:predicates string?}
+                                                    {:sort string?}))}
+                   :active-filter (ds/maybe uuid?)
+                   :selection     {:period   {:movement (ds/maybe uuid?)
+                                              :edit     (ds/maybe uuid?)}
+                                   :template {:movement (ds/maybe uuid?)
+                                              :edit     (ds/maybe uuid?)}}
+                   :filters       [filter-data-spec]
+                   :navigation    {:current-screen ::screen
+                                   :params         (ds/maybe map?)}
 
-                   :buckets         [bucket-spec]
-                   :patterns        [pattern-spec]
-                   :time-navigators {:day      ::moment
-                                     :calendar ::moment
-                                     :report   ::moment}
-                   :config          {:auto-log-time-align boolean?
-                                     :pixel-to-minute-ratio {:default number?
-                                                             :current number?}}
+                   :buckets           [bucket-spec]
+                   :patterns          [pattern-spec]
+                   :time-navigators   {:day      ::moment
+                                       :calendar ::moment
+                                       :report   ::moment}
+                   :config            {:auto-log-time-align   boolean?
+                                       :pixel-to-minute-ratio {:default number?
+                                                               :current number?}}
                    :period-in-play-id (ds/maybe uuid?)
-                   :now             inst?}
+                   :now               inst?}
             :name ::app-db}))
 (def now (js/Date.))
 (def default-bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"))
@@ -223,20 +223,20 @@
                         :created     now
                         :last-edited now
                         :data        {}
-                        :templates   [{:id          (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
-                                       :bucket-id   default-bucket-id
-                                       :label       "do something in time align"
-                                       :created     now
-                                       :last-edited now
-                                       :data        {}
-                                       :start       (-> 12.5 ;; hours from start of day
-                                                        (* 60) ;; minutes
-                                                        (* 60) ;; seconds
-                                                        (* 1000)) ;; millis
-                                       :stop        (-> 14
-                                                        (* 60)
-                                                        (* 60)
-                                                        (* 1000))}]}]
+                        :templates   [{:id                                      (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
+                                       :bucket-id                               default-bucket-id
+                                       :label                                   "do something in time align"
+                                       :created                                 now
+                                       :last-edited                             now
+                                       :data                                    {}
+                                       :start                                   (-> 12.5 ;; hours from start of day
+                                                                                    (* 60) ;; minutes
+                                                                                    (* 60) ;; seconds
+                                                                                    (* 1000)) ;; millis
+                                       :stop                                    (-> 14
+                                                                                    (* 60)
+                                                                                    (* 60)
+                                                                                    (* 1000))}]}]
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"
@@ -282,14 +282,14 @@
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
-   :config            {:auto-log-time-align true
+   :config            {:auto-log-time-align   true
                        :pixel-to-minute-ratio {:default 0.5
                                                :current 0.5}}
    :period-in-play-id default-period-id
-   :selection {:period {:movement nil
-                        :edit nil}
-               :template {:movement nil
-                          :edit nil}}
+   :selection         {:period   {:movement nil
+                                  :edit     nil}
+                       :template {:movement nil
+                                  :edit     nil}}
    :now               now})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app

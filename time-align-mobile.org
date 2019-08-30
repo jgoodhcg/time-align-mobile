@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-08-30 Fri 16:12]--[2019-08-30 Fri 16:12] =>  0:00
      CLOCK: [2019-08-30 Fri 16:01]--[2019-08-30 Fri 16:11] =>  0:10
      CLOCK: [2019-08-30 Fri 15:49]--[2019-08-30 Fri 15:58] =>  0:09
      CLOCK: [2019-08-30 Fri 14:50]--[2019-08-30 Fri 15:38] =>  0:48
@@ -181,8 +182,9 @@
   - [X] Replace long press with double tap for movement selection
 - [-] Implement handlers on day page
   - [X] Add top level todo items
-  - [ ] Refactor selections
+  - [-] Refactor selections
     - [X] App-db
+      - [X] Reformat ns
     - [ ] Handlers
     - [ ] Subscriptions
   - [ ] Scroll
