@@ -31,7 +31,7 @@
   (let [pattern-form      (subscribe [:get-pattern-form])
         buckets           (subscribe [:get-buckets]) ;; this is just for selecting a random bucket for new template long press
         changes           (subscribe [:get-pattern-form-changes])
-        selected-template (subscribe [:get-selected-template])
+        selected-template (subscribe [:get-selection-template-movement])
         top-bar-height    styles/top-bar-height
         dimensions        (r/atom {:width nil :height nil})]
 

@@ -222,8 +222,8 @@
                              :bucket-label (:label bucket)
                              :color        (:color bucket)})))))
 
-(defn get-selected-period [db _]
-  (let [selected-id               (get-in db [:selected-period])
+(defn get-selection-period-movement [db _]
+  (let [selected-id               (get-in db [:selection :period :movement])
         [bucket selected-period ] (select-one [:buckets sp/ALL
                                                (sp/collect-one (sp/submap [:id :color :label]))
                                                :periods sp/ALL
@@ -234,26 +234,40 @@
                               :color        (:color bucket)})
       nil)))
 
-(defn get-selected-template [db _]
-  ;; this is only for pattern *form* templates
-  ;; NOT pattern templates
-  ;; TODO rename this to reflect *form* context
-  (let [selected-id         (get-in db [:selected-template])
-        [pattern template ] (select-one [:forms :pattern-form
-                                         (sp/collect-one (sp/submap [:id :label]))
-                                         :templates sp/ALL
-                                         #(= (:id %) selected-id)] db)
-        bucket              (select-one [:buckets sp/ALL
-                                         #(= (:id %) (:bucket-id template))]
-                                        db)]
-
+(defn get-selection-period-edit [db _]
+  (let [selected-id               (get-in db [:selection :period :edit])
+        [bucket selected-period ] (select-one [:buckets sp/ALL
+                                               (sp/collect-one (sp/submap [:id :color :label]))
+                                               :periods sp/ALL
+                                               #(= (:id %) selected-id)] db)]
     (if (some? selected-id)
-      (merge template
-             {:bucket-id     (:id bucket)
-              :bucket-label  (:label bucket)
-              :pattern-id    (:id pattern)
-              :pattern-label (:label pattern)
-              :color         (:color bucket)})
+      (merge selected-period {:bucket-id    (:id bucket)
+                              :bucket-label (:label bucket)
+                              :color        (:color bucket)})
+      nil)))
+
+(defn get-selection-template-movement [db _]
+  (let [selected-id                 (get-in db [:selection :template :movement])
+        [bucket selected-template ] (select-one [:buckets sp/ALL
+                                                 (sp/collect-one (sp/submap [:id :color :label]))
+                                                 :templates sp/ALL
+                                                 #(= (:id %) selected-id)] db)]
+    (if (some? selected-id)
+      (merge selected-template {:bucket-id  (:id bucket)
+                                :bucket-label (:label bucket)
+                                :color        (:color bucket)})
+      nil)))
+
+(defn get-selection-template-edit [db _]
+  (let [selected-id                 (get-in db [:selection :template :edit])
+        [bucket selected-template ] (select-one [:buckets sp/ALL
+                                                 (sp/collect-one (sp/submap [:id :color :label]))
+                                                 :templates sp/ALL
+                                                 #(= (:id %) selected-id)] db)]
+    (if (some? selected-id)
+      (merge selected-template {:bucket-id  (:id bucket)
+                                :bucket-label (:label bucket)
+                                :color        (:color bucket)})
       nil)))
 
 (defn get-day-time-navigator [db _]
@@ -370,8 +384,10 @@
 (reg-sub :get-filters get-filters)
 (reg-sub :get-active-filter get-active-filter)
 (reg-sub :get-periods get-periods)
-(reg-sub :get-selected-period get-selected-period)
-(reg-sub :get-selected-template get-selected-template)
+(reg-sub :get-selection-period-movement get-selection-period-movement)
+(reg-sub :get-selection-period-edit get-selection-period-edit)
+(reg-sub :get-selection-template-movement get-selection-template-movement)
+(reg-sub :get-selection-template-edit get-selection-template-edit)
 (reg-sub :get-day-time-navigator get-day-time-navigator)
 (reg-sub :get-now get-now)
 (reg-sub :get-period-in-play get-period-in-play)

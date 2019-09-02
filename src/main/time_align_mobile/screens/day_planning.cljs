@@ -61,7 +61,7 @@
         bottom-bar-height 0 ;; styles/bottom-bar-height
         periods           (subscribe [:get-collision-grouped-periods])
         displayed-day     (subscribe [:get-day-time-navigator])
-        selected-period   (subscribe [:get-selected-period])
+        selected-period   (subscribe [:get-selection-period-movement])
         period-in-play    (subscribe [:get-period-in-play])
         now               (subscribe [:get-now])
         buckets           (subscribe [:get-buckets])

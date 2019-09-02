@@ -613,18 +613,29 @@
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :filters}]})
 
-(defn select-period [{:keys [db]} [_ id]]
+(defn select-period-movement
+  [{:keys [db]} [_ id]]
   (merge
-   {:db (assoc-in db [:selected-period] id)}
+   {:db (assoc-in db [:selection :period :movement] id)}))
+
+(defn select-period-edit
+  [{:keys [db]} [_ id]]
+  (merge
+   {:db (assoc-in db [:selection :period :edit] id)}
    (when (some? id)
      {:dispatch [:load-period-form id]})))
 
-(defn select-template [{:keys [db]} [_ id]]
+(defn select-template-movement
+  [{:keys [db]} [_ id]]
   (merge
-   {:db (assoc-in db [:selected-template] id)}
+   {:db (assoc-in db [:selection :template :movement] id)}))
+
+(defn select-template-edit
+  [{:keys [db]} [_ id]]
+  (merge
+   {:db (assoc-in db [:selection :template :edit] id)}
    (when (some? id)
-     ;; This should only ever get called from pattern planning
-     {:dispatch [:load-template-form-from-pattern-planning id]})))
+     {:dispatch [:load-template-form id]})))
 
 (defn update-period [{:keys [db]} [_ {:keys [id update-map]}]]
   ;; TODO add an interceptor? for last edited
@@ -651,63 +662,6 @@
                   sp/NIL->VECTOR
                   sp/AFTER-ELEM]
                  (clean-period period)))))
-
-(defn select-next-or-prev-period [db [_ direction]]
-  (if-let [selected-period-id (get-in db [:selected-period])]
-    (let [displayed-day (get-in db [:time-navigators :day])
-          selected-period (select-one [:buckets sp/ALL :periods sp/ALL
-                                       #(= selected-period-id (:id %))] db)
-          sorted-periods (->> db
-                              (select [:buckets sp/ALL :periods sp/ALL])
-                              ;; Next period needs to be on this displayed day
-                              (filter #(and (some? (:start %))
-                                            (some? (:stop %))
-                                            (or (same-day? (:start %) displayed-day)
-                                                (same-day? (:stop %) displayed-day))))
-                              ;; Next period needs to be visible on this track
-                              (filter #(= (:planned selected-period) (:planned %)))
-                              (sort-by #(.valueOf (:start %)))
-                              (#(if (= direction :prev)
-                                  (reverse %)
-                                  %)))
-          next-period    (->> sorted-periods
-                              ;; Since they are sorted, drop them until you get to
-                              ;; the current selected period.
-                              ;; Then take the next one.
-                              (drop-while #(not (= (:id %) selected-period-id)))
-                              (second))]
-      (if (some? next-period)
-        (assoc-in db [:selected-period] (:id next-period))
-        db))
-    db))
-
-(defn select-next-or-prev-template-in-form [{:keys [db]} [_ direction]] ;; TODO add pattern form to docs or name
-  (if-let [selected-template-id (get-in db [:selected-template])]
-    (let [[pattern selected-template]
-          (select-one [:forms :pattern-form
-                       (sp/collect-one (sp/submap [:id]))
-                       :templates sp/ALL
-                       #(= selected-template-id (:id %))] db)
-
-          sorted-templates (->> db
-                                (select [:forms :pattern-form
-                                         :templates sp/ALL])
-                              (sort-by :start)
-                              (#(if (= direction :prev)
-                                  (reverse %)
-                                  %)))
-          next-template    (->> sorted-templates
-                                ;; Since they are sorted,
-                                ;; drop them until you get to
-                                ;; the current selected period.
-                                ;; Then take the next one.
-                                (drop-while
-                                 #(not (= (:id %) selected-template-id)))
-                                (second))]
-      (merge {:db db}
-             (when (some? next-template)
-               {:dispatch [:select-template (:id next-template)]})))
-    {:db db})) ;; if nothings is selected then why is this handler called?
 
 (defn update-day-time-navigator [db [_ new-date]]
   (assoc-in db [:time-navigators :day] new-date))
@@ -946,11 +900,8 @@
 (reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store]
               delete-template-from-pattern-planning)
 (reg-event-fx :delete-filter [validate-spec persist-secure-store] delete-filter)
-(reg-event-fx :select-period [validate-spec persist-secure-store] select-period)
-(reg-event-fx :select-template [validate-spec persist-secure-store] select-template)
 (reg-event-fx :update-period [validate-spec persist-secure-store] update-period)
 (reg-event-db :add-period [validate-spec persist-secure-store] add-period)
-(reg-event-db :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-db :update-day-time-navigator [validate-spec persist-secure-store] update-day-time-navigator)
 (reg-event-db :tick [validate-spec persist-secure-store] tick)
 (reg-event-db :play-from-period [validate-spec persist-secure-store] play-from-period)
@@ -964,8 +915,6 @@
 (reg-event-fx :update-pattern-form [validate-spec persist-secure-store] update-pattern-form)
 (reg-event-fx :save-pattern-form [validate-spec persist-secure-store] save-pattern-form)
 (reg-event-fx :add-new-pattern [validate-spec persist-secure-store] add-new-pattern)
-(reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store]
-              select-next-or-prev-template-in-form)
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
 (reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)
 (reg-event-fx :navigate-back [validate-spec persist-secure-store] navigate-back)
@@ -974,3 +923,7 @@
 (reg-event-db :make-pattern-from-day [validate-spec persist-secure-store] make-pattern-from-day)
 (reg-event-db :set-current-pixel-to-minute-ratio [validate-spec persist-secure-store] set-current-pixel-to-minute-ratio)
 (reg-event-db :set-default-pixel-to-minute-ratio [validate-spec persist-secure-store] set-default-pixel-to-minute-ratio)
+(reg-event-fx :select-period-movement [validate-spec persist-secure-store] select-period-movement)
+(reg-event-fx :select-period-edit [validate-spec persist-secure-store] select-period-edit)
+(reg-event-fx :select-template-movement [validate-spec persist-secure-store] select-template-movement)
+(reg-event-fx :select-template-edit [validate-spec persist-secure-store] select-template-edit)

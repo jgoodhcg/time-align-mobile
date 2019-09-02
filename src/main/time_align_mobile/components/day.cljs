@@ -24,6 +24,7 @@
                                                   status-bar
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
+            ["react" :as react]
             [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
             [time-align-mobile.screens.period-form :as period-form]
             [time-align-mobile.screens.template-form :as template-form]
@@ -261,15 +262,15 @@
                                       {:elevation    10
                                        :border-color "white"
                                        :border-width 4}))}
-             [rect-button {:style ;; TODO add react native gesture handler properties
+             [rect-button {:style    ;; TODO add react native gesture handler properties
                            {:height           "100%"
                             :width            "100%"
                             :overflow         "hidden"
                             :padding          4
                             :background-color (:color element)}
                            :on-press #(case element-type
-                                        :period   (dispatch [:select-period (:id element)])
-                                        :template (dispatch [:select-template (:id element)])
+                                        :period   (dispatch [:select-period-movement (:id element)])
+                                        :template (dispatch [:select-template-movement (:id element)])
                                         (println (str "unexplainted element type" element-type)))}
               ;; TODO add double tap
               [text-paper (:label element)]]])))))
@@ -327,7 +328,11 @@
            displayed-day]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
-        default-pxl-min-ratio (:default px-ratio-config)]
+        default-pxl-min-ratio (:default px-ratio-config)
+        pinch-ref      (.createRef react)
+        pan-ref        (.createRef react)
+        tap-ref        (.createRef react)
+        double-tap-ref (.createRef react)]
 
     [scroll-view ;; TODO replace scroll view
      ;; TODO add pan
