@@ -213,19 +213,22 @@
          state
          :invalid-state)))
 
-(defn get-gesture-handler-ys [nativeEvent]
+(defn get-gesture-handler-ys [native-event]
   {:y
    (obj/getValueByKeys
-    nativeEvent #js["nativeEvent" "y"])
+    native-event #js["nativeEvent" "y"])
 
    :absolute
    (obj/getValueByKeys
-    nativeEvent #js["nativeEvent" "absoluteY"])
+    native-event #js["nativeEvent" "absoluteY"])
 
    :translation
    (obj/getValueByKeys
-    nativeEvent #js["nativeEvent" "translationY"])
+    native-event #js["nativeEvent" "translationY"])
 
    :velocity
    (obj/getValueByKeys
-    nativeEvent #js["nativeEvent" "velocityY"])})
+    native-event #js["nativeEvent" "velocityY"])})
+
+(defn get-gesture-handler-scale [native-event]
+  (obj/getValueByKeys native-event #js["nativeEvent" "scale"]))

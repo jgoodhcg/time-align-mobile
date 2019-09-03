@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-09-03 Tue 16:34]--[2019-09-03 Tue 16:51] =>  0:17
      CLOCK: [2019-09-03 Tue 15:50]--[2019-09-03 Tue 16:34] =>  0:44
      CLOCK: [2019-09-03 Tue 15:28]--[2019-09-03 Tue 15:31] =>  0:03
      CLOCK: [2019-09-02 Mon 17:13]--[2019-09-02 Mon 18:00] =>  0:47
@@ -194,7 +195,7 @@
     - [X] Subscriptions
   - [X] Scroll
   - [X] Pan
-  - [ ] Pinch
+  - [X] Pinch
   - [ ] Rect-button
   - [ ] Double-tap
 **** TODO Stretch mode
