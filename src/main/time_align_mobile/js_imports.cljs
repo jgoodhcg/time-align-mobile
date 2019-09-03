@@ -214,6 +214,7 @@
 (def rect-button (r/adapt-react-class RectButton))
 (def scroll-view-gesture-handler (r/adapt-react-class ScrollView))
 (def gesture-handler-states State)
+;; TODO fully namespace these keys
 (def gesture-states {:active       (.-ACTIVE gesture-handler-states)
                      :undetermined (.-UNDETERMINED gesture-handler-states)
                      :failed       (.-FAILED gesture-handler-states)

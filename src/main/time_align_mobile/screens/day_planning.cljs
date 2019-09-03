@@ -55,6 +55,9 @@
                              [:update-day-time-navigator
                               (helpers/forward-n-days displayed-day 1)])}]])
 
+(defn move-period [{:keys [selected-element movement-in-minutes]}]
+  (println (str "moving element " (:id selected-element) " by " movement-in-minutes " minutes" )))
+
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
         top-bar-height    styles/top-bar-height
@@ -77,5 +80,6 @@
                      :in-play-element  @period-in-play
                      :displayed-day    @displayed-day
                      :element-type     :period
-                     :elements         @periods}]]))
+                     :elements         @periods
+                     :move-element     move-period}]]))
 

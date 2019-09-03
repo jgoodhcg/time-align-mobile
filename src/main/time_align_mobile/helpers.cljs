@@ -1,7 +1,8 @@
 (ns time-align-mobile.helpers
   (:require
    ;; [zprint.core :refer [zprint]]
-
+   [time-align-mobile.js-imports :refer [gesture-states]]
+   [goog.object :as obj]
    [re-frame.core :refer [reg-sub]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
@@ -205,3 +206,26 @@
                         (apply deep-merge args)
                         (last args)))
          maps))
+
+(defn get-gesture-handler-state [native-event]
+  (let [state (obj/getValueByKeys native-event #js["nativeEvent" "state"])]
+    (get (clojure.set/map-invert gesture-states)
+         state
+         :invalid-state)))
+
+(defn get-gesture-handler-ys [nativeEvent]
+  {:y
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "y"])
+
+   :absolute
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "absoluteY"])
+
+   :translation
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "translationY"])
+
+   :velocity
+   (obj/getValueByKeys
+    nativeEvent #js["nativeEvent" "velocityY"])})

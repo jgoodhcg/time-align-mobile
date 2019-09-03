@@ -1,28 +1,29 @@
 (ns time-align-mobile.components.day
-  (:require [time-align-mobile.js-imports :refer [view
-                                                  text
-                                                  text-paper
-                                                  fa
-                                                  mci
-                                                  mi
-                                                  en
-                                                  button-paper
-                                                  scroll-view
-                                                  touchable-ripple
-                                                  divider
-                                                  format-date
-                                                  touchable-ripple
-                                                  modal-paper
-                                                  scroll-view
-                                                  status-bar
-                                                  portal
-                                                  rect-button
-                                                  surface
-                                                  touchable-without-feedback
-                                                  card
-                                                  format-time
-                                                  status-bar
-                                                  touchable-highlight]]
+  (:require [time-align-mobile.js-imports
+             :refer [view
+                     text
+                     text-paper
+                     fa
+                     mci
+                     mi
+                     en
+                     button-paper
+                     scroll-view-gesture-handler
+                     pan-gesture-handler
+                     touchable-ripple
+                     divider
+                     format-date
+                     touchable-ripple
+                     modal-paper
+                     status-bar
+                     portal
+                     rect-button
+                     surface
+                     touchable-without-feedback
+                     card
+                     format-time
+                     status-bar
+                     touchable-highlight]]
             ["react-native-elements" :as rne]
             ["react" :as react]
             [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
@@ -30,7 +31,13 @@
             [time-align-mobile.screens.template-form :as template-form]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-            [time-align-mobile.helpers :as helpers :refer [same-day?]]
+            [time-align-mobile.helpers
+             :as helpers
+             :refer [same-day?
+                     get-gesture-handler-state
+                     get-gesture-handler-ys]
+             :rename {get-gesture-handler-state get-state
+                      get-gesture-handler-ys get-ys}]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]))
 
@@ -319,23 +326,59 @@
                  :selected-element      selected-element
                  :element-type          element-type})))]])
 
+(def pan-offset (r/atom 0))
+
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
            selected-element
            in-play-element
            element-type
-           displayed-day]}]
+           displayed-day
+           move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
-        pixel-to-minute-ratio (:current px-ratio-config)
+        pixel-to-minute-ratio 3 ;;(:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
-        pinch-ref      (.createRef react)
-        pan-ref        (.createRef react)
-        tap-ref        (.createRef react)
-        double-tap-ref (.createRef react)]
+        pinch-ref             (.createRef react)
+        pan-ref               (.createRef react)
+        tap-ref               (.createRef react)
+        double-tap-ref        (.createRef react)
+        movement-selected    (not (some? selected-element))]
 
-    [scroll-view ;; TODO replace scroll view
+    [scroll-view-gesture-handler
+     {:enabled                 movement-selected
+      :wait-for                pinch-ref
+      ;; TODO remove println
+      :on-gesture-event        #(println "scroll gesture")
+      :on-handler-state-change #(println (str "scroll " (get-state %)))}
      ;; TODO add pan
+     [pan-gesture-handler
+      {:enabled                 movement-selected
+       :ref                     pan-ref
+       :wait-for                [pinch-ref tap-ref]
+       :on-gesture-event        #(do
+                                   ;; TODO remove println
+                                   (println "pan gesture")
+                                   (if movement-selected
+                                     (let [movement-in-pixels  (+ @pan-offset (:y (get-ys %)))
+                                           movement-in-minutes (/ movement-in-pixels
+                                                                  pixel-to-minute-ratio)]
+                                       (move-element {:selected-element selected-element
+                                                      :relative-minutes movement-in-minutes}))))
+       :on-handler-state-change #(let [y     (:y (get-ys %))
+                                       state (get-state %)
+                                       top (->> selected-element
+                                                :start
+                                                (helpers/get-ms)
+                                                (helpers/ms->minutes)
+                                                (* pixel-to-minute-ratio))]
+                                   (println (str "pan " state))
+                                   (case state
+                                     :active (reset! pan-offset (- top y))
+                                     :end    (dispatch [:select-element-movement
+                                                        {:element-type element-type
+                                                         :id           nil}])
+                                     nil))}]
      ;; TODO add pinch
      [view
       {:style {:flex 1}}

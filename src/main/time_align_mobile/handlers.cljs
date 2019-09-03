@@ -869,6 +869,11 @@
 (defn set-default-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :default] ratio db))
 
+(defn select-element-movement [db [dispatch-key {:keys [element-type id]}]]
+  (case element-type
+    :period   (select-period-movement db [dispatch-key id])
+    :template (select-template-movement db [dispatch-key id])))
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
@@ -927,3 +932,4 @@
 (reg-event-fx :select-period-edit [validate-spec persist-secure-store] select-period-edit)
 (reg-event-fx :select-template-movement [validate-spec persist-secure-store] select-template-movement)
 (reg-event-fx :select-template-edit [validate-spec persist-secure-store] select-template-edit)
+(reg-event-db :select-element-movement [validate-spec persist-secure-store] select-element-movement)
