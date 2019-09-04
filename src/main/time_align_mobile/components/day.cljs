@@ -365,17 +365,70 @@
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
-        movement-selected     (some? selected-element)]
+        movement-selected     (some? selected-element)
 
-    [scroll-view-gesture-handler
-     {:enabled                 (not movement-selected)
-      ;; :scroll-enabled          (not movement-selected)
-      :wait-for                [pinch-ref pan-ref]
-      ;; TODO remove println
-      :on-gesture-event        #(println "scroll gesture")
-      :on-handler-state-change #(println (str "scroll " (get-state %)))}
+        content
+        [pinch-gesture-handler
+         {:ref                     pinch-ref
+          :on-gesture-event        #(do (println "Pinch gesture")
+                                        (println (helpers/get-gesture-handler-scale %))
+                                        (let [scale (helpers/get-gesture-handler-scale %)]
+                                          (dispatch [:set-current-pixel-to-minute-ratio
+                                                     (* pixel-to-minute-ratio scale)])))
+          ;; TODO remove println
+          :on-handler-state-change #(println (str "pinch " (get-state %)))}
+                 [view
+                  {:style {:flex 1}}
 
-     ;; TODO add pan
+                  [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
+                                 :flex   1}}
+
+                   ;; time indicators
+                   (for [hour (range 1 helpers/day-hour)]
+                     (let [rel-min     (* 60 hour)
+                           y-pos       (* pixel-to-minute-ratio rel-min)
+                           rel-ms      (helpers/hours->ms hour)
+                           time-str    (helpers/ms->hhmm rel-ms)
+                           text-height 30]
+
+                       [view {:key   (str "hour-marker-" hour)
+                              :style {:flex     1
+                                      :position "absolute"
+                                      :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
+                                      :height   (+ (* 60 pixel-to-minute-ratio)
+                                                   (/ text-height 2))}}
+
+                        [view {:style {:flex-direction "row"
+                                       :align-items    "flex-start"}}
+                         ;; time stamp
+                         [text-paper {:style {:padding-left        8
+                                              :color               (-> styles/theme :colors :accent)
+                                              :height              text-height
+                                              :text-align-vertical "center"}}
+                          time-str]
+                         ;; bar
+                         [view {:style {:height         text-height
+                                        :flex-direction "row"
+                                        :align-items    "center"}}
+                          [view {:style {:border-color (-> styles/theme :colors :disabled)
+                                         :border-width 0.25
+                                         :margin-left  4
+                                         :width        "100%"
+                                         :height       0}}]]]]))
+
+                   ;; periods
+                   [view {:style {:position "absolute"
+                                  :left     60
+                                  :right    0
+                                  :height   "100%"}}
+                    [elements-comp {:elements              elements
+                                    :selected-element      selected-element
+                                    :element-type          element-type
+                                    :in-play-element       in-play-element
+                                    :pixel-to-minute-ratio pixel-to-minute-ratio
+                                    :displayed-day         displayed-day}]]]]]]
+
+    (if movement-selected
      [pan-gesture-handler
       {:enabled                 movement-selected
        :ref                     pan-ref
@@ -403,63 +456,13 @@
                                                         {:element-type element-type
                                                          :id           nil}])
                                      nil))}
-      ;; TODO add pinch
-      [pinch-gesture-handler
-       {:ref                     pinch-ref
-        :on-gesture-event        #(do (println "Pinch gesture")
-                                      (println (helpers/get-gesture-handler-scale %))
-                                      (let [scale (helpers/get-gesture-handler-scale %)]
-                                        (dispatch [:set-current-pixel-to-minute-ratio
-                                                   (* pixel-to-minute-ratio scale)])))
-        ;; TODO remove println
-        :on-handler-state-change #(println (str "pinch " (get-state %)))}
-       [view
-        {:style {:flex 1}}
+      content]
 
-        [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
-                       :flex   1}}
-
-         ;; time indicators
-         (for [hour (range 1 helpers/day-hour)]
-           (let [rel-min     (* 60 hour)
-                 y-pos       (* pixel-to-minute-ratio rel-min)
-                 rel-ms      (helpers/hours->ms hour)
-                 time-str    (helpers/ms->hhmm rel-ms)
-                 text-height 30]
-
-             [view {:key   (str "hour-marker-" hour)
-                    :style {:flex     1
-                            :position "absolute"
-                            :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
-                            :height   (+ (* 60 pixel-to-minute-ratio)
-                                         (/ text-height 2))}}
-
-              [view {:style {:flex-direction "row"
-                             :align-items    "flex-start"}}
-               ;; time stamp
-               [text-paper {:style {:padding-left        8
-                                    :color               (-> styles/theme :colors :accent)
-                                    :height              text-height
-                                    :text-align-vertical "center"}}
-                time-str]
-               ;; bar
-               [view {:style {:height         text-height
-                              :flex-direction "row"
-                              :align-items    "center"}}
-                [view {:style {:border-color (-> styles/theme :colors :disabled)
-                               :border-width 0.25
-                               :margin-left  4
-                               :width        "100%"
-                               :height       0}}]]]]))
-
-         ;; periods
-         [view {:style {:position "absolute"
-                        :left     60
-                        :right    0
-                        :height   "100%"}}
-          [elements-comp {:elements              elements
-                          :selected-element      selected-element
-                          :element-type          element-type
-                          :in-play-element       in-play-element
-                          :pixel-to-minute-ratio pixel-to-minute-ratio
-                          :displayed-day         displayed-day}]]]]]]]))
+     [scroll-view-gesture-handler
+      {:enabled                 (not movement-selected)
+       ;; :scroll-enabled          (not movement-selected)
+       :wait-for                [pinch-ref pan-ref]
+       ;; TODO remove println
+       :on-gesture-event        #(println "scroll gesture")
+       :on-handler-state-change #(println (str "scroll " (get-state %)))}
+      content])))
