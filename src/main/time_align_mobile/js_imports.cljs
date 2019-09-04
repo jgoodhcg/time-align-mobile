@@ -26,7 +26,9 @@
             State]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-   [reagent.core :as r :refer [atom]]))
+   [reagent.core :as r :refer [atom]]
+   ["react-native-side-drawer" :default MenuDrawer]
+   ))
 
 (def ReactNative react-native)
 (def expo e)
@@ -222,3 +224,4 @@
                      :cancelled     (.-CANCELLED gesture-handler-states)
                      :end          (.-END gesture-handler-states)})
 
+(def menu-drawer (r/adapt-react-class MenuDrawer))

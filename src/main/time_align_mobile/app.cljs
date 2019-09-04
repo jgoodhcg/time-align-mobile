@@ -20,6 +20,7 @@
                                           fa
                                           version
                                           back-handler
+                                          status-bar
                                           app-state
                                           paper-provider
                                           ic
@@ -31,6 +32,7 @@
                                           image
                                           touchable-highlight
                                           drawer-layout
+                                          menu-drawer
                                           read-file-from-dd-async
                                           secure-store-get!]]))
 
@@ -105,23 +107,30 @@
 
 (defn root []
   (fn []
-    (let [navigation (subscribe [:get-navigation])]
+    (let [navigation  (subscribe [:get-navigation])
+          drawer-open (subscribe [:get-drawer])]
       (fn []
         [paper-provider {:theme (clj->js theme)}
          [view {:style {:flex             1
                         :background-color (get-in theme [:colors :background])}}
-          [drawer-layout
-           {:drawer-width            200
-            :drawer-position         "left"
-            :drawer-type             "slide"
-            :drawer-background-color (get-in theme [:colors :background])
-            :render-navigation-view  (fn [] (r/as-element (drawer-list)))}
+          [status-bar {:hidden true}]
+          [menu-drawer
+           {:open              true
+            :drawer-percentage 50
+            :animation-time    250
+            :overlay           true
+            :opacity           45
+            :drawer-content    (r/as-element [drawer-list])}
 
-           (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
-                                         (:screen %))
-                                      nav/screens-map)]
-             [screen-comp (:params @navigation)]
-             [view [text "That screen doesn't exist"]])]]]))))
+           [view [text "That screen doesn't exist"]]
+
+           ;; (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
+           ;;                               (:screen %))
+           ;;                            nav/screens-map)]
+           ;;   [screen-comp (:params @navigation)]
+           ;;   [view [text "That screen doesn't exist"]])
+           ]
+          ]]))))
 
 (defn start
   {:dev/after-load true}

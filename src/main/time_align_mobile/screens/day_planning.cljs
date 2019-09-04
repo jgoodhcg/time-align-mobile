@@ -91,7 +91,6 @@
                                  (:planned %)       :left
                                  (not (:planned %)) :right)]
     [view {:style {:flex 1}}
-     [status-bar {:hidden true}]
      [top-bar {:displayed-day @displayed-day}]
      [day-comp/root {:selected-element @selected-period
                      :in-play-element  @period-in-play

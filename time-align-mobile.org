@@ -244,9 +244,15 @@ Disabled pan/drag option for now
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
      :LOGBOOK:
+     CLOCK: [2019-09-04 Wed 16:56]
      CLOCK: [2019-09-04 Wed 16:56]--[2019-09-04 Wed 16:56] =>  0:00
      :END:
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
+- [ ] Replace drawer
+  - This is needed because scrolling and pinching are probably going to happen on the time indicators
+    - The rest of the view is too full of elements
+  - So we need to remove the gesture only accessible drawer
+- [ ] Add bottom sheet
 *** TODO Fix drawer bug
     :PROPERTIES:
     :Effort:   3:00
