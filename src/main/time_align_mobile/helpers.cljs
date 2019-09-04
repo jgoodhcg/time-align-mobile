@@ -3,8 +3,10 @@
    ;; [zprint.core :refer [zprint]]
    [time-align-mobile.js-imports :refer [gesture-states]]
    [goog.object :as obj]
-   [re-frame.core :refer [reg-sub]]
-            [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
+   [re-frame.core :refer [dispatch]]
+   [com.rpl.specter :as sp :refer-macros [select select-one setval transform]])
+  (:import [goog.async Throttle Debouncer]))
+
 
 (def day-hour 24)
 
@@ -232,3 +234,21 @@
 
 (defn get-gesture-handler-scale [native-event]
   (obj/getValueByKeys native-event #js["nativeEvent" "scale"]))
+
+;; https://medium.com/@alehatsman/clojurescript-throttle-debounce-a651dfb66ac
+(defn disposable->function [disposable listener interval]
+  (let [disposable-instance (disposable. listener interval)]
+    (fn [& args]
+      (.apply (.-fire disposable-instance) disposable-instance (to-array args)))))
+
+(defn throttle [listener interval]
+  (disposable->function Throttle listener interval))
+
+(defn debounce [listener interval]
+  (disposable->function Debouncer listener interval))
+
+(def dispatch-debounced
+  (debounce dispatch 25))
+
+(def dispatch-throttled
+  (throttle dispatch 25))

@@ -236,10 +236,19 @@ https://github.com/ptaoussanis/tufte
 ***** DONE Figure out some more options
       CLOSED: [2019-09-04 Wed 16:56]
       :LOGBOOK:
+      CLOCK: [2019-09-04 Wed 19:06]--[2019-09-04 Wed 19:13] =>  0:07
       CLOCK: [2019-09-04 Wed 16:27]--[2019-09-04 Wed 16:56] =>  0:29
       :END:
-Wait [[https://github.com/facebook/react-native/issues/18044#issuecomment-517763893][for this]]
-Disabled pan/drag option for now
+ Disabled pan/drag option for now
+****** Expo/ReactNative profiling
+ Wait [[https://github.com/facebook/react-native/issues/18044#issuecomment-517763893][for this]]
+
+****** Debounce/Throttle
+       :LOGBOOK:
+       CLOCK: [2019-09-04 Wed 19:14]--[2019-09-04 Wed 19:50] =>  0:36
+       :END:
+https://www.martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
+https://medium.com/@alehatsman/clojurescript-throttle-debounce-a651dfb66ac
 **** CANCELED Stretch mode
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection

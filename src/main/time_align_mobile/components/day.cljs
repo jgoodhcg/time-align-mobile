@@ -37,6 +37,8 @@
              :as helpers
              :refer [same-day?
                      get-gesture-handler-state
+                     dispatch-debounced
+                     dispatch-throttled
                      get-gesture-handler-ys]
              :rename {get-gesture-handler-state get-state
                       get-gesture-handler-ys get-ys}]
@@ -216,8 +218,9 @@
       [pinch-gesture-handler
        {:ref                     pinch-ref
         :on-gesture-event        #(let [scale (helpers/get-gesture-handler-scale %)]
-                                    (dispatch [:set-current-pixel-to-minute-ratio
-                                               (* pixel-to-minute-ratio scale)]))}
+                                    (dispatch-debounced
+                                     [:set-current-pixel-to-minute-ratio
+                                      (* pixel-to-minute-ratio scale)]))}
        [view
         {:style {:flex 1}}
 
