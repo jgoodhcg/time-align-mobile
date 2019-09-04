@@ -244,7 +244,7 @@ Disabled pan/drag option for now
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
      :LOGBOOK:
-     CLOCK: [2019-09-04 Wed 16:56]--[2019-09-04 Wed 18:28] =>  1:32
+     CLOCK: [2019-09-04 Wed 16:56]
      CLOCK: [2019-09-04 Wed 16:56]--[2019-09-04 Wed 16:56] =>  0:00
      :END:
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
