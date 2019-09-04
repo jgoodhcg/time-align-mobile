@@ -33,6 +33,7 @@
                                           touchable-highlight
                                           drawer-layout
                                           menu-drawer
+                                          side-menu
                                           read-file-from-dd-async
                                           secure-store-get!]]))
 
@@ -114,21 +115,14 @@
          [view {:style {:flex             1
                         :background-color (get-in theme [:colors :background])}}
           [status-bar {:hidden true}]
-          [menu-drawer
-           {:open              true
-            :drawer-percentage 50
-            :animation-time    250
-            :overlay           true
-            :opacity           45
-            :drawer-content    (r/as-element [drawer-list])}
+          [side-menu
+           {:menu    (r/as-element [drawer-list])}
 
-           [view [text "That screen doesn't exist"]]
-
-           ;; (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
-           ;;                               (:screen %))
-           ;;                            nav/screens-map)]
-           ;;   [screen-comp (:params @navigation)]
-           ;;   [view [text "That screen doesn't exist"]])
+           (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
+                                         (:screen %))
+                                      nav/screens-map)]
+             [screen-comp (:params @navigation)]
+             [view [text "That screen doesn't exist"]])
            ]
           ]]))))
 

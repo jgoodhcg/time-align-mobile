@@ -28,6 +28,7 @@
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    [reagent.core :as r :refer [atom]]
    ["react-native-side-drawer" :default MenuDrawer]
+   ["react-native-side-menu" :default SideMenu]
    ))
 
 (def ReactNative react-native)
@@ -225,3 +226,4 @@
                      :end          (.-END gesture-handler-states)})
 
 (def menu-drawer (r/adapt-react-class MenuDrawer))
+(def side-menu (r/adapt-react-class SideMenu))
