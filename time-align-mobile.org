@@ -97,6 +97,11 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-09-03 Tue 22:09]--[2019-09-03 Tue 22:54] =>  0:45
+     CLOCK: [2019-09-03 Tue 21:40]--[2019-09-03 Tue 22:01] =>  0:21
+     CLOCK: [2019-09-03 Tue 21:26]--[2019-09-03 Tue 21:38] =>  0:12
+     CLOCK: [2019-09-03 Tue 21:17]--[2019-09-03 Tue 21:26] =>  0:09
+     CLOCK: [2019-09-03 Tue 16:52]--[2019-09-03 Tue 17:10] =>  0:18
      CLOCK: [2019-09-03 Tue 16:34]--[2019-09-03 Tue 16:51] =>  0:17
      CLOCK: [2019-09-03 Tue 15:50]--[2019-09-03 Tue 16:34] =>  0:44
      CLOCK: [2019-09-03 Tue 15:28]--[2019-09-03 Tue 15:31] =>  0:03
@@ -196,8 +201,10 @@
   - [X] Scroll
   - [X] Pan
   - [X] Pinch
-  - [ ] Rect-button
-  - [ ] Double-tap
+  - [X] Rect-button
+  - [X] Double-tap
+  - [ ] Figure out how to get lock out scroll view and pan handler
+    - It works on calendar page but not here ...
 **** TODO Stretch mode
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
@@ -316,4 +323,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Accessibility
 - Energy meter
 - Advanced notifications with interaction
-  
+- [[https://stackoverflow.com/questions/46680890/react-native-how-to-scroll-a-scrollview-to-a-given-location-after-navigation-f][better scrolling]]

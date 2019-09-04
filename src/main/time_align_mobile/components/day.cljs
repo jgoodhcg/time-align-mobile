@@ -12,6 +12,7 @@
                      pan-gesture-handler
                      pinch-gesture-handler
                      touchable-ripple
+                     tap-gesture-handler
                      divider
                      format-date
                      touchable-ripple
@@ -233,6 +234,16 @@
 ;;                           :period-in-play @period-in-play
 ;;                           :render-selected-only true})]))
 
+(def pinch-ref (.createRef react))
+
+(def pan-ref (.createRef react))
+
+(def tap-ref (.createRef react))
+
+(def double-tap-ref (.createRef react))
+
+(def pan-offset (r/atom 0))
+
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
                                       element-type
@@ -270,18 +281,34 @@
                                       {:elevation    10
                                        :border-color "white"
                                        :border-width 4}))}
-             [rect-button {:style    ;; TODO add react native gesture handler properties
-                           {:height           "100%"
-                            :width            "100%"
-                            :overflow         "hidden"
-                            :padding          4
-                            :background-color (:color element)}
-                           :on-press #(case element-type
-                                        :period   (dispatch [:select-period-movement (:id element)])
-                                        :template (dispatch [:select-template-movement (:id element)])
-                                        (println (str "unexplainted element type" element-type)))}
+             [rect-button
+              {:ref                     tap-ref
+               :wait-for                double-tap-ref
+               :on-handler-state-change #(let [state (get-state %)]
+                                           (println (str "tap " state))
+                                           (if (= :active state)
+                                             (do
+                                               (println "edit selection made"))))
+               :style
+               {:height           "100%"
+                :width            "100%"
+                :overflow         "hidden"
+                :padding          4
+                :background-color (:color element)}}
+
               ;; TODO add double tap
-              [text-paper (:label element)]]])))))
+              [tap-gesture-handler
+               {:ref                     double-tap-ref
+                :number-of-taps          2
+                :on-handler-state-change #(let [state (get-state %)]
+                                            (println (str "double tap " state))
+                                            (if (= :active state)
+                                              (dispatch [:select-element-movement
+                                                         {:element-type element-type
+                                                          :id           (:id element)}])))}
+               [view {:style {:width  "100%"
+                              :height "100%"}}
+                [text-paper (:label element)]]]]])))))
 
 (defn elements-comp [{:keys [elements
                              element-type
@@ -327,8 +354,6 @@
                  :selected-element      selected-element
                  :element-type          element-type})))]])
 
-(def pan-offset (r/atom 0))
-
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
@@ -340,18 +365,16 @@
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
-        pinch-ref             (.createRef react)
-        pan-ref               (.createRef react)
-        tap-ref               (.createRef react)
-        double-tap-ref        (.createRef react)
         movement-selected     (some? selected-element)]
 
     [scroll-view-gesture-handler
-     {:enabled                 movement-selected
-      :wait-for                pinch-ref
+     {:enabled                 (not movement-selected)
+      ;; :scroll-enabled          (not movement-selected)
+      :wait-for                [pinch-ref pan-ref]
       ;; TODO remove println
       :on-gesture-event        #(println "scroll gesture")
       :on-handler-state-change #(println (str "scroll " (get-state %)))}
+
      ;; TODO add pan
      [pan-gesture-handler
       {:enabled                 movement-selected
@@ -361,21 +384,21 @@
                                    ;; TODO remove println
                                    (println "pan gesture")
                                    (if movement-selected
-                                     (let [movement-in-pixels  (+ @pan-offset (:y (get-ys %)))
-                                           movement-in-minutes (/ movement-in-pixels
-                                                                  pixel-to-minute-ratio)]
-                                       (move-element {:selected-element selected-element
-                                                      :relative-minutes movement-in-minutes}))))
+                                     (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
+                                           start-time-in-minutes (/ start-time-in-pixels
+                                                                    pixel-to-minute-ratio)]
+                                       (move-element {:selected-element   selected-element
+                                                      :start-relative-min start-time-in-minutes}))))
        :on-handler-state-change #(let [y     (:y (get-ys %))
-                                       state (get-state %)
-                                       top   (->> selected-element
-                                                  :start
-                                                  (helpers/get-ms)
-                                                  (helpers/ms->minutes)
-                                                  (* pixel-to-minute-ratio))]
+                                       state (get-state %)]
                                    (println (str "pan " state))
                                    (case state
-                                     :active (reset! pan-offset (- top y))
+                                     :active (let [top (->> selected-element
+                                                            :start
+                                                            (helpers/get-ms)
+                                                            (helpers/ms->minutes)
+                                                            (* pixel-to-minute-ratio))]
+                                               (reset! pan-offset (- top y)))
                                      :end    (dispatch [:select-element-movement
                                                         {:element-type element-type
                                                          :id           nil}])

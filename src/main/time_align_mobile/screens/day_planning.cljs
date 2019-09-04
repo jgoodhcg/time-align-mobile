@@ -55,8 +55,25 @@
                              [:update-day-time-navigator
                               (helpers/forward-n-days displayed-day 1)])}]])
 
-(defn move-period [{:keys [selected-element movement-in-minutes]}]
-  (println (str "moving element " (:id selected-element) " by " movement-in-minutes " minutes" )))
+(defn move-period [{:keys [selected-element start-relative-min]}]
+  (let [new-start-ms (-> start-relative-min
+                         (helpers/minutes->ms))
+        new-start    (helpers/reset-relative-ms
+                      new-start-ms
+                      (:start selected-element))
+        duration     (- (-> selected-element
+                            :stop
+                            (.valueOf))
+                        (-> selected-element
+                            :start
+                            (.valueOf)))
+        new-stop     (helpers/reset-relative-ms
+                      (-> new-start-ms
+                          (+ duration))
+                      (:stop selected-element))]
+    (dispatch [:update-period {:id         (:id selected-element)
+                               :update-map {:start new-start
+                                            :stop  new-stop}}])))
 
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})
