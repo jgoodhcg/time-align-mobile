@@ -236,8 +236,6 @@
 
 (def pinch-ref (.createRef react))
 
-(def pan-ref (.createRef react))
-
 (def tap-ref (.createRef react))
 
 (def double-tap-ref (.createRef react))
@@ -367,43 +365,45 @@
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)]
 
-    [scroll-view-gesture-handler
-     {:enabled                 (not movement-selected)
-      ;; :scroll-enabled          (not movement-selected)
-      :wait-for                [pinch-ref pan-ref]
-      ;; TODO remove println
-      :on-gesture-event        #(println "scroll gesture")
-      :on-handler-state-change #(println (str "scroll " (get-state %)))}
+    ;; TODO add pan
+    [pan-gesture-handler
+     {:enabled                 movement-selected
+      :on-gesture-event        #(do
+                                  ;; TODO remove println
+                                  (println "pan gesture")
+                                  (if movement-selected
+                                    (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
+                                          start-time-in-minutes (/ start-time-in-pixels
+                                                                   pixel-to-minute-ratio)]
+                                      (move-element {:selected-element   selected-element
+                                                     :start-relative-min start-time-in-minutes}))))
+      :on-handler-state-change #(let [y     (:y (get-ys %))
+                                      state (get-state %)]
+                                  (println (str "pan " state))
+                                  (case state
+                                    :active (let [top (->> selected-element
+                                                           :start
+                                                           (helpers/get-ms)
+                                                           (helpers/ms->minutes)
+                                                           (* pixel-to-minute-ratio))]
+                                              (reset! pan-offset (- top y)))
+                                    :end    (dispatch [:select-element-movement
+                                                       {:element-type element-type
+                                                        :id           nil}])
+                                    nil))}
 
-     ;; TODO add pan
-     [pan-gesture-handler
-      {:enabled                 movement-selected
-       :ref                     pan-ref
-       :wait-for                [pinch-ref tap-ref]
-       :on-gesture-event        #(do
-                                   ;; TODO remove println
-                                   (println "pan gesture")
-                                   (if movement-selected
-                                     (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
-                                           start-time-in-minutes (/ start-time-in-pixels
-                                                                    pixel-to-minute-ratio)]
-                                       (move-element {:selected-element   selected-element
-                                                      :start-relative-min start-time-in-minutes}))))
-       :on-handler-state-change #(let [y     (:y (get-ys %))
-                                       state (get-state %)]
-                                   (println (str "pan " state))
-                                   (case state
-                                     :active (let [top (->> selected-element
-                                                            :start
-                                                            (helpers/get-ms)
-                                                            (helpers/ms->minutes)
-                                                            (* pixel-to-minute-ratio))]
-                                               (reset! pan-offset (- top y)))
-                                     :end    (dispatch [:select-element-movement
-                                                        {:element-type element-type
-                                                         :id           nil}])
-                                     nil))}
-      ;; TODO add pinch
+     [scroll-view-gesture-handler
+      {;; :enabled                 (not movement-selected)
+       ;; :disable-scroll-view-pan-responder movement-selected
+       :scroll-enabled          (not movement-selected)
+       ;; this stops all touch events from going to children kind of ... I guess.
+       ;; My observation is that is somehow only stops child gesture events but not their  state changes.
+       :wait-for                pinch-ref
+       ;; TODO remove println
+       :on-gesture-event        #(println "scroll gesture")
+       :on-handler-state-change #(println (str "scroll " (get-state %)))}
+
+
       [pinch-gesture-handler
        {:ref                     pinch-ref
         :on-gesture-event        #(do (println "Pinch gesture")

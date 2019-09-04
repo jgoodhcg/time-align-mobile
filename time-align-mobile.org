@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-09-03 Tue 22:54]--[2019-09-03 Tue 23:25] =>  0:31
      CLOCK: [2019-09-03 Tue 22:09]--[2019-09-03 Tue 22:54] =>  0:45
      CLOCK: [2019-09-03 Tue 21:40]--[2019-09-03 Tue 22:01] =>  0:21
      CLOCK: [2019-09-03 Tue 21:26]--[2019-09-03 Tue 21:38] =>  0:12
@@ -191,7 +192,7 @@
     - https://github.com/kmagiera/react-native-gesture-handler/issues/434
   - [X] Use rect button
   - [X] Replace long press with double tap for movement selection
-- [-] Implement handlers on day page
+- [X] Implement handlers on day page
   - [X] Add top level todo items
   - [X] Refactor selections
     - [X] App-db
@@ -203,8 +204,8 @@
   - [X] Pinch
   - [X] Rect-button
   - [X] Double-tap
-  - [ ] Figure out how to get lock out scroll view and pan handler
-    - It works on calendar page but not here ...
+  - [X] Figure out how to get lock out scroll view and pan handler
+  - [ ] Figure out why movement changes duration randomly
 **** TODO Stretch mode
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
