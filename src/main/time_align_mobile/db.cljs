@@ -207,8 +207,7 @@
                                        :pixel-to-minute-ratio {:default number?
                                                                :current number?}}
                    :period-in-play-id (ds/maybe uuid?)
-                   :now               inst?
-                   :drawer            boolean?}
+                   :now               inst?}
             :name ::app-db}))
 (def now (js/Date.))
 (def default-bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"))
@@ -224,20 +223,20 @@
                         :created     now
                         :last-edited now
                         :data        {}
-                        :templates   [{:id                                                    (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
-                                       :bucket-id                                             default-bucket-id
-                                       :label                                                 "do something in time align"
-                                       :created                                               now
-                                       :last-edited                                           now
-                                       :data                                                  {}
-                                       :start                                                 (-> 12.5 ;; hours from start of day
-                                                                                                  (* 60) ;; minutes
-                                                                                                  (* 60) ;; seconds
-                                                                                                  (* 1000)) ;; millis
-                                       :stop                                                  (-> 14
-                                                                                                  (* 60)
-                                                                                                  (* 60)
-                                                                                                  (* 1000))}]}]
+                        :templates   [{:id                                      (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
+                                       :bucket-id                               default-bucket-id
+                                       :label                                   "do something in time align"
+                                       :created                                 now
+                                       :last-edited                             now
+                                       :data                                    {}
+                                       :start                                   (-> 12.5 ;; hours from start of day
+                                                                                    (* 60) ;; minutes
+                                                                                    (* 60) ;; seconds
+                                                                                    (* 1000)) ;; millis
+                                       :stop                                    (-> 14
+                                                                                    (* 60)
+                                                                                    (* 60)
+                                                                                    (* 1000))}]}]
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"
@@ -291,8 +290,7 @@
                                   :edit     nil}
                        :template {:movement nil
                                   :edit     nil}}
-   :now               now
-   :drawer            false})
+   :now               now})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app
 ;; old initial state of app-db

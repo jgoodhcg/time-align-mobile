@@ -865,7 +865,7 @@
                  new-pattern))))
 
 (defn set-current-pixel-to-minute-ratio [db [_ ratio]]
-  (setval [:config :pixel-to-minute-ratio :current] (max ratio 0.25) db))
+  (setval [:config :pixel-to-minute-ratio :current] (min ratio 0.5) db))
 
 (defn set-default-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :default] ratio db))

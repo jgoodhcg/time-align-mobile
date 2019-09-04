@@ -4427,14 +4427,6 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@15.6.2:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
-  integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
-  dependencies:
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
 prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
@@ -4665,13 +4657,6 @@ react-native-safe-area-view@^0.12.0:
   integrity sha512-UrAXmBC4KNR5K2eczIDZgqceWyKsgG9gmWFerHCvoyApfei8ceBB9u/c//PWCpS5Gt8MRLTmX5jPtzdXo2yNqg==
   dependencies:
     hoist-non-react-statics "^2.3.1"
-
-react-native-side-drawer@^1.1.11:
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/react-native-side-drawer/-/react-native-side-drawer-1.1.11.tgz#95764e4252291ec170e73de8e008ab89b94de3f5"
-  integrity sha512-UPBaSHvirLj3TRtgfwOr6KSE0Dxc0ZCcJlV7sUUvVPyVgMg6KDunKc1oa4yyak9G17NvTwAdoaTdx+JQRY+PoA==
-  dependencies:
-    prop-types "15.6.2"
 
 react-native-status-bar-height@^2.2.0:
   version "2.2.0"

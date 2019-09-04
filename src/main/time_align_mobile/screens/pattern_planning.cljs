@@ -36,6 +36,7 @@
         dimensions        (r/atom {:width nil :height nil})]
 
     [view {:style {:flex 1}}
+     [status-bar {:hidden true}]
      [top-bar]
      [day-comp/root
       {:selected-element @selected-template
