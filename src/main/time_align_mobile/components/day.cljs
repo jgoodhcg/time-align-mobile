@@ -264,7 +264,9 @@
                 index-offset (-> index
                                  (* 16)
                                  (+ 2))
-                selected     (= (:id element) (:id selected-element))]
+                selected     (= (:id element) (:id selected-element))
+                something-else-selected (and (some? selected-element)
+                                             (not selected))]
 
             [surface {:key   (:id element)
                       :style (merge {:position      "absolute"
@@ -276,30 +278,27 @@
                                      :border-radius 4
                                      :overflow      "hidden"}
                                     (when selected
-                                      {:elevation    10
-                                       :border-color "white"
-                                       :border-width 4}))}
+                                      {:elevation    10}))}
              [rect-button
               {:ref                     tap-ref
                :wait-for                double-tap-ref
                :on-handler-state-change #(let [state (get-state %)]
-                                           (println (str "tap " state))
                                            (if (= :active state)
-                                             (do
-                                               (println "edit selection made"))))
+                                             nil))
                :style
-               {:height           "100%"
-                :width            "100%"
-                :overflow         "hidden"
-                :padding          4
-                :background-color (:color element)}}
+               (merge
+                {:height           "100%"
+                 :width            "100%"
+                 :overflow         "hidden"
+                 :padding          4
+                 :background-color (:color element)}
+                (when something-else-selected
+                  {:opacity 0.5}))}
 
-              ;; TODO add double tap
               [tap-gesture-handler
                {:ref                     double-tap-ref
                 :number-of-taps          2
                 :on-handler-state-change #(let [state (get-state %)]
-                                            (println (str "double tap " state))
                                             (if (= :active state)
                                               (dispatch [:select-element-movement
                                                          {:element-type element-type
@@ -365,12 +364,9 @@
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)]
 
-    ;; TODO add pan
     [pan-gesture-handler
      {:enabled                 movement-selected
       :on-gesture-event        #(do
-                                  ;; TODO remove println
-                                  (println "pan gesture")
                                   (if movement-selected
                                     (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
                                           start-time-in-minutes (/ start-time-in-pixels
@@ -379,7 +375,6 @@
                                                      :start-relative-min start-time-in-minutes}))))
       :on-handler-state-change #(let [y     (:y (get-ys %))
                                       state (get-state %)]
-                                  (println (str "pan " state))
                                   (case state
                                     :active (let [top (->> selected-element
                                                            :start
@@ -393,26 +388,17 @@
                                     nil))}
 
      [scroll-view-gesture-handler
-      {;; :enabled                 (not movement-selected)
-       ;; :disable-scroll-view-pan-responder movement-selected
-       :scroll-enabled          (not movement-selected)
+      {:scroll-enabled          (not movement-selected)
        ;; this stops all touch events from going to children kind of ... I guess.
        ;; My observation is that is somehow only stops child gesture events but not their  state changes.
-       :wait-for                pinch-ref
-       ;; TODO remove println
-       :on-gesture-event        #(println "scroll gesture")
-       :on-handler-state-change #(println (str "scroll " (get-state %)))}
+       :wait-for                pinch-ref}
 
 
       [pinch-gesture-handler
        {:ref                     pinch-ref
-        :on-gesture-event        #(do (println "Pinch gesture")
-                                      (println (helpers/get-gesture-handler-scale %))
-                                      (let [scale (helpers/get-gesture-handler-scale %)]
-                                        (dispatch [:set-current-pixel-to-minute-ratio
-                                                   (* pixel-to-minute-ratio scale)])))
-        ;; TODO remove println
-        :on-handler-state-change #(println (str "pinch " (get-state %)))}
+        :on-gesture-event        #(let [scale (helpers/get-gesture-handler-scale %)]
+                                    (dispatch [:set-current-pixel-to-minute-ratio
+                                               (* pixel-to-minute-ratio scale)]))}
        [view
         {:style {:flex 1}}
 

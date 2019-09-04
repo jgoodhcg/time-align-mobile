@@ -97,6 +97,8 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-09-04 Wed 14:32]--[2019-09-04 Wed 14:32] =>  0:00
+     CLOCK: [2019-09-04 Wed 13:48]--[2019-09-04 Wed 14:32] =>  0:44
      CLOCK: [2019-09-04 Wed 13:38]--[2019-09-04 Wed 13:45] =>  0:07
      CLOCK: [2019-09-03 Tue 22:54]--[2019-09-03 Tue 23:25] =>  0:31
      CLOCK: [2019-09-03 Tue 22:09]--[2019-09-03 Tue 22:54] =>  0:45
@@ -208,6 +210,9 @@
   - [X] Figure out how to get lock out scroll view and pan handler
   - [X] Figure out why movement changes duration randomly
     - It was just /in play/
+  - [X] Make selection indicator look better
+  - [X] Remove println
+  - [X] Fix document picker
 **** TODO Stretch mode
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
@@ -327,3 +332,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Energy meter
 - Advanced notifications with interaction
 - [[https://stackoverflow.com/questions/46680890/react-native-how-to-scroll-a-scrollview-to-a-given-location-after-navigation-f][better scrolling]]
+- [[https://docs.expo.io/versions/v33.0.0/react-native/performance/][Optimize performance]]

@@ -10,6 +10,7 @@
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
    ["expo-secure-store" :as SecureStore]
+   ["expo-document-picker" :as DocumentPicker]
    ["expo-file-system" :as fs
     :refer []]
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
@@ -165,8 +166,7 @@
                  (.-version)))
 
 (defn load-file-async [callback]
-  (-> expo ;; TODO changes to its own package in sdk-33
-      (.-DocumentPicker)
+  (-> DocumentPicker
       (.getDocumentAsync)
       (.then callback)))
 
