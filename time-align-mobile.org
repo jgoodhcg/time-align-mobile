@@ -95,7 +95,8 @@
  - [X] Render collision group offsets
  - [X] Selection
  
-**** TODO Dragging element to move on selection
+**** DONE Dragging element to move on selection
+     CLOSED: [2019-09-04 Wed 15:10]
      :LOGBOOK:
      CLOCK: [2019-09-04 Wed 14:33]--[2019-09-04 Wed 14:33] =>  0:00
      CLOCK: [2019-09-04 Wed 14:32]--[2019-09-04 Wed 14:32] =>  0:00
@@ -214,8 +215,37 @@
   - [X] Make selection indicator look better
   - [X] Remove println
   - [X] Fix document picker
-**** TODO Stretch mode
+**** TODO Do some performance optimization
+     :LOGBOOK:
+     CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:15] =>  0:02
+     CLOCK: [2019-09-04 Wed 15:10]--[2019-09-04 Wed 15:14] =>  0:04
+     :END:
+***** DONE Try chrome performance monitor
+      CLOSED: [2019-09-04 Wed 16:13]
+      :LOGBOOK:
+      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:13] =>  0:00
+      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:13] =>  0:00
+      CLOCK: [2019-09-04 Wed 15:27]--[2019-09-04 Wed 15:41] =>  0:14
+      :END:
+It doesn't seem to break down into anything recognizable as a cljs function.
+***** TODO Use some cljs perf monitoring
+      :LOGBOOK:
+      CLOCK: [2019-09-04 Wed 16:15]--[2019-09-04 Wed 16:27] =>  0:12
+      :END:
+https://github.com/ptaoussanis/tufte
+***** DONE Figure out some more options
+      CLOSED: [2019-09-04 Wed 16:56]
+      :LOGBOOK:
+      CLOCK: [2019-09-04 Wed 16:27]--[2019-09-04 Wed 16:56] =>  0:29
+      :END:
+Wait [[https://github.com/facebook/react-native/issues/18044#issuecomment-517763893][for this]]
+Disabled pan/drag option for now
+**** CANCELED Stretch mode
+     CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
+     :LOGBOOK:
+     CLOCK: [2019-09-04 Wed 16:56]--[2019-09-04 Wed 16:56] =>  0:00
+     :END:
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
 *** TODO Fix drawer bug
     :PROPERTIES:

@@ -32,6 +32,7 @@
     (->interceptor
         :id :validate-spec
         :after (fn [context]
+                 context
                  (let [db (-> context :effects :db)
                        old-db (-> context :coeffects :db)
                        event (-> context :coeffects :event)]
@@ -864,7 +865,7 @@
                  new-pattern))))
 
 (defn set-current-pixel-to-minute-ratio [db [_ ratio]]
-  (setval [:config :pixel-to-minute-ratio :current] ratio db))
+  (setval [:config :pixel-to-minute-ratio :current] (min ratio 0.5) db))
 
 (defn set-default-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :default] ratio db))
@@ -873,6 +874,11 @@
   (case element-type
     :period   (select-period-movement context [dispatch-key id])
     :template (select-template-movement context [dispatch-key id])))
+
+(defn select-element-edit [context [dispatch-key {:keys [element-type id]}]]
+  (case element-type
+    :period   (select-period-edit context [dispatch-key id])
+    :template (select-template-edit context [dispatch-key id])))
 
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
@@ -933,3 +939,4 @@
 (reg-event-fx :select-template-movement [validate-spec persist-secure-store] select-template-movement)
 (reg-event-fx :select-template-edit [validate-spec persist-secure-store] select-template-edit)
 (reg-event-fx :select-element-movement [validate-spec persist-secure-store] select-element-movement)
+(reg-event-fx :select-element-edit [validate-spec persist-secure-store] select-element-edit)

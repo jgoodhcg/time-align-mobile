@@ -60,20 +60,20 @@
   (->> collision-group
        (map-indexed
         (fn [index element]
-          (let [start-ms     (helpers/abstract-element-timestamp
-                              (:start element)
-                              displayed-day)
-                start-min    (helpers/ms->minutes start-ms)
-                start-y-pos  (* pixel-to-minute-ratio start-min)
-                stop-ms      (helpers/abstract-element-timestamp
-                              (:stop element)
-                              displayed-day)
-                stop-min     (helpers/ms->minutes stop-ms)
-                height       (* pixel-to-minute-ratio (- stop-min start-min))
-                index-offset (-> index
-                                 (* 16)
-                                 (+ 2))
-                selected     (= (:id element) (:id selected-element))
+          (let [start-ms                (helpers/abstract-element-timestamp
+                                         (:start element)
+                                         displayed-day)
+                start-min               (helpers/ms->minutes start-ms)
+                start-y-pos             (* pixel-to-minute-ratio start-min)
+                stop-ms                 (helpers/abstract-element-timestamp
+                                         (:stop element)
+                                         displayed-day)
+                stop-min                (helpers/ms->minutes stop-ms)
+                height                  (* pixel-to-minute-ratio (- stop-min start-min))
+                index-offset            (-> index
+                                            (* 16)
+                                            (+ 2))
+                selected                (= (:id element) (:id selected-element))
                 something-else-selected (and (some? selected-element)
                                              (not selected))]
 
@@ -87,13 +87,15 @@
                                      :border-radius 4
                                      :overflow      "hidden"}
                                     (when selected
-                                      {:elevation    10}))}
+                                      {:elevation 10}))}
              [rect-button
               {:ref                     tap-ref
                :wait-for                double-tap-ref
-               :on-handler-state-change #(let [state (get-state %)]
-                                           (if (= :active state)
-                                             nil))
+               :on-handler-state-change #(if (= :active (get-state %))
+                                           (dispatch
+                                            [:select-element-edit
+                                             {:element-type element-type
+                                              :id           (:id element)}]))
                :style
                (merge
                 {:height           "100%"
@@ -105,13 +107,17 @@
                   {:opacity 0.5}))}
 
               [tap-gesture-handler
-               {:ref                     double-tap-ref
+               {:enabled                 false
+                :ref                     double-tap-ref
                 :number-of-taps          2
-                :on-handler-state-change #(let [state (get-state %)]
-                                            (if (= :active state)
-                                              (dispatch [:select-element-movement
-                                                         {:element-type element-type
-                                                          :id           (:id element)}])))}
+                :on-handler-state-change #(str "no-op")
+                ;; TODO bring this back when performance can be optimized
+                ;; (let [state (get-state %)]
+                ;;   (if (= :active state)
+                ;;     (dispatch [:select-element-movement
+                ;;                {:element-type element-type
+                ;;                 :id           (:id element)}])))
+                }
                [view {:style {:width  "100%"
                               :height "100%"}}
                 [text-paper (:label element)]]]]])))))
@@ -133,7 +139,7 @@
                   :border-left-width  0.5
                   :border-right-width 0.25}}
 
-    (->> elements
+    (->> @elements
          :planned
          (map #(render-collision-group
                 {:pixel-to-minute-ratio pixel-to-minute-ratio
@@ -151,7 +157,7 @@
                   :border-color       (-> styles/theme :colors :disabled)
                   :border-left-width  0.25
                   :border-right-width 0.5}}
-    (->> elements
+    (->> @elements
          :actual
          (map #(render-collision-group
                 {:pixel-to-minute-ratio pixel-to-minute-ratio
@@ -175,26 +181,30 @@
 
     [pan-gesture-handler
      {:enabled                 movement-selected
-      :on-gesture-event        #(do
-                                  (if movement-selected
-                                    (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
-                                          start-time-in-minutes (/ start-time-in-pixels
-                                                                   pixel-to-minute-ratio)]
-                                      (move-element {:selected-element   selected-element
-                                                     :start-relative-min start-time-in-minutes}))))
-      :on-handler-state-change #(let [y     (:y (get-ys %))
-                                      state (get-state %)]
-                                  (case state
-                                    :active (let [top (->> selected-element
-                                                           :start
-                                                           (helpers/get-ms)
-                                                           (helpers/ms->minutes)
-                                                           (* pixel-to-minute-ratio))]
-                                              (reset! pan-offset (- top y)))
-                                    :end    (dispatch [:select-element-movement
-                                                       {:element-type element-type
-                                                        :id           nil}])
-                                    nil))}
+      :on-gesture-event        #(str "no-op")
+      ;; TODO Bring back when performance can be optimized
+      ;; (if movement-selected
+      ;;   (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
+      ;;         start-time-in-minutes (/ start-time-in-pixels
+      ;;                                  pixel-to-minute-ratio)]
+      ;;     (move-element {:selected-element   selected-element
+      ;;                    :start-relative-min start-time-in-minutes})))
+      :on-handler-state-change #(str "no-op")
+      ;; TODO Bring back when performance can be optimized
+      ;; (let [y     (:y (get-ys %))
+      ;;       state (get-state %)]
+      ;;   (case state
+      ;;     :active (let [top (->> selected-element
+      ;;                            :start
+      ;;                            (helpers/get-ms)
+      ;;                            (helpers/ms->minutes)
+      ;;                            (* pixel-to-minute-ratio))]
+      ;;               (reset! pan-offset (- top y)))
+      ;;     :end    (dispatch [:select-element-movement
+      ;;                        {:element-type element-type
+      ;;                         :id           nil}])
+      ;;     nil))
+      }
 
      [scroll-view-gesture-handler
       {:scroll-enabled          (not movement-selected)

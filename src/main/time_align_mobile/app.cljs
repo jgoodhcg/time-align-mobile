@@ -149,7 +149,7 @@
      (println "error reading file")))
 
   ;; start ticking
-  (js/setInterval #(dispatch [:tick (js/Date.)]) 1000)
+  ;; (js/setInterval #(dispatch [:tick (js/Date.)]) 1000)
 
   (start))
 

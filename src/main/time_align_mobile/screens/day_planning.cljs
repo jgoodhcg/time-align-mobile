@@ -97,6 +97,6 @@
                      :in-play-element  @period-in-play
                      :displayed-day    @displayed-day
                      :element-type     :period
-                     :elements         @periods
+                     :elements         periods
                      :move-element     move-period}]]))
 
