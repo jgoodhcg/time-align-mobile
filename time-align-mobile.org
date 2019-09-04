@@ -97,6 +97,7 @@
  
 **** TODO Dragging element to move on selection
      :LOGBOOK:
+     CLOCK: [2019-09-04 Wed 13:38]--[2019-09-04 Wed 13:45] =>  0:07
      CLOCK: [2019-09-03 Tue 22:54]--[2019-09-03 Tue 23:25] =>  0:31
      CLOCK: [2019-09-03 Tue 22:09]--[2019-09-03 Tue 22:54] =>  0:45
      CLOCK: [2019-09-03 Tue 21:40]--[2019-09-03 Tue 22:01] =>  0:21
@@ -205,7 +206,8 @@
   - [X] Rect-button
   - [X] Double-tap
   - [X] Figure out how to get lock out scroll view and pan handler
-  - [ ] Figure out why movement changes duration randomly
+  - [X] Figure out why movement changes duration randomly
+    - It was just /in play/
 **** TODO Stretch mode
 **** TODO Add bottom sheet for period editing and selection
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
