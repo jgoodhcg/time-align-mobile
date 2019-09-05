@@ -248,7 +248,7 @@
   (disposable->function Debouncer listener interval))
 
 (def dispatch-debounced
-  (debounce dispatch 200))
+  (debounce dispatch 100))
 
 (def dispatch-throttled
   (throttle dispatch 25))

@@ -45,12 +45,6 @@
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]))
 
-(def pinch-ref (.createRef react))
-
-(def tap-ref (.createRef react))
-
-(def double-tap-ref (.createRef react))
-
 (def pan-offset (r/atom 0))
 
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
@@ -77,7 +71,8 @@
                                             (+ 2))
                 selected                (= (:id element) (:id selected-element))
                 something-else-selected (and (some? selected-element)
-                                             (not selected))]
+                                             (not selected))
+                double-tap-ref          (.createRef react)]
 
             [surface {:key   (:id element)
                       :style (merge {:position      "absolute"
@@ -91,7 +86,8 @@
                                     (when selected
                                       {:elevation 10}))}
              [rect-button
-              {:ref                     tap-ref
+              {:enabled                 (and (not selected)
+                                             (not something-else-selected))
                :wait-for                double-tap-ref
                :on-handler-state-change #(if (= :active (get-state %))
                                            (dispatch
@@ -177,10 +173,11 @@
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
-        movement-selected     (some? selected-element)]
+        movement-selected     (some? selected-element)
+        pinch-ref             (.createRef react)]
 
     [pan-gesture-handler
-     {:enabled                 movement-selected
+     {:enabled movement-selected
       :on-gesture-event
       (if movement-selected
         #(let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
@@ -191,32 +188,32 @@
 
       :on-handler-state-change
       #(let [y     (:y (get-ys %))
-            state (get-state %)]
-        (case state
-          :active (let [top (->> selected-element
-                                 :start
-                                 (helpers/get-ms)
-                                 (helpers/ms->minutes)
-                                 (* pixel-to-minute-ratio))]
-                    (reset! pan-offset (- top y)))
-          :end    (dispatch [:select-element-movement
-                             {:element-type element-type
-                              :id           nil}])
-          nil))}
+             state (get-state %)]
+         (case state
+           :active (let [top (->> selected-element
+                                  :start
+                                  (helpers/get-ms)
+                                  (helpers/ms->minutes)
+                                  (* pixel-to-minute-ratio))]
+                     (reset! pan-offset (- top y)))
+           :end    (dispatch [:select-element-movement
+                              {:element-type element-type
+                               :id           nil}])
+           nil))}
 
      [scroll-view-gesture-handler
-      {:scroll-enabled          (not movement-selected)
+      {:scroll-enabled (not movement-selected)
        ;; this stops all touch events from going to children kind of ... I guess.
        ;; My observation is that is somehow only stops child gesture events but not their  state changes.
-       :wait-for                pinch-ref}
+       :wait-for       pinch-ref}
 
 
       [pinch-gesture-handler
-       {:ref                     pinch-ref
-        :on-gesture-event        #(let [scale (helpers/get-gesture-handler-scale %)]
-                                    (dispatch-debounced
-                                     [:set-current-pixel-to-minute-ratio
-                                      (* pixel-to-minute-ratio scale)]))}
+       {:ref              pinch-ref
+        :on-gesture-event #(let [scale (helpers/get-gesture-handler-scale %)]
+                             (dispatch-debounced
+                              [:set-current-pixel-to-minute-ratio
+                               (* pixel-to-minute-ratio scale)]))}
        [view
         {:style {:flex 1}}
 
