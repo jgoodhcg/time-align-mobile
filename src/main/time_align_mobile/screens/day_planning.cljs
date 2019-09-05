@@ -31,7 +31,7 @@
             ["react" :as react]
             [goog.string.format]
             [re-frame.core :refer [subscribe dispatch dispatch-sync]]
-            [time-align-mobile.helpers :as helpers]
+            [time-align-mobile.helpers :as helpers :refer [dispatch-debounced]]
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
@@ -71,8 +71,8 @@
                       (-> new-start-ms
                           (+ duration))
                       (:stop selected-element))]
-    (dispatch [:update-period {:id         (:id selected-element)
-                               :update-map {:start new-start
+    (dispatch-debounced [:update-period {:id         (:id selected-element)
+                                         :update-map {:start new-start
                                             :stop  new-stop}}])))
 
 (defn root [params]

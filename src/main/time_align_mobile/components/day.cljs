@@ -109,17 +109,15 @@
                   {:opacity 0.5}))}
 
               [tap-gesture-handler
-               {:enabled                 false
-                :ref                     double-tap-ref
-                :number-of-taps          2
-                :on-handler-state-change #(str "no-op")
-                ;; TODO bring this back when performance can be optimized
-                ;; (let [state (get-state %)]
-                ;;   (if (= :active state)
-                ;;     (dispatch [:select-element-movement
-                ;;                {:element-type element-type
-                ;;                 :id           (:id element)}])))
-                }
+               {:ref            double-tap-ref
+                :number-of-taps 2
+
+                :on-handler-state-change
+                #(let [state (get-state %)]
+                   (if (= :active state)
+                     (dispatch [:select-element-movement
+                                {:element-type element-type
+                                 :id           (:id element)}])))}
                [view {:style {:width  "100%"
                               :height "100%"}}
                 [text-paper (:label element)]]]]])))))
@@ -183,30 +181,28 @@
 
     [pan-gesture-handler
      {:enabled                 movement-selected
-      :on-gesture-event        #(str "no-op")
-      ;; TODO Bring back when performance can be optimized
-      ;; (if movement-selected
-      ;;   (let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
-      ;;         start-time-in-minutes (/ start-time-in-pixels
-      ;;                                  pixel-to-minute-ratio)]
-      ;;     (move-element {:selected-element   selected-element
-      ;;                    :start-relative-min start-time-in-minutes})))
-      :on-handler-state-change #(str "no-op")
-      ;; TODO Bring back when performance can be optimized
-      ;; (let [y     (:y (get-ys %))
-      ;;       state (get-state %)]
-      ;;   (case state
-      ;;     :active (let [top (->> selected-element
-      ;;                            :start
-      ;;                            (helpers/get-ms)
-      ;;                            (helpers/ms->minutes)
-      ;;                            (* pixel-to-minute-ratio))]
-      ;;               (reset! pan-offset (- top y)))
-      ;;     :end    (dispatch [:select-element-movement
-      ;;                        {:element-type element-type
-      ;;                         :id           nil}])
-      ;;     nil))
-      }
+      :on-gesture-event
+      (if movement-selected
+        #(let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
+               start-time-in-minutes (/ start-time-in-pixels
+                                        pixel-to-minute-ratio)]
+           (move-element {:selected-element   selected-element
+                          :start-relative-min start-time-in-minutes})))
+
+      :on-handler-state-change
+      #(let [y     (:y (get-ys %))
+            state (get-state %)]
+        (case state
+          :active (let [top (->> selected-element
+                                 :start
+                                 (helpers/get-ms)
+                                 (helpers/ms->minutes)
+                                 (* pixel-to-minute-ratio))]
+                    (reset! pan-offset (- top y)))
+          :end    (dispatch [:select-element-movement
+                             {:element-type element-type
+                              :id           nil}])
+          nil))}
 
      [scroll-view-gesture-handler
       {:scroll-enabled          (not movement-selected)

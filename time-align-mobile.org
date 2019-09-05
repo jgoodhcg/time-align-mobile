@@ -240,11 +240,13 @@ https://github.com/ptaoussanis/tufte
       CLOCK: [2019-09-04 Wed 16:27]--[2019-09-04 Wed 16:56] =>  0:29
       :END:
  Disabled pan/drag option for now
-****** Expo/ReactNative profiling
+****** TODO Expo/ReactNative profiling
  Wait [[https://github.com/facebook/react-native/issues/18044#issuecomment-517763893][for this]]
 
-****** Debounce/Throttle
+****** DONE Debounce/Throttle
+       CLOSED: [2019-09-04 Wed 20:19]
        :LOGBOOK:
+       CLOCK: [2019-09-04 Wed 19:55]--[2019-09-04 Wed 20:19] =>  0:24
        CLOCK: [2019-09-04 Wed 19:14]--[2019-09-04 Wed 19:50] =>  0:36
        :END:
 https://www.martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
