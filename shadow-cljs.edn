@@ -6,6 +6,7 @@
 
  :dependencies
  [[binaryage/oops "0.5.8"]
+  [cider/cider-nrepl "0.22.2"]
   [re-frame "0.10.6"]
   [reagent "0.8.1"]
   [metosin/spec-tools "0.9.0"]

@@ -305,6 +305,13 @@ Hopefully I can refactor without starting over.
  #+end_src
 
 ******* TODO Refactor app-db to use hash map for buckets and periods collection
+        :LOGBOOK:
+        CLOCK: [2019-09-06 Fri 18:04]--[2019-09-06 Fri 19:12] =>  1:08
+        :END:
+Fuck me!
+Attempted to refactor app-db and discovered that my repl is broken...
+Attempted to install new versions of cider.nrepl and shadow-cljs.
+Also attempted to use intellij/cursive but couldn't figure out how to connect to cljs repl.
 ******* TODO Refactor subscriptions 
 - [ ] Subs use signal graph pattern
 - [ ] Subs Hold all the logic (very thin hiccup only views)

@@ -82,8 +82,22 @@
                           start-before-stop)
                    :gen  #(gen/fmap generate-period
                                     (s/gen ::moment))}))
+(s/def ::periods ;; (s/with-gen
+  (s/and map?
+         #(every? (fn [[k v]]
+                    (and (uuid? k)
+                         (s/valid? period-spec v))) %)))
+;; #(gen/fmap
+;;   (fn [n]
+;;     (into {} (->> n
+;;                   range
+;;                   (map (fn [_]
+;;                          (let [id (random-uuid)]
+;;                            [id (create-period id)])))))))))
+
 
 ;; template
+
 (defn start-before-stop-template [{:keys [start stop]}]
   (if
       (and ;; Check that it has time stamps
@@ -129,11 +143,23 @@
                        :last-edited ::moment
                        :data        map?
                        :color       ::color
-                       :periods     (ds/maybe [period-spec])})
+                       :periods     (ds/maybe ::periods)})
 (def bucket-spec
   (st/create-spec {:spec
                    (ds/spec {:spec bucket-data-spec
                              :name ::bucket})}))
+(s/def ::buckets ;; (s/with-gen
+                   (s/and map?
+                          #(every? (fn [[k v]]
+                                     (and (uuid? k)
+                                          (s/valid? bucket-spec v))) %)))
+                   ;; #(gen/fmap
+                   ;;   (fn [n]
+                   ;;     (into {} (->> n
+                   ;;                   range
+                   ;;                   (map (fn [_]
+                   ;;                          (let [id (random-uuid)]
+                   ;;                            [id (create-bucket id)])))))))))
 
 (def screen-id-set (set (->> nav/screens-map
                              (map (fn [{:keys [id]}] id)))))
@@ -198,7 +224,7 @@
                    :navigation    {:current-screen ::screen
                                    :params         (ds/maybe map?)}
 
-                   :buckets           [bucket-spec]
+                   :buckets           ::buckets
                    :patterns          [pattern-spec]
                    :time-navigators   {:day      ::moment
                                        :calendar ::moment
@@ -265,27 +291,29 @@
                                        :negate false}]}]
    :navigation        {:current-screen :day
                        :params         nil}
-   :buckets           [{:id          default-bucket-id
-                        :label       "time align"
-                        :created     now
-                        :last-edited now
-                        :data        {}
-                        :color       "#11aa11"
-                        :periods     [{:id          default-period-id
-                                       :created     now
-                                       :last-edited now
-                                       :label       "start using"
-                                       :planned     false
-                                       :start       now
-                                       :stop        (-> now (.valueOf) (+ (* 1 60 1000)) (js/Date.))
-                                       :data        {}}]}]
+   :buckets
+   {default-bucket-id {:id          default-bucket-id
+                       :label       "time align"
+                       :created     now
+                       :last-edited now
+                       :data        {}
+                       :color       "#11aa11"
+                       :periods
+                       {default-period-id {:id          default-period-id
+                                           :created     now
+                                           :last-edited now
+                                           :label       "start using"
+                                           :planned     false
+                                           :start       now
+                                           :stop        (-> now (.valueOf) (+ (* 1 60 60 1000)) (js/Date.))
+                                           :data        {}}}}}
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
    :config            {:auto-log-time-align   true
                        :pixel-to-minute-ratio {:default 0.5
                                                :current 0.5}}
-   :period-in-play-id default-period-id
+   :period-in-play-id nil
    :selection         {:period   {:movement nil
                                   :edit     nil}
                        :template {:movement nil
