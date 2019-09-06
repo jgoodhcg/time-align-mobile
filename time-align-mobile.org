@@ -215,7 +215,7 @@
   - [X] Make selection indicator look better
   - [X] Remove println
   - [X] Fix document picker
-**** TODO Do some performance optimization
+**** TODO Optimize performance
      :LOGBOOK:
      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:15] =>  0:02
      CLOCK: [2019-09-04 Wed 15:10]--[2019-09-04 Wed 15:14] =>  0:04
@@ -233,7 +233,7 @@ It doesn't seem to break down into anything recognizable as a cljs function.
       CLOCK: [2019-09-04 Wed 16:15]--[2019-09-04 Wed 16:27] =>  0:12
       :END:
 https://github.com/ptaoussanis/tufte
-***** TODO Figure out some more options
+***** TODO Other areas
       :LOGBOOK:
       CLOCK: [2019-09-04 Wed 19:06]--[2019-09-04 Wed 19:13] =>  0:07
       CLOCK: [2019-09-04 Wed 16:27]--[2019-09-04 Wed 16:56] =>  0:29
@@ -256,14 +256,47 @@ https://medium.com/@alehatsman/clojurescript-throttle-debounce-a651dfb66ac
        :END:
 Some [[https://github.com/Day8/re-frame/blob/master/docs/Performance-Problems.md][problems]] I have are anonymous functions on each element and too big of state being passed into components.
 I can't use re-frame 10x because it is too specific to a browser, but I might be able to use [[https://github.com/Day8/re-frame/blob/master/docs/Debugging.md][some older ways]] of monitoring re-frame.
-******* Problem 2 ( tightly coupled state )
+******* TODO Problem 2 ( tightly coupled state )
         :LOGBOOK:
-        CLOCK: [2019-09-05 Thu 18:51]--[2019-09-05 Thu 19:18] =>  0:27
+        CLOCK: [2019-09-05 Thu 18:51]--[2019-09-05 Thu 20:05] =>  1:14
         :END:
 - [X] Simplify refs as much as possible
-- [ ] Push element subscribe to deepest component
-- [ ] Separate planned and actual into two subscriptions
-- [ ] Push selected element to deepest component
+******** TODO Do subs the right way
+         :LOGBOOK:
+         CLOCK: [2019-09-05 Thu 21:54]--[2019-09-05 Thu 22:34] =>  0:40
+         CLOCK: [2019-09-05 Thu 20:06]--[2019-09-05 Thu 20:49] =>  0:43
+         :END:
+https://github.com/Day8/re-frame/blob/master/docs/SubscriptionInfographic.md
+Apparently registered subscriptions are supposed to do all the computation and can be nested.
+Hiccup is supposed to not have any computation.
+This is a new concept.
+Read through a bunch of [[https://purelyfunctional.tv/guide/database-structure-in-re-frame/][this guide]] on how to do things in re-frame.
+I messed up by not indexing buckets and periods by their id.
+My lookups require iterating over the entire collection on each update.
+Which is probably a big reason why dragging performance is so bad.
+Hopefully I can refactor without starting over.
+********* TODO Fix it
+ - [ ] Areas affected are limited to what is needed to run the day-planning screen
+ - [ ] Database has ~buckets~, ~periods~ indexed (patterns and templates later)
+ - [ ] All affected subscriptions utilize the graph functionality
+ - [ ] Subscribe calls are as deep as they can go in view components
+ - [ ] Listen function is utilized
+ - [ ] View comps are only concerned with generating hiccup
+********** Relevant subscriptions
+ #+begin_src clojure
+   ;; day-planning
+   periods           (subscribe [:get-collision-grouped-periods])
+   displayed-day     (subscribe [:get-day-time-navigator])
+   selected-period   (subscribe [:get-selection-period-movement])
+   period-in-play    (subscribe [:get-period-in-play])
+   now               (subscribe [:get-now])
+   buckets           (subscribe [:get-buckets])
+   patterns          (subscribe [:get-patterns])
+   templates         (subscribe [:get-templates])
+   ;; day
+   px-ratio-config   @(subscribe [:get-pixel-to-minute-ratio])
+ #+end_src
+
 **** CANCELED Stretch mode
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
