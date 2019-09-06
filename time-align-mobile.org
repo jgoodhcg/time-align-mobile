@@ -252,16 +252,19 @@ https://www.martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
 https://medium.com/@alehatsman/clojurescript-throttle-debounce-a651dfb66ac
 ****** TODO Optimize re-frame
        :LOGBOOK:
+       CLOCK: [2019-09-06 Fri 17:58]--[2019-09-06 Fri 18:04] =>  0:06
        CLOCK: [2019-09-05 Thu 00:00]--[2019-09-05 Thu 00:16] =>  0:16
        :END:
 Some [[https://github.com/Day8/re-frame/blob/master/docs/Performance-Problems.md][problems]] I have are anonymous functions on each element and too big of state being passed into components.
 I can't use re-frame 10x because it is too specific to a browser, but I might be able to use [[https://github.com/Day8/re-frame/blob/master/docs/Debugging.md][some older ways]] of monitoring re-frame.
-******* TODO Problem 2 ( tightly coupled state )
+******* DONE Problem 2 exploration ( tightly coupled state )
+        CLOSED: [2019-09-06 Fri 18:03]
         :LOGBOOK:
         CLOCK: [2019-09-05 Thu 18:51]--[2019-09-05 Thu 20:05] =>  1:14
         :END:
 - [X] Simplify refs as much as possible
-******** TODO Do subs the right way
+******** DONE Dive into unknown subscription patterns
+         CLOSED: [2019-09-06 Fri 18:03]
          :LOGBOOK:
          CLOCK: [2019-09-05 Thu 21:54]--[2019-09-05 Thu 22:34] =>  0:40
          CLOCK: [2019-09-05 Thu 20:06]--[2019-09-05 Thu 20:49] =>  0:43
@@ -275,13 +278,17 @@ I messed up by not indexing buckets and periods by their id.
 My lookups require iterating over the entire collection on each update.
 Which is probably a big reason why dragging performance is so bad.
 Hopefully I can refactor without starting over.
-********* TODO Fix it
- - [ ] Areas affected are limited to what is needed to run the day-planning screen
- - [ ] Database has ~buckets~, ~periods~ indexed (patterns and templates later)
- - [ ] All affected subscriptions utilize the graph functionality
- - [ ] Subscribe calls are as deep as they can go in view components
- - [ ] Listen function is utilized
- - [ ] View comps are only concerned with generating hiccup
+********* DONE Plan how to fix everything given new information
+          CLOSED: [2019-09-06 Fri 18:03]
+          :LOGBOOK:
+          CLOCK: [2019-09-06 Fri 17:57]--[2019-09-06 Fri 17:57] =>  0:00
+          :END:
+ - Areas affected are limited to what is needed to run the day-planning screen
+ - Database has ~buckets~, ~periods~ indexed (patterns and templates later)
+ - All affected subscriptions utilize the graph functionality
+ - Subscribe calls are as deep as they can go in view components
+ - Listen function is utilized
+ - View comps are only concerned with generating hiccup
 ********** Relevant subscriptions
  #+begin_src clojure
    ;; day-planning
@@ -297,6 +304,21 @@ Hopefully I can refactor without starting over.
    px-ratio-config   @(subscribe [:get-pixel-to-minute-ratio])
  #+end_src
 
+******* TODO Refactor app-db to use hash map for buckets and periods collection
+******* TODO Refactor subscriptions 
+- [ ] Subs use signal graph pattern
+- [ ] Subs Hold all the logic (very thin hiccup only views)
+- [ ] Subscribe calls are as deep as they can go in view components
+- [ ] Listen function is utilized
+
+****** TODO Circumnavigate reframe events
+       :LOGBOOK:
+       CLOCK: [2019-09-06 Fri 17:44]--[2019-09-06 Fri 17:56] =>  0:12
+       :END:
+The idea here is to have a ~movement selected~ component that has an ~r/atom~ for its start/stop times.
+Then the pan gesture event handler will update that r/atom to move the element around.
+The pan gesture state change handler will dispatch a single update event on the end state change.
+Then the selected element comp will not be displayed and the actual period will be rendered in the updated position.
 **** CANCELED Stretch mode
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
