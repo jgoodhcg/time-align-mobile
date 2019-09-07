@@ -478,6 +478,12 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
     :Effort:   4:00
     :Confidence: 25
     :END:
+** Onboard other developers
+*** DONE Onboard Josh
+    CLOSED: [2019-09-07 Sat 17:58]
+    :LOGBOOK:
+    CLOCK: [2019-09-07 Sat 17:15]--[2019-09-07 Sat 17:58] =>  0:43
+    :END:
 ** Dreams
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]

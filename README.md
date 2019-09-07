@@ -1,7 +1,16 @@
 # Time Align Mobile
+## Dev dependencies
+- java
+- node
+- yarn
+- shadow-cljs
+- emulator/simulator/real device with expo client application
+- editor with nrepl capabilities
+  - emacs/cider
+  - cursive
 
 ## Development
-Install dependencies.
+Install project dependencies.
 ```bash
 yarn
 ```
