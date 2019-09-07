@@ -215,8 +215,9 @@
 
 (defn get-periods [db _]
   (->> (select [:buckets sp/ALL
-                (sp/collect-one (sp/submap [:id :color :label]))
-                :periods sp/ALL] db)
+                (sp/collect-one sp/LAST (sp/submap [:id :color :label]))
+                sp/LAST
+                :periods sp/ALL sp/LAST] db)
        (map (fn [[bucket period]]
               (merge period {:bucket-id    (:id bucket)
                              :bucket-label (:label bucket)

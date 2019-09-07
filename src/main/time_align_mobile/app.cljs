@@ -139,14 +139,15 @@
                        true))
 
   ;; load previous state
-  (read-file-from-dd-async
-   "app-db"
-   (fn [value]
-     (let [app-db (read-string value)]
-       (if (some? app-db)
-         (dispatch-sync [:load-db (deep-merge default-app-db app-db)]))))
-   (fn [error]
-     (println "error reading file")))
+  ;; TODO uncomment this
+  ;; (read-file-from-dd-async
+  ;;  "app-db"
+  ;;  (fn [value]
+  ;;    (let [app-db (read-string value)]
+  ;;      (if (some? app-db)
+  ;;        (dispatch-sync [:load-db (deep-merge default-app-db app-db)]))))
+  ;;  (fn [error]
+  ;;    (println "error reading file")))
 
   ;; start ticking
   ;; (js/setInterval #(dispatch [:tick (js/Date.)]) 1000)
