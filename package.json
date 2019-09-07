@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "array-smooth": "^1.0.0",
+    "color": "^3.1.2",
     "expo": "^34.0.3",
     "expo-document-picker": "~6.0.0",
     "expo-secure-store": "~6.0.0",

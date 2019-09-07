@@ -358,6 +358,11 @@ Then the selected element comp will not be displayed and the actual period will 
      :END:
 - [X] Attempt to replace drawer
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
+**** DONE Add Dynamic text color to elements
+     CLOSED: [2019-09-06 Fri 22:28]
+     :LOGBOOK:
+     CLOCK: [2019-09-06 Fri 21:56]--[2019-09-06 Fri 22:28] =>  0:32
+     :END:
 *** TODO Fix drawer bug
     :PROPERTIES:
     :Effort:   3:00

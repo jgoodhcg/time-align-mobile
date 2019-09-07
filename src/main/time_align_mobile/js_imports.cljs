@@ -15,6 +15,7 @@
     :refer []]
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
+   ["color" :as color]
    ["react-native-gesture-handler"
     :refer [PanGestureHandler
             PinchGestureHandler
@@ -222,3 +223,7 @@
                      :cancelled     (.-CANCELLED gesture-handler-states)
                      :end          (.-END gesture-handler-states)})
 
+(defn color-light? [color-string]
+  (-> color-string
+      (color)
+      (.isLight)))

@@ -7,9 +7,11 @@
 (def theme (-> default-theme
                (js->clj :keywordize-keys true)
                ;; https://material.io/tools/color/#!/?view.left=1&view.right=0&primary.color=212121&secondary.color=757575
-               (update-in [:colors] #(merge % {:primary      "#212121"
-                                               :accent       "#757575"
-                                               :accent-light "#a4a4a4"}))
+               (update-in [:colors] #(merge % {:primary            "#212121"
+                                               :accent             "#757575"
+                                               :accent-light       "#a4a4a4"
+                                               :element-text-light "#ffffff"
+                                               :element-text-dark  "#000000"}))
                (merge {})))
 
 ;; https://github.com/react-native-training/react-native-elements/blob/master/src/config/colors.js#L9

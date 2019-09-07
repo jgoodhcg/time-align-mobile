@@ -22,6 +22,7 @@
                      rect-button
                      surface
                      touchable-without-feedback
+                     color-light?
                      card
                      format-time
                      status-bar
@@ -116,7 +117,10 @@
                                  :id           (:id element)}])))}
                [view {:style {:width  "100%"
                               :height "100%"}}
-                [text-paper (:label element)]]]]])))))
+                [text-paper {:style {:color (if (color-light? (:color element))
+                                              (-> styles/theme :colors :element-text-dark)
+                                              (-> styles/theme :colors :element-text-light))}}
+                 (:label element)]]]]])))))
 
 (defn elements-comp [{:keys [elements
                              element-type
