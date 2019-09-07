@@ -12,5 +12,5 @@ pom.xml
 .idea/
 *.iml
 app/
-
+.#*
 src/main/time_align_mobile/tmp_db\.cljs
