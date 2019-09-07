@@ -1,0 +1,96 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.22.1snapshot (package: 20190903.1609), nREPL 0.6.0
+;; Clojure 1.10.1, Java 1.8.0_212
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+[:app] Configuring build.
+[:app] Compiling ...
+WARNING: No Clojure project was detected. The
+refactor-nrepl middleware was not enabled. (You can mute this
+warning by customizing `cljr-suppress-no-project-warning'.)[:app] Build completed. (190 files, 4 compiled, 0 warnings, 6.67s)
+To quit, type: :cljs/quit
+[:selected :app][:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 1.13s)
+[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 0.99s)
+
+shadow.user> 
+cljs.user> (ns time-align-mobile.db
+             (:require [clojure.spec.alpha :as s]
+                       [spec-tools.data-spec :as ds]
+                       [spec-tools.core :as st]
+                       [clojure.string :as string]
+                       [clojure.test.check.generators :as gen]
+                       [time-align-mobile.navigation :as nav]
+                       [time-align-mobile.screens.filter-form :refer [filterable-types]] ;; TODO find a better spot to put this, think about nav too
+                       [time-align-mobile.js-imports :refer [make-date
+                                                             get-default-timezone
+                                                             start-of-today
+                                                             end-of-today]]))
+niltime-align-mobile.dbtime-align-mobile.db
+time-align-mobile.db> (s/valid? ::buckets (make-buckets 1 2))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:22
+ Use of undeclared Var time-align-mobile.db/make-buckets
+--------------------------------------------------------------------------------
+false
+time-align-mobile.db> (s/explain? ::buckets (make-buckets 1 2))
+;; output cleared
+
+time-align-mobile.db> (s/explain ::buckets (make-buckets 1 2))
+{#uuid "e81daf3f-f1ba-45b8-b591-17cfdacc9b20" {:start nil, :stop nil, :id #uuid "e81daf3f-f1ba-45b8-b591-17cfdacc9b20", :created 1567868400000, :last-edited 1567868400000, :label "", :planned true, :data {}}, #uuid "40eeaa16-3965-48b7-9310-9b880c76f77d" {:start #inst "2019-09-07T04:00:00.000-00:00", :stop #inst "2019-09-07T04:05:08.452-00:00", :id #uuid "40eeaa16-3965-48b7-9310-9b880c76f77d", :created 1567828800000, :last-edited 1567828800000, :label "", :planned true, :data {}}} - failed: nil? in: [#uuid "007ebebc-045b-4b49-aac3-a29396693392" 1 :periods] at: [1 :periods :cljs.spec.alpha/nil] spec: :time-align-mobile.db$bucket/periods
+{#uuid "e81daf3f-f1ba-45b8-b591-17cfdacc9b20" {:start nil, :stop nil, :id #uuid "e81daf3f-f1ba-45b8-b591-17cfdacc9b20", :created 1567868400000, :last-edited 1567868400000, :label "", :planned true, :data {}}, #uuid "40eeaa16-3965-48b7-9310-9b880c76f77d" {:start #inst "2019-09-07T04:00:00.000-00:00", :stop #inst "2019-09-07T04:05:08.452-00:00", :id #uuid "40eeaa16-3965-48b7-9310-9b880c76f77d", :created 1567828800000, :last-edited 1567828800000, :label "", :planned true, :data {}}} - failed: (every? (fn [[k v]] (and (uuid? k) (valid? period-spec v))) %) in: [#uuid "007ebebc-045b-4b49-aac3-a29396693392" 1 :periods] at: [1 :periods :cljs.spec.alpha/pred] spec: :time-align-mobile.db/periods
+
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:23
+ Use of undeclared Var time-align-mobile.db/make-buckets
+--------------------------------------------------------------------------------
+nil[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 1.03s)
+
+time-align-mobile.db> (s/explain period-spec (generate-period (js/Date.)))
+Success!
+nil
+time-align-mobile.db> (s/def ::periods (s/with-gen
+                   (s/and map?
+                          (s/every-kv uuid? period-spec))
+                   #(gen/fmap
+                     (fn [n]
+                       (into {} (->> n
+                                     range
+                                     (map (fn [n] (gen/generate ::moment)))
+                                     (map generate-period))))
+                     10)))
+:time-align-mobile.db/periods
+time-align-mobile.db> (s/explain ::buckets (make-buckets 1 2))
+1567846800000 - failed: inst? in: [#uuid "c641f972-7438-4be4-8725-b22b502b3d70" 1 :periods #uuid "5554c95f-5c2d-49d4-b477-51064b99e9b6" 1 :created] at: [1 :periods :cljs.spec.alpha/pred 1 :created] spec: :time-align-mobile.db$period/created
+1567846800000 - failed: inst? in: [#uuid "c641f972-7438-4be4-8725-b22b502b3d70" 1 :periods #uuid "5554c95f-5c2d-49d4-b477-51064b99e9b6" 1 :last-edited] at: [1 :periods :cljs.spec.alpha/pred 1 :last-edited] spec: :time-align-mobile.db$period/last-edited
+1567897200000 - failed: inst? in: [#uuid "c641f972-7438-4be4-8725-b22b502b3d70" 1 :periods #uuid "04023c76-7d5d-4c16-a6c4-10fa0b9fbdc7" 1 :created] at: [1 :periods :cljs.spec.alpha/pred 1 :created] spec: :time-align-mobile.db$period/created
+1567897200000 - failed: inst? in: [#uuid "c641f972-7438-4be4-8725-b22b502b3d70" 1 :periods #uuid "04023c76-7d5d-4c16-a6c4-10fa0b9fbdc7" 1 :last-edited] at: [1 :periods :cljs.spec.alpha/pred 1 :last-edited] spec: :time-align-mobile.db$period/last-edited
+{#uuid "5554c95f-5c2d-49d4-b477-51064b99e9b6" {:start nil, :stop nil, :id #uuid "5554c95f-5c2d-49d4-b477-51064b99e9b6", :created 1567846800000, :last-edited 1567846800000, :label "", :planned true, :data {}}, #uuid "04023c76-7d5d-4c16-a6c4-10fa0b9fbdc7" {:start nil, :stop nil, :id #uuid "04023c76-7d5d-4c16-a6c4-10fa0b9fbdc7", :created 1567897200000, :last-edited 1567897200000, :label "", :planned true, :data {}}} - failed: nil? in: [#uuid "c641f972-7438-4be4-8725-b22b502b3d70" 1 :periods] at: [1 :periods :cljs.spec.alpha/nil] spec: :time-align-mobile.db$bucket/periods
+
+nil
+time-align-mobile.db> (make-buckets 1 1)
+{#uuid "4d2c386b-3111-4bba-9df2-72826645aa0b" {:id #uuid "4d2c386b-3111-4bba-9df2-72826645aa0b", :label "", :created #inst "2019-09-07T19:18:21.384-00:00", :last-edited #inst "2019-09-07T19:18:21.384-00:00", :data {}, :color "#d193f1", :periods {#uuid "caf50ae5-c3ef-48ed-8c15-8ff21ce8e359" {:start nil, :stop nil, :id #uuid "caf50ae5-c3ef-48ed-8c15-8ff21ce8e359", :created 1567886400000, :last-edited 1567886400000, :label "", :planned true, :data {}}}}}[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 1.05s)
+
+time-align-mobile.db> (defn make-periods [num]
+  (apply merge (->> num
+                    range
+                    (map (fn [_] (let [id (random-uuid)]
+                                   {id (-> time-range
+                                           rand-nth
+                                           js/Date.
+                                           generate-period
+                                           (merge {:id id}))}))))))
+#'time-align-mobile.db/make-periods
+time-align-mobile.db> (make-buckets 1 1)
+{#uuid "71782eee-be45-41d4-bd88-c2512f9ae599" {:id #uuid "71782eee-be45-41d4-bd88-c2512f9ae599", :label "", :created #inst "2019-09-07T19:19:13.678-00:00", :last-edited #inst "2019-09-07T19:19:13.678-00:00", :data {}, :color "#560378", :periods {#uuid "024efe05-6ccf-4f87-af1a-48041954fe5f" {:start #inst "2019-09-07T07:00:00.000-00:00", :stop #inst "2019-09-07T07:40:52.821-00:00", :id #uuid "024efe05-6ccf-4f87-af1a-48041954fe5f", :created #inst "2019-09-07T07:00:00.000-00:00", :last-edited #inst "2019-09-07T07:00:00.000-00:00", :label "", :planned false, :data {}}}}}
+time-align-mobile.db> (s/explain ::buckets (make-buckets 1 2))
+Success!
+nil
+time-align-mobile.db> 

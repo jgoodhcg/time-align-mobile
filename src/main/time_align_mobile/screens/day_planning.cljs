@@ -71,9 +71,10 @@
                       (-> new-start-ms
                           (+ duration))
                       (:stop selected-element))]
-    (dispatch-debounced [:update-period {:id         (:id selected-element)
+    (dispatch-debounced [:update-period {:period-id  (:id selected-element)
+                                         :bucket-id  (:bucket-id selected-element)
                                          :update-map {:start new-start
-                                            :stop  new-stop}}])))
+                                                      :stop  new-stop}}])))
 
 (defn root [params]
   (let [dimensions        (r/atom {:width nil :height nil})

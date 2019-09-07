@@ -1,7 +1,7 @@
 (ns time-align-mobile.subs
   (:require [re-frame.core :refer [reg-sub]]
             [time-align-mobile.helpers :as helpers]
-            [time-align-mobile.helpers :refer [same-day?]]
+            [time-align-mobile.helpers :refer [same-day? period-path-sub-bucket]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (defn get-navigation [db _]
@@ -215,58 +215,63 @@
 
 (defn get-periods [db _]
   (->> (select [:buckets sp/ALL
-                (sp/collect-one sp/LAST (sp/submap [:id :color :label]))
                 sp/LAST
+                (sp/collect-one (sp/submap [:id :color :label]))
                 :periods sp/ALL sp/LAST] db)
+       (map
+        (fn [[bucket period]]
+          [bucket period]))
        (map (fn [[bucket period]]
               (merge period {:bucket-id    (:id bucket)
                              :bucket-label (:label bucket)
                              :color        (:color bucket)})))))
 
 (defn get-selection-period-movement [db _]
-  (let [selected-id               (get-in db [:selection :period :movement])
-        [bucket selected-period ] (select-one [:buckets sp/ALL
-                                               (sp/collect-one (sp/submap [:id :color :label]))
-                                               :periods sp/ALL
-                                               #(= (:id %) selected-id)] db)]
-    (if (some? selected-id)
+  (let [{:keys [period-id bucket-id]} (get-in db [:selection :period :movement])
+        [bucket selected-period]      (select-one
+                                       (period-path-sub-bucket
+                                        {:period-id period-id
+                                         :bucket-id bucket-id}) db)]
+
+    (if (some? period-id)
       (merge selected-period {:bucket-id    (:id bucket)
                               :bucket-label (:label bucket)
                               :color        (:color bucket)})
       nil)))
 
 (defn get-selection-period-edit [db _]
-  (let [selected-id               (get-in db [:selection :period :edit])
-        [bucket selected-period ] (select-one [:buckets sp/ALL
-                                               (sp/collect-one (sp/submap [:id :color :label]))
-                                               :periods sp/ALL
-                                               #(= (:id %) selected-id)] db)]
-    (if (some? selected-id)
+  (let [{:keys [period-id bucket-id]} (get-in db [:selection :period :edit])
+        [bucket selected-period]      (select-one
+                                       (period-path-sub-bucket
+                                        {:period-id period-id
+                                         :bucket-id bucket-id}) db)]
+
+    (if (some? period-id)
       (merge selected-period {:bucket-id    (:id bucket)
                               :bucket-label (:label bucket)
                               :color        (:color bucket)})
       nil)))
 
 (defn get-selection-template-movement [db _]
-  (let [selected-id                 (get-in db [:selection :template :movement])
-        [bucket selected-template ] (select-one [:buckets sp/ALL
-                                                 (sp/collect-one (sp/submap [:id :color :label]))
-                                                 :templates sp/ALL
-                                                 #(= (:id %) selected-id)] db)]
-    (if (some? selected-id)
-      (merge selected-template {:bucket-id  (:id bucket)
+  (let [{:keys [template-id bucket-id]} (get-in db [:selection :template :movement])
+        [bucket selected-template ]   (select-one [:buckets sp/ALL
+                                                   (sp/collect-one (sp/submap [:id :color :label]))
+                                                   :templates sp/ALL
+                                                   #(= (:id %) template-id)] db)]
+    (if (some? template-id)
+      (merge selected-template {:bucket-id    (:id bucket)
                                 :bucket-label (:label bucket)
                                 :color        (:color bucket)})
       nil)))
 
 (defn get-selection-template-edit [db _]
-  (let [selected-id                 (get-in db [:selection :template :edit])
-        [bucket selected-template ] (select-one [:buckets sp/ALL
-                                                 (sp/collect-one (sp/submap [:id :color :label]))
-                                                 :templates sp/ALL
-                                                 #(= (:id %) selected-id)] db)]
-    (if (some? selected-id)
-      (merge selected-template {:bucket-id  (:id bucket)
+  (let [{:keys [template-id bucket-id]} (get-in db [:selection :template :edit])
+        [bucket selected-template ]   (select-one [:buckets sp/ALL
+                                                   (sp/collect-one (sp/submap [:id :color :label]))
+                                                   :templates sp/ALL
+                                                   #(= (:id %) template-id)] db)]
+    (if (some? template-id)
+      (merge selected-template {:bucket-id    (:id bucket)
                                 :bucket-label (:label bucket)
                                 :color        (:color bucket)})
       nil)))

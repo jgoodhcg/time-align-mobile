@@ -9,6 +9,7 @@
             [time-align-mobile.js-imports :refer [make-date
                                                   get-default-timezone
                                                   start-of-today
+                                                  format-date
                                                   end-of-today]]))
 
 (def hour-ms
@@ -62,7 +63,7 @@
            {:id          (random-uuid)
             :created     moment
             :last-edited moment
-            :label       ""
+            :label       (str "gen start date " (format-date start))
             :planned     type
             :data        {}})))
 
@@ -82,18 +83,16 @@
                           start-before-stop)
                    :gen  #(gen/fmap generate-period
                                     (s/gen ::moment))}))
-(s/def ::periods ;; (s/with-gen
-  (s/and map?
-         #(every? (fn [[k v]]
-                    (and (uuid? k)
-                         (s/valid? period-spec v))) %)))
-;; #(gen/fmap
-;;   (fn [n]
-;;     (into {} (->> n
-;;                   range
-;;                   (map (fn [_]
-;;                          (let [id (random-uuid)]
-;;                            [id (create-period id)])))))))))
+(s/def ::periods (s/with-gen
+                   (s/and map?
+                          (s/every-kv uuid? period-spec))
+                   #(gen/fmap
+                     (fn [n]
+                       (into {} (->> n
+                                     range
+                                     (map (fn [n] (gen/generate ::moment)))
+                                     (map generate-period))))
+                     10)))
 
 
 ;; template
@@ -124,6 +123,11 @@
                           start-before-stop-template)}))
 
 ;; bucket
+(defn make-hex-digit
+  "non gen verison"
+  []
+  (str (rand-nth (seq "0123456789abcdef"))))
+
 (s/def ::hex-digit (s/with-gen
                      (s/and string? #(contains? (set "0123456789abcdef") %))
                      #(s/gen (set "0123456789abcdef"))))
@@ -137,6 +141,44 @@
                  #(gen/fmap
                    (fn [hex-str] (string/join (cons "#" hex-str)))
                    (s/gen ::hex-str))))
+
+(defn generate-bucket [n]
+  {:id          (random-uuid)
+   :label       ""
+   :created     (js/Date.)
+   :last-edited (js/Date.)
+   :data        {:nth-generated n}
+   :color       (gen/generate ::color)
+   :periods     (gen/generate ::periods)})
+
+(defn make-periods [num]
+  (apply merge (->> num
+                    range
+                    (map (fn [_] (let [id (random-uuid)]
+                                   {id (-> time-range
+                                           rand-nth
+                                           js/Date.
+                                           generate-period
+                                           (merge {:id id}))}))))))
+(defn make-bucket
+  "non gen/generate version"
+  [num-periods]
+  {:id          (random-uuid)
+   :label       ""
+   :created     (js/Date.)
+   :last-edited (js/Date.)
+   :data        {}
+   :color       (str "#" (->> 6 range (map make-hex-digit) (string/join "")))
+   :periods     (make-periods num-periods)})
+
+(defn make-buckets [number-buckets number-periods-per-bucket]
+  (apply merge (->> number-buckets
+                    range
+                    (map (fn [_] (let [id (random-uuid)]
+                                   {id (merge
+                                        (make-bucket number-periods-per-bucket)
+                                        {:id id})}))))))
+
 (def bucket-data-spec {:id          uuid?
                        :label       string?
                        :created     ::moment
@@ -148,18 +190,15 @@
   (st/create-spec {:spec
                    (ds/spec {:spec bucket-data-spec
                              :name ::bucket})}))
-(s/def ::buckets ;; (s/with-gen
+(s/def ::buckets (s/with-gen
                    (s/and map?
-                          #(every? (fn [[k v]]
-                                     (and (uuid? k)
-                                          (s/valid? bucket-spec v))) %)))
-                   ;; #(gen/fmap
-                   ;;   (fn [n]
-                   ;;     (into {} (->> n
-                   ;;                   range
-                   ;;                   (map (fn [_]
-                   ;;                          (let [id (random-uuid)]
-                   ;;                            [id (create-bucket id)])))))))))
+                          (s/every-kv uuid? bucket-spec))
+                   #(gen/fmap
+                     (fn [n]
+                       (into {} (->> n
+                                     range
+                                     (map generate-bucket))))
+                     10)))
 
 (def screen-id-set (set (->> nav/screens-map
                              (map (fn [{:keys [id]}] id)))))
@@ -187,10 +226,12 @@
    :last-edited ::moment
    :data        map?
    :templates   (ds/maybe [template-spec])})
+
 (def pattern-spec
   (st/create-spec {:spec
                    (ds/spec {:spec pattern-data-spec
                              :name ::pattern})}))
+
 ;; app-db
 (def app-db-spec
   (ds/spec {:spec {:forms         {:bucket-form
@@ -216,10 +257,14 @@
                                                     {:predicates string?}
                                                     {:sort string?}))}
                    :active-filter (ds/maybe uuid?)
-                   :selection     {:period   {:movement (ds/maybe uuid?)
-                                              :edit     (ds/maybe uuid?)}
-                                   :template {:movement (ds/maybe uuid?)
-                                              :edit     (ds/maybe uuid?)}}
+                   :selection     {:period   {:movement {:period-id (ds/maybe uuid?)
+                                                         :bucket-id (ds/maybe uuid?)}
+                                              :edit     {:period-id (ds/maybe uuid?)
+                                                         :bucket-id (ds/maybe uuid?)}}
+                                   :template {:movement {:template-id (ds/maybe uuid?)
+                                                         :bucket-id (ds/maybe uuid?)}
+                                              :edit     {:template-id (ds/maybe uuid?)
+                                                         :bucket-id (ds/maybe uuid?)}}}
                    :filters       [filter-data-spec]
                    :navigation    {:current-screen ::screen
                                    :params         (ds/maybe map?)}
@@ -249,20 +294,20 @@
                         :created     now
                         :last-edited now
                         :data        {}
-                        :templates   [{:id                                      (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
-                                       :bucket-id                               default-bucket-id
-                                       :label                                   "do something in time align"
-                                       :created                                 now
-                                       :last-edited                             now
-                                       :data                                    {}
-                                       :start                                   (-> 12.5 ;; hours from start of day
-                                                                                    (* 60) ;; minutes
-                                                                                    (* 60) ;; seconds
-                                                                                    (* 1000)) ;; millis
-                                       :stop                                    (-> 14
-                                                                                    (* 60)
-                                                                                    (* 60)
-                                                                                    (* 1000))}]}]
+                        :templates   [{:id                                                    (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
+                                       :bucket-id                                             default-bucket-id
+                                       :label                                                 "do something in time align"
+                                       :created                                               now
+                                       :last-edited                                           now
+                                       :data                                                  {}
+                                       :start                                                 (-> 12.5 ;; hours from start of day
+                                                                                                  (* 60) ;; minutes
+                                                                                                  (* 60) ;; seconds
+                                                                                                  (* 1000)) ;; millis
+                                       :stop                                                  (-> 14
+                                                                                                  (* 60)
+                                                                                                  (* 60)
+                                                                                                  (* 1000))}]}]
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"
@@ -291,22 +336,7 @@
                                        :negate false}]}]
    :navigation        {:current-screen :day
                        :params         nil}
-   :buckets
-   {default-bucket-id {:id          default-bucket-id
-                       :label       "time align"
-                       :created     now
-                       :last-edited now
-                       :data        {}
-                       :color       "#11aa11"
-                       :periods
-                       {default-period-id {:id          default-period-id
-                                           :created     now
-                                           :last-edited now
-                                           :label       "start using"
-                                           :planned     false
-                                           :start       now
-                                           :stop        (-> now (.valueOf) (+ (* 1 60 60 1000)) (js/Date.))
-                                           :data        {}}}}}
+   :buckets           (make-buckets 10 10)
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
@@ -314,10 +344,14 @@
                        :pixel-to-minute-ratio {:default 0.5
                                                :current 0.5}}
    :period-in-play-id nil
-   :selection         {:period   {:movement nil
-                                  :edit     nil}
-                       :template {:movement nil
-                                  :edit     nil}}
+   :selection         {:period   {:movement {:bucket-id nil
+                                             :period-id nil}
+                                  :edit     {:bucket-id nil
+                                             :period-id nil}}
+                       :template {:movement {:bucket-id   nil
+                                             :template-id nil}
+                                  :edit     {:bucket-id   nil
+                                             :template-id nil}}}
    :now               now})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app

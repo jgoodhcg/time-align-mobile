@@ -24,7 +24,7 @@
     [view {:style {:flex 1 :justify-content "center" :align-items "center"}}
      [text "Periods"]
      [filter-picker :period]
-     [flat-list {:data (filter-sort @periods @active-filter)
+     [flat-list {:data          (filter-sort @periods @active-filter)
                  :key-extractor (fn [x]
                                   (-> x
                                       (js->clj)
@@ -36,13 +36,15 @@
                          id           (:id item)
                          label        (:label item)
                          color        (:color item)
-                         bucket-label (:bucket-label item)]
+                         bucket-label (:bucket-label item)
+                         bucket-id    (:bucket-id item)]
                      (r/as-element [touchable-highlight ;; TODO move this to list_items
                                     {:key      id
                                      :on-press #(dispatch
                                                  [:navigate-to
                                                   {:current-screen :period
-                                                   :params         {:period-id id}}])}
+                                                   :params         {:period-id id
+                                                                    :bucket-id bucket-id}}])}
 
                                     [view {:style {:flex-direction "row"}}
                                      [view
@@ -62,10 +64,10 @@
                                       [text {:style {:color "grey"}}
                                        (str "id: " id)]]]])))}]
 
-     [modal {:animation-type "slide"
-             :transparent    false
+     [modal {:animation-type   "slide"
+             :transparent      false
              :on-request-close #(reset! bucket-modal-visible false)
-             :visible        @bucket-modal-visible}
+             :visible          @bucket-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
        [text "Select a bucket to add the period to"]
@@ -86,10 +88,10 @@
                                                          :id        (random-uuid)
                                                          :now       (new js/Date)}]))})))))}]]]
 
-     [modal {:animation-type "slide"
-             :transparent    false
+     [modal {:animation-type   "slide"
+             :transparent      false
              :on-request-close #(reset! template-modal-visible false)
-             :visible        @template-modal-visible}
+             :visible          @template-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
        [text "Select a template to make the period with"]
@@ -110,10 +112,10 @@
                                                               :id       (random-uuid)
                                                               :now      (js/Date.)}]))})))))}]]]
 
-     [modal {:animation-type "slide"
-             :transparent    false
+     [modal {:animation-type   "slide"
+             :transparent      false
              :on-request-close #(reset! choice-modal-visible false)
-             :visible        @choice-modal-visible}
+             :visible          @choice-modal-visible}
       [view {:style {:flex    1
                      :padding 10}}
        [touchable-highlight

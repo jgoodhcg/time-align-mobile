@@ -6,7 +6,10 @@
     [cljs.reader :refer [read-string]]
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
-    [time-align-mobile.helpers :as helpers :refer [same-day? get-ms deep-merge]]
+    [time-align-mobile.helpers :as helpers :refer [same-day?
+                                                   get-ms deep-merge
+                                                   period-path-sub-bucket
+                                                   period-path]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (def navigation-history (atom []))
@@ -70,7 +73,8 @@
 
 ;; -- Handlers --------------------------------------------------------------
 
-(defn initialize-db [_ _] app-db)
+(defn initialize-db [_ _]
+  app-db)
 
 (defn load-db [old-db [_ db]] db)
 
@@ -107,7 +111,7 @@
                                      [:load-pattern-form (:pattern-id params)])
                  :pattern-planning (when (not (:do-not-load-form params))
                                      [:load-pattern-form (:pattern-id params)])
-                 :period           [:load-period-form (:period-id params)]
+                 :period           [:load-period-form (select-keys params [:period-id :bucket-id])]
                  :template         (if (contains? params :pattern-form-pattern-id)
                                      [:load-template-form-from-pattern-planning
                                       (:template-id params)]
@@ -171,11 +175,11 @@
         {:db    db
          :alert (str "Failed data json validation " e)}))))
 
-(defn load-period-form [db [_ period-id]]
-  (let [[sub-bucket period] (select-one
-                             [:buckets sp/ALL
-                              (sp/collect-one (sp/submap [:id :color :label]))
-                              :periods sp/ALL #(= (:id %) period-id)] db)
+(defn load-period-form [db [_ {:keys [period-id bucket-id]}]]
+  (let [[sub-bucket period] (->> db
+                                 (select-one
+                                  (period-path-sub-bucket {:period-id period-id
+                                                   :bucket-id bucket-id})))
         sub-bucket-remap    {:bucket-id    (:id sub-bucket)
                              :bucket-color (:color sub-bucket)
                              :bucket-label (:label sub-bucket)}
@@ -202,7 +206,9 @@
 (defn save-period-form [{:keys [db]} [_ date-time]]
   (let [period-form (get-in db [:forms :period-form])]
     (try
-      (let [new-data          (read-string (:data period-form))
+      (let [bucket-id         (:bucket-id period-form)
+            period-id         (:id period-form)
+            new-data          (read-string (:data period-form))
             keys-wanted       (->> period-form
                                    (keys)
                                    ;; TODO use spec to get only keys wanted
@@ -214,26 +220,25 @@
                                           :last-edited date-time})
                                   (select-keys keys-wanted))
             [old-bucket
-             old-period]      (select-one [:buckets sp/ALL
-                                       (sp/collect-one (sp/submap [:id]))
-                                       :periods sp/ALL
-                                       #(= (:id %) (:id new-period))] db)
-            removed-period-db (setval [:buckets sp/ALL
-                                       #(= (:id %) (:id old-bucket))
-                                       :periods sp/ALL
-                                       #(= (:id %) (:id old-period))]
-                                      sp/NONE db)
-            new-db            (setval [:buckets sp/ALL
-                                       ;; TODO should the bucket-id come from period form?
-                                       #(= (:id %) (:bucket-id period-form))
-                                       :periods
-                                       sp/NIL->VECTOR
-                                       sp/AFTER-ELEM]
-                                      new-period removed-period-db)]
+             old-period]      (->> db
+                                   (select-one
+                                    (period-path-sub-bucket {:period-id period-id
+                                                     :bucket-id bucket-id})))
+            removed-period-db (->> db
+                                   (setval
+                                    (period-path-sub-bucket {:period-id period-id
+                                                     :bucket-id bucket-id})
+                                    sp/NONE))
+            new-db            (->> removed-period-db
+                                   (setval
+                                    (period-path-sub-bucket {:period-id period-id
+                                                     :bucket-id bucket-id})
+                                    new-period ))]
 
         {:db       new-db
          ;; load period form so that the data string gets re-formatted prettier
-         :dispatch [:load-period-form (:id new-period)]})
+         :dispatch [:load-period-form {:period-id (:id new-period)
+                                       :bucket-id bucket-id}]})
       (catch js/Error e
         {:db    db
          :alert (str "Failed data json validation " e)}))))
@@ -274,7 +279,7 @@
                                   external-data
                                   {:data (helpers/print-data (:data template))})]
 
-    (println (select [:forms :pattern-form :templates sp/ALL (sp/submap [:label :id])] db))
+    ;; (println (select [:forms :pattern-form :templates sp/ALL (sp/submap [:label :id])] db))
     (assoc-in db [:forms :template-form] template-form)))
 
 (defn update-template-form [db [_ template-form]]
@@ -615,39 +620,44 @@
    :dispatch [:navigate-to {:current-screen :filters}]})
 
 (defn select-period-movement
-  [{:keys [db]} [_ id]]
+  [{:keys [db]} [_ {:keys [bucket-id period-id]}]]
   (merge
-   {:db (assoc-in db [:selection :period :movement] id)}))
+   {:db (assoc-in db [:selection :period :movement] {:period-id period-id
+                                                     :bucket-id bucket-id})}))
 
 (defn select-period-edit
-  [{:keys [db]} [_ id]]
+  [{:keys [db]} [_ {:keys [bucket-id period-id]}]]
   (merge
-   {:db (assoc-in db [:selection :period :edit] id)}
-   (when (some? id)
-     {:dispatch [:load-period-form id]})))
+   {:db (assoc-in db [:selection :period :edit] {:period-id period-id
+                                                 :bucket-id bucket-id})}
+   (when (some? period-id)
+     {:dispatch [:load-period-form {:bucket-id bucket-id
+                                    :period-id period-id}]})))
 
 (defn select-template-movement
-  [{:keys [db]} [_ id]]
+  [{:keys [db]} [_ {:keys [bucket-id template-id]}]]
   (merge
-   {:db (assoc-in db [:selection :template :movement] id)}))
+   {:db (assoc-in db [:selection :template :movement] {:bucket-id bucket-id
+                                                       :template-id template-id})}))
 
 (defn select-template-edit
-  [{:keys [db]} [_ id]]
+  [{:keys [db]} [_ {:keys [bucket-id template-id]}]]
   (merge
-   {:db (assoc-in db [:selection :template :edit] id)}
-   (when (some? id)
-     {:dispatch [:load-template-form id]})))
+   {:db (assoc-in db [:selection :template :edit] {:template-id template-id
+                                                   :bucket-id bucket-id})}
+   (when (some? template-id)
+     {:dispatch [:load-template-form template-id]})))
 
-(defn update-period [{:keys [db]} [_ {:keys [id update-map]}]]
+(defn update-period [{:keys [db]} [_ {:keys [period-id bucket-id update-map]}]]
   ;; TODO add an interceptor? for last edited
   (merge
-   {:db (transform [:buckets sp/ALL
-                    :periods sp/ALL
-                    #(= id (:id %))]
-                   #(merge % update-map)
-                   db)}
-   (when (= (:selected-period db) id)
-     {:dispatch [:load-period-form id]})))
+   {:db (->> db (transform
+                 (period-path {:bucket-id bucket-id
+                               :period-id period-id})
+                 #(merge % update-map)))}
+   (when (= (:selected-period db) period-id)
+     {:dispatch [:load-period-form {:period-id period-id
+                                    :bucket-id bucket-id}]})))
 
 (defn add-period [db [_ {:keys [period bucket-id]}]]
   (let [random-bucket-id (->> db
@@ -870,15 +880,23 @@
 (defn set-default-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :default] ratio db))
 
-(defn select-element-movement [context [dispatch-key {:keys [element-type id]}]]
+(defn select-element-movement [context [dispatch-key {:keys [element-type element-id bucket-id]}]]
   (case element-type
-    :period   (select-period-movement context [dispatch-key id])
-    :template (select-template-movement context [dispatch-key id])))
+    ;; :select-period-movement << for searching usage of that dispatch key
+    :period   (select-period-movement context [dispatch-key {:period-id element-id
+                                                         :bucket-id bucket-id}])
+    ;; :select-template-movement << for searching usage of that dispatch key
+    :template (select-template-movement context [dispatch-key {:period-id element-id
+                                                           :bucket-id bucket-id}])))
 
-(defn select-element-edit [context [dispatch-key {:keys [element-type id]}]]
+(defn select-element-edit [context [dispatch-key {:keys [element-type element-id bucket-id]}]]
   (case element-type
-    :period   (select-period-edit context [dispatch-key id])
-    :template (select-template-edit context [dispatch-key id])))
+    ;; :select-period-edit << for searching usage of that dispatch key
+    :period   (select-period-edit context [dispatch-key {:period-id element-id
+                                                         :bucket-id bucket-id}])
+    ;; :select-template-edit << for searching usage of that dispatch key
+    :template (select-template-edit context [dispatch-key {:period-id element-id
+                                                           :bucket-id bucket-id}])))
 
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)

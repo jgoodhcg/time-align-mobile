@@ -132,7 +132,8 @@
       [form-buttons/buttons
        {:changed        (> (count @changes) 0)
         :save-changes   #(dispatch [:save-period-form (new js/Date)])
-        :cancel-changes #(dispatch [:load-period-form (:id @period-form)])
+        :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
+                                                       :bucket-id (:bucket-id @period-form)}])
         :delete-item    #(dispatch [:delete-period (:id @period-form)])
         :compact        true}]]]))
 
@@ -172,5 +173,6 @@
      [form-buttons/root
       {:changed        (> (count @changes) 0)
        :save-changes   #(dispatch [:save-period-form (new js/Date)])
-       :cancel-changes #(dispatch [:load-period-form (:id @period-form)])
+       :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
+                                                      :bucket-id (:bucket-id @period-form)}])
        :delete-item    #(dispatch [:delete-period (:id @period-form)])}]]))

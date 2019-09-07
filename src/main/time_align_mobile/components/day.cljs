@@ -94,7 +94,8 @@
                                            (dispatch
                                             [:select-element-edit
                                              {:element-type element-type
-                                              :id           (:id element)}]))
+                                              :bucket-id    (:bucket-id element)
+                                              :element-id   (:id element)}]))
                :style
                (merge
                 {:height           "100%"
@@ -114,7 +115,8 @@
                    (if (= :active state)
                      (dispatch [:select-element-movement
                                 {:element-type element-type
-                                 :id           (:id element)}])))}
+                                 :bucket-id    (:bucket-id element)
+                                 :element-id   (:id element)}])))}
                [view {:style {:width  "100%"
                               :height "100%"}}
                 [text-paper {:style {:color (if (color-light? (:color element))

@@ -248,7 +248,15 @@
   (disposable->function Debouncer listener interval))
 
 (def dispatch-debounced
-  (debounce dispatch 100))
+  (debounce dispatch 25))
 
 (def dispatch-throttled
   (throttle dispatch 25))
+
+(defn period-path-sub-bucket [{:keys [period-id bucket-id buckets]}]
+  [:buckets (sp/keypath bucket-id)
+   (sp/collect-one (sp/submap [:id :color :label]))
+   :periods (sp/keypath period-id)])
+
+(defn period-path [{:keys [period-id bucket-id buckets]}]
+  [:buckets (sp/keypath bucket-id) :periods (sp/keypath period-id)])

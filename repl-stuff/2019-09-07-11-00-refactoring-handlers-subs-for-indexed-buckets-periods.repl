@@ -1,0 +1,485 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.22.1snapshot (package: 20190903.1609), nREPL 0.6.0
+;; Clojure 1.10.1, Java 1.8.0_212
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+[:app] Configuring build.
+WARNING: No Clojure project was detected. The
+refactor-nrepl middleware was not enabled. (You can mute this
+warning by customizing `cljr-suppress-no-project-warning'.)[:app] Compiling ...
+To quit, type: :cljs/quit
+[:selected :app][:app] Build completed. (190 files, 5 compiled, 0 warnings, 6.08s)
+
+shadow.user> 
+cljs.user> (+ 1 1)
+2[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 1.17s)
+nil - failed: uuid? in: [:forms :period-form :bucket-id] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-id] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-id
+nil - failed: (= "#" (first %)) in: [:forms :period-form :bucket-color] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-color] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-color
+nil - failed: string? in: [:forms :period-form :bucket-label] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-label] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-label
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: nil? in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/nil] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :planned) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :start) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :created) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :stop) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :label) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :id) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :last-edited) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+
+Failed on event - [:load-period-form #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531"]
+
+cljs.user> (ns time-align-mobile.handlers
+             (:require
+              [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date]]
+              [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
+              ;; [zprint.core :refer [zprint]]
+              [cljs.reader :refer [read-string]]
+              [clojure.spec.alpha :as s]
+              [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
+              [time-align-mobile.helpers :as helpers :refer [same-day? get-ms deep-merge]]
+              [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
+niltime-align-mobile.handlerstime-align-mobile.handlers
+time-align-mobile.handlers> (def default-bucket-id (random-uuid))
+#'time-align-mobile.handlers/default-bucket-id
+time-align-mobile.handlers> (def default-period-id (random-uuid))
+#'time-align-mobile.handlers/default-period-id
+time-align-mobile.handlers> (def now (js/Date.))
+#'time-align-mobile.handlers/now
+time-align-mobile.handlers> (def buckets {default-bucket-id {:id          default-bucket-id
+                       :label       "time align"
+                       :created     now
+                       :last-edited now
+                       :data        {}
+                       :color       "#11aa11"
+                       :periods
+                       {default-period-id {:id          default-period-id
+                                           :created     now
+                                           :last-edited now
+                                           :label       "start using time sink"
+                                           :planned     false
+                                           :start       now
+                                           :stop        (-> now (.valueOf) (+ (* 1 60 60 1000)) (js/Date.))
+                                           :data        {}}}}})
+#'time-align-mobile.handlers/buckets
+time-align-mobile.handlers>  (select-one
+                             [:buckets sp/ALL
+                              (sp/collect-one (sp/submap [:id :color :label]))
+                              :periods sp/ALL #(= (:id %) period-id)] {:buckets buckets})
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :4:59
+ Use of undeclared Var time-align-mobile.handlers/period-id
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :4:59
+ Use of undeclared Var time-align-mobile.handlers/period-id
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :4:59
+ Use of undeclared Var time-align-mobile.handlers/period-id
+--------------------------------------------------------------------------------
+nil
+time-align-mobile.handlers> (def period-id default-period-id)
+#'time-align-mobile.handlers/period-id
+time-align-mobile.handlers> (def bucket-id default-bucket-id)
+#'time-align-mobile.handlers/bucket-id
+time-align-mobile.handlers>  (select-one
+                             [:buckets sp/ALL
+                              (sp/collect-one (sp/submap [:id :color :label]))
+                              :periods sp/ALL #(= (:id %) period-id)] {:buckets buckets})
+nil
+time-align-mobile.handlers>  (select-one
+                             [:buckets sp/ALL] {:buckets buckets})
+[#uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02" {:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :label "time align", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :data {}, :color "#11aa11", :periods {#uuid "4033b63a-5a7c-49a0-9824-91a6f219b660" {:id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :label "start using time sink", :planned false, :start #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :data {}}}}]
+time-align-mobile.handlers>  (select-one
+                             [:buckets sp/ALL bucket-id] {:buckets buckets})
+;; output cleared
+
+time-align-mobile.handlers> (select-one
+                             [:buckets sp/ALL (sp/keypath bucket-id)] {:buckets buckets})
+nil
+time-align-mobile.handlers> (select-one
+                             [:buckets (sp/keypath bucket-id)] {:buckets buckets})
+{:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :label "time align", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :data {}, :color "#11aa11", :periods {#uuid "4033b63a-5a7c-49a0-9824-91a6f219b660" {:id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :label "start using time sink", :planned false, :start #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :data {}}}}
+time-align-mobile.handlers> (select-one
+                             [:buckets bucket-id] {:buckets buckets})
+;; output cleared
+
+time-align-mobile.handlers> (select-one
+                             [:buckets (sp/keypath bucket-id)] {:buckets buckets})
+{:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :label "time align", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :data {}, :color "#11aa11", :periods {#uuid "4033b63a-5a7c-49a0-9824-91a6f219b660" {:id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :label "start using time sink", :planned false, :start #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :data {}}}}
+time-align-mobile.handlers> (select-one
+                             [:buckets (sp/keypath bucket-id)
+                              (sp/submap [:id :color :label])] {:buckets buckets})
+{:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :color "#11aa11", :label "time align"}
+time-align-mobile.handlers> (select-one
+                             [:buckets (sp/keypath bucket-id)
+                              (sp/collect-one (sp/submap [:id :color :label]))] {:buckets buckets})
+[{:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :color "#11aa11", :label "time align"} {:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :label "time align", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :data {}, :color "#11aa11", :periods {#uuid "4033b63a-5a7c-49a0-9824-91a6f219b660" {:id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :label "start using time sink", :planned false, :start #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :data {}}}}]
+time-align-mobile.handlers> (select-one
+                             [:buckets (sp/keypath bucket-id)
+                              (sp/collect-one (sp/submap [:id :color :label]))
+                              :periods (sp/keypath period-id)] {:buckets buckets})
+[{:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :color "#11aa11", :label "time align"} {:id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :label "start using time sink", :planned false, :start #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :data {}}][:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 1 warnings, 0.92s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:178:74
+--------------------------------------------------------------------------------
+ 175 |   (let [[sub-bucket period] (select-one
+ 176 |                              [:buckets (sp/keypath bucket-id)
+ 177 |                               (sp/collect-one (sp/submap [:id :color :label]))
+ 178 |                               :periods (sp/keypath period-id)] {:buckets buckets})
+--------------------------------------------------------------------------------^
+ Use of undeclared Var time-align-mobile.handlers/buckets
+--------------------------------------------------------------------------------
+ 179 |         sub-bucket-remap    {:bucket-id    (:id sub-bucket)
+ 180 |                              :bucket-color (:color sub-bucket)
+ 181 |                              :bucket-label (:label sub-bucket)}
+ 182 |         period-form         (merge period
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 0 warnings, 1.01s)
+
+time-align-mobile.handlers> (defn load-period-form [db [_ {:keys [period-id bucket-id]}]]
+  (let [[sub-bucket period] (select-one
+                             [:buckets (sp/keypath bucket-id)
+                              (sp/collect-one (sp/submap [:id :color :label]))
+                              :periods (sp/keypath period-id)] db)
+        sub-bucket-remap    {:bucket-id    (:id sub-bucket)
+                             :bucket-color (:color sub-bucket)
+                             :bucket-label (:label sub-bucket)}
+        period-form         (merge period
+                                   {:data (helpers/print-data (:data period))}
+                                   sub-bucket-remap)]
+    (assoc-in db [:forms :period-form] period-form)))
+#'time-align-mobile.handlers/load-period-form
+time-align-mobile.handlers> (load-period-form {:buckets buckets} [:no-op {:period-id period-id :bucket-id bucket-id}])
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:29
+ Use of undeclared Var time-align-mobile.handlers/buckets
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:58
+ Use of undeclared Var time-align-mobile.handlers/period-id
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:79
+ Use of undeclared Var time-align-mobile.handlers/bucket-id
+--------------------------------------------------------------------------------
+{:buckets {#uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02" {:id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :label "time align", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :data {}, :color "#11aa11", :periods {#uuid "4033b63a-5a7c-49a0-9824-91a6f219b660" {:id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :created #inst "2019-09-07T14:46:23.489-00:00", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :label "start using time sink", :planned false, :start #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :data {}}}}}, :forms {:period-form {:planned false, :bucket-label "time align", :start #inst "2019-09-07T14:46:23.489-00:00", :created #inst "2019-09-07T14:46:23.489-00:00", :stop #inst "2019-09-07T15:46:23.489-00:00", :label "start using time sink", :id #uuid "4033b63a-5a7c-49a0-9824-91a6f219b660", :last-edited #inst "2019-09-07T14:46:23.489-00:00", :bucket-id #uuid "09f9d44a-feb9-4763-9908-6e5dc4d11a02", :bucket-color "#11aa11", :data "{}"}}}nil - failed: uuid? in: [:forms :period-form :bucket-id] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-id] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-id
+nil - failed: (= "#" (first %)) in: [:forms :period-form :bucket-color] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-color] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-color
+nil - failed: string? in: [:forms :period-form :bucket-label] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-label] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-label
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: nil? in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/nil] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :planned) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :start) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :created) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :stop) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :label) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :id) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :last-edited) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+
+Failed on event - [:load-period-form #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531"]
+[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 0.41s)
+[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 0.42s)
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 0 warnings, 0.38s)
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 0 warnings, 0.86s)
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 0 warnings, 0.88s)
+Exception in thread "async-dispatch-6" java.lang.RuntimeException: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:65)
+	at cognitect.transit$write.invokeStatic(transit.clj:167)
+	at cognitect.transit$write.invoke(transit.clj:164)
+	at shadow.cljs.devtools.server.common$fn__13854$fn__13855.invoke(common.clj:59)
+	at clojure.core$map$fn__5862$fn__5863.invoke(core.clj:2742)
+	at clojure.core.async.impl.channels$chan$fn__699.invoke(channels.clj:300)
+	at clojure.core.async.impl.channels.ManyToManyChannel.put_BANG_(channels.clj:83)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invokeStatic(ioc_macros.clj:992)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invoke(ioc_macros.clj:991)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260$fn__27262.invoke(api.clj:83)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260.invoke(api.clj:80)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invokeStatic(ioc_macros.clj:973)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invoke(ioc_macros.clj:972)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invokeStatic(ioc_macros.clj:977)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invoke(ioc_macros.clj:975)
+	at clojure.core.async.impl.ioc_macros$take_BANG_$fn__2875.invoke(ioc_macros.clj:986)
+	at clojure.core.async.impl.channels.ManyToManyChannel$fn__605$fn__606.invoke(channels.clj:95)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:194)
+	at com.cognitect.transit.impl.JsonEmitter.emitMap(JsonEmitter.java:171)
+	at com.cognitect.transit.impl.AbstractEmitter.emitMap(AbstractEmitter.java:85)
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:184)
+	at com.cognitect.transit.impl.AbstractEmitter.marshalTop(AbstractEmitter.java:211)
+	at com.cognitect.transit.impl.JsonEmitter.emit(JsonEmitter.java:41)
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:62)
+	... 20 more
+Exception in thread "async-dispatch-8" java.lang.RuntimeException: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:65)
+	at cognitect.transit$write.invokeStatic(transit.clj:167)
+	at cognitect.transit$write.invoke(transit.clj:164)
+	at shadow.cljs.devtools.server.common$fn__13854$fn__13855.invoke(common.clj:59)
+	at clojure.core$map$fn__5862$fn__5863.invoke(core.clj:2742)
+	at clojure.core.async.impl.channels$chan$fn__699.invoke(channels.clj:300)
+	at clojure.core.async.impl.channels.ManyToManyChannel.put_BANG_(channels.clj:83)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invokeStatic(ioc_macros.clj:992)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invoke(ioc_macros.clj:991)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260$fn__27262.invoke(api.clj:83)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260.invoke(api.clj:80)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invokeStatic(ioc_macros.clj:973)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invoke(ioc_macros.clj:972)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invokeStatic(ioc_macros.clj:977)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invoke(ioc_macros.clj:975)
+	at clojure.core.async.impl.ioc_macros$take_BANG_$fn__2875.invoke(ioc_macros.clj:986)
+	at clojure.core.async.impl.channels.ManyToManyChannel$fn__605$fn__606.invoke(channels.clj:95)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:194)
+	at com.cognitect.transit.impl.JsonEmitter.emitMap(JsonEmitter.java:171)
+	at com.cognitect.transit.impl.AbstractEmitter.emitMap(AbstractEmitter.java:85)
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:184)
+	at com.cognitect.transit.impl.AbstractEmitter.marshalTop(AbstractEmitter.java:211)
+	at com.cognitect.transit.impl.JsonEmitter.emit(JsonEmitter.java:41)
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:62)
+	... 20 more
+Exception in thread "async-dispatch-4" java.lang.RuntimeException: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:65)
+	at cognitect.transit$write.invokeStatic(transit.clj:167)
+	at cognitect.transit$write.invoke(transit.clj:164)
+	at shadow.cljs.devtools.server.common$fn__13854$fn__13855.invoke(common.clj:59)
+	at clojure.core$map$fn__5862$fn__5863.invoke(core.clj:2742)
+	at clojure.core.async.impl.channels$chan$fn__699.invoke(channels.clj:300)
+	at clojure.core.async.impl.channels.ManyToManyChannel.put_BANG_(channels.clj:83)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invokeStatic(ioc_macros.clj:992)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invoke(ioc_macros.clj:991)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260$fn__27262.invoke(api.clj:83)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260.invoke(api.clj:80)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invokeStatic(ioc_macros.clj:973)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invoke(ioc_macros.clj:972)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invokeStatic(ioc_macros.clj:977)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invoke(ioc_macros.clj:975)
+	at clojure.core.async.impl.ioc_macros$take_BANG_$fn__2875.invoke(ioc_macros.clj:986)
+	at clojure.core.async.impl.channels.ManyToManyChannel$fn__605$fn__606.invoke(channels.clj:95)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:194)
+	at com.cognitect.transit.impl.JsonEmitter.emitMap(JsonEmitter.java:171)
+	at com.cognitect.transit.impl.AbstractEmitter.emitMap(AbstractEmitter.java:85)
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:184)
+	at com.cognitect.transit.impl.AbstractEmitter.marshalTop(AbstractEmitter.java:211)
+	at com.cognitect.transit.impl.JsonEmitter.emit(JsonEmitter.java:41)
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:62)
+	... 20 more
+Exception in thread "async-dispatch-8" java.lang.RuntimeException: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:65)
+	at cognitect.transit$write.invokeStatic(transit.clj:167)
+	at cognitect.transit$write.invoke(transit.clj:164)
+	at shadow.cljs.devtools.server.common$fn__13854$fn__13855.invoke(common.clj:59)
+	at clojure.core$map$fn__5862$fn__5863.invoke(core.clj:2742)
+	at clojure.core.async.impl.channels$chan$fn__699.invoke(channels.clj:300)
+	at clojure.core.async.impl.channels.ManyToManyChannel.put_BANG_(channels.clj:83)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invokeStatic(ioc_macros.clj:992)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invoke(ioc_macros.clj:991)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260$fn__27262.invoke(api.clj:83)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260.invoke(api.clj:80)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invokeStatic(ioc_macros.clj:973)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invoke(ioc_macros.clj:972)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invokeStatic(ioc_macros.clj:977)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invoke(ioc_macros.clj:975)
+	at clojure.core.async.impl.ioc_macros$take_BANG_$fn__2875.invoke(ioc_macros.clj:986)
+	at clojure.core.async.impl.channels.ManyToManyChannel$fn__605$fn__606.invoke(channels.clj:95)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:194)
+	at com.cognitect.transit.impl.JsonEmitter.emitMap(JsonEmitter.java:171)
+	at com.cognitect.transit.impl.AbstractEmitter.emitMap(AbstractEmitter.java:85)
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:184)
+	at com.cognitect.transit.impl.AbstractEmitter.marshalTop(AbstractEmitter.java:211)
+	at com.cognitect.transit.impl.JsonEmitter.emit(JsonEmitter.java:41)
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:62)
+	... 20 more
+Exception in thread "async-dispatch-2" java.lang.RuntimeException: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:65)
+	at cognitect.transit$write.invokeStatic(transit.clj:167)
+	at cognitect.transit$write.invoke(transit.clj:164)
+	at shadow.cljs.devtools.server.common$fn__13854$fn__13855.invoke(common.clj:59)
+	at clojure.core$map$fn__5862$fn__5863.invoke(core.clj:2742)
+	at clojure.core.async.impl.channels$chan$fn__699.invoke(channels.clj:300)
+	at clojure.core.async.impl.channels.ManyToManyChannel.put_BANG_(channels.clj:83)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invokeStatic(ioc_macros.clj:992)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invoke(ioc_macros.clj:991)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260$fn__27262.invoke(api.clj:83)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260.invoke(api.clj:80)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invokeStatic(ioc_macros.clj:973)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invoke(ioc_macros.clj:972)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invokeStatic(ioc_macros.clj:977)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invoke(ioc_macros.clj:975)
+	at clojure.core.async.impl.ioc_macros$take_BANG_$fn__2875.invoke(ioc_macros.clj:986)
+	at clojure.core.async.impl.channels.ManyToManyChannel$fn__605$fn__606.invoke(channels.clj:95)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:194)
+	at com.cognitect.transit.impl.JsonEmitter.emitMap(JsonEmitter.java:171)
+	at com.cognitect.transit.impl.AbstractEmitter.emitMap(AbstractEmitter.java:85)
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:184)
+	at com.cognitect.transit.impl.AbstractEmitter.marshalTop(AbstractEmitter.java:211)
+	at com.cognitect.transit.impl.JsonEmitter.emit(JsonEmitter.java:41)
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:62)
+	... 20 more
+Exception in thread "async-dispatch-7" java.lang.RuntimeException: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:65)
+	at cognitect.transit$write.invokeStatic(transit.clj:167)
+	at cognitect.transit$write.invoke(transit.clj:164)
+	at shadow.cljs.devtools.server.common$fn__13854$fn__13855.invoke(common.clj:59)
+	at clojure.core$map$fn__5862$fn__5863.invoke(core.clj:2742)
+	at clojure.core.async.impl.channels$chan$fn__699.invoke(channels.clj:300)
+	at clojure.core.async.impl.channels.ManyToManyChannel.put_BANG_(channels.clj:83)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invokeStatic(ioc_macros.clj:992)
+	at clojure.core.async.impl.ioc_macros$put_BANG_.invoke(ioc_macros.clj:991)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260$fn__27262.invoke(api.clj:83)
+	at shadow.cljs.devtools.server.web.api$eval27184$fn__27187$fn__27241$state_machine__2857__auto____27260.invoke(api.clj:80)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invokeStatic(ioc_macros.clj:973)
+	at clojure.core.async.impl.ioc_macros$run_state_machine.invoke(ioc_macros.clj:972)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invokeStatic(ioc_macros.clj:977)
+	at clojure.core.async.impl.ioc_macros$run_state_machine_wrapped.invoke(ioc_macros.clj:975)
+	at clojure.core.async.impl.ioc_macros$take_BANG_$fn__2875.invoke(ioc_macros.clj:986)
+	at clojure.core.async.impl.channels.ManyToManyChannel$fn__605$fn__606.invoke(channels.clj:95)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.Exception: Not supported: class clojure.lang.ExceptionInfo
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:194)
+	at com.cognitect.transit.impl.JsonEmitter.emitMap(JsonEmitter.java:171)
+	at com.cognitect.transit.impl.AbstractEmitter.emitMap(AbstractEmitter.java:85)
+	at com.cognitect.transit.impl.AbstractEmitter.marshal(AbstractEmitter.java:184)
+	at com.cognitect.transit.impl.AbstractEmitter.marshalTop(AbstractEmitter.java:211)
+	at com.cognitect.transit.impl.JsonEmitter.emit(JsonEmitter.java:41)
+	at com.cognitect.transit.impl.WriterFactory$1.write(WriterFactory.java:62)
+	... 20 more
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 0 warnings, 0.89s)
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 1 warnings, 0.77s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:632:17
+--------------------------------------------------------------------------------
+ 629 |   [{:keys [db]} [_ {:keys [bucket-id period-id]}]]
+ 630 |   (merge
+ 631 |    {:db (assoc-in db [:selection :period :edit] period-id)}
+ 632 |    (when (some? id)
+-----------------------^--------------------------------------------------------
+ Use of undeclared Var time-align-mobile.handlers/id
+--------------------------------------------------------------------------------
+ 633 |      {:dispatch [:load-period-form {:bucket-id bucket-id
+ 634 |                                     :period-id period-id}]})))
+ 635 | 
+ 636 | (defn select-template-movement
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (190 files, 2 compiled, 1 warnings, 0.42s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:632:17
+--------------------------------------------------------------------------------
+ 629 |   [{:keys [db]} [_ {:keys [bucket-id period-id]}]]
+ 630 |   (merge
+ 631 |    {:db (assoc-in db [:selection :period :edit] period-id)}
+ 632 |    (when (some? id)
+-----------------------^--------------------------------------------------------
+ Use of undeclared Var time-align-mobile.handlers/id
+--------------------------------------------------------------------------------
+ 633 |      {:dispatch [:load-period-form {:bucket-id bucket-id
+ 634 |                                     :period-id period-id}]})))
+ 635 | 
+ 636 | (defn select-template-movement
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:651:9
+--------------------------------------------------------------------------------
+ 648 | (defn update-period [{:keys [db]} [_ {:keys [period-id bucket-id update-map]}]]
+ 649 |   ;; TODO add an interceptor? for last edited
+ 650 |   (merge
+ 651 |    {:db (transform (period-path {:bucket-id bucket-id
+---------------^----------------------------------------------------------------
+Error in phase :compilation
+Unable to resolve var: period-path in this context at line 651 time_align_mobile/handlers.cljs
+--------------------------------------------------------------------------------
+ 652 |                                  :period-id period-id})
+ 653 |                    #(merge % update-map)
+ 654 |                    db)}
+ 655 |    (when (= (:selected-period db) id)
+--------------------------------------------------------------------------------
+
+nil - failed: uuid? in: [:forms :period-form :bucket-id] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-id] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-id
+nil - failed: (= "#" (first %)) in: [:forms :period-form :bucket-color] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-color] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-color
+nil - failed: string? in: [:forms :period-form :bucket-label] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-label] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-label
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: nil? in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/nil] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :planned) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :start) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :created) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :stop) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :label) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :id) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :last-edited) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+
+Failed on event - [:load-period-form #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531"]
+nil - failed: uuid? in: [:forms :period-form :bucket-id] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-id] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-id
+nil - failed: (= "#" (first %)) in: [:forms :period-form :bucket-color] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-color] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-color
+nil - failed: string? in: [:forms :period-form :bucket-label] at: [:forms :period-form :cljs.spec.alpha/pred :bucket-label] spec: :time-align-mobile.db$app-db$forms$period-form/bucket-label
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: nil? in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/nil] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :planned) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :start) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :created) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :stop) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :label) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :id) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+{:data "", :bucket-id nil, :bucket-color nil, :bucket-label nil} - failed: (contains? % :last-edited) in: [:forms :period-form] at: [:forms :period-form :cljs.spec.alpha/pred] spec: :time-align-mobile.db$app-db$forms/period-form
+
+Failed on event - [:load-period-form #uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531"]
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:651:17
+--------------------------------------------------------------------------------
+ 648 | (defn update-period [{:keys [db]} [_ {:keys [period-id bucket-id update-map]}]]
+ 649 |   ;; TODO add an interceptor? for last edited
+ 650 |   (merge
+ 651 |    {:db (->> db (transform
+-----------------------^--------------------------------------------------------
+Error in phase :compilation
+Unable to resolve var: period-path in this context at line 651 time_align_mobile/handlers.cljs
+--------------------------------------------------------------------------------
+ 652 |                  (period-path {:bucket-id bucket-id
+ 653 |                                :period-id period-id})
+ 654 |                  #(merge % update-map)))}
+ 655 |    (when (= (:selected-period db) id)
+--------------------------------------------------------------------------------
+
+
+time-align-mobile.handlers> 
