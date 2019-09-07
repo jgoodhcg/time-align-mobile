@@ -306,12 +306,27 @@ Hopefully I can refactor without starting over.
 
 ******* TODO Refactor app-db to use hash map for buckets and periods collection
         :LOGBOOK:
+        CLOCK: [2019-09-06 Fri 20:30]--[2019-09-06 Fri 20:30] =>  0:00
         CLOCK: [2019-09-06 Fri 18:04]--[2019-09-06 Fri 19:12] =>  1:08
         :END:
 Fuck me!
 Attempted to refactor app-db and discovered that my repl is broken...
 Attempted to install new versions of cider.nrepl and shadow-cljs.
 Also attempted to use intellij/cursive but couldn't figure out how to connect to cljs repl.
+
+******** DONE Fix repl
+         CLOSED: [2019-09-06 Fri 21:04]
+         :LOGBOOK:
+         CLOCK: [2019-09-06 Fri 20:30]--[2019-09-06 Fri 21:04] =>  0:34
+         :END:
+ - [X] Try to [[https://docs.cider.mx/cider/basics/installation.html][install]] package
+ - [X] Try to fix emacs not connecting to gnu archive
+   - Added some magic line to ~.spacemacs~ to fix https melpa connection
+   - Updated packages (got the latest *cider* from that)
+   - Followed [[https://shadow-cljs.github.io/docs/UsersGuide.html#_launch_the_clojurescript_repl][shadow-cljs user guide]] instructions on cider launching
+     - There is a difference between ~cider-jack-in-clojurescript~ and ~cider-jack-in-cljs~ ( must use the later )
+     - Must wait for prompts (doing anything interrupts the flow)
+   
 ******* TODO Refactor subscriptions 
 - [ ] Subs use signal graph pattern
 - [ ] Subs Hold all the logic (very thin hiccup only views)
