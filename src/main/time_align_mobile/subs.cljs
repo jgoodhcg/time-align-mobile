@@ -1,7 +1,10 @@
 (ns time-align-mobile.subs
   (:require [re-frame.core :refer [reg-sub]]
             [time-align-mobile.helpers :as helpers]
-            [time-align-mobile.helpers :refer [same-day? period-path-sub-bucket]]
+            [time-align-mobile.helpers :refer [same-day?
+                                               period-path-sub-bucket
+                                               periods-path
+                                               buckets-path]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (defn get-navigation [db _]
@@ -80,7 +83,7 @@
       {})))
 
 (defn get-buckets [db _]
-  (:buckets db))
+  (select (buckets-path) db))
 
 (defn get-template-form [db _]
   (let [template-form    (get-in db [:forms :template-form])
@@ -214,10 +217,7 @@
     (select-one [:filters sp/ALL #(= (:id %) id)] db)))
 
 (defn get-periods [db _]
-  (->> (select [:buckets sp/ALL
-                sp/LAST
-                (sp/collect-one (sp/submap [:id :color :label]))
-                :periods sp/ALL sp/LAST] db)
+  (->> (select (periods-path) db)
        (map
         (fn [[bucket period]]
           [bucket period]))

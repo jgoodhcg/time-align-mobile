@@ -253,6 +253,9 @@
 (def dispatch-throttled
   (throttle dispatch 25))
 
+(defn combine-paths [& paths]
+  (into [] (apply concat paths)))
+
 (defn period-path-sub-bucket [{:keys [period-id bucket-id buckets]}]
   [:buckets (sp/keypath bucket-id)
    (sp/collect-one (sp/submap [:id :color :label]))
@@ -260,3 +263,12 @@
 
 (defn period-path [{:keys [period-id bucket-id buckets]}]
   [:buckets (sp/keypath bucket-id) :periods (sp/keypath period-id)])
+
+(defn buckets-path []
+  [:buckets sp/ALL sp/LAST])
+
+(defn periods-path []
+  (combine-paths
+   (buckets-path)
+   [(sp/collect-one (sp/submap [:id :color :label])) :periods sp/ALL sp/LAST]))
+
