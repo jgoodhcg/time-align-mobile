@@ -4,6 +4,7 @@
             [time-align-mobile.helpers :refer [same-day?
                                                period-path-sub-bucket
                                                periods-path
+                                               bucket-path
                                                buckets-path]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
@@ -24,12 +25,14 @@
 (defn get-bucket-form-changes [db _]
   (let [bucket-form (-> db
                         (get-in [:forms :bucket-form])
-                        (dissoc :periods))] ;; dissoc periods in case there is a period playing for this bucket
+                        ;; dissoc periods in case there is a period playing for this bucket
+                        (dissoc :periods))
+        bucket-id   (:id bucket-form)]
+
+    ;; make sure there is a form loaded
     (if (some? (:id bucket-form))
       (let [bucket (->> db
-                        (select [:buckets sp/ALL
-                                 #(= (:id %) (:id bucket-form))])
-                        first
+                        (select-one (bucket-path {:bucket-id bucket-id}))
                         (#(dissoc % :periods))) ;; dissoc periods in case there is a period playing for this bucket
             ;; data needs to be coerced to compare to form
             new-data (helpers/print-data (:data bucket))
