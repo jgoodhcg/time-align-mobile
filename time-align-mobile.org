@@ -356,6 +356,7 @@ Also attempted to use intellij/cursive but couldn't figure out how to connect to
 Fix it crossing the boundaries of the component with some ~min~ wrappers.
 ******** TODO Fix runtime errors attempting to add new buckets end periods
          :LOGBOOK:
+         CLOCK: [2019-09-08 Sun 12:43]--[2019-09-08 Sun 12:50] =>  0:07
          CLOCK: [2019-09-08 Sun 12:38]--[2019-09-08 Sun 12:40] =>  0:02
          CLOCK: [2019-09-08 Sun 11:53]--[2019-09-08 Sun 12:02] =>  0:09
          CLOCK: [2019-09-08 Sun 11:42]--[2019-09-08 Sun 11:47] =>  0:05
@@ -365,6 +366,8 @@ Fix it crossing the boundaries of the component with some ~min~ wrappers.
 - [X] Get to buckets page
 - [X] Get bucket form load working
 - [X] Get changes sub working for bucket form
+- [X] Get save bucket changes handler working
+- [ ] Get loading period and saving working
 ******* TODO Refactor subscriptions 
 - [ ] Subs use signal graph pattern
 - [ ] Subs Hold all the logic (very thin hiccup only views)

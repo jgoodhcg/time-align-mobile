@@ -151,7 +151,7 @@
        (let [new-data (read-string (:data bucket-form))
              new-bucket (merge bucket-form {:data new-data
                                        :last-edited date-time})
-            new-db (setval [:buckets sp/ALL #(= (:id %) (:id new-bucket))]
+            new-db (setval (bucket-path {:bucket-id (:id new-bucket)})
                            new-bucket
                            db)]
         {:db new-db
