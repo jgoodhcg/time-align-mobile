@@ -256,13 +256,17 @@
 (defn combine-paths [& paths]
   (into [] (apply concat paths)))
 
+(defn bucket-path [{:keys [bucket-id]}]
+  [:buckets (sp/keypath bucket-id)])
+
 (defn period-path-sub-bucket [{:keys [period-id bucket-id buckets]}]
-  [:buckets (sp/keypath bucket-id)
-   (sp/collect-one (sp/submap [:id :color :label]))
-   :periods (sp/keypath period-id)])
+  (combine-paths (bucket-path bucket-id)
+                 [(sp/collect-one (sp/submap [:id :color :label]))
+                  :periods (sp/keypath period-id)]))
 
 (defn period-path [{:keys [period-id bucket-id buckets]}]
-  [:buckets (sp/keypath bucket-id) :periods (sp/keypath period-id)])
+  (combine-paths (bucket-path {:bucket-id bucket-id})
+                 [:periods (sp/keypath period-id)]))
 
 (defn buckets-path []
   [:buckets sp/ALL sp/LAST])

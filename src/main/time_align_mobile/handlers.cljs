@@ -7,7 +7,9 @@
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
     [time-align-mobile.helpers :as helpers :refer [same-day?
-                                                   get-ms deep-merge
+                                                   get-ms
+                                                   deep-merge
+                                                   bucket-path
                                                    period-path-sub-bucket
                                                    period-path]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
@@ -122,7 +124,7 @@
              {:dispatch dispatch}))))
 
 (defn load-bucket-form [db [_ bucket-id]]
-  (let [bucket      (select-one [:buckets sp/ALL #(= (:id %) bucket-id)] db)
+  (let [bucket      (select-one (bucket-path {:bucket-id bucket-id}) db)
         bucket-form (merge bucket {:data (helpers/print-data (:data bucket))})]
     (assoc-in db [:forms :bucket-form] bucket-form)))
 
