@@ -10,7 +10,10 @@
                                                    get-ms
                                                    deep-merge
                                                    bucket-path
+                                                   buckets-path
                                                    period-path-sub-bucket
+                                                   period-path-insert
+                                                   period-path-no-bucket-id
                                                    period-path]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
@@ -194,9 +197,7 @@
 (defn update-period-form [db [_ period-form]]
   (let [period-form (if (contains? period-form :bucket-id)
                       (let [bucket (select-one
-                                    [:buckets
-                                     sp/ALL
-                                     #(= (:id %) (:bucket-id period-form))]
+                                    (bucket-path {:bucket-id (:bucket-id period-form)})
                                     db)]
                         (merge period-form
                                {:bucket-label (:label bucket)
@@ -225,18 +226,18 @@
             [old-bucket
              old-period]      (->> db
                                    (select-one
-                                    (period-path-sub-bucket {:period-id period-id
-                                                     :bucket-id bucket-id})))
+                                    (period-path-no-bucket-id {:period-id period-id})))
+
             removed-period-db (->> db
                                    (setval
                                     (period-path-sub-bucket {:period-id period-id
-                                                     :bucket-id bucket-id})
+                                                             :bucket-id (:id old-bucket)})
                                     sp/NONE))
             new-db            (->> removed-period-db
                                    (setval
-                                    (period-path-sub-bucket {:period-id period-id
-                                                     :bucket-id bucket-id})
-                                    new-period ))]
+                                    (period-path-insert {:bucket-id bucket-id
+                                                         :period-id (:id new-period)})
+                                    new-period))]
 
         {:db       new-db
          ;; load period form so that the data string gets re-formatted prettier
@@ -432,9 +433,7 @@
 
 (defn add-new-bucket [{:keys [db]} [_ {:keys [id now]}]]
   {:db (->> db
-            (setval [:buckets
-                     sp/NIL->VECTOR
-                     sp/AFTER-ELEM]
+            (setval [:buckets (sp/keypath id)]
                     {:id          id
                      :label       ""
                      :created     now
@@ -461,11 +460,8 @@
                             :params         {:pattern-id id}}]})
 
 (defn add-new-period [{:keys [db]} [_ {:keys [bucket-id id now]}]]
-  {:db (setval [:buckets sp/ALL
-                #(= (:id %) bucket-id)
-                :periods
-                sp/NIL->VECTOR
-                sp/AFTER-ELEM]
+  {:db (setval (period-path-insert {:bucket-id bucket-id
+                                    :period-id id})
                {:id id
                 :created now
                 :last-edited now
@@ -476,7 +472,8 @@
                 :stop (new js/Date (+ (.valueOf now) (* 1000 60)))}
                db)
    :dispatch [:navigate-to {:current-screen :period
-                            :params {:period-id id}}]})
+                            :params {:period-id id
+                                     :bucket-id bucket-id}}]})
 
 ;; (defn add-template-period [{:keys [db]} [_ {:keys [template id now]}]]
 ;;   ;; template needs bucket-id
@@ -575,23 +572,27 @@
 
 (defn delete-bucket [{:keys [db]} [_ id]]
   {:db (->> db
-            (setval [:buckets sp/ALL #(= id (:id %))] sp/NONE)
+            (setval (bucket-path {:bucket-id id}) sp/NONE)
             (setval [:forms :bucket-form] nil)
             (setval [:patterns :templates sp/ALL
                      #(= id (:bucket-id %))]  sp/NONE)) ;; TODO think about removing it from forms too?
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :buckets}]})
 
-(defn delete-period [{:keys [db]} [_ id]]
-  {:db (->> db
-            (setval [:buckets sp/ALL :periods sp/ALL #(= id (:id %))] sp/NONE)
-            (setval [:forms :period-form] nil) ;; it must be deleted from the form
-            (setval [:selected-period] nil)    ;; it must be selected if it is deleted
-            (#(if (= (:period-in-play-id db) id)  ;; it _may_ be in play when it is deleted
-                (setval [:period-in-play-id] nil %)
-                %)))
+(defn delete-period [{:keys [db]} [_ {:keys [period-id bucket-id]}]]
+  {:db         (->> db
+                    (setval (period-path {:bucket-id bucket-id
+                                          :period-id period-id}) sp/NONE)
+                    (setval [:forms :period-form] nil) ;; it must be deleted from the form
+                    (#(if (= (:period-in-play-id db) period-id)  ;; it _may_ be in play when it is deleted
+                        (setval [:period-in-play-id] nil %)
+                        %)))
    ;; TODO pop stack when possible
-   :dispatch [:navigate-to {:current-screen :day}]})
+   :dispatch-n [[:navigate-to {:current-screen :day}]
+                [:select-period-movement {:bucket-id nil
+                                          :period-id nil}]
+                [:select-period-edit {:bucket-id nil
+                                      :period-id nil}]]})
 
 (defn delete-template [{:keys [db]} [_ id]]
   (merge
@@ -664,17 +665,15 @@
 
 (defn add-period [db [_ {:keys [period bucket-id]}]]
   (let [random-bucket-id (->> db
-                              (select-one [:buckets sp/FIRST])
+                              (select-one (buckets-path))
+                              first
                               (:id))
         bucket-id (if (some? bucket-id)
                     bucket-id
                     random-bucket-id)]
     (->> db
-         (setval [:buckets sp/ALL
-                  #(= (:id %) bucket-id)
-                  :periods
-                  sp/NIL->VECTOR
-                  sp/AFTER-ELEM]
+         (setval (period-path-insert {:bucket-id bucket-id
+                                      :period-id (:id period)})
                  (clean-period period)))))
 
 (defn update-day-time-navigator [db [_ new-date]]

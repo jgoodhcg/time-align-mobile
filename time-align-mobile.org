@@ -354,9 +354,14 @@ Also attempted to use intellij/cursive but couldn't figure out how to connect to
          CLOCK: [2019-09-08 Sun 10:25]--[2019-09-08 Sun 11:18] =>  0:53
          :END:
 Fix it crossing the boundaries of the component with some ~min~ wrappers.
-******** TODO Fix runtime errors attempting to add new buckets end periods
+******** DONE Fix runtime errors attempting to add new buckets end periods
+         CLOSED: [2019-09-08 Sun 18:10]
          :LOGBOOK:
-         CLOCK: [2019-09-08 Sun 12:50]
+         CLOCK: [2019-09-08 Sun 17:40]--[2019-09-08 Sun 18:10] =>  0:30
+         CLOCK: [2019-09-08 Sun 17:18]--[2019-09-08 Sun 17:40] =>  0:22
+         CLOCK: [2019-09-08 Sun 15:42]--[2019-09-08 Sun 17:18] =>  1:36
+         CLOCK: [2019-09-08 Sun 13:03]--[2019-09-08 Sun 13:33] =>  0:30
+         CLOCK: [2019-09-08 Sun 12:50]--[2019-09-08 Sun 13:02] =>  0:12
          CLOCK: [2019-09-08 Sun 12:43]--[2019-09-08 Sun 12:50] =>  0:07
          CLOCK: [2019-09-08 Sun 12:38]--[2019-09-08 Sun 12:40] =>  0:02
          CLOCK: [2019-09-08 Sun 11:53]--[2019-09-08 Sun 12:02] =>  0:09
@@ -364,12 +369,16 @@ Fix it crossing the boundaries of the component with some ~min~ wrappers.
          CLOCK: [2019-09-08 Sun 11:27]--[2019-09-08 Sun 11:42] =>  0:15
          CLOCK: [2019-09-08 Sun 11:19]--[2019-09-08 Sun 11:21] =>  0:02
          :END:
-- [X] Get to buckets page
-- [X] Get bucket form load working
-- [X] Get changes sub working for bucket form
-- [X] Get save bucket changes handler working
-- [x] Get loading period form working
-- [ ] Get saving period form working
+- [X] Buckets page
+- [X] Bucket form load 
+- [X] Changes sub  for bucket form
+- [X] Save bucket changes handler 
+- [x] Loading period form 
+- [X] Saving period form 
+- [X] Add period 
+- [X] Add bucket 
+- [X] Delete bucket 
+- [X] Delete period 
 ******* TODO Refactor subscriptions 
 - [ ] Subs use signal graph pattern
 - [ ] Subs Hold all the logic (very thin hiccup only views)

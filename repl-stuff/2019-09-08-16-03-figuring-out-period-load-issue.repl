@@ -1,0 +1,221 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.22.1snapshot (package: 20190903.1609), nREPL 0.6.0
+;; Clojure 1.10.1, Java 1.8.0_212
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+[:app] Configuring build.
+WARNING: No Clojure project was detected. The
+refactor-nrepl middleware was not enabled. (You can mute this
+warning by customizing `cljr-suppress-no-project-warning'.)[:app] Compiling ...
+[:app] Build completed. (190 files, 5 compiled, 0 warnings, 4.98s)
+To quit, type: :cljs/quit
+[:selected :app]
+shadow.user> 
+cljs.user> (+ 1 1)
+2
+cljs.user> (ns time-align-mobile.subs
+             (:require [re-frame.core :refer [reg-sub]]
+                       [time-align-mobile.helpers :as helpers]
+                       [time-align-mobile.helpers :refer [same-day?
+                                                          period-path-sub-bucket
+                                                          period-path-no-bucket-id
+                                                          periods-path
+                                                          bucket-path
+                                                          buckets-path]]
+                       [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
+niltime-align-mobile.substime-align-mobile.subs
+time-align-mobile.subs> (->> @re-frame.db/app-db (#(get-periods % :no-op)) (map :id))
+;; output cleared
+
+time-align-mobile.subs> (->> @re-frame.db/app-db (#(get-periods % :no-op)) (map :id) frequencies)
+;; output cleared
+
+time-align-mobile.subs> (filter identity {:a 1})
+([:a 1])
+time-align-mobile.subs> (->> @re-frame.db/app-db 
+                             (#(get-periods % :no-op)) 
+                             (map :id) 
+                             frequencies
+                             (filter #(> (last %) 1)))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :2:33
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+()
+time-align-mobile.subs> ;; so there are no duplicate ids
+time-align-mobile.subs> (def test-period (->> @re-frame.db/app-db 
+                                              (#(get-periods % :no-op)) 
+                                              first))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :2:50
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/test-period
+time-align-mobile.subs> test-period
+{:color "#b815f0", :planned true, :bucket-label "", :start nil, :created #inst "2019-09-08T14:00:00.000-00:00", :stop nil, :label "planned 10-00", :id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29", :last-edited #inst "2019-09-08T14:00:00.000-00:00", :bucket-id #uuid "5d2edfa4-8541-460e-bb16-478956c7a2c7", :data {}}
+time-align-mobile.subs> (select (period-path-no-bucket-id {:period-id (:id test-period)}))
+Error in phase :compilation
+Wrong number of args (1) passed to: com.rpl.specter/select
+time-align-mobile.subs> (select (period-path-no-bucket-id {:period-id (:id test-period)}) @re-frame.db/app-db)
+[[{:id #uuid "5d2edfa4-8541-460e-bb16-478956c7a2c7", :color "#b815f0", :label ""} {:start nil, :stop nil, :id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29", :created #inst "2019-09-08T14:00:00.000-00:00", :last-edited #inst "2019-09-08T14:00:00.000-00:00", :label "planned 10-00", :planned true, :data {}}] [{:id #uuid "80f58f6f-fb40-44ea-a87f-2c702c80f142", :color "#6cbf12", :label ""} nil] [{:id #uuid "b2b3ffca-6de7-4644-bb96-d373e9906632", :color "#60c560", :label ""} nil] [{:id #uuid "6812770d-dbe2-4298-9f93-c09b4f3f73e3", :color "#c61ac3", :label ""} nil] [{:id #uuid "0ae48624-e8ac-4f1a-92df-4b3188846705", :color "#8090c5", :label ""} nil] [{:id #uuid "26e8d67f-d2d6-433d-9cd4-012eac43e438", :color "#c2fcd9", :label ""} nil] [{:id #uuid "cb81a879-6632-4986-bb32-9422fe991d29", :color "#4e9f3d", :label ""} nil] [{:id #uuid "f560ded1-da90-4735-aa8e-fbdd2e3ec44b", :color "#06c674", :label ""} nil] [{:id #uuid "b55d82af-c86a-4cd9-918a-501d5530387f", :color "#240ba6", :label ""} nil] [{:id #uuid "eb5ccddc-3b66-4ab4-ad11-f68c7157d032", :color "#1df25e", :label ""} nil]]
+time-align-mobile.subs> (period-path-no-bucket-id {:period-id (:id test-period)})
+[:buckets #object[com.rpl.specter.t_com$rpl$specter41829] #object[com.rpl.specter.navs.t_com$rpl$specter$navs41490] #object[com.rpl.specter.t_com$rpl$specter42075] :periods #object[com.rpl.specter.navs.t_com$rpl$specter$navs41591]]
+time-align-mobile.subs> [:buckets (sp/keypath bucket-id) (sp/collect-one (sp/submap [:id :color :label]))
+                  :periods (sp/keypath period-id)
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 2, col 50] Unexpected EOF while reading item 5 of vector, starting at line 1 and column 1. {:type :reader-exception, :ex-kind :eof, :file "repl-input.cljs", :line 2, :col 50}
+time-align-mobile.subs> [:buckets (sp/keypath bucket-id) (sp/collect-one (sp/submap [:id :color :label])) :periods (sp/keypath period-id)
+
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 3, col 1] Unexpected EOF while reading item 5 of vector, starting at line 1 and column 1. {:type :reader-exception, :ex-kind :eof, :file "repl-input.cljs", :line 3, :col 1}
+time-align-mobile.subs> [:buckets (sp/keypath bucket-id) (sp/collect-one (sp/submap [:id :color :label])) :periods (sp/keypath period-id)
+
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 2, col 1] Unexpected EOF while reading item 5 of vector, starting at line 1 and column 1. {:type :reader-exception, :ex-kind :eof, :file "repl-input.cljs", :line 2, :col 1}
+time-align-mobile.subs> [:buckets (sp/keypath bucket-id) (sp/collect-one (sp/submap [:id :color :label])) :periods (sp/keypath period-id)
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 114] Unexpected EOF while reading item 5 of vector, starting at line 1 and column 1. {:type :reader-exception, :ex-kind :eof, :file "repl-input.cljs", :line 1, :col 114}
+time-align-mobile.subs> [:buckets sp/ALL sp/LAST 
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 26] Unexpected EOF while reading item 3 of vector, starting at line 1 and column 1. {:type :reader-exception, :ex-kind :eof, :file "repl-input.cljs", :line 1, :col 26}
+time-align-mobile.subs>  (defn test-path [period-id] [:buckets sp/ALL sp/LAST (sp/collect-one (sp/submap [:color])) :periods (sp/keypath period-id)])
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (test-path "id")
+[:buckets #object[com.rpl.specter.t_com$rpl$specter41829] #object[com.rpl.specter.navs.t_com$rpl$specter$navs41490] #object[com.rpl.specter.t_com$rpl$specter42075] :periods #object[com.rpl.specter.navs.t_com$rpl$specter$navs41591]]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/ALL sp/LAST 
+                            (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/keypath period-id)])
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/ALL sp/LAST 
+                            (sp/collect-one (sp/submap [:color])) 
+                            
+                            :periods (sp/keypath period-id)
+                            (sp/if-path nil?
+                                        sp/STOP
+                                        sp/VAL)])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path {:period-id (:id test-period)}) @re-frame.db/app-db)
+[]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/ALL sp/LAST 
+                            (sp/collect-one (sp/submap [:color])) 
+                            sp/DISPENSE
+                            :periods (sp/keypath period-id)])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path {:period-id (:id test-period)}) @re-frame.db/app-db)
+[nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs> (def test-period (->> @re-frame.db/app-db 
+                                              (#(get-periods % :no-op)) 
+                                              first))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :2:50
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/test-period
+time-align-mobile.subs> (:id test-period)
+#uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29"
+time-align-mobile.subs> (select (test-path {:period-id (:id test-period)}) @re-frame.db/app-db)
+[nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/ALL sp/LAST 
+                            ;; (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/keypath period-id)])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path {:period-id (:id test-period)}) @re-frame.db/app-db)
+[nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{:start nil, :stop nil, :id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29", :created #inst "2019-09-08T14:00:00.000-00:00", :last-edited #inst "2019-09-08T14:00:00.000-00:00", :label "planned 10-00", :planned true, :data {}} nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/ALL sp/LAST 
+                            (sp/collect-one (sp/submap [:color])) 
+                            sp/DISPENSE
+                            :periods (sp/keypath period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{:id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29"} {} {} {} {} {} {} {} {} {}]
+time-align-mobile.subs> (select-one (test-path (:id test-period)) @re-frame.db/app-db)
+;; output cleared
+
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/MAP-VALS 
+                            (sp/collect-one (sp/submap [:color])) 
+                            sp/DISPENSE
+                            :periods (sp/keypath period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{:id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29"} {} {} {} {} {} {} {} {} {}]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/MAP-VALS 
+                            (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/keypath period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[[{:color "#b815f0"} {:id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29"}] [{:color "#6cbf12"} {}] [{:color "#60c560"} {}] [{:color "#c61ac3"} {}] [{:color "#8090c5"} {}] [{:color "#c2fcd9"} {}] [{:color "#4e9f3d"} {}] [{:color "#06c674"} {}] [{:color "#240ba6"} {}] [{:color "#1df25e"} {}]]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/MAP-VALS 
+                            ;; (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/keypath period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{:id #uuid "e854d6b8-0e29-43ac-bd4d-a5d488c7fd29"} {} {} {} {} {} {} {} {} {}]
+time-align-mobile.subs> (def test-period (->> @re-frame.db/app-db 
+                                              (#(get-periods % :no-op)) 
+                                              last))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :2:50
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/test-period
+time-align-mobile.subs> (:id test-period)
+#uuid "3c68ffc1-5ca0-48c8-bbea-e234de913fb1"
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{} {} {} {} {} {} {} {} {} {:id #uuid "3c68ffc1-5ca0-48c8-bbea-e234de913fb1"}]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/MAP-VALS 
+                            ;; (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/must period-id) (sp/keypath period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{}]
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/MAP-VALS 
+                            ;; (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/must period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[{:id #uuid "3c68ffc1-5ca0-48c8-bbea-e234de913fb1"}]
+time-align-mobile.subs> (select (test-path :bad-id) @re-frame.db/app-db)
+[][:app] Compiling ...
+[:app] Build completed. (190 files, 10 compiled, 0 warnings, 1.32s)
+
+time-align-mobile.subs>  (defn test-path [period-id] 
+                           [:buckets sp/MAP-VALS 
+                            (sp/collect-one (sp/submap [:color])) 
+                            :periods (sp/must period-id) (sp/submap [:id])])
+                           
+#'time-align-mobile.subs/test-path
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+Error in phase :compilation
+Unable to resolve var: test-period in this context at line 1 time_align_mobile/subs.cljs
+time-align-mobile.subs> (def test-period (->> @re-frame.db/app-db 
+                                              (#(get-periods % :no-op)) 
+                                              last))
+#'time-align-mobile.subs/test-period
+time-align-mobile.subs> (select (test-path (:id test-period)) @re-frame.db/app-db)
+[[{:color "#1df25e"} {:id #uuid "3c68ffc1-5ca0-48c8-bbea-e234de913fb1"}]]
+time-align-mobile.subs> (select-one (test-path (:id test-period)) @re-frame.db/app-db)
+[{:color "#1df25e"} {:id #uuid "3c68ffc1-5ca0-48c8-bbea-e234de913fb1"}]{:id #uuid "5d2edfa4-8541-460e-bb16-478956c7a2c7", :color #b815f0, :label }
+[:app] Compiling ...
+[:app] Build completed. (190 files, 3 compiled, 0 warnings, 0.46s)
+
+time-align-mobile.subs> 

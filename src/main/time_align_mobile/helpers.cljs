@@ -257,22 +257,31 @@
   (into [] (apply concat paths)))
 
 (defn bucket-path [{:keys [bucket-id]}]
-  [:buckets (sp/keypath bucket-id)])
+  [:buckets (sp/must bucket-id)])
 
 (defn period-path-sub-bucket [{:keys [period-id bucket-id buckets]}]
   (combine-paths (bucket-path {:bucket-id bucket-id})
                  [(sp/collect-one (sp/submap [:id :color :label]))
-                  :periods (sp/keypath period-id)]))
+                  :periods (sp/must period-id)]))
 
-(defn period-path [{:keys [period-id bucket-id buckets]}]
+(defn period-path [{:keys [period-id bucket-id]}]
+  (combine-paths (bucket-path {:bucket-id bucket-id})
+                 [:periods (sp/must period-id)]))
+
+(defn period-path-insert [{:keys [bucket-id period-id]}]
   (combine-paths (bucket-path {:bucket-id bucket-id})
                  [:periods (sp/keypath period-id)]))
 
 (defn buckets-path []
-  [:buckets sp/ALL sp/LAST])
+  [:buckets sp/MAP-VALS])
+
+(defn period-path-no-bucket-id [{:keys [period-id]}]
+  (combine-paths (buckets-path)
+                 [(sp/collect-one (sp/submap [:id :color :label]))
+                  :periods (sp/must period-id)]))
 
 (defn periods-path []
   (combine-paths
    (buckets-path)
-   [(sp/collect-one (sp/submap [:id :color :label])) :periods sp/ALL sp/LAST]))
+   [(sp/collect-one (sp/submap [:id :color :label])) :periods sp/MAP-VALS]))
 

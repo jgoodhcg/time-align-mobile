@@ -3,6 +3,7 @@
             [time-align-mobile.helpers :as helpers]
             [time-align-mobile.helpers :refer [same-day?
                                                period-path-sub-bucket
+                                               period-path-no-bucket-id
                                                periods-path
                                                bucket-path
                                                buckets-path]]
@@ -67,14 +68,14 @@
 (defn get-period-form-changes [db _]
   (let [period-form (get-in db [:forms :period-form])]
     (if (some? (:id period-form))
-      (let [[sub-bucket period] (select-one [:buckets sp/ALL
-                                (sp/collect-one (sp/submap [:id :color :label]))
-                                :periods sp/ALL #(= (:id %) (:id period-form))]
-                               db)
+      (let [[sub-bucket period]
+            (select-one (period-path-no-bucket-id
+                         {:period-id (:id period-form)})
+                        db)
             ;; data needs to be coerced to compare to form
-            new-data (helpers/print-data (:data period))
-            altered-period (merge period {:data new-data
-                                          :bucket-id (:id sub-bucket)
+            new-data       (helpers/print-data (:data period))
+            altered-period (merge period {:data         new-data
+                                          :bucket-id    (:id sub-bucket)
                                           :bucket-color (:color sub-bucket)
                                           :bucket-label (:label sub-bucket)})
             different-keys (->> (clojure.data/diff period-form altered-period)

@@ -134,7 +134,8 @@
         :save-changes   #(dispatch [:save-period-form (new js/Date)])
         :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
                                                        :bucket-id (:bucket-id @period-form)}])
-        :delete-item    #(dispatch [:delete-period (:id @period-form)])
+        :delete-item    #(dispatch [:delete-period {:period-id (:id @period-form)
+                                                    :bucket-id (:bucket-id @period-form)}])
         :compact        true}]]]))
 
 (defn root [params]
@@ -144,6 +145,7 @@
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
+
     [view {:style {:margin-top 16
                    :flex 1}}
      [bucket-parent-picker-comp {:form       period-form
@@ -175,4 +177,5 @@
        :save-changes   #(dispatch [:save-period-form (new js/Date)])
        :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
                                                       :bucket-id (:bucket-id @period-form)}])
-       :delete-item    #(dispatch [:delete-period (:id @period-form)])}]]))
+       :delete-item    #(dispatch [:delete-period {:period-id (:id @period-form)
+                                                   :bucket-id (:bucket-id @period-form)}])}]]))

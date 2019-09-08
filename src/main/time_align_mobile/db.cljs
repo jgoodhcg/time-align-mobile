@@ -65,7 +65,10 @@
            {:id          (random-uuid)
             :created     moment
             :last-edited moment
-            :label       (str "planned " (format-time start))
+            :label       (str (if type "planned " "actual ")
+                              (if (some? (:start stamps))
+                                (format-time start)
+                                " queue item"))
             :planned     type
             :data        {}})))
 

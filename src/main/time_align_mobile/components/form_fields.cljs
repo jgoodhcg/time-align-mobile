@@ -137,7 +137,10 @@
                                                           [update-key {field-key (uuid %)
                                                                        :id       (:id @form)}])}
                          (map (fn [entity]
-                                [picker-item {:label (:label entity)
+                                [picker-item {:label (if (clojure.string/blank? (:label entity))
+                                                       (str "no label for "
+                                                            (clojure.string/join "" (take 8 (str (:id entity)))))
+                                                       (:label entity))
                                               :key   (str (:id entity))
                                               :value (str (:id entity))}])
                               @entities)]]])]
@@ -194,9 +197,13 @@
                   :on-value-change #(dispatch [update-key {:planned %}])}]])
 
 (defn duration-comp [start stop]
-  (let [duration (->> (.valueOf start)
-                      (- (.valueOf stop))
-                      ms->hhmm)]
+  (let [duration (if (and (inst? start)
+                          (inst? stop))
+                   (->> (.valueOf start)
+                        (- (.valueOf stop))
+                        ms->hhmm)
+                   "no duration")]
+
     [view {:style info-field-style}
      [subheading {:style label-style} "Duration"]
      [text duration]]))
