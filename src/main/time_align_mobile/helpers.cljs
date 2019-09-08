@@ -260,7 +260,7 @@
   [:buckets (sp/keypath bucket-id)])
 
 (defn period-path-sub-bucket [{:keys [period-id bucket-id buckets]}]
-  (combine-paths (bucket-path bucket-id)
+  (combine-paths (bucket-path {:bucket-id bucket-id})
                  [(sp/collect-one (sp/submap [:id :color :label]))
                   :periods (sp/keypath period-id)]))
 

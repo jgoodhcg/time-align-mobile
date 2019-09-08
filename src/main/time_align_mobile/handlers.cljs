@@ -181,13 +181,14 @@
   (let [[sub-bucket period] (->> db
                                  (select-one
                                   (period-path-sub-bucket {:period-id period-id
-                                                   :bucket-id bucket-id})))
+                                                           :bucket-id bucket-id})))
         sub-bucket-remap    {:bucket-id    (:id sub-bucket)
                              :bucket-color (:color sub-bucket)
                              :bucket-label (:label sub-bucket)}
         period-form         (merge period
                                    {:data (helpers/print-data (:data period))}
                                    sub-bucket-remap)]
+
     (assoc-in db [:forms :period-form] period-form)))
 
 (defn update-period-form [db [_ period-form]]
