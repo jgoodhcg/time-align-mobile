@@ -67,18 +67,21 @@
                                          displayed-day)
                 stop-min                (helpers/ms->minutes stop-ms)
                 height                  (* pixel-to-minute-ratio (- stop-min start-min))
-                index-offset            (-> index
-                                            (* 16)
-                                            (+ 2))
+                index-offset            (min 90
+                                             (-> index
+                                                 (* 16)
+                                                 (+ 2)))
                 selected                (= (:id element) (:id selected-element))
                 something-else-selected (and (some? selected-element)
                                              (not selected))
-                double-tap-ref          (.createRef react)]
+                double-tap-ref          (.createRef react)
+                left                    (str index-offset "%")
+                width                   (str (max 4 (- 96 index-offset)) "%")]
 
             [surface {:key   (:id element)
                       :style (merge {:position      "absolute"
-                                     :left          (str index-offset "%")
-                                     :width         (str (- 96 index-offset) "%")
+                                     :left          left
+                                     :width         width
                                      :top           start-y-pos
                                      :height        height
                                      :elevation     (* 2 index)

@@ -5,11 +5,13 @@
             [clojure.string :as string]
             [clojure.test.check.generators :as gen]
             [time-align-mobile.navigation :as nav]
+            [time-align-mobile.helpers :as helpers]
             [time-align-mobile.screens.filter-form :refer [filterable-types]] ;; TODO find a better spot to put this, think about nav too
             [time-align-mobile.js-imports :refer [make-date
                                                   get-default-timezone
                                                   start-of-today
                                                   format-date
+                                                  format-time
                                                   end-of-today]]))
 
 (def hour-ms
@@ -63,7 +65,7 @@
            {:id          (random-uuid)
             :created     moment
             :last-edited moment
-            :label       (str "gen start date " (format-date start))
+            :label       (str "planned " (format-time start))
             :planned     type
             :data        {}})))
 
@@ -83,6 +85,7 @@
                           start-before-stop)
                    :gen  #(gen/fmap generate-period
                                     (s/gen ::moment))}))
+
 (s/def ::periods (s/with-gen
                    (s/and map?
                           (s/every-kv uuid? period-spec))
@@ -93,7 +96,6 @@
                                      (map (fn [n] (gen/generate ::moment)))
                                      (map generate-period))))
                      10)))
-
 
 ;; template
 
@@ -186,10 +188,12 @@
                        :data        map?
                        :color       ::color
                        :periods     (ds/maybe ::periods)})
+
 (def bucket-spec
   (st/create-spec {:spec
                    (ds/spec {:spec bucket-data-spec
                              :name ::bucket})}))
+
 (s/def ::buckets (s/with-gen
                    (s/and map?
                           (s/every-kv uuid? bucket-spec))
@@ -202,8 +206,8 @@
 
 (def screen-id-set (set (->> nav/screens-map
                              (map (fn [{:keys [id]}] id)))))
-(s/def ::screen screen-id-set)
 
+(s/def ::screen screen-id-set)
 
 ;; filter
 (def filter-data-spec

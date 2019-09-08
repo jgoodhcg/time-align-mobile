@@ -348,8 +348,12 @@ Also attempted to use intellij/cursive but couldn't figure out how to connect to
          CLOCK: [2019-09-07 Sat 15:30]--[2019-09-07 Sat 15:37] =>  0:07
          CLOCK: [2019-09-07 Sat 14:09]--[2019-09-07 Sat 15:30] =>  1:21
          :END:
-******** TODO Figure out why too many overlapping periods push to the other track
-
+******** DONE Figure out why too many overlapping periods push to the other track
+         CLOSED: [2019-09-08 Sun 11:18]
+         :LOGBOOK:
+         CLOCK: [2019-09-08 Sun 10:25]--[2019-09-08 Sun 11:18] =>  0:53
+         :END:
+Fix it crossing the boundaries of the component with some ~min~ wrappers.
 ******* TODO Refactor subscriptions 
 - [ ] Subs use signal graph pattern
 - [ ] Subs Hold all the logic (very thin hiccup only views)
