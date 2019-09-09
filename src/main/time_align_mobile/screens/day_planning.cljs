@@ -77,27 +77,29 @@
                                                       :stop  new-stop}}])))
 
 (defn root [params]
-  (let [dimensions        (r/atom {:width nil :height nil})
-        top-bar-height    styles/top-bar-height
-        bottom-bar-height 0 ;; styles/bottom-bar-height
-        periods           (subscribe [:get-collision-grouped-periods])
-        displayed-day     (subscribe [:get-day-time-navigator])
-        selected-period   (subscribe [:get-selection-period-movement])
-        period-in-play    (subscribe [:get-period-in-play])
-        now               (subscribe [:get-now])
-        buckets           (subscribe [:get-buckets])
-        patterns          (subscribe [:get-patterns])
-        templates         (subscribe [:get-templates])
-        time-alignment-fn #(cond (nil? %)           :center
-                                 (:planned %)       :left
-                                 (not (:planned %)) :right)]
+  (let [dimensions           (r/atom {:width nil :height nil})
+        top-bar-height       styles/top-bar-height
+        bottom-bar-height    0 ;; styles/bottom-bar-height
+        periods              (subscribe [:get-collision-grouped-periods])
+        displayed-day        (subscribe [:get-day-time-navigator])
+        selected-period      (subscribe [:get-selection-period-movement])
+        selected-period-edit (subscribe [:get-selection-period-edit])
+        period-in-play       (subscribe [:get-period-in-play])
+        now                  (subscribe [:get-now])
+        buckets              (subscribe [:get-buckets])
+        patterns             (subscribe [:get-patterns])
+        templates            (subscribe [:get-templates])
+        time-alignment-fn    #(cond (nil? %)           :center
+                                    (:planned %)       :left
+                                    (not (:planned %)) :right)]
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
      [top-bar {:displayed-day @displayed-day}]
-     [day-comp/root {:selected-element @selected-period
-                     :in-play-element  @period-in-play
-                     :displayed-day    @displayed-day
-                     :element-type     :period
-                     :elements         periods
-                     :move-element     move-period}]]))
+     [day-comp/root {:selected-element      @selected-period
+                     :in-play-element       @period-in-play
+                     :displayed-day         @displayed-day
+                     :selected-element-edit @selected-period-edit
+                     :element-type          :period
+                     :elements              periods
+                     :move-element          move-period}]]))
 

@@ -16,6 +16,7 @@
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
    ["color" :as color]
+   ["reanimated-bottom-sheet" :as rbs]
    ["react-native-gesture-handler"
     :refer [PanGestureHandler
             PinchGestureHandler
@@ -227,3 +228,5 @@
   (-> color-string
       (color)
       (.isLight)))
+
+(def bottom-sheet (r/adapt-react-class (.-default rbs)))

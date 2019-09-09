@@ -216,7 +216,7 @@
   - [X] Make selection indicator look better
   - [X] Remove println
   - [X] Fix document picker
-**** TODO [#A] Optimize performance
+**** TODO Optimize performance
      :LOGBOOK:
      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:15] =>  0:02
      CLOCK: [2019-09-04 Wed 15:10]--[2019-09-04 Wed 15:14] =>  0:04
@@ -307,7 +307,8 @@ Hopefully I can refactor without starting over.
    px-ratio-config   @(subscribe [:get-pixel-to-minute-ratio])
  #+end_src
 
-******* TODO Refactor app-db to use hash map for buckets and periods collection
+******* DONE Refactor app-db to use hash map for buckets and periods collection
+        CLOSED: [2019-09-08 Sun 19:28]
 ******** DONE Initial spec and default db change
          CLOSED: [2019-09-06 Fri 21:24]
          :LOGBOOK:
@@ -397,10 +398,17 @@ Then the selected element comp will not be displayed and the actual period will 
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
      :LOGBOOK:
+     CLOCK: [2019-09-08 Sun 19:49]--[2019-09-08 Sun 20:26] =>  0:37
+     CLOCK: [2019-09-08 Sun 19:28]--[2019-09-08 Sun 19:44] =>  0:16
      CLOCK: [2019-09-04 Wed 16:56]--[2019-09-04 Wed 18:28] =>  1:32
      :END:
-- [X] Attempt to replace drawer
 https://github.com/osdnk/react-native-reanimated-bottom-sheet
+- [X] Attempt to replace drawer
+  - Didn't work
+- [X] Add deps
+- [X] Placeholder on the day screen
+- [ ] Use ~ref~ prop to dynamically close/open
+- [ ] figure out how to get bottom-sheet to cover the view port and not just the bottom portion of the scroll view
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
      :LOGBOOK:

@@ -11,6 +11,7 @@
                      scroll-view-gesture-handler
                      pan-gesture-handler
                      pinch-gesture-handler
+                     bottom-sheet
                      touchable-ripple
                      tap-gesture-handler
                      divider
@@ -88,7 +89,7 @@
                                      :border-radius 4
                                      :overflow      "hidden"}
                                     (when selected
-                                      {:elevation 10}))}
+                                      {:elevation 32}))}
              [rect-button
               {:enabled                 (and (not selected)
                                              (not something-else-selected))
@@ -175,6 +176,7 @@
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
            selected-element
+           selected-element-edit
            in-play-element
            element-type
            displayed-day
@@ -272,4 +274,25 @@
                           :element-type          element-type
                           :in-play-element       in-play-element
                           :pixel-to-minute-ratio pixel-to-minute-ratio
-                          :displayed-day         displayed-day}]]]]]]]))
+                          :displayed-day         displayed-day}]]]]]
+
+      [bottom-sheet {:snap-points   [0 100 450]
+                     :initial-snap  (if (some? selected-element-edit)
+                                      1
+                                      0)
+                     :renderContent #(r/as-element [surface [text "content"]])
+                     :renderHeader  #(r/as-element
+                                      [surface [view {:style {:height          100
+                                                              :flex            1
+                                                              :flex-direction  "column"
+                                                              :justify-content "center"
+                                                              :align-items "center"}}
+                                                [rect-button
+                                                 {:on-press
+                                                  (fn [_]
+                                                    (dispatch [:select-element-edit
+                                                               {:bucket-id nil
+                                                                :element-id nil
+                                                                :element-type element-type}]))}
+                                                 [text "close"]]
+                                                [text (:label selected-element-edit)]]])}]]]))
