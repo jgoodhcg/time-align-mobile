@@ -49,6 +49,8 @@
 
 (def pan-offset (r/atom 0))
 
+(def bottom-sheet-ref (.createRef react))
+
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
                                       element-type
@@ -95,11 +97,12 @@
                                              (not something-else-selected))
                :wait-for                double-tap-ref
                :on-handler-state-change #(if (= :active (get-state %))
-                                           (dispatch
-                                            [:select-element-edit
-                                             {:element-type element-type
-                                              :bucket-id    (:bucket-id element)
-                                              :element-id   (:id element)}]))
+                                           (do (-> bottom-sheet-ref (.-current) (.snapTo 1))
+                                               (dispatch
+                                                [:select-element-edit
+                                                 {:element-type element-type
+                                                  :bucket-id    (:bucket-id element)
+                                                  :element-id   (:id element)}])))
                :style
                (merge
                 {:height           "100%"
@@ -276,7 +279,8 @@
                           :pixel-to-minute-ratio pixel-to-minute-ratio
                           :displayed-day         displayed-day}]]]]]
 
-      [bottom-sheet {:snap-points   [0 100 450]
+      [bottom-sheet {:ref           bottom-sheet-ref
+                     :snap-points   [0 100 450]
                      :initial-snap  (if (some? selected-element-edit)
                                       1
                                       0)
@@ -286,13 +290,14 @@
                                                               :flex            1
                                                               :flex-direction  "column"
                                                               :justify-content "center"
-                                                              :align-items "center"}}
+                                                              :align-items     "center"}}
                                                 [rect-button
                                                  {:on-press
                                                   (fn [_]
+                                                    (-> bottom-sheet-ref (.-current) (.snapTo 0))
                                                     (dispatch [:select-element-edit
-                                                               {:bucket-id nil
-                                                                :element-id nil
+                                                               {:bucket-id    nil
+                                                                :element-id   nil
                                                                 :element-type element-type}]))}
                                                  [text "close"]]
                                                 [text (:label selected-element-edit)]]])}]]]))
