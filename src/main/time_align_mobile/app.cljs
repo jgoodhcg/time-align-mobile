@@ -127,7 +127,9 @@
           {:menu      (r/as-element [drawer-list])
            :on-change #(do
                          (let [bsr @bottom-sheet-ref]
-                           (when (some? (.-current bsr))
+                           (when (and
+                                  (some? bsr)
+                                  (some? (.-current bsr)))
                              (-> bsr (.-current) (.snapTo 0))))
                          (dispatch [:select-element-edit {:element-type :period :bucket-id nil :period-id nil}])
                          (dispatch [:select-element-edit {:element-type :template :bucket-id nil :period-id nil}]))}
