@@ -17,6 +17,7 @@
                      divider
                      format-date
                      touchable-ripple
+                     portal
                      modal-paper
                      status-bar
                      portal
@@ -302,10 +303,10 @@
                                :height       0}}]]]]))
 
          ;; periods
-         [view {:style {:position "absolute"
-                        :left     60
-                        :right    0
-                        :height   "100%"}}
+         [view {:style {:position       "absolute"
+                        :left           60
+                        :right          0
+                        :height         "100%"}}
           [elements-comp {:elements              elements
                           :selected-element      selected-element
                           :element-type          element-type
@@ -313,30 +314,31 @@
                           :pixel-to-minute-ratio pixel-to-minute-ratio
                           :displayed-day         displayed-day}]]]]]
 
-      [bottom-sheet {:ref           bottom-sheet-ref
-                     :snap-points   [0 50 450]
-                     :initial-snap  (if (some? selected-element-edit)
-                                      1
-                                      0)
-                     :render-header #(r/as-element
-                                      [surface
-                                       [view {:style {:flex            1
-                                                      :height          450
-                                                      :padding-bottom  50
-                                                      :flex-direction  "column"
-                                                      :justify-content "space-between"
-                                                      :align-items     "center"}}
+      [portal
+       [bottom-sheet {:ref           bottom-sheet-ref
+                      :snap-points   [0 50 450]
+                      :initial-snap  (if (some? selected-element-edit)
+                                       1
+                                       0)
+                      :render-header #(r/as-element
+                                       [surface
+                                        [view {:style {:flex            1
+                                                       :height          450
+                                                       :padding-bottom  50
+                                                       :flex-direction  "column"
+                                                       :justify-content "space-between"
+                                                       :align-items     "center"}}
 
-                                        [transform-buttons
-                                         {:transform-functions   element-transform-functions
-                                          :selected-element-edit selected-element-edit}]
+                                         [transform-buttons
+                                          {:transform-functions   element-transform-functions
+                                           :selected-element-edit selected-element-edit}]
 
-                                        [rect-button
-                                         {:on-press
-                                          (fn [_]
-                                            (-> bottom-sheet-ref (.-current) (.snapTo 0))
-                                            (dispatch [:select-element-edit {:element-type element-type
-                                                                             :bucket-id    nil
-                                                                             :element-id   nil}]))}
-                                         [text "close"]]
-                                        [text (:label selected-element-edit)]]])}]]]))
+                                         [rect-button
+                                          {:on-press
+                                           (fn [_]
+                                             (-> bottom-sheet-ref (.-current) (.snapTo 0))
+                                             (dispatch [:select-element-edit {:element-type element-type
+                                                                              :bucket-id    nil
+                                                                              :element-id   nil}]))}
+                                          [text "close"]]
+                                         [text (:label selected-element-edit)]]])}]]]]))
