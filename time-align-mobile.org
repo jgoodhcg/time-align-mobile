@@ -398,6 +398,7 @@ Then the selected element comp will not be displayed and the actual period will 
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
      :LOGBOOK:
+     CLOCK: [2019-09-09 Mon 19:45]--[2019-09-09 Mon 20:30] =>  0:45
      CLOCK: [2019-09-09 Mon 19:15]--[2019-09-09 Mon 19:41] =>  0:26
      CLOCK: [2019-09-08 Sun 19:49]--[2019-09-08 Sun 20:26] =>  0:37
      CLOCK: [2019-09-08 Sun 19:28]--[2019-09-08 Sun 19:44] =>  0:16
@@ -408,7 +409,9 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
   - Didn't work
 - [X] Add deps
 - [X] Placeholder on the day screen
-- [ ] Use ~ref~ prop to dynamically close/open
+- [X] Use ~ref~ prop to dynamically close/open
+- [X] Display an icon and add functions
+- [ ] Get functions working
 - [ ] figure out how to get bottom-sheet to cover the view port and not just the bottom portion of the scroll view
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]

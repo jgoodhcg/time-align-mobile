@@ -35,6 +35,119 @@
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
+(defn start-earlier
+  ([selected-period]
+   (start-earlier selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:start (-> selected-period
+                                 (:start)
+                                 (.valueOf)
+                                 (- time)
+                                 (js/Date.))}}]))))
+
+(defn start-later
+  ([selected-period]
+   (start-later selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+      [:update-period
+       {:id         (:id selected-period)
+        :update-map {:start (-> selected-period
+                                (:start)
+                                (.valueOf)
+                                (+ time)
+                                (js/Date.))}}]))))
+
+(defn down
+  ([selected-period]
+   (down selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:start (-> selected-period
+                                 (:start)
+                                 (.valueOf)
+                                 (+ time)
+                                 (js/Date.))
+                      :stop  (-> selected-period
+                                 (:stop)
+                                 (.valueOf)
+                                 (+ time)
+                                 (js/Date.))}}]))))
+
+(defn up
+  ([selected-period]
+   (up selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:start (-> selected-period
+                                 (:start)
+                                 (.valueOf)
+                                 (- time)
+                                 (js/Date.))
+                      :stop  (-> selected-period
+                                 (:stop)
+                                 (.valueOf)
+                                 (- time)
+                                 (js/Date.))}}]))))
+
+(defn stop-later
+  ([selected-period]
+   (stop-later selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:stop (-> selected-period
+                               (:stop)
+                               (.valueOf)
+                               (+ time)
+                               (js/Date.))}}]))))
+
+(defn stop-earlier
+  ([selected-period]
+   (stop-earlier selected-period false))
+  ([selected-period long]
+   (let [time (if long
+                (* 3 60 60 1000)
+                (* 5 60 1000))]
+     #(dispatch
+       [:update-period
+        {:id         (:id selected-period)
+         :update-map {:stop (-> selected-period
+                                (:stop)
+                                (.valueOf)
+                                (- time)
+                                (js/Date.))}}]))))
+
+(def period-transform-functions {:up            up
+                                 :down          down
+                                 :start-earlier start-earlier
+                                 :start-later   start-later
+                                 :stop-earlier  stop-earlier
+                                 :stop-later    stop-later})
+
 (defn top-bar [{:keys [displayed-day]}]
   [surface {:elevation 1
             :style     {:flex-direction  "row"
@@ -95,11 +208,12 @@
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
      [top-bar {:displayed-day @displayed-day}]
-     [day-comp/root {:selected-element      @selected-period
-                     :in-play-element       @period-in-play
-                     :displayed-day         @displayed-day
-                     :selected-element-edit @selected-period-edit
-                     :element-type          :period
-                     :elements              periods
-                     :move-element          move-period}]]))
+     [day-comp/root {:selected-element            @selected-period
+                     :in-play-element             @period-in-play
+                     :displayed-day               @displayed-day
+                     :selected-element-edit       @selected-period-edit
+                     :element-type                :period
+                     :elements                    periods
+                     :element-transform-functions period-transform-functions
+                     :move-element                move-period}]]))
 
