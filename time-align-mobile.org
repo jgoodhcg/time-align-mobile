@@ -27,6 +27,7 @@
     :Confidence: 50
     :END:
     :LOGBOOK:
+    CLOCK: [2019-09-10 Tue 19:15]--[2019-09-10 Tue 19:17] =>  0:02
     CLOCK: [2019-08-10 Sat 19:29]--[2019-08-10 Sat 19:36] =>  0:07
     CLOCK: [2019-08-10 Sat 13:11]--[2019-08-10 Sat 13:12] =>  0:01
     :END:
@@ -417,12 +418,17 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Get functions working
 - [X] Figure out how to get bottom-sheet to cover the view port and not just the bottom portion of the scroll view
 - [X] Get the drawer to play nice with the bottom sheet
+- [ ] Style transform buttons
+- [ ] Add the edit form
+**** TODO Add FAB
+**** TODO Add long press on screen to add period
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
      :LOGBOOK:
      CLOCK: [2019-09-06 Fri 21:56]--[2019-09-06 Fri 22:28] =>  0:32
      :END:
-*** TODO Fix drawer bug
+*** CANCELED Fix drawer bug
+    CLOSED: [2019-09-10 Tue 19:16]
     :PROPERTIES:
     :Effort:   3:00
     :Confidence: 80
