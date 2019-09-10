@@ -35,16 +35,20 @@
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
+(def long-time (* 1 60 60 1000))
+(def short-time (* 1 60 1000))
+
 (defn start-earlier
   ([selected-period]
    (start-earlier selected-period false))
   ([selected-period long]
    (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
+                long-time
+                (* 1 60 1000))]
+     (dispatch
        [:update-period
-        {:id         (:id selected-period)
+        {:period-id  (:id selected-period)
+         :bucket-id  (:bucket-id selected-period)
          :update-map {:start (-> selected-period
                                  (:start)
                                  (.valueOf)
@@ -56,11 +60,12 @@
    (start-later selected-period false))
   ([selected-period long]
    (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
+                long-time
+                short-time)]
+     (dispatch
       [:update-period
-       {:id         (:id selected-period)
+       {:period-id  (:id selected-period)
+        :bucket-id  (:bucket-id selected-period)
         :update-map {:start (-> selected-period
                                 (:start)
                                 (.valueOf)
@@ -72,32 +77,34 @@
    (down selected-period false))
   ([selected-period long]
    (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:start (-> selected-period
-                                 (:start)
-                                 (.valueOf)
-                                 (+ time)
-                                 (js/Date.))
-                      :stop  (-> selected-period
-                                 (:stop)
-                                 (.valueOf)
-                                 (+ time)
-                                 (js/Date.))}}]))))
+                long-time
+                short-time)]
+     (dispatch
+      [:update-period
+       {:period-id  (:id selected-period)
+        :bucket-id  (:bucket-id selected-period)
+        :update-map {:start (-> selected-period
+                                (:start)
+                                (.valueOf)
+                                (+ time)
+                                (js/Date.))
+                     :stop  (-> selected-period
+                                (:stop)
+                                (.valueOf)
+                                (+ time)
+                                (js/Date.))}}]))))
 
 (defn up
   ([selected-period]
    (up selected-period false))
   ([selected-period long]
    (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
+                long-time
+                short-time)]
+     (dispatch
+      [:update-period
+        {:period-id  (:id selected-period)
+         :bucket-id  (:bucket-id selected-period)
          :update-map {:start (-> selected-period
                                  (:start)
                                  (.valueOf)
@@ -114,12 +121,13 @@
    (stop-later selected-period false))
   ([selected-period long]
    (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:stop (-> selected-period
+                long-time
+                short-time)]
+     (dispatch
+      [:update-period
+       {:period-id  (:id selected-period)
+        :bucket-id  (:bucket-id selected-period)
+        :update-map {:stop (-> selected-period
                                (:stop)
                                (.valueOf)
                                (+ time)
@@ -130,16 +138,17 @@
    (stop-earlier selected-period false))
   ([selected-period long]
    (let [time (if long
-                (* 3 60 60 1000)
-                (* 5 60 1000))]
-     #(dispatch
-       [:update-period
-        {:id         (:id selected-period)
-         :update-map {:stop (-> selected-period
-                                (:stop)
-                                (.valueOf)
-                                (- time)
-                                (js/Date.))}}]))))
+                long-time
+                short-time)]
+     (dispatch
+      [:update-period
+       {:period-id  (:id selected-period)
+        :bucket-id  (:bucket-id selected-period)
+        :update-map {:stop (-> selected-period
+                               (:stop)
+                               (.valueOf)
+                               (- time)
+                               (js/Date.))}}]))))
 
 (def period-transform-functions {:up            up
                                  :down          down

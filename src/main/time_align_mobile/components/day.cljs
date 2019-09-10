@@ -175,6 +175,11 @@
                  :selected-element      selected-element
                  :element-type          element-type})))]])
 
+(defn transform-button [selected-element-edit t-function icon]
+  [touchable-ripple {:on-press      #(t-function selected-element-edit)
+                     :on-long-press #(t-function selected-element-edit true)}
+   icon])
+
 (defn transform-buttons [{:keys [transform-functions selected-element-edit]}]
   (let [{:keys [up
                 down
@@ -185,44 +190,23 @@
         icon-style            {:color (-> styles/theme :colors :text)}
         mci-styled            (styled-icon-factory mci icon-style)
         mi-styled             (styled-icon-factory mi icon-style)
-        icon-params           (fn [name] {:size 32 :name name})]
+        icon-params           (fn [name] {:size 24 :name name})
+        t-btn                 (partial transform-button selected-element-edit)]
 
-    [surface {:style {:flex 0
-                      :flex-direction  "row"
-                      :justify-content "space-between"
-                      :height          50}}
+    [surface
+     [view {:style {:flex            1
+                    :width           "100%"
+                    :flex-direction  "row"
+                    :justify-content "space-around"
+                    :padding         8
+                    :height          50}}
 
-     ;; up
-     [mi-styled (icon-params "arrow-upward")]
-     ;; [rect-button {:on-press      (up selected-element-edit)
-     ;;               :on-long-press (up selected-element-edit true)}
-     ;;  ]
-
-     ;; ;; start-earlier
-     ;; [rect-button {:on-press              (start-earlier selected-element-edit)
-     ;;               :on-long-press (start-earlier selected-element-edit true)}
-     ;;  [mci-styled (icon-params "arrow-collapse-up")]]
-
-     ;; ;; start-later
-     ;; [rect-button {:on-press      (start-later selected-element-edit)
-     ;;               :on-long-press (start-later selected-element-edit true)}
-     ;;  [mci-styled (icon-params "arrow-collapse-down")]]
-
-     ;; ;; down
-     ;; [rect-button {:on-press      (down selected-element-edit)
-     ;;               :on-long-press (down selected-element-edit true)}
-     ;;  [mi-styled (icon-params "arrow-downward")]]
-
-     ;; ;; stop-later
-     ;; [rect-button {:on-press      (stop-later selected-element-edit)
-     ;;               :on-long-press (stop-later selected-element-edit true)}
-     ;;  [mci-styled (icon-params "arrow-expand-down")]]
-
-     ;; ;; stop-earlier
-     ;; [rect-button {:on-press      (stop-earlier selected-element-edit)
-     ;;               :on-long-press (stop-earlier selected-element-edit true)}
-     ;;  [mci-styled (icon-params "arrow-expand-up")]]
-     ]))
+      [t-btn up [mi-styled (icon-params "arrow-upward")]]
+      [t-btn down [mi-styled (icon-params "arrow-downward")]]
+      [t-btn start-earlier [mci-styled (icon-params "arrow-collapse-up")]]
+      [t-btn start-later [mci-styled (icon-params "arrow-collapse-down")]]
+      [t-btn stop-earlier [mci-styled (icon-params "arrow-expand-up")]]
+      [t-btn stop-later [mci-styled (icon-params "arrow-expand-down")]]]]))
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
@@ -231,7 +215,7 @@
            selected-element-edit
            in-play-element
            element-type
-           transform-functions
+           element-transform-functions
            displayed-day
            move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
@@ -336,15 +320,23 @@
                                       0)
                      :render-header #(r/as-element
                                       [surface
-                                       [view {:style {:flex             1
-                                                      :height           450
-                                                      :padding-bottom   25
-                                                      :flex-direction   "column"
-                                                      :justify-content  "space-between"
-                                                      :align-items      "center"}}
+                                       [view {:style {:flex            1
+                                                      :height          450
+                                                      :padding-bottom  50
+                                                      :flex-direction  "column"
+                                                      :justify-content "space-between"
+                                                      :align-items     "center"}}
 
                                         [transform-buttons
-                                         {:transform-functions transform-functions
-                                          :select-element-edit selected-element-edit}]
+                                         {:transform-functions   element-transform-functions
+                                          :selected-element-edit selected-element-edit}]
 
+                                        [rect-button
+                                         {:on-press
+                                          (fn [_]
+                                            (-> bottom-sheet-ref (.-current) (.snapTo 0))
+                                            (dispatch [:select-element-edit {:element-type element-type
+                                                                             :bucket-id    nil
+                                                                             :element-id   nil}]))}
+                                         [text "close"]]
                                         [text (:label selected-element-edit)]]])}]]]))
