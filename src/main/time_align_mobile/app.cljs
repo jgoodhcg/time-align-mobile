@@ -5,6 +5,7 @@
     [reagent.core :as r :refer [atom]]
     [re-frame.core :refer [subscribe dispatch dispatch-sync]]
     [shadow.expo :as expo]
+    [time-align-mobile.components.day :refer [bottom-sheet-ref]]
     [time-align-mobile.handlers]
     [time-align-mobile.helpers :refer [deep-merge]]
     [time-align-mobile.subs]
@@ -23,15 +24,24 @@
                                           app-state
                                           paper-provider
                                           ic
+                                          text-paper
                                           card
                                           surface
                                           mi
                                           text
                                           view
+                                          status-bar
                                           image
+                                          subheading
+                                          button-paper
+                                          surface
+                                          divider
                                           touchable-highlight
+                                          touchable-ripple
                                           drawer-layout
+                                          side-menu
                                           read-file-from-dd-async
+                                          portal-host
                                           secure-store-get!]]))
 
 ;; must use defonce and must refresh full app so metro can fill these in
@@ -54,7 +64,10 @@
           (rn/StyleSheet.create)))
 
 (defn drawer-list []
-  [view {:style        {:flex 1 :justify-content "center" :align-items "center"}}
+  [surface {:style {:flex 1 :justify-content "center" :align-items "center"}}
+   [subheading {:style {:font-weight   "bold"
+                        :margin-bottom 16}}
+    "Screens"]
    (->> nav/screens-map
         (filter #(:in-drawer %))
         (sort-by #(:position-drawer %))
@@ -63,9 +76,9 @@
                      params                {:name  name
                                             :style {:margin-right 25
                                                     :width        32}
-                                            :color (->> theme :colors :primary)
-                                            :size  32}
-                     label-element         [text  label]
+                                            :color (->> theme :colors :placeholder)
+                                            :size  24}
+                     label-element         [text-paper label]
                      icon-element          (case family
                                              "EvilIcons"     [ei params]
                                              "FontAwesome"   [fa params]
@@ -73,50 +86,55 @@
                                              "Entypo"        [en params]
                                              "MaterialIcons" [mi params])]
 
-                 [touchable-highlight {:key      (str "icon-" name)
-                                       :on-press (fn [_]
-                                                   ;; TODO remove bucket id params when done testing
+                 [touchable-ripple {:key      (str "icon-" name)
+                                    :on-press (fn [_]
+                                                ;; TODO remove bucket id params when done testing
 
-                                                   (dispatch
-                                                    [:navigate-to
-                                                     {:current-screen id
-                                                      :params
-                                                      (cond
-                                                        (= id :bucket)
-                                                        {:bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2")}
+                                                (dispatch
+                                                 [:navigate-to
+                                                  {:current-screen id
+                                                   :params
+                                                   (cond
+                                                     (= id :bucket)
+                                                     {:bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2")}
 
-                                                        (= id :period)
-                                                        {:period-id (uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531")}
+                                                     (= id :period)
+                                                     {:period-id (uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531")}
 
-                                                        (= id :template)
-                                                        {:template-id (uuid "c52e4f81-38d4-4d4f-ab19-a7cef18c8882")}
+                                                     (= id :template)
+                                                     {:template-id (uuid "c52e4f81-38d4-4d4f-ab19-a7cef18c8882")}
 
-                                                        (= id :filter)
-                                                        {:filter-id (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")}
-                                                        :else nil)}]))}
+                                                     (= id :filter)
+                                                     {:filter-id (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")}
+                                                     :else nil)}]))}
                   [view {:flex-direction  "row"
                          :justify-content "flex-start"
                          :align-items     "center"
                          :padding-left    20
-                         :width           200}
+                         :width           200
+                         :height          32}
                    icon-element
                    label-element]]))))
-   [text {:style {:margin 8}} version]])
+   [text-paper {:style {:margin 8
+                        :color  (->> theme :colors :placeholder)}} version]])
 
 (defn root []
   (fn []
     (let [navigation (subscribe [:get-navigation])]
       (fn []
         [paper-provider {:theme (clj->js theme)}
-         [view {:style {:flex             1
-                        :background-color (get-in theme [:colors :background])}}
-          [drawer-layout
-           {:drawer-width            200
-            :drawer-position         "left"
-            :drawer-type             "slide"
-            :drawer-background-color (get-in theme [:colors :background])
-            :render-navigation-view  (fn [] (r/as-element (drawer-list)))}
+         [side-menu
+          {:menu      (r/as-element [drawer-list])
+           :on-change #(do
+                         (let [bsr @bottom-sheet-ref]
+                           (when (some? (.-current bsr))
+                             (-> bsr (.-current) (.snapTo 0))))
+                         (dispatch [:select-element-edit {:element-type :period :bucket-id nil :period-id nil}])
+                         (dispatch [:select-element-edit {:element-type :template :bucket-id nil :period-id nil}]))}
 
+          [view {:style {:flex             1
+                         :background-color (get-in theme [:colors :background])}}
+           [status-bar {:hidden true}]
            (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
                                          (:screen %))
                                       nav/screens-map)]

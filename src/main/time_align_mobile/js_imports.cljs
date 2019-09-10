@@ -28,6 +28,7 @@
             State]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
+   ["react-native-side-menu" :default SideMenu]
    [reagent.core :as r :refer [atom]]))
 
 (def ReactNative react-native)
@@ -182,6 +183,7 @@
 (def Modal (oget paper "Modal"))
 (def modal-paper (r/adapt-react-class Modal))
 (def portal (r/adapt-react-class (oget paper "Portal")))
+(def portal-host (r/adapt-react-class (-> paper (oget "Portal") (oget "Host"))))
 (def surface (r/adapt-react-class (oget paper "Surface")))
 (def text-input-paper (r/adapt-react-class (oget paper "TextInput")))
 (def subheading (r/adapt-react-class (oget paper "Subheading")))
@@ -224,6 +226,7 @@
                      :cancelled     (.-CANCELLED gesture-handler-states)
                      :end          (.-END gesture-handler-states)})
 
+(def side-menu (r/adapt-react-class SideMenu))
 (defn color-light? [color-string]
   (-> color-string
       (color)
