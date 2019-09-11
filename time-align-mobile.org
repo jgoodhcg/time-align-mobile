@@ -399,6 +399,8 @@ Then the selected element comp will not be displayed and the actual period will 
      CLOSED: [2019-09-04 Wed 16:56]
 **** TODO Add bottom sheet for period editing and selection
      :LOGBOOK:
+     CLOCK: [2019-09-10 Tue 22:19]--[2019-09-10 Tue 22:46] =>  0:27
+     CLOCK: [2019-09-10 Tue 21:29]--[2019-09-10 Tue 22:16] =>  0:47
      CLOCK: [2019-09-10 Tue 18:04]--[2019-09-10 Tue 19:14] =>  1:10
      CLOCK: [2019-09-09 Mon 21:25]--[2019-09-09 Mon 21:45] =>  0:20
      CLOCK: [2019-09-09 Mon 20:37]--[2019-09-09 Mon 21:19] =>  0:42
@@ -418,6 +420,7 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Get functions working
 - [X] Figure out how to get bottom-sheet to cover the view port and not just the bottom portion of the scroll view
 - [X] Get the drawer to play nice with the bottom sheet
+- [X] Fix property access error
 - [ ] Style transform buttons
 - [ ] Add the edit form
 **** TODO Add FAB

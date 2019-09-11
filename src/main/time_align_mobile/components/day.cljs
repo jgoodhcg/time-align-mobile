@@ -50,7 +50,7 @@
 
 (def pan-offset (r/atom 0))
 
-(def bottom-sheet-ref (atom (.createRef react)))
+(def bottom-sheet-ref (.createRef react))
 
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
@@ -98,7 +98,7 @@
                                              (not something-else-selected))
                :wait-for                double-tap-ref
                :on-handler-state-change #(if (= :active (get-state %))
-                                           (do (-> @bottom-sheet-ref (.-current) (.snapTo 1))
+                                           (do (-> bottom-sheet-ref (.-current) (.snapTo 1))
                                                (dispatch
                                                 [:select-element-edit
                                                  {:element-type element-type
@@ -315,7 +315,7 @@
                           :displayed-day         displayed-day}]]]]]
 
       [portal
-       [bottom-sheet {:ref           @bottom-sheet-ref
+       [bottom-sheet {:ref           bottom-sheet-ref
                       :snap-points   [0 50 450]
                       :initial-snap  (if (some? selected-element-edit)
                                        1
@@ -336,7 +336,7 @@
                                          [rect-button
                                           {:on-press
                                            (fn [_]
-                                             (-> @bottom-sheet-ref (.-current) (.snapTo 0))
+                                             (-> bottom-sheet-ref (.-current) (.snapTo 0))
                                              (dispatch [:select-element-edit {:element-type element-type
                                                                               :bucket-id    nil
                                                                               :element-id   nil}]))}
