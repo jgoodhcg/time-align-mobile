@@ -102,7 +102,8 @@
                                  (dispatch
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
-        buckets                (subscribe [:get-buckets])]
+        buckets                (subscribe [:get-buckets])
+        delete-callback        (:delete-callback params)]
 
     [view {:style {:flex            1
                    :width           "100%"
@@ -136,8 +137,11 @@
         :save-changes   #(dispatch [:save-period-form (new js/Date)])
         :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
                                                        :bucket-id (:bucket-id @period-form)}])
-        :delete-item    #(dispatch [:delete-period {:period-id (:id @period-form)
-                                                    :bucket-id (:bucket-id @period-form)}])
+        :delete-item    #(do
+                           (dispatch [:delete-period {:period-id (:id @period-form)
+                                                      :bucket-id (:bucket-id @period-form)}])
+                           (when (and (some? delete-callback))
+                             (delete-callback)))
         :compact        true}]]]))
 
 (defn root [params]

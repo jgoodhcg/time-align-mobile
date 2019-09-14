@@ -336,11 +336,13 @@
                                          [rect-button
                                           {:on-press
                                            (fn [_]
+                                             ;; TODO turn this into a safe function call
                                              (-> bottom-sheet-ref (.-current) (.snapTo 0))
                                              (dispatch [:select-element-edit {:element-type element-type
                                                                               :bucket-id    nil
                                                                               :element-id   nil}]))}
                                           [text "close"]]
 
-                                         [edit-form]
+                                         [edit-form {:delete-callback
+                                                     (fn [_] (-> bottom-sheet-ref (.-current) (.snapTo 0)))}]
                                          ]])}]]]]))

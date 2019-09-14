@@ -586,7 +586,11 @@
                     (setval [:forms :period-form] nil) ;; it must be deleted from the form
                     (#(if (= (:period-in-play-id db) period-id)  ;; it _may_ be in play when it is deleted
                         (setval [:period-in-play-id] nil %)
-                        %)))
+                        %))
+                    (setval [:selection :period] {:movement {:bucket-id nil
+                                                             :period-id nil}
+                                                  :edit     {:bucket-id nil
+                                                             :period-id nil}}))
    ;; TODO pop stack when possible
    :dispatch-n [[:navigate-to {:current-screen :day}]
                 [:select-period-movement {:bucket-id nil
