@@ -574,7 +574,7 @@
   {:db (->> db
             (setval (bucket-path {:bucket-id id}) sp/NONE)
             (setval [:forms :bucket-form] nil)
-            (setval [:patterns :templates sp/ALL
+            (setval [:patterns sp/ALL :templates sp/ALL
                      #(= id (:bucket-id %))]  sp/NONE)) ;; TODO think about removing it from forms too?
    ;; TODO pop stack when possible
    :dispatch [:navigate-to {:current-screen :buckets}]})
