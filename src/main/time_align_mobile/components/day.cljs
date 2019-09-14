@@ -323,12 +323,21 @@
                           :pixel-to-minute-ratio pixel-to-minute-ratio
                           :displayed-day         displayed-day}]]]]]
 
+      [view {:style {:height 500
+                     :background-color (-> styles/theme :colors :background)}}]
+
       [portal
        [bottom-sheet {:ref           bottom-sheet-ref
                       :snap-points   [0 50 450]
                       :initial-snap  (if (some? selected-element-edit)
                                        1
                                        0)
+                      ;; TODO figure out why this isn't being called
+                      :on-close-end #(do
+                                       (println "closing")
+                                       (dispatch [:select-element-edit {:element-type element-type
+                                                                        :bucket-id    nil
+                                                                        :element-id   nil}]))
                       :render-header #(r/as-element
                                        [surface
                                         [view {:style {:flex            1

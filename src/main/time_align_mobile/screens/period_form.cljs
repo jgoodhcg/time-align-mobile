@@ -62,6 +62,8 @@
      ;; Time
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "time"})
+                  :style    {:margin-right  4
+                             :margin-bottom 4}
                   :mode     "outlined"
                   :icon     "access-time"}
       [text (if (some? time)
