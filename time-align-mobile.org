@@ -397,8 +397,10 @@ The pan gesture state change handler will dispatch a single update event on the 
 Then the selected element comp will not be displayed and the actual period will be rendered in the updated position.
 **** CANCELED Stretch mode
      CLOSED: [2019-09-04 Wed 16:56]
-**** TODO Add bottom sheet for period editing and selection
+**** DONE Add bottom sheet for period editing and selection
+CLOSED: [2019-09-14 Sat 18:08]
      :LOGBOOK:
+     CLOCK: [2019-09-14 Sat 17:58]--[2019-09-14 Sat 18:08] =>  0:10
      CLOCK: [2019-09-14 Sat 17:33]--[2019-09-14 Sat 17:45] =>  0:12
      CLOCK: [2019-09-14 Sat 16:20]--[2019-09-14 Sat 16:40] =>  0:20
      CLOCK: [2019-09-14 Sat 16:14]--[2019-09-14 Sat 16:19] =>  0:05
@@ -429,7 +431,7 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Figure out how to get bottom-sheet to cover the view port and not just the bottom portion of the scroll view
 - [X] Get the drawer to play nice with the bottom sheet
 - [X] Fix property access error
-- [ ] Style transform buttons
+- [X] Style transform buttons
 - [X] Make edit selection detectable
 - [X] Make all of day display visible while edit menu is up
 - [X] Make movement selection clear edit
@@ -569,3 +571,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Advanced notifications with interaction
 - [[https://stackoverflow.com/questions/46680890/react-native-how-to-scroll-a-scrollview-to-a-given-location-after-navigation-f][better scrolling]]
 - [[https://docs.expo.io/versions/v33.0.0/react-native/performance/][Optimize performance]]
+- Use [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]] when an element is selected for edit

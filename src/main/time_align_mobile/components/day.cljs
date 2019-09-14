@@ -203,7 +203,8 @@
 
 (defn transform-button [selected-element-edit t-function icon]
   [touchable-ripple {:on-press      #(t-function selected-element-edit)
-                     :on-long-press #(t-function selected-element-edit true)}
+                     :on-long-press #(t-function selected-element-edit true)
+                     :style         {:padding 8}}
    icon])
 
 (defn transform-buttons [{:keys [transform-functions selected-element-edit]}]
@@ -216,7 +217,7 @@
         icon-style            {:color (-> styles/theme :colors :text)}
         mci-styled            (styled-icon-factory mci icon-style)
         mi-styled             (styled-icon-factory mi icon-style)
-        icon-params           (fn [name] {:size 24 :name name})
+        icon-params           (fn [name] {:size 28 :name name})
         t-btn                 (partial transform-button selected-element-edit)]
 
     [surface
@@ -224,7 +225,7 @@
                     :width           "100%"
                     :flex-direction  "row"
                     :justify-content "space-around"
-                    :padding         8
+                    :padding         2
                     :height          50}}
 
       [t-btn up [mi-styled (icon-params "arrow-upward")]]
@@ -367,12 +368,6 @@
                                          [transform-buttons
                                           {:transform-functions   element-transform-functions
                                            :selected-element-edit selected-element-edit}]
-
-                                         [rect-button
-                                          {:on-press
-                                           (fn [_]
-                                             (close-bottom-sheet bottom-sheet-ref element-type))}
-                                          [text "close"]]
 
                                          [edit-form {:save-callback
                                                      (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
