@@ -60,10 +60,17 @@
          (.hasOwnProperty (.-current bottom-sheet-ref) "snapTo"))
     (-> bottom-sheet-ref (.-current) (.snapTo snap))))
 
+(defn close-bottom-sheet [bottom-sheet-ref element-type]
+  (snap-bottom-sheet bottom-sheet-ref 0)
+  (dispatch [:select-element-edit {:element-type element-type
+                                   :bucket-id    nil
+                                   :element-id   nil}]))
+
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
                                       element-type
                                       selected-element
+                                      selected-element-edit
                                       collision-group]}]
 
   (->> collision-group
@@ -83,7 +90,9 @@
                                              (-> index
                                                  (* 16)
                                                  (+ 2)))
+                light                   (color-light? (:color element))
                 selected                (= (:id element) (:id selected-element))
+                selected-edit           (= (:id element) (:id selected-element-edit))
                 something-else-selected (and (some? selected-element)
                                              (not selected))
                 double-tap-ref          (.createRef react)
@@ -97,10 +106,13 @@
                                      :top           start-y-pos
                                      :height        height
                                      :elevation     (* 2 index)
-                                     :border-radius 4
+                                     :border-radius 8
                                      :overflow      "hidden"}
                                     (when selected
-                                      {:elevation 32}))}
+                                      {:elevation 32})
+                                    (when selected-edit
+                                      {:border-width  4.5
+                                       :border-color  (-> styles/theme :colors :text)}))}
              [rect-button
               {:enabled                 (and (not selected)
                                              (not something-else-selected))
@@ -129,13 +141,15 @@
                 :on-handler-state-change
                 #(let [state (get-state %)]
                    (if (= :active state)
-                     (dispatch [:select-element-movement
-                                {:element-type element-type
-                                 :bucket-id    (:bucket-id element)
-                                 :element-id   (:id element)}])))}
+                     (do
+                       (close-bottom-sheet bottom-sheet-ref element-type)
+                       (dispatch [:select-element-movement
+                                  {:element-type element-type
+                                   :bucket-id    (:bucket-id element)
+                                   :element-id   (:id element)}]))))}
                [view {:style {:width  "100%"
                               :height "100%"}}
-                [text-paper {:style {:color (if (color-light? (:color element))
+                [text-paper {:style {:color (if light
                                               (-> styles/theme :colors :element-text-dark)
                                               (-> styles/theme :colors :element-text-light))}}
                  (:label element)]]]]])))))
@@ -143,6 +157,7 @@
 (defn elements-comp [{:keys [elements
                              element-type
                              selected-element
+                             selected-element-edit
                              in-play-element
                              pixel-to-minute-ratio
                              displayed-day]}]
@@ -162,6 +177,7 @@
          (map #(render-collision-group
                 {:pixel-to-minute-ratio pixel-to-minute-ratio
                  :displayed-day         displayed-day
+                 :selected-element-edit selected-element-edit
                  :collision-group       %
                  :selected-element      selected-element
                  :element-type          element-type})))]
@@ -182,6 +198,7 @@
                  :displayed-day         displayed-day
                  :collision-group       %
                  :selected-element      selected-element
+                 :selected-element-edit selected-element-edit
                  :element-type          element-type})))]])
 
 (defn transform-button [selected-element-edit t-function icon]
@@ -318,6 +335,7 @@
                         :height   "100%"}}
           [elements-comp {:elements              elements
                           :selected-element      selected-element
+                          :selected-element-edit selected-element-edit
                           :element-type          element-type
                           :in-play-element       in-play-element
                           :pixel-to-minute-ratio pixel-to-minute-ratio
@@ -353,12 +371,10 @@
                                          [rect-button
                                           {:on-press
                                            (fn [_]
-                                             (snap-bottom-sheet bottom-sheet-ref 1)
-                                             (dispatch [:select-element-edit {:element-type element-type
-                                                                              :bucket-id    nil
-                                                                              :element-id   nil}]))}
+                                             (close-bottom-sheet bottom-sheet-ref element-type))}
                                           [text "close"]]
 
-                                         [edit-form {:delete-callback
-                                                     (fn [_]
-                                                       (snap-bottom-sheet bottom-sheet-ref 0))}]]])}]]]]))
+                                         [edit-form {:save-callback
+                                                     (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                     :delete-callback
+                                                     (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}]]]]))

@@ -98,14 +98,13 @@
      [view {:style {:flex-direction "row"}}
       [time-comp-buttons period-form changes modal field-key label time]]]))
 
-(defn compact [params]
+(defn compact [{:keys [delete-callback save-callback] :as params}]
   (let [period-form            (subscribe [:get-period-form])
         update-structured-data (fn [new-data]
                                  (dispatch
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
-        buckets                (subscribe [:get-buckets])
-        delete-callback        (:delete-callback params)]
+        buckets                (subscribe [:get-buckets])]
 
     [view {:style {:flex            1
                    :width           "100%"
@@ -136,7 +135,10 @@
                     :align-items     "space-between"}}
       [form-buttons/buttons
        {:changed        (> (count @changes) 0)
-        :save-changes   #(dispatch [:save-period-form (new js/Date)])
+        :save-changes   #(do
+                           (dispatch [:save-period-form (new js/Date)])
+                           (when (and (some? save-callback))
+                             (save-callback)))
         :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
                                                        :bucket-id (:bucket-id @period-form)}])
         :delete-item    #(do

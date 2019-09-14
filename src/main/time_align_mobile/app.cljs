@@ -5,7 +5,7 @@
     [reagent.core :as r :refer [atom]]
     [re-frame.core :refer [subscribe dispatch dispatch-sync]]
     [shadow.expo :as expo]
-    [time-align-mobile.components.day :refer [bottom-sheet-ref snap-bottom-sheet]]
+    [time-align-mobile.components.day :refer [bottom-sheet-ref snap-bottom-sheet close-bottom-sheet]]
     [time-align-mobile.handlers]
     [time-align-mobile.helpers :refer [deep-merge]]
     [time-align-mobile.subs]
@@ -126,10 +126,8 @@
          [side-menu
           {:menu      (r/as-element [drawer-list])
            :on-change #(do
-                         (println bottom-sheet-ref)
-                         (snap-bottom-sheet bottom-sheet-ref 0)
-                         (dispatch [:select-element-edit {:element-type :period :bucket-id nil :period-id nil}])
-                         (dispatch [:select-element-edit {:element-type :template :bucket-id nil :period-id nil}]))}
+                         (close-bottom-sheet bottom-sheet-ref :period)
+                         (close-bottom-sheet bottom-sheet-ref :template))}
 
           [view {:style {:flex             1
                          :background-color (get-in theme [:colors :background])}}
