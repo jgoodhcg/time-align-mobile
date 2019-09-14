@@ -128,9 +128,7 @@
                        [card {:style     {:border-radius 4}
                               :elevation 0}
                         [:> rn/Picker {:selected-value  (str (field-key @form))
-                                       :style           (if compact
-                                                          {:width 120}
-                                                          {:width 250})
+                                       :style           {:width 250}
                                        :enabled         (not disabled)
                                        :on-value-change #(dispatch
                                                           ;; use uuid because picker works with strings

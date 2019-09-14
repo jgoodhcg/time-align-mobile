@@ -24,6 +24,7 @@
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :refer [same-day? xor]]
+            [time-align-mobile.screens.period-form :refer [compact]]
             [time-align-mobile.components.list-items :as list-items]
             [time-align-mobile.styles :as styles :refer [theme]]
             [goog.string :as gstring]
@@ -224,5 +225,6 @@
                      :element-type                :period
                      :elements                    periods
                      :element-transform-functions period-transform-functions
-                     :move-element                move-period}]]))
+                     :move-element                move-period
+                     :edit-form                   compact}]]))
 

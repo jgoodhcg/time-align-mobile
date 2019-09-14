@@ -195,7 +195,7 @@
         t-btn                 (partial transform-button selected-element-edit)]
 
     [surface
-     [view {:style {:flex            1
+     [view {:style {:flex            0
                     :width           "100%"
                     :flex-direction  "row"
                     :justify-content "space-around"
@@ -218,6 +218,7 @@
            element-type
            element-transform-functions
            displayed-day
+           edit-form
            move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         pixel-to-minute-ratio (:current px-ratio-config)
@@ -303,10 +304,10 @@
                                :height       0}}]]]]))
 
          ;; periods
-         [view {:style {:position       "absolute"
-                        :left           60
-                        :right          0
-                        :height         "100%"}}
+         [view {:style {:position "absolute"
+                        :left     60
+                        :right    0
+                        :height   "100%"}}
           [elements-comp {:elements              elements
                           :selected-element      selected-element
                           :element-type          element-type
@@ -324,9 +325,8 @@
                                        [surface
                                         [view {:style {:flex            1
                                                        :height          450
-                                                       :padding-bottom  50
+                                                       :width           "100%"
                                                        :flex-direction  "column"
-                                                       :justify-content "space-between"
                                                        :align-items     "center"}}
 
                                          [transform-buttons
@@ -341,4 +341,6 @@
                                                                               :bucket-id    nil
                                                                               :element-id   nil}]))}
                                           [text "close"]]
-                                         [text (:label selected-element-edit)]]])}]]]]))
+
+                                         [edit-form]
+                                         ]])}]]]]))

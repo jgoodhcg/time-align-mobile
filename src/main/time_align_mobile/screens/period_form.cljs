@@ -93,7 +93,7 @@
                    :margin-bottom  4}}
      (changeable-field {:changes   changes
                         :field-key field-key} [view])
-     [view {:style {:flex-direction "column"}}
+     [view {:style {:flex-direction "row"}}
       [time-comp-buttons period-form changes modal field-key label time]]]))
 
 (defn compact [params]
@@ -104,7 +104,9 @@
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
 
-    [view
+    [view {:style {:flex            1
+                   :width           "100%"
+                   :justify-content "center"}}
 
      [bucket-parent-picker-comp {:form       period-form
                                  :changes    changes
@@ -123,7 +125,7 @@
      [duration-comp (:start @period-form) (:stop @period-form)]
 
      [view {:style {:flex-direction  "row"
-                    :padding          8
+                    :padding         8
                     :margin-top      16
                     :width           "100%"
                     :align-self      "center"
