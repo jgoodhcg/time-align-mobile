@@ -5,7 +5,7 @@
     [reagent.core :as r :refer [atom]]
     [re-frame.core :refer [subscribe dispatch dispatch-sync]]
     [shadow.expo :as expo]
-    [time-align-mobile.components.day :refer [bottom-sheet-ref]]
+    [time-align-mobile.components.day :refer [bottom-sheet-ref snap-bottom-sheet]]
     [time-align-mobile.handlers]
     [time-align-mobile.helpers :refer [deep-merge]]
     [time-align-mobile.subs]
@@ -127,12 +127,7 @@
           {:menu      (r/as-element [drawer-list])
            :on-change #(do
                          (println bottom-sheet-ref)
-                         (when (and
-                                (some? bottom-sheet-ref)
-                                (.hasOwnProperty bottom-sheet-ref "current")
-                                (some? (.-current bottom-sheet-ref))
-                                (.hasOwnProperty (.-current bottom-sheet-ref) "snapTo"))
-                           (-> bottom-sheet-ref (.-current) (.snapTo 0)))
+                         (snap-bottom-sheet bottom-sheet-ref 0)
                          (dispatch [:select-element-edit {:element-type :period :bucket-id nil :period-id nil}])
                          (dispatch [:select-element-edit {:element-type :template :bucket-id nil :period-id nil}]))}
 

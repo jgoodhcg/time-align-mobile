@@ -52,6 +52,14 @@
 
 (def bottom-sheet-ref (.createRef react))
 
+(defn snap-bottom-sheet [bottom-sheet-ref snap]
+  (when (and
+         (some? bottom-sheet-ref)
+         (.hasOwnProperty bottom-sheet-ref "current")
+         (some? (.-current bottom-sheet-ref))
+         (.hasOwnProperty (.-current bottom-sheet-ref) "snapTo"))
+    (-> bottom-sheet-ref (.-current) (.snapTo snap))))
+
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
                                       element-type
@@ -98,7 +106,7 @@
                                              (not something-else-selected))
                :wait-for                double-tap-ref
                :on-handler-state-change #(if (= :active (get-state %))
-                                           (do (-> bottom-sheet-ref (.-current) (.snapTo 1))
+                                           (do (snap-bottom-sheet bottom-sheet-ref 1)
                                                (dispatch
                                                 [:select-element-edit
                                                  {:element-type element-type
@@ -336,13 +344,12 @@
                                          [rect-button
                                           {:on-press
                                            (fn [_]
-                                             ;; TODO turn this into a safe function call
-                                             (-> bottom-sheet-ref (.-current) (.snapTo 0))
+                                             (snap-bottom-sheet bottom-sheet-ref 1)
                                              (dispatch [:select-element-edit {:element-type element-type
                                                                               :bucket-id    nil
                                                                               :element-id   nil}]))}
                                           [text "close"]]
 
                                          [edit-form {:delete-callback
-                                                     (fn [_] (-> bottom-sheet-ref (.-current) (.snapTo 0)))}]
-                                         ]])}]]]]))
+                                                     (fn [_]
+                                                       (snap-bottom-sheet bottom-sheet-ref 0))}]]])}]]]]))
