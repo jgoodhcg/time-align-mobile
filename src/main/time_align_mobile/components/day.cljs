@@ -179,7 +179,7 @@
                   :border-left-width  0.5
                   :border-right-width 0.25}}
 
-    (->> @elements
+    (->> elements
          :planned
          (map #(render-collision-group
                 {:pixel-to-minute-ratio pixel-to-minute-ratio
@@ -198,7 +198,7 @@
                   :border-color       (-> styles/theme :colors :disabled)
                   :border-left-width  0.25
                   :border-right-width 0.5}}
-    (->> @elements
+    (->> elements
          :actual
          (map #(render-collision-group
                 {:pixel-to-minute-ratio pixel-to-minute-ratio

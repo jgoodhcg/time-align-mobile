@@ -455,6 +455,15 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
      CLOCK: [2019-09-14 Sat 18:10]--[2019-09-14 Sat 18:52] =>  0:42
      :END:
 **** TODO Get pattern planning view working
+     :LOGBOOK:
+     CLOCK: [2019-09-15 Sun 17:16]--[2019-09-15 Sun 19:05] =>  1:49
+     CLOCK: [2019-09-15 Sun 14:55]--[2019-09-15 Sun 15:00] =>  0:05
+     :END:
+- [X] Fix top level template form
+- [X] Get pattern planning to render
+- [X] Get template edit select working
+- [ ] Get template movement select working
+- [ ] Get compact form loading
 **** TODO Add now indicator for periods
 **** TODO Add FAB
 **** DONE Add Dynamic text color to elements

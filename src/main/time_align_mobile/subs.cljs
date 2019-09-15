@@ -5,6 +5,8 @@
                                                period-path-sub-bucket
                                                period-path-no-bucket-id
                                                periods-path
+                                               template-path-no-pattern-id
+                                               template-path-pattern-form
                                                bucket-path
                                                buckets-path]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
@@ -120,9 +122,8 @@
             ;; data needs to be coerced to compare to form
             new-data           (helpers/print-data (:data template))
             bucket             (select-one
-                                [:buckets sp/ALL
-                                 #(= (:id %) (:bucket-id template-form))]
-                                           db)
+                                (bucket-path {:bucket-id (:bucket-id template-form)})
+                                db)
             altered-template   (merge template {:data          new-data
                                                 :pattern-id    (:id pattern)
                                                 :pattern-label (:label pattern)
@@ -150,9 +151,8 @@
             ;; data needs to be coerced to compare to form
             new-data           (helpers/print-data (:data template))
             bucket             (select-one
-                                [:buckets sp/ALL
-                                 #(= (:id %) (:bucket-id template-form))]
-                                           db)
+                                (bucket-path {:bucket-id (:bucket-id template-form)})
+                                db)
             altered-template   (merge template {:data          new-data
                                                 :pattern-id    (:id pattern)
                                                 :pattern-label (:label pattern)
@@ -175,9 +175,9 @@
               (merge template {:pattern-id    (:id pattern)
                                :pattern-label (:label pattern)})))
        (map (fn [template]
-              (let [bucket (select-one [:buckets
-                                        sp/ALL
-                                        #(= (:id %) (:bucket-id template))] db)]
+              (let [bucket (select-one
+                            (bucket-path {:bucket-id (:bucket-id template)})
+                            db)]
                 (merge template
                        {:bucket-label (:label bucket)
                         :color        (:color bucket)}))))))
@@ -258,24 +258,32 @@
 
 (defn get-selection-template-movement [db _]
   (let [{:keys [template-id bucket-id]} (get-in db [:selection :template :movement])
-        [bucket selected-template ]   (select-one [:buckets sp/ALL
-                                                   (sp/collect-one (sp/submap [:id :color :label]))
-                                                   :templates sp/ALL
-                                                   #(= (:id %) template-id)] db)]
+        bucket                          (select-one
+                                         (bucket-path {:bucket-id bucket-id})
+                                         db)
+        [pattern selected-template]     (select-one
+                                         (template-path-pattern-form {:template-id template-id})
+                                         db)]
     (if (some? template-id)
       (merge selected-template {:bucket-id    (:id bucket)
+                                :pattern-id   (:id pattern)
                                 :bucket-label (:label bucket)
                                 :color        (:color bucket)})
       nil)))
 
 (defn get-selection-template-edit [db _]
   (let [{:keys [template-id bucket-id]} (get-in db [:selection :template :edit])
-        [bucket selected-template ]   (select-one [:buckets sp/ALL
-                                                   (sp/collect-one (sp/submap [:id :color :label]))
-                                                   :templates sp/ALL
-                                                   #(= (:id %) template-id)] db)]
+        bucket                          (select-one
+                                         (bucket-path {:bucket-id bucket-id})
+                                         db)
+        [pattern selected-template]     (select-one
+                                         (template-path-pattern-form {:template-id template-id})
+                                         db)]
+    (println {:template-id template-id
+              :bucket-id bucket-id})
     (if (some? template-id)
       (merge selected-template {:bucket-id    (:id bucket)
+                                :pattern-id   (:id pattern)
                                 :bucket-label (:label bucket)
                                 :color        (:color bucket)})
       nil)))
@@ -344,16 +352,17 @@
                        :templates
                        (map (fn [template]
                               (let [bucket (select-one
-                                            [:buckets sp/ALL
-                                             #(= (:id %)
-                                                 (:bucket-id template))]
+                                            (bucket-path
+                                             {:bucket-id (:bucket-id template)})
                                             db)]
                                 (merge template
                                        {:bucket-color (:color bucket)
                                         :bucket-label (:label bucket)
                                         :color        (:color bucket)})))))})))
        ((fn [pattern-form]
-          (merge pattern-form {:selected-template-id (get-in db [:selected-template])})))))
+          ;; TODO signal graph would fix this right up
+          (merge pattern-form {:selected-template-id-edit     (get-in db [:selected :template :edit])
+                               :selected-template-id-movement (get-in db [:selected :template :movement])})))))
 
 (defn get-pattern-form-changes [db _]
   (let [pattern-form (get-in db [:forms :pattern-form])]

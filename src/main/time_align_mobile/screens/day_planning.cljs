@@ -223,7 +223,7 @@
                      :displayed-day               @displayed-day
                      :selected-element-edit       @selected-period-edit
                      :element-type                :period
-                     :elements                    periods
+                     :elements                    @periods
                      :element-transform-functions period-transform-functions
                      :move-element                move-period
                      :edit-form                   compact}]]))

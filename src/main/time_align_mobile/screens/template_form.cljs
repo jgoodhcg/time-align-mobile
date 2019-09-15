@@ -78,7 +78,7 @@
 
 (defn compact []
   (let [pattern-form          (subscribe [:get-pattern-form])
-        selected-id           (:selected-template-id @pattern-form)
+        selected-id           (:selected-template-id-edit @pattern-form)
         template-form         (atom (select-one
                                      [:templates sp/ALL
                                       #(= (:id %) selected-id)]
@@ -93,13 +93,6 @@
         patterns              (subscribe [:get-patterns])]
 
     [view
-     [bucket-parent-picker-comp
-      {:form       template-form
-       :changes    template-form-changes
-       :buckets    buckets
-       :update-key :update-template-on-pattern-planning-form
-       :compact    true}]
-
      [label-comp template-form template-form-changes :update-template-on-pattern-planning-form]
 
      ;; start

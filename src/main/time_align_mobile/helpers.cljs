@@ -302,3 +302,13 @@
    (buckets-path)
    [(sp/collect-one (sp/submap [:id :color :label])) :periods sp/MAP-VALS]))
 
+(defn template-path-no-pattern-id [{:keys [template-id]}]
+  [:patterns sp/ALL
+   (sp/collect-one (sp/submap [:id]))
+   :templates sp/ALL
+   #(= (:id %) template-id)])
+
+(defn template-path-pattern-form [{:keys [template-id]}]
+  [:forms :pattern-form (sp/collect-one (sp/submap [:id]))
+   :templates sp/ALL
+   #(= (:id %) template-id)])

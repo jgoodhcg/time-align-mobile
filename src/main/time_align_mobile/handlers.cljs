@@ -14,7 +14,8 @@
                                                    period-path-sub-bucket
                                                    period-path-insert
                                                    period-path-no-bucket-id
-                                                   period-path]]
+                                                   period-path
+                                                   template-path-no-pattern-id]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
 
 (def navigation-history (atom []))
@@ -252,8 +253,9 @@
                             [:patterns sp/ALL
                              (sp/collect-one (sp/submap [:id]))
                              :templates sp/ALL #(= (:id %) template-id)] db)
-        bucket             (select-one [:buckets sp/ALL
-                                        #(= (:bucket-id template) (:id %))] db)
+        bucket             (select-one
+                            (bucket-path {:bucket-id (:bucket-id template)})
+                            db)
         external-data      {:pattern-id   (:id pattern)
                             :bucket-id    (:id bucket)
                             :bucket-color (:color bucket)
@@ -273,8 +275,9 @@
                              :templates
                              sp/ALL #( = (:id %) template-id)]
                             db)
-        bucket             (select-one [:buckets sp/ALL
-                                        #(= (:bucket-id template) (:id %))] db)
+        bucket             (select-one
+                            (bucket-path {:bucket-id (:bucket-id template)})
+                            db)
         external-data      {:pattern-id   (:id pattern)
                             :bucket-id    (:id bucket)
                             :bucket-color (:color bucket)
@@ -289,14 +292,11 @@
 (defn update-template-form [db [_ template-form]]
   (let [template-form-with-labels
         (->> template-form
-
              ((fn [template-form]
                 ;; add bucket label + color if needed
                 (if (contains? template-form :bucket-id)
                   (let [bucket (select-one
-                                [:buckets
-                                 sp/ALL
-                                 #(= (:id %) (:bucket-id template-form))]
+                                (bucket-path {:bucket-id (:bucket-id template-form)})
                                 db)]
                     (merge
                      template-form
@@ -664,7 +664,7 @@
    {:db (assoc-in db [:selection :template :edit] {:template-id template-id
                                                    :bucket-id bucket-id})}
    (when (some? template-id)
-     {:dispatch [:load-template-form template-id]})))
+     {:dispatch [:load-template-form-from-pattern-planning template-id]})))
 
 (defn update-period [{:keys [db]} [_ {:keys [period-id bucket-id update-map]}]]
   ;; TODO add an interceptor? for last edited
@@ -900,22 +900,22 @@
 (defn set-default-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :default] ratio db))
 
-(defn select-element-movement [context [dispatch-key {:keys [element-type element-id bucket-id]}]]
+(defn select-element-movement [context [dispatch-key {:keys [element-type element-id bucket-id pattern-id]}]]
   (case element-type
     ;; :select-period-movement << for searching usage of that dispatch key
     :period   (select-period-movement context [dispatch-key {:period-id element-id
-                                                         :bucket-id bucket-id}])
+                                                             :bucket-id bucket-id}])
     ;; :select-template-movement << for searching usage of that dispatch key
-    :template (select-template-movement context [dispatch-key {:period-id element-id
-                                                           :bucket-id bucket-id}])))
+    :template (select-template-movement context [dispatch-key {:template-id element-id
+                                                               :bucket-id   bucket-id}])))
 
-(defn select-element-edit [context [dispatch-key {:keys [element-type element-id bucket-id]}]]
+(defn select-element-edit [context [dispatch-key {:keys [element-type element-id bucket-id pattern-id]}]]
   (case element-type
     ;; :select-period-edit << for searching usage of that dispatch key
     :period   (select-period-edit context [dispatch-key {:period-id element-id
                                                          :bucket-id bucket-id}])
     ;; :select-template-edit << for searching usage of that dispatch key
-    :template (select-template-edit context [dispatch-key {:period-id element-id
+    :template (select-template-edit context [dispatch-key {:template-id element-id
                                                            :bucket-id bucket-id}])))
 
 (reg-event-db :initialize-db [validate-spec] initialize-db)

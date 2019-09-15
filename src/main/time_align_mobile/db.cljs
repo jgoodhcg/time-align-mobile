@@ -169,7 +169,7 @@
   "non gen/generate version"
   [num-periods]
   {:id          (random-uuid)
-   :label       ""
+   :label       "Generated bucket"
    :created     (js/Date.)
    :last-edited (js/Date.)
    :data        {}
@@ -301,20 +301,7 @@
                         :created     now
                         :last-edited now
                         :data        {}
-                        :templates   [{:id                                                    (uuid "bb9b9881-38d4-4d4f-ab19-a7cef18c6647")
-                                       :bucket-id                                             default-bucket-id
-                                       :label                                                 "do something in time align"
-                                       :created                                               now
-                                       :last-edited                                           now
-                                       :data                                                  {}
-                                       :start                                                 (-> 12.5 ;; hours from start of day
-                                                                                                  (* 60) ;; minutes
-                                                                                                  (* 60) ;; seconds
-                                                                                                  (* 1000)) ;; millis
-                                       :stop                                                  (-> 14
-                                                                                                  (* 60)
-                                                                                                  (* 60)
-                                                                                                  (* 1000))}]}]
+                        :templates   []}]
    :active-filter     nil
    :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
                         :label       "sort by bucket label"
