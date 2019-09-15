@@ -52,12 +52,16 @@
 (def app-state (oget ReactNative "AppState"))
 (def pan-responder (oget ReactNative "PanResponder"))
 (def Animated (oget ReactNative "Animated"))
+
 (def animated-xy (oget Animated "ValueXY"))
 (def animated-view (r/adapt-react-class (oget Animated "View")))
 ;; </>
 
 (def status-bar (r/adapt-react-class (oget ReactNative "StatusBar")))
 (def dimensions (oget ReactNative "Dimensions"))
+(defn get-device-width [] (-> dimensions
+                              (ocall "get" "window")
+                              (oget "width")))
 (def text (r/adapt-react-class (oget ReactNative "Text")))
 (def view (r/adapt-react-class (oget ReactNative "View")))
 (def scroll-view (r/adapt-react-class (oget ReactNative "ScrollView")))

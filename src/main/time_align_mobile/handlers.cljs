@@ -459,21 +459,31 @@
    :dispatch [:navigate-to {:current-screen :pattern ;; this will trigger loading
                             :params         {:pattern-id id}}]})
 
-(defn add-new-period [{:keys [db]} [_ {:keys [bucket-id id now]}]]
-  {:db (setval (period-path-insert {:bucket-id bucket-id
-                                    :period-id id})
-               {:id id
-                :created now
-                :last-edited now
-                :label ""
-                :data {}
-                :planned true
-                :start now
-                :stop (new js/Date (+ (.valueOf now) (* 1000 60)))}
-               db)
-   :dispatch [:navigate-to {:current-screen :period
-                            :params {:period-id id
-                                     :bucket-id bucket-id}}]})
+(defn add-new-period
+  "Difference between this and add-period is that this creates a blank period from just an id and a timestamp"
+  [{:keys [db]} [_ {:keys [bucket-id id now]}]]
+
+  (let [random-bucket-id (->> db
+                              (select-one (buckets-path))
+                              first
+                              (:id))
+        bucket-id (if (some? bucket-id)
+                    bucket-id
+                    random-bucket-id)]
+    {:db (setval (period-path-insert {:bucket-id bucket-id
+                                      :period-id id})
+                 {:id id
+                  :created now
+                  :last-edited now
+                  :label ""
+                  :data {}
+                  :planned true
+                  :start now
+                  :stop (new js/Date (+ (.valueOf now) (* 1000 60)))}
+                 db)
+     :dispatch [:navigate-to {:current-screen :period
+                              :params {:period-id id
+                                       :bucket-id bucket-id}}]}))
 
 ;; (defn add-template-period [{:keys [db]} [_ {:keys [template id now]}]]
 ;;   ;; template needs bucket-id
@@ -667,14 +677,18 @@
      {:dispatch [:load-period-form {:period-id period-id
                                     :bucket-id bucket-id}]})))
 
-(defn add-period [db [_ {:keys [period bucket-id]}]]
+(defn add-period
+  "Difference between this and add-new-period is that this takes a full period (like from a template)"
+  [db [_ {:keys [period bucket-id]}]]
   (let [random-bucket-id (->> db
-                              (select-one (buckets-path))
-                              first
+                              (select (buckets-path))
+                              (first)
                               (:id))
         bucket-id (if (some? bucket-id)
                     bucket-id
                     random-bucket-id)]
+    (println {:r random-bucket-id
+              :i bucket-id})
     (->> db
          (setval (period-path-insert {:bucket-id bucket-id
                                       :period-id (:id period)})

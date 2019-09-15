@@ -7,8 +7,15 @@
             [reagent.core :as r :refer [atom]]
             ["react" :as react]))
 
-(defn buttons [{:keys [changed save-changes cancel-changes delete-item compact]}]
+(defn buttons [{:keys [changed save-changes cancel-changes delete-item compact edit-item]}]
   [:<>
+   (when (some? edit-item)
+     [button-paper
+      {:icon    "edit"
+       :mode    "text"
+       :compact compact
+       :on-press edit-item}])
+
    [button-paper
     (merge {:icon     "save"
             :mode     (if compact "text" "outlined")
@@ -45,5 +52,6 @@
              :save-changes   save-changes
              :cancel-changes cancel-changes
              :delete-item    delete-item
+             :edit-item      nil
              :compact        false})])
 

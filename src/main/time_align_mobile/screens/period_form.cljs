@@ -5,6 +5,7 @@
             [time-align-mobile.js-imports :refer [view
                                                   keyboard-aware-scroll-view
                                                   text
+                                                  text-paper
                                                   surface
                                                   subheading
                                                   button-paper
@@ -106,15 +107,14 @@
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
 
-    [view {:style {:flex            1
-                   :width           "100%"
-                   :justify-content "center"}}
-
-     [bucket-parent-picker-comp {:form       period-form
-                                 :changes    changes
-                                 :buckets    buckets
-                                 :update-key :update-period-form
-                                 :compact    true}]
+    [view {:style {:flex             1
+                   :width            "100%"
+                   :flex-direction   "column"
+                   :justify-content  "space-between"
+                   :align-items      "flex-start"
+                   :padding-top      8
+                   :border-top-width 8
+                   :border-color     (:bucket-color @period-form)}}
 
      [label-comp period-form changes :update-period-form true]
 
@@ -146,6 +146,9 @@
                                                       :bucket-id (:bucket-id @period-form)}])
                            (when (and (some? delete-callback))
                              (delete-callback)))
+        :edit-item      #(dispatch [:navigate-to {:current-screen :period
+                                                  :params         {:period-id (:id @period-form)
+                                                                   :bucket-id (:bucket-id @period-form)}}])
         :compact        true}]]]))
 
 (defn root [params]

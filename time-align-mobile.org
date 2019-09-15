@@ -1,9 +1,11 @@
 #+TODO: TODO DOSUB | DONE CANCELED 
 #+PROPERTY: Effort_ALL 0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00
 #+COLUMNS: %40ITEM(Task) %10Confidence(Confidence){mean} %17Effort(Estimated Effort){:} %CLOCKSUM
+#+STARTUP: overview
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-09-15 Sun 11:20]--[2019-09-15 Sun 11:29] =>  0:09
   CLOCK: [2019-09-06 Fri 22:29]--[2019-09-06 Fri 22:36] =>  0:07
   CLOCK: [2019-08-11 Sun 19:08]--[2019-08-11 Sun 19:17] =>  0:09
   CLOCK: [2019-08-10 Sat 12:51]--[2019-08-10 Sat 13:11] =>  0:20
@@ -217,7 +219,8 @@
   - [X] Make selection indicator look better
   - [X] Remove println
   - [X] Fix document picker
-**** TODO Optimize performance
+**** DONE Optimize performance
+     CLOSED: [2019-09-15 Sun 11:28]
      :LOGBOOK:
      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:15] =>  0:02
      CLOCK: [2019-09-04 Wed 15:10]--[2019-09-04 Wed 15:14] =>  0:04
@@ -236,7 +239,8 @@ It doesn't seem to break down into anything recognizable as a cljs function.
       CLOCK: [2019-09-04 Wed 16:15]--[2019-09-04 Wed 16:27] =>  0:12
       :END:
 https://github.com/ptaoussanis/tufte
-***** TODO Optimize Other areas
+***** DONE Optimize Other areas
+      CLOSED: [2019-09-15 Sun 11:28]
       :LOGBOOK:
       CLOCK: [2019-09-04 Wed 19:06]--[2019-09-04 Wed 19:13] =>  0:07
       CLOCK: [2019-09-04 Wed 16:27]--[2019-09-04 Wed 16:56] =>  0:29
@@ -254,7 +258,8 @@ https://github.com/ptaoussanis/tufte
        :END:
 https://www.martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
 https://medium.com/@alehatsman/clojurescript-throttle-debounce-a651dfb66ac
-****** TODO Optimize re-frame
+****** DONE Optimize re-frame
+       CLOSED: [2019-09-15 Sun 11:28]
        :LOGBOOK:
        CLOCK: [2019-09-06 Fri 17:58]--[2019-09-06 Fri 18:04] =>  0:06
        CLOCK: [2019-09-05 Thu 00:00]--[2019-09-05 Thu 00:16] =>  0:16
@@ -381,13 +386,15 @@ Fix it crossing the boundaries of the component with some ~min~ wrappers.
 - [X] Add bucket 
 - [X] Delete bucket 
 - [X] Delete period 
-******* TODO Refactor subscriptions 
+******* CANCELED Refactor subscriptions 
+        CLOSED: [2019-09-15 Sun 11:27]
 - [ ] Subs use signal graph pattern
 - [ ] Subs Hold all the logic (very thin hiccup only views)
 - [ ] Subscribe calls are as deep as they can go in view components
 - [ ] Listen function is utilized
 
-****** TODO Circumnavigate reframe events
+****** CANCELED Circumnavigate reframe events
+       CLOSED: [2019-09-15 Sun 11:26]
        :LOGBOOK:
        CLOCK: [2019-09-06 Fri 17:44]--[2019-09-06 Fri 17:56] =>  0:12
        :END:
@@ -398,7 +405,7 @@ Then the selected element comp will not be displayed and the actual period will 
 **** CANCELED Stretch mode
      CLOSED: [2019-09-04 Wed 16:56]
 **** DONE Add bottom sheet for period editing and selection
-CLOSED: [2019-09-14 Sat 18:08]
+     CLOSED: [2019-09-14 Sat 18:08]
      :LOGBOOK:
      CLOCK: [2019-09-14 Sat 17:58]--[2019-09-14 Sat 18:08] =>  0:10
      CLOCK: [2019-09-14 Sat 17:33]--[2019-09-14 Sat 17:45] =>  0:12
@@ -440,8 +447,16 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Create safe fn for bottom sheet collapse
 - [X] Add the edit form
 - [X] Fix delete actions on elements
+**** DONE Add double tap on screen to add period
+     CLOSED: [2019-09-15 Sun 14:44]
+     :LOGBOOK:
+     CLOCK: [2019-09-15 Sun 13:57]--[2019-09-15 Sun 14:44] =>  0:47
+     CLOCK: [2019-09-15 Sun 12:25]--[2019-09-15 Sun 12:30] =>  0:05
+     CLOCK: [2019-09-14 Sat 18:10]--[2019-09-14 Sat 18:52] =>  0:42
+     :END:
+**** TODO Get pattern planning view working
+**** TODO Add now indicator for periods
 **** TODO Add FAB
-**** TODO Add long press on screen to add period
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
      :LOGBOOK:
@@ -572,3 +587,5 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - [[https://stackoverflow.com/questions/46680890/react-native-how-to-scroll-a-scrollview-to-a-given-location-after-navigation-f][better scrolling]]
 - [[https://docs.expo.io/versions/v33.0.0/react-native/performance/][Optimize performance]]
 - Use [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]] when an element is selected for edit
+- Transform buttons' icon shows arrows in relation to an element (box)
+- Refactor subscriptions to use signal graph pattern

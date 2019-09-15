@@ -232,6 +232,23 @@
    (obj/getValueByKeys
     native-event #js["nativeEvent" "velocityY"])})
 
+(defn get-gesture-handler-xs [native-event]
+  {:x
+   (obj/getValueByKeys
+    native-event #js["nativeEvent" "x"])
+
+   :absolute
+   (obj/getValueByKeys
+    native-event #js["nativeEvent" "absoluteX"])
+
+   :translation
+   (obj/getValueByKeys
+    native-event #js["nativeEvent" "translationX"])
+
+   :velocity
+   (obj/getValueByKeys
+    native-event #js["nativeEvent" "velocityX"])})
+
 (defn get-gesture-handler-scale [native-event]
   (obj/getValueByKeys native-event #js["nativeEvent" "scale"]))
 
