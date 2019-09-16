@@ -119,7 +119,13 @@
                   :label         "Stop"}]]
 
 
-     [duration-comp (:start @template-form) (:stop @template-form)]
+     [duration-comp
+      (-> @template-form
+          :start
+          (helpers/reset-relative-ms (js/Date.)))
+      (-> @template-form
+          :stop
+          (helpers/reset-relative-ms (js/Date.)))]
 
      [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
                     :padding         8
