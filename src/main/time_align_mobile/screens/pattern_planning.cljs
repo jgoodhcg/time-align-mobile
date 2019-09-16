@@ -28,6 +28,7 @@
    [subheading label]
    [button-paper {:icon     "save"
                   :mode     "outlined"
+                  :on-press #(dispatch [:save-pattern-form (new js/Date)])
                   :disabled no-changes}
     "Save"]])
 

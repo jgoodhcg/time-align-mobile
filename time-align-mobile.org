@@ -456,6 +456,7 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
      :END:
 **** TODO Get pattern planning view working
      :LOGBOOK:
+     CLOCK: [2019-09-16 Mon 16:26]--[2019-09-16 Mon 16:29] =>  0:03
      CLOCK: [2019-09-16 Mon 16:19]--[2019-09-16 Mon 16:22] =>  0:03
      CLOCK: [2019-09-16 Mon 15:39]--[2019-09-16 Mon 15:58] =>  0:19
      CLOCK: [2019-09-16 Mon 15:04]--[2019-09-16 Mon 15:32] =>  0:28
@@ -469,8 +470,9 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Add edit item button
 - [X] Get compact form buttons working
 - [X] Get duration comp working
-- [ ] Get top level save working
-- [ ] Get template movement select working
+- [X] Get top level save working
+- [ ] Get template movement working
+- [ ] Implement transform functions for buttons
 **** TODO Add now indicator for periods
 **** TODO Add FAB
 **** DONE Add Dynamic text color to elements
