@@ -78,34 +78,32 @@
 
 (defn compact []
   (let [pattern-form          (subscribe [:get-pattern-form])
-        selected-id           (:selected-template-id-edit @pattern-form)
-        template-form         (atom (select-one
-                                     [:templates sp/ALL
-                                      #(= (:id %) selected-id)]
-                                     @pattern-form))
-        pattern-form-changes  (subscribe [:get-pattern-form-changes])
-        template-form-changes (atom (when-let [t (select-one
-                                                  [:templates sp/ALL
-                                                   #(= (:id %) selected-id)]
-                                                  @pattern-form-changes)]
-                                      t {}))
+        template-form         (subscribe [:get-template-form])
+        template-form-changes (subscribe [:get-template-form-changes-from-pattern-planning])
         buckets               (subscribe [:get-buckets])
         patterns              (subscribe [:get-patterns])]
 
-    [view
-     [label-comp template-form template-form-changes :update-template-on-pattern-planning-form]
+    [view {:style {:flex             1
+                   :width            "100%"
+                   :flex-direction   "column"
+                   :justify-content  "space-between"
+                   :align-items      "flex-start"
+                   :padding-top      8
+                   :border-top-width 8
+                   :border-color     (:bucket-color @template-form)}}
+     [label-comp template-form template-form-changes :update-template-form]
 
      ;; start
      [time-comp {:template-form template-form
                  :changes       template-form-changes
-                 :update-key    :update-template-on-pattern-planning-form
+                 :update-key    :update-template-form
                  :modal         start-modal-visible
                  :field-key     :start
                  :label         "Start"}]
      ;; stop
      [time-comp {:template-form template-form
                  :changes       template-form-changes
-                 :update-key    :update-template-on-pattern-planning-form
+                 :update-key    :update-template-form
                  :modal         stop-modal-visible
                  :field-key     :stop
                  :label         "Stop"}]
@@ -123,7 +121,7 @@
 
       [form-buttons/buttons
        {:compact        true
-        :changed        false ;; TODO maybe just remove these buttons
+        :changed        (> (count @template-form-changes) 0)
         :save-changes   #(str "noop")
         :cancel-changes #(str "noop")
         :delete-item    #(dispatch [:delete-template-from-pattern-planning

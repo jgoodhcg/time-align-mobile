@@ -279,9 +279,7 @@
         [pattern selected-template]     (select-one
                                          (template-path-pattern-form {:template-id template-id})
                                          db)]
-    (println {:template-id template-id
-              :bucket-id bucket-id})
-    (if (some? template-id)
+     (if (some? template-id)
       (merge selected-template {:bucket-id    (:id bucket)
                                 :pattern-id   (:id pattern)
                                 :bucket-label (:label bucket)

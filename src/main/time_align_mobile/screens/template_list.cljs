@@ -48,6 +48,7 @@
                      :padding 10}}
        [text "Select a pattern to add the template to"]
        [flat-list {:data @patterns
+                   :key-extractor (fn [x] (-> x (js->clj) (get "id") (str)))
                    :render-item
                    (fn [i]
                      (let [item (:item (js->clj i :keywordize-keys true))]

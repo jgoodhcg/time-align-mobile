@@ -3,6 +3,9 @@
                                                   text
                                                   mi
                                                   button-paper
+                                                  surface
+                                                  subheading
+                                                  text-paper
                                                   mci
                                                   status-bar
                                                   touchable-highlight]]
@@ -17,19 +20,20 @@
             [time-align-mobile.screens.template-form :refer [compact]]
             [reagent.core :as r]))
 
-(defn top-bar []
-  [view
-   {:style (merge
-            ;; testing styles
-            {:border-width 8
-             :border-color "red"}
-            ;; actual styles
-            {})}
-
-   [text {:style {:height 60}} "Pattern planning top bar"]])
+(defn top-bar [{:keys [label no-changes]}]
+  [surface {:flex-direction  "column"
+            :justify-content "center"
+            :align-items     "center"
+            :padding         8}
+   [subheading label]
+   [button-paper {:icon     "save"
+                  :mode     "outlined"
+                  :disabled no-changes}
+    "Save"]])
 
 (defn root [params]
   (let [pattern-form           (subscribe [:get-pattern-form])
+        pattern-form-changes   (subscribe [:get-pattern-form-changes])
         buckets                (subscribe [:get-buckets]) ;; this is just for selecting a random bucket for new template long press
         changes                (subscribe [:get-pattern-form-changes])
         selected-template      (subscribe [:get-selection-template-movement])
@@ -37,9 +41,11 @@
         top-bar-height         styles/top-bar-height
         dimensions             (r/atom {:width nil :height nil})]
 
+    (println @pattern-form-changes)
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
-     [top-bar]
+     [top-bar {:label (:label @pattern-form)
+               :no-changes (empty? @pattern-form-changes)}]
      [day-comp/root
       {:selected-element      @selected-template
        :selected-element-edit @selected-template-edit
