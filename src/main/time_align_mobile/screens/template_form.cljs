@@ -76,37 +76,47 @@
                        [subheading {:style label-style} label])
      [time-comp-buttons time-as-date modal template-form update-key field-key]]))
 
-(defn compact []
+(defn compact [{:keys [save-callback delete-callback]}]
   (let [pattern-form          (subscribe [:get-pattern-form])
         template-form         (subscribe [:get-template-form])
         template-form-changes (subscribe [:get-template-form-changes-from-pattern-planning])
         buckets               (subscribe [:get-buckets])
         patterns              (subscribe [:get-patterns])]
 
-    [view {:style {:flex             1
-                   :width            "100%"
-                   :flex-direction   "column"
-                   :justify-content  "space-between"
-                   :align-items      "flex-start"
-                   :padding-top      8
-                   :border-top-width 8
-                   :border-color     (:bucket-color @template-form)}}
+    [view {:style {:flex            1
+                   :width           "100%"
+                   :flex-direction  "column"
+                   :justify-content "space-between"
+                   :align-items     "flex-start"
+                   :padding-top     8}}
+
      [label-comp template-form template-form-changes :update-template-form]
 
-     ;; start
-     [time-comp {:template-form template-form
-                 :changes       template-form-changes
-                 :update-key    :update-template-form
-                 :modal         start-modal-visible
-                 :field-key     :start
-                 :label         "Start"}]
-     ;; stop
-     [time-comp {:template-form template-form
-                 :changes       template-form-changes
-                 :update-key    :update-template-form
-                 :modal         stop-modal-visible
-                 :field-key     :stop
-                 :label         "Stop"}]
+     [view {:style {:width "100%"
+                    :justify-content "center"}}
+      [bucket-parent-picker-comp
+       {:form       template-form
+        :changes    template-form-changes
+        :buckets    buckets
+        :update-key :update-template-form
+        :compact    false}]]
+
+
+     [view {:style {:flex-direction "row"}}
+      ;; start
+      [time-comp {:template-form template-form
+                  :changes       template-form-changes
+                  :update-key    :update-template-form
+                  :modal         start-modal-visible
+                  :field-key     :start
+                  :label         "Start"}]
+      ;; stop
+      [time-comp {:template-form template-form
+                  :changes       template-form-changes
+                  :update-key    :update-template-form
+                  :modal         stop-modal-visible
+                  :field-key     :stop
+                  :label         "Stop"}]]
 
 
      [duration-comp (:start @template-form) (:stop @template-form)]
@@ -122,10 +132,21 @@
       [form-buttons/buttons
        {:compact        true
         :changed        (> (count @template-form-changes) 0)
-        :save-changes   #(str "noop")
-        :cancel-changes #(str "noop")
-        :delete-item    #(dispatch [:delete-template-from-pattern-planning
-                                    (:id @template-form)])}]]]))
+        :edit-item      #(dispatch [:navigate-to {:current-screen :template
+                                                  :params         {:template-id (:id @template-form)}}])
+        :save-changes   #(do
+                           (dispatch [:update-template-on-pattern-planning-form
+                                        ;; TODO figure out something else if data is ever needed here
+                                      (dissoc @template-form :data)])
+                           (when (and (some? save-callback))
+                             (save-callback)))
+        :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
+                                    (:id @template-form)])
+        :delete-item    #(do
+                           (dispatch [:delete-template-from-pattern-planning
+                                      (:id @template-form)])
+                           (when (and (some? delete-callback))
+                             (delete-callback)))}]]]))
 
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])

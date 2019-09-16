@@ -456,6 +456,7 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
      :END:
 **** TODO Get pattern planning view working
      :LOGBOOK:
+     CLOCK: [2019-09-16 Mon 15:39]--[2019-09-16 Mon 15:58] =>  0:19
      CLOCK: [2019-09-16 Mon 15:04]--[2019-09-16 Mon 15:32] =>  0:28
      CLOCK: [2019-09-16 Mon 11:30]--[2019-09-16 Mon 13:22] =>  1:52
      CLOCK: [2019-09-15 Sun 17:16]--[2019-09-15 Sun 19:05] =>  1:49
@@ -464,8 +465,10 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Fix top level template form
 - [X] Get pattern planning to render
 - [X] Get template edit select working
-- [ ] Get compact form buttons working
-- [ ] Add edit item button
+- [X] Add edit item button
+- [X] Get compact form buttons working
+- [ ] Get duration comp working
+- [ ] Get top level save working
 - [ ] Get template movement select working
 **** TODO Add now indicator for periods
 **** TODO Add FAB

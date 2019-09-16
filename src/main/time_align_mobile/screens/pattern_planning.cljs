@@ -41,7 +41,6 @@
         top-bar-height         styles/top-bar-height
         dimensions             (r/atom {:width nil :height nil})]
 
-    (println @pattern-form-changes)
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
      [top-bar {:label (:label @pattern-form)
