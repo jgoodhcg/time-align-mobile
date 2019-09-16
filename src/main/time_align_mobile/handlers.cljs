@@ -853,12 +853,16 @@
                         ;; put the periods in the bucket
                         (into old-period-list periods-to-add)))))))
 
-(defn update-template-on-pattern-planning-form [db [_ update-map]]
+(defn update-template-on-pattern-planning-form
+  ":id needs to be in update map"
+  ;; TODO update pramams to take template id separately
+  [db [_ update-map]]
   (let [id (:id update-map)]
     (->> db
          (transform
           [:forms :pattern-form :templates sp/ALL #(= (:id %) id)]
           (fn [template] (merge template update-map))))))
+
 
 (defn make-pattern-from-day [db [_ {:keys [date planned now]}]]
   (let [periods       (select [:buckets sp/ALL

@@ -26,6 +26,7 @@
                                                               created-comp
                                                               last-edited-comp
                                                               duration-comp
+                                                              planned-comp
                                                               label-comp
                                                               label-style
                                                               pattern-parent-picker-comp
@@ -182,6 +183,8 @@
        :compact    false}]
 
      [label-comp template-form changes :update-template-form]
+
+     [planned-comp template-form changes :update-template-form]
 
      ;; start
      [time-comp {:template-form template-form

@@ -54,14 +54,17 @@
   (* seconds 1000))
 
 (defn get-ms [date]
-  (let [hours   (.getHours date)
-        minutes (.getMinutes date)
-        seconds (.getSeconds date)
-        millis  (.getMilliseconds date)]
-    (+ (hours->ms hours)
-       (minutes->ms minutes)
-       (sec->ms seconds)
-       millis)))
+  (if (inst? date)
+    (let [hours   (.getHours date)
+          minutes (.getMinutes date)
+          seconds (.getSeconds date)
+          millis  (.getMilliseconds date)]
+      (+ (hours->ms hours)
+         (minutes->ms minutes)
+         (sec->ms seconds)
+         millis))
+    ;; TODO maybe throw an error if not a number?
+    date))
 
 (defn ms->hhmm [ms]
   (let [hours   (-> ms

@@ -13,7 +13,7 @@
             [time-align-mobile.styles :as styles]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-            [time-align-mobile.helpers :as helpers :refer [xor]]
+            [time-align-mobile.helpers :as helpers :refer [xor dispatch-debounced]]
             [re-frame.core :refer [subscribe dispatch dispatch-sync]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [time-align-mobile.components.day :as day-comp]
@@ -32,6 +32,22 @@
                   :disabled no-changes}
     "Save"]])
 
+(defn move-template [{:keys [selected-element start-relative-min]}]
+  (let [new-start (-> start-relative-min
+                      (helpers/minutes->ms)
+                      (int))
+        duration  (- (-> selected-element
+                         :stop)
+                     (-> selected-element
+                         :start))
+        new-stop  (-> new-start
+                      (+ duration)
+                      (int))]
+    (dispatch-debounced [:update-template-on-pattern-planning-form
+                         {:id    (:id selected-element)
+                          :start new-start
+                          :stop  new-stop}])))
+
 (defn root [params]
   (let [pattern-form           (subscribe [:get-pattern-form])
         pattern-form-changes   (subscribe [:get-pattern-form-changes])
@@ -44,7 +60,7 @@
 
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
-     [top-bar {:label (:label @pattern-form)
+     [top-bar {:label      (:label @pattern-form)
                :no-changes (empty? @pattern-form-changes)}]
      [day-comp/root
       {:selected-element      @selected-template
@@ -53,9 +69,15 @@
        :displayed-day         (js/Date.)
        :element-type          :template
        :edit-form             compact
+       :move-element          move-template
        :elements
-       {:actual  []
+       {:actual  (->> @pattern-form
+                      :templates
+                      (remove :planned)
+                      (sort-by :start)
+                      (helpers/get-collision-groups))
         :planned (->> @pattern-form
                       :templates
+                      (filter :planned)
                       (sort-by :start)
                       (helpers/get-collision-groups))}}]]))

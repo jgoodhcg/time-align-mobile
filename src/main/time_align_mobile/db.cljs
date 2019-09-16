@@ -116,6 +116,7 @@
 (def template-data-spec {:id             uuid?
                          :bucket-id      uuid?
                          :label          string?
+                         :planned        boolean?
                          :created        ::moment
                          :last-edited    ::moment
                          :data           map?
