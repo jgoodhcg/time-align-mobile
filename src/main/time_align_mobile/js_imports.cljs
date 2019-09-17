@@ -51,10 +51,10 @@
 ;; TODO is this stuff used?
 (def app-state (oget ReactNative "AppState"))
 (def pan-responder (oget ReactNative "PanResponder"))
-(def Animated (oget ReactNative "Animated"))
-
-(def animated-xy (oget Animated "ValueXY"))
-(def animated-view (r/adapt-react-class (oget Animated "View")))
+(def animated (oget ReactNative "Animated"))
+(def animated-xy (oget animated "ValueXY"))
+(def animated-value (.-Value animated))
+(def animated-view (r/adapt-react-class (oget animated "View")))
 ;; </>
 
 (def status-bar (r/adapt-react-class (oget ReactNative "StatusBar")))
@@ -231,9 +231,22 @@
                      :end          (.-END gesture-handler-states)})
 
 (def side-menu (r/adapt-react-class SideMenu))
+
+(defn color->hex-string [color]
+  (-> color
+      (.hex)
+      (subs 2)
+      (#(str "#" %))))
+
 (defn color-light? [color-string]
   (-> color-string
       (color)
       (.isLight)))
+
+(defn lighten-color [color-string factor]
+  (-> color-string
+      (color)
+      (.lighten factor)
+      color->hex-string))
 
 (def bottom-sheet (r/adapt-react-class (.-default rbs)))
