@@ -478,7 +478,31 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Get template movement working
 - [X] Add planned field to templates
 - [X] Implement transform functions for buttons
-**** TODO Add now indicator for periods
+**** DONE Add now indicator for periods
+     CLOSED: [2019-09-17 Tue 15:52]
+     :LOGBOOK:
+     CLOCK: [2019-09-17 Tue 14:56]--[2019-09-17 Tue 15:52] =>  0:56
+     :END:
+What is the difference between these two reagent components?
+#+begin_src clojure
+  (def a-thing (r/atom 1))
+
+  (defn comp-one [params]
+    (let [something (:a params)
+          a-thing-er (+ 1 @a-thing)]
+      [view [text (str a-thing-er)]]))
+
+  (defn comp-two [params]
+    (let [something  (:a params)
+          a-thing-er (+ 1 @a-thing)]
+      (fn []  ;; <------ doesn't re-render when params change with this
+        [view [text (str a-thing-er)]])))
+
+  (defn main-comp []
+    [view
+     [comp-1 {:a "whatever"}]
+     [comp-2 {:a "whatever"}]])
+#+end_src
 **** TODO Fix selection indication 
 - borders in every state (same color for no selection)
 - style dotted (or dashed) for movement

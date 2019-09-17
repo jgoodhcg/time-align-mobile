@@ -53,6 +53,11 @@
 
 (def pan-offset (r/atom 0))
 
+(def now (r/atom (js/Date.)))
+
+;; start ticking
+(js/setInterval #(reset! now (js/Date.)) 1000)
+
 (def bottom-sheet-ref (.createRef react))
 
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
@@ -242,6 +247,44 @@
       [t-btn stop-earlier [mci-styled (icon-params "arrow-expand-up")]]
       [t-btn stop-later [mci-styled (icon-params "arrow-collapse-down")]]]]))
 
+(defn now-indicator [{:keys [displayed-day
+                             element-type
+                             pixel-to-minute-ratio]}]
+  (let [same-day    (helpers/same-day? displayed-day @now)
+        y-pos       (-> @now
+                        (helpers/get-ms)
+                        (helpers/ms->minutes)
+                        (* pixel-to-minute-ratio))
+        height      25
+        width       (-> height (* 2))
+        line-height 2]
+
+    (when (and same-day
+               (= :period element-type))
+      [view {:style {:flex     1
+                     :position "absolute"
+                     :top      (-> y-pos (- (-> height (/ 2))))
+                     :left     (-> 60 ;; left on periods
+                                   (- (-> width (/ 2))))
+                     :width    "100%"
+                     :height   height}}
+       [view {:style {:position     "absolute"
+                      :top          (-> height (/ 2)
+                                        (- (-> line-height
+                                               ;; idk why *2 ... it just looks right
+                                               (* 2))))
+                      :border-color (-> styles/theme :colors :primary)
+                      :border-width (-> line-height (/ 2))
+                      :width        "100%"
+                      :height       0}}]
+       [view {:style {:background-color (-> styles/theme :colors :primary)
+                      :border-radius    height
+                      :justify-content  "center"
+                      :align-items      "center"
+                      :width            width}}
+        [text-paper {:style {:color (-> styles/theme :colors :accent-light)}}
+         (format-time @now)]]])))
+
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
@@ -300,40 +343,41 @@
                               [:set-current-pixel-to-minute-ratio
                                (* pixel-to-minute-ratio scale)]))}
 
-       [tap-gesture-handler {:ref            double-tap-add-ref
-                             :number-of-taps 2
-                             :on-handler-state-change
-                             #(let [state (get-state %)]
-                                (if (= :active state)
-                                  (let [id      (random-uuid)
-                                        start   (-> %
-                                                    (get-ys)
-                                                    :y
-                                                    (/ pixel-to-minute-ratio)
-                                                    (helpers/minutes->ms)
-                                                    (helpers/reset-relative-ms displayed-day)
-                                                    (.valueOf))
-                                        stop    (+ start (helpers/minutes->ms 45))
-                                        now     (js/Date.)
-                                        x       (-> %
-                                                    (get-xs)
-                                                    :x)
-                                        planned (-> x
-                                                    (< (-> (get-device-width)
-                                                           (/ 2))))]
+       [tap-gesture-handler
+        {:ref            double-tap-add-ref
+         :number-of-taps 2
+         :on-handler-state-change
+         #(let [state (get-state %)]
+            (if (= :active state)
+              (let [id      (random-uuid)
+                    start   (-> %
+                                (get-ys)
+                                :y
+                                (/ pixel-to-minute-ratio)
+                                (helpers/minutes->ms)
+                                (helpers/reset-relative-ms displayed-day)
+                                (.valueOf))
+                    stop    (+ start (helpers/minutes->ms 45))
+                    now     (js/Date.)
+                    x       (-> %
+                                (get-xs)
+                                :x)
+                    planned (-> x
+                                (< (-> (get-device-width)
+                                       (/ 2))))]
 
-                                    (if (= element-type :period)
-                                      (do
-                                        (close-bottom-sheet bottom-sheet-ref element-type)
-                                        (dispatch [:add-period {:period    {:id          id
-                                                                            :start       (js/Date. start)
-                                                                            :stop        (js/Date. stop)
-                                                                            :planned     planned
-                                                                            :data        {}
-                                                                            :last-edited now
-                                                                            :created     now
-                                                                            :label       ""}
-                                                                :bucket-id nil}]))))))}
+                (if (= element-type :period)
+                  (do
+                    (close-bottom-sheet bottom-sheet-ref element-type)
+                    (dispatch [:add-period {:period    {:id          id
+                                                        :start       (js/Date. start)
+                                                        :stop        (js/Date. stop)
+                                                        :planned     planned
+                                                        :data        {}
+                                                        :last-edited now
+                                                        :created     now
+                                                        :label       ""}
+                                            :bucket-id nil}]))))))}
 
         [view
          {:style {:flex 1}}
@@ -385,7 +429,12 @@
                            :element-type          element-type
                            :in-play-element       in-play-element
                            :pixel-to-minute-ratio pixel-to-minute-ratio
-                           :displayed-day         displayed-day}]]]]]]
+                           :displayed-day         displayed-day}]]
+
+          ;; now indicator
+          [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
+                          :displayed-day         displayed-day
+                          :element-type          element-type}]]]]]
 
       ;; spacer for bottom sheet
       [view {:style {:height           500
