@@ -512,6 +512,27 @@ What is the difference between these two reagent components?
      :LOGBOOK:
      CLOCK: [2019-09-06 Fri 21:56]--[2019-09-06 Fri 22:28] =>  0:32
      :END:
+*** TODO Add Calendar integration
+    :PROPERTIES:
+    :Effort:   10:00
+    :Confidence: 60
+    :END:
+    :LOGBOOK:
+    CLOCK: [2019-09-17 Tue 18:34]--[2019-09-17 Tue 18:39] =>  0:05
+    :END:
+https://docs.expo.io/versions/latest/sdk/calendar/
+- [ ] Sync button to pull in calendars from system
+- [ ] Calendar list
+- [ ] Add import to bucket option
+- [ ] Enabled option on each calendar item
+- [ ] Auto add options under each enabled item
+  - [ ] Planned
+  - [ ] Actual
+- [ ] Calendar reference to templates
+- [ ] Calendar reference to periods
+- [ ] Calendars enabled and auto add options to each Bucket
+- [ ] Form components to link periods to calendar events
+- [ ] Form components to link templates to calendar events
 *** CANCELED Fix drawer bug
     CLOSED: [2019-09-10 Tue 19:16]
     :PROPERTIES:
