@@ -32,12 +32,9 @@
             ["react" :as react]
             [goog.string.format]
             [re-frame.core :refer [subscribe dispatch dispatch-sync]]
-            [time-align-mobile.helpers :as helpers :refer [dispatch-debounced]]
+            [time-align-mobile.helpers :as helpers :refer [dispatch-debounced short-time long-time]]
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
-
-(def long-time (* 1 60 60 1000))
-(def short-time (* 1 60 1000))
 
 (defn start-earlier
   ([selected-period]

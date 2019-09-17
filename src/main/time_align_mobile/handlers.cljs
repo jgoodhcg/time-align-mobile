@@ -863,7 +863,6 @@
           [:forms :pattern-form :templates sp/ALL #(= (:id %) id)]
           (fn [template] (merge template update-map))))))
 
-
 (defn make-pattern-from-day [db [_ {:keys [date planned now]}]]
   (let [periods       (select [:buckets sp/ALL
                                (sp/collect-one (sp/submap [:id :color :label]))

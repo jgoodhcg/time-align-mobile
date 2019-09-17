@@ -238,9 +238,9 @@
       [t-btn up [mi-styled (icon-params "arrow-upward")]]
       [t-btn down [mi-styled (icon-params "arrow-downward")]]
       [t-btn start-earlier [mci-styled (icon-params "arrow-collapse-up")]]
-      [t-btn start-later [mci-styled (icon-params "arrow-collapse-down")]]
+      [t-btn start-later [mci-styled (icon-params "arrow-expand-down")]]
       [t-btn stop-earlier [mci-styled (icon-params "arrow-expand-up")]]
-      [t-btn stop-later [mci-styled (icon-params "arrow-expand-down")]]]]))
+      [t-btn stop-later [mci-styled (icon-params "arrow-collapse-down")]]]]))
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"

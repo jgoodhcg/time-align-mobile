@@ -77,7 +77,9 @@
                        [subheading {:style label-style} label])
      [time-comp-buttons time-as-date modal template-form update-key field-key]]))
 
-(defn compact [{:keys [save-callback delete-callback]}]
+(defn compact
+  "This comp looks at the template form (like others) but saves to the *pattern form*"
+  [{:keys [save-callback delete-callback]}]
   (let [pattern-form          (subscribe [:get-pattern-form])
         template-form         (subscribe [:get-template-form])
         template-form-changes (subscribe [:get-template-form-changes-from-pattern-planning])
@@ -92,16 +94,6 @@
                    :padding-top     8}}
 
      [label-comp template-form template-form-changes :update-template-form]
-
-     [view {:style {:width "100%"
-                    :justify-content "center"}}
-      [bucket-parent-picker-comp
-       {:form       template-form
-        :changes    template-form-changes
-        :buckets    buckets
-        :update-key :update-template-form
-        :compact    false}]]
-
 
      [view {:style {:flex-direction "row"}}
       ;; start
@@ -119,7 +111,6 @@
                   :field-key     :stop
                   :label         "Stop"}]]
 
-
      [duration-comp
       (-> @template-form
           :start
@@ -127,6 +118,17 @@
       (-> @template-form
           :stop
           (helpers/reset-relative-ms (js/Date.)))]
+
+     [planned-comp template-form template-form-changes :update-template-form]
+
+     [view {:style {:width "100%"
+                    :justify-content "center"}}
+      [bucket-parent-picker-comp
+       {:form       template-form
+        :changes    template-form-changes
+        :buckets    buckets
+        :update-key :update-template-form
+        :compact    false}]]
 
      [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
                     :padding         8

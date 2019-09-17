@@ -454,8 +454,10 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
      CLOCK: [2019-09-15 Sun 12:25]--[2019-09-15 Sun 12:30] =>  0:05
      CLOCK: [2019-09-14 Sat 18:10]--[2019-09-14 Sat 18:52] =>  0:42
      :END:
-**** TODO Get pattern planning view working
+**** DONE Get pattern planning view working
+     CLOSED: [2019-09-17 Tue 13:55]
      :LOGBOOK:
+     CLOCK: [2019-09-17 Tue 13:36]--[2019-09-17 Tue 13:55] =>  0:19
      CLOCK: [2019-09-16 Mon 19:43]--[2019-09-16 Mon 20:51] =>  1:08
      CLOCK: [2019-09-16 Mon 18:59]--[2019-09-16 Mon 19:30] =>  0:31
      CLOCK: [2019-09-16 Mon 16:26]--[2019-09-16 Mon 16:29] =>  0:03
@@ -475,7 +477,7 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Get top level save working
 - [X] Get template movement working
 - [X] Add planned field to templates
-- [ ] Implement transform functions for buttons
+- [X] Implement transform functions for buttons
 **** TODO Add now indicator for periods
 **** TODO Fix selection indication 
 - borders in every state (same color for no selection)
@@ -604,7 +606,7 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
   - Edit on full form
 - DRY up spectre paths
 - Spec everything
-- Unit test every function
+- Unit test every function (or handlers, subs, helpers)
 - Accessibility
 - Energy meter
 - Advanced notifications with interaction
@@ -613,3 +615,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Use [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]] when an element is selected for edit
 - Transform buttons' icon shows arrows in relation to an element (box)
 - Refactor subscriptions to use signal graph pattern
+- Refactor views to be very thin (no operations)

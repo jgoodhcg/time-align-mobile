@@ -13,12 +13,109 @@
             [time-align-mobile.styles :as styles]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-            [time-align-mobile.helpers :as helpers :refer [xor dispatch-debounced]]
+            [time-align-mobile.helpers :as helpers :refer [xor dispatch-debounced short-time long-time]]
             [re-frame.core :refer [subscribe dispatch dispatch-sync]]
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [time-align-mobile.components.day :as day-comp]
             [time-align-mobile.screens.template-form :refer [compact]]
             [reagent.core :as r]))
+
+(defn start-earlier
+  ([selected-template]
+   (start-earlier selected-template false))
+  ([selected-template long]
+   (let [time (if long
+                long-time
+                (* 1 60 1000))]
+     (dispatch
+       [:update-template-on-pattern-planning-form
+        {:id (:id selected-template)
+         :start (-> selected-template
+                    (:start)
+                    (- time))}]))))
+
+(defn start-later
+  ([selected-template]
+   (start-later selected-template false))
+  ([selected-template long]
+   (let [time (if long
+                long-time
+                short-time)]
+     (dispatch
+      [:update-template-on-pattern-planning-form
+       {:id (:id selected-template)
+        :start (-> selected-template
+                   (:start)
+                   (+ time))}]))))
+
+(defn down
+  ([selected-template]
+   (down selected-template false))
+  ([selected-template long]
+   (let [time (if long
+                long-time
+                short-time)]
+     (dispatch
+      [:update-template-on-pattern-planning-form
+       {:id (:id selected-template)
+        :start (-> selected-template
+                   (:start)
+                   (+ time))
+        :stop  (-> selected-template
+                   (:stop)
+                   (+ time))}]))))
+
+(defn up
+  ([selected-template]
+   (up selected-template false))
+  ([selected-template long]
+   (let [time (if long
+                long-time
+                short-time)]
+     (dispatch
+      [:update-template-on-pattern-planning-form
+       {:id (:id selected-template)
+        :start (-> selected-template
+                   (:start)
+                   (- time))
+        :stop  (-> selected-template
+                   (:stop)
+                   (- time))}]))))
+
+(defn stop-later
+  ([selected-template]
+   (stop-later selected-template false))
+  ([selected-template long]
+   (let [time (if long
+                long-time
+                short-time)]
+     (dispatch
+      [:update-template-on-pattern-planning-form
+       {:id (:id selected-template)
+        :stop (-> selected-template
+                  (:stop)
+                  (+ time))}]))))
+
+(defn stop-earlier
+  ([selected-template]
+   (stop-earlier selected-template false))
+  ([selected-template long]
+   (let [time (if long
+                long-time
+                short-time)]
+     (dispatch
+      [:update-template-on-pattern-planning-form
+       {:id (:id selected-template)
+        :stop (-> selected-template
+                  (:stop)
+                  (- time))}]))))
+
+(def template-transform-functions {:up          up
+                                   :down          down
+                                   :start-earlier start-earlier
+                                   :start-later   start-later
+                                   :stop-earlier  stop-earlier
+                                   :stop-later    stop-later})
 
 (defn top-bar [{:keys [label no-changes]}]
   [surface {:flex-direction  "column"
@@ -63,13 +160,14 @@
      [top-bar {:label      (:label @pattern-form)
                :no-changes (empty? @pattern-form-changes)}]
      [day-comp/root
-      {:selected-element      @selected-template
-       :selected-element-edit @selected-template-edit
-       :in-play-element       nil
-       :displayed-day         (js/Date.)
-       :element-type          :template
-       :edit-form             compact
-       :move-element          move-template
+      {:selected-element            @selected-template
+       :selected-element-edit       @selected-template-edit
+       :in-play-element             nil
+       :displayed-day               (js/Date.)
+       :element-type                :template
+       :element-transform-functions template-transform-functions
+       :edit-form                   compact
+       :move-element                move-template
        :elements
        {:actual  (->> @pattern-form
                       :templates

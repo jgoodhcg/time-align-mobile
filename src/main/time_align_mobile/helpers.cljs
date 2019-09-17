@@ -315,3 +315,8 @@
   [:forms :pattern-form (sp/collect-one (sp/submap [:id]))
    :templates sp/ALL
    #(= (:id %) template-id)])
+
+(def long-time (* 1 60 60 1000))
+
+(def short-time (* 1 60 1000))
+
