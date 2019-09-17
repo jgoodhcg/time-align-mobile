@@ -474,7 +474,6 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Get duration comp working
 - [X] Get top level save working
 - [X] Get template movement working
-- [ ] Fix selection indicators
 - [ ] Add planned field to templates
 - [ ] Implement transform functions for buttons
 **** TODO Add now indicator for periods

@@ -12,9 +12,6 @@
                      pan-gesture-handler
                      pinch-gesture-handler
                      bottom-sheet
-                     animated
-                     animated-value
-                     animated-view
                      touchable-ripple
                      tap-gesture-handler
                      divider
@@ -58,25 +55,6 @@
 
 (def bottom-sheet-ref (.createRef react))
 
-(def selection-fade (new animated-value 0))
-
-(.setValue selection-fade 0.5)
-
-(.start
- (.loop animated
-        (.sequence animated
-                   #js [(.timing animated
-                             selection-fade
-                             {:toValue         1
-                              :duration        500
-                              :useNativeDriver true
-                              :delay           500})
-                        (.timing animated
-                             selection-fade
-                             {:toValue         0.5
-                              :duration        500
-                              :useNativeDriver true})])))
-
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
   (when (and
          (some? bottom-sheet-ref)
@@ -98,8 +76,6 @@
                                       selected-element-edit
                                       collision-group]}]
 
-  (println (.interpolate selection-fade #js {:inputRange  #js [0 1]
-                                             :outputRange #js [0 1]}))
   (->> collision-group
        (map-indexed
         (fn [index element]
@@ -138,10 +114,24 @@
                                     (when selected
                                       {:elevation 32})
                                     (when selected-edit
-                                      {:border-width 4.5
-                                       :border-color (-> styles/theme :colors :text)}))}
-             [animated-view
-              {:style
+                                      {:border-width  4.5
+                                       :border-color  (-> styles/theme :colors :text)}))}
+             [rect-button
+              {:enabled                 (and (not selected)
+                                             (not something-else-selected))
+               :wait-for                double-tap-ref
+               :on-handler-state-change #(if (= :active (get-state %))
+                                           (if (not selected-edit)
+                                             ;; select this element
+                                             (do (snap-bottom-sheet bottom-sheet-ref 1)
+                                                 (dispatch
+                                                  [:select-element-edit
+                                                   {:element-type element-type
+                                                    :bucket-id    (:bucket-id element)
+                                                    :element-id   (:id element)}]))
+                                             ;; deselect this element
+                                             (do (close-bottom-sheet bottom-sheet-ref element-type))))
+               :style
                (merge
                 {:height           "100%"
                  :width            "100%"
@@ -149,49 +139,27 @@
                  :padding          4
                  :background-color (:color element)}
                 (when something-else-selected
-                  {:opacity 0.5})
-                (when selected
-                  {:opacity (.interpolate selection-fade #js {:inputRange  #js [0 1]
-                                                              :outputRange #js [0 1]})}))}
+                  {:opacity 0.5}))}
 
-              [rect-button
-               {:enabled                 (and (not selected)
-                                              (not something-else-selected))
-                :wait-for                double-tap-ref
-                :on-handler-state-change #(if (= :active (get-state %))
-                                            (if (not selected-edit)
-                                              ;; select this element
-                                              (do (snap-bottom-sheet bottom-sheet-ref 1)
-                                                  (dispatch
-                                                   [:select-element-edit
-                                                    {:element-type element-type
-                                                     :bucket-id    (:bucket-id element)
-                                                     :element-id   (:id element)}]))
-                                              ;; deselect this element
-                                              (do (close-bottom-sheet bottom-sheet-ref element-type))))
-                :style
-                {:height "100%"
-                 :width  "100%"}}
+              [tap-gesture-handler
+               {:ref            double-tap-ref
+                :number-of-taps 2
 
-               [tap-gesture-handler
-                {:ref            double-tap-ref
-                 :number-of-taps 2
-
-                 :on-handler-state-change
-                 #(let [state (get-state %)]
-                    (if (= :active state)
-                      (do
-                        (close-bottom-sheet bottom-sheet-ref element-type)
-                        (dispatch [:select-element-movement
-                                   {:element-type element-type
-                                    :bucket-id    (:bucket-id element)
-                                    :element-id   (:id element)}]))))}
-                [view {:style {:width  "100%"
-                               :height "100%"}}
-                 [text-paper {:style {:color (if light
-                                               (-> styles/theme :colors :element-text-dark)
-                                               (-> styles/theme :colors :element-text-light))}}
-                  (:label element)]]]]]])))))
+                :on-handler-state-change
+                #(let [state (get-state %)]
+                   (if (= :active state)
+                     (do
+                       (close-bottom-sheet bottom-sheet-ref element-type)
+                       (dispatch [:select-element-movement
+                                  {:element-type element-type
+                                   :bucket-id    (:bucket-id element)
+                                   :element-id   (:id element)}]))))}
+               [view {:style {:width  "100%"
+                              :height "100%"}}
+                [text-paper {:style {:color (if light
+                                              (-> styles/theme :colors :element-text-dark)
+                                              (-> styles/theme :colors :element-text-light))}}
+                 (:label element)]]]]])))))
 
 (defn elements-comp [{:keys [elements
                              element-type
