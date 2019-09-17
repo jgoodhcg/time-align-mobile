@@ -474,9 +474,12 @@ https://github.com/osdnk/react-native-reanimated-bottom-sheet
 - [X] Get duration comp working
 - [X] Get top level save working
 - [X] Get template movement working
-- [ ] Add planned field to templates
+- [X] Add planned field to templates
 - [ ] Implement transform functions for buttons
 **** TODO Add now indicator for periods
+**** TODO Fix selection indication 
+- borders in every state (same color for no selection)
+- style dotted (or dashed) for movement
 **** TODO Add FAB
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
