@@ -293,6 +293,59 @@
         [text-paper {:style {:color (-> styles/theme :colors :accent-light)}}
          (format-time @now)]]])))
 
+(defn fab []
+  (let [action-style   {:background-color "white"
+                        :width            40
+                        :height           40
+                        :justify-content  "center"
+                        :align-items      "center"
+                        :border-radius    20}
+        action-element (fn [button-icon]
+                         (fn [x]
+                           (r/as-element
+                            [view {:key   (:key (js->clj x :keywordize-keys true))
+                                   :style action-style}
+                             button-icon])))
+        actions        (filter some? [{:render   (action-element [view {:style {:flex-direction "row"}}
+                                                                  [en {:name "plus"}]
+                                                                  [en {:name "air"}]])
+                                       :name     "generate-pattern"
+                                       :position 1}
+                                      {:render   (action-element [en {:name "air"}])
+                                       :name     "apply-pattern"
+                                       :position 2}
+                                      (when (some? @period-in-play)
+                                        {:render   (action-element [mi {:name "stop"}])
+                                         :name     "stop-playing"
+                                         :position 3})
+                                      {:render   (action-element [mi {:name "play-arrow"}])
+                                       :name     "play"
+                                       :position 4}
+                                      (when (some? @selected-period)
+                                        {:render   (action-element [mi {:name "play-circle-outline"}])
+                                         :name     "play-from"
+                                         :position 5})])]
+
+    [:> fab/FloatingAction
+     {:actions       (clj->js actions)
+      :color         (if (some? @period-in-play)
+                       (:color @period-in-play)
+                       (-> styles/theme :colors :primary))
+      :on-press-item (fn [action-name]
+                       (println action-name)
+                       (case action-name
+                         "generate-pattern" (dispatch [:make-pattern-from-day
+                                                       {:date    @displayed-day
+                                                        :now     (js/Date.)
+                                                        :planned false}])
+                         "apply-pattern"    (reset! pattern-modal-visible true)
+                         "stop-playing"     (dispatch [:stop-playing-period])
+                         "play"             (reset! play-modal-visible true)
+                         "play-from"        (dispatch [:play-from-period  {:id           (:id @selected-period)
+                                                                           :time-started (js/Date.)
+                                                                           :new-id       (random-uuid)}])
+                         :else              (println "nothing matched")))}]))
+
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
