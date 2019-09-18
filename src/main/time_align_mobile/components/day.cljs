@@ -6,6 +6,7 @@
                      fa
                      mci
                      mi
+                     alert
                      en
                      button-paper
                      scroll-view-gesture-handler
@@ -58,15 +59,18 @@
 ;; start ticking
 (js/setInterval #(reset! now (js/Date.)) 1000)
 
-(def bottom-sheet-ref (.createRef react))
+(def bottom-sheet-ref (r/atom nil))
 
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
-  (when (and
-         (some? bottom-sheet-ref)
-         (.hasOwnProperty bottom-sheet-ref "current")
-         (some? (.-current bottom-sheet-ref))
-         (.hasOwnProperty (.-current bottom-sheet-ref) "snapTo"))
-    (-> bottom-sheet-ref (.-current) (.snapTo snap))))
+  ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
+  (let [bsr @bottom-sheet-ref]
+    ;; bsr might not be set yet
+    (try
+      (ocall bsr "snapTo" snap)
+      (catch js/Error e
+        (do
+          ;; no op for any other screen
+          (println e))))))
 
 (defn close-bottom-sheet [bottom-sheet-ref element-type]
   (snap-bottom-sheet bottom-sheet-ref 0)
@@ -374,11 +378,6 @@
 
                 (if (= element-type :period)
                   (do
-                    (println (str "m " movement-selected))
-                    (println (str "e " edit-selected))
-                    (println (not (or movement-selected
-                                      edit-selected)))
-                    (println "making a  new period")
                     (close-bottom-sheet bottom-sheet-ref element-type)
                     (dispatch [:add-period {:period    {:id          id
                                                         :start       (js/Date. start)
@@ -452,7 +451,8 @@
                      :background-color (-> styles/theme :colors :background)}}]
 
       [portal
-       [bottom-sheet {:ref           bottom-sheet-ref
+       [bottom-sheet {:ref           (fn [com]
+                                       (reset! bottom-sheet-ref com))
                       :snap-points   [0 100 450]
                       :initial-snap  (if (some? selected-element-edit)
                                        1

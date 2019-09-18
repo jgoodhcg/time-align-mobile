@@ -511,6 +511,12 @@ What is the difference between these two reagent components?
      :END:
 - borders in every state (same color for no selection)
 - style dotted (or dashed) for movement
+**** DONE Figure out why bottom-sheet-ref doesn't work when released
+     CLOSED: [2019-09-17 Tue 22:02]
+     :LOGBOOK:
+     CLOCK: [2019-09-17 Tue 21:01]--[2019-09-17 Tue 22:02] =>  1:01
+     :END:
+This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
 **** TODO Add FAB
      :LOGBOOK:
      CLOCK: [2019-09-17 Tue 20:04]--[2019-09-17 Tue 20:25] =>  0:21
