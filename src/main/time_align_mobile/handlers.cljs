@@ -11,12 +11,15 @@
                                                    deep-merge
                                                    bucket-path
                                                    buckets-path
+                                                   combine-paths
+                                                   period-selections-path
                                                    period-path-sub-bucket
                                                    period-path-insert
                                                    period-path-no-bucket-id
                                                    period-path
+                                                   template-selections-path
                                                    template-path-no-pattern-id]]
-    [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]))
+    [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
 
 (def navigation-history (atom []))
 
@@ -673,7 +676,9 @@
                  (period-path {:bucket-id bucket-id
                                :period-id period-id})
                  #(merge % update-map)))}
-   (when (= (:selected-period db) period-id)
+   (when (selected-any? (combine-paths (period-selections-path)
+                                       [#(= % period-id)])
+                       db)
      {:dispatch [:load-period-form {:period-id period-id
                                     :bucket-id bucket-id}]})))
 
@@ -687,8 +692,6 @@
         bucket-id (if (some? bucket-id)
                     bucket-id
                     random-bucket-id)]
-    (println {:r random-bucket-id
-              :i bucket-id})
     (->> db
          (setval (period-path-insert {:bucket-id bucket-id
                                       :period-id (:id period)})
@@ -856,12 +859,18 @@
 (defn update-template-on-pattern-planning-form
   ":id needs to be in update map"
   ;; TODO update pramams to take template id separately
-  [db [_ update-map]]
+  [{:keys [db]} [_ update-map]]
   (let [id (:id update-map)]
-    (->> db
-         (transform
-          [:forms :pattern-form :templates sp/ALL #(= (:id %) id)]
-          (fn [template] (merge template update-map))))))
+    (merge
+     {:db  (->> db
+                (transform
+                 [:forms :pattern-form :templates sp/ALL #(= (:id %) id)]
+                 (fn [template] (merge template update-map))))}
+
+     (when (selected-any? (combine-paths (template-selections-path)
+                                         [#(= % id)])
+                          db)
+       {:dispatch [:load-template-form-from-pattern-planning id]}))))
 
 (defn make-pattern-from-day [db [_ {:keys [date planned now]}]]
   (let [periods       (select [:buckets sp/ALL
@@ -970,7 +979,7 @@
 (reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store] apply-pattern-to-displayed-day)
 (reg-event-db :import-app-db [validate-spec persist-secure-store] import-app-db)
 (reg-event-fx :navigate-back [validate-spec persist-secure-store] navigate-back)
-(reg-event-db :update-template-on-pattern-planning-form [validate-spec persist-secure-store]
+(reg-event-fx :update-template-on-pattern-planning-form [validate-spec persist-secure-store]
               update-template-on-pattern-planning-form)
 (reg-event-db :make-pattern-from-day [validate-spec persist-secure-store] make-pattern-from-day)
 (reg-event-db :set-current-pixel-to-minute-ratio [validate-spec persist-secure-store] set-current-pixel-to-minute-ratio)

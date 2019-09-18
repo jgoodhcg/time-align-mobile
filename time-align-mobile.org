@@ -503,7 +503,12 @@ What is the difference between these two reagent components?
      [comp-1 {:a "whatever"}]
      [comp-2 {:a "whatever"}]])
 #+end_src
-**** TODO Fix selection indication 
+**** DONE Fix selection indication 
+     CLOSED: [2019-09-17 Tue 20:01]
+     :LOGBOOK:
+     CLOCK: [2019-09-17 Tue 19:38]--[2019-09-17 Tue 19:53] =>  0:15
+     CLOCK: [2019-09-17 Tue 18:39]--[2019-09-17 Tue 19:10] =>  0:31
+     :END:
 - borders in every state (same color for no selection)
 - style dotted (or dashed) for movement
 **** TODO Add FAB
@@ -635,6 +640,13 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
     :Effort:   4:00
     :Confidence: 25
     :END:
+- Need to keep track of user activity
+- Also need to keep track of user state for bug reports
+- Also need error reporting
+*** TODO Bugs
+- Going back from template form doesn't close the bottom sheet
+- Closing the bottom sheet doesn't deselect
+
 ** Onboard other developers
 *** DONE Onboard Josh
     CLOSED: [2019-09-07 Sat 17:58]

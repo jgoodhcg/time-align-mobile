@@ -316,6 +316,12 @@
    :templates sp/ALL
    #(= (:id %) template-id)])
 
+(defn period-selections-path []
+  [:selection :period sp/MAP-VALS :period-id])
+
+(defn template-selections-path []
+  [:selection :template sp/MAP-VALS :template-id])
+
 (def long-time (* 1 60 60 1000))
 
 (def short-time (* 1 60 1000))

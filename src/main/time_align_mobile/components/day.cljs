@@ -108,19 +108,23 @@
                 width                   (str (max 4 (- 96 index-offset)) "%")]
 
             [surface {:key   (:id element)
-                      :style (merge {:position      "absolute"
-                                     :left          left
-                                     :width         width
-                                     :top           start-y-pos
-                                     :height        height
-                                     :elevation     (* 2 index)
-                                     :border-radius 8
-                                     :overflow      "hidden"}
+                      :style (merge {:position         "absolute"
+                                     :left             left
+                                     :width            width
+                                     :top              start-y-pos
+                                     :height           height
+                                     :elevation        (* 2 index)
+                                     :border-radius    8
+                                     :background-color (:color element)
+                                     :overflow         "hidden"}
                                     (when selected
-                                      {:elevation 32})
+                                      {:elevation    32
+                                       :border-width 4.5
+                                       :border-color (-> styles/theme :colors :text)
+                                       :border-style "dotted"})
                                     (when selected-edit
-                                      {:border-width  4.5
-                                       :border-color  (-> styles/theme :colors :text)}))}
+                                      {:border-color (-> styles/theme :colors :text)
+                                       :border-width 4.5}))}
              [rect-button
               {:enabled                 (and (not selected)
                                              (not something-else-selected))
@@ -141,8 +145,8 @@
                 {:height           "100%"
                  :width            "100%"
                  :overflow         "hidden"
-                 :padding          4
-                 :background-color (:color element)}
+                 :background-color (:color element)
+                 :padding          4}
                 (when something-else-selected
                   {:opacity 0.5}))}
 
@@ -300,6 +304,7 @@
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)
+        edit-selected         (some? selected-element-edit)
         pinch-ref             (.createRef react)
         double-tap-add-ref    (.createRef react)]
 
@@ -342,9 +347,10 @@
                              (dispatch-debounced
                               [:set-current-pixel-to-minute-ratio
                                (* pixel-to-minute-ratio scale)]))}
-
        [tap-gesture-handler
         {:ref            double-tap-add-ref
+         :enabled        (not (or movement-selected
+                                  edit-selected))
          :number-of-taps 2
          :on-handler-state-change
          #(let [state (get-state %)]
@@ -368,6 +374,11 @@
 
                 (if (= element-type :period)
                   (do
+                    (println (str "m " movement-selected))
+                    (println (str "e " edit-selected))
+                    (println (not (or movement-selected
+                                      edit-selected)))
+                    (println "making a  new period")
                     (close-bottom-sheet bottom-sheet-ref element-type)
                     (dispatch [:add-period {:period    {:id          id
                                                         :start       (js/Date. start)
@@ -442,7 +453,7 @@
 
       [portal
        [bottom-sheet {:ref           bottom-sheet-ref
-                      :snap-points   [0 50 450]
+                      :snap-points   [0 100 450]
                       :initial-snap  (if (some? selected-element-edit)
                                        1
                                        0)
