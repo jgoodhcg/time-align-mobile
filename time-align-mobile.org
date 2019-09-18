@@ -512,6 +512,15 @@ What is the difference between these two reagent components?
 - borders in every state (same color for no selection)
 - style dotted (or dashed) for movement
 **** TODO Add FAB
+     :LOGBOOK:
+     CLOCK: [2019-09-17 Tue 20:04]--[2019-09-17 Tue 20:25] =>  0:21
+     :END:
+- [ ] Remove play from button on FAB
+- [ ] Get FAB to render
+- [ ] Only render fab when no selections
+- [ ] Add /play from/ button to bottom sheet (only on periods)
+**** TODO Enable persistence
+**** TODO Stress test persistence
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
      :LOGBOOK:
@@ -673,3 +682,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Transform buttons' icon shows arrows in relation to an element (box)
 - Refactor subscriptions to use signal graph pattern
 - Refactor views to be very thin (no operations)
+- Use react-native-paper FAB.group
