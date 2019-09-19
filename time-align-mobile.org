@@ -519,10 +519,11 @@ What is the difference between these two reagent components?
 This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
 **** TODO Add FAB
      :LOGBOOK:
+     CLOCK: [2019-09-19 Thu 18:57]--[2019-09-19 Thu 19:53] =>  0:56
      CLOCK: [2019-09-17 Tue 20:04]--[2019-09-17 Tue 20:25] =>  0:21
      :END:
-- [ ] Remove play from button on FAB
-- [ ] Get FAB to render
+- [X] Remove play from button on FAB
+- [X] Get FAB to render
 - [ ] Only render fab when no selections
 - [ ] Add /play from/ button to bottom sheet (only on periods)
 **** TODO Enable persistence

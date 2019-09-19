@@ -80,7 +80,7 @@
                     (#(if (< % 10) ;; add leading 0
                         (str "0" %)
                         (str %))))]
-    (str hours ":" minutes)))
+    (str hours "-" minutes)))
 
 (defn rel-ms->y-pos [ms total-height]
   (-> ms

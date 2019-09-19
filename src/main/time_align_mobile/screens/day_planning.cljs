@@ -221,6 +221,9 @@
                      :selected-element-edit       @selected-period-edit
                      :element-type                :period
                      :elements                    @periods
+                     :patterns                    patterns
+                     :buckets                     buckets
+                     :templates                   templates
                      :element-transform-functions period-transform-functions
                      :move-element                move-period
                      :edit-form                   compact}]]))

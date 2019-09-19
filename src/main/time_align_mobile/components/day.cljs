@@ -5,6 +5,7 @@
                      text-paper
                      fa
                      mci
+                     modal
                      mi
                      alert
                      en
@@ -19,6 +20,8 @@
                      format-date
                      touchable-ripple
                      get-device-width
+                     flat-list
+                     scroll-view
                      portal
                      modal-paper
                      status-bar
@@ -33,6 +36,8 @@
                      touchable-highlight]]
             ["react-native-elements" :as rne]
             ["react" :as react]
+            ["react-native-floating-action" :as fab]
+            [time-align-mobile.components.list-items :as list-items]
             [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
             [time-align-mobile.screens.period-form :as period-form]
             [time-align-mobile.screens.template-form :as template-form]
@@ -55,6 +60,10 @@
 (def pan-offset (r/atom 0))
 
 (def now (r/atom (js/Date.)))
+
+(def play-modal-visible (r/atom false))
+
+(def pattern-modal-visible (r/atom false))
 
 ;; start ticking
 (js/setInterval #(reset! now (js/Date.)) 1000)
@@ -293,7 +302,69 @@
         [text-paper {:style {:color (-> styles/theme :colors :accent-light)}}
          (format-time @now)]]])))
 
-(defn fab []
+(defn play-modal-content [{:keys [templates
+                                  buckets]}]
+  [view {:style {:flex    1
+                         :padding 10}}
+           [touchable-highlight {:on-press #(reset! play-modal-visible false)}
+            [text "Cancel"]]
+           [scroll-view {:style {:height "50%"}}
+            [text "Select a bucket to make the period with"]
+            [flat-list {:data @buckets
+                        :render-item
+                        (fn [i]
+                          (let [item (:item (js->clj i :keywordize-keys true))]
+                            (r/as-element
+                             (list-items/bucket
+                              (merge
+                               item
+                               {:on-press
+                                (fn [_]
+                                  (reset! play-modal-visible false)
+                                  ;; passing dispatch the parent bucket id
+                                  ;; for the period about to be created
+                                  (dispatch [:play-from-bucket {:bucket-id (:id item)
+                                                                :id        (random-uuid)
+                                                                :now       (new js/Date)}]))})))))}]]])
+
+(defn pattern-modal-content [{:keys [patterns]}]
+  [view {:style {:flex    1
+                 :padding 10}}
+   [touchable-highlight {:on-press #(reset! pattern-modal-visible false)}
+            [text "Cancel"]]
+   [scroll-view {:style {:height "50%"}}
+    [text "Select a pattern to apply to today"]
+    [flat-list {:data          @patterns
+                :key-extractor (fn [x]
+                                 (-> x
+                                     (js->clj)
+                                     (get "id")
+                                     (str)))
+                :render-item
+                (fn [i]
+                  (let [pattern (:item (js->clj i :keywordize-keys true))]
+                    (r/as-element
+                     (list-items/pattern
+                      (merge
+                       pattern
+                       {:on-press
+                        (fn [_]
+                          (reset! pattern-modal-visible false)
+                          (let [new-periods
+                                (->> pattern
+                                     :templates
+                                     (map (fn [template]
+                                            (merge template
+                                                   {:id          (random-uuid)
+                                                    :planned     true
+                                                    :created     (js/Date.)
+                                                    :last-edited (js/Date.)}))))]
+
+                            (dispatch [:apply-pattern-to-displayed-day
+                                       {:pattern-id  (:id pattern)
+                                        :new-periods new-periods}])))})))))}]]])
+
+(defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
   (let [action-style   {:background-color "white"
                         :width            40
                         :height           40
@@ -314,22 +385,22 @@
                                       {:render   (action-element [en {:name "air"}])
                                        :name     "apply-pattern"
                                        :position 2}
-                                      (when (some? @period-in-play)
+                                      (when (some? in-play-element)
                                         {:render   (action-element [mi {:name "stop"}])
                                          :name     "stop-playing"
                                          :position 3})
                                       {:render   (action-element [mi {:name "play-arrow"}])
                                        :name     "play"
                                        :position 4}
-                                      (when (some? @selected-period)
+                                      (when (some? selected-element)
                                         {:render   (action-element [mi {:name "play-circle-outline"}])
                                          :name     "play-from"
                                          :position 5})])]
 
     [:> fab/FloatingAction
      {:actions       (clj->js actions)
-      :color         (if (some? @period-in-play)
-                       (:color @period-in-play)
+      :color         (if (some? in-play-element)
+                       (:color in-play-element)
                        (-> styles/theme :colors :primary))
       :on-press-item (fn [action-name]
                        (println action-name)
@@ -341,9 +412,6 @@
                          "apply-pattern"    (reset! pattern-modal-visible true)
                          "stop-playing"     (dispatch [:stop-playing-period])
                          "play"             (reset! play-modal-visible true)
-                         "play-from"        (dispatch [:play-from-period  {:id           (:id @selected-period)
-                                                                           :time-started (js/Date.)
-                                                                           :new-id       (random-uuid)}])
                          :else              (println "nothing matched")))}]))
 
 (defn root
@@ -353,8 +421,11 @@
            selected-element-edit
            in-play-element
            element-type
+           patterns
+           buckets
            element-transform-functions
            displayed-day
+           templates
            edit-form
            move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
@@ -396,7 +467,6 @@
        ;; My observation is that is somehow only stops child gesture events but not their  state changes.
        :wait-for       pinch-ref}
 
-
       [pinch-gesture-handler
        {:ref              pinch-ref
         :wait-for         double-tap-add-ref
@@ -404,6 +474,7 @@
                              (dispatch-debounced
                               [:set-current-pixel-to-minute-ratio
                                (* pixel-to-minute-ratio scale)]))}
+
        [tap-gesture-handler
         {:ref            double-tap-add-ref
          :enabled        (not (or movement-selected
@@ -498,6 +569,28 @@
           [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
                           :displayed-day         displayed-day
                           :element-type          element-type}]]]]]
+
+      [portal
+       [fab-comp {:displayed-day    displayed-day
+                  :in-play-element  in-play-element
+                  :selected-element selected-element}]]
+
+      ;; play modal
+      [modal {:animation-type   "slide"
+              :transparent      false
+              :on-request-close #(reset! play-modal-visible false)
+              :visible          @play-modal-visible}
+       [play-modal-content {:templates templates
+                            :buckets   buckets}]]
+
+      ;; pattern modal
+      [modal {:animation-type   "slide"
+              :transparent      false
+              :on-request-close #(reset! pattern-modal-visible false)
+              :visible          @pattern-modal-visible}
+       [pattern-modal-content {:patterns patterns}]]
+
+      
 
       ;; spacer for bottom sheet
       [view {:style {:height           500
