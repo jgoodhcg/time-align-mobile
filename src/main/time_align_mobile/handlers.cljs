@@ -17,6 +17,7 @@
                                                    period-path-insert
                                                    period-path-no-bucket-id
                                                    period-path
+                                                   periods-path
                                                    template-selections-path
                                                    template-path-no-pattern-id]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
@@ -873,30 +874,29 @@
                           db)
        {:dispatch [:load-template-form-from-pattern-planning id]}))))
 
-(defn make-pattern-from-day [db [_ {:keys [date planned now]}]]
-  (let [periods       (select [:buckets sp/ALL
-                               (sp/collect-one (sp/submap [:id :color :label]))
-                               :periods sp/ALL
-                               #(and (or (same-day? date (:start %))
-                                         (same-day? date (:stop %)))
-                                     (= (:planned %) planned))]
+(defn make-pattern-from-day [db [_ {:keys [date now]}]]
+  (let [periods       (select (combine-paths
+                               (periods-path)
+                               [#(and (or (same-day? date (:start %))
+                                          (same-day? date (:stop %))))])
                               db)
         new-templates (->> periods
-                           (map (fn [[bucket {:keys [label data start stop]}]]
+                           (map (fn [[bucket {:keys [label data start stop planned]}]]
                                   (let [start-rel (get-ms start)
-                                        stop-rel (get-ms stop)]
+                                        stop-rel  (get-ms stop)]
 
-                                    {:id          (random-uuid) ;; TODO this needs to not be here
+                                    {:id          (random-uuid) ;; TODO remove this to make function pure
                                      :bucket-id   (:id bucket)
                                      :label       label
                                      :created     now
+                                     :planned     planned
                                      :last-edited now
                                      :data        data
                                      :start       (if (> stop-rel start-rel) ;; this will catch the chance that start is relatively later than stop (is on the day before)
                                                     start-rel
                                                     (min (- stop-rel 1000) 0))
                                      :stop        stop-rel}))))
-        new-pattern {:id          (random-uuid) ;; TODO this needs to not be here
+        new-pattern {:id          (random-uuid) ;; TODO remove this to make function pure
                      :label       (str (format-date date) " generated pattern")
                      :created     now
                      :last-edited now

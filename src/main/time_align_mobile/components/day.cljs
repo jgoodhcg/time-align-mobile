@@ -405,9 +405,8 @@
                        (println action-name)
                        (case action-name
                          "generate-pattern" (dispatch [:make-pattern-from-day
-                                                       {:date    @displayed-day
-                                                        :now     (js/Date.)
-                                                        :planned false}])
+                                                       {:date displayed-day
+                                                        :now  (js/Date.)}])
                          "apply-pattern"    (reset! pattern-modal-visible true)
                          "stop-playing"     (dispatch [:stop-playing-period])
                          "play"             (reset! play-modal-visible true)

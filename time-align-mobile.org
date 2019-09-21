@@ -519,6 +519,8 @@ What is the difference between these two reagent components?
 This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
 **** TODO Add FAB
      :LOGBOOK:
+     CLOCK: [2019-09-21 Sat 16:41]--[2019-09-21 Sat 16:42] =>  0:01
+     CLOCK: [2019-09-21 Sat 16:31]--[2019-09-21 Sat 16:37] =>  0:06
      CLOCK: [2019-09-21 Sat 15:41]--[2019-09-21 Sat 15:43] =>  0:02
      CLOCK: [2019-09-21 Sat 14:35]--[2019-09-21 Sat 15:18] =>  0:43
      CLOCK: [2019-09-21 Sat 13:49]--[2019-09-21 Sat 14:23] =>  0:34
@@ -530,15 +532,15 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
 - [X] No play from button on FAB
 - [X] FAB to renders
 - [X] FAB only renders when no selections and day_planning
-- [-] Each button works
+- [X] Each button works
   - [X] Play button works
   - [X] Add pattern works
-  - [ ] 
-- [ ] Button either moves with drawer slide or dissapears
+  - [X] Generate pattern works
 - [ ] Bottom sheet has play from option
 - [ ] Bottom sheet has drawer up indicator
 **** TODO Enable persistence
 **** TODO Stress test persistence
+**** TODO Button either moves with drawer slide or disappears
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
      :LOGBOOK:
