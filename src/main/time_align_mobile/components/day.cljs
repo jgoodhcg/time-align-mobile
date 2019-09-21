@@ -356,7 +356,6 @@
                                      (map (fn [template]
                                             (merge template
                                                    {:id          (random-uuid)
-                                                    :planned     true
                                                     :created     (js/Date.)
                                                     :last-edited (js/Date.)}))))]
 

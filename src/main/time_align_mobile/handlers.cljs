@@ -836,24 +836,26 @@
 
     ;; put the periods in the buckets
     (->> db
-         (transform [:buckets sp/ALL
-                     ;; find the buckets that need to be transformed
-                     #(some? (some #{(:id %)} all-bucket-ids))
-                     (sp/collect-one (sp/submap [:id]))
-                     :periods]
+         (transform
+          [:buckets sp/MAP-VALS
+           #(some? (some #{(:id %)} all-bucket-ids))
+           (sp/collect-one (sp/submap [:id]))
+           :periods]
 
-                    (fn [bucket old-period-list]
-                      (let [periods-to-add
-                            (->> new-periods
-                                 ;; select periods for this bucket
-                                 (filter #(= (:bucket-id %) (:id bucket)))
-
-                                 ;; make the periods valid
-                                 (map #(pseudo-template->perfect-period
-                                        displayed-day %)))]
-
-                        ;; put the periods in the bucket
-                        (into old-period-list periods-to-add)))))))
+          (fn [bucket old-period-map]
+            (let [periods-to-add
+                  (->> new-periods
+                       ;; select periods for this bucket
+                       (filter #(= (:bucket-id %) (:id bucket)))
+                       ;; make the periods valid
+                       (map #(pseudo-template->perfect-period
+                              displayed-day %))
+                       ;; turn list into a map indexed by id
+                       ((fn [period-list]
+                          (apply merge (->> period-list
+                                            (map #(hash-map (:id %) %)))))))]
+              ;; put the periods in the bucket
+              (merge old-period-map periods-to-add)))))))
 
 (defn update-template-on-pattern-planning-form
   ":id needs to be in update map"
