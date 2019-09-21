@@ -433,6 +433,8 @@
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)
         edit-selected         (some? selected-element-edit)
+        nothing-selected      (and (not movement-selected)
+                                   (not edit-selected))
         pinch-ref             (.createRef react)
         double-tap-add-ref    (.createRef react)]
 
@@ -570,10 +572,13 @@
                           :displayed-day         displayed-day
                           :element-type          element-type}]]]]]
 
-      [portal
-       [fab-comp {:displayed-day    displayed-day
-                  :in-play-element  in-play-element
-                  :selected-element selected-element}]]
+      ;; fab
+      (when (and nothing-selected
+                 (= :period element-type))
+        [portal
+         [fab-comp {:displayed-day    displayed-day
+                    :in-play-element  in-play-element
+                    :selected-element selected-element}]])
 
       ;; play modal
       [modal {:animation-type   "slide"
@@ -589,8 +594,6 @@
               :on-request-close #(reset! pattern-modal-visible false)
               :visible          @pattern-modal-visible}
        [pattern-modal-content {:patterns patterns}]]
-
-      
 
       ;; spacer for bottom sheet
       [view {:style {:height           500
