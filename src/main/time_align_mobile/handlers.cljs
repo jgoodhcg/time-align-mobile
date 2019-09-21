@@ -745,7 +745,7 @@
 (defn stop-playing-period [db [_ _]]
   (assoc-in db [:period-in-play-id] nil))
 
-(defn play-from-bucket [db [_ {:keys [bucket-id id now]}]]
+(defn play-from-bucket [{:keys [db]} [_ {:keys [bucket-id id now]}]]
   (let [new-period {:id          id
                     :planned     false
                     :start       now
@@ -758,18 +758,17 @@
                     :label       ""
                     :data        {}}]
 
-    (->> db
-         ;; Add new period
-         (setval [:buckets sp/ALL
-                  #(= (:id %) bucket-id)
-                  :periods
-                  sp/NIL->VECTOR
-                  sp/AFTER-ELEM]
-                 new-period )
-         ;; Set it as playing
-         (setval [:period-in-play-id] id)
-         ;; Set it as selected
-         (setval [:selected-period] id))))
+    {:db
+     (->> db
+          ;; Add new period
+          (setval (period-path-insert {:bucket-id bucket-id
+                                       :period-id id})
+                  new-period )
+          ;; Set it as playing ;; TODO make a handler for this and dispatch it
+          (setval [:period-in-play-id] id))
+     ;; Set it as selected edit
+     :dispatch-n [[:select-period-edit {:bucket-id bucket-id
+                                        :period-id id}]]}))
 
 (defn play-from-template [db [_ {:keys [template id now]}]]
   (let [new-period (merge template
@@ -967,7 +966,7 @@
 (reg-event-db :tick [validate-spec persist-secure-store] tick)
 (reg-event-db :play-from-period [validate-spec persist-secure-store] play-from-period)
 (reg-event-db :stop-playing-period [validate-spec persist-secure-store] stop-playing-period)
-(reg-event-db :play-from-bucket [validate-spec persist-secure-store] play-from-bucket)
+(reg-event-fx :play-from-bucket [validate-spec persist-secure-store] play-from-bucket)
 (reg-event-db :play-from-template [validate-spec persist-secure-store] play-from-template)
 (reg-event-db :load-db [validate-spec] load-db)
 (reg-event-fx :share-app-db [validate-spec] share-app-db)

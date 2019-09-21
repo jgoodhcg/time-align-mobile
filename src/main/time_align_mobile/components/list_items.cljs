@@ -22,6 +22,12 @@
      [text {:style {:color "grey"}} "templates: " (count templates)]
      [text {:style {:color "grey"}} (str "id: " id)]]]])
 
+(defn bucket-key-extractor [x]
+  (-> x
+      (js->clj)
+      (get "id")
+      (str)))
+
 (defn pattern [{:keys [id label templates on-press]}]
   [touchable-highlight
    {:key      id

@@ -294,12 +294,12 @@
 
 (defn get-period-in-play [db _]
   (let [period-in-play-id       (get-in db [:period-in-play-id])
-        [bucket period-in-play] (select-one [:buckets sp/ALL
-                                             (sp/collect-one (sp/submap [:id :color :label]))
-                                             :periods sp/ALL
-                                             #(= (:id %) period-in-play-id)] db)]
+        [bucket period-in-play] (select-one
+                                 ;; TODO refactor period-in play schema to include bucket id
+                                 (period-path-no-bucket-id {:period-id period-in-play-id})
+                                 db)]
     (if (some? period-in-play-id)
-      (merge period-in-play {:bucket-id     (:id bucket)
+      (merge period-in-play {:bucket-id    (:id bucket)
                              :bucket-label (:label bucket)
                              :color        (:color bucket)})
       nil) ))

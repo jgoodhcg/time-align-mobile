@@ -519,6 +519,7 @@ What is the difference between these two reagent components?
 This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
 **** TODO Add FAB
      :LOGBOOK:
+     CLOCK: [2019-09-21 Sat 13:49]--[2019-09-21 Sat 14:23] =>  0:34
      CLOCK: [2019-09-21 Sat 13:35]--[2019-09-21 Sat 13:41] =>  0:06
      CLOCK: [2019-09-21 Sat 13:33]--[2019-09-21 Sat 13:35] =>  0:02
      CLOCK: [2019-09-19 Thu 18:57]--[2019-09-19 Thu 19:53] =>  0:56
@@ -528,6 +529,7 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
 - [X] FAB to renders
 - [X] FAB only renders when no selections and day_planning
 - [ ] Each button works
+  - [X] Play button works
 - [ ] Button either moves with drawer slide or dissapears
 - [ ] Bottom sheet has play from option
 - [ ] Bottom sheet has drawer up indicator

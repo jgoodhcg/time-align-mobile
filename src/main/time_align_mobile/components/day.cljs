@@ -311,6 +311,7 @@
            [scroll-view {:style {:height "50%"}}
             [text "Select a bucket to make the period with"]
             [flat-list {:data @buckets
+                        :key-extractor list-items/bucket-key-extractor
                         :render-item
                         (fn [i]
                           (let [item (:item (js->clj i :keywordize-keys true))]
@@ -321,11 +322,10 @@
                                {:on-press
                                 (fn [_]
                                   (reset! play-modal-visible false)
-                                  ;; passing dispatch the parent bucket id
-                                  ;; for the period about to be created
                                   (dispatch [:play-from-bucket {:bucket-id (:id item)
                                                                 :id        (random-uuid)
-                                                                :now       (new js/Date)}]))})))))}]]])
+                                                                :now       (new js/Date)}])
+                                  (snap-bottom-sheet bottom-sheet-ref 1))})))))}]]])
 
 (defn pattern-modal-content [{:keys [patterns]}]
   [view {:style {:flex    1

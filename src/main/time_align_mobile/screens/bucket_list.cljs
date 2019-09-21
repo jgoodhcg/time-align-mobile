@@ -21,11 +21,7 @@
      [text "Buckets"]
      [filter-picker :bucket]
      [flat-list {:data (filter-sort @buckets @active-filter)
-                 :key-extractor (fn [x]
-                                  (-> x
-                                      (js->clj)
-                                      (get "id")
-                                      (str)))
+                 :key-extractor list-items/bucket-key-extractor
                  :render-item
                  (fn [i]
                    (let [item (:item (js->clj i :keywordize-keys true))]
