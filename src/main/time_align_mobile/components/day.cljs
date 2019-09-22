@@ -66,7 +66,8 @@
 (def pattern-modal-visible (r/atom false))
 
 ;; start ticking
-(js/setInterval #(reset! now (js/Date.)) 1000)
+(js/setInterval #(do (reset! now (js/Date.))
+                     (dispatch-throttled [:tick (js/Date.)])) 1000)
 
 (def bottom-sheet-ref (r/atom nil))
 
@@ -621,6 +622,17 @@
                                          [transform-buttons
                                           {:transform-functions   element-transform-functions
                                            :selected-element-edit selected-element-edit}]
+
+                                         [button-paper {:color    (:color selected-element-edit)
+                                                        :mode     "contained"
+                                                        :icon     "play-circle-outline"
+                                                        :on-press (fn []
+                                                                    (dispatch
+                                                                     [:play-from-period
+                                                                      {:id           (:id selected-element-edit)
+                                                                       :time-started (js/Date.)
+                                                                       :new-id       (random-uuid)}]))}
+                                          "Play"]
 
                                          [edit-form {:save-callback
                                                      (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))

@@ -18,6 +18,7 @@
                                                    period-path-no-bucket-id
                                                    period-path
                                                    periods-path
+                                                   period-path-no-bucket-id-for-transform
                                                    template-selections-path
                                                    template-path-no-pattern-id]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
@@ -701,47 +702,56 @@
 (defn update-day-time-navigator [db [_ new-date]]
   (assoc-in db [:time-navigators :day] new-date))
 
-(defn tick [db [_ date-time]]
-  (let [period-in-play-id (get-in db [:period-in-play-id])]
+(defn tick [{:keys [db]} [_ date-time]]
+  (let [period-in-play-id       (get-in db [:period-in-play-id])
+        [bucket period-in-play] (->> db
+                                     (select-one
+                                      (period-path-no-bucket-id
+                                       {:period-id period-in-play-id})))
+        selected-period-id      (get-in db [:selection :period :edit :period-id])]
     ;; Update period in play if there is one
-    (-> (if (some? period-in-play-id)
-          (transform [:buckets sp/ALL
-                      :periods sp/ALL
-                      #(= (:id %) period-in-play-id)]
+    (merge
+     {:db
+      (-> (if (some? period-in-play-id)
+            (->> db
+                 (transform (period-path {:bucket-id (:id bucket)
+                                          :period-id period-in-play-id})
+                            #(merge % {:stop date-time})))
+            db)
 
-                     #(merge % {:stop date-time})
+          ;; update now regardless
+          (assoc-in [:now] date-time))}
 
-                     db)
-          db)
-        ;; update now regardless
-        (assoc-in [:now] date-time))))
+     ;; Decided not to do this since it would overwrite anything the user is editing
+     ;; (when (and (some? period-in-play)
+     ;;            (= selected-period-id period-in-play-id))
+     ;;   {:dispatch [:load-period-form period-in-play-id]})
+     )))
 
-(defn play-from-period [db [_ {:keys [id time-started new-id]}]]
-  (let [[bucket-just-id
-         period-to-play-from] (select-one [:buckets sp/ALL
-                                           (sp/collect-one (sp/submap [:id]))
-                                           :periods sp/ALL
-                                           #(= (:id %) id)] db)
+(defn play-from-period [{:keys [db]} [_ {:keys [id time-started new-id]}]]
+  (let [[bucket
+         period-to-play-from] (->> db
+                                   (select-one
+                                    (period-path-no-bucket-id {:period-id id})))
         new-period            (merge period-to-play-from
                                      {:id      new-id
                                       :planned false
                                       :start   time-started
                                       :stop    (->> time-started
                                                     (.valueOf)
-                                                    (+ 1000)
+                                                    (+ (helpers/minutes->ms 5))
                                                     (js/Date.))})]
-    (->> db
-         ;; Add new period
-         (setval [:buckets sp/ALL
-                  #(= (:id %) (:id bucket-just-id))
-                  :periods
-                  sp/NIL->VECTOR
-                  sp/AFTER-ELEM]
-                 new-period )
-         ;; Set it as playing
-         (setval [:period-in-play-id] new-id)
-         ;; Set it as selected
-         (setval [:selected-period] new-id))))
+    {:db
+     (->> db
+          ;; Add new period
+          (setval
+           (period-path-insert {:bucket-id (:id bucket)
+                                :period-id new-id})
+           new-period )
+          ;; Set it as playing
+          (setval [:period-in-play-id] new-id))
+     :dispatch [:select-period-edit {:bucket-id (:id bucket)
+                                     :period-id new-id}]}))
 
 (defn stop-playing-period [db [_ _]]
   (assoc-in db [:period-in-play-id] nil))
@@ -931,6 +941,64 @@
     :template (select-template-edit context [dispatch-key {:template-id element-id
                                                            :bucket-id bucket-id}])))
 
+(defn select-next-or-prev-period [db [_ direction]]
+  (if-let [selected-period-id (get-in db [:selected-period])]
+    (let [displayed-day (get-in db [:time-navigators :day])
+          selected-period (select-one [:buckets sp/ALL :periods sp/ALL
+                                       #(= selected-period-id (:id %))] db)
+          sorted-periods (->> db
+                              (select [:buckets sp/ALL :periods sp/ALL])
+                              ;; Next period needs to be on this displayed day
+                              (filter #(and (some? (:start %))
+                                            (some? (:stop %))
+                                            (or (same-day? (:start %) displayed-day)
+                                                (same-day? (:stop %) displayed-day))))
+                              ;; Next period needs to be visible on this track
+                              (filter #(= (:planned selected-period) (:planned %)))
+                              (sort-by #(.valueOf (:start %)))
+                              (#(if (= direction :prev)
+                                  (reverse %)
+                                  %)))
+          next-period    (->> sorted-periods
+                              ;; Since they are sorted, drop them until you get to
+                              ;; the current selected period.
+                              ;; Then take the next one.
+                              (drop-while #(not (= (:id %) selected-period-id)))
+                              (second))]
+      (if (some? next-period)
+        (assoc-in db [:selected-period] (:id next-period))
+        db))
+    db))
+
+(defn select-next-or-prev-template-in-form [{:keys [db]} [_ direction]] ;; TODO add pattern form to docs or name
+  (if-let [selected-template-id (get-in db [:selected-template])]
+    (let [[pattern selected-template]
+          (select-one [:forms :pattern-form
+                       (sp/collect-one (sp/submap [:id]))
+                       :templates sp/ALL
+                       #(= selected-template-id (:id %))] db)
+
+
+          sorted-templates (->> db
+                                (select [:forms :pattern-form
+                                         :templates sp/ALL])
+                              (sort-by :start)
+                              (#(if (= direction :prev)
+                                  (reverse %)
+                                  %)))
+          next-template    (->> sorted-templates
+                                ;; Since they are sorted,
+                                ;; drop them until you get to
+                                ;; the current selected period.
+                                ;; Then take the next one.
+                                (drop-while
+                                 #(not (= (:id %) selected-template-id)))
+                                (second))]
+      (merge {:db db}
+             (when (some? next-template)
+               {:dispatch [:select-template (:id next-template)]})))
+    {:db db})) ;; if nothings is selected then why is this handler called?
+
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
@@ -965,8 +1033,8 @@
 (reg-event-fx :update-period [validate-spec persist-secure-store] update-period)
 (reg-event-db :add-period [validate-spec persist-secure-store] add-period)
 (reg-event-db :update-day-time-navigator [validate-spec persist-secure-store] update-day-time-navigator)
-(reg-event-db :tick [validate-spec persist-secure-store] tick)
-(reg-event-db :play-from-period [validate-spec persist-secure-store] play-from-period)
+(reg-event-fx :tick [validate-spec persist-secure-store] tick)
+(reg-event-fx :play-from-period [validate-spec persist-secure-store] play-from-period)
 (reg-event-db :stop-playing-period [validate-spec persist-secure-store] stop-playing-period)
 (reg-event-fx :play-from-bucket [validate-spec persist-secure-store] play-from-bucket)
 (reg-event-db :play-from-template [validate-spec persist-secure-store] play-from-template)

@@ -519,6 +519,9 @@ What is the difference between these two reagent components?
 This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
 **** TODO Add FAB
      :LOGBOOK:
+     CLOCK: [2019-09-21 Sat 21:31]--[2019-09-21 Sat 22:27] =>  0:56
+     CLOCK: [2019-09-21 Sat 17:23]--[2019-09-21 Sat 17:23] =>  0:00
+     CLOCK: [2019-09-21 Sat 16:43]--[2019-09-21 Sat 16:47] =>  0:04
      CLOCK: [2019-09-21 Sat 16:41]--[2019-09-21 Sat 16:42] =>  0:01
      CLOCK: [2019-09-21 Sat 16:31]--[2019-09-21 Sat 16:37] =>  0:06
      CLOCK: [2019-09-21 Sat 15:41]--[2019-09-21 Sat 15:43] =>  0:02
@@ -536,8 +539,9 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
   - [X] Play button works
   - [X] Add pattern works
   - [X] Generate pattern works
-- [ ] Bottom sheet has play from option
+- [X] Bottom sheet has play from option
 - [ ] Bottom sheet has drawer up indicator
+- [ ] Bottom sheet has select next/prev
 **** TODO Enable persistence
 **** TODO Stress test persistence
 **** TODO Button either moves with drawer slide or disappears
