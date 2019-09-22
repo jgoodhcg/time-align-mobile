@@ -300,10 +300,6 @@
                  [(sp/collect-one (sp/submap [:id :color :label]))
                   :periods (sp/must period-id)]))
 
-(defn period-path-no-bucket-id-for-transform [{:keys [period-id]}]
-  (combine-paths (buckets-path)
-                 [:periods (sp/must period-id)]))
-
 (defn periods-path []
   (combine-paths
    (buckets-path)

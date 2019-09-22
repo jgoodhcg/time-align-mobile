@@ -623,16 +623,50 @@
                                           {:transform-functions   element-transform-functions
                                            :selected-element-edit selected-element-edit}]
 
-                                         [button-paper {:color    (:color selected-element-edit)
-                                                        :mode     "contained"
-                                                        :icon     "play-circle-outline"
-                                                        :on-press (fn []
-                                                                    (dispatch
-                                                                     [:play-from-period
-                                                                      {:id           (:id selected-element-edit)
-                                                                       :time-started (js/Date.)
-                                                                       :new-id       (random-uuid)}]))}
-                                          "Play"]
+                                         [view {:style {:flex-direction  "row"
+                                                        :justify-content "space-between"
+                                                        :padding         8
+                                                        :width           "100%"}}
+                                          [button-paper {:mode "outlined"
+                                                         :icon "keyboard-arrow-up"
+
+                                                         :on-press
+                                                         (fn []
+                                                           (case element-type
+                                                             :period
+                                                             (dispatch [:select-next-or-prev-period :prev])
+
+                                                             :template
+                                                             (dispatch [:select-next-or-prev-template :prev])
+
+                                                             nil))}
+                                           "previous"]
+
+                                          [button-paper {:color    (:color selected-element-edit)
+                                                         :mode     "contained"
+                                                         :icon     "play-circle-outline"
+                                                         :on-press (fn []
+                                                                     (dispatch
+                                                                      [:play-from-period
+                                                                       {:id           (:id selected-element-edit)
+                                                                        :time-started (js/Date.)
+                                                                        :new-id       (random-uuid)}]))}
+                                           "Play"]
+
+                                          [button-paper {:mode "outlined"
+                                                         :icon "keyboard-arrow-down"
+
+                                                         :on-press
+                                                         (fn []
+                                                           (case element-type
+                                                             :period
+                                                             (dispatch [:select-next-or-prev-period :next])
+
+                                                             :template
+                                                             (dispatch [:select-next-or-prev-template :next])
+
+                                                             nil))}
+                                           "next"]]
 
                                          [edit-form {:save-callback
                                                      (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))

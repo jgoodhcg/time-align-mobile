@@ -18,7 +18,6 @@
                                                    period-path-no-bucket-id
                                                    period-path
                                                    periods-path
-                                                   period-path-no-bucket-id-for-transform
                                                    template-selections-path
                                                    template-path-no-pattern-id]]
     [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
@@ -941,34 +940,41 @@
     :template (select-template-edit context [dispatch-key {:template-id element-id
                                                            :bucket-id bucket-id}])))
 
-(defn select-next-or-prev-period [db [_ direction]]
-  (if-let [selected-period-id (get-in db [:selected-period])]
-    (let [displayed-day (get-in db [:time-navigators :day])
-          selected-period (select-one [:buckets sp/ALL :periods sp/ALL
-                                       #(= selected-period-id (:id %))] db)
-          sorted-periods (->> db
-                              (select [:buckets sp/ALL :periods sp/ALL])
-                              ;; Next period needs to be on this displayed day
-                              (filter #(and (some? (:start %))
-                                            (some? (:stop %))
-                                            (or (same-day? (:start %) displayed-day)
-                                                (same-day? (:stop %) displayed-day))))
-                              ;; Next period needs to be visible on this track
-                              (filter #(= (:planned selected-period) (:planned %)))
-                              (sort-by #(.valueOf (:start %)))
-                              (#(if (= direction :prev)
-                                  (reverse %)
-                                  %)))
-          next-period    (->> sorted-periods
-                              ;; Since they are sorted, drop them until you get to
-                              ;; the current selected period.
-                              ;; Then take the next one.
-                              (drop-while #(not (= (:id %) selected-period-id)))
-                              (second))]
-      (if (some? next-period)
-        (assoc-in db [:selected-period] (:id next-period))
-        db))
-    db))
+(defn select-next-or-prev-period [{:keys [db]} [_ direction]]
+  (if-let [selected-period-id (get-in db [:selection :period :edit :period-id])]
+    (let [displayed-day            (get-in db [:time-navigators :day])
+          [bucket selected-period] (->> db
+                                        (select-one
+                                         (period-path-no-bucket-id
+                                          {:period-id selected-period-id})))
+          sorted-periods           (->> db
+                                        (select (periods-path))
+                                        ;; List from this point looks like
+                                        ;; [[{bucket} {period}]
+                                        ;;  [{bucket} {period}] ... ]
+                                        ;; Next period needs to be on this displayed day
+                                        (filter #(and (some? (:start (second %)))
+                                                      (some? (:stop (second %)))
+                                                      (or (same-day? (:start (second %)) displayed-day)
+                                                          (same-day? (:stop (second %)) displayed-day))))
+                                        ;; Next period needs to be visible on this track
+                                        (filter #(= (:planned selected-period) (:planned (second %))))
+                                        (sort-by #(.valueOf (:start (second %))))
+                                        (#(if (= direction :prev)
+                                            (reverse %)
+                                            %)))
+          [next-bucket next-period]              (->> sorted-periods
+                                        ;; Since they are sorted, drop them until you get to
+                                        ;; the current selected period.
+                                        ;; Then take the next one.
+                                        (drop-while #(not (= (:id (second %)) selected-period-id)))
+                                        (second))]
+      (merge
+       {:db db}
+       (when (some? next-period)
+         {:dispatch [:select-period-edit {:bucket-id (:id next-bucket)
+                                          :period-id (:id next-period)}]})))
+    {:db db}))
 
 (defn select-next-or-prev-template-in-form [{:keys [db]} [_ direction]] ;; TODO add pattern form to docs or name
   (if-let [selected-template-id (get-in db [:selected-template])]
@@ -977,7 +983,6 @@
                        (sp/collect-one (sp/submap [:id]))
                        :templates sp/ALL
                        #(= selected-template-id (:id %))] db)
-
 
           sorted-templates (->> db
                                 (select [:forms :pattern-form
@@ -999,6 +1004,7 @@
                {:dispatch [:select-template (:id next-template)]})))
     {:db db})) ;; if nothings is selected then why is this handler called?
 
+(reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
