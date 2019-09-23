@@ -551,23 +551,24 @@
   [{:keys [db]} [_ {:keys [pattern-id
                            bucket-id
                            id
+                           planned
                            now
                            start]}]]
-  {:db       (setval [:forms :pattern-form
-                      :templates
-                      sp/NIL->VECTOR
-                      sp/AFTER-ELEM]
-                     {:id          id
-                      :bucket-id   bucket-id
-                      :created     now
-                      :last-edited now
-                      :label       ""
-                      :data        {}
-                      :planned     true
-                      :start       (helpers/get-ms start)
-                      :stop        (+ (helpers/minutes->ms 60)
-                                      (helpers/get-ms start))}
-                     db)})
+  {:db (setval [:forms :pattern-form
+                :templates
+                sp/NIL->VECTOR
+                sp/AFTER-ELEM]
+               {:id          id
+                :bucket-id   bucket-id
+                :created     now
+                :last-edited now
+                :planned     planned
+                :label       ""
+                :data        {}
+                :start       (helpers/get-ms start)
+                :stop        (+ (helpers/minutes->ms 60)
+                                (helpers/get-ms start))}
+               db)})
 
 (defn add-new-filter [{:keys [db]} [_ {:keys [id now]}]]
   {:db (setval [:filters
@@ -977,7 +978,7 @@
     {:db db}))
 
 (defn select-next-or-prev-template-in-form [{:keys [db]} [_ direction]] ;; TODO add pattern form to docs or name
-  (if-let [selected-template-id (get-in db [:selected-template])]
+  (if-let [selected-template-id (get-in db [:selection :template :edit :template-id])]
     (let [[pattern selected-template]
           (select-one [:forms :pattern-form
                        (sp/collect-one (sp/submap [:id]))
@@ -987,10 +988,14 @@
           sorted-templates (->> db
                                 (select [:forms :pattern-form
                                          :templates sp/ALL])
-                              (sort-by :start)
-                              (#(if (= direction :prev)
-                                  (reverse %)
-                                  %)))
+                                (filter
+                                 #(= (:planned selected-template)
+                                     (:planned %)))
+                                (sort-by :start)
+                                (#(if (= direction :prev)
+                                    (reverse %)
+                                    %)))
+
           next-template    (->> sorted-templates
                                 ;; Since they are sorted,
                                 ;; drop them until you get to
@@ -1001,10 +1006,15 @@
                                 (second))]
       (merge {:db db}
              (when (some? next-template)
-               {:dispatch [:select-template (:id next-template)]})))
+               {:dispatch [:select-template-edit
+                           {:template-id (:id next-template)
+                            :bucket-id   (:bucket-id next-template)}]})))
     {:db db})) ;; if nothings is selected then why is this handler called?
 
 (reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
+(reg-event-fx :select-next-or-prev-template-in-form
+              [validate-spec persist-secure-store]
+              select-next-or-prev-template-in-form)
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)

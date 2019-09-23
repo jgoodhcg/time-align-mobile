@@ -94,10 +94,11 @@
 
 (def picker-comp-outer-style
   (merge field-style
-         {:flex-direction      "row"
-          :padding-bottom      4
-          :justify-content     "space-between"
-          :align-items         "center"}))
+         {:flex-direction  "row"
+          :padding-bottom  4
+          :margin-bottom   4
+          :justify-content "space-between"
+          :align-items     "center"}))
 
 (def picker-comp-inner-style {:flex-direction "column"
                               :margin-right   8})

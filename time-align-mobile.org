@@ -517,8 +517,11 @@ What is the difference between these two reagent components?
      CLOCK: [2019-09-17 Tue 21:01]--[2019-09-17 Tue 22:11] =>  1:10
      :END:
 This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
-**** TODO Add FAB
+**** DONE Add FAB
+     CLOSED: [2019-09-23 Mon 19:52]
      :LOGBOOK:
+     CLOCK: [2019-09-23 Mon 19:21]--[2019-09-23 Mon 19:52] =>  0:31
+     CLOCK: [2019-09-23 Mon 18:36]--[2019-09-23 Mon 19:20] =>  0:44
      CLOCK: [2019-09-23 Mon 18:13]--[2019-09-23 Mon 18:35] =>  0:22
      CLOCK: [2019-09-22 Sun 12:20]--[2019-09-22 Sun 13:35] =>  1:15
      CLOCK: [2019-09-22 Sun 11:48]--[2019-09-22 Sun 12:01] =>  0:13
@@ -545,10 +548,12 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
 - [X] Bottom sheet has play from option (scope creep)
   - [X] Starts a playing period
   - [X] Stops when in play
-- [-] Bottom sheet has select next/prev (scope creep)
+- [X] Bottom sheet has select next/prev (scope creep)
   - [X] Works on day_planning screen
-  - [ ] Works on pattern_planning screen
-- [ ] Bottom sheet has drawer up indicator (scope creep)
+  - [X] Works on pattern_planning screen
+- [X] Bottom sheet has drawer up indicator (scope creep)
+- [X] Bottom sheet for periods has bucket field
+- [X] Pattern planning has double tap to add option
 **** TODO Enable persistence
 **** TODO Stress test persistence
 **** TODO Button either moves with drawer slide or disappears

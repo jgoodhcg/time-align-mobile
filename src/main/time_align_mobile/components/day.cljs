@@ -10,6 +10,7 @@
                      alert
                      en
                      button-paper
+                     icon-button
                      scroll-view-gesture-handler
                      pan-gesture-handler
                      pinch-gesture-handler
@@ -107,7 +108,9 @@
                                          (:stop element)
                                          displayed-day)
                 stop-min                (helpers/ms->minutes stop-ms)
-                height                  (* pixel-to-minute-ratio (- stop-min start-min))
+                height                  (max
+                                         (* pixel-to-minute-ratio (- stop-min start-min))
+                                         8)
                 index-offset            (min 90
                                              (-> index
                                                  (* 16)
@@ -282,36 +285,37 @@
                       (dispatch [:select-next-or-prev-period :prev])
 
                       :template
-                      (dispatch [:select-next-or-prev-template :prev])
+                      (dispatch [:select-next-or-prev-template-in-form :prev])
 
                       nil))}
     "previous"]
 
-   (if (not (some? in-play-element))
-     [button-paper {:color    (:color selected-element-edit)
-                    :mode     "contained"
-                    :icon     "play-circle-outline"
-                    :on-press (fn []
-                                (dispatch
-                                 [:play-from-period
-                                  {:id           (:id selected-element-edit)
-                                   :time-started (js/Date.)
-                                   :new-id       (random-uuid)}]))}
-      "Play"]
-     (if (= (:id in-play-element)
-            (:id selected-element-edit))
-       [button-paper {:mode     "stop"
-                      :icon     "stop"
+   (when (= :period element-type)
+     (if (not (some? in-play-element))
+       [button-paper {:color    (:color selected-element-edit)
+                      :mode     "contained"
+                      :icon     "play-circle-outline"
                       :on-press (fn []
                                   (dispatch
-                                   [:stop-playing-period]))}
-        "Stop"]
-       [button-paper {:mode     "text"
-                      :icon     "stop"
-                      :on-press (fn []
-                                  (dispatch
-                                   [:stop-playing-period]))}
-        "Stop"]))
+                                   [:play-from-period
+                                    {:id           (:id selected-element-edit)
+                                     :time-started (js/Date.)
+                                     :new-id       (random-uuid)}]))}
+        "Play"]
+       (if (= (:id in-play-element)
+              (:id selected-element-edit))
+         [button-paper {:mode     "stop"
+                        :icon     "stop"
+                        :on-press (fn []
+                                    (dispatch
+                                     [:stop-playing-period]))}
+          "Stop"]
+         [button-paper {:mode     "text"
+                        :icon     "stop"
+                        :on-press (fn []
+                                    (dispatch
+                                     [:stop-playing-period]))}
+          "Stop"])))
 
    [button-paper {:mode "text"
                   :icon "keyboard-arrow-down"
@@ -323,7 +327,7 @@
                       (dispatch [:select-next-or-prev-period :next])
 
                       :template
-                      (dispatch [:select-next-or-prev-template :next])
+                      (dispatch [:select-next-or-prev-template-in-form :next])
 
                       nil))}
     "next"]])
@@ -564,18 +568,27 @@
                                 (< (-> (get-device-width)
                                        (/ 2))))]
 
-                (if (= element-type :period)
-                  (do
-                    (close-bottom-sheet bottom-sheet-ref element-type)
-                    (dispatch [:add-period {:period    {:id          id
-                                                        :start       (js/Date. start)
-                                                        :stop        (js/Date. stop)
-                                                        :planned     planned
-                                                        :data        {}
-                                                        :last-edited now
-                                                        :created     now
-                                                        :label       ""}
-                                            :bucket-id nil}]))))))}
+                (case element-type
+                  :period   (do
+                              (close-bottom-sheet bottom-sheet-ref element-type)
+                              (dispatch [:add-period {:period    {:id          id
+                                                                  :start       (js/Date. start)
+                                                                  :stop        (js/Date. stop)
+                                                                  :planned     planned
+                                                                  :data        {}
+                                                                  :last-edited now
+                                                                  :created     now
+                                                                  :label       ""}
+                                                      :bucket-id nil}]))
+                  :template (do
+                              (close-bottom-sheet bottom-sheet-ref element-type)
+                              (dispatch [:add-new-template-to-planning-form
+                                         {:id        id
+                                          :bucket-id (:id (first buckets))
+                                          :start     (js/Date. start)
+                                          :planned   planned
+                                          :now       now}]))
+                  nil))))}
 
         [view
          {:style {:flex 1}}
@@ -664,7 +677,7 @@
       [portal
        [bottom-sheet {:ref           (fn [com]
                                        (reset! bottom-sheet-ref com))
-                      :snap-points   [0 100 450]
+                      :snap-points   [0 100 500]
                       :initial-snap  (if (some? selected-element-edit)
                                        1
                                        0)
@@ -677,18 +690,23 @@
                       :render-header #(r/as-element
                                        [surface
                                         [view {:style {:flex           1
-                                                       :height         450
+                                                       :height         500
                                                        :width          "100%"
                                                        :flex-direction "column"
                                                        :align-items    "center"}}
 
-                                         [transform-buttons
-                                          {:transform-functions   element-transform-functions
-                                           :selected-element-edit selected-element-edit}]
+                                         [icon-button {:icon     "drag-handle"
+                                                       :size     24
+                                                       :style    {:height 12}
+                                                       :on-press (fn []
+                                                                   (snap-bottom-sheet bottom-sheet-ref 2))}]
 
                                          [other-selection-buttons {:element-type          element-type
                                                                    :in-play-element       in-play-element
                                                                    :selected-element-edit selected-element-edit}]
+                                         [transform-buttons
+                                          {:transform-functions   element-transform-functions
+                                           :selected-element-edit selected-element-edit}]
 
                                          [edit-form {:save-callback
                                                      (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))

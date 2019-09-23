@@ -111,20 +111,27 @@
                    :width            "100%"
                    :flex-direction   "column"
                    :justify-content  "space-between"
-                   :align-items      "flex-start"
-                   :padding-top      8
-                   :border-top-width 8
-                   :border-color     (:bucket-color @period-form)}}
+                   :align-items      "flex-start"}}
 
      [label-comp period-form changes :update-period-form true]
 
+     [view {:style {:flex-direction "row"}}
+      [view {:style {:flex-direction "column"}}
+       [time-comp-compact period-form changes start-modal :start "start"]
+       [time-comp-compact period-form changes stop-modal :stop "stop"]]
+      [duration-comp (:start @period-form) (:stop @period-form)]]
+
      [planned-comp period-form changes :update-period-form]
 
-     [time-comp-compact period-form changes start-modal :start "start"]
+     [view {:style {:width "100%"
+                    :justify-content "center"}}
+      [bucket-parent-picker-comp
+       {:form       period-form
+        :changes    changes
+        :buckets    buckets
+        :update-key :update-period-form
+        :compact    false}]]
 
-     [time-comp-compact period-form changes stop-modal :stop "stop"]
-
-     [duration-comp (:start @period-form) (:stop @period-form)]
 
      [view {:style {:flex-direction  "row"
                     :padding         8
