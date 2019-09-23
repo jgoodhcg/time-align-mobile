@@ -36,6 +36,7 @@
                                           button-paper
                                           surface
                                           divider
+                                          alert
                                           touchable-highlight
                                           touchable-ripple
                                           drawer-layout
@@ -154,18 +155,14 @@
                        true))
 
   ;; load previous state
-  ;; TODO uncomment this
-  ;; (read-file-from-dd-async
-  ;;  "app-db"
-  ;;  (fn [value]
-  ;;    (let [app-db (read-string value)]
-  ;;      (if (some? app-db)
-  ;;        (dispatch-sync [:load-db (deep-merge default-app-db app-db)]))))
-  ;;  (fn [error]
-  ;;    (println "error reading file")))
-
-  ;; start ticking
-  ;; (js/setInterval #(dispatch [:tick (js/Date.)]) 1000)
+  (read-file-from-dd-async
+   "app-db"
+   (fn [value]
+     (let [app-db (read-string value)]
+       (if (some? app-db)
+         (dispatch-sync [:load-db (deep-merge default-app-db app-db)]))))
+   (fn [error]
+     (alert "error reading file")))
 
   (start))
 

@@ -331,7 +331,7 @@
                                        :negate false}]}]
    :navigation        {:current-screen :day
                        :params         nil}
-   :buckets           (make-buckets 5 3)
+   :buckets           {}
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
