@@ -541,8 +541,10 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
   - [X] Play button works
   - [X] Add pattern works
   - [X] Generate pattern works
-- [X] Bottom sheet has play from option (scope creep)
-- [ ] Bottom sheet has select next/prev (scope creep)
+- [ ] Bottom sheet has play from option (scope creep)
+  - [X] Starts a playing period
+  - [ ] Stops when in play
+- [-] Bottom sheet has select next/prev (scope creep)
   - [X] Works on day_planning screen
   - [ ] Works on pattern_planning screen
 - [ ] Bottom sheet has drawer up indicator (scope creep)
