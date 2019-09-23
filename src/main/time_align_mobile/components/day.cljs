@@ -265,6 +265,69 @@
       [t-btn stop-earlier [mci-styled (icon-params "arrow-expand-up")]]
       [t-btn stop-later [mci-styled (icon-params "arrow-collapse-down")]]]]))
 
+(defn other-selection-buttons [{:keys [element-type
+                                       selected-element-edit
+                                       in-play-element]}]
+  [view {:style {:flex-direction  "row"
+                 :justify-content "space-between"
+                 :padding         8
+                 :width           "100%"}}
+   [button-paper {:mode "text"
+                  :icon "keyboard-arrow-up"
+
+                  :on-press
+                  (fn []
+                    (case element-type
+                      :period
+                      (dispatch [:select-next-or-prev-period :prev])
+
+                      :template
+                      (dispatch [:select-next-or-prev-template :prev])
+
+                      nil))}
+    "previous"]
+
+   (if (not (some? in-play-element))
+     [button-paper {:color    (:color selected-element-edit)
+                    :mode     "contained"
+                    :icon     "play-circle-outline"
+                    :on-press (fn []
+                                (dispatch
+                                 [:play-from-period
+                                  {:id           (:id selected-element-edit)
+                                   :time-started (js/Date.)
+                                   :new-id       (random-uuid)}]))}
+      "Play"]
+     (if (= (:id in-play-element)
+            (:id selected-element-edit))
+       [button-paper {:mode     "stop"
+                      :icon     "stop"
+                      :on-press (fn []
+                                  (dispatch
+                                   [:stop-playing-period]))}
+        "Stop"]
+       [button-paper {:mode     "text"
+                      :icon     "stop"
+                      :on-press (fn []
+                                  (dispatch
+                                   [:stop-playing-period]))}
+        "Stop"]))
+
+   [button-paper {:mode "text"
+                  :icon "keyboard-arrow-down"
+
+                  :on-press
+                  (fn []
+                    (case element-type
+                      :period
+                      (dispatch [:select-next-or-prev-period :next])
+
+                      :template
+                      (dispatch [:select-next-or-prev-template :next])
+
+                      nil))}
+    "next"]])
+
 (defn now-indicator [{:keys [displayed-day
                              element-type
                              pixel-to-minute-ratio]}]
@@ -623,50 +686,9 @@
                                           {:transform-functions   element-transform-functions
                                            :selected-element-edit selected-element-edit}]
 
-                                         [view {:style {:flex-direction  "row"
-                                                        :justify-content "space-between"
-                                                        :padding         8
-                                                        :width           "100%"}}
-                                          [button-paper {:mode "outlined"
-                                                         :icon "keyboard-arrow-up"
-
-                                                         :on-press
-                                                         (fn []
-                                                           (case element-type
-                                                             :period
-                                                             (dispatch [:select-next-or-prev-period :prev])
-
-                                                             :template
-                                                             (dispatch [:select-next-or-prev-template :prev])
-
-                                                             nil))}
-                                           "previous"]
-
-                                          [button-paper {:color    (:color selected-element-edit)
-                                                         :mode     "contained"
-                                                         :icon     "play-circle-outline"
-                                                         :on-press (fn []
-                                                                     (dispatch
-                                                                      [:play-from-period
-                                                                       {:id           (:id selected-element-edit)
-                                                                        :time-started (js/Date.)
-                                                                        :new-id       (random-uuid)}]))}
-                                           "Play"]
-
-                                          [button-paper {:mode "outlined"
-                                                         :icon "keyboard-arrow-down"
-
-                                                         :on-press
-                                                         (fn []
-                                                           (case element-type
-                                                             :period
-                                                             (dispatch [:select-next-or-prev-period :next])
-
-                                                             :template
-                                                             (dispatch [:select-next-or-prev-template :next])
-
-                                                             nil))}
-                                           "next"]]
+                                         [other-selection-buttons {:element-type          element-type
+                                                                   :in-play-element       in-play-element
+                                                                   :selected-element-edit selected-element-edit}]
 
                                          [edit-form {:save-callback
                                                      (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))

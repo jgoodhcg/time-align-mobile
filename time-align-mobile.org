@@ -519,6 +519,7 @@ What is the difference between these two reagent components?
 This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
 **** TODO Add FAB
      :LOGBOOK:
+     CLOCK: [2019-09-23 Mon 18:13]--[2019-09-23 Mon 18:35] =>  0:22
      CLOCK: [2019-09-22 Sun 12:20]--[2019-09-22 Sun 13:35] =>  1:15
      CLOCK: [2019-09-22 Sun 11:48]--[2019-09-22 Sun 12:01] =>  0:13
      CLOCK: [2019-09-21 Sat 21:31]--[2019-09-21 Sat 22:27] =>  0:56
@@ -541,9 +542,9 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
   - [X] Play button works
   - [X] Add pattern works
   - [X] Generate pattern works
-- [ ] Bottom sheet has play from option (scope creep)
+- [X] Bottom sheet has play from option (scope creep)
   - [X] Starts a playing period
-  - [ ] Stops when in play
+  - [X] Stops when in play
 - [-] Bottom sheet has select next/prev (scope creep)
   - [X] Works on day_planning screen
   - [ ] Works on pattern_planning screen
