@@ -568,6 +568,19 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
      :LOGBOOK:
      CLOCK: [2019-09-06 Fri 21:56]--[2019-09-06 Fri 22:28] =>  0:32
      :END:
+**** DOSUB Dogfood feedback
+***** DONE Fix bottom sheet 
+      CLOSED: [2019-09-28 Sat 17:06]
+      :LOGBOOK:
+      CLOCK: [2019-09-28 Sat 15:38]--[2019-09-28 Sat 17:06] =>  1:28
+      CLOCK: [2019-09-28 Sat 13:47]--[2019-09-28 Sat 14:00] =>  0:13
+      CLOCK: [2019-09-28 Sat 12:30]--[2019-09-28 Sat 12:50] =>  0:20
+      CLOCK: [2019-09-28 Sat 11:01]--[2019-09-28 Sat 11:53] =>  0:52
+      :END:
+     - [X] Multiple snap points
+     - +Using use content section and header section+
+     - [X] Closing and opening triggers selection changes
+     - [X] Jump to today works
 *** TODO Add Calendar integration
     :PROPERTIES:
     :Effort:   10:00

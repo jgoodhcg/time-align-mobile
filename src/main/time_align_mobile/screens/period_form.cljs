@@ -115,11 +115,11 @@
 
      [label-comp period-form changes :update-period-form true]
 
-     [view {:style {:flex-direction "row"}}
-      [view {:style {:flex-direction "column"}}
-       [time-comp-compact period-form changes start-modal :start "start"]
-       [time-comp-compact period-form changes stop-modal :stop "stop"]]
-      [duration-comp (:start @period-form) (:stop @period-form)]]
+     [view {:style {:flex-direction "column"}}
+      [time-comp-compact period-form changes start-modal :start "start"]
+      [time-comp-compact period-form changes stop-modal :stop "stop"]]
+
+     [duration-comp (:start @period-form) (:stop @period-form)]
 
      [planned-comp period-form changes :update-period-form]
 

@@ -234,103 +234,86 @@
                  :selected-element-edit selected-element-edit
                  :element-type          element-type})))]])
 
-(defn transform-button [selected-element-edit t-function icon]
-  [touchable-ripple {:on-press      #(t-function selected-element-edit)
-                     :on-long-press #(t-function selected-element-edit true)
-                     :style         {:padding 8}}
+(defn selection-button [selected-element-edit s-function icon]
+  [touchable-ripple {:on-press      #(s-function selected-element-edit)
+                     :on-long-press #(s-function selected-element-edit true)
+                     :style         {:padding 2}}
    icon])
 
-(defn transform-buttons [{:keys [transform-functions selected-element-edit]}]
+(defn selection-buttons [{:keys [transform-functions
+                                 height
+                                 in-play-element
+                                 element-type
+                                 selected-element-edit]}]
   (let [{:keys [up
                 down
                 start-earlier
                 stop-earlier
                 stop-later
                 start-later]} transform-functions
-        icon-style            {:color (-> styles/theme :colors :text)}
-        mci-styled            (styled-icon-factory mci icon-style)
-        mi-styled             (styled-icon-factory mi icon-style)
-        icon-params           (fn [name] {:size 28 :name name})
-        t-btn                 (partial transform-button selected-element-edit)]
 
-    [surface
-     [view {:style {:flex            0
-                    :width           "100%"
-                    :flex-direction  "row"
-                    :justify-content "space-around"
-                    :padding         2
-                    :height          50}}
+        icon-style          {:color (-> styles/theme :colors :text)}
+        mci-styled          (styled-icon-factory mci icon-style)
+        mi-styled           (styled-icon-factory mi icon-style)
+        icon-params         (fn [n] {:size 28 :name n})
+        t-btn               (partial selection-button selected-element-edit)
+        vertical-pair-style {:flex-direction "column"}
 
+        select-prev  (fn [& _]
+                       (println "dafuq")
+                       (case element-type
+                         :period
+                         (dispatch [:select-next-or-prev-period :prev])
+                         :template
+                         (dispatch [:select-next-or-prev-template-in-form :prev])
+                         nil))
+        select-next  (fn [& _]
+                       (println "dafuqqqqq")
+                       (case element-type
+                         :period
+                         (dispatch [:select-next-or-prev-period :next])
+                         :template
+                         (dispatch [:select-next-or-prev-template-in-form :next])
+                         nil))
+        play-from    (fn []
+                       (dispatch
+                        [:play-from-period
+                         {:id           (:id selected-element-edit)
+                          :time-started (js/Date.)
+                          :new-id       (random-uuid)}]))
+        stop-playing (fn []
+                       (dispatch
+                        [:stop-playing-period]))]
+
+    [view {:style {:flex            0
+                   :width           "100%"
+                   :height          height
+                   :flex-direction  "row"
+                   :align-items     "center"
+                   :justify-content "space-around"}}
+
+     [view {:style vertical-pair-style}
+      [t-btn select-prev [mi-styled (icon-params "keyboard-arrow-up")]]
+      [t-btn select-next [mi-styled (icon-params "keyboard-arrow-down")]]]
+
+     [view {:style vertical-pair-style}
       [t-btn up [mi-styled (icon-params "arrow-upward")]]
-      [t-btn down [mi-styled (icon-params "arrow-downward")]]
+      [t-btn down [mi-styled (icon-params "arrow-downward")]]]
+
+     [view {:style vertical-pair-style}
       [t-btn start-earlier [mci-styled (icon-params "arrow-collapse-up")]]
-      [t-btn start-later [mci-styled (icon-params "arrow-expand-down")]]
+      [t-btn start-later [mci-styled (icon-params "arrow-expand-down")]]]
+
+     [view {:style vertical-pair-style}
       [t-btn stop-earlier [mci-styled (icon-params "arrow-expand-up")]]
-      [t-btn stop-later [mci-styled (icon-params "arrow-collapse-down")]]]]))
+      [t-btn stop-later [mci-styled (icon-params "arrow-collapse-down")]]]
 
-(defn other-selection-buttons [{:keys [element-type
-                                       selected-element-edit
-                                       in-play-element]}]
-  [view {:style {:flex-direction  "row"
-                 :justify-content "space-between"
-                 :padding         8
-                 :width           "100%"}}
-   [button-paper {:mode "text"
-                  :icon "keyboard-arrow-up"
-
-                  :on-press
-                  (fn []
-                    (case element-type
-                      :period
-                      (dispatch [:select-next-or-prev-period :prev])
-
-                      :template
-                      (dispatch [:select-next-or-prev-template-in-form :prev])
-
-                      nil))}
-    "previous"]
-
-   (when (= :period element-type)
-     (if (not (some? in-play-element))
-       [button-paper {:color    (:color selected-element-edit)
-                      :mode     "contained"
-                      :icon     "play-circle-outline"
-                      :on-press (fn []
-                                  (dispatch
-                                   [:play-from-period
-                                    {:id           (:id selected-element-edit)
-                                     :time-started (js/Date.)
-                                     :new-id       (random-uuid)}]))}
-        "Play"]
-       (if (= (:id in-play-element)
-              (:id selected-element-edit))
-         [button-paper {:mode     "stop"
-                        :icon     "stop"
-                        :on-press (fn []
-                                    (dispatch
-                                     [:stop-playing-period]))}
-          "Stop"]
-         [button-paper {:mode     "text"
-                        :icon     "stop"
-                        :on-press (fn []
-                                    (dispatch
-                                     [:stop-playing-period]))}
-          "Stop"])))
-
-   [button-paper {:mode "text"
-                  :icon "keyboard-arrow-down"
-
-                  :on-press
-                  (fn []
-                    (case element-type
-                      :period
-                      (dispatch [:select-next-or-prev-period :next])
-
-                      :template
-                      (dispatch [:select-next-or-prev-template-in-form :next])
-
-                      nil))}
-    "next"]])
+     (when (= :period element-type)
+       (if (not (some? in-play-element))
+         [t-btn play-from [mi-styled (icon-params "play-circle-outline")]]
+         [t-btn stop-playing [mi-styled (icon-params "stop")]])
+       )
+     ]))
 
 (defn now-indicator [{:keys [displayed-day
                              element-type
@@ -675,40 +658,48 @@
                      :background-color (-> styles/theme :colors :background)}}]
 
       [portal
-       [bottom-sheet {:ref           (fn [com]
-                                       (reset! bottom-sheet-ref com))
-                      :snap-points   [0 100 500]
-                      :initial-snap  (if (some? selected-element-edit)
-                                       1
-                                       0)
-                      ;; TODO figure out why this isn't being called
-                      :on-close-end  #(do
-                                        (println "closing")
-                                        (dispatch [:select-element-edit {:element-type element-type
-                                                                         :bucket-id    nil
-                                                                         :element-id   nil}]))
-                      :render-header #(r/as-element
-                                       [surface
-                                        [view {:style {:flex           1
-                                                       :height         500
-                                                       :width          "100%"
-                                                       :flex-direction "column"
-                                                       :align-items    "center"}}
+       (let [drag-indicator-height       24
+             drag-indicator-total-height 40
+             selection-buttons-height    80]
+         [bottom-sheet {:ref           (fn [com]
+                                         (reset! bottom-sheet-ref com))
+                        :snap-points   [0
+                                        drag-indicator-total-height
+                                        (+ drag-indicator-total-height
+                                           selection-buttons-height)
+                                        600]
+                        :initial-snap  (if (some? selected-element-edit)
+                                         1
+                                         0)
+                        :on-close-end  #(do (dispatch [:select-element-edit {:element-type element-type
+                                                                             :bucket-id    nil
+                                                                             :element-id   nil}]))
+                        :render-header #(r/as-element
+                                         [surface
+                                          [view {:style {:height         600
+                                                         :width          "100%"
+                                                         :flex-direction "column"
+                                                         :align-items    "center"}}
 
-                                         [icon-button {:icon     "drag-handle"
-                                                       :size     24
-                                                       :style    {:height 12}
-                                                       :on-press (fn []
-                                                                   (snap-bottom-sheet bottom-sheet-ref 2))}]
+                                           [icon-button {:icon     "drag-handle"
+                                                         :size     drag-indicator-height
+                                                         :color    (if (color-light? (:color selected-element-edit))
+                                                                     (-> styles/theme :colors :element-text-dark)
+                                                                     (-> styles/theme :colors :element-text-light))
+                                                         :style    {:border-radius 4
+                                                                    :background-color
+                                                                    (:color selected-element-edit)}
+                                                         :on-press (fn []
+                                                                     (snap-bottom-sheet bottom-sheet-ref 2))}]
 
-                                         [other-selection-buttons {:element-type          element-type
-                                                                   :in-play-element       in-play-element
-                                                                   :selected-element-edit selected-element-edit}]
-                                         [transform-buttons
-                                          {:transform-functions   element-transform-functions
-                                           :selected-element-edit selected-element-edit}]
+                                           [selection-buttons
+                                            {:transform-functions   element-transform-functions
+                                             :height                selection-buttons-height
+                                             :element-type          element-type
+                                             :in-play-element       in-play-element
+                                             :selected-element-edit selected-element-edit}]
 
-                                         [edit-form {:save-callback
-                                                     (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                     :delete-callback
-                                                     (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}]]]]))
+                                           [edit-form {:save-callback
+                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                       :delete-callback
+                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}])]]]))

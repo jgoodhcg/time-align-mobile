@@ -6,6 +6,7 @@
                                                   format-date
                                                   format-time
                                                   touchable-highlight
+                                                  touchable-ripple
                                                   status-bar
                                                   format-date-day
                                                   animated-view
@@ -161,13 +162,16 @@
                         :justify-content "space-between"
                         :align-items     "center"
                         :padding         8}}
+
    [icon-button {:icon     "keyboard-arrow-left"
                  :size     20
                  :on-press #(dispatch
                              [:update-day-time-navigator
                               (helpers/back-n-days displayed-day 1)])}]
 
-   [subheading (format-date-day displayed-day)]
+   [touchable-ripple
+    {:on-press #(dispatch [:update-day-time-navigator (js/Date.)])}
+    [subheading (format-date-day displayed-day)]]
 
    [icon-button {:icon     "keyboard-arrow-right"
                  :size     20

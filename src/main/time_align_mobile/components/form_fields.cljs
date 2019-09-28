@@ -41,6 +41,7 @@
                   :margin-bottom  20})
 
 (def info-field-style {:padding-left   8
+                       :margin-left    16
                        :margin-bottom  2
                        :align-items    "center"
                        :flex-direction "row"})
@@ -186,7 +187,7 @@
 
 (defn planned-comp [form changes update-key]
   [view {:style {:flex-direction  "row"
-                 :padding         8
+                 :padding         2
                  :justify-content "flex-start"
                  :align-items     "flex-start"}}
    (changeable-field {:changes   changes
