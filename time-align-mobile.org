@@ -29,43 +29,46 @@
   CLOCK: [2018-07-17 Tue 18:58]--[2018-07-17 Tue 19:17] =>  0:19
   :END:
      #+NAME: WSJF table
-     #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") VALUE WORK (/ (float VALUE) (float WORK)))
-     | (concat "[[" ITEM "]]")                                                    | VALUE | WORK | (/ (float VALUE) (float WORK)) |
-     |------------------------------------------------------------------------+-------+------+--------------------------------|
-     | "[[Fix delete pattern button]]"                                            |    20 |    1 |                           20.0 |
-     | "[[Add selected start stop indicators (now indicator style)]]"             |     5 |    2 |                            2.5 |
-     | "[[Hide android navigation bar]]"                                          |     2 |    1 |                            2.0 |
-     | "[[Reduce border radius on periods]]"                                      |     2 |    1 |                            2.0 |
-     | "[[Remove minimum period size]]"                                           |     2 |    1 |                            2.0 |
-     | "[[Fix now indicator to have accurate position]]"                          |     3 |    2 |                            1.5 |
-     | "[[Long press to add period (not double tap)]]"                            |     3 |    2 |                            1.5 |
-     | "[[Add a menu button instead of gesture action]]"                          |     3 |    2 |                            1.5 |
-     | "[[Put version indicator in app-db (for export mostly)]]"                  |     1 |    1 |                            1.0 |
-     | "[[Make a better element state indication]]"                               |     5 |    5 |                            1.0 |
-     | "[[Fix bottom sheet spacer]]"                                              |     2 |    2 |                            1.0 |
-     | "[[Day indicator should show day of week]]"                                |     1 |    1 |                            1.0 |
-     | "[[Fix modal bottom gap]]"                                                 |     1 |    2 |                            0.5 |
-     | "[[Figure out why keyboard pops up when opening on day view (sometimes)]]" |     1 |    3 |             0.3333333333333333 |
-     | "[[Add a snap to for period movement]]"                                    |     1 |    8 |                          0.125 |
-     | "[[Add Calendar integration]]"                                             |     0 |    0 |                              0 |
-     | "[[Add locked period mechanism]]"                                          |     0 |    0 |                              0 |
-     | "[[Mobile friendly data editor]]"                                          |     0 |    0 |                              0 |
-     | "[[Checklists]]"                                                           |     0 |    0 |                              0 |
-     | "[[Notifications (push?)]]"                                                |     0 |    0 |                              0 |
-     | "[[Fix template editing bug with end time]]"                               |     0 |    0 |                              0 |
-     | "[[Fix navigation]]"                                                       |     0 |    0 |                              0 |
-     | "[[Markov chain prediction]]"                                              |     0 |    0 |                              0 |
-     | "[[Report Page]]"                                                          |     0 |    0 |                              0 |
-     | "[[Queue page]]"                                                           |     0 |    0 |                              0 |
-     | "[[Add queue definition to app-db]]"                                       |     0 |    0 |                              0 |
-     | "[[Add queue form]]"                                                       |     0 |    0 |                              0 |
-     | "[[Add queue list]]"                                                       |     0 |    0 |                              0 |
-     | "[[Add conversion to planned period function]]"                            |     0 |    0 |                              0 |
-     | "[[Calendar Page]]"                                                        |     0 |    0 |                              0 |
-     | "[[Analytics]]"                                                            |     0 |    0 |                              0 |
-     | "[[Bugs]]"                                                                 |     0 |    0 |                              0 |
-     |------------------------------------------------------------------------+-------+------+--------------------------------|
-     |                                                                        |       |      |                                |
+     #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
+     | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
+     |---------------------------------------------------------------------------------+--------------------------------+-------+------|
+     | "[[Fix delete pattern button]]"                                                     |                           20.0 |    20 |    1 |
+     | "[[Add selected start stop indicators (now indicator style)]]"                      |                            2.5 |     5 |    2 |
+     | "[[Hide android navigation bar]]"                                                   |                            2.0 |     2 |    1 |
+     | "[[Reduce border radius on periods]]"                                               |                            2.0 |     2 |    1 |
+     | "[[Remove minimum period size]]"                                                    |                            2.0 |     2 |    1 |
+     | "[[Multiple play timers]]"                                                          |                            1.6 |     8 |    5 |
+     | "[[Fix now indicator to have accurate position]]"                                   |                            1.5 |     3 |    2 |
+     | "[[Long press to add period (not double tap)]]"                                     |                            1.5 |     3 |    2 |
+     | "[[Add a menu button instead of gesture action]]"                                   |                            1.5 |     3 |    2 |
+     | "[[Put version indicator in app-db (for export mostly)]]"                           |                            1.0 |     1 |    1 |
+     | "[[Make a better element state indication without animation or \"jumpy\" borders]]" |                            1.0 |     5 |    5 |
+     | "[[Fix bottom sheet spacer]]"                                                       |                            1.0 |     2 |    2 |
+     | "[[Day indicator should show day of week]]"                                         |                            1.0 |     1 |    1 |
+     | "[[Remove up and down arrows]]"                                                     |                            1.0 |     1 |    1 |
+     | "[[Fix modal bottom gap]]"                                                          |                            0.5 |     1 |    2 |
+     | "[[Figure out why keyboard pops up when opening on day view (sometimes)]]"          |             0.3333333333333333 |     1 |    3 |
+     | "[[Add a snap to for period movement]]"                                             |                          0.125 |     1 |    8 |
+     | "[[Add geofencing triggers on buckets]]"                                            |                              0 |     0 |    0 |
+     | "[[Add Calendar integration]]"                                                      |                              0 |     0 |    0 |
+     | "[[Add locked period mechanism]]"                                                   |                              0 |     0 |    0 |
+     | "[[Mobile friendly data editor]]"                                                   |                              0 |     0 |    0 |
+     | "[[Checklists]]"                                                                    |                              0 |     0 |    0 |
+     | "[[Notifications (push?)]]"                                                         |                              0 |     0 |    0 |
+     | "[[Fix template editing bug with end time]]"                                        |                              0 |     0 |    0 |
+     | "[[Fix navigation]]"                                                                |                              0 |     0 |    0 |
+     | "[[Markov chain prediction]]"                                                       |                              0 |     0 |    0 |
+     | "[[Report Page]]"                                                                   |                              0 |     0 |    0 |
+     | "[[Queue page]]"                                                                    |                              0 |     0 |    0 |
+     | "[[Add queue definition to app-db]]"                                                |                              0 |     0 |    0 |
+     | "[[Add queue form]]"                                                                |                              0 |     0 |    0 |
+     | "[[Add queue list]]"                                                                |                              0 |     0 |    0 |
+     | "[[Add conversion to planned period function]]"                                     |                              0 |     0 |    0 |
+     | "[[Calendar Page]]"                                                                 |                              0 |     0 |    0 |
+     | "[[Analytics]]"                                                                     |                              0 |     0 |    0 |
+     | "[[Bugs]]"                                                                          |                              0 |     0 |    0 |
+     |---------------------------------------------------------------------------------+--------------------------------+-------+------|
+     |                                                                                 |                                |       |      |
      #+END:
 ** Instructions on WSJF table usage 
      This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
@@ -76,661 +79,111 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
 ** DOSUB Release to strangers
-*** DOSUB New day design
+*** TODO Hide android navigation bar 
     :PROPERTIES:
-    :Effort:   24:00
-    :Confidence: 50
+    :VALUE:    2
+    :WORK:     1
     :END:
-    :LOGBOOK:
-    CLOCK: [2019-09-10 Tue 19:15]--[2019-09-10 Tue 19:17] =>  0:02
-    CLOCK: [2019-08-10 Sat 19:29]--[2019-08-10 Sat 19:36] =>  0:07
-    CLOCK: [2019-08-10 Sat 13:11]--[2019-08-10 Sat 13:12] =>  0:01
-    :END:
-**** DONE Top bar with scroll view below
-     CLOSED: [2019-08-10 Sat 14:47]
-     :LOGBOOK:
-     CLOCK: [2019-08-10 Sat 14:39]--[2019-08-10 Sat 14:47] =>  0:08
-     CLOCK: [2019-08-10 Sat 13:37]--[2019-08-10 Sat 13:54] =>  0:17
-     CLOCK: [2019-08-10 Sat 13:28]--[2019-08-10 Sat 13:36] =>  0:08
-     CLOCK: [2019-08-10 Sat 13:24]--[2019-08-10 Sat 13:28] =>  0:04
-     CLOCK: [2019-08-10 Sat 13:15]--[2019-08-10 Sat 13:24] =>  0:09
-     CLOCK: [2019-08-10 Sat 13:12]--[2019-08-10 Sat 13:14] =>  0:02
-     :END:
-- [X] Get to a clean commit
-- [X] Blow away everything in day-screen ns and the day-comp ns
-- [X] Set up a day-comp ns with a placeholder
-- [X] Get code to compile and show placeholder for pattern-planning and day screens
-- [X] Change day screen ns
-- [X] Add a top bar section
-- [X] Add a scroll view below it
-**** DONE Add time section
-     CLOSED: [2019-08-10 Sat 16:56]
-     :LOGBOOK:
-     CLOCK: [2019-08-10 Sat 16:45]--[2019-08-10 Sat 16:56] =>  0:11
-     CLOCK: [2019-08-10 Sat 14:39]--[2019-08-10 Sat 15:40] =>  1:01
-     :END:
-- [X] Get relative positioning figured out
-- [X] Add dividers
-- [X] Figure out how it relates to periods
-**** DONE Add Zomming functionality
-     CLOSED: [2019-08-10 Sat 19:27]
-     :LOGBOOK:
-     CLOCK: [2019-08-10 Sat 18:21]--[2019-08-10 Sat 19:27] =>  1:06
-     :END:
-- [X] Put pixel ration in app-db
-- [X] Make handlers/subs to adjust
-- [X] Use deep merge on loading and importing db to handle app-db accretion
-**** DONE Add periods/templates (elements)
-     CLOSED: [2019-08-13 Tue 19:42]
-     :LOGBOOK:
-     CLOCK: [2019-08-13 Tue 18:14]--[2019-08-13 Tue 18:45] =>  0:31
-     CLOCK: [2019-08-12 Mon 18:13]--[2019-08-12 Mon 18:54] =>  0:41
-     CLOCK: [2019-08-12 Mon 18:08]--[2019-08-12 Mon 18:13] =>  0:05
-     CLOCK: [2019-08-11 Sun 18:07]--[2019-08-11 Sun 18:25] =>  0:18
-     CLOCK: [2019-08-11 Sun 17:47]--[2019-08-11 Sun 18:07] =>  0:20
-     CLOCK: [2019-08-11 Sun 14:41]--[2019-08-11 Sun 15:47] =>  1:06
-     CLOCK: [2019-08-11 Sun 14:40]--[2019-08-11 Sun 14:40] =>  0:00
-     CLOCK: [2019-08-11 Sun 13:16]--[2019-08-11 Sun 13:43] =>  0:27
-     CLOCK: [2019-08-10 Sat 23:43]--[2019-08-10 Sat 23:50] =>  0:07
-     CLOCK: [2019-08-10 Sat 23:12]--[2019-08-10 Sat 23:29] =>  0:17
-     CLOCK: [2019-08-10 Sat 22:19]--[2019-08-10 Sat 23:09] =>  0:50
-     CLOCK: [2019-08-10 Sat 22:09]--[2019-08-10 Sat 22:19] =>  0:10
-     CLOCK: [2019-08-10 Sat 21:56]--[2019-08-10 Sat 22:08] =>  0:12
-     CLOCK: [2019-08-10 Sat 20:58]--[2019-08-10 Sat 21:36] =>  0:38
-     CLOCK: [2019-08-10 Sat 20:33]--[2019-08-10 Sat 20:57] =>  0:24
-     :END:
- - [X] Refactor the day comp
- - [X] Move tim indicators
- - [X] Add reference from old rendering
- - [X] Make the time indicator bar position (center of text) the exact time of the indicator
- - [X] Actually fix teh time indicator
- - [X] Add elements comp and borders
- - [X] Render some elements in the correct position
- - [X] Add navigators to day top bar
- - [X] Refactor rendering element
- - [X] Fix borders
- - [X] Render collision group offsets
- - [X] Selection
- 
-**** DONE Dragging element to move on selection
-     CLOSED: [2019-09-04 Wed 15:10]
-     :LOGBOOK:
-     CLOCK: [2019-09-04 Wed 14:33]--[2019-09-04 Wed 14:33] =>  0:00
-     CLOCK: [2019-09-04 Wed 14:32]--[2019-09-04 Wed 14:32] =>  0:00
-     CLOCK: [2019-09-04 Wed 13:48]--[2019-09-04 Wed 14:32] =>  0:44
-     CLOCK: [2019-09-04 Wed 13:38]--[2019-09-04 Wed 13:45] =>  0:07
-     CLOCK: [2019-09-03 Tue 22:54]--[2019-09-03 Tue 23:25] =>  0:31
-     CLOCK: [2019-09-03 Tue 22:09]--[2019-09-03 Tue 22:54] =>  0:45
-     CLOCK: [2019-09-03 Tue 21:40]--[2019-09-03 Tue 22:01] =>  0:21
-     CLOCK: [2019-09-03 Tue 21:26]--[2019-09-03 Tue 21:38] =>  0:12
-     CLOCK: [2019-09-03 Tue 21:17]--[2019-09-03 Tue 21:26] =>  0:09
-     CLOCK: [2019-09-03 Tue 16:52]--[2019-09-03 Tue 17:10] =>  0:18
-     CLOCK: [2019-09-03 Tue 16:34]--[2019-09-03 Tue 16:51] =>  0:17
-     CLOCK: [2019-09-03 Tue 15:50]--[2019-09-03 Tue 16:34] =>  0:44
-     CLOCK: [2019-09-03 Tue 15:28]--[2019-09-03 Tue 15:31] =>  0:03
-     CLOCK: [2019-09-02 Mon 17:13]--[2019-09-02 Mon 18:00] =>  0:47
-     CLOCK: [2019-09-02 Mon 17:06]--[2019-09-02 Mon 17:13] =>  0:07
-     CLOCK: [2019-09-01 Sun 16:45]--[2019-09-01 Sun 16:58] =>  0:13
-     CLOCK: [2019-08-30 Fri 16:12]--[2019-08-30 Fri 16:12] =>  0:00
-     CLOCK: [2019-08-30 Fri 16:01]--[2019-08-30 Fri 16:11] =>  0:10
-     CLOCK: [2019-08-30 Fri 15:49]--[2019-08-30 Fri 15:58] =>  0:09
-     CLOCK: [2019-08-30 Fri 14:50]--[2019-08-30 Fri 15:38] =>  0:48
-     CLOCK: [2019-08-25 Sun 16:32]--[2019-08-25 Sun 17:11] =>  0:39
-     CLOCK: [2019-08-25 Sun 16:26]--[2019-08-25 Sun 16:32] =>  0:06
-     CLOCK: [2019-08-25 Sun 16:25]--[2019-08-25 Sun 16:25] =>  0:00
-     CLOCK: [2019-08-25 Sun 15:50]--[2019-08-25 Sun 16:24] =>  0:34
-     CLOCK: [2019-08-25 Sun 12:13]--[2019-08-25 Sun 12:13] =>  0:00
-     CLOCK: [2019-08-25 Sun 12:05]--[2019-08-25 Sun 12:13] =>  0:08
-     CLOCK: [2019-08-24 Sat 18:21]--[2019-08-24 Sat 18:24] =>  0:03
-     CLOCK: [2019-08-24 Sat 18:05]--[2019-08-24 Sat 18:09] =>  0:04
-     CLOCK: [2019-08-24 Sat 17:54]--[2019-08-24 Sat 17:59] =>  0:05
-     CLOCK: [2019-08-24 Sat 17:29]--[2019-08-24 Sat 17:53] =>  0:24
-     CLOCK: [2019-08-24 Sat 16:26]--[2019-08-24 Sat 16:31] =>  0:05
-     CLOCK: [2019-08-24 Sat 14:00]--[2019-08-24 Sat 14:29] =>  0:29
-     CLOCK: [2019-08-24 Sat 13:43]--[2019-08-24 Sat 14:00] =>  0:17
-     CLOCK: [2019-08-24 Sat 13:18]--[2019-08-24 Sat 13:43] =>  0:25
-     CLOCK: [2019-08-20 Tue 19:13]--[2019-08-20 Tue 19:16] =>  0:03
-     CLOCK: [2019-08-18 Sun 19:10]--[2019-08-18 Sun 19:20] =>  0:10
-     CLOCK: [2019-08-18 Sun 12:45]--[2019-08-18 Sun 13:11] =>  0:26
-     CLOCK: [2019-08-18 Sun 12:17]--[2019-08-18 Sun 12:38] =>  0:21
-     CLOCK: [2019-08-17 Sat 20:52]--[2019-08-17 Sat 22:08] =>  1:16
-     CLOCK: [2019-08-17 Sat 15:27]--[2019-08-17 Sat 16:25] =>  0:58
-     CLOCK: [2019-08-17 Sat 14:53]--[2019-08-17 Sat 15:00] =>  0:07
-     CLOCK: [2019-08-17 Sat 14:06]--[2019-08-17 Sat 14:40] =>  0:34
-     CLOCK: [2019-08-17 Sat 13:49]--[2019-08-17 Sat 13:59] =>  0:10
-     CLOCK: [2019-08-17 Sat 11:20]--[2019-08-17 Sat 11:52] =>  0:32
-     CLOCK: [2019-08-17 Sat 10:43]--[2019-08-17 Sat 10:43] =>  0:00
-     CLOCK: [2019-08-17 Sat 10:42]--[2019-08-17 Sat 10:43] =>  0:01
-     CLOCK: [2019-08-17 Sat 09:28]--[2019-08-17 Sat 09:52] =>  0:24
-     CLOCK: [2019-08-17 Sat 09:09]--[2019-08-17 Sat 09:28] =>  0:19
-     CLOCK: [2019-08-16 Fri 18:11]--[2019-08-16 Fri 19:23] =>  1:12
-     CLOCK: [2019-08-14 Wed 18:15]--[2019-08-14 Wed 19:29] =>  1:14
-     CLOCK: [2019-08-13 Tue 19:41]--[2019-08-13 Tue 19:41] =>  0:00
-     CLOCK: [2019-08-13 Tue 19:10]--[2019-08-13 Tue 19:41] =>  0:31
-     :END:
--[X] Read about gesture handlers
-- https://docs.expo.io/versions/latest/sdk/gesture-handler/
-- https://kmagiera.github.io/react-native-gesture-handler/docs/about-handlers.html
-- [X] Add a pan gesture handler to something
-- [X] Play with nested handlers and waitfor
-- [X] Update app to remove scroll-view-gesture comp warnings
-  - [X] Update to sdk 33
-  - [X] Update shadow-cljs
-    - Apparently only the devDependencies in package.json matters?
-  - [X] Resolve warnings
-    - File system warning doesn't make sense ...
-    - [X] Remove keep awake usage
-      - https://github.com/thheller/shadow-cljs/issues/513
-      - Might add it back later if it is an issue https://docs.expo.io/versions/latest/sdk/keep-awake/
-  - [X] Update to sdk 34
-- [X] Figure out smooth pan movement
-  - https://gist.github.com/scottdw/2960070#file-stats-clj-L5
-  - https://stackoverflow.com/a/3761318/5040125
-  - https://github.com/kmagiera/react-native-gesture-handler/issues/621#issuecomment-522272948
-  - After graphing it out it seems like the values jump by 100 for a handful of events then jump back
-  - +Need to use absoluteY but it seems to behave like a relative thing when I scroll+
-  - Solution is to wrap scroll in pan and use selected as a toggle (lock/mutex)
-    - Now ~nativeEvent.y~ can be used and it works for the entire screen or day view (hopefully).
-    - Can be resumed after pan ends
-- [X] Figure out gesture handler experience
-  - Be able to scroll
-  - When holding an element enter a state to drag it around updating start/stop on release
-    - Needs a ~pan~ on the day view that is simultaneous with a ~long press~ on each element
-    - When ~long press~ is active set the selection state
-    - When selection state is active then the ~pan~ is enabled it updates the form
-    - When ~long press~ is released the pan is disabled and the form is saved
-  - ~Tap~ an element opens form in bottom sheet
-    - Needs to wrap the ~long press~ and wait for it
-    - ~Tap~ should not activate if the long press activates then ends
-- [-] Implement gesture handler experience on calendar page
-  - [X] (scroll) Add scroll view that locks out on selection and waits for pinch
-  - [X] (drag) Add pan gesture handler that locks out on no selection and waits for pinch
-    - [X] Fix top being at finger
-  - [X] (zoom) Add pinch gesture
-  - [X] (bottom sheet pop up selection) Add tap handler that wraps element and waits on long press
-  - [X] (movement selection) Add long press wrapping element directly
-  - [-] Use simultaneous prop for long press and pan
-    - Having a hard time achieving this
-    - https://github.com/kmagiera/react-native-gesture-handler/issues/434
-  - [X] Use rect button
-  - [X] Replace long press with double tap for movement selection
-- [X] Implement handlers on day page
-  - [X] Add top level todo items
-  - [X] Refactor selections
-    - [X] App-db
-      - [X] Reformat ns
-    - [X] Handlers
-    - [X] Subscriptions
-  - [X] Scroll
-  - [X] Pan
-  - [X] Pinch
-  - [X] Rect-button
-  - [X] Double-tap
-  - [X] Figure out how to get lock out scroll view and pan handler
-  - [X] Figure out why movement changes duration randomly
-    - It was just /in play/
-  - [X] Make selection indicator look better
-  - [X] Remove println
-  - [X] Fix document picker
-**** DONE Optimize performance
-     CLOSED: [2019-09-15 Sun 11:28]
-     :LOGBOOK:
-     CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:15] =>  0:02
-     CLOCK: [2019-09-04 Wed 15:10]--[2019-09-04 Wed 15:14] =>  0:04
-     :END:
-***** DONE Try chrome performance monitor
-      CLOSED: [2019-09-04 Wed 16:13]
-      :LOGBOOK:
-      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:13] =>  0:00
-      CLOCK: [2019-09-04 Wed 16:13]--[2019-09-04 Wed 16:13] =>  0:00
-      CLOCK: [2019-09-04 Wed 15:27]--[2019-09-04 Wed 15:41] =>  0:14
-      :END:
-It doesn't seem to break down into anything recognizable as a cljs function.
-***** CANCELED Use some cljs perf monitoring
-      CLOSED: [2019-09-06 Fri 22:33]
-      :LOGBOOK:
-      CLOCK: [2019-09-04 Wed 16:15]--[2019-09-04 Wed 16:27] =>  0:12
-      :END:
-https://github.com/ptaoussanis/tufte
-***** DONE Optimize Other areas
-      CLOSED: [2019-09-15 Sun 11:28]
-      :LOGBOOK:
-      CLOCK: [2019-09-04 Wed 19:06]--[2019-09-04 Wed 19:13] =>  0:07
-      CLOCK: [2019-09-04 Wed 16:27]--[2019-09-04 Wed 16:56] =>  0:29
-      :END:
- Disabled pan/drag option for now
-****** CANCELED Expo/ReactNative profiling
-       CLOSED: [2019-09-06 Fri 22:35]
- Wait [[https://github.com/facebook/react-native/issues/18044#issuecomment-517763893][for this]]
-
-****** DONE Debounce/Throttle
-       CLOSED: [2019-09-04 Wed 20:19]
-       :LOGBOOK:
-       CLOCK: [2019-09-04 Wed 19:55]--[2019-09-04 Wed 20:19] =>  0:24
-       CLOCK: [2019-09-04 Wed 19:14]--[2019-09-04 Wed 19:50] =>  0:36
-       :END:
-https://www.martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
-https://medium.com/@alehatsman/clojurescript-throttle-debounce-a651dfb66ac
-****** DONE Optimize re-frame
-       CLOSED: [2019-09-15 Sun 11:28]
-       :LOGBOOK:
-       CLOCK: [2019-09-06 Fri 17:58]--[2019-09-06 Fri 18:04] =>  0:06
-       CLOCK: [2019-09-05 Thu 00:00]--[2019-09-05 Thu 00:16] =>  0:16
-       :END:
-Some [[https://github.com/Day8/re-frame/blob/master/docs/Performance-Problems.md][problems]] I have are anonymous functions on each element and too big of state being passed into components.
-I can't use re-frame 10x because it is too specific to a browser, but I might be able to use [[https://github.com/Day8/re-frame/blob/master/docs/Debugging.md][some older ways]] of monitoring re-frame.
-******* DONE Problem 2 exploration ( tightly coupled state )
-        CLOSED: [2019-09-06 Fri 18:03]
-        :LOGBOOK:
-        CLOCK: [2019-09-05 Thu 18:51]--[2019-09-05 Thu 20:05] =>  1:14
-        :END:
-- [X] Simplify refs as much as possible
-******** DONE Dive into unknown subscription patterns
-         CLOSED: [2019-09-06 Fri 18:03]
-         :LOGBOOK:
-         CLOCK: [2019-09-05 Thu 21:54]--[2019-09-05 Thu 22:34] =>  0:40
-         CLOCK: [2019-09-05 Thu 20:06]--[2019-09-05 Thu 20:49] =>  0:43
-         :END:
-https://github.com/Day8/re-frame/blob/master/docs/SubscriptionInfographic.md
-Apparently registered subscriptions are supposed to do all the computation and can be nested.
-Hiccup is supposed to not have any computation.
-This is a new concept.
-Read through a bunch of [[https://purelyfunctional.tv/guide/database-structure-in-re-frame/][this guide]] on how to do things in re-frame.
-I messed up by not indexing buckets and periods by their id.
-My lookups require iterating over the entire collection on each update.
-Which is probably a big reason why dragging performance is so bad.
-Hopefully I can refactor without starting over.
-********* DONE Plan how to fix everything given new information
-          CLOSED: [2019-09-06 Fri 18:03]
-          :LOGBOOK:
-          CLOCK: [2019-09-06 Fri 17:57]--[2019-09-06 Fri 17:57] =>  0:00
-          :END:
- - Areas affected are limited to what is needed to run the day-planning screen
- - Database has ~buckets~, ~periods~ indexed (patterns and templates later)
- - All affected subscriptions utilize the graph functionality
- - Subscribe calls are as deep as they can go in view components
- - Listen function is utilized
- - View comps are only concerned with generating hiccup
-********** Relevant subscriptions
- #+begin_src clojure
-   ;; day-planning
-   periods           (subscribe [:get-collision-grouped-periods])
-   displayed-day     (subscribe [:get-day-time-navigator])
-   selected-period   (subscribe [:get-selection-period-movement])
-   period-in-play    (subscribe [:get-period-in-play])
-   now               (subscribe [:get-now])
-   buckets           (subscribe [:get-buckets])
-   patterns          (subscribe [:get-patterns])
-   templates         (subscribe [:get-templates])
-   ;; day
-   px-ratio-config   @(subscribe [:get-pixel-to-minute-ratio])
- #+end_src
-
-******* DONE Refactor app-db to use hash map for buckets and periods collection
-        CLOSED: [2019-09-08 Sun 19:28]
-******** DONE Initial spec and default db change
-         CLOSED: [2019-09-06 Fri 21:24]
-         :LOGBOOK:
-         CLOCK: [2019-09-06 Fri 18:04]--[2019-09-06 Fri 19:12] =>  1:08
-         :END:
-******** DONE Fix repl
-         CLOSED: [2019-09-06 Fri 21:04]
-         :LOGBOOK:
-         CLOCK: [2019-09-06 Fri 20:30]--[2019-09-06 Fri 21:04] =>  0:34
-         :END:
-Attempted to refactor app-db and discovered that my repl is broken...
-Attempted to install new versions of cider.nrepl and shadow-cljs.
-Also attempted to use intellij/cursive but couldn't figure out how to connect to cljs repl.
-
- - [X] Try to [[https://docs.cider.mx/cider/basics/installation.html][install]] package
- - [X] Try to fix emacs not connecting to gnu archive
-   - Added some magic line to ~.spacemacs~ to fix https melpa connection
-   - Updated packages (got the latest *cider* from that)
-   - Followed [[https://shadow-cljs.github.io/docs/UsersGuide.html#_launch_the_clojurescript_repl][shadow-cljs user guide]] instructions on cider launching
-     - There is a difference between ~cider-jack-in-clojurescript~ and ~cider-jack-in-cljs~ ( must use the later )
-     - Must wait for prompts (doing anything interrupts the flow)
-   
-******** DONE Get elements to show up in day display
-         CLOSED: [2019-09-06 Fri 21:44]
-         :LOGBOOK:
-         CLOCK: [2019-09-06 Fri 21:24]--[2019-09-06 Fri 21:44] =>  0:20
-         :END:
-
-******** DONE Work through runtime errors trying to select and move period
-         CLOSED: [2019-09-07 Sat 13:02]
-         :LOGBOOK:
-         CLOCK: [2019-09-07 Sat 10:45]--[2019-09-07 Sat 13:02] =>  2:17
-         :END:
-
-******** DONE Stress movement with *lots* of buckets and periods in default app-db
-         CLOSED: [2019-09-07 Sat 15:30]
-         :LOGBOOK:
-         CLOCK: [2019-09-07 Sat 15:30]--[2019-09-07 Sat 15:37] =>  0:07
-         CLOCK: [2019-09-07 Sat 14:09]--[2019-09-07 Sat 15:30] =>  1:21
-         :END:
-******** DONE Figure out why too many overlapping periods push to the other track
-         CLOSED: [2019-09-08 Sun 11:18]
-         :LOGBOOK:
-         CLOCK: [2019-09-08 Sun 10:25]--[2019-09-08 Sun 11:18] =>  0:53
-         :END:
-Fix it crossing the boundaries of the component with some ~min~ wrappers.
-******** DONE Fix runtime errors attempting to add new buckets end periods
-         CLOSED: [2019-09-08 Sun 18:10]
-         :LOGBOOK:
-         CLOCK: [2019-09-08 Sun 17:40]--[2019-09-08 Sun 18:10] =>  0:30
-         CLOCK: [2019-09-08 Sun 17:18]--[2019-09-08 Sun 17:40] =>  0:22
-         CLOCK: [2019-09-08 Sun 15:42]--[2019-09-08 Sun 17:18] =>  1:36
-         CLOCK: [2019-09-08 Sun 13:03]--[2019-09-08 Sun 13:33] =>  0:30
-         CLOCK: [2019-09-08 Sun 12:50]--[2019-09-08 Sun 13:02] =>  0:12
-         CLOCK: [2019-09-08 Sun 12:43]--[2019-09-08 Sun 12:50] =>  0:07
-         CLOCK: [2019-09-08 Sun 12:38]--[2019-09-08 Sun 12:40] =>  0:02
-         CLOCK: [2019-09-08 Sun 11:53]--[2019-09-08 Sun 12:02] =>  0:09
-         CLOCK: [2019-09-08 Sun 11:42]--[2019-09-08 Sun 11:47] =>  0:05
-         CLOCK: [2019-09-08 Sun 11:27]--[2019-09-08 Sun 11:42] =>  0:15
-         CLOCK: [2019-09-08 Sun 11:19]--[2019-09-08 Sun 11:21] =>  0:02
-         :END:
-- [X] Buckets page
-- [X] Bucket form load 
-- [X] Changes sub  for bucket form
-- [X] Save bucket changes handler 
-- [x] Loading period form 
-- [X] Saving period form 
-- [X] Add period 
-- [X] Add bucket 
-- [X] Delete bucket 
-- [X] Delete period 
-******* CANCELED Refactor subscriptions 
-        CLOSED: [2019-09-15 Sun 11:27]
-- [ ] Subs use signal graph pattern
-- [ ] Subs Hold all the logic (very thin hiccup only views)
-- [ ] Subscribe calls are as deep as they can go in view components
-- [ ] Listen function is utilized
-
-****** CANCELED Circumnavigate reframe events
-       CLOSED: [2019-09-15 Sun 11:26]
-       :LOGBOOK:
-       CLOCK: [2019-09-06 Fri 17:44]--[2019-09-06 Fri 17:56] =>  0:12
-       :END:
-The idea here is to have a ~movement selected~ component that has an ~r/atom~ for its start/stop times.
-Then the pan gesture event handler will update that r/atom to move the element around.
-The pan gesture state change handler will dispatch a single update event on the end state change.
-Then the selected element comp will not be displayed and the actual period will be rendered in the updated position.
-**** CANCELED Stretch mode
-     CLOSED: [2019-09-04 Wed 16:56]
-**** DONE Add bottom sheet for period editing and selection
-     CLOSED: [2019-09-14 Sat 18:08]
-     :LOGBOOK:
-     CLOCK: [2019-09-14 Sat 17:58]--[2019-09-14 Sat 18:08] =>  0:10
-     CLOCK: [2019-09-14 Sat 17:33]--[2019-09-14 Sat 17:45] =>  0:12
-     CLOCK: [2019-09-14 Sat 16:20]--[2019-09-14 Sat 16:40] =>  0:20
-     CLOCK: [2019-09-14 Sat 16:14]--[2019-09-14 Sat 16:19] =>  0:05
-     CLOCK: [2019-09-14 Sat 15:25]--[2019-09-14 Sat 15:52] =>  0:27
-     CLOCK: [2019-09-14 Sat 15:12]--[2019-09-14 Sat 15:25] =>  0:13
-     CLOCK: [2019-09-14 Sat 13:19]--[2019-09-14 Sat 13:29] =>  0:10
-     CLOCK: [2019-09-14 Sat 12:57]--[2019-09-14 Sat 13:19] =>  0:22
-     CLOCK: [2019-09-13 Fri 19:39]--[2019-09-13 Fri 20:12] =>  0:33
-     CLOCK: [2019-09-10 Tue 22:19]--[2019-09-10 Tue 22:46] =>  0:27
-     CLOCK: [2019-09-10 Tue 21:29]--[2019-09-10 Tue 22:16] =>  0:47
-     CLOCK: [2019-09-10 Tue 18:04]--[2019-09-10 Tue 19:14] =>  1:10
-     CLOCK: [2019-09-09 Mon 21:25]--[2019-09-09 Mon 21:45] =>  0:20
-     CLOCK: [2019-09-09 Mon 20:37]--[2019-09-09 Mon 21:19] =>  0:42
-     CLOCK: [2019-09-09 Mon 19:45]--[2019-09-09 Mon 20:30] =>  0:45
-     CLOCK: [2019-09-09 Mon 19:15]--[2019-09-09 Mon 19:41] =>  0:26
-     CLOCK: [2019-09-08 Sun 19:49]--[2019-09-08 Sun 20:26] =>  0:37
-     CLOCK: [2019-09-08 Sun 19:28]--[2019-09-08 Sun 19:44] =>  0:16
-     CLOCK: [2019-09-04 Wed 16:56]--[2019-09-04 Wed 18:28] =>  1:32
-     :END:
-https://github.com/osdnk/react-native-reanimated-bottom-sheet
-- [X] Attempt to replace drawer
-  - Didn't work
-- [X] Add deps
-- [X] Placeholder on the day screen
-- [X] Use ~ref~ prop to dynamically close/open
-- [X] Display an icon and add functions
-- [X] Get functions working
-- [X] Figure out how to get bottom-sheet to cover the view port and not just the bottom portion of the scroll view
-- [X] Get the drawer to play nice with the bottom sheet
-- [X] Fix property access error
-- [X] Style transform buttons
-- [X] Make edit selection detectable
-- [X] Make all of day display visible while edit menu is up
-- [X] Make movement selection clear edit
-- [X] Fix changing bucket on selected edit break transform button actions
-- [X] Collapse bottom sheet on delete period
-- [X] Create safe fn for bottom sheet collapse
-- [X] Add the edit form
-- [X] Fix delete actions on elements
-**** DONE Add double tap on screen to add period
-     CLOSED: [2019-09-15 Sun 14:44]
-     :LOGBOOK:
-     CLOCK: [2019-09-15 Sun 13:57]--[2019-09-15 Sun 14:44] =>  0:47
-     CLOCK: [2019-09-15 Sun 12:25]--[2019-09-15 Sun 12:30] =>  0:05
-     CLOCK: [2019-09-14 Sat 18:10]--[2019-09-14 Sat 18:52] =>  0:42
-     :END:
-**** DONE Get pattern planning view working
-     CLOSED: [2019-09-17 Tue 13:55]
-     :LOGBOOK:
-     CLOCK: [2019-09-17 Tue 13:36]--[2019-09-17 Tue 13:55] =>  0:19
-     CLOCK: [2019-09-16 Mon 19:43]--[2019-09-16 Mon 20:51] =>  1:08
-     CLOCK: [2019-09-16 Mon 18:59]--[2019-09-16 Mon 19:30] =>  0:31
-     CLOCK: [2019-09-16 Mon 16:26]--[2019-09-16 Mon 16:29] =>  0:03
-     CLOCK: [2019-09-16 Mon 16:19]--[2019-09-16 Mon 16:22] =>  0:03
-     CLOCK: [2019-09-16 Mon 15:39]--[2019-09-16 Mon 15:58] =>  0:19
-     CLOCK: [2019-09-16 Mon 15:04]--[2019-09-16 Mon 15:32] =>  0:28
-     CLOCK: [2019-09-16 Mon 11:30]--[2019-09-16 Mon 13:22] =>  1:52
-     CLOCK: [2019-09-15 Sun 17:16]--[2019-09-15 Sun 19:05] =>  1:49
-     CLOCK: [2019-09-15 Sun 14:55]--[2019-09-15 Sun 15:00] =>  0:05
-     :END:
-- [X] Fix top level template form
-- [X] Get pattern planning to render
-- [X] Get template edit select working
-- [X] Add edit item button
-- [X] Get compact form buttons working
-- [X] Get duration comp working
-- [X] Get top level save working
-- [X] Get template movement working
-- [X] Add planned field to templates
-- [X] Implement transform functions for buttons
-**** DONE Add now indicator for periods
-     CLOSED: [2019-09-17 Tue 15:52]
-     :LOGBOOK:
-     CLOCK: [2019-09-17 Tue 14:56]--[2019-09-17 Tue 15:52] =>  0:56
-     :END:
-What is the difference between these two reagent components?
-#+begin_src clojure
-  (def a-thing (r/atom 1))
-
-  (defn comp-one [params]
-    (let [something (:a params)
-          a-thing-er (+ 1 @a-thing)]
-      [view [text (str a-thing-er)]]))
-
-  (defn comp-two [params]
-    (let [something  (:a params)
-          a-thing-er (+ 1 @a-thing)]
-      (fn []  ;; <------ doesn't re-render when params change with this
-        [view [text (str a-thing-er)]])))
-
-  (defn main-comp []
-    [view
-     [comp-1 {:a "whatever"}]
-     [comp-2 {:a "whatever"}]])
-#+end_src
-**** DONE Fix selection indication 
-     CLOSED: [2019-09-17 Tue 20:01]
-     :LOGBOOK:
-     CLOCK: [2019-09-17 Tue 19:38]--[2019-09-17 Tue 19:53] =>  0:15
-     CLOCK: [2019-09-17 Tue 18:39]--[2019-09-17 Tue 19:10] =>  0:31
-     :END:
-- borders in every state (same color for no selection)
-- style dotted (or dashed) for movement
-**** DONE Fix bottom-sheet-ref in prod
-     CLOSED: [2019-09-17 Tue 22:02]
-     :LOGBOOK:
-     CLOCK: [2019-09-17 Tue 21:01]--[2019-09-17 Tue 22:11] =>  1:10
-     :END:
-This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aeabe0e17e1][gist]].
-**** DONE Add FAB
-     CLOSED: [2019-09-23 Mon 19:52]
-     :LOGBOOK:
-     CLOCK: [2019-09-23 Mon 19:21]--[2019-09-23 Mon 19:52] =>  0:31
-     CLOCK: [2019-09-23 Mon 18:36]--[2019-09-23 Mon 19:20] =>  0:44
-     CLOCK: [2019-09-23 Mon 18:13]--[2019-09-23 Mon 18:35] =>  0:22
-     CLOCK: [2019-09-22 Sun 12:20]--[2019-09-22 Sun 13:35] =>  1:15
-     CLOCK: [2019-09-22 Sun 11:48]--[2019-09-22 Sun 12:01] =>  0:13
-     CLOCK: [2019-09-21 Sat 21:31]--[2019-09-21 Sat 22:27] =>  0:56
-     CLOCK: [2019-09-21 Sat 17:23]--[2019-09-21 Sat 17:23] =>  0:00
-     CLOCK: [2019-09-21 Sat 16:43]--[2019-09-21 Sat 16:47] =>  0:04
-     CLOCK: [2019-09-21 Sat 16:41]--[2019-09-21 Sat 16:42] =>  0:01
-     CLOCK: [2019-09-21 Sat 16:31]--[2019-09-21 Sat 16:37] =>  0:06
-     CLOCK: [2019-09-21 Sat 15:41]--[2019-09-21 Sat 15:43] =>  0:02
-     CLOCK: [2019-09-21 Sat 14:35]--[2019-09-21 Sat 15:18] =>  0:43
-     CLOCK: [2019-09-21 Sat 13:49]--[2019-09-21 Sat 14:23] =>  0:34
-     CLOCK: [2019-09-21 Sat 13:35]--[2019-09-21 Sat 13:41] =>  0:06
-     CLOCK: [2019-09-21 Sat 13:33]--[2019-09-21 Sat 13:35] =>  0:02
-     CLOCK: [2019-09-19 Thu 18:57]--[2019-09-19 Thu 19:53] =>  0:56
-     CLOCK: [2019-09-17 Tue 20:04]--[2019-09-17 Tue 20:25] =>  0:21
-     :END:
-- [X] No play from button on FAB
-- [X] FAB to renders
-- [X] FAB only renders when no selections and day_planning
-- [X] Each button works
-  - [X] Play button works
-  - [X] Add pattern works
-  - [X] Generate pattern works
-- [X] Bottom sheet has play from option (scope creep)
-  - [X] Starts a playing period
-  - [X] Stops when in play
-- [X] Bottom sheet has select next/prev (scope creep)
-  - [X] Works on day_planning screen
-  - [X] Works on pattern_planning screen
-- [X] Bottom sheet has drawer up indicator (scope creep)
-- [X] Bottom sheet for periods has bucket field
-- [X] Pattern planning has double tap to add option
-**** DONE Enable persistence
-     CLOSED: [2019-09-23 Mon 19:57]
-     :LOGBOOK:
-     CLOCK: [2019-09-23 Mon 19:52]--[2019-09-23 Mon 19:57] =>  0:05
-     :END:
-**** CANCELED Stress test persistence
-     CLOSED: [2019-09-29 Sun 12:17]
-     - [ ] Get a default app-db from usage
-     - [ ] Increase it artificially
-**** CANCELED Button either moves with drawer slide or disappears
-     CLOSED: [2019-09-29 Sun 12:17]
-**** DONE Add Dynamic text color to elements
-     CLOSED: [2019-09-06 Fri 22:28]
-     :LOGBOOK:
-     CLOCK: [2019-09-06 Fri 21:56]--[2019-09-06 Fri 22:28] =>  0:32
-     :END:
-**** DOSUB Dogfood feedback 
-     :PROPERTIES:
-     :END:
-     :LOGBOOK:
-     CLOCK: [2019-09-29 Sun 13:38]--[2019-09-29 Sun 14:43] =>  1:05
-     CLOCK: [2019-09-29 Sun 12:15]--[2019-09-29 Sun 13:38] =>  1:23
-     :END:
-***** DONE Fix bottom sheet 
-      CLOSED: [2019-09-28 Sat 17:06]
-      :PROPERTIES:
-      :VALUE:    5
-      :WORK:     2
-      :END:
-      :LOGBOOK:
-      CLOCK: [2019-09-28 Sat 15:38]--[2019-09-28 Sat 17:06] =>  1:28
-      CLOCK: [2019-09-28 Sat 13:47]--[2019-09-28 Sat 14:00] =>  0:13
-      CLOCK: [2019-09-28 Sat 12:30]--[2019-09-28 Sat 12:50] =>  0:20
-      CLOCK: [2019-09-28 Sat 11:01]--[2019-09-28 Sat 11:53] =>  0:52
-      :END:
-     - [X] Multiple snap points
-     - +Using use content section and header section+
-     - [X] Closing and opening triggers selection changes
-     - [X] Jump to today works
-***** TODO Hide android navigation bar 
-      :PROPERTIES:
-      :VALUE:    2
-      :WORK:     1
-      :END:
 - Or adjust bottom-sheet and FAB to not be covered by it 
-***** TODO Put version indicator in app-db (for export mostly)
-      :PROPERTIES:
-      :VALUE:    1
-      :WORK:     1
-      :END:
-***** TODO Make a better element state indication
-      :PROPERTIES:
-      :VALUE:    5
-      :WORK:     5
-      :END:
-      - in play
-      - resting
-      - selected edit
-      - selected movement
+*** TODO Put version indicator in app-db (for export mostly)
+    :PROPERTIES:
+    :VALUE:    1
+    :WORK:     1
+    :END:
+*** TODO Make a better element state indication without animation or "jumpy" borders
+    :PROPERTIES:
+    :VALUE:    5
+    :WORK:     5
+    :END:
+    - in play
+    - resting
+    - selected edit
+    - selected movement
 
-***** TODO Fix delete pattern button
-      :PROPERTIES:
-      :VALUE:    20
-      :WORK:     1
-      :END:
-***** TODO Fix bottom sheet spacer
-      :PROPERTIES:
-      :VALUE:    2
-      :WORK:     2
-      :END:
+*** TODO Fix delete pattern button
+    :PROPERTIES:
+    :VALUE:    20
+    :WORK:     1
+    :END:
+*** TODO Fix bottom sheet spacer
+    :PROPERTIES:
+    :VALUE:    2
+    :WORK:     2
+    :END:
 - Maybe it should be sized dynamically with bottom sheet position
-***** TODO Fix now indicator to have accurate position 
-      :PROPERTIES:
-      :VALUE:    3
-      :WORK:     2
-      :END:
-***** TODO Add a snap to for period movement 
-      :PROPERTIES:
-      :VALUE:    1
-      :WORK:     8
-      :END:
-***** TODO Reduce border radius on periods
-      :PROPERTIES:
-      :VALUE:    2
-      :WORK:     1
-      :END:
-***** TODO Long press to add period (not double tap)  
-      :PROPERTIES:
-      :VALUE:    3
-      :WORK:     2
-      :END:
-      Double tap is too easy to trigger when scrolling
-      Also bring up bucket model
-***** TODO Remove minimum period size
-      :PROPERTIES:
-      :VALUE:    2
-      :WORK:     1
-      :END:
-***** TODO Figure out why keyboard pops up when opening on day view (sometimes)
-      :PROPERTIES:
-      :VALUE:    1
-      :WORK:     3
-      :END:
-***** TODO Day indicator should show day of week
-      :PROPERTIES:
-      :VALUE:    1
-      :WORK:     1
-      :END:
-***** TODO Add a menu button instead of gesture action
-      :PROPERTIES:
-      :VALUE:    3
-      :WORK:     2
-      :END:
-***** TODO Fix modal bottom gap 
-      :PROPERTIES:
-      :VALUE:    1
-      :WORK:     2
-      :END:
-      - noticed on play bucket modal
-***** TODO Add selected start stop indicators (now indicator style)
-      :PROPERTIES:
-      :VALUE:    5
-      :WORK:     2
-      :END:
+*** TODO Fix now indicator to have accurate position 
+    :PROPERTIES:
+    :VALUE:    3
+    :WORK:     2
+    :END:
+*** TODO Add a snap to for period movement 
+    :PROPERTIES:
+    :VALUE:    1
+    :WORK:     8
+    :END:
+*** TODO Reduce border radius on periods
+    :PROPERTIES:
+    :VALUE:    2
+    :WORK:     1
+    :END:
+*** TODO Long press to add period (not double tap)  
+    :PROPERTIES:
+    :VALUE:    3
+    :WORK:     2
+    :END:
+    Double tap is too easy to trigger when scrolling
+    Also bring up bucket model
+*** TODO Remove minimum period size
+    :PROPERTIES:
+    :VALUE:    2
+    :WORK:     1
+    :END:
+*** TODO Figure out why keyboard pops up when opening on day view (sometimes)
+    :PROPERTIES:
+    :VALUE:    1
+    :WORK:     3
+    :END:
+*** TODO Day indicator should show day of week
+    :PROPERTIES:
+    :VALUE:    1
+    :WORK:     1
+    :END:
+*** TODO Add a menu button instead of gesture action
+    :PROPERTIES:
+    :VALUE:    3
+    :WORK:     2
+    :END:
+*** TODO Fix modal bottom gap 
+    :PROPERTIES:
+    :VALUE:    1
+    :WORK:     2
+    :END:
+    - noticed on play bucket modal
+*** TODO Add selected start stop indicators (now indicator style)
+    :PROPERTIES:
+    :VALUE:    5
+    :WORK:     2
+    :END:
+*** TODO Multiple play timers
+    :PROPERTIES:
+    :VALUE:    8
+    :WORK:     5
+    :END:
+   Stacked play indicators in bottom sheet.
+   +Top+ Bottom is the selected edit with either a play or stop indicator with color. 
+   Each level below that is a stop bottom for each playing item.
+   Dynamic snap to points based on how many items in play.
+   FAB does not have stop indicator anymore.
+   Deslection by "closing" bottom sheet while still being able to see in play stop buttons.
+   Can header and dynamic snap positions be used to achieve this? 
+*** TODO Remove up and down arrows 
+    :PROPERTIES:
+    :WORK:     1
+    :VALUE:    1
+    :END:
+- Drag state already does this
+- Buttons in compact form if more precision is needed
+*** TODO Add geofencing triggers on buckets 
 *** TODO Add Calendar integration
     :PROPERTIES:
     :Effort:   10:00
@@ -752,14 +205,6 @@ https://docs.expo.io/versions/latest/sdk/calendar/
 - [ ] Calendars enabled and auto add options to each Bucket
 - [ ] Form components to link periods to calendar events
 - [ ] Form components to link templates to calendar events
-*** CANCELED Fix drawer bug
-    CLOSED: [2019-09-10 Tue 19:16]
-    :PROPERTIES:
-    :Effort:   3:00
-    :Confidence: 80
-    :END:
-When a contained button or surface element is used on the screen component it doesn't /go under/ the drawer overlay
-Also might need to replace drawer with another component library to support non swipe opening for a11y.
 *** TODO Add locked period mechanism
     :PROPERTIES:
     :Effort:   8:00
@@ -861,16 +306,9 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Going back from template form doesn't close the bottom sheet
 - Closing the bottom sheet doesn't deselect
 
-** Onboard other developers
-*** DONE Onboard Josh
-    CLOSED: [2019-09-07 Sat 17:58]
-    :LOGBOOK:
-    CLOCK: [2019-09-07 Sat 17:15]--[2019-09-07 Sat 17:58] =>  0:43
-    :END:
 ** Dreams
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]
-- Multiple play timers
 - Fully namespaced keys only
 - Add Extra buttons to selection menus
   - Add period to pattern
@@ -888,3 +326,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Refactor subscriptions to use signal graph pattern
 - Refactor views to be very thin (no operations)
 - Use react-native-paper FAB.group
+- Use animation api for state indication
