@@ -10,6 +10,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-09-29 Sun 17:17]--[2019-09-29 Sun 17:24] =>  0:07
   CLOCK: [2019-09-29 Sun 15:52]--[2019-09-29 Sun 15:55] =>  0:03
   CLOCK: [2019-09-15 Sun 11:20]--[2019-09-15 Sun 11:29] =>  0:09
   CLOCK: [2019-09-06 Fri 22:29]--[2019-09-06 Fri 22:36] =>  0:07
@@ -30,10 +31,25 @@
   :END:
      #+NAME: WSJF table
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
+     #+END:
+** Instructions on WSJF table usage 
+     This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
+     The *(/ (float VALUE) (float WORK))* column is derived from those two properties. 
+     ~C-c C-c~ on the table definition line to re-render.
+     Sort by putting cursor on one of the lines and running ~org-table-sort-lines~ with *N* option.
+     To rapidly enter *VALUE* and *WORK* properties use ~org-columns~ to enter column view.
+     Then use arrow keys to navigate cells in column view. 
+     Use ~SHIFT ->~ to cycle through property values.
+** DOSUB Release to strangers
+     #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      | "[[Fix delete pattern button]]"                                                     |                           20.0 |    20 |    1 |
+     | "[[Add handlers tests]]"                                                            |                            2.6 |    13 |    5 |
+     | "[[Add subscriptions tests]]"                                                       |                            2.6 |    13 |    5 |
+     | "[[Use scrollTo when an element is selected for edit]]"                             |                            2.5 |     5 |    2 |
      | "[[Add selected start stop indicators (now indicator style)]]"                      |                            2.5 |     5 |    2 |
+     | "[[Follow material design on each page]]"                                           |                            2.5 |    50 |   20 |
      | "[[Hide android navigation bar]]"                                                   |                            2.0 |     2 |    1 |
      | "[[Reduce border radius on periods]]"                                               |                            2.0 |     2 |    1 |
      | "[[Remove minimum period size]]"                                                    |                            2.0 |     2 |    1 |
@@ -49,36 +65,15 @@
      | "[[Fix modal bottom gap]]"                                                          |                            0.5 |     1 |    2 |
      | "[[Figure out why keyboard pops up when opening on day view (sometimes)]]"          |             0.3333333333333333 |     1 |    3 |
      | "[[Add a snap to for period movement]]"                                             |                          0.125 |     1 |    8 |
-     | "[[Add geofencing triggers on buckets]]"                                            |                              0 |     0 |    0 |
-     | "[[Add Calendar integration]]"                                                      |                              0 |     0 |    0 |
-     | "[[Add locked period mechanism]]"                                                   |                              0 |     0 |    0 |
-     | "[[Mobile friendly data editor]]"                                                   |                              0 |     0 |    0 |
-     | "[[Checklists]]"                                                                    |                              0 |     0 |    0 |
-     | "[[Notifications (push?)]]"                                                         |                              0 |     0 |    0 |
-     | "[[Fix template editing bug with end time]]"                                        |                              0 |     0 |    0 |
-     | "[[Fix navigation]]"                                                                |                              0 |     0 |    0 |
-     | "[[Markov chain prediction]]"                                                       |                              0 |     0 |    0 |
-     | "[[Report Page]]"                                                                   |                              0 |     0 |    0 |
-     | "[[Queue page]]"                                                                    |                              0 |     0 |    0 |
-     | "[[Add queue definition to app-db]]"                                                |                              0 |     0 |    0 |
-     | "[[Add queue form]]"                                                                |                              0 |     0 |    0 |
-     | "[[Add queue list]]"                                                                |                              0 |     0 |    0 |
-     | "[[Add conversion to planned period function]]"                                     |                              0 |     0 |    0 |
-     | "[[Calendar Page]]"                                                                 |                              0 |     0 |    0 |
-     | "[[Analytics]]"                                                                     |                              0 |     0 |    0 |
-     | "[[Bugs]]"                                                                          |                              0 |     0 |    0 |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
-** Instructions on WSJF table usage 
-     This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
-     The *(/ (float VALUE) (float WORK))* column is derived from those two properties. 
-     ~C-c C-c~ on the table definition line to re-render.
-     Sort by putting cursor on one of the lines and running ~org-table-sort-lines~ with *N* option.
-     To rapidly enter *VALUE* and *WORK* properties use ~org-columns~ to enter column view.
-     Then use arrow keys to navigate cells in column view. 
-     Use ~SHIFT ->~ to cycle through property values.
-** DOSUB Release to strangers
+*** TODO Use scrollTo when an element is selected for edit
+    :PROPERTIES:
+    :VALUE:    5
+    :WORK:     2
+    :END:
+    [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
 *** TODO Hide android navigation bar 
     :PROPERTIES:
     :VALUE:    2
@@ -183,6 +178,27 @@
     :END:
 - Drag state already does this
 - Buttons in compact form if more precision is needed
+*** TODO Add handlers tests
+    :PROPERTIES:
+    :WORK:     5
+    :VALUE:    13
+    :END:
+
+    Automate test creation from use
+*** TODO Add subscriptions tests
+    :PROPERTIES:
+    :WORK:     5
+    :VALUE:    13
+    :END:
+
+    Automate test creation from use
+*** TODO Follow material design on each page
+    :PROPERTIES:
+    :WORK:     20
+    :VALUE:    50
+    :END:
+
+** DOSUB Eventually 
 *** TODO Add geofencing triggers on buckets 
 *** TODO Add Calendar integration
     :PROPERTIES:
@@ -310,10 +326,7 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]
 - Fully namespaced keys only
-- Add Extra buttons to selection menus
-  - Add period to pattern
-  - Edit on full form
-- DRY up spectre paths
+- DRY up /all/ spectre paths
 - Spec everything
 - Unit test every function (or handlers, subs, helpers)
 - Accessibility
@@ -321,8 +334,6 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Advanced notifications with interaction
 - [[https://stackoverflow.com/questions/46680890/react-native-how-to-scroll-a-scrollview-to-a-given-location-after-navigation-f][better scrolling]]
 - [[https://docs.expo.io/versions/v33.0.0/react-native/performance/][Optimize performance]]
-- Use [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]] when an element is selected for edit
-- Transform buttons' icon shows arrows in relation to an element (box)
 - Refactor subscriptions to use signal graph pattern
 - Refactor views to be very thin (no operations)
 - Use react-native-paper FAB.group
