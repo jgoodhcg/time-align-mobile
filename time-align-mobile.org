@@ -1,5 +1,7 @@
 #+TODO: TODO DOSUB | DONE CANCELED 
 #+PROPERTY: Effort_ALL 0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00
+#+PROPERTY: Work_ALL 0 1 2 3 5 8 13 20 50 100
+#+PROPERTY: Value_ALL 0 1 2 3 5 8 13 20 50 100
 #+COLUMNS: %40ITEM(Task) %10Confidence(Confidence){mean} %17Effort(Estimated Effort){:} %CLOCKSUM
 #+STARTUP: overview
 
@@ -559,18 +561,62 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
      :LOGBOOK:
      CLOCK: [2019-09-23 Mon 19:52]--[2019-09-23 Mon 19:57] =>  0:05
      :END:
-**** TODO Stress test persistence
+**** CANCELED Stress test persistence
+     CLOSED: [2019-09-29 Sun 12:17]
      - [ ] Get a default app-db from usage
      - [ ] Increase it artificially
-**** TODO Button either moves with drawer slide or disappears
+**** CANCELED Button either moves with drawer slide or disappears
+     CLOSED: [2019-09-29 Sun 12:17]
 **** DONE Add Dynamic text color to elements
      CLOSED: [2019-09-06 Fri 22:28]
      :LOGBOOK:
      CLOCK: [2019-09-06 Fri 21:56]--[2019-09-06 Fri 22:28] =>  0:32
      :END:
-**** DOSUB Dogfood feedback
+**** DOSUB Dogfood feedback 
+     :PROPERTIES:
+     :COLUMNS: %Value(Value)  %Work(Work) %ITEM(Task) %TODO(State) 
+     :END:
+     :LOGBOOK:
+     CLOCK: [2019-09-29 Sun 13:38]--[2019-09-29 Sun 14:43] =>  1:05
+     CLOCK: [2019-09-29 Sun 12:15]--[2019-09-29 Sun 13:38] =>  1:23
+     :END:
+    
+     *WSJF table*
+     #+BEGIN: propview :conds ((string= TODO "TODO")) :cols (ITEM VALUE WORK (/ (float VALUE) (float WORK)))
+     | ITEM                                                                   | VALUE | WORK | (/ (float VALUE) (float WORK)) |
+     |------------------------------------------------------------------------+-------+------+--------------------------------|
+     | "Fix delete pattern button"                                            |    20 |    1 |                           20.0 |
+     | "Add selected start stop indicators (now indicator style)"             |     5 |    2 |                            2.5 |
+     | "Hide android navigation bar"                                          |     2 |    1 |                            2.0 |
+     | "Reduce border radius on periods"                                      |     2 |    1 |                            2.0 |
+     | "Remove minimum period size"                                           |     2 |    1 |                            2.0 |
+     | "Fix now indicator to have accurate position"                          |     3 |    2 |                            1.5 |
+     | "Long press to add period (not double tap)"                            |     3 |    2 |                            1.5 |
+     | "Add a menu button instead of gesture action"                          |     3 |    2 |                            1.5 |
+     | "Put version indicator in app-db (for export mostly)"                  |     1 |    1 |                            1.0 |
+     | "Make a better element state indication"                               |     5 |    5 |                            1.0 |
+     | "Fix bottom sheet spacer"                                              |     2 |    2 |                            1.0 |
+     | "Day indicator should show day of week"                                |     1 |    1 |                            1.0 |
+     | "Fix modal bottom gap"                                                 |     1 |    2 |                            0.5 |
+     | "Figure out why keyboard pops up when opening on day view (sometimes)" |     1 |    3 |             0.3333333333333333 |
+     | "Add a snap to for period movement"                                    |     1 |    8 |                          0.125 |
+     |------------------------------------------------------------------------+-------+------+--------------------------------|
+     |                                                                        |       |      |                                |
+     #+END:
+***** Instructions on table usage 
+     This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
+     The *(/ (float VALUE) (float WORK))* column is derived from those two properties. 
+     ~C-c C-c~ on the table definition line to re-render.
+     Sort by putting cursor on one of the lines and running ~org-table-sort-lines~ with *N* option.
+     To rapidly enter *VALUE* and *WORK* properties use ~org-columns~ to enter column view.
+     Then use arrow keys to navigate cells in column view. 
+     Use ~SHIFT ->~ to cycle through property values.
 ***** DONE Fix bottom sheet 
       CLOSED: [2019-09-28 Sat 17:06]
+      :PROPERTIES:
+      :VALUE:    5
+      :WORK:     2
+      :END:
       :LOGBOOK:
       CLOCK: [2019-09-28 Sat 15:38]--[2019-09-28 Sat 17:06] =>  1:28
       CLOCK: [2019-09-28 Sat 13:47]--[2019-09-28 Sat 14:00] =>  0:13
@@ -581,6 +627,91 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
      - +Using use content section and header section+
      - [X] Closing and opening triggers selection changes
      - [X] Jump to today works
+***** TODO Hide android navigation bar 
+      :PROPERTIES:
+      :VALUE:    2
+      :WORK:     1
+      :END:
+- Or adjust bottom-sheet and FAB to not be covered by it 
+***** TODO Put version indicator in app-db (for export mostly)
+      :PROPERTIES:
+      :VALUE:    1
+      :WORK:     1
+      :END:
+***** TODO Make a better element state indication
+      :PROPERTIES:
+      :VALUE:    5
+      :WORK:     5
+      :END:
+      - in play
+      - resting
+      - selected edit
+      - selected movement
+
+***** TODO Fix delete pattern button
+      :PROPERTIES:
+      :VALUE:    20
+      :WORK:     1
+      :END:
+***** TODO Fix bottom sheet spacer
+      :PROPERTIES:
+      :VALUE:    2
+      :WORK:     2
+      :END:
+- Maybe it should be sized dynamically with bottom sheet position
+***** TODO Fix now indicator to have accurate position 
+      :PROPERTIES:
+      :VALUE:    3
+      :WORK:     2
+      :END:
+***** TODO Add a snap to for period movement 
+      :PROPERTIES:
+      :VALUE:    1
+      :WORK:     8
+      :END:
+***** TODO Reduce border radius on periods
+      :PROPERTIES:
+      :VALUE:    2
+      :WORK:     1
+      :END:
+***** TODO Long press to add period (not double tap)  
+      :PROPERTIES:
+      :VALUE:    3
+      :WORK:     2
+      :END:
+      Double tap is too easy to trigger when scrolling
+      Also bring up bucket model
+***** TODO Remove minimum period size
+      :PROPERTIES:
+      :VALUE:    2
+      :WORK:     1
+      :END:
+***** TODO Figure out why keyboard pops up when opening on day view (sometimes)
+      :PROPERTIES:
+      :VALUE:    1
+      :WORK:     3
+      :END:
+***** TODO Day indicator should show day of week
+      :PROPERTIES:
+      :VALUE:    1
+      :WORK:     1
+      :END:
+***** TODO Add a menu button instead of gesture action
+      :PROPERTIES:
+      :VALUE:    3
+      :WORK:     2
+      :END:
+***** TODO Fix modal bottom gap 
+      :PROPERTIES:
+      :VALUE:    1
+      :WORK:     2
+      :END:
+      - noticed on play bucket modal
+***** TODO Add selected start stop indicators (now indicator style)
+      :PROPERTIES:
+      :VALUE:    5
+      :WORK:     2
+      :END:
 *** TODO Add Calendar integration
     :PROPERTIES:
     :Effort:   10:00
