@@ -44,7 +44,6 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Fix delete pattern button]]"                                                     |                           20.0 |    20 |    1 |
      | "[[Change snap points for bottom sheet]]"                                           |                            3.0 |     3 |    1 |
      | "[[Add handlers tests]]"                                                            |                            2.6 |    13 |    5 |
      | "[[Add subscriptions tests]]"                                                       |                            2.6 |    13 |    5 |
@@ -103,13 +102,14 @@
     - selected edit
     - selected movement
 
-*** TODO Fix delete pattern button
+*** DONE Fix delete pattern button
+    CLOSED: [2019-10-01 Tue 18:08]
     :PROPERTIES:
     :VALUE:    20
     :WORK:     1
     :END:
     :LOGBOOK:
-    CLOCK: [2019-10-01 Tue 18:02]
+    CLOCK: [2019-10-01 Tue 18:02]--[2019-10-01 Tue 18:08] =>  0:06
     :END:
 *** TODO Fix bottom sheet spacer
     :PROPERTIES:

@@ -623,6 +623,15 @@
    (when (= :template (-> db :navigation :current-screen))
      {:dispatch [:navigate-to {:current-screen :templates}]})))
 
+(defn delete-pattern [{:keys [db]} [_ id]]
+  (merge
+   {:db (->> db
+             (setval [:patterns sp/ALL #(= id (:id %))] sp/NONE)
+             (setval [:forms :pattern-form] nil))}
+   ;; TODO pop stack when implemented
+   (when (= :pattern (-> db :navigation :current-screen))
+     {:dispatch [:navigate-to {:current-screen :patterns}]})))
+
 (defn delete-template-from-pattern-planning [{:keys [db]} [_ id]]
   (merge
    {:db (->> db
@@ -1045,6 +1054,7 @@
 (reg-event-fx :delete-template [validate-spec persist-secure-store] delete-template)
 (reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store]
               delete-template-from-pattern-planning)
+(reg-event-fx :delete-pattern [validate-spec persist-secure-store] delete-pattern)
 (reg-event-fx :delete-filter [validate-spec persist-secure-store] delete-filter)
 (reg-event-fx :update-period [validate-spec persist-secure-store] update-period)
 (reg-event-db :add-period [validate-spec persist-secure-store] add-period)
