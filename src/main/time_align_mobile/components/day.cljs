@@ -658,13 +658,12 @@
                      :background-color (-> styles/theme :colors :background)}}]
 
       [portal
-       (let [drag-indicator-height       24
+       (let [drag-indicator-height       12
              drag-indicator-total-height 40
              selection-buttons-height    80]
          [bottom-sheet {:ref           (fn [com]
                                          (reset! bottom-sheet-ref com))
                         :snap-points   [0
-                                        drag-indicator-total-height
                                         (+ drag-indicator-total-height
                                            selection-buttons-height)
                                         600]
@@ -682,13 +681,9 @@
                                                          :align-items    "center"}}
 
                                            [icon-button {:icon     "drag-handle"
-                                                         :size     drag-indicator-height
-                                                         :color    (if (color-light? (:color selected-element-edit))
-                                                                     (-> styles/theme :colors :element-text-dark)
-                                                                     (-> styles/theme :colors :element-text-light))
-                                                         :style    {:border-radius 4
-                                                                    :background-color
-                                                                    (:color selected-element-edit)}
+                                                         :size     (-> drag-indicator-height
+                                                                       (* 2))
+                                                         :style    {:height drag-indicator-height}
                                                          :on-press (fn []
                                                                      (snap-bottom-sheet bottom-sheet-ref 2))}]
 

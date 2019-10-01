@@ -44,7 +44,6 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Change snap points for bottom sheet]]"                                           |                            3.0 |     3 |    1 |
      | "[[Add handlers tests]]"                                                            |                            2.6 |    13 |    5 |
      | "[[Add subscriptions tests]]"                                                       |                            2.6 |    13 |    5 |
      | "[[Use scrollTo when an element is selected for edit]]"                             |                            2.5 |     5 |    2 |
@@ -80,13 +79,17 @@
     :WORK:     1
     :END:
 - Or adjust bottom-sheet and FAB to not be covered by it
-*** TODO Change snap points for bottom sheet
+*** DONE Change snap points for bottom sheet
+    CLOSED: [2019-10-01 Tue 18:14]
     :PROPERTIES:
     :VALUE:    3
     :WORK:     1
     :END:
-    - [ ] Drag indicator is smaller
-    - [ ] First snap position on selection shows all buttons
+    :LOGBOOK:
+    CLOCK: [2019-10-01 Tue 18:09]--[2019-10-01 Tue 18:13] =>  0:04
+    :END:
+    - [X] Drag indicator is smaller
+    - [X] First snap position on selection shows all buttons
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
