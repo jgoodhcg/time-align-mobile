@@ -4,7 +4,7 @@
 #+PROPERTY: Value_ALL 0 1 2 3 5 8 13 20 50 100
 # Time Estimation column view
 # #+COLUMNS: %40ITEM(Task) %10Confidence(Confidence){mean} %17Effort(Estimated Effort){:} %CLOCKSUM
-# WSJF column view for editing (only edit TODO state)
+# WSJF column view for editing (!!!! ONLY EDIT HEADINGS IN *TODO* STATE !!!!)
 #+COLUMNS: %Value(Value)  %Work(Work) %ITEM(Task) %TODO(State) 
 #+STARTUP: overview
 
@@ -45,6 +45,7 @@
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      | "[[Fix delete pattern button]]"                                                     |                           20.0 |    20 |    1 |
+     | "[[Change snap points for bottom sheet]]"                                           |                            3.0 |     3 |    1 |
      | "[[Add handlers tests]]"                                                            |                            2.6 |    13 |    5 |
      | "[[Add subscriptions tests]]"                                                       |                            2.6 |    13 |    5 |
      | "[[Use scrollTo when an element is selected for edit]]"                             |                            2.5 |     5 |    2 |
@@ -79,7 +80,14 @@
     :VALUE:    2
     :WORK:     1
     :END:
-- Or adjust bottom-sheet and FAB to not be covered by it 
+- Or adjust bottom-sheet and FAB to not be covered by it
+*** TODO Change snap points for bottom sheet
+    :PROPERTIES:
+    :VALUE:    3
+    :WORK:     1
+    :END:
+    - [ ] Drag indicator is smaller
+    - [ ] First snap position on selection shows all buttons
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
@@ -99,6 +107,9 @@
     :PROPERTIES:
     :VALUE:    20
     :WORK:     1
+    :END:
+    :LOGBOOK:
+    CLOCK: [2019-10-01 Tue 18:02]
     :END:
 *** TODO Fix bottom sheet spacer
     :PROPERTIES:
