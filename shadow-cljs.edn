@@ -1,8 +1,7 @@
 ;; shadow-cljs configuration
 {:source-paths
- ["src/dev"
-  "src/main"
-  "src/test"]
+ ["src/main"
+  "src/tests"]
 
  :dependencies
  [[binaryage/oops "0.5.8"]
@@ -23,7 +22,11 @@
 
  :builds
  {:app
-  {:target :react-native
-   :init-fn time-align-mobile.app/init
+  {:target     :react-native
+   :init-fn    time-align-mobile.app/init
    :output-dir "app"
-   :devtools {:autoload true}}}}
+   :devtools   {:autoload true}}
+  :test
+  {:target    :node-test
+   :output-to "out/node-tets.js"
+   :autorun   true}}}

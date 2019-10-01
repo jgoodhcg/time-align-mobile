@@ -44,8 +44,8 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Add handlers tests]]"                                                            |                            2.6 |    13 |    5 |
-     | "[[Add subscriptions tests]]"                                                       |                            2.6 |    13 |    5 |
+     | "[[Add handler tests]]"                                                             |                            2.6 |    13 |    5 |
+     | "[[Add subscription tests]]"                                                        |                            2.6 |    13 |    5 |
      | "[[Use scrollTo when an element is selected for edit]]"                             |                            2.5 |     5 |    2 |
      | "[[Add selected start stop indicators (now indicator style)]]"                      |                            2.5 |     5 |    2 |
      | "[[Follow material design on each page]]"                                           |                            2.5 |    50 |   20 |
@@ -192,14 +192,19 @@
     :END:
 - Drag state already does this
 - Buttons in compact form if more precision is needed
-*** TODO Add handlers tests
+*** TODO Add handler tests
     :PROPERTIES:
     :WORK:     5
     :VALUE:    13
     :END:
-
-    Automate test creation from use
-*** TODO Add subscriptions tests
+    :LOGBOOK:
+    CLOCK: [2019-10-01 Tue 18:19]--[2019-10-01 Tue 18:44] =>  0:25
+    :END:
+    - [X] Tests can run easily
+      - https://shadow-cljs.github.io/docs/UsersGuide.html#target-node-test
+    - [ ] Tests are generated from minimal setup usage
+    - [ ] Tests can be run on command
+*** TODO Add subscription tests
     :PROPERTIES:
     :WORK:     5
     :VALUE:    13
