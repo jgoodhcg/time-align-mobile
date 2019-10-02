@@ -198,6 +198,7 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-01 Tue 18:51]--[2019-10-01 Tue 19:00] =>  0:09
     CLOCK: [2019-10-01 Tue 18:19]--[2019-10-01 Tue 18:44] =>  0:25
     :END:
     - [X] Tests can run easily

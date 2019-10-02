@@ -166,38 +166,6 @@
                                                            :bucket-id bucket-id
                                                            :now       now}])))))
 
-(deftest add-template-period
-  (let [id          12345
-        bucket-id   45678
-        template-id 87654
-        now         (js/Date. 2018 0 1)
-        duration    (* 1000 60 60)
-        data        {}
-        template    {:id        template-id
-                     :data      data
-                     :start     {:hour   0
-                                 :minute 0}
-                     :duration  duration
-                     :bucket-id bucket-id}
-        db          {:buckets [{:id        bucket-id
-                                :templates [template]
-                                :periods   nil}]}]
-    (is (= {:db       {:buckets [{:id        bucket-id
-                                  :templates [template]
-                                  :periods   [{:id          id
-                                               :data        {:template-id template-id}
-                                               :created     now
-                                               :last-edited now
-                                               :start       now
-                                               :stop        (js/Date.
-                                                             (+ (.valueOf now)
-                                                                duration))}]}]}
-            :dispatch [:navigate-to {:current-screen :period
-                                     :params         {:period-id id}}]}
-           (handlers/add-template-period {:db db} [:whatever {:template template
-                                                              :id id
-                                                              :now now}])))))
-
 (deftest update-bucket-form
   (is (= {:forms {:bucket-form {:id 12345 :data "{}\n"}}}
          (handlers/update-bucket-form {:forms {:bucket-form {}}}
@@ -324,4 +292,5 @@
                                                      :templates [{:id 12345}]}]}}
                                     [:whatever (js/Date. 2018 0 1)]))))
 
-(t/run-tests)
+(deftest fails
+  (is (= 1 2)))

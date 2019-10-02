@@ -1,7 +1,7 @@
 ;; shadow-cljs configuration
 {:source-paths
  ["src/main"
-  "src/tests"]
+  "src/test"]
 
  :dependencies
  [[binaryage/oops "0.5.8"]
@@ -26,7 +26,8 @@
    :init-fn    time-align-mobile.app/init
    :output-dir "app"
    :devtools   {:autoload true}}
+
   :test
   {:target    :node-test
-   :output-to "out/node-tets.js"
+   :output-to "out/node-tests.js"
    :autorun   true}}}
