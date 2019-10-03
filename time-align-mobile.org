@@ -198,6 +198,7 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-02 Wed 21:05]--[2019-10-02 Wed 21:55] =>  0:50
     CLOCK: [2019-10-02 Wed 20:33]--[2019-10-02 Wed 21:05] =>  0:32
     CLOCK: [2019-10-02 Wed 12:00]--[2019-10-02 Wed 12:23] =>  0:23
     CLOCK: [2019-10-01 Tue 18:51]--[2019-10-01 Tue 19:00] =>  0:09
@@ -209,6 +210,7 @@
     - [ ] Tests can be run on command
     - [ ] Figure out if I should isolate dependencies to exclude react-native things or [[https://github.com/thheller/reagent-expo/pull/6][use jest]]
       - Isolating the functions to be able to run on node is hard
+      - jest compiles but runs out of memory every time I run with an _actual_ test
 **** Ask about import issue on slack 
      I tagged thheller directly.
      #+begin_src markdown
