@@ -217,7 +217,7 @@
       - Isolating the functions to be able to run on node is hard
       - jest compiles but runs out of memory every time I run with an _actual_ test
       - 
-    - [ ] Expo is upgraded to rule out any version issues as a problem
+    - [X] Expo is upgraded to rule out any version issues as a problem
 **** Ask about import issue on slack 
      I tagged thheller directly.
      #+begin_src markdown

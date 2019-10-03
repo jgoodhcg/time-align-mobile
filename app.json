@@ -3,8 +3,8 @@
     "name": "time-align-mobile",
     "slug": "time-align-mobile",
     "privacy": "public",
-    "entryPoint":"./app/index.js",
-    "sdkVersion": "34.0.0",
+    "entryPoint": "./app/index.js",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android"
