@@ -46,7 +46,7 @@
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      | "[[Add handler tests]]"                                                             |                            2.6 |    13 |    5 |
      | "[[Add subscription tests]]"                                                        |                            2.6 |    13 |    5 |
-     | "[[Use scrollTo when an element is selected for edit]]"                             |                            2.5 |     5 |    2 |
+     | "[[Use scrollTo]]"                                                                  |                            2.5 |     5 |    2 |
      | "[[Add selected start stop indicators (now indicator style)]]"                      |                            2.5 |     5 |    2 |
      | "[[Follow material design on each page]]"                                           |                            2.5 |    50 |   20 |
      | "[[Hide android navigation bar]]"                                                   |                            2.0 |     2 |    1 |
@@ -67,12 +67,14 @@
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
-*** TODO Use scrollTo when an element is selected for edit
+*** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5
     :WORK:     2
     :END:
     [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
+    - [ ] Scrolls to an element when it is selected for edit
+    - [ ] Scrolls to now on zooming?
 *** TODO Hide android navigation bar 
     :PROPERTIES:
     :VALUE:    2
@@ -285,6 +287,8 @@ Am I doing something dumb or is there something wrong with how shadow is includi
       #+end_src
      So removing the problematic line fixes the problem when I do a release and then run jest.
      There is still a heap issue when I run ~sahdow-cljs watch test~ and ~yarn jest~ in another terminal.
+     ~export NODE_OPTIONS="--max-old-space-size=2048"~
+
 *** TODO Add subscription tests
     :PROPERTIES:
     :WORK:     5
