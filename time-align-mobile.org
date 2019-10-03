@@ -198,6 +198,8 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-02 Wed 20:33]--[2019-10-02 Wed 21:05] =>  0:32
+    CLOCK: [2019-10-02 Wed 12:00]--[2019-10-02 Wed 12:23] =>  0:23
     CLOCK: [2019-10-01 Tue 18:51]--[2019-10-01 Tue 19:00] =>  0:09
     CLOCK: [2019-10-01 Tue 18:19]--[2019-10-01 Tue 18:44] =>  0:25
     :END:
@@ -205,6 +207,66 @@
       - https://shadow-cljs.github.io/docs/UsersGuide.html#target-node-test
     - [ ] Tests are generated from minimal setup usage
     - [ ] Tests can be run on command
+    - [ ] Figure out if I should isolate dependencies to exclude react-native things or [[https://github.com/thheller/reagent-expo/pull/6][use jest]]
+      - Isolating the functions to be able to run on node is hard
+**** Ask about import issue on slack 
+     I tagged thheller directly.
+     #+begin_src markdown
+I'm trying to set up some node tests for my react-native project.
+*shadow-cljs.edn*
+```
+...
+
+ :builds
+ {:app
+  {:target     :react-native
+   :init-fn    time-align-mobile.app/init
+   :output-dir "app"
+   :devtools   {:autoload true}}
+
+  :test
+  {:target    :node-test
+   :output-to "out/node-tests.js"
+   :autorun   true}}}
+
+```
+*test file*
+```
+(ns time-align-mobile.handlers-test
+  (:require [cljs.test :as t :refer-macros [deftest is]]
+            [time-align-mobile.handlers :as handlers]
+            [time-align-mobile.db :as db :refer [app-db]]))
+
+(deftest initialize-db
+  (is (= app-db (handlers/initialize-db [] []))))
+
+...
+```
+The tests are on pure clojure functions that I use in re-frame handlers. No react-native specific things in them.
+But when I try to run the tests I get
+```
+>> node out/node-tests.js
+
+SHADOW import error /home/justin/projects/time-align-mobile/.shadow-cljs/builds/test/dev/out/cljs-runtime/shadow.js.shim.module$react_native.js
+/home/justin/projects/time-align-mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:15
+const warnedKeys: {[string]: boolean} = {};
+      ^^^^^^^^^^
+
+SyntaxError: Missing initializer in const declaration
+    at Module._compile (internal/modules/cjs/loader.js:721:23)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:787:10)
+    at Module.load (internal/modules/cjs/loader.js:653:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
+    at Module.require (internal/modules/cjs/loader.js:690:17)
+    at require (internal/modules/cjs/helpers.js:25:18)
+    at Object.<anonymous> (/home/justin/projects/time-align-mobile/node_modules/react-native/Libraries/react-native/react-native-implementation.js:14:18)
+    at Module._compile (internal/modules/cjs/loader.js:776:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:787:10)
+
+```
+Am I doing something dumb or is there something wrong with how shadow is including other project dependencies?
+     #+end_src
 *** TODO Add subscription tests
     :PROPERTIES:
     :WORK:     5
