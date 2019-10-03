@@ -198,6 +198,9 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-03 Thu 18:26]
+    CLOCK: [2019-10-03 Thu 13:28]--[2019-10-03 Thu 13:54] =>  0:26
+    CLOCK: [2019-10-03 Thu 09:10]--[2019-10-03 Thu 09:50] =>  0:40
     CLOCK: [2019-10-02 Wed 21:05]--[2019-10-02 Wed 21:55] =>  0:50
     CLOCK: [2019-10-02 Wed 20:33]--[2019-10-02 Wed 21:05] =>  0:32
     CLOCK: [2019-10-02 Wed 12:00]--[2019-10-02 Wed 12:23] =>  0:23
@@ -208,9 +211,11 @@
       - https://shadow-cljs.github.io/docs/UsersGuide.html#target-node-test
     - [ ] Tests are generated from minimal setup usage
     - [ ] Tests can be run on command
-    - [ ] Figure out if I should isolate dependencies to exclude react-native things or [[https://github.com/thheller/reagent-expo/pull/6][use jest]]
+    - [X] Recommended approach to [[https://github.com/thheller/reagent-expo/pull/6][use jest]] considered against initial ideas
       - Isolating the functions to be able to run on node is hard
       - jest compiles but runs out of memory every time I run with an _actual_ test
+      - 
+    - [ ] Expo is upgraded to rule out any version issues as a problem
 **** Ask about import issue on slack 
      I tagged thheller directly.
      #+begin_src markdown
@@ -269,6 +274,17 @@ SyntaxError: Missing initializer in const declaration
 ```
 Am I doing something dumb or is there something wrong with how shadow is including other project dependencies?
      #+end_src
+**** Why is there a heap problem?
+     Had to run ~shadow-cljs release test~ and then ~yarn jest~ to get an error message that lead me to.
+     The problem.
+     The line below, in the db namespace, is a focal point. It calls all the screens which loads a component which has a side effect of dispatching the tick function.
+      #+begin_src clojure
+
+        (def screen-id-set (set (->> nav/screens-map
+                                     (map (fn [{:keys [id]}] id)))))
+      #+end_src
+     So removing the problematic line fixes the problem when I do a release and then run jest.
+     There is still a heap issue when I run ~sahdow-cljs watch test~ and ~yarn jest~ in another terminal.
 *** TODO Add subscription tests
     :PROPERTIES:
     :WORK:     5

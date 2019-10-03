@@ -17,14 +17,14 @@
             [time-align-mobile.screens.port :as port-screen]))
 
 ;; https://expo.github.io/vector-icons/
-(def bucket-screen {:id       :bucket
+(def bucket-screen {:id              :bucket
                     :label           "bucket"
                     :screen          bucket-form-screen/root
                     :in-drawer       false
                     :position-drawer 999
                     :icon            nil})
 
-(def buckets-screen {:id       :buckets
+(def buckets-screen {:id              :buckets
                      :label           "buckets"
                      :screen          bucket-list-screen/root
                      :in-drawer       true

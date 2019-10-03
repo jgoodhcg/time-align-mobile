@@ -1,21 +1,23 @@
 (ns time-align-mobile.handlers-test
   (:require [time-align-mobile.handlers :as handlers]
-            [time-align-mobile.db :as db :refer [app-db]]))
+            [time-align-mobile.db :as db :refer [app-db]]
+            ))
 
 ;; (js/test "initialize-db"
-;;          (-> (= app-db (handlers/initialize-db [] []))
-;;              (js/expect)
-;;              (.toBe true)))
+;;          #(-> (handlers/initialize-db [] [])
+;;               (js/expect)
+;;               (.toBe app-db)))
 
-(js/test "navigate-to-bucket-form"
-         (-> (= {:db {:navigation {:current-screen :bucket
-                                   :params {:bucket-id 12345}}
-                      :active-filter nil}
-                 :dispatch [:load-bucket-form 12345]}
-                (handlers/navigate-to {:db {}} [[] {:current-screen :bucket
-                                                    :params {:bucket-id 12345}}])
-                (js/expect)
-                (.toBe true))))
+;; (js/test "navigate-to-bucket-form"
+;;          #(-> (handlers/navigate-to
+;;                {:db {}} [[] {:current-screen :bucket
+;;                              :params         {:bucket-id 12345}}])
+
+;;               (js/expect)
+;;               (.toBe {:db       {:navigation    {:current-screen :bucket
+;;                                                  :params         {:bucket-id 12345}}
+;;                                  :active-filter nil}
+;;                       :dispatch [:load-bucket-form 12345]})))
 
 ;; (deftest navigate-to-period-form
 ;;   (is (= {:db {:navigation {:current-screen :period
@@ -295,12 +297,12 @@
 ;;                                                      :templates [{:id 12345}]}]}}
 ;;                                     [:whatever (js/Date. 2018 0 1)]))))
 
-(js/test "fails"
-         (-> (= 1 2)
-             (js/expect)
-             (.toBe true)))
+;; (js/test "fails"
+;;          (-> (= 1 2)
+;;              (js/expect)
+;;              (.toBe true)))
 
 (js/test "passes"
-         (-> (= 1 2)
-             (js/expect)
-             (.toBe false)))
+         #(-> (= 1 2)
+              (js/expect)
+              (.toBe false)))

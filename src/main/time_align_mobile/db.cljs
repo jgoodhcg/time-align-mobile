@@ -4,7 +4,7 @@
             [spec-tools.core :as st]
             [clojure.string :as string]
             [clojure.test.check.generators :as gen]
-            [time-align-mobile.navigation :as nav]
+            ;; [time-align-mobile.navigation :as nav]
             [time-align-mobile.helpers :as helpers]
             [time-align-mobile.screens.filter-form :refer [filterable-types]] ;; TODO find a better spot to put this, think about nav too
             [time-align-mobile.js-imports :refer [make-date
@@ -208,10 +208,10 @@
                                      (map generate-bucket))))
                      10)))
 
-(def screen-id-set (set (->> nav/screens-map
-                             (map (fn [{:keys [id]}] id)))))
+;; (def screen-id-set (set (->> nav/screens-map
+;;                              (map (fn [{:keys [id]}] id)))))
 
-(s/def ::screen screen-id-set)
+(s/def ::screen keyword?) ;; importing nav/screens-map loads every screen ns which starts a tick side effect
 
 ;; filter
 (def filter-data-spec
