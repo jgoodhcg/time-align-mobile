@@ -200,7 +200,9 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
-    CLOCK: [2019-10-03 Thu 18:26]
+    CLOCK: [2019-10-04 Fri 15:05]
+    CLOCK: [2019-10-04 Fri 12:14]--[2019-10-04 Fri 12:25] =>  0:11
+    CLOCK: [2019-10-03 Thu 18:26]--[2019-10-03 Thu 19:08] =>  0:42
     CLOCK: [2019-10-03 Thu 13:28]--[2019-10-03 Thu 13:54] =>  0:26
     CLOCK: [2019-10-03 Thu 09:10]--[2019-10-03 Thu 09:50] =>  0:40
     CLOCK: [2019-10-02 Wed 21:05]--[2019-10-02 Wed 21:55] =>  0:50
@@ -288,7 +290,8 @@ Am I doing something dumb or is there something wrong with how shadow is includi
      So removing the problematic line fixes the problem when I do a release and then run jest.
      There is still a heap issue when I run ~sahdow-cljs watch test~ and ~yarn jest~ in another terminal.
      ~export NODE_OPTIONS="--max-old-space-size=2048"~
-
+     Repeatedly demonstrated to myself that the heap error only happens when including a namespace from my code and compiling with watch.
+     Messaged thheller on slack.
 *** TODO Add subscription tests
     :PROPERTIES:
     :WORK:     5

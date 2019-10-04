@@ -28,5 +28,6 @@
    :devtools   {:autoload true}}
 
   :test
-  {:target    :npm-module
-   :output-dir "test-out"}}}
+  {:target     :npm-module
+   :output-dir "test-out"
+   :devtools   {:enabled false}}}}

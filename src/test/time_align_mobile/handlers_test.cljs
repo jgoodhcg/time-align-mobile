@@ -3,21 +3,21 @@
             [time-align-mobile.db :as db :refer [app-db]]
             ))
 
-;; (js/test "initialize-db"
-;;          #(-> (handlers/initialize-db [] [])
-;;               (js/expect)
-;;               (.toBe app-db)))
+(js/test "initialize-db"
+         #(-> (handlers/initialize-db [] [])
+              (js/expect)
+              (.toBe app-db)))
 
-;; (js/test "navigate-to-bucket-form"
-;;          #(-> (handlers/navigate-to
-;;                {:db {}} [[] {:current-screen :bucket
-;;                              :params         {:bucket-id 12345}}])
+(js/test "navigate-to-bucket-form"
+         #(-> (str (handlers/navigate-to
+                    {:db {}} [[] {:current-screen :bucket
+                                  :params         {:bucket-id 12345}}]))
 
-;;               (js/expect)
-;;               (.toBe {:db       {:navigation    {:current-screen :bucket
-;;                                                  :params         {:bucket-id 12345}}
-;;                                  :active-filter nil}
-;;                       :dispatch [:load-bucket-form 12345]})))
+              (js/expect)
+              (.toBe (str {:db       {:navigation    {:current-screen :bucket
+                                                      :params         {:bucket-id 12345}}
+                                      :active-filter nil}
+                           :dispatch [:load-bucket-form 12345]}))))
 
 ;; (deftest navigate-to-period-form
 ;;   (is (= {:db {:navigation {:current-screen :period
@@ -302,7 +302,7 @@
 ;;              (js/expect)
 ;;              (.toBe true)))
 
-(js/test "passes"
+(js/test "this test should pass"
          #(-> (= 1 2)
               (js/expect)
               (.toBe false)))
