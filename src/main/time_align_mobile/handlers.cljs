@@ -84,20 +84,34 @@
    :id :generate-handler-test
    :after (fn [context]
             (if generate-tests
-              (let [event     (get-in context [:coeffects :event])
-                    db-before (get-in context [:coeffects :db])
-                    effects   (get-in context [:effects])]
+              (let [event            (get-in context [:coeffects :event])
+                    db-before        (get-in context [:coeffects :db])
+                    before-accretion (->> db-before
+                                          (clojure.data/diff app-db )
+                                          (second))
+                    effects          (get-in context [:effects])
+                    db-after         (:db effects)
+                    effects-no-db    (dissoc effects :db)
+                    after-accretion  (->> db-after
+                                          (clojure.data/diff app-db )
+                                          (second)) ]
                 (let [handler-name (name (first event))
                       test-name    (str "handler " handler-name " generated test")]
                   (println
                    (str
                     "(js/test " "\"" test-name "\" "
-                    "#(-> (handlers/" handler-name " "
-                    "{:db " db-before "}"
-                    event ")"
-                    "(str) "
-                    "(js/expect) "
-                    "(.toBe (str " effects "))))"))))))))
+                        "#(-> (handlers/" handler-name " "
+                                   "{:db (deep-merge app-db " before-accretion ")}"
+                                   event ")"
+                         "((fn [m] (into (sorted-map) m)))"
+                         "(str) "
+                         "(js/expect) "
+                         "(.toBe (->> " after-accretion
+                                      "(deep-merge app-db)"
+                                      "((fn [db] {:db db}))"
+                                      "(merge " effects-no-db ")"
+                                      "(into (sorted-map))"
+                                      "(str)))))"))))))))
 ;; -- Helpers ---------------------------------------------------------------
 (defn clean-period [period]
   (select-keys period (keys period-data-spec)))
@@ -696,8 +710,8 @@
 (defn select-template-edit
   [{:keys [db]} [_ {:keys [bucket-id template-id]}]]
   (merge
-   {:db (assoc-in db [:selection :template :edit] {:template-id template-id
-                                                   :bucket-id bucket-id})}
+   {:db (assoc-in db [:selection :template :edit] {:bucket-id bucket-id
+                                                   :template-id template-id})}
    (when (some? template-id)
      {:dispatch [:load-template-form-from-pattern-planning template-id]})))
 
