@@ -91,10 +91,10 @@
                       test-name    (str "handler " handler-name " generated test")]
                   (println
                    (str
-                    "(js/test " "\"" test-name "\""
-                    "#(-> (" handler-name " "
+                    "(js/test " "\"" test-name "\" "
+                    "#(-> (handlers/" handler-name " "
                     "{:db " db-before "}"
-                    event
+                    event ")"
                     "(str) "
                     "(js/expect) "
                     "(.toBe (str " effects "))))"))))))))
