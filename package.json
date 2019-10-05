@@ -4,7 +4,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "shadow-cljs release test && yarn jest"
   },
   "dependencies": {
     "array-smooth": "^1.0.0",
