@@ -68,7 +68,8 @@
 
 ;; start ticking
 (js/setInterval #(do (reset! now (js/Date.))
-                     (dispatch-throttled [:tick (js/Date.)])) 1000)
+                     ;; (dispatch-throttled [:tick (js/Date.)])
+                     ) 1000)
 
 (def bottom-sheet-ref (r/atom nil))
 

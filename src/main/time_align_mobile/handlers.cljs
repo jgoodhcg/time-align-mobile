@@ -88,14 +88,13 @@
                     db-before (get-in context [:coeffects :db])
                     effects   (get-in context [:effects])]
                 (let [handler-name (name (first event))
-                      params       (second event)
                       test-name    (str "handler " handler-name " generated test")]
                   (println
                    (str
                     "(js/test " "\"" test-name "\""
                     "#(-> (" handler-name " "
                     "{:db " db-before "}"
-                    "[" params "]) "
+                    event
                     "(str) "
                     "(js/expect) "
                     "(.toBe (str " effects "))))"))))))))
