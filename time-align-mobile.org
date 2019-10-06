@@ -200,6 +200,7 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-06 Sun 16:43]--[2019-10-06 Sun 17:17] =>  0:34
     CLOCK: [2019-10-06 Sun 15:47]--[2019-10-06 Sun 16:39] =>  0:52
     CLOCK: [2019-10-05 Sat 18:12]--[2019-10-05 Sat 18:17] =>  0:05
     CLOCK: [2019-10-05 Sat 16:13]--[2019-10-05 Sat 16:57] =>  0:44
@@ -223,7 +224,7 @@
     - [X] +Tests can run easilyj+
       - Desired method https://shadow-cljs.github.io/docs/UsersGuide.html#target-node-test
       - Could not actually do this without major refactor to remove any react native libraries from dependency tree
-    - [ ] Tests can be run on command
+    - [X] Tests can be run on command
     - [X] An interceptor generates tests from app usage
     - [X] +Generated tests diff against app-db default+
       - This was causing some sorting issue
