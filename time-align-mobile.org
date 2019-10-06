@@ -200,6 +200,8 @@
     :VALUE:    13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-06 Sun 15:47]--[2019-10-06 Sun 16:39] =>  0:52
+    CLOCK: [2019-10-05 Sat 18:12]--[2019-10-05 Sat 18:17] =>  0:05
     CLOCK: [2019-10-05 Sat 16:13]--[2019-10-05 Sat 16:57] =>  0:44
     CLOCK: [2019-10-05 Sat 15:01]--[2019-10-05 Sat 15:07] =>  0:06
     CLOCK: [2019-10-05 Sat 14:45]--[2019-10-05 Sat 14:59] =>  0:14
@@ -223,7 +225,9 @@
       - Could not actually do this without major refactor to remove any react native libraries from dependency tree
     - [ ] Tests can be run on command
     - [X] An interceptor generates tests from app usage
-    - [ ] Generated tests diff against app-db default
+    - [X] +Generated tests diff against app-db default+
+      - This was causing some sorting issue
+      - Reverted it
     - [ ] Tests exist for all handler functions
     - [X] Recommended approach to [[https://github.com/thheller/reagent-expo/pull/6][use jest]] considered against initial ideas
       - Isolating the functions to be able to run on node is hard

@@ -84,34 +84,23 @@
    :id :generate-handler-test
    :after (fn [context]
             (if generate-tests
-              (let [event            (get-in context [:coeffects :event])
-                    db-before        (get-in context [:coeffects :db])
-                    before-accretion (->> db-before
-                                          (clojure.data/diff app-db )
-                                          (second))
-                    effects          (get-in context [:effects])
-                    db-after         (:db effects)
-                    effects-no-db    (dissoc effects :db)
-                    after-accretion  (->> db-after
-                                          (clojure.data/diff app-db )
-                                          (second)) ]
+              (let [event         (get-in context [:coeffects :event])
+                    db-before     (get-in context [:coeffects :db])
+                    effects       (get-in context [:effects])]
                 (let [handler-name (name (first event))
                       test-name    (str "handler " handler-name " generated test")]
                   (println
                    (str
                     "(js/test " "\"" test-name "\" "
                         "#(-> (handlers/" handler-name " "
-                                   "{:db (deep-merge app-db " before-accretion ")}"
+                                   "{:db " db-before "}"
                                    event ")"
-                         "((fn [m] (into (sorted-map) m)))"
-                         "(str) "
+                         "(str)"
                          "(js/expect) "
-                         "(.toBe (->> " after-accretion
-                                      "(deep-merge app-db)"
-                                      "((fn [db] {:db db}))"
-                                      "(merge " effects-no-db ")"
-                                      "(into (sorted-map))"
-                                      "(str)))))"))))))))
+                         "(.toBe (->> " effects
+                                      "(str)"
+                                      "))))"))
+                  context))))))
 ;; -- Helpers ---------------------------------------------------------------
 (defn clean-period [period]
   (select-keys period (keys period-data-spec)))
