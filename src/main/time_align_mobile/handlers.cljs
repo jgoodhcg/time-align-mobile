@@ -77,29 +77,51 @@
             (write-file-to-dd! "app-db" (-> context :effects :db str))
             context)))
 
-(def generate-tests true)
+(def generate-tests-flag true)
+
+(def print-once-flag true)
+
+(def generated-test-keys (atom #{}))
+
+(defn print-once [event test-str]
+  (swap! generated-test-keys
+         (fn [test-keys-set]
+           (let [new-test-keys-set (conj test-keys-set event)
+                 old-count         (count test-keys-set)
+                 new-count         (count test-keys-set)]
+
+             (when (and print-once-flag
+                        (-> new-count (> old-count)))
+               (println test-str))
+
+             (when (not print-once-flag)
+               (println test-str))
+
+             new-test-keys-set))))
 
 (def generate-handler-test-fx
   (->interceptor
    :id :generate-handler-test-fx
    :after (fn [context]
             (if generate-tests
-              (let [event         (get-in context [:coeffects :event])
-                    db-before     (get-in context [:coeffects :db])
-                    effects       (get-in context [:effects])]
+              (let [event     (get-in context [:coeffects :event])
+                    db-before (get-in context [:coeffects :db])
+                    effects   (get-in context [:effects])]
+
                 (let [handler-name (name (first event))
                       test-name    (str "handler " handler-name " generated test")]
-                  (println
-                   (str
-                    "(js/test " "\"" test-name "\" "
-                        "#(-> (handlers/" handler-name " "
-                                   "{:db " db-before "}"
-                                   event ")"
-                         "(str)"
-                         "(js/expect) "
-                         "(.toBe (->> " effects
-                                      "(str)"
-                                      "))))"))
+
+                  (print-once event (str
+                                     "(js/test " "\"" test-name "\" "
+                                     "#(-> (handlers/" handler-name " "
+                                     "{:db " db-before "}"
+                                     event ")"
+                                     "(str)"
+                                     "(js/expect) "
+                                     "(.toBe (->> " effects
+                                     "(str)"
+                                     "))))"))
+
                   context))))))
 
 (def generate-handler-test-db
@@ -107,22 +129,24 @@
    :id :generate-handler-test-db
    :after (fn [context]
             (if generate-tests
-              (let [event         (get-in context [:coeffects :event])
-                    db-before     (get-in context [:coeffects :db])
-                    effects       (get-in context [:effects])]
+              (let [event     (get-in context [:coeffects :event])
+                    db-before (get-in context [:coeffects :db])
+                    effects   (get-in context [:effects])]
+
                 (let [handler-name (name (first event))
                       test-name    (str "handler " handler-name " generated test")]
-                  (println
-                   (str
-                    "(js/test " "\"" test-name "\" "
-                    "#(-> (handlers/" handler-name " "
-                    db-before
-                    event ")"
-                    "(str)"
-                    "(js/expect) "
-                    "(.toBe (->> " (:db effects)
-                    "(str)"
-                    "))))"))
+
+                  (print-once event (str
+                                     "(js/test " "\"" test-name "\" "
+                                     "#(-> (handlers/" handler-name " "
+                                     db-before
+                                     event ")"
+                                     "(str)"
+                                     "(js/expect) "
+                                     "(.toBe (->> " (:db effects)
+                                     "(str)"
+                                     "))))"))
+
                   context))))))
 
 ;; -- Helpers ---------------------------------------------------------------
@@ -1079,54 +1103,56 @@
 (reg-event-db :update-period-form [validate-spec persist-secure-store] update-period-form)
 (reg-event-fx :save-period-form [alert-message validate-spec persist-secure-store] save-period-form)
 (reg-event-db :load-template-form [validate-spec persist-secure-store] load-template-form)
-(reg-event-db :load-template-form-from-pattern-planning [validate-spec persist-secure-store generate-handler-test-db] load-template-form-from-pattern-planning)
-(reg-event-db :update-template-form [validate-spec persist-secure-store ] update-template-form)
-(reg-event-fx :save-template-form [alert-message validate-spec persist-secure-store ] save-template-form)
-(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec persist-secure-store ]
-              save-template-form-from-pattern-planning)
-(reg-event-db :load-filter-form [validate-spec persist-secure-store ] load-filter-form)
-(reg-event-db :update-filter-form [validate-spec persist-secure-store ] update-filter-form)
-(reg-event-fx :save-filter-form [alert-message validate-spec persist-secure-store ] save-filter-form)
-(reg-event-db :update-active-filter [validate-spec persist-secure-store ] update-active-filter)
-(reg-event-fx :add-new-bucket [validate-spec persist-secure-store ] add-new-bucket)
-(reg-event-fx :add-new-period [validate-spec persist-secure-store ] add-new-period)
-;; (reg-event-fx :add-template-period [validate-spec persist-secure-store ] add-template-period)
-(reg-event-fx :add-new-template [validate-spec persist-secure-store ] add-new-template)
-(reg-event-fx :add-new-template-to-planning-form [validate-spec persist-secure-store ] add-new-template-to-planning-form)
-(reg-event-fx :add-new-filter [validate-spec persist-secure-store ] add-new-filter)
-(reg-event-fx :delete-bucket [validate-spec persist-secure-store ] delete-bucket)
-(reg-event-fx :delete-period [validate-spec persist-secure-store ] delete-period)
-(reg-event-fx :delete-template [validate-spec persist-secure-store ] delete-template)
-(reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store ]
-              delete-template-from-pattern-planning)
-(reg-event-fx :delete-pattern [validate-spec persist-secure-store ] delete-pattern)
-(reg-event-fx :delete-filter [validate-spec persist-secure-store ] delete-filter)
-(reg-event-fx :update-period [validate-spec persist-secure-store ] update-period)
-(reg-event-db :add-period [validate-spec persist-secure-store ] add-period)
-(reg-event-db :update-day-time-navigator [validate-spec persist-secure-store ] update-day-time-navigator)
-(reg-event-fx :tick [validate-spec persist-secure-store ] tick)
-(reg-event-fx :play-from-period [validate-spec persist-secure-store ] play-from-period)
-(reg-event-db :stop-playing-period [validate-spec persist-secure-store ] stop-playing-period)
-(reg-event-fx :play-from-bucket [validate-spec persist-secure-store ] play-from-bucket)
-(reg-event-db :play-from-template [validate-spec persist-secure-store ] play-from-template)
+(reg-event-db :load-template-form-from-pattern-planning [validate-spec persist-secure-store] load-template-form-from-pattern-planning)
+
+
+
+
+
+(reg-event-db :update-template-form [validate-spec persist-secure-store generate-handler-test-db ] update-template-form)
+(reg-event-fx :save-template-form [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-template-form)
+(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-template-form-from-pattern-planning)
+(reg-event-db :load-filter-form [validate-spec persist-secure-store generate-handler-test-db ] load-filter-form)
+(reg-event-db :update-filter-form [validate-spec persist-secure-store generate-handler-test-db ] update-filter-form)
+(reg-event-fx :save-filter-form [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-filter-form)
+(reg-event-db :update-active-filter [validate-spec persist-secure-store generate-handler-test-db ] update-active-filter)
+(reg-event-fx :add-new-bucket [validate-spec persist-secure-store generate-handler-test-fx ] add-new-bucket)
+(reg-event-fx :add-new-period [validate-spec persist-secure-store generate-handler-test-fx ] add-new-period)
+;; (reg-event-fx :add-template-period [validate-spec persist-secure-store generate-handler-test-fx ] add-template-period)
+(reg-event-fx :add-new-template [validate-spec persist-secure-store generate-handler-test-fx ] add-new-template)
+(reg-event-fx :add-new-template-to-planning-form [validate-spec persist-secure-store generate-handler-test-fx ] add-new-template-to-planning-form)
+(reg-event-fx :add-new-filter [validate-spec persist-secure-store generate-handler-test-fx ] add-new-filter)
+(reg-event-fx :delete-bucket [validate-spec persist-secure-store generate-handler-test-fx ] delete-bucket)
+(reg-event-fx :delete-period [validate-spec persist-secure-store generate-handler-test-fx ] delete-period)
+(reg-event-fx :delete-template [validate-spec persist-secure-store generate-handler-test-fx ] delete-template)
+(reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store generate-handler-test-fx ] delete-template-from-pattern-planning)
+(reg-event-fx :delete-pattern [validate-spec persist-secure-store generate-handler-test-fx ] delete-pattern)
+(reg-event-fx :delete-filter [validate-spec persist-secure-store generate-handler-test-fx ] delete-filter)
+(reg-event-fx :update-period [validate-spec persist-secure-store generate-handler-test-fx ] update-period)
+(reg-event-db :add-period [validate-spec persist-secure-store generate-handler-test-db ] add-period)
+(reg-event-db :update-day-time-navigator [validate-spec persist-secure-store generate-handler-test-db ] update-day-time-navigator)
+(reg-event-fx :tick [validate-spec persist-secure-store generate-handler-test-fx ] tick)
+(reg-event-fx :play-from-period [validate-spec persist-secure-store generate-handler-test-fx ] play-from-period)
+(reg-event-db :stop-playing-period [validate-spec persist-secure-store generate-handler-test-db ] stop-playing-period)
+(reg-event-fx :play-from-bucket [validate-spec persist-secure-store generate-handler-test-fx ] play-from-bucket)
+(reg-event-db :play-from-template [validate-spec persist-secure-store generate-handler-test-db ] play-from-template)
 (reg-event-db :load-db [validate-spec] load-db)
 (reg-event-fx :share-app-db [validate-spec] share-app-db)
-(reg-event-db :add-auto-filter [validate-spec persist-secure-store ] add-auto-filter)
-(reg-event-db :load-pattern-form [validate-spec persist-secure-store ] load-pattern-form)
-(reg-event-fx :update-pattern-form [validate-spec persist-secure-store ] update-pattern-form)
-(reg-event-fx :save-pattern-form [validate-spec persist-secure-store ] save-pattern-form)
-(reg-event-fx :add-new-pattern [validate-spec persist-secure-store ] add-new-pattern)
-(reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store ] apply-pattern-to-displayed-day)
-(reg-event-db :import-app-db [validate-spec persist-secure-store ] import-app-db)
-(reg-event-fx :navigate-back [validate-spec persist-secure-store ] navigate-back)
-(reg-event-fx :update-template-on-pattern-planning-form [validate-spec persist-secure-store ]
-              update-template-on-pattern-planning-form)
-(reg-event-db :make-pattern-from-day [validate-spec persist-secure-store ] make-pattern-from-day)
-(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec persist-secure-store ] set-current-pixel-to-minute-ratio)
-(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec persist-secure-store ] set-default-pixel-to-minute-ratio)
-(reg-event-fx :select-period-movement [validate-spec persist-secure-store ] select-period-movement)
-(reg-event-fx :select-period-edit [validate-spec persist-secure-store ] select-period-edit)
-(reg-event-fx :select-template-movement [validate-spec persist-secure-store ] select-template-movement)
-(reg-event-fx :select-template-edit [validate-spec persist-secure-store ] select-template-edit)
-(reg-event-fx :select-element-movement [validate-spec persist-secure-store ] select-element-movement)
-(reg-event-fx :select-element-edit [validate-spec persist-secure-store ] select-element-edit)
+(reg-event-db :add-auto-filter [validate-spec persist-secure-store generate-handler-test-db ] add-auto-filter)
+(reg-event-db :load-pattern-form [validate-spec persist-secure-store generate-handler-test-fx ] load-pattern-form)
+(reg-event-fx :update-pattern-form [validate-spec persist-secure-store generate-handler-test-fx ] update-pattern-form)
+(reg-event-fx :save-pattern-form [validate-spec persist-secure-store generate-handler-test-fx ] save-pattern-form)
+(reg-event-fx :add-new-pattern [validate-spec persist-secure-store generate-handler-test-fx ] add-new-pattern)
+(reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store generate-handler-test-db ] apply-pattern-to-displayed-day)
+(reg-event-db :import-app-db [validate-spec persist-secure-store generate-handler-test-db ] import-app-db)
+(reg-event-fx :navigate-back [validate-spec persist-secure-store generate-handler-test-fx ] navigate-back)
+(reg-event-fx :update-template-on-pattern-planning-form [validate-spec persist-secure-store generate-handler-test-fx ] update-template-on-pattern-planning-form)
+(reg-event-db :make-pattern-from-day [validate-spec persist-secure-store generate-handler-test-db ] make-pattern-from-day)
+(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec persist-secure-store generate-handler-test-db ] set-current-pixel-to-minute-ratio)
+(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec persist-secure-store generate-handler-test-db ] set-default-pixel-to-minute-ratio)
+(reg-event-fx :select-period-movement [validate-spec persist-secure-store generate-handler-test-fx ] select-period-movement)
+(reg-event-fx :select-period-edit [validate-spec persist-secure-store generate-handler-test-fx ] select-period-edit)
+(reg-event-fx :select-template-movement [validate-spec persist-secure-store generate-handler-test-fx ] select-template-movement)
+(reg-event-fx :select-template-edit [validate-spec persist-secure-store generate-handler-test-fx ] select-template-edit)
+(reg-event-fx :select-element-movement [validate-spec persist-secure-store generate-handler-test-fx ] select-element-movement)
+(reg-event-fx :select-element-edit [validate-spec persist-secure-store generate-handler-test-fx ] select-element-edit)

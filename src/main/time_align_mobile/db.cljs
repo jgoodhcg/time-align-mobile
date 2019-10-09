@@ -297,38 +297,9 @@
                        :pattern-form  nil
                        :template-form nil
                        :filter-form   nil}
-   :patterns          [{:id          (uuid "ffa49881-38d4-4d4f-ab19-a7cef18c4465")
-                        :label       "an example pattern"
-                        :created     now
-                        :last-edited now
-                        :data        {}
-                        :templates   []}]
+   :patterns          []
    :active-filter     nil
-   :filters           [{:id          (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")
-                        :label       "sort by bucket label"
-                        :created     now
-                        :compatible  [:period :template]
-                        :last-edited now
-                        :sort        {:path      [:bucket-label]
-                                      :ascending true}
-                        :predicates  []}
-                       {:id          (uuid "aad94081-38d4-4d4f-ab19-a7cef18c1299")
-                        :label       "sort by label"
-                        :created     now
-                        :compatible  [:bucket :filter :period :template]
-                        :last-edited now
-                        :sort        {:path      [:label]
-                                      :ascending true}
-                        :predicates  []}
-                       {:id          (uuid "cccc4081-38d4-4d4f-ab19-a7cef18c4444")
-                        :label       "time align bucket filter"
-                        :created     now
-                        :compatible  [:period :template]
-                        :last-edited now
-                        :sort        nil
-                        :predicates  [{:path   [:bucket-id]
-                                       :value  (str default-bucket-id)
-                                       :negate false}]}]
+   :filters           []
    :navigation        {:current-screen :day
                        :params         nil}
    :buckets           {}
