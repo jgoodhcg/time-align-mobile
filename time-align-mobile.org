@@ -74,6 +74,7 @@
     :WORK:     13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-20 Sun 19:18]--[2019-10-20 Sun 19:22] =>  0:04
     CLOCK: [2019-10-20 Sun 17:50]--[2019-10-20 Sun 18:22] =>  0:32
     CLOCK: [2019-10-20 Sun 17:16]--[2019-10-20 Sun 17:20] =>  0:04
     CLOCK: [2019-10-20 Sun 13:03]--[2019-10-20 Sun 13:57] =>  0:54
@@ -87,6 +88,8 @@
 **** Edit indicator
      - [ ] Remove all borders
      - [ ] Grey out unselected on edit selection
+**** Main display
+     - [ ] Time indicators are [[https://momentjs.com/docs/#/displaying/format/][hh]] 
 **** Top bar
      - [ ] Menu button opens menu
      - [ ] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
@@ -100,6 +103,7 @@
      - [ ] Bucket picker is a filled button that brings up bucket list modal
      - [ ] Label input is unchanged and below bucket picker
      - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
+     - [ ] Copy over flat button to the right of planned toggle
      - [ ] Bottom buttons only include only edit (flat) and delete (filled)
 *** TODO Use scrollTo 
     :PROPERTIES:
