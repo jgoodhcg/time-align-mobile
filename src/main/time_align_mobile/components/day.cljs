@@ -454,7 +454,6 @@
                        (:color in-play-element)
                        (-> styles/theme :colors :primary))
       :on-press-item (fn [action-name]
-                       (println action-name)
                        (case action-name
                          "generate-pattern" (dispatch [:make-pattern-from-day
                                                        {:date displayed-day

@@ -88,7 +88,7 @@
          (fn [test-keys-set]
            (let [new-test-keys-set (conj test-keys-set event)
                  old-count         (count test-keys-set)
-                 new-count         (count test-keys-set)]
+                 new-count         (count new-test-keys-set)]
 
              (when (and print-once-flag
                         (-> new-count (> old-count)))
@@ -103,7 +103,7 @@
   (->interceptor
    :id :generate-handler-test-fx
    :after (fn [context]
-            (if generate-tests
+            (if generate-tests-flag
               (let [event     (get-in context [:coeffects :event])
                     db-before (get-in context [:coeffects :db])
                     effects   (get-in context [:effects])]
@@ -111,16 +111,17 @@
                 (let [handler-name (name (first event))
                       test-name    (str "handler " handler-name " generated test")]
 
-                  (print-once event (str
-                                     "(js/test " "\"" test-name "\" "
-                                     "#(-> (handlers/" handler-name " "
-                                     "{:db " db-before "}"
-                                     event ")"
-                                     "(str)"
-                                     "(js/expect) "
-                                     "(.toBe (->> " effects
-                                     "(str)"
-                                     "))))"))
+                  (print-once handler-name
+                              (str
+                               "(js/test " "\"" test-name "\" "
+                               "#(-> (handlers/" handler-name " "
+                               "{:db " db-before "}"
+                               event ")"
+                               "(str)"
+                               "(js/expect) "
+                               "(.toBe (->> " effects
+                               "(str)"
+                               "))))"))
 
                   context))))))
 
@@ -128,7 +129,7 @@
   (->interceptor
    :id :generate-handler-test-db
    :after (fn [context]
-            (if generate-tests
+            (if generate-tests-flag
               (let [event     (get-in context [:coeffects :event])
                     db-before (get-in context [:coeffects :db])
                     effects   (get-in context [:effects])]
@@ -136,16 +137,17 @@
                 (let [handler-name (name (first event))
                       test-name    (str "handler " handler-name " generated test")]
 
-                  (print-once event (str
-                                     "(js/test " "\"" test-name "\" "
-                                     "#(-> (handlers/" handler-name " "
-                                     db-before
-                                     event ")"
-                                     "(str)"
-                                     "(js/expect) "
-                                     "(.toBe (->> " (:db effects)
-                                     "(str)"
-                                     "))))"))
+                  (print-once handler-name
+                              (str
+                               "(js/test " "\"" test-name "\" "
+                               "#(-> (handlers/" handler-name " "
+                               db-before
+                               event ")"
+                               "(str)"
+                               "(js/expect) "
+                               "(.toBe (->> " (:db effects)
+                               "(str)"
+                               "))))"))
 
                   context))))))
 
@@ -1104,10 +1106,6 @@
 (reg-event-fx :save-period-form [alert-message validate-spec persist-secure-store] save-period-form)
 (reg-event-db :load-template-form [validate-spec persist-secure-store] load-template-form)
 (reg-event-db :load-template-form-from-pattern-planning [validate-spec persist-secure-store] load-template-form-from-pattern-planning)
-
-
-
-
 
 (reg-event-db :update-template-form [validate-spec persist-secure-store generate-handler-test-db ] update-template-form)
 (reg-event-fx :save-template-form [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-template-form)
