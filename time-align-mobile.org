@@ -44,6 +44,7 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
+     | "[[Material design pt 2 /reduction/]]"                                              |             7.6923076923076925 |   100 |   13 |
      | "[[Add handler tests]]"                                                             |                            2.6 |    13 |    5 |
      | "[[Add subscription tests]]"                                                        |                            2.6 |    13 |    5 |
      | "[[Use scrollTo]]"                                                                  |                            2.5 |     5 |    2 |
@@ -67,6 +68,39 @@
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
+*** TODO Material design pt 2 /reduction/
+    :PROPERTIES:
+    :VALUE:    100
+    :WORK:     13
+    :END:
+    :LOGBOOK:
+    CLOCK: [2019-10-20 Sun 17:50]--[2019-10-20 Sun 18:22] =>  0:32
+    CLOCK: [2019-10-20 Sun 17:16]--[2019-10-20 Sun 17:20] =>  0:04
+    CLOCK: [2019-10-20 Sun 13:03]--[2019-10-20 Sun 13:57] =>  0:54
+    :END:
+**** Touch action changes
+     - [ ] Double tap on period goes to form
+     - [ ] Single tap on period makes edit selection
+     - [ ] Single tap on day creates period
+       - [ ] Decreased sensitivity for less accidental taps on scrolling?
+     - [ ] Double tap on day does nothing
+**** Edit indicator
+     - [ ] Remove all borders
+     - [ ] Grey out unselected on edit selection
+**** Top bar
+     - [ ] Menu button opens menu
+     - [ ] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
+     - [ ] Day label is a flat button that opens date picker modal
+**** Bottom sheet
+     - [ ] Close button in top left
+     - [ ] Drag indicator is a single grey line
+     - [ ] Save button top right and Filled
+     - [ ] Start/Stop icon aligned with two vertical flag buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
+     - [ ] Duration displayed to right of start/stop buttons and disabled color
+     - [ ] Bucket picker is a filled button that brings up bucket list modal
+     - [ ] Label input is unchanged and below bucket picker
+     - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
+     - [ ] Bottom buttons only include only edit (flat) and delete (filled)
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5
