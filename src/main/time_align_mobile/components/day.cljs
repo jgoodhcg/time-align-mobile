@@ -171,16 +171,14 @@
               [tap-gesture-handler
                {:ref            double-tap-ref
                 :number-of-taps 2
-
                 :on-handler-state-change
                 #(let [state (get-state %)]
                    (if (= :active state)
                      (do
                        (close-bottom-sheet bottom-sheet-ref element-type)
-                       (dispatch [:select-element-movement
-                                  {:element-type element-type
-                                   :bucket-id    (:bucket-id element)
-                                   :element-id   (:id element)}]))))}
+                       (dispatch [:navigate-to {:current-screen :period
+                                                :params         {:period-id (:id element)
+                                                                 :bucket-id (:bucket-id element)}}]                                 ))))}
                [view {:style {:width  "100%"
                               :height "100%"}}
                 [text-paper {:style {:color (if light
@@ -657,6 +655,7 @@
       [view {:style {:height           500
                      :background-color (-> styles/theme :colors :background)}}]
 
+      ;; bottom sheet
       [portal
        (let [drag-indicator-height       12
              drag-indicator-total-height 40

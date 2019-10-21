@@ -74,13 +74,17 @@
     :WORK:     13
     :END:
     :LOGBOOK:
+    CLOCK: [2019-10-21 Mon 17:31]--[2019-10-21 Mon 17:32] =>  0:01
     CLOCK: [2019-10-20 Sun 19:18]--[2019-10-20 Sun 19:22] =>  0:04
     CLOCK: [2019-10-20 Sun 17:50]--[2019-10-20 Sun 18:22] =>  0:32
     CLOCK: [2019-10-20 Sun 17:16]--[2019-10-20 Sun 17:20] =>  0:04
     CLOCK: [2019-10-20 Sun 13:03]--[2019-10-20 Sun 13:57] =>  0:54
     :END:
 **** Touch action changes
-     - [ ] Double tap on period goes to form
+     :LOGBOOK:
+     CLOCK: [2019-10-21 Mon 17:32]--[2019-10-21 Mon 17:48] =>  0:16
+     :END:
+     - [X] Double tap on period goes to form
      - [ ] Single tap on period makes edit selection
      - [ ] Single tap on day creates period
        - [ ] Decreased sensitivity for less accidental taps on scrolling?
@@ -97,6 +101,7 @@
 **** Bottom sheet
      - [ ] Close button in top left
      - [ ] Drag indicator is a single grey line
+     - [ ] Play button flat to the left of save
      - [ ] Save button top right and Filled
      - [ ] Start/Stop icon aligned with two vertical flag buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
      - [ ] Duration displayed to right of start/stop buttons and disabled color
@@ -520,3 +525,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Refactor views to be very thin (no operations)
 - Use react-native-paper FAB.group
 - Use animation api for state indication
+  

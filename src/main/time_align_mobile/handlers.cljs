@@ -77,9 +77,9 @@
             (write-file-to-dd! "app-db" (-> context :effects :db str))
             context)))
 
-(def generate-tests-flag true)
+(def generate-tests-flag false)
 
-(def print-once-flag true)
+(def print-once-flag false)
 
 (def generated-test-keys (atom #{}))
 
@@ -123,7 +123,8 @@
                                "(str)"
                                "))))"))
 
-                  context))))))
+                  context))
+              context))))
 
 (def generate-handler-test-db
   (->interceptor
@@ -149,7 +150,8 @@
                                "(str)"
                                "))))"))
 
-                  context))))))
+                  context))
+              context))))
 
 ;; -- Helpers ---------------------------------------------------------------
 (defn clean-period [period]
