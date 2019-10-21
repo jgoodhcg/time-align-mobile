@@ -82,11 +82,13 @@
     :END:
 **** Touch action changes
      :LOGBOOK:
+     CLOCK: [2019-10-21 Mon 17:49]--[2019-10-21 Mon 19:10] =>  1:21
      CLOCK: [2019-10-21 Mon 17:32]--[2019-10-21 Mon 17:48] =>  0:16
      :END:
      - [X] Double tap on period goes to form
-     - [ ] Single tap on period makes edit selection
-     - [ ] Single tap on day creates period
+     - [X] Single tap on period makes edit selection
+     - [ ] +Single+ Double tap on day creates period
+       - Single tap totaly breaks the crazy FSM I've got going on right now
        - [ ] Decreased sensitivity for less accidental taps on scrolling?
      - [ ] Double tap on day does nothing
 **** Edit indicator
