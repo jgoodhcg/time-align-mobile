@@ -302,7 +302,7 @@
    :filters           []
    :navigation        {:current-screen :day
                        :params         nil}
-   :buckets           {}
+   :buckets           (make-buckets 1 0)
    :time-navigators   {:day      (js/Date.)
                        :calendar (js/Date.)
                        :report   (js/Date.)}
