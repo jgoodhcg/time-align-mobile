@@ -415,13 +415,12 @@
                                     :label   "start"
                                     :onPress #(reset! play-modal-visible true)})])]
 
-    [portal
-     [fab-group (merge {:open            @fab-state
-                        :icon            "alien"
-                        :actions         (clj->js actions) ;; TODO kebab case conversion
-                        :on-state-change #(dispatch [:set-day-fab-open (oget % "open")])}
-                       (when (some? in-play-element)
-                         {:color (:color in-play-element)}))]]))
+    [fab-group (merge {:open            @fab-state
+                       :icon            "alien"
+                       :actions         (clj->js actions) ;; TODO kebab case conversion
+                       :on-state-change #(dispatch [:set-day-fab-open (oget % "open")])}
+                      (when (some? in-play-element)
+                        {:color (:color in-play-element)}))]))
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
@@ -438,6 +437,7 @@
            edit-form
            move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
+        fab-visible           @(subscribe [:get-day-fab-visible])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)
@@ -545,7 +545,8 @@
 
       ;; fab
       (when (and nothing-selected
-                 (= :period element-type))
+                 (= :period element-type)
+                 fab-visible)
         [portal
          [fab-comp {:displayed-day    displayed-day
                     :in-play-element  in-play-element

@@ -127,6 +127,7 @@
          [side-menu
           {:menu      (r/as-element [drawer-list])
            :on-change #(do
+                         (dispatch [:set-day-fab-visible (not %)])
                          (close-bottom-sheet bottom-sheet-ref :period)
                          (close-bottom-sheet bottom-sheet-ref :template))}
 

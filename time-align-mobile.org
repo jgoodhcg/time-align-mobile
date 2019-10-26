@@ -82,6 +82,7 @@
     :END:
 **** Touch action changes
      :LOGBOOK:
+     CLOCK: [2019-10-26 Sat 10:49]--[2019-10-26 Sat 11:06] =>  0:17
      CLOCK: [2019-10-26 Sat 10:14]--[2019-10-26 Sat 10:42] =>  0:28
      CLOCK: [2019-10-25 Fri 21:16]--[2019-10-25 Fri 21:34] =>  0:18
      CLOCK: [2019-10-25 Fri 20:30]--[2019-10-25 Fri 21:15] =>  0:45
@@ -94,7 +95,7 @@
      - [X] Using v3 react native paper
      - [X] Options in FAB are labeled
      - [X] Fab-group state in app-db
-     - [ ] Fab-roup closes on drawer opening
+     - [X] Fab-group disappears on drawer opening
      - [ ] Option for adding element exists in fab-group
      - [ ] Adding element fab-group option displays banner notifying user to touch anywhere
      - [ ] Dismissing banner cancels adding
