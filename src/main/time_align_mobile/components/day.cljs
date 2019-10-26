@@ -17,6 +17,7 @@
                      bottom-sheet
                      touchable-ripple
                      tap-gesture-handler
+                     long-press-gesture-handler
                      divider
                      format-date
                      touchable-ripple
@@ -445,7 +446,7 @@
         nothing-selected      (and (not movement-selected)
                                    (not edit-selected))
         pinch-ref             (.createRef react)
-        double-tap-add-ref    (.createRef react)]
+        long-press-ref        (.createRef react)]
 
     [pan-gesture-handler
      {:enabled movement-selected
@@ -480,68 +481,114 @@
 
       [pinch-gesture-handler
        {:ref              pinch-ref
-        :wait-for         double-tap-add-ref
+        :wait-for         long-press-ref
         :on-gesture-event #(let [scale (helpers/get-gesture-handler-scale %)]
                              (dispatch-debounced
                               [:set-current-pixel-to-minute-ratio
                                (* pixel-to-minute-ratio scale)]))}
 
-       [view
-        {:style {:flex 1}}
+       [long-press-gesture-handler
+        {:ref            long-press-ref
+         :enabled        (not (or movement-selected
+                                  edit-selected))
+         :number-of-taps 2
+         :on-handler-state-change
+         #(let [state (get-state %)]
+            (if (= :active state)
+              (let [id      (random-uuid)
+                    start   (-> %
+                                (get-ys)
+                                :y
+                                (/ pixel-to-minute-ratio)
+                                (helpers/minutes->ms)
+                                (helpers/reset-relative-ms displayed-day)
+                                (.valueOf))
+                    stop    (+ start (helpers/minutes->ms 45))
+                    now     (js/Date.)
+                    x       (-> %
+                                (get-xs)
+                                :x)
+                    planned (-> x
+                                (< (-> (get-device-width)
+                                       (/ 2))))]
 
-        [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
-                       :flex   1}}
+                (case element-type
+                  :period   (do
+                              (close-bottom-sheet bottom-sheet-ref element-type)
+                              (dispatch [:add-period {:period    {:id          id
+                                                                  :start       (js/Date. start)
+                                                                  :stop        (js/Date. stop)
+                                                                  :planned     planned
+                                                                  :data        {}
+                                                                  :last-edited now
+                                                                  :created     now
+                                                                  :label       ""}
+                                                      :bucket-id nil}]))
+                  :template (do
+                              (close-bottom-sheet bottom-sheet-ref element-type)
+                              (dispatch [:add-new-template-to-planning-form
+                                         {:id        id
+                                          :bucket-id (:id (first buckets))
+                                          :start     (js/Date. start)
+                                          :planned   planned
+                                          :now       now}]))
+                  nil))))}
+        [view
+         {:style {:flex 1}}
+
+         [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
+                        :flex   1}}
 
           ;; time indicators
-         (for [hour (range 1 helpers/day-hour)]
-           (let [rel-min     (* 60 hour)
-                 y-pos       (* pixel-to-minute-ratio rel-min)
-                 rel-ms      (helpers/hours->ms hour)
-                  time-str    (helpers/ms->h rel-ms)
-                 text-height 30]
+          (for [hour (range 1 helpers/day-hour)]
+            (let [rel-min     (* 60 hour)
+                  y-pos       (* pixel-to-minute-ratio rel-min)
+                  rel-ms      (helpers/hours->ms hour)
+                  time-str   (helpers/ms->h rel-ms)
+                  text-height 30]
 
-             [view {:key   (str "hour-marker-" hour)
-                    :style {:flex     1
-                            :position "absolute"
-                            :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
-                            :height   (+ (* 60 pixel-to-minute-ratio)
-                                         (/ text-height 2))}}
+              [view {:key   (str "hour-marker-" hour)
+                     :style {:flex     1
+                             :position "absolute"
+                             :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
+                             :height   (+ (* 60 pixel-to-minute-ratio)
+                                          (/ text-height 2))}}
 
-              [view {:style {:flex-direction "row"
-                             :align-items    "flex-start"}}
+               [view {:style {:flex-direction "row"
+                              :align-items    "flex-start"}}
                 ;; time stamp
-               [text-paper {:style {:padding-left        8
-                                    :color               (-> styles/theme :colors :accent)
-                                    :height              text-height
-                                    :text-align-vertical "center"}}
+                [text-paper {:style {:padding-left        8
+                                     :color               (-> styles/theme :colors :accent)
+                                     :height              text-height
+                                     :text-align-vertical "center"}}
                  time-str]
                 ;; bar
-               [view {:style {:height         text-height
-                              :flex-direction "row"
-                              :align-items    "center"}}
-                [view {:style {:border-color (-> styles/theme :colors :disabled)
-                               :border-width 0.25
-                               :margin-left  4
-                               :width        "100%"
-                               :height       0}}]]]]))
+                [view {:style {:height         text-height
+                               :flex-direction "row"
+                               :align-items    "center"}}
+                 [view {:style {:border-color (-> styles/theme :colors :disabled)
+                                :border-width 0.25
+                                :margin-left  4
+                                :width        "100%"
+                                :height       0}}]]]]))
 
           ;; periods
-         [view {:style {:position "absolute"
-                        :left     60
-                        :right    0
-                        :height   "100%"}}
-          [elements-comp {:elements              elements
-                          :selected-element      selected-element
-                          :selected-element-edit selected-element-edit
-                          :element-type          element-type
-                          :in-play-element       in-play-element
-                          :pixel-to-minute-ratio pixel-to-minute-ratio
-                          :displayed-day         displayed-day}]]
+          [view {:style {:position "absolute"
+                         :left     60
+                         :right    0
+                         :height   "100%"}}
+           [elements-comp {:elements              elements
+                           :selected-element      selected-element
+                           :selected-element-edit selected-element-edit
+                           :element-type          element-type
+                           :in-play-element       in-play-element
+                           :pixel-to-minute-ratio pixel-to-minute-ratio
+                           :displayed-day         displayed-day}]]
 
           ;; now indicator
-         [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
-                         :displayed-day         displayed-day
-                         :element-type          element-type}]]]]
+          [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
+                          :displayed-day         displayed-day
+                          :element-type          element-type}]]]]]
 
       ;; fab
       (when (and nothing-selected

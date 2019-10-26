@@ -80,8 +80,10 @@
     CLOCK: [2019-10-20 Sun 17:16]--[2019-10-20 Sun 17:20] =>  0:04
     CLOCK: [2019-10-20 Sun 13:03]--[2019-10-20 Sun 13:57] =>  0:54
     :END:
-**** Touch action changes
+**** DONE Touch action changes
+     CLOSED: [2019-10-26 Sat 17:23]
      :LOGBOOK:
+     CLOCK: [2019-10-26 Sat 17:11]--[2019-10-26 Sat 17:23] =>  0:12
      CLOCK: [2019-10-26 Sat 16:26]--[2019-10-26 Sat 17:11] =>  0:45
      CLOCK: [2019-10-26 Sat 11:20]--[2019-10-26 Sat 11:41] =>  0:21
      CLOCK: [2019-10-26 Sat 10:49]--[2019-10-26 Sat 11:06] =>  0:17
@@ -98,9 +100,7 @@
      - [X] Options in FAB are labeled
      - [X] Fab-group state in app-db
      - [X] Fab-group disappears on drawer opening
-     - [ ] Option for adding element exists in fab-group
-     - [ ] Adding element fab-group option displays banner notifying user to touch anywhere
-     - [ ] Dismissing banner cancels adding
+     - [X] Long press adds element
 **** Edit indicator
      - [ ] Remove all borders
      - [ ] Grey out unselected on edit selection
