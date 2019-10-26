@@ -82,6 +82,7 @@
     :END:
 **** Touch action changes
      :LOGBOOK:
+     CLOCK: [2019-10-26 Sat 10:14]--[2019-10-26 Sat 10:42] =>  0:28
      CLOCK: [2019-10-25 Fri 21:16]--[2019-10-25 Fri 21:34] =>  0:18
      CLOCK: [2019-10-25 Fri 20:30]--[2019-10-25 Fri 21:15] =>  0:45
      CLOCK: [2019-10-25 Fri 20:27]--[2019-10-25 Fri 20:30] =>  0:03
@@ -92,11 +93,11 @@
      - [X] Single tap on period makes edit selection
      - [X] Using v3 react native paper
      - [X] Options in FAB are labeled
-     - [ ] FAB state in app-db
-     - [ ] FAB closes on drawer opening
-     - [ ] Option for adding element exists in FAB
-     - [ ] Adding element FAB option displays snack bar notifying user to touch anywhere
-     - [ ] Dismissing snackbar cancels adding
+     - [X] Fab-group state in app-db
+     - [ ] Fab-roup closes on drawer opening
+     - [ ] Option for adding element exists in fab-group
+     - [ ] Adding element fab-group option displays banner notifying user to touch anywhere
+     - [ ] Dismissing banner cancels adding
 **** Edit indicator
      - [ ] Remove all borders
      - [ ] Grey out unselected on edit selection

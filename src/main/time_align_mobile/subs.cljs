@@ -385,6 +385,9 @@
 (defn get-pixel-to-minute-ratio [db _]
   (get-in db [:config :pixel-to-minute-ratio]))
 
+(defn get-day-fab-open [db _]
+  (get-in db [:day-fab :open]))
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -413,3 +416,4 @@
 (reg-sub :get-pattern-form get-pattern-form)
 (reg-sub :get-pattern-form-changes get-pattern-form-changes)
 (reg-sub :get-pixel-to-minute-ratio get-pixel-to-minute-ratio)
+(reg-sub :get-day-fab-open get-day-fab-open)

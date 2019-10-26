@@ -270,9 +270,9 @@
                                               :edit     {:period-id (ds/maybe uuid?)
                                                          :bucket-id (ds/maybe uuid?)}}
                                    :template {:movement {:template-id (ds/maybe uuid?)
-                                                         :bucket-id (ds/maybe uuid?)}
+                                                         :bucket-id   (ds/maybe uuid?)}
                                               :edit     {:template-id (ds/maybe uuid?)
-                                                         :bucket-id (ds/maybe uuid?)}}}
+                                                         :bucket-id   (ds/maybe uuid?)}}}
                    :filters       [filter-data-spec]
                    :navigation    {:current-screen ::screen
                                    :params         (ds/maybe map?)}
@@ -286,7 +286,8 @@
                                        :pixel-to-minute-ratio {:default number?
                                                                :current number?}}
                    :period-in-play-id (ds/maybe uuid?)
-                   :now               inst?}
+                   :now               inst?
+                   :day-fab           {:open boolean?}}
             :name ::app-db}))
 (def now (js/Date.))
 (def default-bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"))
@@ -318,7 +319,8 @@
                                              :template-id nil}
                                   :edit     {:bucket-id   nil
                                              :template-id nil}}}
-   :now               now})
+   :now               now
+   :day-fab           {:open false}})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app
 ;; old initial state of app-db

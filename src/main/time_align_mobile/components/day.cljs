@@ -397,31 +397,31 @@
                                        {:pattern-id  (:id pattern)
                                         :new-periods new-periods}])))})))))}]]])
 
-(def fab-state (r/atom false))
-
 (defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
-  (let [actions (filter some? [{:icon    "alien"
-                                :label   "create pattern"
-                                :onPress #(dispatch [:make-pattern-from-day
-                                                     {:date displayed-day
-                                                      :now  (js/Date.)}])}
-                               {:icon    "alien"
-                                :label   "apply pattern"
-                                :onPress #(reset! pattern-modal-visible true)}
-                               (if (some? in-play-element)
+  (let [fab-state (subscribe [:get-day-fab-open])
+        actions   (filter some? [{:icon    "alien"
+                                  :label   "create pattern"
+                                  :onPress #(dispatch [:make-pattern-from-day
+                                                       {:date displayed-day
+                                                        :now  (js/Date.)}])}
                                  {:icon    "alien"
-                                  :label   "stop"
-                                  :onPress #(dispatch [:stop-playing-period])}
-                                 {:icon    "alien"
-                                  :label   "start"
-                                  :onPress #(reset! play-modal-visible true)})])]
+                                  :label   "apply pattern"
+                                  :onPress #(reset! pattern-modal-visible true)}
+                                 (if (some? in-play-element)
+                                   {:icon    "alien"
+                                    :label   "stop"
+                                    :onPress #(dispatch [:stop-playing-period])}
+                                   {:icon    "alien"
+                                    :label   "start"
+                                    :onPress #(reset! play-modal-visible true)})])]
 
     [portal
-     [fab-group {:open            @fab-state
-                 :icon            "alien"
-                 :actions         (clj->js actions) ;; TODO kebab case conversion
-                 :on-state-change #(reset! fab-state (oget % "open"))
-                 :on-press        #(println "idk what to do here")}]]))
+     [fab-group (merge {:open            @fab-state
+                        :icon            "alien"
+                        :actions         (clj->js actions) ;; TODO kebab case conversion
+                        :on-state-change #(dispatch [:set-day-fab-open (oget % "open")])}
+                       (when (some? in-play-element)
+                         {:color (:color in-play-element)}))]]))
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
