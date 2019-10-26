@@ -55,7 +55,7 @@
                   :style    {:margin-right  4
                              :margin-bottom 4}
                   :mode     "outlined"
-                  :icon     "date-range"}
+                  :icon     "calendar-range"}
       [text (if (some? time)
               (format-date-day time)
               "Add a time date")]]
@@ -66,7 +66,7 @@
                   :style    {:margin-right  4
                              :margin-bottom 4}
                   :mode     "outlined"
-                  :icon     "access-time"}
+                  :icon     "clock-outline"}
       [text (if (some? time)
               (format-time time)
               "Add a time time")]]

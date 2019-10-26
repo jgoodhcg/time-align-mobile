@@ -163,7 +163,7 @@
                         :align-items     "center"
                         :padding         8}}
 
-   [icon-button {:icon     "keyboard-arrow-left"
+   [icon-button {:icon     "chevron-left"
                  :size     20
                  :on-press #(dispatch
                              [:update-day-time-navigator
@@ -173,7 +173,7 @@
     {:on-press #(dispatch [:update-day-time-navigator (js/Date.)])}
     [subheading (format-date-day displayed-day)]]
 
-   [icon-button {:icon     "keyboard-arrow-right"
+   [icon-button {:icon     "chevron-right"
                  :size     20
                  :on-press #(dispatch
                              [:update-day-time-navigator

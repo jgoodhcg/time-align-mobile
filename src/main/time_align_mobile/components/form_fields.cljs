@@ -146,7 +146,7 @@
                               @entities)]]])]
 
    (when (not compact)
-     [button-paper {:icon    "edit"
+     [button-paper {:icon    "pencil"
                     :mode    "outlined"
                     :compact true
                     :on-press

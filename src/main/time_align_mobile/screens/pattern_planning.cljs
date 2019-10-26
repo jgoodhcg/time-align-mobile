@@ -123,7 +123,7 @@
             :align-items     "center"
             :padding         8}
    [subheading label]
-   [button-paper {:icon     "save"
+   [button-paper {:icon     "content-save"
                   :mode     "outlined"
                   :on-press #(dispatch [:save-pattern-form (new js/Date)])
                   :disabled no-changes}

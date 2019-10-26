@@ -11,13 +11,13 @@
   [:<>
    (when (some? edit-item)
      [button-paper
-      {:icon    "edit"
+      {:icon    "pencil"
        :mode    "text"
        :compact compact
        :on-press edit-item}])
 
    [button-paper
-    (merge {:icon     "save"
+    (merge {:icon     "content-save"
             :mode     (if compact "text" "outlined")
             :compact  compact
             :on-press save-changes}

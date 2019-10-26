@@ -199,6 +199,8 @@
 (def text-paper (r/adapt-react-class (oget paper "Text")))
 (def icon-button (r/adapt-react-class (oget paper "IconButton")))
 (def divider (r/adapt-react-class (oget paper "Divider")))
+(def snackbar (r/adapt-react-class (oget paper "Snackbar")))
+(def fab-group (r/adapt-react-class (oget (oget paper "FAB") "Group")))
 
 (def notifications (oget e "Notifications"))
 
