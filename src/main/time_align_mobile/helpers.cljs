@@ -82,6 +82,9 @@
                         (str %))))]
     (str hours "-" minutes)))
 
+(defn ms->h [ms]
+  (-> ms (quot (hours->ms 1))))
+
 (defn rel-ms->y-pos [ms total-height]
   (-> ms
       (/ day-ms)

@@ -497,7 +497,7 @@
            (let [rel-min     (* 60 hour)
                  y-pos       (* pixel-to-minute-ratio rel-min)
                  rel-ms      (helpers/hours->ms hour)
-                 time-str    (helpers/ms->hhmm rel-ms)
+                  time-str    (helpers/ms->h rel-ms)
                  text-height 30]
 
              [view {:key   (str "hour-marker-" hour)
