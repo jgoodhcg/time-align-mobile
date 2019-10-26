@@ -391,9 +391,6 @@
 (defn get-day-fab-visible [db _]
   (get-in db [:day-fab :visible]))
 
-(defn get-add-element-mode [db _]
-  (get-in db [:add-element-mode]))
-
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -424,4 +421,3 @@
 (reg-sub :get-pixel-to-minute-ratio get-pixel-to-minute-ratio)
 (reg-sub :get-day-fab-open get-day-fab-open)
 (reg-sub :get-day-fab-visible get-day-fab-visible)
-(reg-sub :get-add-element-mode get-add-element-mode)
