@@ -29,6 +29,8 @@
                      portal
                      rect-button
                      surface
+                     fab-group
+                     snackbar
                      touchable-without-feedback
                      color-light?
                      card
@@ -395,54 +397,31 @@
                                        {:pattern-id  (:id pattern)
                                         :new-periods new-periods}])))})))))}]]])
 
-(defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
-  (let [action-style   {:background-color "white"
-                        :width            40
-                        :height           40
-                        :justify-content  "center"
-                        :align-items      "center"
-                        :border-radius    20}
-        action-element (fn [button-icon]
-                         (fn [x]
-                           (r/as-element
-                            [view {:key   (:key (js->clj x :keywordize-keys true))
-                                   :style action-style}
-                             button-icon])))
-        actions        (filter some? [{:render   (action-element [view {:style {:flex-direction "row"}}
-                                                                  [en {:name "plus"}]
-                                                                  [en {:name "air"}]])
-                                       :name     "generate-pattern"
-                                       :text     "create pattern"
-                                       :position 1}
-                                      {:render   (action-element [en {:name "air"}])
-                                       :name     "apply-pattern"
-                                       :text     "apply pattern"
-                                       :position 2}
-                                      (if (some? in-play-element)
-                                        {:render   (action-element [mi {:name "stop"}])
-                                         :name     "stop-playing"
-                                         :text     "stop playing"
-                                         :position 3}
-                                        {:render   (action-element [mi {:name "play-arrow"}])
-                                         :name     "play"
-                                         :text     "start"
-                                         :position 4})])]
+(def fab-state (r/atom false))
 
-    [:> fab/FloatingAction
-     {:actions       (clj->js actions)
-      :color         (if (some? in-play-element)
-                       (:color in-play-element)
-                       (-> styles/theme :colors :primary))
-      :position      "right"
-      :on-press-item (fn [action-name]
-                       (case action-name
-                         "generate-pattern" (dispatch [:make-pattern-from-day
-                                                       {:date displayed-day
-                                                        :now  (js/Date.)}])
-                         "apply-pattern"    (reset! pattern-modal-visible true)
-                         "stop-playing"     (dispatch [:stop-playing-period])
-                         "play"             (reset! play-modal-visible true)
-                         :else              (println "nothing matched")))}]))
+(defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
+  (let [actions (filter some? [{:icon    "alien"
+                                :label   "create pattern"
+                                :onPress #(dispatch [:make-pattern-from-day
+                                                     {:date displayed-day
+                                                      :now  (js/Date.)}])}
+                               {:icon    "alien"
+                                :label   "apply pattern"
+                                :onPress #(reset! pattern-modal-visible true)}
+                               (if (some? in-play-element)
+                                 {:icon    "alien"
+                                  :label   "stop"
+                                  :onPress #(dispatch [:stop-playing-period])}
+                                 {:icon    "alien"
+                                  :label   "start"
+                                  :onPress #(reset! play-modal-visible true)})])]
+
+    [portal
+     [fab-group {:open            @fab-state
+                 :icon            "alien"
+                 :actions         (clj->js actions) ;; TODO kebab case conversion
+                 :on-state-change #(reset! fab-state (oget % "open"))
+                 :on-press        #(println "idk what to do here")}]]))
 
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
