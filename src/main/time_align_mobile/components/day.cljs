@@ -122,8 +122,8 @@
                 light                   (color-light? (:color element))
                 selected                (= (:id element) (:id selected-element))
                 selected-edit           (= (:id element) (:id selected-element-edit))
-                something-else-selected (and (some? selected-element)
-                                             (not selected))
+                something-else-selected (and (some? selected-element-edit)
+                                             (not selected-edit))
                 double-tap-ref          (.createRef react)
                 left                    (str index-offset "%")
                 width                   (str (max 4 (- 96 index-offset)) "%")]
@@ -136,7 +136,7 @@
                                      :height           height
                                      :elevation        (* 2 index)
                                      :border-radius    8
-                                     :background-color (:color element)
+                                     :background-color (-> styles/theme :colors :background)
                                      :overflow         "hidden"}
                                     (when selected
                                       {:elevation    32
@@ -144,8 +144,7 @@
                                        :border-color (-> styles/theme :colors :text)
                                        :border-style "dotted"})
                                     (when selected-edit
-                                      {:border-color (-> styles/theme :colors :text)
-                                       :border-width 4.5}))}
+                                      {:elevation 32}))}
              [rect-button
               {:enabled                 (and (not selected)
                                              (not something-else-selected))
@@ -169,7 +168,7 @@
                  :background-color (:color element)
                  :padding          4}
                 (when something-else-selected
-                  {:opacity 0.5}))}]])))))
+                  {:opacity 0.3}))}]])))))
 
 (defn elements-comp [{:keys [elements
                              element-type

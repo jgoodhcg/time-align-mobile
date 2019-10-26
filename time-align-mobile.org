@@ -101,11 +101,16 @@
      - [X] Fab-group state in app-db
      - [X] Fab-group disappears on drawer opening
      - [X] Long press adds element
-**** Edit indicator
-     - [ ] Remove all borders
-     - [ ] Grey out unselected on edit selection
-**** Main display
-     - [ ] Time indicators are [[https://momentjs.com/docs/#/displaying/format/][hh]] 
+**** DONE Edit indicator
+     CLOSED: [2019-10-26 Sat 17:47]
+     :LOGBOOK:
+     CLOCK: [2019-10-26 Sat 17:25]--[2019-10-26 Sat 17:47] =>  0:22
+     :END:
+     - [X] Remove edit selection borders
+     - [X] Grey out unselected on edit selection
+**** DONE Main display
+     CLOSED: [2019-10-26 Sat 17:47]
+     - [X] Time indicators are [[https://momentjs.com/docs/#/displaying/format/][hh]] 
 **** Top bar
      - [ ] Menu button opens menu
      - [ ] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
