@@ -397,17 +397,24 @@
                                        {:pattern-id  (:id pattern)
                                         :new-periods new-periods}])))})))))}]]])
 
-(defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
+(defn fab-comp [{:keys [element-type displayed-day in-play-element selected-element]}]
   (let [fab-state (subscribe [:get-day-fab-open])
         actions   (filter some? [{:icon    "alien"
-                                  :label   "create pattern"
-                                  :onPress #(dispatch [:make-pattern-from-day
-                                                       {:date displayed-day
-                                                        :now  (js/Date.)}])}
-                                 {:icon    "alien"
-                                  :label   "apply pattern"
-                                  :onPress #(reset! pattern-modal-visible true)}
-                                 (if (some? in-play-element)
+                                  :label   "add element"
+                                  :onPress #(do
+                                              (dispatch [:set-day-fab-visible false])
+                                              (dispatch [:set-add-element-mode true]))}
+                                 (if (= :period element-type)
+                                   {:icon    "alien"
+                                    :label   "create pattern"
+                                    :onPress #(dispatch [:make-pattern-from-day
+                                                         {:date displayed-day
+                                                          :now  (js/Date.)}])}
+                                   {:icon    "alien"
+                                    :label   "apply pattern"
+                                    :onPress #(reset! pattern-modal-visible true)})
+                                 (if (and (= :period element-type)
+                                          (some? in-play-element))
                                    {:icon    "alien"
                                     :label   "stop"
                                     :onPress #(dispatch [:stop-playing-period])}
@@ -438,6 +445,7 @@
            move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         fab-visible           @(subscribe [:get-day-fab-visible])
+        in-add-element-mode   @(subscribe [:get-add-element-mode])
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)
@@ -445,7 +453,7 @@
         nothing-selected      (and (not movement-selected)
                                    (not edit-selected))
         pinch-ref             (.createRef react)
-        double-tap-add-ref    (.createRef react)]
+        tap-add-ref           (.createRef react)]
 
     [pan-gesture-handler
      {:enabled movement-selected
@@ -480,75 +488,125 @@
 
       [pinch-gesture-handler
        {:ref              pinch-ref
-        :wait-for         double-tap-add-ref
+        :wait-for         tap-add-ref
         :on-gesture-event #(let [scale (helpers/get-gesture-handler-scale %)]
                              (dispatch-debounced
                               [:set-current-pixel-to-minute-ratio
                                (* pixel-to-minute-ratio scale)]))}
 
-       [view
-        {:style {:flex 1}}
+       [tap-gesture-handler
+        {:enabled in-add-element-mode
+         :ref     tap-add-ref
+         :on-state-change
+         #(let [state (get-state %)]
+            (println state)
+            (if (= :active state)
+              (do
+                (dispatch [:set-add-element-mode false])
+                (dispatch [:set-day-fab-visible true]) ;; bring back the FAB
+                (let [id      (random-uuid)
+                      start   (-> %
+                                  (get-ys)
+                                  :y
+                                  (/ pixel-to-minute-ratio)
+                                  (helpers/minutes->ms)
+                                  (helpers/reset-relative-ms displayed-day)
+                                  (.valueOf))
+                      stop    (+ start (helpers/minutes->ms 45))
+                      now     (js/Date.)
+                      x       (-> %
+                                  (get-xs)
+                                  :x)
+                      planned (-> x
+                                  (< (-> (get-device-width)
+                                         (/ 2))))]
 
-        [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
-                       :flex   1}}
+                  (case element-type
+                    :period   (do
+                                (close-bottom-sheet bottom-sheet-ref element-type)
+                                (dispatch [:add-period {:period    {:id          id
+                                                                    :start       (js/Date. start)
+                                                                    :stop        (js/Date. stop)
+                                                                    :planned     planned
+                                                                    :data        {}
+                                                                    :last-edited now
+                                                                    :created     now
+                                                                    :label       ""}
+                                                        :bucket-id nil}]))
+                    :template (do
+                                (close-bottom-sheet bottom-sheet-ref element-type)
+                                (dispatch [:add-new-template-to-planning-form
+                                           {:id        id
+                                            :bucket-id (:id (first buckets))
+                                            :start     (js/Date. start)
+                                            :planned   planned
+                                            :now       now}]))
+                    nil)))
+              ))}
+
+        [view
+         {:style {:flex 1}}
+
+         [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
+                        :flex   1}}
 
           ;; time indicators
-         (for [hour (range 1 helpers/day-hour)]
-           (let [rel-min     (* 60 hour)
-                 y-pos       (* pixel-to-minute-ratio rel-min)
-                 rel-ms      (helpers/hours->ms hour)
+          (for [hour (range 1 helpers/day-hour)]
+            (let [rel-min     (* 60 hour)
+                  y-pos       (* pixel-to-minute-ratio rel-min)
+                  rel-ms      (helpers/hours->ms hour)
                   time-str    (helpers/ms->h rel-ms)
-                 text-height 30]
+                  text-height 30]
 
-             [view {:key   (str "hour-marker-" hour)
-                    :style {:flex     1
-                            :position "absolute"
-                            :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
-                            :height   (+ (* 60 pixel-to-minute-ratio)
-                                         (/ text-height 2))}}
+              [view {:key   (str "hour-marker-" hour)
+                     :style {:flex     1
+                             :position "absolute"
+                             :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
+                             :height   (+ (* 60 pixel-to-minute-ratio)
+                                          (/ text-height 2))}}
 
-              [view {:style {:flex-direction "row"
-                             :align-items    "flex-start"}}
+               [view {:style {:flex-direction "row"
+                              :align-items    "flex-start"}}
                 ;; time stamp
-               [text-paper {:style {:padding-left        8
-                                    :color               (-> styles/theme :colors :accent)
-                                    :height              text-height
-                                    :text-align-vertical "center"}}
+                [text-paper {:style {:padding-left        8
+                                     :color               (-> styles/theme :colors :accent)
+                                     :height              text-height
+                                     :text-align-vertical "center"}}
                  time-str]
                 ;; bar
-               [view {:style {:height         text-height
-                              :flex-direction "row"
-                              :align-items    "center"}}
-                [view {:style {:border-color (-> styles/theme :colors :disabled)
-                               :border-width 0.25
-                               :margin-left  4
-                               :width        "100%"
-                               :height       0}}]]]]))
+                [view {:style {:height         text-height
+                               :flex-direction "row"
+                               :align-items    "center"}}
+                 [view {:style {:border-color (-> styles/theme :colors :disabled)
+                                :border-width 0.25
+                                :margin-left  4
+                                :width        "100%"
+                                :height       0}}]]]]))
 
           ;; periods
-         [view {:style {:position "absolute"
-                        :left     60
-                        :right    0
-                        :height   "100%"}}
-          [elements-comp {:elements              elements
-                          :selected-element      selected-element
-                          :selected-element-edit selected-element-edit
-                          :element-type          element-type
-                          :in-play-element       in-play-element
-                          :pixel-to-minute-ratio pixel-to-minute-ratio
-                          :displayed-day         displayed-day}]]
+          [view {:style {:position "absolute"
+                         :left     60
+                         :right    0
+                         :height   "100%"}}
+           [elements-comp {:elements              elements
+                           :selected-element      selected-element
+                           :selected-element-edit selected-element-edit
+                           :element-type          element-type
+                           :in-play-element       in-play-element
+                           :pixel-to-minute-ratio pixel-to-minute-ratio
+                           :displayed-day         displayed-day}]]
 
           ;; now indicator
-         [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
-                         :displayed-day         displayed-day
-                         :element-type          element-type}]]]]
+          [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
+                          :displayed-day         displayed-day
+                          :element-type          element-type}]]]]]
 
       ;; fab
       (when (and nothing-selected
-                 (= :period element-type)
                  fab-visible)
         [portal
-         [fab-comp {:displayed-day    displayed-day
+         [fab-comp {:element-type     element-type
+                    :displayed-day    displayed-day
                     :in-play-element  in-play-element
                     :selected-element selected-element}]])
 
