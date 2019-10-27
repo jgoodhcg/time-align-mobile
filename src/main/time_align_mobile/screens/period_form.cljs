@@ -122,10 +122,20 @@
       [icon-button {:icon     "close"
                     :size     20
                     :on-press close-callback}]
-      [button-paper {:on-press save-callback
-                     :mode     "contained"
-                     :icon     "content-save"}
-       "SAVE"]]
+      [view {:flex-direction "row"}
+       [button-paper {:on-press #(dispatch
+                                  [:play-from-period
+                                   {:id           (:id period-form)
+                                    :time-started (js/Date.)
+                                    :new-id       (random-uuid)}])
+                      :mode     "text"
+                      :icon     "play-circle"
+                      :style    {:margin-right 8}}
+        "play"]
+       [button-paper {:on-press save-callback
+                      :mode     "contained"
+                      :icon     "content-save"}
+        "save"]]]
 
      [label-comp period-form changes :update-period-form true]
 
