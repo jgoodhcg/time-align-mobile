@@ -29,6 +29,13 @@
             (.getDate date-b)))
     false))
 
+(defn same-year? [date-a date-b]
+  (if (and (inst? date-a)
+           (inst? date-b))
+    (and (= (.getFullYear date-a)
+            (.getFullYear date-b)))
+    false))
+
 (defn print-data [data]
   (str data)
   ;; (with-out-str (zprint data 40))  ;; TODO doesn't like zprint :(

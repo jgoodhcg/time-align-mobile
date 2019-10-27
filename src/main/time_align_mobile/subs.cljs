@@ -391,6 +391,9 @@
 (defn get-day-fab-visible [db _]
   (get-in db [:day-fab :visible]))
 
+(defn get-menu-open [db _]
+  (get-in db [:menu :open]))
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -421,3 +424,4 @@
 (reg-sub :get-pixel-to-minute-ratio get-pixel-to-minute-ratio)
 (reg-sub :get-day-fab-open get-day-fab-open)
 (reg-sub :get-day-fab-visible get-day-fab-visible)
+(reg-sub :get-menu-open get-menu-open)

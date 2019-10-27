@@ -111,13 +111,19 @@
 **** DONE Main display
      CLOSED: [2019-10-26 Sat 17:47]
      - [X] Time indicators are [[https://momentjs.com/docs/#/displaying/format/][hh]] 
-**** Top bar
-     - [ ] Menu button opens menu
-     - [ ] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
-     - [ ] Day label is a flat button that opens date picker modal
+**** DONE Top bar
+     CLOSED: [2019-10-27 Sun 17:44]
+     :LOGBOOK:
+     CLOCK: [2019-10-27 Sun 17:29]--[2019-10-27 Sun 17:44] =>  0:15
+     CLOCK: [2019-10-27 Sun 14:44]--[2019-10-27 Sun 15:00] =>  0:16
+     CLOCK: [2019-10-26 Sat 17:47]--[2019-10-26 Sat 18:06] =>  0:19
+     :END:
+     - [X] Menu button opens menu
+     - [X] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
+     - [X] Day label is a flat button that opens date picker modal
 **** Bottom sheet
      - [ ] Close button in top left
-     - [ ] Drag indicator is a single grey line
+     - [X] Drag indicator is a better icon
      - [ ] Play button flat to the left of save
      - [ ] Save button top right and Filled
      - [ ] Start/Stop icon aligned with two vertical flag buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
@@ -126,7 +132,7 @@
      - [ ] Label input is unchanged and below bucket picker
      - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
      - [ ] Copy over flat button to the right of planned toggle
-     - [ ] Bottom buttons only include only edit (flat) and delete (filled)
+     - [ ] Bottom buttons only include edit (flat) and delete (flat)
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5

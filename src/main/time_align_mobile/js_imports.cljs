@@ -138,14 +138,21 @@
   ( [year month day hour minute second millisecond]
    (-> (js/Date. (ocall js/Date "UTC" year (- 1 month) day hour minute second millisecond))
        (moment-tz "UTC"))))
-(defn format-date [date]
+(defn format-date ;; TODO rename this format-datetime
+  [date]
   (ocall (moment-tz date (get-default-timezone))
          "format"
-         "YYYY-MM-DD-HH-mm-ss")) ;; TODO rename this format-datetime
-(defn format-date-day [date] ;; TODO rename this format-date
-  (ocall (moment-tz date (get-default-timezone))
-         "format"
-         "YYYY-MM-DD"))
+         "YYYY-MM-DD-HH-mm-ss"))
+
+(defn format-date-day
+  ([date] ;; TODO rename this format-date
+   (ocall (moment-tz date (get-default-timezone))
+          "format"
+          "YYYY-MM-DD"))
+  ([date format-str]
+   (ocall (moment-tz date (get-default-timezone))
+          "format"
+          format-str)))
 (defn format-time [date]
   (ocall (moment-tz date (get-default-timezone))
           "format"

@@ -5,6 +5,7 @@
                                                   flat-list
                                                   format-date
                                                   format-time
+                                                  date-time-picker
                                                   touchable-highlight
                                                   touchable-ripple
                                                   status-bar
@@ -16,6 +17,7 @@
                                                   mi
                                                   mci
                                                   icon-button
+                                                  button-paper
                                                   fa
                                                   modal
                                                   animated-xy
@@ -24,7 +26,7 @@
             [com.rpl.specter :as sp :refer-macros [select select-one setval transform]]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-            [time-align-mobile.helpers :refer [same-day? xor]]
+            [time-align-mobile.helpers :refer [same-day? xor same-year?]]
             [time-align-mobile.screens.period-form :refer [compact]]
             [time-align-mobile.components.list-items :as list-items]
             [time-align-mobile.styles :as styles :refer [theme]]
@@ -156,28 +158,38 @@
                                  :stop-earlier  stop-earlier
                                  :stop-later    stop-later})
 
+(def date-picker-modal (r/atom false))
+
 (defn top-bar [{:keys [displayed-day]}]
-  [surface {:elevation 1
-            :style     {:flex-direction  "row"
-                        :justify-content "space-between"
-                        :align-items     "center"
-                        :padding         8}}
+  (let [menu-open (subscribe [:get-menu-open])]
+    [surface {:elevation 1
+              :style     {:flex-direction  "row"
+                          :justify-content "flex-start"
+                          :align-items     "center"
+                          :padding         8}}
 
-   [icon-button {:icon     "chevron-left"
-                 :size     20
-                 :on-press #(dispatch
-                             [:update-day-time-navigator
-                              (helpers/back-n-days displayed-day 1)])}]
+     [icon-button {:icon     (if @menu-open "backburger" "menu")
+                   :size     20
+                   :on-press #(dispatch [:set-menu-open (not @menu-open)])}]
 
-   [touchable-ripple
-    {:on-press #(dispatch [:update-day-time-navigator (js/Date.)])}
-    [subheading (format-date-day displayed-day)]]
 
-   [icon-button {:icon     "chevron-right"
-                 :size     20
-                 :on-press #(dispatch
-                             [:update-day-time-navigator
-                              (helpers/forward-n-days displayed-day 1)])}]])
+     [view {:style {:flex-direction  "row"
+                    :justify-content "center"
+                    :width           "100%"}}
+      [button-paper {:on-press #(reset! date-picker-modal true)
+                     :mode     "text"}
+       (if (same-year? displayed-day (js/Date.))
+         (format-date-day displayed-day "ddd MM/DD")
+         (format-date-day displayed-day "YYYY ddd MM/DD"))]]
+
+     [date-time-picker {:is-visible @date-picker-modal
+                        :date       displayed-day
+                        :mode       "date"
+                        :on-confirm (fn [d]
+                                      (dispatch [:update-day-time-navigator d])
+                                      (reset! date-picker-modal false))
+                        :on-cancel  #(reset! date-picker-modal false)}]
+     ]))
 
 (defn move-period [{:keys [selected-element start-relative-min]}]
   (let [new-start-ms (-> start-relative-min

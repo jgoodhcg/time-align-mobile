@@ -121,12 +121,15 @@
 
 (defn root []
   (fn []
-    (let [navigation (subscribe [:get-navigation])]
+    (let [navigation (subscribe [:get-navigation])
+          menu-open  (subscribe [:get-menu-open])]
       (fn []
         [paper-provider {:theme (clj->js theme)}
          [side-menu
           {:menu      (r/as-element [drawer-list])
+           :is-open   @menu-open
            :on-change #(do
+                         (dispatch [:set-menu-open %])
                          (dispatch [:set-day-fab-visible (not %)])
                          (close-bottom-sheet bottom-sheet-ref :period)
                          (close-bottom-sheet bottom-sheet-ref :template))}

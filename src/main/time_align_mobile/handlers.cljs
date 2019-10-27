@@ -1102,6 +1102,9 @@
 (defn set-day-fab-visible [db [_ state]]
   (assoc-in db [:day-fab :visible] state))
 
+(defn set-menu-open [db [_ state]]
+  (assoc-in db [:menu :open] state))
+
 (reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :initialize-db [validate-spec] initialize-db)
@@ -1163,3 +1166,4 @@
 (reg-event-fx :select-element-edit [validate-spec persist-secure-store  ] select-element-edit)
 (reg-event-db :set-day-fab-open [validate-spec persist-secure-store] set-day-fab-open)
 (reg-event-db :set-day-fab-visible [validate-spec persist-secure-store] set-day-fab-visible)
+(reg-event-db :set-menu-open [validate-spec persist-secure-store] set-menu-open)
