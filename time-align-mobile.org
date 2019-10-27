@@ -122,10 +122,13 @@
      - [X] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
      - [X] Day label is a flat button that opens date picker modal
 **** Bottom sheet
-     - [ ] Close button in top left
+     :LOGBOOK:
+     CLOCK: [2019-10-27 Sun 17:56]--[2019-10-27 Sun 18:06] =>  0:10
+     :END:
+     - [X] Close button in top left
      - [X] Drag indicator is a better icon
+     - [X] Save button top right and Filled
      - [ ] Play button flat to the left of save
-     - [ ] Save button top right and Filled
      - [ ] Start/Stop icon aligned with two vertical flag buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
      - [ ] Duration displayed to right of start/stop buttons and disabled color
      - [ ] Bucket picker is a filled button that brings up bucket list modal

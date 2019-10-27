@@ -648,14 +648,9 @@
                                                          :on-press (fn []
                                                                      (snap-bottom-sheet bottom-sheet-ref 2))}]
 
-                                           [selection-buttons
-                                            {:transform-functions   element-transform-functions
-                                             :height                selection-buttons-height
-                                             :element-type          element-type
-                                             :in-play-element       in-play-element
-                                             :selected-element-edit selected-element-edit}]
-
                                            [edit-form {:save-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
                                                        :delete-callback
+                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                       :close-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}])]]]))

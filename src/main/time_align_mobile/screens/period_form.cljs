@@ -11,6 +11,7 @@
                                                   button-paper
                                                   text-input
                                                   text-input-paper
+                                                  icon-button
                                                   color-picker
                                                   date-time-picker
                                                   modal
@@ -99,7 +100,7 @@
      [view {:style {:flex-direction "row"}}
       [time-comp-buttons period-form changes modal field-key label time]]]))
 
-(defn compact [{:keys [delete-callback save-callback] :as params}]
+(defn compact [{:keys [delete-callback save-callback close-callback] :as params}]
   (let [period-form            (subscribe [:get-period-form])
         update-structured-data (fn [new-data]
                                  (dispatch
@@ -107,11 +108,24 @@
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
 
-    [view {:style {:flex             1
-                   :width            "100%"
-                   :flex-direction   "column"
-                   :justify-content  "space-between"
-                   :align-items      "flex-start"}}
+    [view {:style {:flex            1
+                   :width           "100%"
+                   :flex-direction  "column"
+                   :justify-content "space-between"
+                   :align-items     "flex-start"}}
+
+     [view {:flex-direction  "row"
+            :justify-content "space-between"
+            :width           "100%"
+            :padding-left    16
+            :padding-right   16}
+      [icon-button {:icon     "close"
+                    :size     20
+                    :on-press close-callback}]
+      [button-paper {:on-press save-callback
+                     :mode     "contained"
+                     :icon     "content-save"}
+       "SAVE"]]
 
      [label-comp period-form changes :update-period-form true]
 
@@ -123,7 +137,7 @@
 
      [planned-comp period-form changes :update-period-form]
 
-     [view {:style {:width "100%"
+     [view {:style {:width           "100%"
                     :justify-content "center"}}
       [bucket-parent-picker-comp
        {:form       period-form
