@@ -45,26 +45,20 @@
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      | "[[Material design pt 2 /reduction/]]"                                              |             7.6923076923076925 |   100 |   13 |
+     | "[[Follow material design on each page without changing functionality]]"            |                            5.0 |   100 |   20 |
      | "[[Add handler tests]]"                                                             |                            2.6 |    13 |    5 |
      | "[[Add subscription tests]]"                                                        |                            2.6 |    13 |    5 |
      | "[[Use scrollTo]]"                                                                  |                            2.5 |     5 |    2 |
      | "[[Add selected start stop indicators (now indicator style)]]"                      |                            2.5 |     5 |    2 |
-     | "[[Follow material design on each page]]"                                           |                            2.5 |    50 |   20 |
      | "[[Hide android navigation bar]]"                                                   |                            2.0 |     2 |    1 |
      | "[[Reduce border radius on periods]]"                                               |                            2.0 |     2 |    1 |
      | "[[Remove minimum period size]]"                                                    |                            2.0 |     2 |    1 |
      | "[[Multiple play timers]]"                                                          |                            1.6 |     8 |    5 |
      | "[[Fix now indicator to have accurate position]]"                                   |                            1.5 |     3 |    2 |
-     | "[[Long press to add period (not double tap)]]"                                     |                            1.5 |     3 |    2 |
-     | "[[Add a menu button instead of gesture action]]"                                   |                            1.5 |     3 |    2 |
      | "[[Put version indicator in app-db (for export mostly)]]"                           |                            1.0 |     1 |    1 |
      | "[[Make a better element state indication without animation or \"jumpy\" borders]]" |                            1.0 |     5 |    5 |
-     | "[[Fix bottom sheet spacer]]"                                                       |                            1.0 |     2 |    2 |
-     | "[[Day indicator should show day of week]]"                                         |                            1.0 |     1 |    1 |
-     | "[[Remove up and down arrows]]"                                                     |                            1.0 |     1 |    1 |
      | "[[Fix modal bottom gap]]"                                                          |                            0.5 |     1 |    2 |
      | "[[Figure out why keyboard pops up when opening on day view (sometimes)]]"          |             0.3333333333333333 |     1 |    3 |
-     | "[[Add a snap to for period movement]]"                                             |                          0.125 |     1 |    8 |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
@@ -137,6 +131,7 @@
      - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
      - [ ] Copy over flat button to the right of planned toggle
      - [ ] Bottom buttons only include edit (flat) and delete (flat)
+     - [ ] Spacer size adjusts accordingly to bottom sheet position
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5
@@ -186,7 +181,8 @@
     :LOGBOOK:
     CLOCK: [2019-10-01 Tue 18:02]--[2019-10-01 Tue 18:08] =>  0:06
     :END:
-*** TODO Fix bottom sheet spacer
+*** CANCELED Fix bottom sheet spacer
+    CLOSED: [2019-10-29 Tue 19:02]
     :PROPERTIES:
     :VALUE:    2
     :WORK:     2
@@ -197,7 +193,8 @@
     :VALUE:    3
     :WORK:     2
     :END:
-*** TODO Add a snap to for period movement 
+*** CANCELED Add a snap to for period movement 
+    CLOSED: [2019-10-29 Tue 19:03]
     :PROPERTIES:
     :VALUE:    1
     :WORK:     8
@@ -207,7 +204,8 @@
     :VALUE:    2
     :WORK:     1
     :END:
-*** TODO Long press to add period (not double tap)  
+*** DONE Long press to add period (not double tap)  
+    CLOSED: [2019-10-29 Tue 19:01]
     :PROPERTIES:
     :VALUE:    3
     :WORK:     2
@@ -224,12 +222,14 @@
     :VALUE:    1
     :WORK:     3
     :END:
-*** TODO Day indicator should show day of week
+*** DONE Day indicator should show day of week
+    CLOSED: [2019-10-29 Tue 19:03]
     :PROPERTIES:
     :VALUE:    1
     :WORK:     1
     :END:
-*** TODO Add a menu button instead of gesture action
+*** DONE Add a menu button instead of gesture action
+    CLOSED: [2019-10-29 Tue 19:01]
     :PROPERTIES:
     :VALUE:    3
     :WORK:     2
@@ -260,7 +260,8 @@
    FAB does not have stop indicator anymore.
    Deslection by "closing" bottom sheet while still being able to see in play stop buttons.
    Can header and dynamic snap positions be used to achieve this? 
-*** TODO Remove up and down arrows 
+*** CANCELED Remove up and down arrows 
+    CLOSED: [2019-10-29 Tue 19:03]
     :PROPERTIES:
     :WORK:     1
     :VALUE:    1
@@ -406,10 +407,10 @@ Am I doing something dumb or is there something wrong with how shadow is includi
     :END:
 
     Automate test creation from use
-*** TODO Follow material design on each page
+*** TODO Follow material design on each page without changing functionality
     :PROPERTIES:
     :WORK:     20
-    :VALUE:    50
+    :VALUE:    100
     :END:
 
 ** DOSUB Eventually 
