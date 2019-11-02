@@ -62,7 +62,7 @@
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
-*** TODO Material design pt 2 /reduction/
+*** TODO Material design pt 2 /reduction/ on main screen
     :PROPERTIES:
     :VALUE:    100
     :WORK:     13
@@ -117,6 +117,11 @@
      - [X] Day label is a flat button that opens date picker modal
 **** Bottom sheet
      :LOGBOOK:
+     CLOCK: [2019-11-02 Sat 12:28]--[2019-11-02 Sat 12:46] =>  0:18
+     CLOCK: [2019-11-02 Sat 11:57]--[2019-11-02 Sat 12:23] =>  0:26
+     CLOCK: [2019-10-29 Tue 19:10]--[2019-10-29 Tue 19:54] =>  0:44
+     CLOCK: [2019-10-29 Tue 18:55]--[2019-10-29 Tue 19:06] =>  0:11
+     CLOCK: [2019-10-27 Sun 19:07]--[2019-10-27 Sun 19:13] =>  0:06
      CLOCK: [2019-10-27 Sun 18:06]--[2019-10-27 Sun 18:15] =>  0:09
      CLOCK: [2019-10-27 Sun 17:56]--[2019-10-27 Sun 18:06] =>  0:10
      :END:
@@ -124,8 +129,8 @@
      - [X] Drag indicator is a better icon
      - [X] Save button top right and Filled
      - [X] Play button flat to the left of save
-     - [ ] Start/Stop icon aligned with two vertical flag buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
-     - [ ] Duration displayed to right of start/stop buttons and disabled color
+     - [X] Start/Stop icon aligned with two vertical flat buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
+     - [X] Duration displayed to right of start/stop buttons and disabled color
      - [ ] Bucket picker is a filled button that brings up bucket list modal
      - [ ] Label input is unchanged and below bucket picker
      - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
@@ -146,17 +151,6 @@
     :WORK:     1
     :END:
 - Or adjust bottom-sheet and FAB to not be covered by it
-*** DONE Change snap points for bottom sheet
-    CLOSED: [2019-10-01 Tue 18:14]
-    :PROPERTIES:
-    :VALUE:    3
-    :WORK:     1
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-10-01 Tue 18:09]--[2019-10-01 Tue 18:13] =>  0:04
-    :END:
-    - [X] Drag indicator is smaller
-    - [X] First snap position on selection shows all buttons
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
@@ -172,46 +166,16 @@
     - selected edit
     - selected movement
 
-*** DONE Fix delete pattern button
-    CLOSED: [2019-10-01 Tue 18:08]
-    :PROPERTIES:
-    :VALUE:    20
-    :WORK:     1
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-10-01 Tue 18:02]--[2019-10-01 Tue 18:08] =>  0:06
-    :END:
-*** CANCELED Fix bottom sheet spacer
-    CLOSED: [2019-10-29 Tue 19:02]
-    :PROPERTIES:
-    :VALUE:    2
-    :WORK:     2
-    :END:
-- Maybe it should be sized dynamically with bottom sheet position
 *** TODO Fix now indicator to have accurate position 
     :PROPERTIES:
     :VALUE:    3
     :WORK:     2
-    :END:
-*** CANCELED Add a snap to for period movement 
-    CLOSED: [2019-10-29 Tue 19:03]
-    :PROPERTIES:
-    :VALUE:    1
-    :WORK:     8
     :END:
 *** TODO Reduce border radius on periods
     :PROPERTIES:
     :VALUE:    2
     :WORK:     1
     :END:
-*** DONE Long press to add period (not double tap)  
-    CLOSED: [2019-10-29 Tue 19:01]
-    :PROPERTIES:
-    :VALUE:    3
-    :WORK:     2
-    :END:
-    Double tap is too easy to trigger when scrolling
-    Also bring up bucket model
 *** TODO Remove minimum period size
     :PROPERTIES:
     :VALUE:    2
@@ -221,18 +185,6 @@
     :PROPERTIES:
     :VALUE:    1
     :WORK:     3
-    :END:
-*** DONE Day indicator should show day of week
-    CLOSED: [2019-10-29 Tue 19:03]
-    :PROPERTIES:
-    :VALUE:    1
-    :WORK:     1
-    :END:
-*** DONE Add a menu button instead of gesture action
-    CLOSED: [2019-10-29 Tue 19:01]
-    :PROPERTIES:
-    :VALUE:    3
-    :WORK:     2
     :END:
 *** TODO Fix modal bottom gap 
     :PROPERTIES:
@@ -260,17 +212,6 @@
    FAB does not have stop indicator anymore.
    Deslection by "closing" bottom sheet while still being able to see in play stop buttons.
    Can header and dynamic snap positions be used to achieve this? 
-*** CANCELED Remove up and down arrows 
-    CLOSED: [2019-10-29 Tue 19:03]
-    :PROPERTIES:
-    :WORK:     1
-    :VALUE:    1
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-10-08 Tue 18:49]--[2019-10-08 Tue 18:49] =>  0:00
-    :END:
-- Drag state already does this
-- Buttons in compact form if more precision is needed
 *** TODO Add handler tests
     :PROPERTIES:
     :WORK:     5

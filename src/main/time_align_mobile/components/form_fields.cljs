@@ -15,6 +15,7 @@
                                                   subheading
                                                   ic
                                                   chip
+                                                  badge
                                                   card
                                                   text-input-paper
                                                   switch-paper
@@ -26,16 +27,19 @@
             [time-align-mobile.components.structured-data :refer [structured-data]]))
 
 (defn changeable-field [{:keys [changes field-key]} field]
-  [view {:flex-direction "row"}
-   [view {:style {:width           16
-                  :margin-right    4
-                  :justify-content "center"
-                  :align-items     "center"}}
-    (when (-> @changes (contains? field-key))
-      [ic {:name  "ios-alert"
-           :size  16
-           :color (get-in theme [:colors :primary])}])]
-   field])
+  (let [badge-size 15]
+
+    [view {:style {:position "relative"}}
+     (when (-> @changes (contains? field-key))
+         [view {:style {:position "absolute"
+                        :right    0
+                        :top      0}}
+          [badge {:size badge-size
+                  :style
+                  {:background-color
+                   (-> theme :colors :accent-light)}} "!"]])
+
+     field]))
 
 (def field-style {:flex-direction "row"
                   :margin-bottom  20})

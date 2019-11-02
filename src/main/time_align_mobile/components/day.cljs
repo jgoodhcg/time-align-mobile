@@ -621,12 +621,12 @@
       [portal
        (let [drag-indicator-height       12
              drag-indicator-total-height 40
-             selection-buttons-height    80]
+             time-buttons-height    150]
          [bottom-sheet {:ref           (fn [com]
                                          (reset! bottom-sheet-ref com))
                         :snap-points   [0
                                         (+ drag-indicator-total-height
-                                           selection-buttons-height)
+                                           time-buttons-height)
                                         600]
                         :initial-snap  (if (some? selected-element-edit)
                                          1

@@ -4466,3 +4466,115 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
  - +Using use content section and header section+
  - [X] Closing and opening triggers selection changes
  - [X] Jump to today works
+
+* DONE Change snap points for bottom sheet
+  CLOSED: [2019-10-01 Tue 18:14]
+  :PROPERTIES:
+  :VALUE:    3
+  :WORK:     1
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-10-01 Tue 18:09]--[2019-10-01 Tue 18:13] =>  0:04
+  :END:
+  - [X] Drag indicator is smaller
+  - [X] First snap position on selection shows all buttons
+
+* DONE Fix delete pattern button
+  CLOSED: [2019-10-01 Tue 18:08]
+  :PROPERTIES:
+  :VALUE:    20
+  :WORK:     1
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-10-01 Tue 18:02]--[2019-10-01 Tue 18:08] =>  0:06
+  :END:
+
+* CANCELED Fix bottom sheet spacer
+  CLOSED: [2019-10-29 Tue 19:02]
+  :PROPERTIES:
+  :VALUE:    2
+  :WORK:     2
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+- Maybe it should be sized dynamically with bottom sheet position
+
+* CANCELED Add a snap to for period movement 
+  CLOSED: [2019-10-29 Tue 19:03]
+  :PROPERTIES:
+  :VALUE:    1
+  :WORK:     8
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* DONE Long press to add period (not double tap)  
+  CLOSED: [2019-10-29 Tue 19:01]
+  :PROPERTIES:
+  :VALUE:    3
+  :WORK:     2
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  Double tap is too easy to trigger when scrolling
+  Also bring up bucket model
+
+* DONE Day indicator should show day of week
+  CLOSED: [2019-10-29 Tue 19:03]
+  :PROPERTIES:
+  :VALUE:    1
+  :WORK:     1
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:05
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* DONE Add a menu button instead of gesture action
+  CLOSED: [2019-10-29 Tue 19:01]
+  :PROPERTIES:
+  :VALUE:    3
+  :WORK:     2
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:06
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* CANCELED Remove up and down arrows 
+  CLOSED: [2019-10-29 Tue 19:03]
+  :PROPERTIES:
+  :WORK:     1
+  :VALUE:    1
+  :ARCHIVE_TIME: 2019-10-29 Tue 19:06
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+    :LOGBOOK:
+    CLOCK: [2019-10-08 Tue 18:49]--[2019-10-08 Tue 18:49] =>  0:00
+    :END:
+- Drag state already does this
+- Buttons in compact form if more precision is needed

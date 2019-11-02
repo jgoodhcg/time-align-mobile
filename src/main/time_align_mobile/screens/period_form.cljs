@@ -7,6 +7,7 @@
                                                   text
                                                   text-paper
                                                   surface
+                                                  divider
                                                   subheading
                                                   button-paper
                                                   text-input
@@ -48,29 +49,40 @@
 (def stop-modal (r/atom {:visible false
                           :mode    "date"})) ;; TODO spec type for "date" "time"
 
-(defn time-comp-buttons [period-form changes modal field-key label time]
+(defn time-comp-button [{:keys [modal time field-key]}]
+  [:<>
+   [button-paper {:on-press #(reset! modal {:visible true
+                                            :mode    "time"})
+                  :mode     "text"}
+    [text (if (some? time)
+            (format-time time)
+            "Add a time time")]]
+   [date-time-picker {:is-visible (:visible @modal)
+                      :date       (if (some? time) time (js/Date.))
+                      :mode       (:mode @modal)
+                      :on-confirm (fn [d]
+                                    (dispatch [:update-period-form {field-key d}])
+                                    (reset! modal {:visible false
+                                                   :mode    "date"}))
+                      :on-cancel  #(reset! modal {:visible false
+                                                  :mode    "date"})}]])
+
+(defn date-time-comp-buttons [period-form changes modal field-key label time]
   [:<>
    ;; Date
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "date"})
                   :style    {:margin-right  4
                              :margin-bottom 4}
-                  :mode     "outlined"
+                  :mode     "text"
                   :icon     "calendar-range"}
       [text (if (some? time)
               (format-date-day time)
               "Add a time date")]]
 
      ;; Time
-   [button-paper {:on-press #(reset! modal {:visible true
-                                            :mode    "time"})
-                  :style    {:margin-right  4
-                             :margin-bottom 4}
-                  :mode     "outlined"
-                  :icon     "clock-outline"}
-      [text (if (some? time)
-              (format-time time)
-              "Add a time time")]]
+   [time-comp-button {:modal     modal
+                      :time time}]
 
      ;; Modal
    [date-time-picker {:is-visible (:visible @modal)
@@ -89,16 +101,21 @@
      (changeable-field {:changes changes
                         :field-key field-key}
                        [subheading {:style label-style} label])
-     [time-comp-buttons period-form changes modal field-key label time]]))
+     [date-time-comp-buttons period-form changes modal field-key label time]]))
 
 (defn time-comp-compact [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
     [view {:style {:flex-direction "row"
                    :margin-bottom  4}}
      (changeable-field {:changes   changes
-                        :field-key field-key} [view])
-     [view {:style {:flex-direction "row"}}
-      [time-comp-buttons period-form changes modal field-key label time]]]))
+                        :field-key field-key}
+                       [view {:style {:flex-direction  "column"
+                                      :justify-content "center"
+                                      :align-items     "center"}}
+                        [subheading label]
+                        [time-comp-button {:modal     modal
+                                           :time      time
+                                           :field-key field-key}]])]))
 
 (defn compact [{:keys [delete-callback save-callback close-callback] :as params}]
   (let [period-form            (subscribe [:get-period-form])
@@ -106,6 +123,7 @@
                                  (dispatch
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
+        changed                (> (count @changes) 0)
         buckets                (subscribe [:get-buckets])]
 
     [view {:style {:flex            1
@@ -128,34 +146,36 @@
                                    {:id           (:id period-form)
                                     :time-started (js/Date.)
                                     :new-id       (random-uuid)}])
-                      :mode     "text"
+                      :mode     "outlined"
                       :icon     "play-circle"
                       :style    {:margin-right 8}}
         "play"]
        [button-paper {:on-press save-callback
                       :mode     "contained"
+                      :disabled (not changed)
                       :icon     "content-save"}
         "save"]]]
 
+     [view {:style {:flex-direction "row"}}
+      [icon-button {:icon "clock-outline"} ]
+      [time-comp-compact period-form changes start-modal :start "Start"]
+      [time-comp-compact period-form changes stop-modal :stop "Stop"]
+      [duration-comp (:start @period-form) (:stop @period-form)]]
+
+     [view {:style {:width           "100%"
+                     :justify-content "center"}}
+       [bucket-parent-picker-comp
+        {:form       period-form
+         :changes    changes
+         :buckets    buckets
+         :update-key :update-period-form
+         :compact    false}]]
+
      [label-comp period-form changes :update-period-form true]
-
-     [view {:style {:flex-direction "column"}}
-      [time-comp-compact period-form changes start-modal :start "start"]
-      [time-comp-compact period-form changes stop-modal :stop "stop"]]
-
-     [duration-comp (:start @period-form) (:stop @period-form)]
 
      [planned-comp period-form changes :update-period-form]
 
-     [view {:style {:width           "100%"
-                    :justify-content "center"}}
-      [bucket-parent-picker-comp
-       {:form       period-form
-        :changes    changes
-        :buckets    buckets
-        :update-key :update-period-form
-        :compact    false}]]
-
+     ;; TODO add copy over button
 
      [view {:style {:flex-direction  "row"
                     :padding         8
@@ -164,8 +184,9 @@
                     :align-self      "center"
                     :justify-content "space-between"
                     :align-items     "space-between"}}
+
       [form-buttons/buttons
-       {:changed        (> (count @changes) 0)
+       {:changed        changed
         :save-changes   #(do
                            (dispatch [:save-period-form (new js/Date)])
                            (when (and (some? save-callback))
