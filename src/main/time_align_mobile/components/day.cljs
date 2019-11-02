@@ -58,6 +58,8 @@
              :rename {get-gesture-handler-state get-state
                       get-gesture-handler-ys get-ys
                       get-gesture-handler-xs get-xs}]
+            [time-align-mobile.components.form-fields
+             :refer [bucket-selection-content]]
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]))
 
@@ -336,31 +338,6 @@
         [text-paper {:style {:color (-> styles/theme :colors :accent-light)}}
          (format-time @now)]]])))
 
-(defn play-modal-content [{:keys [templates
-                                  buckets]}]
-  [view {:style {:flex    1
-                         :padding 10}}
-           [touchable-highlight {:on-press #(reset! play-modal-visible false)}
-            [text "Cancel"]]
-           [scroll-view {:style {:height "50%"}}
-            [text "Select a bucket to make the period with"]
-            [flat-list {:data @buckets
-                        :key-extractor list-items/bucket-key-extractor
-                        :render-item
-                        (fn [i]
-                          (let [item (:item (js->clj i :keywordize-keys true))]
-                            (r/as-element
-                             (list-items/bucket
-                              (merge
-                               item
-                               {:on-press
-                                (fn [_]
-                                  (reset! play-modal-visible false)
-                                  (dispatch [:play-from-bucket {:bucket-id (:id item)
-                                                                :id        (random-uuid)
-                                                                :now       (new js/Date)}])
-                                  (snap-bottom-sheet bottom-sheet-ref 1))})))))}]]])
-
 (defn pattern-modal-content [{:keys [patterns]}]
   [view {:style {:flex    1
                  :padding 10}}
@@ -543,7 +520,7 @@
             (let [rel-min     (* 60 hour)
                   y-pos       (* pixel-to-minute-ratio rel-min)
                   rel-ms      (helpers/hours->ms hour)
-                  time-str   (helpers/ms->h rel-ms)
+                  time-str    (helpers/ms->h rel-ms)
                   text-height 30]
 
               [view {:key   (str "hour-marker-" hour)
@@ -603,8 +580,18 @@
               :transparent      false
               :on-request-close #(reset! play-modal-visible false)
               :visible          @play-modal-visible}
-       [play-modal-content {:templates templates
-                            :buckets   buckets}]]
+       [bucket-selection-content {:buckets-atom       buckets
+                                  :on-press-generator
+                                  (fn [item]
+                                    (fn [_]
+                                      (reset! play-modal-visible false)
+                                      (dispatch
+                                       [:play-from-bucket
+                                        {:bucket-id (:id item)
+                                         :id        (random-uuid)
+                                         :now       (new js/Date)}])
+                                      (snap-bottom-sheet bottom-sheet-ref 1)))
+                                  :modal-visible-atom play-modal-visible}]]
 
       ;; pattern modal
       [modal {:animation-type   "slide"
@@ -621,7 +608,7 @@
       [portal
        (let [drag-indicator-height       12
              drag-indicator-total-height 40
-             time-buttons-height    150]
+             time-buttons-height         150]
          [bottom-sheet {:ref           (fn [com]
                                          (reset! bottom-sheet-ref com))
                         :snap-points   [0

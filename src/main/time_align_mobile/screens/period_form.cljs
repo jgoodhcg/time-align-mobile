@@ -41,6 +41,7 @@
             [reagent.core :as r :refer [atom]]
             [time-align-mobile.styles :refer [field-label-changeable-style
                                               theme
+                                              divider-style
                                               field-label-style]]))
 
 (def start-modal (r/atom {:visible false
@@ -162,8 +163,10 @@
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
       [duration-comp (:start @period-form) (:stop @period-form)]]
 
+     [divider {:style divider-style}]
+
      [view {:style {:width           "100%"
-                     :justify-content "center"}}
+                    :justify-content "center"}}
        [bucket-parent-picker-comp
         {:form       period-form
          :changes    changes

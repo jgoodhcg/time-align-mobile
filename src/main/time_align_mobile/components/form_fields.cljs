@@ -7,6 +7,7 @@
             ["react" :as react]
             ["react-native-elements" :as rne]
             ["react-native" :as rn]
+            [time-align-mobile.components.list-items :as list-items]
             [time-align-mobile.helpers :refer [ms->hhmm]]
             [time-align-mobile.js-imports :refer [view
                                                   text
@@ -16,6 +17,9 @@
                                                   ic
                                                   chip
                                                   badge
+                                                  flat-list
+                                                  touchable-highlight
+                                                  scroll-view
                                                   card
                                                   text-input-paper
                                                   switch-paper
@@ -217,3 +221,23 @@
                  :mode     "contained"
                  :on-press on-press}
    "Add filter"])
+
+(defn bucket-selection-content [{:keys [buckets-atom
+                                        on-press-generator
+                                        modal-visible-atom]}]
+  [view {:style {:flex    1
+                 :padding 10}}
+   [touchable-highlight {:on-press #(reset! modal-visible-atom false)}
+            [text "Cancel"]]
+   [scroll-view {:style {:height "50%"}}
+            [text "Select a bucket to make the period with"]
+    [flat-list {:data          @buckets-atom
+                :key-extractor list-items/bucket-key-extractor
+                :render-item
+                (fn [i]
+                  (let [item (:item (js->clj i :keywordize-keys true))]
+                    (r/as-element
+                     (list-items/bucket
+                      (merge
+                       item
+                       {:on-press (on-press-generator item)})))))}]]])
