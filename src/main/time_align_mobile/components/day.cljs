@@ -116,7 +116,7 @@
                 stop-min                (helpers/ms->minutes stop-ms)
                 height                  (max
                                          (* pixel-to-minute-ratio (- stop-min start-min))
-                                         8)
+                                         2)
                 index-offset            (min 90
                                              (-> index
                                                  (* 16)
@@ -636,6 +636,8 @@
                                                                      (snap-bottom-sheet bottom-sheet-ref 2))}]
 
                                            [edit-form {:save-callback
+                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                       :play-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
                                                        :delete-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))

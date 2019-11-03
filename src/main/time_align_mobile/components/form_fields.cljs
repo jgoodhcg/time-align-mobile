@@ -31,18 +31,19 @@
             [time-align-mobile.components.structured-data :refer [structured-data]]))
 
 (defn changeable-field [{:keys [changes field-key]} field]
-  (let [badge-size 15]
+  (let [badge-size 16]
 
     [view {:style {:position    "relative"
                    :margin-left 16}}
      (when (-> @changes (contains? field-key))
        [view {:style {:position "absolute"
-                      :right    0
-                      :top      0}}
+                      :right    (- 0 (/ badge-size 2))
+                      :top      (- 0 (/ badge-size 2))}}
         [badge {:size badge-size
                 :style
                 {:background-color
-                 (-> theme :colors :accent-light)}} "!"]])
+                 (-> theme :colors :accent-light)
+                 :color (-> theme :colors :text-light)}} "!"]])
 
      field]))
 
@@ -76,23 +77,24 @@
   ([form changes update-key]
    (label-comp form changes update-key false))
   ([form changes update-key compact]
-   (changeable-field
-    {:changes changes
-     :field-key :label}
+   (label-comp form changes update-key compact ""))
+  ([form changes update-key compact placeholder]
+   [view {:style {:flex-direction  "column"
+                  :justify-content "center"}}
+    (changeable-field {:changes changes :field-key :label} [subheading "Label"])
     [text-input-paper {:label           ""
                        :underline-color (:color (field-label-changeable-style
                                                  changes :label))
                        :dense           true
-                       :style           (merge {:margin-bottom 4}
-                                               (if compact
-                                                 {:width "85%"}
-                                                 {:width "100%"}))
+                       :style          {:margin-bottom 4
+                                        :margin-left   16
+                                        :margin-right  16}
                        :default-value   (:label @form)
-                       :placeholder     "Label"
+                       :placeholder     placeholder
                        :on-change-text  (fn [text]
                                           (dispatch [update-key
                                                      {:label text
-                                                      :id (:id @form)}]))}])))
+                                                      :id    (:id @form)}]))}]]))
 
 (defn data-comp [form changes update-structured-data]
   [view {:style {:flex           1

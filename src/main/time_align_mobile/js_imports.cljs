@@ -246,4 +246,27 @@
       (color)
       (.isLight)))
 
+(defn color-lighten
+  ([color-string] (color-lighten color-string 0.5))
+  ([color-string factor]
+   (-> color-string
+       (color)
+       (.lighten factor)
+       (.hex))))
+
+(defn color-darken
+  ([color-string] (color-lighten color-string 0.5))
+  ([color-string factor]
+   (-> color-string
+       (color)
+       (.darken factor)
+       (.hex))))
+
+(defn color-readable-background
+  [color-string]
+  (if (color-light? color-string)
+    (color-darken color-string 0.7)
+    (color-lighten color-string 0.7)))
+
+
 (def bottom-sheet (r/adapt-react-class (.-default rbs)))

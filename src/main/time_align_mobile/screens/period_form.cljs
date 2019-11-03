@@ -10,6 +10,8 @@
                                                   divider
                                                   subheading
                                                   button-paper
+                                                  color-lighten
+                                                  color-readable-background
                                                   text-input
                                                   text-input-paper
                                                   icon-button
@@ -119,7 +121,7 @@
                         :time      time
                         :field-key field-key}]]))
 
-(defn compact [{:keys [delete-callback save-callback close-callback] :as params}]
+(defn compact [{:keys [delete-callback save-callback close-callback play-callback] :as params}]
   (let [period-form            (subscribe [:get-period-form])
         update-structured-data (fn [new-data]
                                  (dispatch
@@ -138,30 +140,42 @@
      [view {:flex-direction  "row"
             :justify-content "space-between"
             :width           "100%"
+            :margin-bottom   16
             :padding-left    16
             :padding-right   16}
       [icon-button {:icon     "close"
                     :size     20
                     :on-press close-callback}]
       [view {:flex-direction "row"}
-       [button-paper {:on-press #(dispatch
-                                  [:play-from-period
-                                   {:id           (:id period-form)
-                                    :time-started (js/Date.)
-                                    :new-id       (random-uuid)}])
+       [button-paper {:on-press #(do (dispatch
+                                      [:play-from-period
+                                       {:id           (:id period-form)
+                                        :time-started (js/Date.)
+                                        :new-id       (random-uuid)}])
+                                     play-callback)
                       :mode     "outlined"
                       :icon     "play-circle"
                       :style    {:margin-right 8}}
         "play"]
-       [button-paper {:on-press save-callback
+       [button-paper {:on-press #(do (dispatch
+                                      [:save-period-form (js/Date.)])
+                                     save-callback)
                       :mode     "contained"
                       :disabled (not changed)
                       :icon     "content-save"}
         "save"]]]
 
+     ;; label
+     [view {:style {:flex-direction "row"
+                    :margin-top     8}}
+      [icon-button {:icon "label-outline"}]
+      [label-comp period-form changes :update-period-form true]]
+
+     [divider {:style divider-style}]
+
      ;; start /stop/ duration
      [view {:style {:flex-direction "row"
-                    :margin-top     16}}
+                    :margin-top     8}}
       [icon-button {:icon "clock-outline"} ]
       [time-comp-compact period-form changes start-modal :start "Start"]
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
@@ -183,24 +197,28 @@
                                        {:bucket-id (:id item)}])))
                                  :modal-visible-atom bucket-picker-modal}]]
 
-     ;; TODO add bucket button
+     ;; bucket button picker
      [view {:style {:flex-direction "row"
-                    :margin-top     16}}
-      [icon-button {:icon "google-circles-communities"} ]
+                    :margin-top     8}}
+      [icon-button {:icon "google-circles-communities"}]
       [view {:style {:flex-direction  "column"
                      :justify-content "center"}}
        (changeable-field {:changes   changes
                           :field-key :bucket-id}
                          [subheading {:style label-style} "Group"])
        [button-paper {:on-press #(reset! bucket-picker-modal true)
-                      :color    (:bucket-color @period-form)
+                      :color    (-> @period-form
+                                    :bucket-color
+                                    (color-readable-background))
+                      :style    {:background-color (-> @period-form
+                                                       :bucket-color)}
                       :mode     "text"}
         [text (:bucket-label @period-form)]]]]
 
 
      [divider {:style divider-style}]
 
-     [label-comp period-form changes :update-period-form true]
+     ;; other info
 
      [planned-comp period-form changes :update-period-form]
 

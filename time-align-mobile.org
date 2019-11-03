@@ -117,6 +117,8 @@
      - [X] Day label is a flat button that opens date picker modal
 **** Bottom sheet
      :LOGBOOK:
+     CLOCK: [2019-11-03 Sun 12:11]--[2019-11-03 Sun 13:03] =>  0:52
+     CLOCK: [2019-11-03 Sun 11:19]--[2019-11-03 Sun 11:35] =>  0:16
      CLOCK: [2019-11-03 Sun 10:30]--[2019-11-03 Sun 10:37] =>  0:07
      CLOCK: [2019-11-03 Sun 09:10]--[2019-11-03 Sun 09:34] =>  0:24
      CLOCK: [2019-11-02 Sat 19:38]--[2019-11-02 Sat 19:42] =>  0:04

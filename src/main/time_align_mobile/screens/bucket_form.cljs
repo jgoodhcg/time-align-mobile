@@ -75,7 +75,9 @@
                      :padding-left    4
                      :padding-right   4}}
 
-       [label-comp bucket-form changes :update-bucket-form]
+       [view {:style {:height        64
+                      :margin-bottom 8}}
+        [label-comp bucket-form changes :update-bucket-form]]
        [color-comp bucket-form changes]
        ;; [data-comp bucket-form changes update-structured-data]
        ;; [periods-comp bucket-form]
