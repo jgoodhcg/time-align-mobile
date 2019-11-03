@@ -770,7 +770,7 @@
                                     :bucket-id bucket-id}]})))
 
 (defn add-period
-  "Difference between this and add-new-period is that this takes a full period (like from a template)"
+  "Difference between this and add-new-period is that this takes a full period (like from a template). Period-id must be unique!"
   [db [_ {:keys [period bucket-id]}]]
   (let [random-bucket-id (->> db
                               (select (buckets-path))
@@ -824,7 +824,7 @@
                                       :start   time-started
                                       :stop    (->> time-started
                                                     (.valueOf)
-                                                    (+ (helpers/minutes->ms 5))
+                                                    (+ (helpers/minutes->ms 0.1))
                                                     (js/Date.))})]
     {:db
      (->> db

@@ -17,8 +17,11 @@
                                                   ic
                                                   chip
                                                   badge
+                                                  color-readable-background
+                                                  modal
                                                   flat-list
                                                   touchable-highlight
+                                                  icon-button
                                                   scroll-view
                                                   card
                                                   text-input-paper
@@ -95,6 +98,13 @@
                                           (dispatch [update-key
                                                      {:label text
                                                       :id    (:id @form)}]))}]]))
+
+(defn label-comp-md
+  [{:keys [form changes update-key compact placeholder]}]
+  [view {:style {:flex-direction "row"
+                 :margin-top     8}}
+   [icon-button {:icon "label-outline"}]
+   [label-comp form changes update-key compact placeholder]])
 
 (defn data-comp [form changes update-structured-data]
   [view {:style {:flex           1
@@ -197,15 +207,16 @@
                        :disabled         disabled}))
 
 (defn planned-comp [form changes update-key]
-  [view {:style {:flex-direction  "row"
+  [view {:style {:flex-direction  "column"
                  :padding         2
                  :justify-content "flex-start"
                  :align-items     "flex-start"}}
    (changeable-field {:changes   changes
                       :field-key :planned}
-                     [subheading {:style label-style} "Planned"]                  )
-   [switch-paper {:value           (:planned @form)
-                  :on-value-change #(dispatch [update-key {:planned %}])}]])
+                     [subheading "Planned"])
+   [view {:style {:margin-left 16}}
+    [switch-paper {:value           (:planned @form)
+                   :on-value-change #(dispatch [update-key {:planned %}])}]]])
 
 (defn duration-comp [start stop]
   (let [duration (if (and (inst? start)
@@ -220,17 +231,18 @@
      [text duration]]))
 
 (defn filter-button [pattern-form on-press]
-  [button-paper {:icon     "filter-list"
+  [button-paper {:icon     "filter-variant"
                  :mode     "contained"
                  :on-press on-press}
    "Add filter"])
 
 (defn bucket-selection-content [{:keys [buckets-atom
                                         on-press-generator
-                                        modal-visible-atom]}]
+                                        modal-atom]}]
   [view {:style {:flex    1
                  :padding 10}}
-   [touchable-highlight {:on-press #(reset! modal-visible-atom false)}
+   [touchable-highlight {:on-press
+                         #(swap! modal-atom (fn [m] (assoc-in m [:visible] false)))}
             [text "Cancel"]]
    [scroll-view {:style {:height "50%"}}
             [text "Select a bucket to make the period with"]
@@ -244,3 +256,37 @@
                       (merge
                        item
                        {:on-press (on-press-generator item)})))))}]]])
+
+(defn bucket-modal [buckets modal-atom on-press-generator]
+  [modal {:animation-type   "slide"
+          :transparent      false
+          :on-request-close #(swap! modal-atom
+                                    (fn [m] (assoc-in m [:visible] false)))
+          :visible          (:visible @modal-atom)}
+
+   [bucket-selection-content {:buckets-atom       buckets
+                              :on-press-generator on-press-generator
+                              :modal-atom         modal-atom}]])
+
+(defn bucket-parent-picker-button [{:keys [period-form
+                                           bucket-picker-modal
+                                           changes]}]
+  [view {:style {:flex-direction "row"
+                 :margin-top     8}}
+   [icon-button {:icon "google-circles-communities"}]
+   [view {:style {:flex-direction  "column"
+                  :justify-content "center"}}
+    (changeable-field {:changes   changes
+                       :field-key :bucket-id}
+                      [subheading {:style label-style} "Group"])
+    [button-paper {:on-press
+                   #(swap! bucket-picker-modal
+                           (fn [m] (assoc-in m [:visible] true)))
+
+                   :color (-> @period-form
+                              :bucket-color
+                              (color-readable-background))
+                   :style {:background-color (-> @period-form
+                                                 :bucket-color)}
+                   :mode  "text"}
+     [text (:bucket-label @period-form)]]]])

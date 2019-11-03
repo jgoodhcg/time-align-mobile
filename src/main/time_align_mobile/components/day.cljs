@@ -44,6 +44,7 @@
             [time-align-mobile.components.list-items :as list-items]
             [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
             [time-align-mobile.screens.period-form :as period-form]
+            [time-align-mobile.components.form-fields :refer [bucket-modal]]
             [time-align-mobile.screens.template-form :as template-form]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
@@ -63,20 +64,23 @@
             [re-frame.core :refer [subscribe dispatch]]
             [reagent.core :as r]))
 
-(def pan-offset (r/atom 0))
-
 (def now (r/atom (js/Date.)))
+
+;; start ticking
+(js/setInterval #(do (reset! now (js/Date.))
+                     (dispatch-throttled [:tick (js/Date.)])) 1000)
+
+(def pan-offset (r/atom 0))
 
 (def play-modal-visible (r/atom false))
 
 (def pattern-modal-visible (r/atom false))
 
-;; start ticking
-(js/setInterval #(do (reset! now (js/Date.))
-                     ;; (dispatch-throttled [:tick (js/Date.)])
-                     ) 1000)
+(def spacer-height (r/atom 0))
 
 (def bottom-sheet-ref (r/atom nil))
+
+(def long-press-bucket-picker (r/atom {:visible false}))
 
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
   ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
@@ -487,28 +491,12 @@
                     planned (-> x
                                 (< (-> (get-device-width)
                                        (/ 2))))]
-
-                (case element-type
-                  :period   (do
-                              (close-bottom-sheet bottom-sheet-ref element-type)
-                              (dispatch [:add-period {:period    {:id          id
-                                                                  :start       (js/Date. start)
-                                                                  :stop        (js/Date. stop)
-                                                                  :planned     planned
-                                                                  :data        {}
-                                                                  :last-edited now
-                                                                  :created     now
-                                                                  :label       ""}
-                                                      :bucket-id nil}]))
-                  :template (do
-                              (close-bottom-sheet bottom-sheet-ref element-type)
-                              (dispatch [:add-new-template-to-planning-form
-                                         {:id        id
-                                          :bucket-id (:id (first buckets))
-                                          :start     (js/Date. start)
-                                          :planned   planned
-                                          :now       now}]))
-                  nil))))}
+                (reset! long-press-bucket-picker {:start     start
+                                                  :stop      stop
+                                                  :id        id
+                                                  :timestamp now
+                                                  :planned   planned
+                                                  :visible   true}))))}
         [view
          {:style {:flex 1}}
 
@@ -575,6 +563,40 @@
                     :in-play-element  in-play-element
                     :selected-element selected-element}]])
 
+
+      ;; long press bucket selection modal
+      [bucket-modal
+       buckets
+       long-press-bucket-picker
+       (fn [item] (fn [_]
+                    (let [{:keys [start stop planned id timestamp]} @long-press-bucket-picker]
+                      (case element-type
+                        :period   (do
+                                    (close-bottom-sheet bottom-sheet-ref element-type)
+                                    (dispatch [:add-period {:period    {:id          id
+                                                                        :start       (js/Date. start)
+                                                                        :stop        (js/Date. stop)
+                                                                        :planned     planned
+                                                                        :data        {}
+                                                                        :last-edited timestamp
+                                                                        :created     timestamp
+                                                                        :label       ""}
+                                                            :bucket-id (:id item)}]))
+                        :template (do
+                                    (close-bottom-sheet bottom-sheet-ref element-type)
+                                    (dispatch [:add-new-template-to-planning-form
+                                               {:id        id
+                                                :bucket-id (:id item)
+                                                :start     (js/Date. start)
+                                                :planned   planned
+                                                :now       timestamp}]))
+                        nil)
+                      (reset! long-press-bucket-picker {:start   nil
+                                                        :stop    nil
+                                                        :id      nil
+                                                        :planned nil
+                                                        :visible false}))))]
+
       ;; play modal
       [modal {:animation-type   "slide"
               :transparent      false
@@ -601,26 +623,27 @@
        [pattern-modal-content {:patterns patterns}]]
 
       ;; spacer for bottom sheet
-      [view {:style {:height           500
+      [view {:style {:height           @spacer-height
                      :background-color (-> styles/theme :colors :background)}}]
 
       ;; bottom sheet
       [portal
        (let [drag-indicator-height       12
              drag-indicator-total-height 40
-             time-buttons-height         150]
+             time-buttons-height         150
+             bottom-sheet-height         496]
          [bottom-sheet {:ref           (fn [com]
                                          (reset! bottom-sheet-ref com))
                         :snap-points   [0
-                                        (+ drag-indicator-total-height
-                                           time-buttons-height)
-                                        600]
+                                        bottom-sheet-height]
                         :initial-snap  (if (some? selected-element-edit)
                                          1
                                          0)
+                        :on-open-end   #(reset! spacer-height bottom-sheet-height)
                         :on-close-end  #(do (dispatch [:select-element-edit {:element-type element-type
                                                                              :bucket-id    nil
-                                                                             :element-id   nil}]))
+                                                                             :element-id   nil}])
+                                            (reset! spacer-height 0))
                         :render-header #(r/as-element
                                          [surface
                                           [view {:style {:height         600
@@ -637,7 +660,11 @@
 
                                            [edit-form {:save-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                       :in-play-element
+                                                       in-play-element
                                                        :play-callback
+                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                       :copy-over-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
                                                        :delete-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))

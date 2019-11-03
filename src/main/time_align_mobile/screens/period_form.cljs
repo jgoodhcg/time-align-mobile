@@ -34,7 +34,10 @@
                                                               created-comp
                                                               last-edited-comp
                                                               label-comp
+                                                              label-comp-md
+                                                              bucket-parent-picker-button
                                                               label-style
+                                                              bucket-modal
                                                               changeable-field
                                                               duration-comp
                                                               bucket-parent-picker-comp
@@ -53,7 +56,7 @@
 (def stop-modal (r/atom {:visible false
                           :mode    "date"})) ;; TODO spec type for "date" "time"
 
-(def bucket-picker-modal (r/atom false))
+(def bucket-picker-modal (r/atom {:visible false}))
 
 (defn time-comp-button [{:keys [modal time field-key]}]
   [:<>
@@ -121,7 +124,14 @@
                         :time      time
                         :field-key field-key}]]))
 
-(defn compact [{:keys [delete-callback save-callback close-callback play-callback] :as params}]
+(defn compact [{:keys [delete-callback
+                       save-callback
+                       close-callback
+                       in-play-element
+                       copy-over-callback
+                       play-callback]
+                :as   params}]
+
   (let [period-form            (subscribe [:get-period-form])
         update-structured-data (fn [new-data]
                                  (dispatch
@@ -149,27 +159,24 @@
       [view {:flex-direction "row"}
        [button-paper {:on-press #(do (dispatch
                                       [:play-from-period
-                                       {:id           (:id period-form)
+                                       {:id           (:id @period-form)
                                         :time-started (js/Date.)
                                         :new-id       (random-uuid)}])
                                      play-callback)
-                      :mode     "outlined"
+                      :color    (-> @period-form
+                                    :bucket-color)
+                      :disabled (= (:id in-play-element)
+                                   (:id @period-form))
+                      :mode     "contained"
                       :icon     "play-circle"
                       :style    {:margin-right 8}}
-        "play"]
-       [button-paper {:on-press #(do (dispatch
-                                      [:save-period-form (js/Date.)])
-                                     save-callback)
-                      :mode     "contained"
-                      :disabled (not changed)
-                      :icon     "content-save"}
-        "save"]]]
+        "play"]]]
 
-     ;; label
-     [view {:style {:flex-direction "row"
-                    :margin-top     8}}
-      [icon-button {:icon "label-outline"}]
-      [label-comp period-form changes :update-period-form true]]
+     [label-comp-md {:form        period-form
+                     :changes     changes
+                     :update-key  :update-period-form
+                     :compact     true
+                     :placeholder "During this I was ..."}]
 
      [divider {:style divider-style}]
 
@@ -183,47 +190,29 @@
 
      [divider {:style divider-style}]
 
-     [modal {:animation-type   "slide"
-             :transparent      false
-             :on-request-close #(reset! bucket-picker-modal false)
-             :visible          @bucket-picker-modal}
-      [bucket-selection-content {:buckets-atom       buckets
-                                 :on-press-generator
-                                 (fn [item]
-                                   (fn [_]
-                                     (reset! bucket-picker-modal false)
-                                     (dispatch
-                                      [:update-period-form
-                                       {:bucket-id (:id item)}])))
-                                 :modal-visible-atom bucket-picker-modal}]]
-
-     ;; bucket button picker
+     ;; planning
      [view {:style {:flex-direction "row"
                     :margin-top     8}}
-      [icon-button {:icon "google-circles-communities"}]
-      [view {:style {:flex-direction  "column"
-                     :justify-content "center"}}
-       (changeable-field {:changes   changes
-                          :field-key :bucket-id}
-                         [subheading {:style label-style} "Group"])
-       [button-paper {:on-press #(reset! bucket-picker-modal true)
-                      :color    (-> @period-form
-                                    :bucket-color
-                                    (color-readable-background))
-                      :style    {:background-color (-> @period-form
-                                                       :bucket-color)}
-                      :mode     "text"}
-        [text (:bucket-label @period-form)]]]]
-
+      [icon-button {:icon "floor-plan"} ]
+      [view {:style {:margin-right 32}}
+       [planned-comp period-form changes :update-period-form]]
+      [button-paper {:mode     "text"
+                     :on-press #(do (dispatch
+                                     [:add-period
+                                      {:period
+                                       (merge @period-form
+                                              {:id      (random-uuid)
+                                               :data    {} ;; TODO this will need to be evaled from string in form
+                                               :planned (-> @period-form
+                                                            :planned
+                                                            not)})
+                                       :bucket-id (:bucket-id @period-form)}])
+                                    copy-over-callback)}
+       "copy over"]]
 
      [divider {:style divider-style}]
 
-     ;; other info
-
-     [planned-comp period-form changes :update-period-form]
-
-     ;; TODO add copy over button
-
+     ;; buttons
      [view {:style {:flex-direction  "row"
                     :padding         8
                     :margin-top      16
@@ -232,7 +221,7 @@
                     :justify-content "space-between"
                     :align-items     "space-between"}}
 
-      [form-buttons/buttons
+      [form-buttons/buttons-md
        {:changed        changed
         :save-changes   #(do
                            (dispatch [:save-period-form (new js/Date)])
@@ -248,7 +237,8 @@
         :edit-item      #(dispatch [:navigate-to {:current-screen :period
                                                   :params         {:period-id (:id @period-form)
                                                                    :bucket-id (:bucket-id @period-form)}}])
-        :compact        true}]]]))
+        :compact        true
+        :labels         true}]]]))
 
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])
@@ -259,14 +249,24 @@
         buckets                (subscribe [:get-buckets])]
 
     [view {:style {:margin-top 16
-                   :flex 1}}
-     [bucket-parent-picker-comp {:form       period-form
-                                 :changes    changes
-                                 :buckets    buckets
-                                 :update-key :update-period-form
-                                 :compact    false}]
+                   :flex       1}}
 
      [label-comp period-form changes :update-period-form false]
+
+
+     [bucket-modal
+      buckets
+      bucket-picker-modal
+      (fn [item] (fn [_]
+                   (dispatch
+                    [:update-period-form
+                     {:bucket-id (:id item)}])
+                   (swap! bucket-picker-modal
+                          (fn [m] (assoc-in m [:visible] false)))))]
+
+     [bucket-parent-picker-button {:period-form         period-form
+                                   :bucket-picker-modal bucket-picker-modal
+                                   :changes             changes}]
 
      [planned-comp period-form changes :update-period-form]
 

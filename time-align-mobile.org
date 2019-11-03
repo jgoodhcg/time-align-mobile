@@ -115,8 +115,11 @@
      - [X] Menu button opens menu
      - [X] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
      - [X] Day label is a flat button that opens date picker modal
-**** Bottom sheet
+**** DONE Bottom sheet
+     CLOSED: [2019-11-03 Sun 14:22]
      :LOGBOOK:
+     CLOCK: [2019-11-03 Sun 14:23]--[2019-11-03 Sun 15:29] =>  1:06
+     CLOCK: [2019-11-03 Sun 13:04]--[2019-11-03 Sun 14:22] =>  1:18
      CLOCK: [2019-11-03 Sun 12:11]--[2019-11-03 Sun 13:03] =>  0:52
      CLOCK: [2019-11-03 Sun 11:19]--[2019-11-03 Sun 11:35] =>  0:16
      CLOCK: [2019-11-03 Sun 10:30]--[2019-11-03 Sun 10:37] =>  0:07
@@ -134,16 +137,18 @@
      :END:
      - [X] Close button in top left
      - [X] Drag indicator is a better icon
-     - [X] Save button top right and Filled
-     - [X] Play button flat to the left of save
+     - [X] Play button filled top right
      - [X] Start/Stop icon aligned with two vertical flat buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
      - [X] Duration displayed to right of start/stop buttons and disabled color
      - [X] Bucket picker is a flat, colored, button that brings up bucket list modal
-     - [ ] Label input is unchanged and below bucket picker
-     - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
-     - [ ] Copy over flat button to the right of planned toggle
-     - [ ] Bottom buttons only include edit (flat) and delete (flat)
-     - [ ] Spacer size adjusts accordingly to bottom sheet position
+     - [X] Label input
+       - [X] At the top 
+       - [X] Unaffected by keyboard and in 
+       - [X] In material design row
+     - [X] Planned switch is in a material design row +a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input+
+     - [X] Copy over flat button to the right of planned switch
+     - [X] Spacer size adjusts accordingly to bottom sheet position
+     - [X] Long press to add opens bucket modal
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5
