@@ -28,6 +28,7 @@
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
             [time-align-mobile.components.form-fields :refer [id-comp
+                                                              bucket-selection-content
                                                               created-comp
                                                               last-edited-comp
                                                               label-comp
@@ -49,6 +50,8 @@
 
 (def stop-modal (r/atom {:visible false
                           :mode    "date"})) ;; TODO spec type for "date" "time"
+
+(def bucket-picker-modal (r/atom false))
 
 (defn time-comp-button [{:keys [modal time field-key]}]
   [:<>
@@ -106,17 +109,15 @@
 
 (defn time-comp-compact [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
-    [view {:style {:flex-direction "row"
-                   :margin-bottom  4}}
+    [view {:style {:flex-direction  "column"
+                   :justify-content "center"
+                   :align-items     "flex-start"}}
      (changeable-field {:changes   changes
                         :field-key field-key}
-                       [view {:style {:flex-direction  "column"
-                                      :justify-content "center"
-                                      :align-items     "center"}}
-                        [subheading label]
-                        [time-comp-button {:modal     modal
-                                           :time      time
-                                           :field-key field-key}]])]))
+                       [subheading label])
+     [time-comp-button {:modal     modal
+                        :time      time
+                        :field-key field-key}]]))
 
 (defn compact [{:keys [delete-callback save-callback close-callback] :as params}]
   (let [period-form            (subscribe [:get-period-form])
@@ -130,9 +131,10 @@
     [view {:style {:flex            1
                    :width           "100%"
                    :flex-direction  "column"
-                   :justify-content "space-between"
+                   :justify-content "flex-start"
                    :align-items     "flex-start"}}
 
+     ;; close / play / save
      [view {:flex-direction  "row"
             :justify-content "space-between"
             :width           "100%"
@@ -157,7 +159,9 @@
                       :icon     "content-save"}
         "save"]]]
 
-     [view {:style {:flex-direction "row"}}
+     ;; start /stop/ duration
+     [view {:style {:flex-direction "row"
+                    :margin-top     16}}
       [icon-button {:icon "clock-outline"} ]
       [time-comp-compact period-form changes start-modal :start "Start"]
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
@@ -165,14 +169,33 @@
 
      [divider {:style divider-style}]
 
-     [view {:style {:width           "100%"
-                    :justify-content "center"}}
-       [bucket-parent-picker-comp
-        {:form       period-form
-         :changes    changes
-         :buckets    buckets
-         :update-key :update-period-form
-         :compact    false}]]
+     [modal {:animation-type   "slide"
+             :transparent      false
+             :on-request-close #(reset! bucket-picker-modal false)
+             :visible          @bucket-picker-modal}
+      [bucket-selection-content {:buckets-atom       buckets
+                                 :on-press-generator
+                                 (fn [item]
+                                   (fn [_]
+                                     (reset! bucket-picker-modal false)
+                                     (dispatch
+                                      [:update-period-form
+                                       {:bucket-id (:id item)}])))
+                                 :modal-visible-atom bucket-picker-modal}]]
+
+     ;; TODO add bucket button
+     [view {:style {:flex-direction "row"
+                    :margin-top     16}}
+      [icon-button {:icon "google-circles-communities"} ]
+      [view {:style {:flex-direction "column"
+                     :justify-content "center"}}
+       (changeable-field {:changes   changes
+                          :field-key :bucket-id}
+                         [subheading {:style label-style} "Bucket"])
+       [button-paper {:on-press #(println (:bucket-color @period-form))
+                      :color    (:bucket-color @period-form)
+                      :mode     "text"}
+        [text (:bucket-label @period-form)]]]]
 
      [label-comp period-form changes :update-period-form true]
 

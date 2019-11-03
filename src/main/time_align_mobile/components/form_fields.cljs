@@ -33,15 +33,16 @@
 (defn changeable-field [{:keys [changes field-key]} field]
   (let [badge-size 15]
 
-    [view {:style {:position "relative"}}
+    [view {:style {:position    "relative"
+                   :margin-left 16}}
      (when (-> @changes (contains? field-key))
-         [view {:style {:position "absolute"
-                        :right    0
-                        :top      0}}
-          [badge {:size badge-size
-                  :style
-                  {:background-color
-                   (-> theme :colors :accent-light)}} "!"]])
+       [view {:style {:position "absolute"
+                      :right    0
+                      :top      0}}
+        [badge {:size badge-size
+                :style
+                {:background-color
+                 (-> theme :colors :accent-light)}} "!"]])
 
      field]))
 

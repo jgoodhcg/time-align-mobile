@@ -46,7 +46,9 @@
     [icon-class (merge params style)]))
 
 
-(def divider-style {:height       1
-                    :width        "100%"
-                    :margin-left  8
-                    :margin-right 8})
+(def divider-style {:height        1
+                    :width         "100%"
+                    :margin-top    16
+                    :margin-bottom 16
+                    :margin-left   8
+                    :margin-right  8})
