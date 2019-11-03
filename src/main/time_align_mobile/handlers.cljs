@@ -1,6 +1,6 @@
 (ns time-align-mobile.handlers
   (:require
-    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date]]
+    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date email-export]]
     [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
     ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
@@ -893,7 +893,9 @@
 (reg-fx
  :share
  (fn [app-db]
-   (share (str (format-date (js/Date.)) "-app-db.edn") (str app-db))))
+   (email-export
+    (str (format-date (js/Date.)) "-app-db.edn")
+    (str app-db))))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db

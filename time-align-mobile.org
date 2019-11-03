@@ -149,6 +149,17 @@
      - [X] Copy over flat button to the right of planned switch
      - [X] Spacer size adjusts accordingly to bottom sheet position
      - [X] Long press to add opens bucket modal
+**** Use MailComposer to get state out of the app 
+     :LOGBOOK:
+     CLOCK: [2019-11-03 Sun 18:31]--[2019-11-03 Sun 18:47] =>  0:16
+     :END:
+     https://docs.expo.io/versions/latest/sdk/mail-composer/
+     - [ ] Revert to the version currently published (sdk 34)
+     - [X] Add an export option for mail composer
+     - [ ] Publish
+     - [ ] Export app-db
+     - [ ] Rebase changes
+     - [ ] Build new apk (sdk 35)
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5

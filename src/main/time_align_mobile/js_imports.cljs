@@ -10,6 +10,7 @@
    ["moment-timezone" :as moment-timezone]
    ["react-native-keyboard-aware-scroll-view" :as kasv]
    ["expo-secure-store" :as SecureStore]
+   ["expo-mail-composer" :as MailComposer]
    ["expo-document-picker" :as DocumentPicker]
    ["expo-file-system" :as fs
     :refer []]
@@ -101,11 +102,13 @@
 
 (def secure-store SecureStore)
 (def share-api (oget ReactNative "Share"))
-
 (defn share [title message]
   (ocall share-api "share"
          (clj->js {:title   title
                    :message message})))
+(defn email-export [subject app-db-str]
+  (ocall MailComposer "composeAsync" (clj->js {:subject subject
+                                               :body   app-db-str})))
 (defn secure-store-set! [key value ]
   ;; TODO include options and camel->kebab
   (ocall secure-store "setItemAsync" key value))
