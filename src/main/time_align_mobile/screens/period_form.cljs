@@ -187,15 +187,18 @@
      [view {:style {:flex-direction "row"
                     :margin-top     16}}
       [icon-button {:icon "google-circles-communities"} ]
-      [view {:style {:flex-direction "column"
+      [view {:style {:flex-direction  "column"
                      :justify-content "center"}}
        (changeable-field {:changes   changes
                           :field-key :bucket-id}
-                         [subheading {:style label-style} "Bucket"])
-       [button-paper {:on-press #(println (:bucket-color @period-form))
+                         [subheading {:style label-style} "Group"])
+       [button-paper {:on-press #(reset! bucket-picker-modal true)
                       :color    (:bucket-color @period-form)
                       :mode     "text"}
         [text (:bucket-label @period-form)]]]]
+
+
+     [divider {:style divider-style}]
 
      [label-comp period-form changes :update-period-form true]
 

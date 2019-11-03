@@ -117,6 +117,7 @@
      - [X] Day label is a flat button that opens date picker modal
 **** Bottom sheet
      :LOGBOOK:
+     CLOCK: [2019-11-03 Sun 10:30]--[2019-11-03 Sun 10:37] =>  0:07
      CLOCK: [2019-11-03 Sun 09:10]--[2019-11-03 Sun 09:34] =>  0:24
      CLOCK: [2019-11-02 Sat 19:38]--[2019-11-02 Sat 19:42] =>  0:04
      CLOCK: [2019-11-02 Sat 13:27]--[2019-11-02 Sat 13:42] =>  0:15
@@ -135,7 +136,7 @@
      - [X] Play button flat to the left of save
      - [X] Start/Stop icon aligned with two vertical flat buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
      - [X] Duration displayed to right of start/stop buttons and disabled color
-     - [ ] Bucket picker is a filled button that brings up bucket list modal
+     - [X] Bucket picker is a flat, colored, button that brings up bucket list modal
      - [ ] Label input is unchanged and below bucket picker
      - [ ] Planned switch is a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input
      - [ ] Copy over flat button to the right of planned toggle
