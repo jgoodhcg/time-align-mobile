@@ -62,8 +62,7 @@
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
-*** DONE Material design pt 2 /reduction/ on main screen
-    CLOSED: [2019-11-05 Tue 20:00]
+*** TODO Material design pt 2 /reduction/ on main screen
     :PROPERTIES:
     :VALUE:    100
     :WORK:     13
@@ -160,6 +159,14 @@
      - [X] Add an export option for mail composer
      - [X] Build new apk (sdk 35)
      - [X] Test out mail export
+**** TODO Bug fixes 
+     :LOGBOOK:
+     CLOCK: [2019-11-06 Wed 17:34]--[2019-11-06 Wed 17:50] =>  0:16
+     :END:
+     - [X] Long press is hard to trigger
+     - [X] Can't update time in full period form
+       - Needed to move around the modals (they were being duplicated)
+     - [ ] /placeholder for the inevitable bug/
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5

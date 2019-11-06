@@ -65,16 +65,7 @@
                   :mode     "text"}
     [text (if (some? time)
             (format-time time)
-            "Add a time time")]]
-   [date-time-picker {:is-visible (:visible @modal)
-                      :date       (if (some? time) time (js/Date.))
-                      :mode       (:mode @modal)
-                      :on-confirm (fn [d]
-                                    (dispatch [:update-period-form {field-key d}])
-                                    (reset! modal {:visible false
-                                                   :mode    "date"}))
-                      :on-cancel  #(reset! modal {:visible false
-                                                  :mode    "date"})}]])
+            "Add a time time")]]])
 
 (defn date-time-comp-buttons [period-form changes modal field-key label time]
   [:<>
@@ -91,18 +82,7 @@
 
      ;; Time
    [time-comp-button {:modal     modal
-                      :time time}]
-
-     ;; Modal
-   [date-time-picker {:is-visible (:visible @modal)
-                      :date       (if (some? time) time (js/Date.))
-                      :mode       (:mode @modal)
-                      :on-confirm (fn [d]
-                                    (dispatch [:update-period-form {field-key d}])
-                                    (reset! modal {:visible false
-                                                   :mode    "date"}))
-                      :on-cancel  #(reset! modal {:visible false
-                                                  :mode    "date"})}]])
+                      :time time}]])
 
 (defn time-comp [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
@@ -110,7 +90,19 @@
      (changeable-field {:changes changes
                         :field-key field-key}
                        [subheading {:style label-style} label])
-     [date-time-comp-buttons period-form changes modal field-key label time]]))
+     [date-time-comp-buttons period-form changes modal field-key label time]
+
+     ;; modal
+     [date-time-picker {:is-visible (:visible @modal)
+                        :date       (if (some? time) time (js/Date.))
+                        :mode       (:mode @modal)
+                        :on-confirm (fn [d]
+                                      (println "regular")
+                                      (dispatch [:update-period-form {field-key d}])
+                                      (reset! modal {:visible false
+                                                     :mode    "date"}))
+                        :on-cancel  #(reset! modal {:visible false
+                                                    :mode    "date"})}]]))
 
 (defn time-comp-compact [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
@@ -122,7 +114,19 @@
                        [subheading label])
      [time-comp-button {:modal     modal
                         :time      time
-                        :field-key field-key}]]))
+                        :field-key field-key}]
+
+     ;; modal
+     [date-time-picker {:is-visible (:visible @modal)
+                        :date       (if (some? time) time (js/Date.))
+                        :mode       (:mode @modal)
+                        :on-confirm (fn [d]
+                                      (println "compact")
+                                      (dispatch [:update-period-form {field-key d}])
+                                      (reset! modal {:visible false
+                                                     :mode    "date"}))
+                        :on-cancel  #(reset! modal {:visible false
+                                                    :mode    "date"})}]]))
 
 (defn compact [{:keys [delete-callback
                        save-callback

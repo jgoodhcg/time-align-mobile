@@ -468,10 +468,11 @@
                                (* pixel-to-minute-ratio scale)]))}
 
        [long-press-gesture-handler
-        {:ref            long-press-ref
-         :enabled        (not (or movement-selected
-                                  edit-selected))
-         :number-of-taps 2
+        {:ref             long-press-ref
+         :enabled         (not (or movement-selected
+                                   edit-selected))
+         :min-duration-ms 1500
+         :max-dist        20
          :on-handler-state-change
          #(let [state (get-state %)]
             (if (= :active state)
