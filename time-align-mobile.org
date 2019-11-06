@@ -44,7 +44,7 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Material design pt 2 /reduction/]]"                                              |             7.6923076923076925 |   100 |   13 |
+     | "[[Material design pt 2 /reduction/ on main screen]]"                               |             7.6923076923076925 |   100 |   13 |
      | "[[Follow material design on each page without changing functionality]]"            |                            5.0 |   100 |   20 |
      | "[[Add handler tests]]"                                                             |                            2.6 |    13 |    5 |
      | "[[Add subscription tests]]"                                                        |                            2.6 |    13 |    5 |
@@ -62,7 +62,8 @@
      |---------------------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                                 |                                |       |      |
      #+END:
-*** TODO Material design pt 2 /reduction/ on main screen
+*** DONE Material design pt 2 /reduction/ on main screen
+    CLOSED: [2019-11-05 Tue 20:00]
     :PROPERTIES:
     :VALUE:    100
     :WORK:     13
@@ -149,17 +150,16 @@
      - [X] Copy over flat button to the right of planned switch
      - [X] Spacer size adjusts accordingly to bottom sheet position
      - [X] Long press to add opens bucket modal
-**** Use MailComposer to get state out of the app 
+**** DONE Use MailComposer to get state out of the app 
+     CLOSED: [2019-11-05 Tue 20:00]
      :LOGBOOK:
+     CLOCK: [2019-11-05 Tue 19:00]--[2019-11-05 Tue 20:00] =>  1:00
      CLOCK: [2019-11-03 Sun 18:31]--[2019-11-03 Sun 18:47] =>  0:16
      :END:
      https://docs.expo.io/versions/latest/sdk/mail-composer/
-     - [ ] Revert to the version currently published (sdk 34)
      - [X] Add an export option for mail composer
-     - [ ] Publish
-     - [ ] Export app-db
-     - [ ] Rebase changes
-     - [ ] Build new apk (sdk 35)
+     - [X] Build new apk (sdk 35)
+     - [X] Test out mail export
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    5
