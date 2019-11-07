@@ -161,11 +161,16 @@
      - [X] Test out mail export
 **** TODO Bug fixes 
      :LOGBOOK:
+     CLOCK: [2019-11-06 Wed 17:59]--[2019-11-06 Wed 19:45] =>  1:46
      CLOCK: [2019-11-06 Wed 17:34]--[2019-11-06 Wed 17:50] =>  0:16
      :END:
      - [X] Long press is hard to trigger
      - [X] Can't update time in full period form
        - Needed to move around the modals (they were being duplicated)
+     - [X] Indication of long press
+       - The alignment is not exact
+       - Overoptimized other code thinking I could go from touch info -> time -> screen pos
+       - Ended up just using screen position but keeping the other abstraction changes
      - [ ] /placeholder for the inevitable bug/
 *** TODO Use scrollTo 
     :PROPERTIES:

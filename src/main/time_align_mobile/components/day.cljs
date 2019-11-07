@@ -82,6 +82,12 @@
 
 (def long-press-bucket-picker (r/atom {:visible false}))
 
+(def long-press-indicator (r/atom {:visible false
+                                   :y-pos   nil
+                                   :planned nil
+                                   :start   nil
+                                   :stop    nil}))
+
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
   ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
   (let [bsr @bottom-sheet-ref]
@@ -99,6 +105,17 @@
                                    :bucket-id    nil
                                    :element-id   nil}]))
 
+(defn element-time-stamp-info [time-stamp pixel-to-minute-ratio displayed-day]
+  (let [time-stamp-ms    (helpers/abstract-element-timestamp
+                          time-stamp
+                          displayed-day)
+        time-stamp-min   (helpers/ms->minutes time-stamp-ms)
+        time-stamp-y-pos (* pixel-to-minute-ratio time-stamp-min)]
+
+    {:ms    time-stamp-ms
+     :min   time-stamp-min
+     :y-pos time-stamp-y-pos}))
+
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
                                       element-type
@@ -109,15 +126,17 @@
   (->> collision-group
        (map-indexed
         (fn [index element]
-          (let [start-ms                (helpers/abstract-element-timestamp
+          (let [start-info              (element-time-stamp-info
                                          (:start element)
+                                         pixel-to-minute-ratio
                                          displayed-day)
-                start-min               (helpers/ms->minutes start-ms)
-                start-y-pos             (* pixel-to-minute-ratio start-min)
-                stop-ms                 (helpers/abstract-element-timestamp
+                stop-info               (element-time-stamp-info
                                          (:stop element)
+                                         pixel-to-minute-ratio
                                          displayed-day)
-                stop-min                (helpers/ms->minutes stop-ms)
+                start-min               (:min start-info)
+                start-y-pos             (:y-pos start-info)
+                stop-min                (:min stop-info)
                 height                  (max
                                          (* pixel-to-minute-ratio (- stop-min start-min))
                                          2)
@@ -419,6 +438,7 @@
            move-element]}]
   (let [px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
         fab-visible           @(subscribe [:get-day-fab-visible])
+        lpi                   @long-press-indicator
         pixel-to-minute-ratio (:current px-ratio-config)
         default-pxl-min-ratio (:default px-ratio-config)
         movement-selected     (some? selected-element)
@@ -474,30 +494,49 @@
          :min-duration-ms 1500
          :max-dist        20
          :on-handler-state-change
-         #(let [state (get-state %)]
-            (if (= :active state)
-              (let [id      (random-uuid)
-                    start   (-> %
-                                (get-ys)
-                                :y
-                                (/ pixel-to-minute-ratio)
-                                (helpers/minutes->ms)
-                                (helpers/reset-relative-ms displayed-day)
-                                (.valueOf))
-                    stop    (+ start (helpers/minutes->ms 45))
-                    now     (js/Date.)
-                    x       (-> %
-                                (get-xs)
-                                :x)
-                    planned (-> x
-                                (< (-> (get-device-width)
-                                       (/ 2))))]
-                (reset! long-press-bucket-picker {:start     start
-                                                  :stop      stop
-                                                  :id        id
-                                                  :timestamp now
-                                                  :planned   planned
-                                                  :visible   true}))))}
+         #(let [state   (get-state %)
+                ys      (get-ys %)
+                start   (-> ys
+                            :y
+                            (/ pixel-to-minute-ratio)
+                            (helpers/minutes->ms)
+                            (helpers/reset-relative-ms displayed-day)
+                            (.valueOf))
+                stop    (+ start (helpers/minutes->ms 45))
+                x       (-> %
+                            (get-xs)
+                            :x)
+                planned (-> x
+                            (< (-> (get-device-width)
+                                   (/ 2))))]
+            (println ys)
+            (case state
+              :began         (do
+                               (reset! long-press-indicator {:visible true
+                                                             :planned planned
+                                                             :y-pos   (:y ys)
+                                                             :start   start
+                                                             :stop    stop}))
+              :active        (let [id  (random-uuid)
+                                   now (js/Date.)]
+                               (reset! long-press-indicator {:visible false
+                                                             :planned nil
+                                                             :y-pos   nil
+                                                             :start   nil
+                                                             :stop    nil})
+                               (reset! long-press-bucket-picker {:start     start
+                                                                 :stop      stop
+                                                                 :id        id
+                                                                 :timestamp now
+                                                                 :planned   planned
+                                                                 :visible   true}))
+              (:failed :end) (do
+                               (reset! long-press-indicator {:visible false
+                                                             :planned nil
+                                                             :y-pos   nil
+                                                             :start   nil
+                                                             :stop    nil}))
+              nil))}
         [view
          {:style {:flex 1}}
 
@@ -549,6 +588,20 @@
                            :in-play-element       in-play-element
                            :pixel-to-minute-ratio pixel-to-minute-ratio
                            :displayed-day         displayed-day}]]
+
+          ;; long press indicator
+          (when (:visible lpi)
+            (let [y-pos   (:y-pos lpi)
+                  planned (:planned lpi)]
+
+              [surface {:style {:position         "absolute"
+                                :left             (if planned 70 "60%")
+                                :width            100
+                                :opacity          0.2
+                                :top              y-pos
+                                :height           20
+                                :border-radius    8
+                                :background-color (-> styles/theme :colors :accent)}}]))
 
           ;; now indicator
           [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
