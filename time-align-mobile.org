@@ -171,6 +171,7 @@
        - The alignment is not exact
        - Overoptimized other code thinking I could go from touch info -> time -> screen pos
        - Ended up just using screen position but keeping the other abstraction changes
+     - [ ] Indication of long press needs a delay so it doesn't flicker on all touches
      - [ ] /placeholder for the inevitable bug/
 *** TODO Use scrollTo 
     :PROPERTIES:
@@ -514,6 +515,7 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Closing the bottom sheet doesn't deselect
 
 ** Dreams
+- Data includes periods/templates/pattern generated from for reports of usage
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]
 - Fully namespaced keys only
@@ -527,6 +529,5 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - [[https://docs.expo.io/versions/v33.0.0/react-native/performance/][Optimize performance]]
 - Refactor subscriptions to use signal graph pattern
 - Refactor views to be very thin (no operations)
-- Use react-native-paper FAB.group
 - Use animation api for state indication
   
