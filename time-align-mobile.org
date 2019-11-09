@@ -161,6 +161,7 @@
      - [X] Test out mail export
 **** TODO Bug fixes 
      :LOGBOOK:
+     CLOCK: [2019-11-09 Sat 11:05]
      CLOCK: [2019-11-06 Wed 17:59]--[2019-11-06 Wed 19:45] =>  1:46
      CLOCK: [2019-11-06 Wed 17:34]--[2019-11-06 Wed 17:50] =>  0:16
      :END:
@@ -171,11 +172,25 @@
        - The alignment is not exact
        - Overoptimized other code thinking I could go from touch info -> time -> screen pos
        - Ended up just using screen position but keeping the other abstraction changes
-     - [ ] Indication of long press needs a delay so it doesn't flicker on all touches
-     - [ ] /placeholder for the inevitable bug/
+     - [ ] Remove indication of long press
+     - [ ] Drawer does not close on screen selection (needs an extra tap on the screen)
+     - [ ] Copy over button needs an icon or other button indication
+     - [ ] Pattern form does not display all elements
+     - [ ] Pressing play and then cancel causes a validation error
+     - [ ] Validation error on app init
+     - [ ] Arrow to select next and previous are needed 
+     - [ ] Duration label should be above value
+     - [ ] Duration should indicate it is info only
+     - [ ] Play button should be a stop button (not disabled)
+     - [ ] Zoom buttons?
+       - The gesture is slow and choppy
+       - If scroll to is tolerable then disregard this
+       - If not then use buttons or move the update out of reframe events
+     - [ ] Text input fields need a fixed width
+*** TODO App notification on planned period starting 
 *** TODO Use scrollTo 
     :PROPERTIES:
-    :VALUE:    5
+    :VALUE:    13
     :WORK:     2
     :END:
     [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
@@ -530,4 +545,5 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Refactor subscriptions to use signal graph pattern
 - Refactor views to be very thin (no operations)
 - Use animation api for state indication
+- All start timestamps end at 45 sec and all stop time stamps end at 15 sec to have same minute without overlap
   
