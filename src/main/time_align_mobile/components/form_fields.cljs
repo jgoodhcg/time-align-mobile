@@ -83,15 +83,17 @@
    (label-comp form changes update-key compact ""))
   ([form changes update-key compact placeholder]
    [view {:style {:flex-direction  "column"
+                  :height          100
+                  :width           350
                   :justify-content "center"}}
     (changeable-field {:changes changes :field-key :label} [subheading "Label"])
     [text-input-paper {:label           ""
                        :underline-color (:color (field-label-changeable-style
                                                  changes :label))
                        :dense           true
-                       :style          {:margin-bottom 4
-                                        :margin-left   16
-                                        :margin-right  16}
+                       :style           {:margin-bottom 4
+                                         :margin-left   16
+                                         :margin-right  16}
                        :default-value   (:label @form)
                        :placeholder     placeholder
                        :on-change-text  (fn [text]

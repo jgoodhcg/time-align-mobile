@@ -681,7 +681,7 @@
        (let [drag-indicator-height       12
              drag-indicator-total-height 40
              time-buttons-height         150
-             bottom-sheet-height         496]
+             bottom-sheet-height         425]
          [bottom-sheet {:ref           (fn [com]
                                          (reset! bottom-sheet-ref com))
                         :snap-points   [0
@@ -696,7 +696,7 @@
                                             (reset! spacer-height 0))
                         :render-header #(r/as-element
                                          [surface
-                                          [view {:style {:height         600
+                                          [view {:style {:height         bottom-sheet-height
                                                          :width          "100%"
                                                          :flex-direction "column"
                                                          :align-items    "center"}}

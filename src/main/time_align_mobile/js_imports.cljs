@@ -212,6 +212,8 @@
 (def snackbar (r/adapt-react-class (oget paper "Snackbar")))
 (def fab-group (r/adapt-react-class (oget (oget paper "FAB") "Group")))
 (def badge (r/adapt-react-class (oget paper "Badge")))
+(def menu (r/adapt-react-class (oget paper "Menu")))
+(def menu-item (r/adapt-react-class (oget (oget paper "Menu") "Item")))
 
 (def notifications (oget e "Notifications"))
 

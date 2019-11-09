@@ -161,7 +161,8 @@
      - [X] Test out mail export
 **** TODO Bug fixes 
      :LOGBOOK:
-     CLOCK: [2019-11-09 Sat 11:30]
+     CLOCK: [2019-11-09 Sat 12:16]--[2019-11-09 Sat 13:08] =>  0:52
+     CLOCK: [2019-11-09 Sat 11:30]--[2019-11-09 Sat 11:52] =>  0:22
      CLOCK: [2019-11-09 Sat 11:05]--[2019-11-09 Sat 11:12] =>  0:07
      CLOCK: [2019-11-06 Wed 17:59]--[2019-11-06 Wed 19:45] =>  1:46
      CLOCK: [2019-11-06 Wed 17:34]--[2019-11-06 Wed 17:50] =>  0:16
@@ -175,19 +176,20 @@
        - Ended up just using screen position but keeping the other abstraction changes
      - [X] Remove indication of long press
      - [X] Drawer does not close on screen selection (needs an extra tap on the screen)
-     - [ ] Copy over button needs an icon or other button indication
-     - [ ] Pattern form does not display all elements
+     - [X] Copy over button needs an icon or other button indication
+     - [X] Pattern form does not display all elements
      - [X] Pressing play and then cancel causes a validation error
      - [X] Validation error on app init
-     - [ ] Arrow to select next and previous are needed 
+     - [ ] Arrow to select next and previous are needed
      - [ ] Duration label should be above value
      - [ ] Duration should indicate it is info only
-     - [ ] Play button should be a stop button (not disabled)
+     - [ ] Play button should be a stop button instead of disabled 
      - [ ] Zoom buttons?
        - The gesture is slow and choppy
        - If scroll to is tolerable then disregard this
        - If not then use buttons or move the update out of reframe events
-     - [ ] Text input fields need a fixed width
+     - [X] Text input fields need a fixed width
+     - [ ] Element does not display label
 *** TODO App notification on planned period starting 
 *** TODO Use scrollTo 
     :PROPERTIES:

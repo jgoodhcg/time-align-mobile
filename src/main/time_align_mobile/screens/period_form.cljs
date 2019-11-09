@@ -12,6 +12,8 @@
                                                   button-paper
                                                   color-lighten
                                                   color-readable-background
+                                                  menu
+                                                  menu-item
                                                   text-input
                                                   text-input-paper
                                                   icon-button
@@ -57,6 +59,8 @@
                           :mode    "date"})) ;; TODO spec type for "date" "time"
 
 (def bucket-picker-modal (r/atom {:visible false}))
+
+(def compact-menu (r/atom {:visible false}))
 
 (defn time-comp-button [{:keys [modal time field-key]}]
   [:<>
@@ -150,17 +154,31 @@
                    :justify-content "flex-start"
                    :align-items     "flex-start"}}
 
-     ;; close / play / save
+     ;; top button row
      [view {:flex-direction  "row"
             :justify-content "space-between"
+            :align-items     "center"
             :width           "100%"
             :margin-bottom   16
             :padding-left    16
             :padding-right   16}
+      ;; close
       [icon-button {:icon     "close"
                     :size     20
                     :on-press close-callback}]
-      [view {:flex-direction "row"}
+      [view {:flex-direction "row"
+             :align-items    "center"}
+       ;; save
+       [button-paper {:on-press #(do
+                                   (dispatch [:save-period-form (new js/Date)])
+                                   (when (and (some? save-callback))
+                                     (save-callback)))
+                      :mode     "outlined"
+                      :disabled (not changed)
+                      :icon     "content-save"
+                      :style    {:margin-right 8}}
+        "save"]
+       ;; play
        [button-paper {:on-press #(do (dispatch
                                       [:play-from-period
                                        {:id           (:id @period-form)
@@ -174,7 +192,51 @@
                       :mode     "contained"
                       :icon     "play-circle"
                       :style    {:margin-right 8}}
-        "play"]]]
+        "play"]
+       ;; menu
+       [menu {:anchor
+              (r/as-element
+               [icon-button {:on-press #(reset! compact-menu {:visible true})
+                             :icon     "dots-vertical"}])
+              :visible    (:visible @compact-menu)
+              :on-dismiss #(reset! compact-menu {:visible false})}
+        ;; copy over
+        [menu-item {:title "copy over"
+                    :icon  "content-duplicate"
+                    :on-press #(do
+                                 (dispatch
+                                    [:add-period
+                                     {:period
+                                      (merge @period-form
+                                             {:id      (random-uuid)
+                                              :data    {} ;; TODO this will need to be evaled from string in form
+                                              :planned (-> @period-form
+                                                           :planned
+                                                           not)})
+                                      :bucket-id (:bucket-id @period-form)}])
+                                 (reset! compact-menu {:visible false})
+                                 (copy-over-callback))}]
+        ;; TODO delete
+        [menu-item {:title "delete"
+                    :icon  "content-duplicate"
+                    :on-press #(println "TODO")}]
+        ;; TODO select prev
+        [menu-item {:title "select above"
+                    :icon  "content-duplicate"
+                    :on-press #(println "TODO")}]
+        ;; TODO select next
+        [menu-item {:title "select below"
+                    :icon  "content-duplicate"
+                    :on-press #(println "TODO")}]
+        ;; TODO clear changes
+        [menu-item {:title "clear changes"
+                    :icon  "content-duplicate"
+                    :on-press #(println "TODO")}]
+        ;; TODO edit full
+        [menu-item {:title "edit full"
+                    :icon  "content-duplicate"
+                    :on-press #(println "TODO")}]
+        ]]]
 
      [label-comp-md {:form        period-form
                      :changes     changes
@@ -199,50 +261,7 @@
                     :margin-top     8}}
       [icon-button {:icon "floor-plan"} ]
       [view {:style {:margin-right 32}}
-       [planned-comp period-form changes :update-period-form]]
-      [button-paper {:mode     "text"
-                     :on-press #(do (dispatch
-                                     [:add-period
-                                      {:period
-                                       (merge @period-form
-                                              {:id      (random-uuid)
-                                               :data    {} ;; TODO this will need to be evaled from string in form
-                                               :planned (-> @period-form
-                                                            :planned
-                                                            not)})
-                                       :bucket-id (:bucket-id @period-form)}])
-                                    copy-over-callback)}
-       "copy over"]]
-
-     [divider {:style divider-style}]
-
-     ;; buttons
-     [view {:style {:flex-direction  "row"
-                    :padding         8
-                    :margin-top      16
-                    :width           "100%"
-                    :align-self      "center"
-                    :justify-content "space-between"
-                    :align-items     "space-between"}}
-
-      [form-buttons/buttons-md
-       {:changed        changed
-        :save-changes   #(do
-                           (dispatch [:save-period-form (new js/Date)])
-                           (when (and (some? save-callback))
-                             (save-callback)))
-        :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
-                                                       :bucket-id (:bucket-id @period-form)}])
-        :delete-item    #(do
-                           (dispatch [:delete-period {:period-id (:id @period-form)
-                                                      :bucket-id (:bucket-id @period-form)}])
-                           (when (and (some? delete-callback))
-                             (delete-callback)))
-        :edit-item      #(dispatch [:navigate-to {:current-screen :period
-                                                  :params         {:period-id (:id @period-form)
-                                                                   :bucket-id (:bucket-id @period-form)}}])
-        :compact        true
-        :labels         true}]]]))
+       [planned-comp period-form changes :update-period-form]]]]))
 
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])
