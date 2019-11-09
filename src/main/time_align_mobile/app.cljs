@@ -89,25 +89,12 @@
 
                  [touchable-ripple {:key      (str "icon-" name)
                                     :on-press (fn [_]
-                                                ;; TODO remove bucket id params when done testing
-
                                                 (dispatch
                                                  [:navigate-to
                                                   {:current-screen id
-                                                   :params
-                                                   (cond
-                                                     (= id :bucket)
-                                                     {:bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2")}
+                                                   :params nil}])
+                                                (dispatch [:set-menu-open false]))}
 
-                                                     (= id :period)
-                                                     {:period-id (uuid "a8404f81-38d4-4d4f-ab19-a7cef18c4531")}
-
-                                                     (= id :template)
-                                                     {:template-id (uuid "c52e4f81-38d4-4d4f-ab19-a7cef18c8882")}
-
-                                                     (= id :filter)
-                                                     {:filter-id (uuid "bbc34081-38d4-4d4f-ab19-a7cef18c1212")}
-                                                     :else nil)}]))}
                   [view {:flex-direction  "row"
                          :justify-content "flex-start"
                          :align-items     "center"

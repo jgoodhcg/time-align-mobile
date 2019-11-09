@@ -72,7 +72,7 @@
 
 (def pan-offset (r/atom 0))
 
-(def play-modal-visible (r/atom false))
+(def play-modal-visible (r/atom {:visible false}))
 
 (def pattern-modal-visible (r/atom false))
 
@@ -413,7 +413,7 @@
                                     :onPress #(dispatch [:stop-playing-period])}
                                    {:icon    "alien"
                                     :label   "start"
-                                    :onPress #(reset! play-modal-visible true)})])]
+                                    :onPress #(reset! play-modal-visible {:visible true})})])]
 
     [fab-group (merge {:open            @fab-state
                        :icon            "alien"
@@ -590,7 +590,7 @@
                            :displayed-day         displayed-day}]]
 
           ;; long press indicator
-          (when (:visible lpi)
+          (when false ;;(:visible lpi) ;; re-enable some day
             (let [y-pos   (:y-pos lpi)
                   planned (:planned lpi)]
 
@@ -652,22 +652,18 @@
                                                         :visible false}))))]
 
       ;; play modal
-      [modal {:animation-type   "slide"
-              :transparent      false
-              :on-request-close #(reset! play-modal-visible false)
-              :visible          @play-modal-visible}
-       [bucket-selection-content {:buckets-atom       buckets
-                                  :on-press-generator
-                                  (fn [item]
-                                    (fn [_]
-                                      (reset! play-modal-visible false)
-                                      (dispatch
-                                       [:play-from-bucket
-                                        {:bucket-id (:id item)
-                                         :id        (random-uuid)
-                                         :now       (new js/Date)}])
-                                      (snap-bottom-sheet bottom-sheet-ref 1)))
-                                  :modal-visible-atom play-modal-visible}]]
+      [bucket-modal
+       buckets
+       play-modal-visible
+       (fn [item]
+         (fn [_]
+           (reset! play-modal-visible {:visible false})
+           (dispatch
+            [:play-from-bucket
+             {:bucket-id (:id item)
+              :id        (random-uuid)
+              :now       (new js/Date)}])
+           (snap-bottom-sheet bottom-sheet-ref 1)))]
 
       ;; pattern modal
       [modal {:animation-type   "slide"
