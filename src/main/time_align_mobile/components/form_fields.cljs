@@ -83,7 +83,7 @@
    (label-comp form changes update-key compact ""))
   ([form changes update-key compact placeholder]
    [view {:style {:flex-direction  "column"
-                  :height          100
+                  :height          90
                   :width           350
                   :justify-content "center"}}
     (changeable-field {:changes changes :field-key :label} [subheading "Label"])
@@ -228,7 +228,8 @@
                         ms->hhmm)
                    "no duration")]
 
-    [view {:style info-field-style}
+    [view {:style (merge info-field-style
+                         {:flex-direction "column"})}
      [subheading {:style label-style} "Duration"]
      [text duration]]))
 
@@ -286,9 +287,6 @@
                            (fn [m] (assoc-in m [:visible] true)))
 
                    :color (-> @period-form
-                              :bucket-color
-                              (color-readable-background))
-                   :style {:background-color (-> @period-form
-                                                 :bucket-color)}
-                   :mode  "text"}
+                              :bucket-color)
+                   :mode  "outlined"}
      [text (:bucket-label @period-form)]]]])

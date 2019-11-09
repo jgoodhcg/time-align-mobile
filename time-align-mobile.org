@@ -161,6 +161,7 @@
      - [X] Test out mail export
 **** TODO Bug fixes 
      :LOGBOOK:
+     CLOCK: [2019-11-09 Sat 16:00]--[2019-11-09 Sat 17:56] =>  1:56
      CLOCK: [2019-11-09 Sat 12:16]--[2019-11-09 Sat 13:08] =>  0:52
      CLOCK: [2019-11-09 Sat 11:30]--[2019-11-09 Sat 11:52] =>  0:22
      CLOCK: [2019-11-09 Sat 11:05]--[2019-11-09 Sat 11:12] =>  0:07
@@ -180,10 +181,9 @@
      - [X] Pattern form does not display all elements
      - [X] Pressing play and then cancel causes a validation error
      - [X] Validation error on app init
-     - [ ] Arrow to select next and previous are needed
-     - [ ] Duration label should be above value
-     - [ ] Duration should indicate it is info only
-     - [ ] Play button should be a stop button instead of disabled 
+     - [X] Arrow to select next and previous are needed
+     - [X] Duration label should be above value
+     - [X] Play button should be a stop button instead of disabled 
      - [ ] Zoom buttons?
        - The gesture is slow and choppy
        - If scroll to is tolerable then disregard this

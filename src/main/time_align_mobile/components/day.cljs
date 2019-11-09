@@ -319,9 +319,7 @@
      (when (= :period element-type)
        (if (not (some? in-play-element))
          [t-btn play-from [mi-styled (icon-params "play-circle-outline")]]
-         [t-btn stop-playing [mi-styled (icon-params "stop")]])
-       )
-     ]))
+         [t-btn stop-playing [mi-styled (icon-params "stop")]]))]))
 
 (defn now-indicator [{:keys [displayed-day
                              element-type
@@ -681,7 +679,7 @@
        (let [drag-indicator-height       12
              drag-indicator-total-height 40
              time-buttons-height         150
-             bottom-sheet-height         425]
+             bottom-sheet-height         500]
          [bottom-sheet {:ref           (fn [com]
                                          (reset! bottom-sheet-ref com))
                         :snap-points   [0

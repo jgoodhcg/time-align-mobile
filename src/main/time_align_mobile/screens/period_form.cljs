@@ -66,7 +66,7 @@
   [:<>
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "time"})
-                  :mode     "text"}
+                  :mode     "outlined"}
     [text (if (some? time)
             (format-time time)
             "Add a time time")]]])
@@ -78,7 +78,7 @@
                                             :mode    "date"})
                   :style    {:margin-right  4
                              :margin-bottom 4}
-                  :mode     "text"
+                  :mode     "outlined"
                   :icon     "calendar-range"}
       [text (if (some? time)
               (format-date-day time)
@@ -146,7 +146,9 @@
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
         changed                (> (count @changes) 0)
-        buckets                (subscribe [:get-buckets])]
+        buckets                (subscribe [:get-buckets])
+        playing                (= (:id in-play-element)
+                                  (:id @period-form))]
 
     [view {:style {:flex            1
                    :width           "100%"
@@ -159,7 +161,6 @@
             :justify-content "space-between"
             :align-items     "center"
             :width           "100%"
-            :margin-bottom   16
             :padding-left    16
             :padding-right   16}
       ;; close
@@ -179,20 +180,22 @@
                       :style    {:margin-right 8}}
         "save"]
        ;; play
-       [button-paper {:on-press #(do (dispatch
+       [button-paper {:on-press #(do
+                                   (if playing
+                                     (dispatch
+                                      [:stop-playing-period])
+                                     (dispatch
                                       [:play-from-period
                                        {:id           (:id @period-form)
                                         :time-started (js/Date.)
-                                        :new-id       (random-uuid)}])
-                                     play-callback)
+                                        :new-id       (random-uuid)}]))
+                                   (play-callback))
                       :color    (-> @period-form
                                     :bucket-color)
-                      :disabled (= (:id in-play-element)
-                                   (:id @period-form))
-                      :mode     "contained"
+                      :mode     (if playing "outlined" "contained")
                       :icon     "play-circle"
                       :style    {:margin-right 8}}
-        "play"]
+        (if playing "stop" "play")]
        ;; menu
        [menu {:anchor
               (r/as-element
@@ -200,43 +203,63 @@
                              :icon     "dots-vertical"}])
               :visible    (:visible @compact-menu)
               :on-dismiss #(reset! compact-menu {:visible false})}
+        ;; select prev
+        [menu-item {:title    "select above"
+                    :icon     "chevron-up"
+                    :on-press #(do
+                                 (dispatch [:select-next-or-prev-period :prev])
+                                 (reset! compact-menu {:visible false}))}]
+        ;; select next
+        [menu-item {:title    "select below"
+                    :icon     "chevron-down"
+                    :on-press #(do
+                                 (dispatch [:select-next-or-prev-period :next])
+                                 (reset! compact-menu {:visible false}))}]
         ;; copy over
-        [menu-item {:title "copy over"
-                    :icon  "content-duplicate"
+        [menu-item {:title    "copy over"
+                    :icon     "content-duplicate"
                     :on-press #(do
                                  (dispatch
-                                    [:add-period
-                                     {:period
-                                      (merge @period-form
-                                             {:id      (random-uuid)
-                                              :data    {} ;; TODO this will need to be evaled from string in form
-                                              :planned (-> @period-form
-                                                           :planned
-                                                           not)})
-                                      :bucket-id (:bucket-id @period-form)}])
+                                  [:add-period
+                                   {:period
+                                    (merge @period-form
+                                           {:id      (random-uuid)
+                                            :data    {} ;; TODO this will need to be evaled from string in form
+                                            :planned (-> @period-form
+                                                         :planned
+                                                         not)})
+                                    :bucket-id (:bucket-id @period-form)}])
                                  (reset! compact-menu {:visible false})
                                  (copy-over-callback))}]
-        ;; TODO delete
-        [menu-item {:title "delete"
-                    :icon  "content-duplicate"
-                    :on-press #(println "TODO")}]
-        ;; TODO select prev
-        [menu-item {:title "select above"
-                    :icon  "content-duplicate"
-                    :on-press #(println "TODO")}]
-        ;; TODO select next
-        [menu-item {:title "select below"
-                    :icon  "content-duplicate"
-                    :on-press #(println "TODO")}]
-        ;; TODO clear changes
-        [menu-item {:title "clear changes"
-                    :icon  "content-duplicate"
-                    :on-press #(println "TODO")}]
-        ;; TODO edit full
-        [menu-item {:title "edit full"
-                    :icon  "content-duplicate"
-                    :on-press #(println "TODO")}]
-        ]]]
+        ;; clear changes
+        [menu-item {:title    "clear changes"
+                    :icon     "cancel"
+                    :on-press #(do
+                                 (dispatch
+                                  [:load-period-form
+                                   {:period-id (:id @period-form)
+                                    :bucket-id (:bucket-id @period-form)}])
+                                 (reset! compact-menu {:visible false}))}]
+        ;; edit full
+        [menu-item {:title    "edit full"
+                    :icon     "pencil"
+                    :on-press #(do
+                                 (dispatch
+                                  [:navigate-to
+                                   {:current-screen :period
+                                    :params
+                                    {:period-id (:id @period-form)
+                                     :bucket-id (:bucket-id @period-form)}}])
+                                 (reset! compact-menu {:visible false}))}]
+        ;; delete
+        [menu-item {:title    "delete"
+                    :icon     "delete"
+                    :on-press #(do
+                                 (dispatch [:delete-period {:period-id (:id @period-form)
+                                                            :bucket-id (:bucket-id @period-form)}])
+                                 (when (and (some? delete-callback))
+                                   (reset! compact-menu {:visible false})
+                                   (delete-callback)))}]]]]
 
      [label-comp-md {:form        period-form
                      :changes     changes
@@ -246,13 +269,33 @@
 
      [divider {:style divider-style}]
 
+     [bucket-modal
+      buckets
+      bucket-picker-modal
+      (fn [item] (fn [_]
+                   (dispatch
+                    [:update-period-form
+                     {:bucket-id (:id item)}])
+                   (swap! bucket-picker-modal
+                          (fn [m] (assoc-in m [:visible] false)))))]
+
+     [bucket-parent-picker-button {:period-form         period-form
+                                   :bucket-picker-modal bucket-picker-modal
+                                   :changes             changes}]
+
+     [divider {:style divider-style}]
+
      ;; start /stop/ duration
      [view {:style {:flex-direction "row"
+                    :align-items    "center"
+                    :flex           1
                     :margin-top     8}}
       [icon-button {:icon "clock-outline"} ]
       [time-comp-compact period-form changes start-modal :start "Start"]
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
-      [duration-comp (:start @period-form) (:stop @period-form)]]
+      [view {:style {:flex         1
+                     :justify-self "flex-end"}}
+       [duration-comp (:start @period-form) (:stop @period-form)]]]
 
      [divider {:style divider-style}]
 
