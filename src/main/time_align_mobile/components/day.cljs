@@ -193,7 +193,11 @@
                  :background-color (:color element)
                  :padding          4}
                 (when something-else-selected
-                  {:opacity 0.3}))}]])))))
+                  {:opacity 0.3}))}
+              [text {:style {:color (if light
+                                      (-> styles/theme :colors :element-text-dark)
+                                      (-> styles/theme :colors :element-text-light))}}
+               (:label element)]]])))))
 
 (defn elements-comp [{:keys [elements
                              element-type
@@ -478,7 +482,8 @@
        :wait-for       pinch-ref}
 
       [pinch-gesture-handler
-       {:ref              pinch-ref
+       {:enabled          false ;; re-enable when it can decoupled from re-frame lifecycle
+        :ref              pinch-ref
         :wait-for         long-press-ref
         :on-gesture-event #(let [scale (helpers/get-gesture-handler-scale %)]
                              (dispatch-debounced
@@ -507,7 +512,6 @@
                 planned (-> x
                             (< (-> (get-device-width)
                                    (/ 2))))]
-            (println ys)
             (case state
               :began         (do
                                (reset! long-press-indicator {:visible true

@@ -1007,6 +1007,16 @@
 (defn set-current-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :current] (max ratio 0.25) db))
 
+(defn zoom-in [db [_ _]]
+  (transform [:config :pixel-to-minute-ratio :current] #(* 1.25 %) db))
+
+(defn zoom-out [db [_ _]]
+  (transform [:config :pixel-to-minute-ratio :current] #(* 0.75 %) db))
+
+(defn zoom-default [db [_ _]]
+  (setval [:config :pixel-to-minute-ratio :current]
+          (select-one [:config :pixel-to-minute-ratio :default] db) db))
+
 (defn set-default-pixel-to-minute-ratio [db [_ ratio]]
   (setval [:config :pixel-to-minute-ratio :default] ratio db))
 
@@ -1169,3 +1179,6 @@
 (reg-event-db :set-day-fab-open [validate-spec persist-secure-store] set-day-fab-open)
 (reg-event-db :set-day-fab-visible [validate-spec persist-secure-store] set-day-fab-visible)
 (reg-event-db :set-menu-open [validate-spec persist-secure-store] set-menu-open)
+(reg-event-db :zoom-in [validate-spec persist-secure-store] zoom-in)
+(reg-event-db :zoom-out [validate-spec persist-secure-store] zoom-out)
+(reg-event-db :zoom-default [validate-spec persist-secure-store] zoom-default)

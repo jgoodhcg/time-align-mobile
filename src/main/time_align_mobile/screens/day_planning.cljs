@@ -9,6 +9,8 @@
                                                   touchable-highlight
                                                   touchable-ripple
                                                   status-bar
+                                                  menu
+                                                  menu-item
                                                   format-date-day
                                                   animated-view
                                                   text-paper
@@ -160,11 +162,13 @@
 
 (def date-picker-modal (r/atom false))
 
+(def top-bar-menu (r/atom {:visible false}))
+
 (defn top-bar [{:keys [displayed-day]}]
   (let [menu-open (subscribe [:get-menu-open])]
     [surface {:elevation 1
               :style     {:flex-direction  "row"
-                          :justify-content "flex-start"
+                          :justify-content "space-between"
                           :align-items     "center"
                           :padding         8}}
 
@@ -172,15 +176,39 @@
                    :size     20
                    :on-press #(dispatch [:set-menu-open (not @menu-open)])}]
 
+     [button-paper {:on-press #(reset! date-picker-modal true)
+                    :mode     "text"}
+      (if (same-year? displayed-day (js/Date.))
+        (format-date-day displayed-day "ddd MM/DD")
+        (format-date-day displayed-day "YYYY ddd MM/DD"))]
 
-     [view {:style {:flex-direction  "row"
-                    :justify-content "center"
-                    :width           "100%"}}
-      [button-paper {:on-press #(reset! date-picker-modal true)
-                     :mode     "text"}
-       (if (same-year? displayed-day (js/Date.))
-         (format-date-day displayed-day "ddd MM/DD")
-         (format-date-day displayed-day "YYYY ddd MM/DD"))]]
+     [menu {:anchor
+            (r/as-element
+             [icon-button {:on-press #(swap!
+                                       top-bar-menu
+                                       (fn [m] (assoc-in m [:visible] true)))
+                           :icon     "dots-vertical"}])
+            :visible    (:visible @top-bar-menu)
+            :on-dismiss #(swap! top-bar-menu
+                                (fn [m] (assoc-in m [:visible] false)))}
+      [menu-item {:title    "zoom in"
+                  :icon     "magnify-plus-outline"
+                  :on-press #(do
+                               (dispatch [:zoom-in])
+                               (swap! top-bar-menu
+                                      (fn [m] (assoc-in m [:visible] false))))}]
+      [menu-item {:title    "zoom out"
+                  :icon     "magnify-minus-outline"
+                  :on-press #(do
+                               (dispatch [:zoom-out])
+                               (swap! top-bar-menu
+                                      (fn [m] (assoc-in m [:visible] false))))}]
+      [menu-item {:title    "zoom reset"
+                  :icon     "magnify"
+                  :on-press #(do
+                               (dispatch [:zoom-default])
+                               (swap! top-bar-menu
+                                      (fn [m] (assoc-in m [:visible] false))))}]]
 
      [date-time-picker {:is-visible @date-picker-modal
                         :date       displayed-day
@@ -188,8 +216,7 @@
                         :on-confirm (fn [d]
                                       (dispatch [:update-day-time-navigator d])
                                       (reset! date-picker-modal false))
-                        :on-cancel  #(reset! date-picker-modal false)}]
-     ]))
+                        :on-cancel  #(reset! date-picker-modal false)}]]))
 
 (defn move-period [{:keys [selected-element start-relative-min]}]
   (let [new-start-ms (-> start-relative-min
