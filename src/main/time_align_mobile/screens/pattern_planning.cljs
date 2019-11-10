@@ -166,7 +166,7 @@
        :displayed-day               (js/Date.)
        :element-type                :template
        :element-transform-functions template-transform-functions
-       :buckets                     @buckets
+       :buckets                     buckets
        :edit-form                   compact
        :move-element                move-template
        :elements

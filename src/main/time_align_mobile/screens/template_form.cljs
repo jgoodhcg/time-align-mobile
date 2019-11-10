@@ -48,7 +48,7 @@
   [:<>
    [button-paper {:on-press #(reset! modal true)
                   :mode     "outlined"
-                  :icon     "access-time"}
+                  :icon     "clock-outline"}
     [text (if (some? time)
             (format-time time)
             "Add a time time")]]

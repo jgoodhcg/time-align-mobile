@@ -177,7 +177,9 @@
                    :on-press #(dispatch [:set-menu-open (not @menu-open)])}]
 
      [button-paper {:on-press #(reset! date-picker-modal true)
-                    :mode     "text"}
+                    :mode     (if (same-day? displayed-day (js/Date.))
+                                "outlined"
+                                "contained")}
       (if (same-year? displayed-day (js/Date.))
         (format-date-day displayed-day "ddd MM/DD")
         (format-date-day displayed-day "YYYY ddd MM/DD"))]

@@ -339,29 +339,31 @@
 
     (when (and same-day
                (= :period element-type))
-      [view {:style {:flex     1
-                     :position "absolute"
-                     :top      (-> y-pos (- (-> height (/ 2))))
-                     :left     (-> 60 ;; left on periods
-                                   (- (-> width (/ 2))))
-                     :width    "100%"
-                     :height   height}}
-       [view {:style {:position     "absolute"
-                      :top          (-> height (/ 2)
-                                        (- (-> line-height
-                                               ;; idk why *2 ... it just looks right
-                                               (* 2))))
-                      :border-color (-> styles/theme :colors :primary)
-                      :border-width (-> line-height (/ 2))
-                      :width        "100%"
-                      :height       0}}]
+      [view {:style {:flex            1
+                     :flex-direction  "row"
+                     :position        "absolute"
+                     :top             (-> y-pos (- (-> height (/ 2))))
+                     :left            (-> 60 ;; left on periods
+                                          (- (-> width (/ 2))))
+                     :width           "100%"
+                     :height          height
+                     :justify-content "flex-start"
+                     :align-items "center"}}
+
+       ;; time label
        [view {:style {:background-color (-> styles/theme :colors :primary)
                       :border-radius    height
                       :justify-content  "center"
                       :align-items      "center"
                       :width            width}}
         [text-paper {:style {:color (-> styles/theme :colors :accent-light)}}
-         (format-time @now)]]])))
+         (format-time @now)]]
+
+       ;; line
+       [view {:style {:border-color (-> styles/theme :colors :primary)
+                      :border-width (-> line-height (/ 2))
+                      :width        "100%"
+                      :height       0}}]])))
 
 (defn pattern-modal-content [{:keys [patterns]}]
   [view {:style {:flex    1
@@ -539,6 +541,7 @@
                                                              :start   nil
                                                              :stop    nil}))
               nil))}
+
         [view
          {:style {:flex 1}}
 
@@ -618,7 +621,6 @@
          [fab-comp {:displayed-day    displayed-day
                     :in-play-element  in-play-element
                     :selected-element selected-element}]])
-
 
       ;; long press bucket selection modal
       [bucket-modal
