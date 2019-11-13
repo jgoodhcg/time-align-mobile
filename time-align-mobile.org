@@ -1,6 +1,6 @@
 #+TODO: TODO DOSUB | DONE CANCELED 
 #+PROPERTY: Confidence_ALL 0 10 25 50 75 90 100
-#+PROPERTY: Effort_ALL 0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 20:00
+#+PROPERTY: Effort_ALL 0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 15:00 20:00 25:00 30:00 35:00 40:00
 #+PROPERTY: Work_ALL 0 1 2 3 5 8 13 20 50 100
 #+PROPERTY: Value_ALL 0 1 2 3 5 8 13 20 50 100
 # Time Estimation column view
@@ -11,6 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-11-12 Tue 20:55]--[2019-11-12 Tue 21:08] =>  0:13
   CLOCK: [2019-11-12 Tue 19:30]--[2019-11-12 Tue 20:49] =>  1:19
   CLOCK: [2019-09-29 Sun 17:17]--[2019-09-29 Sun 17:24] =>  0:07
   CLOCK: [2019-09-29 Sun 15:52]--[2019-09-29 Sun 15:55] =>  0:03
@@ -60,7 +61,7 @@
     :PROPERTIES:
     :VALUE:    100
     :WORK:     13
-    :EFFORT:   2:00
+    :EFFORT:   25:00
     :CONFIDENCE: 75
     :END:
     :LOGBOOK:
@@ -229,36 +230,12 @@
     https://stackoverflow.com/a/54310445/5040125 (onLayout prop to get around other animations blocking scrollTo)
     - [ ] Scrolls to an element when it is selected for edit
     - [ ] Scrolls to now on zooming?
-*** CANCELED Hide android navigation bar 
-    CLOSED: [2019-11-12 Tue 20:42]
-    :PROPERTIES:
-    :VALUE:    2
-    :WORK:     1
-    :END:
-- Or adjust bottom-sheet and FAB to not be covered by it
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
     :WORK:     1
     :CONFIDENCE: 90
     :EFFORT:   0:30
-    :END:
-*** CANCELED Make a better element state indication without animation or "jumpy" borders
-    CLOSED: [2019-11-12 Tue 20:42]
-    :PROPERTIES:
-    :VALUE:    5
-    :WORK:     5
-    :END:
-    - in play
-    - resting
-    - selected edit
-    - selected movement
-
-*** DONE Fix now indicator to have accurate position 
-    CLOSED: [2019-11-12 Tue 20:42]
-    :PROPERTIES:
-    :VALUE:    3
-    :WORK:     2
     :END:
 *** TODO Reduce border radius on periods
     :PROPERTIES:
@@ -267,28 +244,6 @@
     :EFFORT:   0:10
     :CONFIDENCE: 100
     :END:
-*** DONE Remove minimum period size
-    CLOSED: [2019-11-12 Tue 20:41]
-    :PROPERTIES:
-    :VALUE:    2
-    :WORK:     1
-    :END:
-*** CANCELED Figure out why keyboard pops up when opening on day view (sometimes)
-    CLOSED: [2019-11-12 Tue 20:41]
-    :PROPERTIES:
-    :VALUE:    1
-    :WORK:     3
-    :END:
-*** DONE Fix modal bottom gap 
-    CLOSED: [2019-11-12 Tue 20:42]
-    :PROPERTIES:
-    :VALUE:    1
-    :WORK:     2
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-10-08 Tue 18:49]--[2019-10-08 Tue 18:49] =>  0:00
-    :END:
-    - noticed on play bucket modal
 *** TODO Follow material design on each page without changing functionality
     :PROPERTIES:
     :WORK:     20
