@@ -72,14 +72,14 @@
             :planned     type
             :data        {}})))
 
-(def period-data-spec {:id          uuid?
-                       :created     ::moment
-                       :last-edited ::moment
-                       :label       string?
-                       :planned     boolean?
-                       :start       (ds/maybe ::moment)
-                       :stop        (ds/maybe ::moment)
-                       :data        map?})
+(def period-data-spec {:id                       uuid?
+                       :created                  ::moment
+                       :last-edited              ::moment
+                       :label                    string?
+                       :planned                  boolean?
+                       (ds/opt :notification-id) :number?
+                       :stop                     (ds/maybe ::moment)
+                       :data                     map?})
 
 (def period-spec
   (st/create-spec {:spec (s/and

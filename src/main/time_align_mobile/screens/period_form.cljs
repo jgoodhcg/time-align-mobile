@@ -334,6 +334,9 @@
                                    :bucket-picker-modal bucket-picker-modal
                                    :changes             changes}]
 
+     ;; TODO notification comp
+     ;; Add notification or disable notification if one is set for this period
+
      [planned-comp period-form changes :update-period-form]
 
      [time-comp period-form changes start-modal :start "start"]

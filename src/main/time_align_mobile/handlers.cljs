@@ -757,7 +757,6 @@
      {:dispatch [:load-template-form-from-pattern-planning template-id]})))
 
 (defn update-period [{:keys [db]} [_ {:keys [period-id bucket-id update-map]}]]
-  ;; TODO add an interceptor? for last edited
   (merge
    {:db (->> db (transform
                  (period-path {:bucket-id bucket-id
@@ -1116,6 +1115,8 @@
 
 (defn set-menu-open [db [_ state]]
   (assoc-in db [:menu :open] state))
+
+;; TODO add a handler with fx for scheduling and disabling notification
 
 (reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
