@@ -1,15 +1,17 @@
 #+TODO: TODO DOSUB | DONE CANCELED 
-#+PROPERTY: Effort_ALL 0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00
+#+PROPERTY: Confidence_ALL 0 10 25 50 75 90 100
+#+PROPERTY: Effort_ALL 0 0:10 0:30 1:00 2:00 3:00 4:00 5:00 6:00 7:00 8:00 9:00 10:00 20:00
 #+PROPERTY: Work_ALL 0 1 2 3 5 8 13 20 50 100
 #+PROPERTY: Value_ALL 0 1 2 3 5 8 13 20 50 100
 # Time Estimation column view
-# #+COLUMNS: %40ITEM(Task) %10Confidence(Confidence){mean} %17Effort(Estimated Effort){:} %CLOCKSUM
-# WSJF column view for editing (!!!! ONLY EDIT HEADINGS IN *TODO* STATE !!!!)
-#+COLUMNS: %Value(Value)  %Work(Work) %ITEM(Task) %TODO(State) 
+#+COLUMNS: %40ITEM(Task) %10Confidence(Confidence){mean} %17Effort(Estimated Effort){:} %CLOCKSUM
+# WSJF column view for editing
+# #+COLUMNS: %Value(Value)  %Work(Work) %ITEM(Task) %TODO(State) 
 #+STARTUP: overview
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-11-12 Tue 19:30]--[2019-11-12 Tue 20:49] =>  1:19
   CLOCK: [2019-09-29 Sun 17:17]--[2019-09-29 Sun 17:24] =>  0:07
   CLOCK: [2019-09-29 Sun 15:52]--[2019-09-29 Sun 15:55] =>  0:03
   CLOCK: [2019-09-15 Sun 11:20]--[2019-09-15 Sun 11:29] =>  0:09
@@ -42,30 +44,24 @@
      Use ~SHIFT ->~ to cycle through property values.
 ** DOSUB Release to strangers
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
-     | (concat "[[" ITEM "]]")                                                             | (/ (float VALUE) (float WORK)) | VALUE | WORK |
-     |---------------------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Material design pt 2 /reduction/ on main screen]]"                               |             7.6923076923076925 |   100 |   13 |
-     | "[[Follow material design on each page without changing functionality]]"            |                            5.0 |   100 |   20 |
-     | "[[Add handler tests]]"                                                             |                            2.6 |    13 |    5 |
-     | "[[Add subscription tests]]"                                                        |                            2.6 |    13 |    5 |
-     | "[[Use scrollTo]]"                                                                  |                            2.5 |     5 |    2 |
-     | "[[Add selected start stop indicators (now indicator style)]]"                      |                            2.5 |     5 |    2 |
-     | "[[Hide android navigation bar]]"                                                   |                            2.0 |     2 |    1 |
-     | "[[Reduce border radius on periods]]"                                               |                            2.0 |     2 |    1 |
-     | "[[Remove minimum period size]]"                                                    |                            2.0 |     2 |    1 |
-     | "[[Multiple play timers]]"                                                          |                            1.6 |     8 |    5 |
-     | "[[Fix now indicator to have accurate position]]"                                   |                            1.5 |     3 |    2 |
-     | "[[Put version indicator in app-db (for export mostly)]]"                           |                            1.0 |     1 |    1 |
-     | "[[Make a better element state indication without animation or \"jumpy\" borders]]" |                            1.0 |     5 |    5 |
-     | "[[Fix modal bottom gap]]"                                                          |                            0.5 |     1 |    2 |
-     | "[[Figure out why keyboard pops up when opening on day view (sometimes)]]"          |             0.3333333333333333 |     1 |    3 |
-     |---------------------------------------------------------------------------------+--------------------------------+-------+------|
-     |                                                                                 |                                |       |      |
+     | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
+     |----------------------------------------------------------------------+--------------------------------+-------+------|
+     | "[[Better export]]"                                                      |                           10.0 |    20 |    2 |
+     | "[[Material design pt 2 /reduction/ on main screen]]"                    |             7.6923076923076925 |   100 |   13 |
+     | "[[Use scrollTo]]"                                                       |                            6.5 |    13 |    2 |
+     | "[[Follow material design on each page without changing functionality]]" |                            5.0 |   100 |   20 |
+     | "[[App notification on planned period starting]]"                        |                            4.0 |    20 |    5 |
+     | "[[Reduce border radius on periods]]"                                    |                            2.0 |     2 |    1 |
+     | "[[Put version indicator in app-db (for export mostly)]]"                |                            1.0 |     1 |    1 |
+     |----------------------------------------------------------------------+--------------------------------+-------+------|
+     |                                                                      |                                |       |      |
      #+END:
 *** TODO Material design pt 2 /reduction/ on main screen
     :PROPERTIES:
     :VALUE:    100
     :WORK:     13
+    :EFFORT:   2:00
+    :CONFIDENCE: 75
     :END:
     :LOGBOOK:
     CLOCK: [2019-10-21 Mon 17:31]--[2019-10-21 Mon 17:32] =>  0:01
@@ -159,7 +155,7 @@
      - [X] Add an export option for mail composer
      - [X] Build new apk (sdk 35)
      - [X] Test out mail export
-**** TODO Bug fixes 
+**** Bug fixes 
      :LOGBOOK:
      CLOCK: [2019-11-10 Sun 14:13]--[2019-11-10 Sun 14:53] =>  0:40
      CLOCK: [2019-11-10 Sun 11:47]--[2019-11-10 Sun 13:37] =>  1:50
@@ -195,16 +191,46 @@
      - [X] Now indicator not exactly in the right spot
      - [X] Top bar date button needs to look like a button and be more prominent when not today
      - [X] Long pressing on edit templates on pattern form broken
+     - [ ] Period label should show if start is on /yesterday/
+       - Use /justify-content/ based on =same-day?= with start
+     - [ ] Text input is too short on compact form
+     - [ ] Keyboard doesn't close on bottom sheet closing
+     - [ ] Long press added periods should be auto selected
 *** TODO App notification on planned period starting 
+    :PROPERTIES:
+    :VALUE:    20
+    :WORK:     5
+    :EFFORT:   4:00
+    :CONFIDENCE: 50
+    :END:
+    :LOGBOOK:
+    CLOCK: [2019-11-12 Tue 19:27]--[2019-11-12 Tue 19:28] =>  0:01
+    CLOCK: [2019-11-11 Mon 18:59]--[2019-11-11 Mon 18:59] =>  0:00
+    CLOCK: [2019-11-11 Mon 18:10]--[2019-11-11 Mon 18:59] =>  0:49
+    :END:
+*** TODO Better export 
+    :PROPERTIES:
+    :VALUE:    20
+    :WORK:     2
+    :EFFORT:   1:00
+    :CONFIDENCE: 75
+    :END:
+    https://docs.expo.io/versions/v35.0.0/sdk/sharing/
+    This is not the same thing as react native share (messages only).
+    This only supports files.
 *** TODO Use scrollTo 
     :PROPERTIES:
     :VALUE:    13
     :WORK:     2
+    :CONFIDENCE: 50
+    :EFFORT:   1:00
     :END:
     [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
+    https://stackoverflow.com/a/54310445/5040125 (onLayout prop to get around other animations blocking scrollTo)
     - [ ] Scrolls to an element when it is selected for edit
     - [ ] Scrolls to now on zooming?
-*** TODO Hide android navigation bar 
+*** CANCELED Hide android navigation bar 
+    CLOSED: [2019-11-12 Tue 20:42]
     :PROPERTIES:
     :VALUE:    2
     :WORK:     1
@@ -214,8 +240,11 @@
     :PROPERTIES:
     :VALUE:    1
     :WORK:     1
+    :CONFIDENCE: 90
+    :EFFORT:   0:30
     :END:
-*** TODO Make a better element state indication without animation or "jumpy" borders
+*** CANCELED Make a better element state indication without animation or "jumpy" borders
+    CLOSED: [2019-11-12 Tue 20:42]
     :PROPERTIES:
     :VALUE:    5
     :WORK:     5
@@ -225,7 +254,8 @@
     - selected edit
     - selected movement
 
-*** TODO Fix now indicator to have accurate position 
+*** DONE Fix now indicator to have accurate position 
+    CLOSED: [2019-11-12 Tue 20:42]
     :PROPERTIES:
     :VALUE:    3
     :WORK:     2
@@ -234,18 +264,23 @@
     :PROPERTIES:
     :VALUE:    2
     :WORK:     1
+    :EFFORT:   0:10
+    :CONFIDENCE: 100
     :END:
-*** TODO Remove minimum period size
+*** DONE Remove minimum period size
+    CLOSED: [2019-11-12 Tue 20:41]
     :PROPERTIES:
     :VALUE:    2
     :WORK:     1
     :END:
-*** TODO Figure out why keyboard pops up when opening on day view (sometimes)
+*** CANCELED Figure out why keyboard pops up when opening on day view (sometimes)
+    CLOSED: [2019-11-12 Tue 20:41]
     :PROPERTIES:
     :VALUE:    1
     :WORK:     3
     :END:
-*** TODO Fix modal bottom gap 
+*** DONE Fix modal bottom gap 
+    CLOSED: [2019-11-12 Tue 20:42]
     :PROPERTIES:
     :VALUE:    1
     :WORK:     2
@@ -254,23 +289,16 @@
     CLOCK: [2019-10-08 Tue 18:49]--[2019-10-08 Tue 18:49] =>  0:00
     :END:
     - noticed on play bucket modal
-*** TODO Add selected start stop indicators (now indicator style)
+*** TODO Follow material design on each page without changing functionality
     :PROPERTIES:
-    :VALUE:    5
-    :WORK:     2
+    :WORK:     20
+    :VALUE:    100
+    :CONFIDENCE: 25
+    :EFFORT:   10:00
     :END:
-*** TODO Multiple play timers
-    :PROPERTIES:
-    :VALUE:    8
-    :WORK:     5
-    :END:
-   Stacked play indicators in bottom sheet.
-   +Top+ Bottom is the selected edit with either a play or stop indicator with color. 
-   Each level below that is a stop bottom for each playing item.
-   Dynamic snap to points based on how many items in play.
-   FAB does not have stop indicator anymore.
-   Deslection by "closing" bottom sheet while still being able to see in play stop buttons.
-   Can header and dynamic snap positions be used to achieve this? 
+
+** DOSUB Eventually 
+*** TODO Add appium tests
 *** TODO Add handler tests
     :PROPERTIES:
     :WORK:     5
@@ -407,13 +435,23 @@ Am I doing something dumb or is there something wrong with how shadow is includi
     :END:
 
     Automate test creation from use
-*** TODO Follow material design on each page without changing functionality
+*** TODO Multiple play timers
     :PROPERTIES:
-    :WORK:     20
-    :VALUE:    100
+    :VALUE:    8
+    :WORK:     5
     :END:
-
-** DOSUB Eventually 
+   Stacked play indicators in bottom sheet.
+   +Top+ Bottom is the selected edit with either a play or stop indicator with color. 
+   Each level below that is a stop bottom for each playing item.
+   Dynamic snap to points based on how many items in play.
+   FAB does not have stop indicator anymore.
+   Deslection by "closing" bottom sheet while still being able to see in play stop buttons.
+   Can header and dynamic snap positions be used to achieve this? 
+*** TODO Add selected start stop indicators (now indicator style)
+    :PROPERTIES:
+    :VALUE:    5
+    :WORK:     2
+    :END:
 *** TODO Add geofencing triggers on buckets 
 *** TODO Add Calendar integration
     :PROPERTIES:
