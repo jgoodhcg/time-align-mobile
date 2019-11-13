@@ -20,12 +20,12 @@
  #+END:
 ** Including archive
  #+BEGIN: clocktable :scope ("./time-align-mobile.org_archive" "./time-align-mobile.org") :maxlevel 1 :fileskip0 t :link t
- #+CAPTION: Clock summary at [2019-08-20 Tue 19:20]
+ #+CAPTION: Clock summary at [2019-11-12 Tue 21:05]
  | File                          | Headline                                 |     Time |
  |-------------------------------+------------------------------------------+----------|
- |                               | ALL *Total time*                         | *267:36* |
+ |                               | ALL *Total time*                         | *364:33* |
  |-------------------------------+------------------------------------------+----------|
- | time-align-mobile.org_archive | *File time*                              |       ** |
+ | time-align-mobile.org_archive | *File time*                              | *321:27* |
  |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Define%20components][Define components]]                        |     0:11 |
  |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Bucket%20form][Bucket form]]                              |     5:25 |
  |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Period%20form][Period form]]                              |     6:48 |
@@ -129,9 +129,15 @@
  |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20Add%20spec%20definitions%20to%20everything][CANCELED Add spec definitions to...]]      |     2:40 |
  |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::CANCELED%20UX%20refactor][CANCELED UX refactor]]                     |     1:12 |
  |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Prediction][Prediction]]                               |     2:11 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Onboard%20Josh][Onboard Josh]]                             |     0:43 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::New%20day%20design][New day design]]                           |    71:23 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Dogfood%20feedback%20aggregation%20001][Dogfood feedback aggregation 001]]         |     2:37 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20bottom%20sheet][Fix bottom sheet]]                         |     2:53 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Change%20snap%20points%20for%20bottom%20sheet][Change snap points for bottom sheet]]      |     0:04 |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org_archive::Fix%20delete%20pattern%20button][Fix delete pattern button]]                |     0:06 |
  |-------------------------------+------------------------------------------+----------|
- | time-align-mobile.org         | *File time*                              |       ** |
- |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Time%20Align%20Mobile][Time Align Mobile]]                        |    23:55 |
+ | time-align-mobile.org         | *File time*                              |  *43:06* |
+ |                               | [[file:/home/justin/projects/time-align-mobile/time-align-mobile.org::Time%20Align%20Mobile][Time Align Mobile]]                        |    43:06 |
  #+END:
 ** Including Archive by week
 

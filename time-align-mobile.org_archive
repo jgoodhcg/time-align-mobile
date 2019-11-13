@@ -4578,3 +4578,85 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
     :END:
 - Drag state already does this
 - Buttons in compact form if more precision is needed
+
+* CANCELED Hide android navigation bar 
+  CLOSED: [2019-11-12 Tue 20:42]
+  :PROPERTIES:
+  :VALUE:    2
+  :WORK:     1
+  :ARCHIVE_TIME: 2019-11-12 Tue 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+- Or adjust bottom-sheet and FAB to not be covered by it
+
+* CANCELED Make a better element state indication without animation or "jumpy" borders
+  CLOSED: [2019-11-12 Tue 20:42]
+  :PROPERTIES:
+  :VALUE:    5
+  :WORK:     5
+  :ARCHIVE_TIME: 2019-11-12 Tue 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+  - in play
+  - resting
+  - selected edit
+  - selected movement
+
+
+* DONE Fix now indicator to have accurate position 
+  CLOSED: [2019-11-12 Tue 20:42]
+  :PROPERTIES:
+  :VALUE:    3
+  :WORK:     2
+  :ARCHIVE_TIME: 2019-11-12 Tue 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* CANCELED Figure out why keyboard pops up when opening on day view (sometimes)
+  CLOSED: [2019-11-12 Tue 20:41]
+  :PROPERTIES:
+  :VALUE:    1
+  :WORK:     3
+  :ARCHIVE_TIME: 2019-11-12 Tue 20:54
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+
+* DONE Fix modal bottom gap 
+  CLOSED: [2019-11-12 Tue 20:42]
+  :PROPERTIES:
+  :VALUE:    1
+  :WORK:     2
+  :ARCHIVE_TIME: 2019-11-12 Tue 20:55
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-10-08 Tue 18:49]--[2019-10-08 Tue 18:49] =>  0:00
+  :END:
+  - noticed on play bucket modal
+
+* DONE Remove minimum period size
+  CLOSED: [2019-11-12 Tue 20:41]
+  :PROPERTIES:
+  :VALUE:    2
+  :WORK:     1
+  :ARCHIVE_TIME: 2019-11-12 Tue 20:55
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
