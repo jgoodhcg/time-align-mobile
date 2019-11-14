@@ -1,6 +1,6 @@
 (ns time-align-mobile.handlers
   (:require
-    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date email-export]]
+    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date email-export share-file!]]
     [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
     ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
@@ -24,6 +24,7 @@
 
 (def navigation-history (atom []))
 
+(def app-db-persisted-file-name "app-db")
 ;; -- Interceptors ----------------------------------------------------------
 ;;
 ;; See https://github.com/Day8/re-frame/blob/develop/docs/Interceptors.md
@@ -74,7 +75,9 @@
   (->interceptor
    :id :persist-secure-store
    :after (fn [context]
-            (write-file-to-dd! "app-db" (-> context :effects :db str))
+            (write-file-to-dd!
+             app-db-persisted-file-name
+             (-> context :effects :db str))
             context)))
 
 (def generate-tests-flag false)
@@ -893,9 +896,7 @@
 (reg-fx
  :share
  (fn [app-db]
-   (email-export
-    (str (format-date (js/Date.)) "-app-db.edn")
-    (str app-db))))
+   (share-file! app-db-persisted-file-name)))
 
 (defn share-app-db [{:keys [db]} [_ _]]
   {:db db

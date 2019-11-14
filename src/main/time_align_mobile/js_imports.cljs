@@ -16,6 +16,7 @@
     :refer []]
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
+   ["expo-sharing" :as expo-sharing]
    ["color" :as color]
    ["reanimated-bottom-sheet" :as rbs]
    ["react-native-gesture-handler"
@@ -273,5 +274,13 @@
     (color-darken color-string 0.7)
     (color-lighten color-string 0.7)))
 
-
 (def bottom-sheet (r/adapt-react-class (.-default rbs)))
+
+(defn share-file! [file-name]
+  (-> expo-sharing
+      (ocall "shareAsync"
+             (str document-directory file-name)
+             (-> {:mimeType    "text/plain"
+                  :dialogTitle "Time sink data export"
+                  :UTI         "public.text"}
+                 clj->js))))

@@ -2924,6 +2924,11 @@ expo-secure-store@~7.0.0:
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-7.0.0.tgz#83aee977ef2fe0bb9fa9f2baecdf6d50b26a893a"
   integrity sha512-7O80jH+JynoO8OlAHSj+F9Rbk1Vaf8309shuyZVW3C0tB1dXN+UiJUrCKAJ38dI8k/eV8+f5orw7x67VTJNUSQ==
 
+expo-sharing@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-7.0.0.tgz#761d2f446d7bfea5f9b5026b03a743ccc40e72e3"
+  integrity sha512-yQb61xoN0nXp6bOiH3XVcgu58HLjylrrnYiLsXQPTkbtoLTjFgJkOhaQE3NEuNk3xAIXE35ED1K2s2s+xxuuQQ==
+
 expo-sqlite@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-sqlite/-/expo-sqlite-7.0.0.tgz#f52585b342278b4034c06caac8384edb2531afa4"
@@ -6249,10 +6254,10 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-reanimated-bottom-sheet@^1.0.0:
-  version "1.0.0-alpha.15"
-  resolved "https://registry.yarnpkg.com/reanimated-bottom-sheet/-/reanimated-bottom-sheet-1.0.0-alpha.15.tgz#448d596354e6ea0955953ab4f4b2dea1805ad4a9"
-  integrity sha512-QLNkf3joZa3SGfYmKYCqmFfEBNet+304NRX3KhxkCKYWfqkWeqGZZuRsPz6OXWIVuMmF413O7Qf4E/28Vv2jTw==
+reanimated-bottom-sheet@^1.0.0-alpha.16:
+  version "1.0.0-alpha.16"
+  resolved "https://registry.yarnpkg.com/reanimated-bottom-sheet/-/reanimated-bottom-sheet-1.0.0-alpha.16.tgz#00bf895a788df2fd16d25a570afdc8ceae5ee8c0"
+  integrity sha512-wAdyCzXbkshJp4hHkXseKC2H59Hn6c/VrH98Bn74C8Mb8ZmRqQLF9KYiOMWIMFV9fq4LzywdKfIjrNfpmrGaMA==
 
 regenerate-unicode-properties@^7.0.0:
   version "7.0.0"

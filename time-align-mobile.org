@@ -216,6 +216,10 @@
     :EFFORT:   1:00
     :CONFIDENCE: 75
     :END:
+    :LOGBOOK:
+    CLOCK: [2019-11-13 Wed 20:15]--[2019-11-13 Wed 20:27] =>  0:12
+    CLOCK: [2019-11-13 Wed 18:34]--[2019-11-13 Wed 18:57] =>  0:23
+    :END:
     https://docs.expo.io/versions/v35.0.0/sdk/sharing/
     This is not the same thing as react native share (messages only).
     This only supports files.
