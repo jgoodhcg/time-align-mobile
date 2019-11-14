@@ -47,12 +47,10 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |----------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Better export]]"                                                      |                           10.0 |    20 |    2 |
      | "[[Material design pt 2 /reduction/ on main screen]]"                    |             7.6923076923076925 |   100 |   13 |
      | "[[Use scrollTo]]"                                                       |                            6.5 |    13 |    2 |
      | "[[Follow material design on each page without changing functionality]]" |                            5.0 |   100 |   20 |
      | "[[App notification on planned period starting]]"                        |                            4.0 |    20 |    5 |
-     | "[[Reduce border radius on periods]]"                                    |                            2.0 |     2 |    1 |
      | "[[Put version indicator in app-db (for export mostly)]]"                |                            1.0 |     1 |    1 |
      |----------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                      |                                |       |      |
@@ -197,6 +195,7 @@
      - [ ] Text input is too short on compact form
      - [ ] Keyboard doesn't close on bottom sheet closing
      - [ ] Long press added periods should be auto selected
+     - [ ] Reduce border radius on periods
 *** TODO App notification on planned period starting 
     :PROPERTIES:
     :VALUE:    20
@@ -209,7 +208,8 @@
     CLOCK: [2019-11-11 Mon 18:59]--[2019-11-11 Mon 18:59] =>  0:00
     CLOCK: [2019-11-11 Mon 18:10]--[2019-11-11 Mon 18:59] =>  0:49
     :END:
-*** TODO Better export 
+*** DONE Better export 
+    CLOSED: [2019-11-13 Wed 20:44]
     :PROPERTIES:
     :VALUE:    20
     :WORK:     2
@@ -241,13 +241,6 @@
     :CONFIDENCE: 90
     :EFFORT:   0:30
     :END:
-*** TODO Reduce border radius on periods
-    :PROPERTIES:
-    :VALUE:    2
-    :WORK:     1
-    :EFFORT:   0:10
-    :CONFIDENCE: 100
-    :END:
 *** TODO Follow material design on each page without changing functionality
     :PROPERTIES:
     :WORK:     20
@@ -255,7 +248,13 @@
     :CONFIDENCE: 25
     :EFFORT:   10:00
     :END:
-
+    :LOGBOOK:
+    CLOCK: [2019-11-13 Wed 20:56]--[2019-11-13 Wed 21:04] =>  0:08
+    :END:
+**** Bucket list 
+     +Between white, black, and lightened/darkened version of a color, there be a satisfying option for a [[https://www.npmjs.com/package/color#luminosity][contrast]] of 4.5 (WCAG minimum for readability).+
+     +The list page could be a two line list with background a text color related to the bucket color. No icon on the left but a vertical three dot menu on the right.+
+     Simple two line list with a vertical three dot menu on the right and a =google-circles-communities= icon that is colored by the bucket color.
 ** DOSUB Eventually 
 *** TODO Add appium tests
 *** TODO Add handler tests
