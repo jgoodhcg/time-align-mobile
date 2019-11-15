@@ -156,6 +156,7 @@
      - [X] Test out mail export
 **** Bug fixes 
      :LOGBOOK:
+     CLOCK: [2019-11-14 Thu 19:26]--[2019-11-14 Thu 19:47] =>  0:21
      CLOCK: [2019-11-10 Sun 14:13]--[2019-11-10 Sun 14:53] =>  0:40
      CLOCK: [2019-11-10 Sun 11:47]--[2019-11-10 Sun 13:37] =>  1:50
      CLOCK: [2019-11-09 Sat 16:00]--[2019-11-09 Sat 17:56] =>  1:56
@@ -190,9 +191,9 @@
      - [X] Now indicator not exactly in the right spot
      - [X] Top bar date button needs to look like a button and be more prominent when not today
      - [X] Long pressing on edit templates on pattern form broken
-     - [ ] Period label should show if start is on /yesterday/
+     - [X] Period label should show if start is on /yesterday/
        - Use /justify-content/ based on =same-day?= with start
-     - [ ] Text input is too short on compact form
+     - [X] Text input is too wide on compact form
      - [ ] Keyboard doesn't close on bottom sheet closing
      - [ ] Long press added periods should be auto selected
      - [ ] Reduce border radius on periods

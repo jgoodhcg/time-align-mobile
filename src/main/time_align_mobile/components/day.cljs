@@ -149,6 +149,8 @@
                 selected-edit           (= (:id element) (:id selected-element-edit))
                 something-else-selected (and (some? selected-element-edit)
                                              (not selected-edit))
+                start-before-today      (not (same-day? (:start element)
+                                                        displayed-day))
                 double-tap-ref          (.createRef react)
                 left                    (str index-offset "%")
                 width                   (str (max 4 (- 96 index-offset)) "%")]
@@ -189,11 +191,15 @@
                (merge
                 {:height           "100%"
                  :width            "100%"
+                 :flex             1
+                 :justify-content  "flex-start"
                  :overflow         "hidden"
                  :background-color (:color element)
                  :padding          4}
                 (when something-else-selected
-                  {:opacity 0.3}))}
+                  {:opacity 0.3})
+                (when start-before-today
+                  {:justify-content "flex-end"}))}
               [text {:style {:color (if light
                                       (-> styles/theme :colors :element-text-dark)
                                       (-> styles/theme :colors :element-text-light))}}

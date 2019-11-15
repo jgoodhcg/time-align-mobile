@@ -84,7 +84,7 @@
   ([form changes update-key compact placeholder]
    [view {:style {:flex-direction  "column"
                   :height          90
-                  :width           350
+                  :width           (if compact 300 350)
                   :justify-content "center"}}
     (changeable-field {:changes changes :field-key :label} [subheading "Label"])
     [text-input-paper {:label           ""
