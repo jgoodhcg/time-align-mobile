@@ -6,6 +6,7 @@
     [cljs.reader :refer [read-string]]
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
+    [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
     [time-align-mobile.helpers :as helpers :refer [same-day?
                                                    get-ms
                                                    deep-merge
@@ -633,21 +634,25 @@
                            planned
                            now
                            start]}]]
-  {:db (setval [:forms :pattern-form
-                :templates
-                sp/NIL->VECTOR
-                sp/AFTER-ELEM]
-               {:id          id
-                :bucket-id   bucket-id
-                :created     now
-                :last-edited now
-                :planned     planned
-                :label       ""
-                :data        {}
-                :start       (helpers/get-ms start)
-                :stop        (+ (helpers/minutes->ms 60)
-                                (helpers/get-ms start))}
-               db)})
+  {:db       (setval [:forms :pattern-form
+                      :templates
+                      sp/NIL->VECTOR
+                      sp/AFTER-ELEM]
+                     {:id          id
+                      :bucket-id   bucket-id
+                      :created     now
+                      :last-edited now
+                      :planned     planned
+                      :label       ""
+                      :data        {}
+                      :start       (helpers/get-ms start)
+                      :stop        (+ (helpers/minutes->ms 60)
+                                      (helpers/get-ms start))}
+                     db)
+   ;; TODO make a separate function that wraps for selection (like with periods)
+   :dispatch [:select-element-edit {:element-type :template
+                                    :bucket-id    bucket-id
+                                    :element-id   id}]})
 
 (defn add-new-filter [{:keys [db]} [_ {:keys [id now]}]]
   {:db (setval [:filters
@@ -786,6 +791,15 @@
          (setval (period-path-insert {:bucket-id bucket-id
                                       :period-id (:id period)})
                  (clean-period period)))))
+
+(defn add-period-with-selection
+  [{:keys [db]} [_ {:keys [period bucket-id]}]]
+  (merge
+   {:db (add-period db [:no-op {:period period
+                                :bucket-id bucket-id}])}
+   {:dispatch [:select-element-edit {:bucket-id bucket-id
+                                     :element-type :period
+                                     :element-id (:id period)}]}))
 
 (defn update-day-time-navigator [db [_ new-date]]
   (assoc-in db [:time-navigators :day] new-date))
@@ -1183,3 +1197,4 @@
 (reg-event-db :zoom-in [validate-spec persist-secure-store] zoom-in)
 (reg-event-db :zoom-out [validate-spec persist-secure-store] zoom-out)
 (reg-event-db :zoom-default [validate-spec persist-secure-store] zoom-default)
+(reg-event-fx :add-period-with-selection [validate-spec persist-secure-store] add-period-with-selection)

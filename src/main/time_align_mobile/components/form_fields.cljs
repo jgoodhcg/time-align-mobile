@@ -36,8 +36,7 @@
 (defn changeable-field [{:keys [changes field-key]} field]
   (let [badge-size 16]
 
-    [view {:style {:position    "relative"
-                   :margin-left 16}}
+    [view {:style {:position    "relative"}}
      (when (-> @changes (contains? field-key))
        [view {:style {:position "absolute"
                       :right    (- 0 (/ badge-size 2))
@@ -92,7 +91,6 @@
                                                  changes :label))
                        :dense           true
                        :style           {:margin-bottom 4
-                                         :margin-left   16
                                          :margin-right  16}
                        :default-value   (:label @form)
                        :placeholder     placeholder

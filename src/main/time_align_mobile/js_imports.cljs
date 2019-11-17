@@ -59,6 +59,10 @@
 (def animated-view (r/adapt-react-class (oget Animated "View")))
 ;; </>
 
+(def keyboard (oget ReactNative "Keyboard"))
+(defn dismiss-keyboard []
+  (ocall keyboard "dismiss"))
+
 (def status-bar (r/adapt-react-class (oget ReactNative "StatusBar")))
 (def dimensions (oget ReactNative "Dimensions"))
 (defn get-device-width [] (-> dimensions

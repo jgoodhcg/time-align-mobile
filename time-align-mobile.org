@@ -47,7 +47,6 @@
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
      |----------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Material design pt 2 /reduction/ on main screen]]"                    |             7.6923076923076925 |   100 |   13 |
      | "[[Use scrollTo]]"                                                       |                            6.5 |    13 |    2 |
      | "[[Follow material design on each page without changing functionality]]" |                            5.0 |   100 |   20 |
      | "[[App notification on planned period starting]]"                        |                            4.0 |    20 |    5 |
@@ -55,7 +54,8 @@
      |----------------------------------------------------------------------+--------------------------------+-------+------|
      |                                                                      |                                |       |      |
      #+END:
-*** TODO Material design pt 2 /reduction/ on main screen
+*** DONE Material design pt 2 /reduction/ on main screen
+    CLOSED: [2019-11-17 Sun 17:04]
     :PROPERTIES:
     :VALUE:    100
     :WORK:     13
@@ -63,6 +63,7 @@
     :CONFIDENCE: 75
     :END:
     :LOGBOOK:
+    CLOCK: [2019-11-16 Sat 13:57]--[2019-11-16 Sat 13:58] =>  0:01
     CLOCK: [2019-10-21 Mon 17:31]--[2019-10-21 Mon 17:32] =>  0:01
     CLOCK: [2019-10-20 Sun 19:18]--[2019-10-20 Sun 19:22] =>  0:04
     CLOCK: [2019-10-20 Sun 17:50]--[2019-10-20 Sun 18:22] =>  0:32
@@ -154,8 +155,13 @@
      - [X] Add an export option for mail composer
      - [X] Build new apk (sdk 35)
      - [X] Test out mail export
-**** Bug fixes 
+**** DONE Bug fixes 
+     CLOSED: [2019-11-17 Sun 17:04]
      :LOGBOOK:
+     CLOCK: [2019-11-17 Sun 16:21]--[2019-11-17 Sun 17:04] =>  0:43
+     CLOCK: [2019-11-17 Sun 12:36]--[2019-11-17 Sun 15:47] =>  3:11
+     CLOCK: [2019-11-16 Sat 13:58]--[2019-11-16 Sat 14:02] =>  0:04
+     CLOCK: [2019-11-14 Thu 20:11]--[2019-11-14 Thu 21:00] =>  0:49
      CLOCK: [2019-11-14 Thu 19:26]--[2019-11-14 Thu 19:47] =>  0:21
      CLOCK: [2019-11-10 Sun 14:13]--[2019-11-10 Sun 14:53] =>  0:40
      CLOCK: [2019-11-10 Sun 11:47]--[2019-11-10 Sun 13:37] =>  1:50
@@ -194,9 +200,9 @@
      - [X] Period label should show if start is on /yesterday/
        - Use /justify-content/ based on =same-day?= with start
      - [X] Text input is too wide on compact form
-     - [ ] Keyboard doesn't close on bottom sheet closing
-     - [ ] Long press added periods should be auto selected
-     - [ ] Reduce border radius on periods
+     - [X] Keyboard doesn't close on bottom sheet closing
+     - [X] Long press added periods should be auto selected
+     - [X] Reduce border radius on periods
 *** TODO App notification on planned period starting 
     :PROPERTIES:
     :VALUE:    20
@@ -551,4 +557,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Refactor views to be very thin (no operations)
 - Use animation api for state indication
 - All start timestamps end at 45 sec and all stop time stamps end at 15 sec to have same minute without overlap
-  
+- Fitbit OS integration / companion app

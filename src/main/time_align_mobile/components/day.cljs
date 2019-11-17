@@ -4,6 +4,7 @@
                      text
                      text-paper
                      fa
+                     dismiss-keyboard
                      mci
                      modal
                      mi
@@ -99,11 +100,16 @@
           ;; no op for any other screen
           (println e))))))
 
-(defn close-bottom-sheet [bottom-sheet-ref element-type]
-  (snap-bottom-sheet bottom-sheet-ref 0)
+(defn close-bottom-sheet-side-effects [element-type & _]
+  (reset! spacer-height 0)
+  (dismiss-keyboard)
   (dispatch [:select-element-edit {:element-type element-type
                                    :bucket-id    nil
                                    :element-id   nil}]))
+
+(defn close-bottom-sheet [bottom-sheet-ref element-type]
+  (snap-bottom-sheet bottom-sheet-ref 0)
+  (close-bottom-sheet-side-effects element-type))
 
 (defn element-time-stamp-info [time-stamp pixel-to-minute-ratio displayed-day]
   (let [time-stamp-ms    (helpers/abstract-element-timestamp
@@ -162,7 +168,7 @@
                                      :top              start-y-pos
                                      :height           height
                                      :elevation        (* 2 index)
-                                     :border-radius    8
+                                     :border-radius    4
                                      :background-color (-> styles/theme :colors :background)
                                      :overflow         "hidden"}
                                     (when selected
@@ -179,8 +185,9 @@
                :on-handler-state-change #(if (= :active (get-state %))
                                            (if (not selected-edit)
                                              ;; select this element
-                                             (do (snap-bottom-sheet bottom-sheet-ref 1)
-                                                 (dispatch
+                                             (do
+                                               (snap-bottom-sheet bottom-sheet-ref 1)
+                                               (dispatch
                                                   [:select-element-edit
                                                    {:element-type element-type
                                                     :bucket-id    (:bucket-id element)
@@ -284,7 +291,7 @@
                          (dispatch [:select-next-or-prev-period :prev])
                          :template
                          (dispatch [:select-next-or-prev-template-in-form :prev])
-                         nil))
+                         :default))
         select-next  (fn [& _]
                        (println "dafuqqqqq")
                        (case element-type
@@ -292,7 +299,7 @@
                          (dispatch [:select-next-or-prev-period :next])
                          :template
                          (dispatch [:select-next-or-prev-template-in-form :next])
-                         nil))
+                         :default))
         play-from    (fn []
                        (dispatch
                         [:play-from-period
@@ -432,6 +439,52 @@
                       (when (some? in-play-element)
                         {:color (:color in-play-element)}))]))
 
+(defn long-press-add-generator [{:keys [displayed-day
+                                        pixel-to-minute-ratio]}]
+  (fn [event]
+    (let [state   (get-state event)
+          ys      (get-ys event)
+          start   (-> ys
+                      :y
+                      (/ pixel-to-minute-ratio)
+                      (helpers/minutes->ms)
+                      (helpers/reset-relative-ms displayed-day)
+                      (.valueOf))
+          stop    (+ start (helpers/minutes->ms 45))
+          x       (-> event
+                      (get-xs)
+                      :x)
+          planned (-> x
+                      (< (-> (get-device-width)
+                             (/ 2))))]
+      (case state
+        :began         (do
+                         (reset! long-press-indicator {:visible true
+                                                       :planned planned
+                                                       :y-pos   (:y ys)
+                                                       :start   start
+                                                       :stop    stop}))
+        :active        (let [id  (random-uuid)
+                             now (js/Date.)]
+                         (reset! long-press-indicator {:visible false
+                                                       :planned nil
+                                                       :y-pos   nil
+                                                       :start   nil
+                                                       :stop    nil})
+                         (reset! long-press-bucket-picker {:start     start
+                                                           :stop      stop
+                                                           :id        id
+                                                           :timestamp now
+                                                           :planned   planned
+                                                           :visible   true}))
+        (:failed :end) (do
+                         (reset! long-press-indicator {:visible false
+                                                       :planned nil
+                                                       :y-pos   nil
+                                                       :start   nil
+                                                       :stop    nil}))
+        :default))))
+
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
@@ -481,7 +534,7 @@
            :end    (dispatch [:select-element-movement
                               {:element-type element-type
                                :id           nil}])
-           nil))}
+           :default))}
 
      [scroll-view-gesture-handler
       {:scroll-enabled (not movement-selected)
@@ -505,48 +558,9 @@
          :min-duration-ms 1500
          :max-dist        20
          :on-handler-state-change
-         #(let [state   (get-state %)
-                ys      (get-ys %)
-                start   (-> ys
-                            :y
-                            (/ pixel-to-minute-ratio)
-                            (helpers/minutes->ms)
-                            (helpers/reset-relative-ms displayed-day)
-                            (.valueOf))
-                stop    (+ start (helpers/minutes->ms 45))
-                x       (-> %
-                            (get-xs)
-                            :x)
-                planned (-> x
-                            (< (-> (get-device-width)
-                                   (/ 2))))]
-            (case state
-              :began         (do
-                               (reset! long-press-indicator {:visible true
-                                                             :planned planned
-                                                             :y-pos   (:y ys)
-                                                             :start   start
-                                                             :stop    stop}))
-              :active        (let [id  (random-uuid)
-                                   now (js/Date.)]
-                               (reset! long-press-indicator {:visible false
-                                                             :planned nil
-                                                             :y-pos   nil
-                                                             :start   nil
-                                                             :stop    nil})
-                               (reset! long-press-bucket-picker {:start     start
-                                                                 :stop      stop
-                                                                 :id        id
-                                                                 :timestamp now
-                                                                 :planned   planned
-                                                                 :visible   true}))
-              (:failed :end) (do
-                               (reset! long-press-indicator {:visible false
-                                                             :planned nil
-                                                             :y-pos   nil
-                                                             :start   nil
-                                                             :stop    nil}))
-              nil))}
+         (long-press-add-generator
+          {:displayed-day displayed-day
+           :pixel-to-minute-ratio pixel-to-minute-ratio})}
 
         [view
          {:style {:flex 1}}
@@ -632,34 +646,39 @@
       [bucket-modal
        buckets
        long-press-bucket-picker
-       (fn [item] (fn [_]
-                    (let [{:keys [start stop planned id timestamp]} @long-press-bucket-picker]
-                      (case element-type
-                        :period   (do
-                                    (close-bottom-sheet bottom-sheet-ref element-type)
-                                    (dispatch [:add-period {:period    {:id          id
-                                                                        :start       (js/Date. start)
-                                                                        :stop        (js/Date. stop)
-                                                                        :planned     planned
-                                                                        :data        {}
-                                                                        :last-edited timestamp
-                                                                        :created     timestamp
-                                                                        :label       ""}
-                                                            :bucket-id (:id item)}]))
-                        :template (do
-                                    (close-bottom-sheet bottom-sheet-ref element-type)
-                                    (dispatch [:add-new-template-to-planning-form
-                                               {:id        id
-                                                :bucket-id (:id item)
-                                                :start     (js/Date. start)
-                                                :planned   planned
-                                                :now       timestamp}]))
-                        nil)
-                      (reset! long-press-bucket-picker {:start   nil
-                                                        :stop    nil
-                                                        :id      nil
-                                                        :planned nil
-                                                        :visible false}))))]
+       (fn [item] ;; item selection generator function
+         (fn [_]
+           (let [{:keys [start stop planned id timestamp]} @long-press-bucket-picker]
+             (case element-type
+               :period
+               (do
+                 (dispatch [:add-period-with-selection
+                            {:period    {:id          id
+                                         :start       (js/Date. start)
+                                         :stop        (js/Date. stop)
+                                         :planned     planned
+                                         :data        {}
+                                         :last-edited timestamp
+                                         :created     timestamp
+                                         :label       ""}
+                             :bucket-id (:id item)}]))
+
+               :template
+               (do
+                 (dispatch [:add-new-template-to-planning-form
+                            {:id        id
+                             :bucket-id (:id item)
+                             :start     (js/Date. start)
+                             :planned   planned
+                             :now       timestamp}]))
+               :default)
+             (reset! long-press-bucket-picker
+                     {:start   nil
+                      :stop    nil
+                      :id      nil
+                      :planned nil
+                      :visible false})
+             (snap-bottom-sheet bottom-sheet-ref 1))))]
 
       ;; play modal
       [bucket-modal
@@ -700,10 +719,7 @@
                                          1
                                          0)
                         :on-open-end   #(reset! spacer-height bottom-sheet-height)
-                        :on-close-end  #(do (dispatch [:select-element-edit {:element-type element-type
-                                                                             :bucket-id    nil
-                                                                             :element-id   nil}])
-                                            (reset! spacer-height 0))
+                        :on-close-end  (partial close-bottom-sheet-side-effects element-type)
                         :render-header #(r/as-element
                                          [surface
                                           [view {:style {:height         bottom-sheet-height

@@ -66,6 +66,7 @@
   [:<>
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "time"})
+                  :style    {:margin-bottom 8}
                   :mode     "outlined"}
     [text (if (some? time)
             (format-time time)
@@ -78,8 +79,7 @@
                                             :mode    "date"})
                   :style    {:margin-right  4
                              :margin-bottom 4}
-                  :mode     "outlined"
-                  :icon     "calendar-range"}
+                  :mode     "outlined"}
       [text (if (some? time)
               (format-date-day time)
               "Add a time date")]]
@@ -90,7 +90,9 @@
 
 (defn time-comp [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
-    [view {:style info-field-style}
+    [view {:style {:flex-direction  "column"
+                   :justify-content "flex-start"
+                   :align-items     "flex-start"}}
      (changeable-field {:changes changes
                         :field-key field-key}
                        [subheading {:style label-style} label])
@@ -111,7 +113,8 @@
 (defn time-comp-compact [period-form changes modal field-key label]
   (let [time (field-key @period-form)]
     [view {:style {:flex-direction  "column"
-                   :justify-content "center"
+                   :justify-content "flex-start"
+                   :margin-right    8
                    :align-items     "flex-start"}}
      (changeable-field {:changes   changes
                         :field-key field-key}
@@ -291,6 +294,8 @@
                     :flex           1
                     :margin-top     8}}
       [icon-button {:icon "clock-outline"} ]
+      ;; [time-comp period-form changes start-modal :start "Start"]
+      ;; [time-comp period-form changes stop-modal :stop "Stop"]
       [time-comp-compact period-form changes start-modal :start "Start"]
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
       [view {:style {:flex         1
