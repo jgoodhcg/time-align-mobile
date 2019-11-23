@@ -268,7 +268,7 @@
                      :changes     changes
                      :update-key  :update-period-form
                      :compact     true
-                     :placeholder "During this I was ..."}]
+                     :placeholder "During this time I was ..."}]
 
      [divider {:style divider-style}]
 

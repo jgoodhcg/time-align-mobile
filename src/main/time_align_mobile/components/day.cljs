@@ -89,6 +89,8 @@
                                    :start   nil
                                    :stop    nil}))
 
+(def scroll-ref (atom nil))
+
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
   ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
   (let [bsr @bottom-sheet-ref]
@@ -485,6 +487,10 @@
                                                        :stop    nil}))
         :default))))
 
+(defn scroll-to [scroll-ref y-pos]
+  (ocall scroll-ref "scrollTo"
+         (clj->js {:y (max 0 (- y-pos 50))})))
+
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
@@ -538,6 +544,15 @@
 
      [scroll-view-gesture-handler
       {:scroll-enabled (not movement-selected)
+       :ref            (fn [ref] (reset! scroll-ref ref))
+       :on-layout      (fn [] (let [r @scroll-ref
+                                    now (js/Date.)
+                                    now-info (element-time-stamp-info
+                                              now
+                                              pixel-to-minute-ratio
+                                              displayed-day)]
+                                (if (same-day? displayed-day now)
+                                  (scroll-to r (:y-pos now-info)))))
        ;; this stops all touch events from going to children kind of ... I guess.
        ;; My observation is that is somehow only stops child gesture events but not their  state changes.
        :wait-for       pinch-ref}
@@ -559,7 +574,7 @@
          :max-dist        20
          :on-handler-state-change
          (long-press-add-generator
-          {:displayed-day displayed-day
+          {:displayed-day         displayed-day
            :pixel-to-minute-ratio pixel-to-minute-ratio})}
 
         [view

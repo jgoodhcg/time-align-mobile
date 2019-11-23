@@ -73,10 +73,16 @@
     :CONFIDENCE: 50
     :EFFORT:   1:00
     :END:
+    :LOGBOOK:
+    CLOCK: [2019-11-23 Sat 09:39]--[2019-11-23 Sat 09:48] =>  0:09
+    CLOCK: [2019-11-23 Sat 09:17]--[2019-11-23 Sat 09:17] =>  0:00
+    CLOCK: [2019-11-23 Sat 08:51]--[2019-11-23 Sat 09:17] =>  0:26
+    :END:
     [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
     https://stackoverflow.com/a/54310445/5040125 (onLayout prop to get around other animations blocking scrollTo)
     - [ ] Scrolls to an element when it is selected for edit
-    - [ ] Scrolls to now on zooming?
+    - [X] Scrolls to now on day re-render
+    - [ ] Scroll to now button in top bar menu
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
