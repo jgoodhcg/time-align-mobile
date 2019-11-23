@@ -4660,3 +4660,179 @@ This was a helpful [[https://gist.github.com/pesterhazy/4d9df2edc303e5706d547aea
   :ARCHIVE_CATEGORY: time-align-mobile
   :ARCHIVE_TODO: DONE
   :END:
+
+* DONE Material design pt 2 /reduction/ on main screen
+  CLOSED: [2019-11-17 Sun 17:04]
+  :PROPERTIES:
+  :VALUE:    100
+  :WORK:     13
+  :EFFORT:   25:00
+  :CONFIDENCE: 75
+  :ARCHIVE_TIME: 2019-11-21 Thu 22:15
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-11-16 Sat 13:57]--[2019-11-16 Sat 13:58] =>  0:01
+  CLOCK: [2019-10-21 Mon 17:31]--[2019-10-21 Mon 17:32] =>  0:01
+  CLOCK: [2019-10-20 Sun 19:18]--[2019-10-20 Sun 19:22] =>  0:04
+  CLOCK: [2019-10-20 Sun 17:50]--[2019-10-20 Sun 18:22] =>  0:32
+  CLOCK: [2019-10-20 Sun 17:16]--[2019-10-20 Sun 17:20] =>  0:04
+  CLOCK: [2019-10-20 Sun 13:03]--[2019-10-20 Sun 13:57] =>  0:54
+  :END:
+** DONE Touch action changes
+   CLOSED: [2019-10-26 Sat 17:23]
+   :LOGBOOK:
+   CLOCK: [2019-10-26 Sat 17:11]--[2019-10-26 Sat 17:23] =>  0:12
+   CLOCK: [2019-10-26 Sat 16:26]--[2019-10-26 Sat 17:11] =>  0:45
+   CLOCK: [2019-10-26 Sat 11:20]--[2019-10-26 Sat 11:41] =>  0:21
+   CLOCK: [2019-10-26 Sat 10:49]--[2019-10-26 Sat 11:06] =>  0:17
+   CLOCK: [2019-10-26 Sat 10:14]--[2019-10-26 Sat 10:42] =>  0:28
+   CLOCK: [2019-10-25 Fri 21:16]--[2019-10-25 Fri 21:34] =>  0:18
+   CLOCK: [2019-10-25 Fri 20:30]--[2019-10-25 Fri 21:15] =>  0:45
+   CLOCK: [2019-10-25 Fri 20:27]--[2019-10-25 Fri 20:30] =>  0:03
+   CLOCK: [2019-10-21 Mon 17:49]--[2019-10-21 Mon 19:10] =>  1:21
+   CLOCK: [2019-10-21 Mon 17:32]--[2019-10-21 Mon 17:48] =>  0:16
+   :END:
+   - [X] Double tap on period goes to form
+   - [X] Single tap on period makes edit selection
+   - [X] Using v3 react native paper
+   - [X] Options in FAB are labeled
+   - [X] Fab-group state in app-db
+   - [X] Fab-group disappears on drawer opening
+   - [X] Long press adds element
+** DONE Edit indicator
+   CLOSED: [2019-10-26 Sat 17:47]
+   :LOGBOOK:
+   CLOCK: [2019-10-26 Sat 17:25]--[2019-10-26 Sat 17:47] =>  0:22
+   :END:
+   - [X] Remove edit selection borders
+   - [X] Grey out unselected on edit selection
+** DONE Main display
+   CLOSED: [2019-10-26 Sat 17:47]
+   - [X] Time indicators are [[https://momentjs.com/docs/#/displaying/format/][hh]] 
+** DONE Top bar
+   CLOSED: [2019-10-27 Sun 17:44]
+   :LOGBOOK:
+   CLOCK: [2019-10-27 Sun 17:29]--[2019-10-27 Sun 17:44] =>  0:15
+   CLOCK: [2019-10-27 Sun 14:44]--[2019-10-27 Sun 15:00] =>  0:16
+   CLOCK: [2019-10-26 Sat 17:47]--[2019-10-26 Sat 18:06] =>  0:19
+   :END:
+   - [X] Menu button opens menu
+   - [X] Day label is in the form [[https://momentjs.com/docs/#/displaying/format/][ddd DD/MM]]
+   - [X] Day label is a flat button that opens date picker modal
+** DONE Bottom sheet
+   CLOSED: [2019-11-03 Sun 14:22]
+   :LOGBOOK:
+   CLOCK: [2019-11-03 Sun 14:23]--[2019-11-03 Sun 15:29] =>  1:06
+   CLOCK: [2019-11-03 Sun 13:04]--[2019-11-03 Sun 14:22] =>  1:18
+   CLOCK: [2019-11-03 Sun 12:11]--[2019-11-03 Sun 13:03] =>  0:52
+   CLOCK: [2019-11-03 Sun 11:19]--[2019-11-03 Sun 11:35] =>  0:16
+   CLOCK: [2019-11-03 Sun 10:30]--[2019-11-03 Sun 10:37] =>  0:07
+   CLOCK: [2019-11-03 Sun 09:10]--[2019-11-03 Sun 09:34] =>  0:24
+   CLOCK: [2019-11-02 Sat 19:38]--[2019-11-02 Sat 19:42] =>  0:04
+   CLOCK: [2019-11-02 Sat 13:27]--[2019-11-02 Sat 13:42] =>  0:15
+   CLOCK: [2019-11-02 Sat 12:47]--[2019-11-02 Sat 12:55] =>  0:08
+   CLOCK: [2019-11-02 Sat 12:28]--[2019-11-02 Sat 12:46] =>  0:18
+   CLOCK: [2019-11-02 Sat 11:57]--[2019-11-02 Sat 12:23] =>  0:26
+   CLOCK: [2019-10-29 Tue 19:10]--[2019-10-29 Tue 19:54] =>  0:44
+   CLOCK: [2019-10-29 Tue 18:55]--[2019-10-29 Tue 19:06] =>  0:11
+   CLOCK: [2019-10-27 Sun 19:07]--[2019-10-27 Sun 19:13] =>  0:06
+   CLOCK: [2019-10-27 Sun 18:06]--[2019-10-27 Sun 18:15] =>  0:09
+   CLOCK: [2019-10-27 Sun 17:56]--[2019-10-27 Sun 18:06] =>  0:10
+   :END:
+   - [X] Close button in top left
+   - [X] Drag indicator is a better icon
+   - [X] Play button filled top right
+   - [X] Start/Stop icon aligned with two vertical flat buttons labeled like [[https://momentjs.com/docs/#/displaying/format/][hh-mm]]
+   - [X] Duration displayed to right of start/stop buttons and disabled color
+   - [X] Bucket picker is a flat, colored, button that brings up bucket list modal
+   - [X] Label input
+     - [X] At the top 
+     - [X] Unaffected by keyboard and in 
+     - [X] In material design row
+   - [X] Planned switch is in a material design row +a [[https://callstack.github.io/react-native-paper/toggle-button.html][toggle button]] below label input+
+   - [X] Copy over flat button to the right of planned switch
+   - [X] Spacer size adjusts accordingly to bottom sheet position
+   - [X] Long press to add opens bucket modal
+** DONE Use MailComposer to get state out of the app 
+   CLOSED: [2019-11-05 Tue 20:00]
+   :LOGBOOK:
+   CLOCK: [2019-11-05 Tue 19:00]--[2019-11-05 Tue 20:00] =>  1:00
+   CLOCK: [2019-11-03 Sun 18:31]--[2019-11-03 Sun 18:47] =>  0:16
+   :END:
+   https://docs.expo.io/versions/latest/sdk/mail-composer/
+   - [X] Add an export option for mail composer
+   - [X] Build new apk (sdk 35)
+   - [X] Test out mail export
+** DONE Bug fixes 
+   CLOSED: [2019-11-17 Sun 17:04]
+   :LOGBOOK:
+   CLOCK: [2019-11-17 Sun 16:21]--[2019-11-17 Sun 17:04] =>  0:43
+   CLOCK: [2019-11-17 Sun 12:36]--[2019-11-17 Sun 15:47] =>  3:11
+   CLOCK: [2019-11-16 Sat 13:58]--[2019-11-16 Sat 14:02] =>  0:04
+   CLOCK: [2019-11-14 Thu 20:11]--[2019-11-14 Thu 21:00] =>  0:49
+   CLOCK: [2019-11-14 Thu 19:26]--[2019-11-14 Thu 19:47] =>  0:21
+   CLOCK: [2019-11-10 Sun 14:13]--[2019-11-10 Sun 14:53] =>  0:40
+   CLOCK: [2019-11-10 Sun 11:47]--[2019-11-10 Sun 13:37] =>  1:50
+   CLOCK: [2019-11-09 Sat 16:00]--[2019-11-09 Sat 17:56] =>  1:56
+   CLOCK: [2019-11-09 Sat 12:16]--[2019-11-09 Sat 13:08] =>  0:52
+   CLOCK: [2019-11-09 Sat 11:30]--[2019-11-09 Sat 11:52] =>  0:22
+   CLOCK: [2019-11-09 Sat 11:05]--[2019-11-09 Sat 11:12] =>  0:07
+   CLOCK: [2019-11-06 Wed 17:59]--[2019-11-06 Wed 19:45] =>  1:46
+   CLOCK: [2019-11-06 Wed 17:34]--[2019-11-06 Wed 17:50] =>  0:16
+   :END:
+   - [X] Long press is hard to trigger
+   - [X] Can't update time in full period form
+     - Needed to move around the modals (they were being duplicated)
+   - [X] Indication of long press
+     - The alignment is not exact
+     - Overoptimized other code thinking I could go from touch info -> time -> screen pos
+     - Ended up just using screen position but keeping the other abstraction changes
+   - [X] Remove indication of long press
+   - [X] Drawer does not close on screen selection (needs an extra tap on the screen)
+   - [X] Copy over button needs an icon or other button indication
+   - [X] Pattern form does not display all elements
+   - [X] Pressing play and then cancel causes a validation error
+   - [X] Validation error on app init
+   - [X] Arrow to select next and previous are needed
+   - [X] Duration label should be above value
+   - [X] Play button should be a stop button instead of disabled 
+   - [X] Zoom buttons?
+     - The gesture is slow and choppy
+     - If scroll to is tolerable then disregard this
+     - If not then use buttons or move the update out of reframe events
+   - [X] Text input fields need a fixed width
+   - [X] Element does not display label
+   - [X] Now indicator not exactly in the right spot
+   - [X] Top bar date button needs to look like a button and be more prominent when not today
+   - [X] Long pressing on edit templates on pattern form broken
+   - [X] Period label should show if start is on /yesterday/
+     - Use /justify-content/ based on =same-day?= with start
+   - [X] Text input is too wide on compact form
+   - [X] Keyboard doesn't close on bottom sheet closing
+   - [X] Long press added periods should be auto selected
+   - [X] Reduce border radius on periods
+
+* DONE Better export 
+  CLOSED: [2019-11-13 Wed 20:44]
+  :PROPERTIES:
+  :VALUE:    20
+  :WORK:     2
+  :EFFORT:   1:00
+  :CONFIDENCE: 75
+  :ARCHIVE_TIME: 2019-11-21 Thu 22:25
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Release to strangers
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+  :LOGBOOK:
+  CLOCK: [2019-11-13 Wed 20:15]--[2019-11-13 Wed 20:27] =>  0:12
+  CLOCK: [2019-11-13 Wed 18:34]--[2019-11-13 Wed 18:57] =>  0:23
+  :END:
+  https://docs.expo.io/versions/v35.0.0/sdk/sharing/
+  This is not the same thing as react native share (messages only).
+  This only supports files.
