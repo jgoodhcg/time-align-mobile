@@ -37,7 +37,7 @@
             ["react" :as react]
             [goog.string.format]
             [re-frame.core :refer [subscribe dispatch dispatch-sync]]
-            [time-align-mobile.helpers :as helpers :refer [dispatch-debounced short-time long-time]]
+            [time-align-mobile.helpers :as helpers :refer [dispatch-debounced short-time long-time element-time-stamp-info]]
             [time-align-mobile.components.day :as day-comp]
             [reagent.core :as r]))
 
@@ -164,7 +164,7 @@
 
 (def top-bar-menu (r/atom {:visible false}))
 
-(defn top-bar [{:keys [displayed-day]}]
+(defn top-bar [{:keys [displayed-day pixel-to-minute-ratio]}]
   (let [menu-open (subscribe [:get-menu-open])]
     [surface {:elevation 1
               :style     {:flex-direction  "row"
@@ -210,6 +210,15 @@
                   :on-press #(do
                                (dispatch [:zoom-default])
                                (swap! top-bar-menu
+                                      (fn [m] (assoc-in m [:visible] false))))}]
+      [menu-item {:title "jump to now"
+                  :icon  "swap-vertical"
+                  :on-press #(do
+                               (day-comp/scroll-to (:y-pos (element-time-stamp-info
+                                                            (js/Date.)
+                                                            pixel-to-minute-ratio
+                                                            displayed-day)))
+                               (swap! top-bar-menu
                                       (fn [m] (assoc-in m [:visible] false))))}]]
 
      [date-time-picker {:is-visible @date-picker-modal
@@ -242,24 +251,27 @@
                                                       :stop  new-stop}}])))
 
 (defn root [params]
-  (let [dimensions           (r/atom {:width nil :height nil})
-        top-bar-height       styles/top-bar-height
-        bottom-bar-height    0 ;; styles/bottom-bar-height
-        periods              (subscribe [:get-collision-grouped-periods])
-        displayed-day        (subscribe [:get-day-time-navigator])
-        selected-period      (subscribe [:get-selection-period-movement])
-        selected-period-edit (subscribe [:get-selection-period-edit])
-        period-in-play       (subscribe [:get-period-in-play])
-        now                  (subscribe [:get-now])
-        buckets              (subscribe [:get-buckets])
-        patterns             (subscribe [:get-patterns])
-        templates            (subscribe [:get-templates])
-        time-alignment-fn    #(cond (nil? %)           :center
-                                    (:planned %)       :left
-                                    (not (:planned %)) :right)]
+  (let [dimensions            (r/atom {:width nil :height nil})
+        top-bar-height        styles/top-bar-height
+        bottom-bar-height     0 ;; styles/bottom-bar-height
+        px-ratio-config       @(subscribe [:get-pixel-to-minute-ratio])
+        pixel-to-minute-ratio (:current px-ratio-config)
+        periods               (subscribe [:get-collision-grouped-periods])
+        displayed-day         (subscribe [:get-day-time-navigator])
+        selected-period       (subscribe [:get-selection-period-movement])
+        selected-period-edit  (subscribe [:get-selection-period-edit])
+        period-in-play        (subscribe [:get-period-in-play])
+        now                   (subscribe [:get-now])
+        buckets               (subscribe [:get-buckets])
+        patterns              (subscribe [:get-patterns])
+        templates             (subscribe [:get-templates])
+        time-alignment-fn     #(cond (nil? %)           :center
+                                     (:planned %)       :left
+                                     (not (:planned %)) :right)]
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
-     [top-bar {:displayed-day @displayed-day}]
+     [top-bar {:displayed-day         @displayed-day
+               :pixel-to-minute-ratio pixel-to-minute-ratio}]
      [day-comp/root {:selected-element            @selected-period
                      :in-play-element             @period-in-play
                      :displayed-day               @displayed-day

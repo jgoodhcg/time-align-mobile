@@ -55,6 +55,7 @@
                      get-gesture-handler-state
                      dispatch-debounced
                      dispatch-throttled
+                     element-time-stamp-info
                      get-gesture-handler-ys
                      get-gesture-handler-xs]
              :rename {get-gesture-handler-state get-state
@@ -91,6 +92,13 @@
 
 (def scroll-ref (atom nil))
 
+(defn scroll-to
+  ([y-pos]
+   (scroll-to @scroll-ref y-pos))
+  ([scroll-ref y-pos]
+   (ocall scroll-ref "scrollTo"
+          (clj->js {:y (max 0 (- y-pos 50))}))))
+
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
   ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
   (let [bsr @bottom-sheet-ref]
@@ -112,17 +120,6 @@
 (defn close-bottom-sheet [bottom-sheet-ref element-type]
   (snap-bottom-sheet bottom-sheet-ref 0)
   (close-bottom-sheet-side-effects element-type))
-
-(defn element-time-stamp-info [time-stamp pixel-to-minute-ratio displayed-day]
-  (let [time-stamp-ms    (helpers/abstract-element-timestamp
-                          time-stamp
-                          displayed-day)
-        time-stamp-min   (helpers/ms->minutes time-stamp-ms)
-        time-stamp-y-pos (* pixel-to-minute-ratio time-stamp-min)]
-
-    {:ms    time-stamp-ms
-     :min   time-stamp-min
-     :y-pos time-stamp-y-pos}))
 
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
@@ -189,6 +186,15 @@
                                              ;; select this element
                                              (do
                                                (snap-bottom-sheet bottom-sheet-ref 1)
+                                               (scroll-to @scroll-ref
+                                                          (->> element
+                                                               :start
+                                                               ((fn [time-stamp]
+                                                                  (element-time-stamp-info
+                                                                   time-stamp
+                                                                   pixel-to-minute-ratio
+                                                                   displayed-day)))
+                                                               :y-pos))
                                                (dispatch
                                                   [:select-element-edit
                                                    {:element-type element-type
@@ -487,10 +493,6 @@
                                                        :stop    nil}))
         :default))))
 
-(defn scroll-to [scroll-ref y-pos]
-  (ocall scroll-ref "scrollTo"
-         (clj->js {:y (max 0 (- y-pos 50))})))
-
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
@@ -518,7 +520,7 @@
         long-press-ref        (.createRef react)]
 
     [pan-gesture-handler
-     {:enabled movement-selected
+     {:enabled movement-selected ;; this is effectively disabled because there is no way to select for movement
       :on-gesture-event
       (if movement-selected
         #(let [start-time-in-pixels  (+ @pan-offset (:y (get-ys %)))
@@ -542,222 +544,228 @@
                                :id           nil}])
            :default))}
 
-     [scroll-view-gesture-handler
-      {:scroll-enabled (not movement-selected)
-       :ref            (fn [ref] (reset! scroll-ref ref))
-       :on-layout      (fn [] (let [r @scroll-ref
-                                    now (js/Date.)
-                                    now-info (element-time-stamp-info
-                                              now
-                                              pixel-to-minute-ratio
-                                              displayed-day)]
-                                (if (same-day? displayed-day now)
-                                  (scroll-to r (:y-pos now-info)))))
-       ;; this stops all touch events from going to children kind of ... I guess.
-       ;; My observation is that is somehow only stops child gesture events but not their  state changes.
-       :wait-for       pinch-ref}
+     [view {:style {:flex 1}}
 
-      [pinch-gesture-handler
-       {:enabled          false ;; re-enable when it can decoupled from re-frame lifecycle
-        :ref              pinch-ref
-        :wait-for         long-press-ref
-        :on-gesture-event #(let [scale (helpers/get-gesture-handler-scale %)]
-                             (dispatch-debounced
-                              [:set-current-pixel-to-minute-ratio
-                               (* pixel-to-minute-ratio scale)]))}
+      [scroll-view-gesture-handler
+       {:scroll-enabled (not movement-selected)
+        :ref            (fn [ref] (reset! scroll-ref ref))
 
-       [long-press-gesture-handler
-        {:ref             long-press-ref
-         :enabled         (not (or movement-selected
-                                   edit-selected))
-         :min-duration-ms 1500
-         :max-dist        20
-         :on-handler-state-change
-         (long-press-add-generator
-          {:displayed-day         displayed-day
-           :pixel-to-minute-ratio pixel-to-minute-ratio})}
+        ;; This is a little jumpy and annoying when developing, if it is missed try enabling it
+        ;; :on-layout      (fn [] (let [r        @scroll-ref
+        ;;                              now      (js/Date.)
+        ;;                              now-info (element-time-stamp-info
+        ;;                                        now
+        ;;                                        pixel-to-minute-ratio
+        ;;                                        displayed-day)]
+        ;;                          (if (same-day? displayed-day now)
+        ;;                            (scroll-to r (:y-pos now-info)))))
 
-        [view
-         {:style {:flex 1}}
+        ;; this stops all touch events from going to children kind of ... I guess.
+        ;; My observation is that is somehow only stops child gesture events but not their  state changes.
+        :wait-for pinch-ref}
 
-         [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
-                        :flex   1}}
+       [pinch-gesture-handler
+        {:enabled          false ;; re-enable when it can decoupled from re-frame lifecycle
+         :ref              pinch-ref
+         :wait-for         long-press-ref
+         :on-gesture-event #(let [scale (helpers/get-gesture-handler-scale %)]
+                              (dispatch-debounced
+                               [:set-current-pixel-to-minute-ratio
+                                (* pixel-to-minute-ratio scale)]))}
 
-          ;; time indicators
-          (for [hour (range 1 helpers/day-hour)]
-            (let [rel-min     (* 60 hour)
-                  y-pos       (* pixel-to-minute-ratio rel-min)
-                  rel-ms      (helpers/hours->ms hour)
-                  time-str    (helpers/ms->h rel-ms)
-                  text-height 30]
+        [long-press-gesture-handler
+         {:ref             long-press-ref
+          :enabled         (not (or movement-selected
+                                    edit-selected))
+          :min-duration-ms 1500
+          :max-dist        20
+          :on-handler-state-change
+          (long-press-add-generator
+           {:displayed-day         displayed-day
+            :pixel-to-minute-ratio pixel-to-minute-ratio})}
 
-              [view {:key   (str "hour-marker-" hour)
-                     :style {:flex     1
-                             :position "absolute"
-                             :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
-                             :height   (+ (* 60 pixel-to-minute-ratio)
-                                          (/ text-height 2))}}
+         [view
+          {:style {:flex 1}}
 
-               [view {:style {:flex-direction "row"
-                              :align-items    "flex-start"}}
-                ;; time stamp
-                [text-paper {:style {:padding-left        8
-                                     :color               (-> styles/theme :colors :accent)
-                                     :height              text-height
-                                     :text-align-vertical "center"}}
-                 time-str]
-                ;; bar
-                [view {:style {:height         text-height
-                               :flex-direction "row"
-                               :align-items    "center"}}
-                 [view {:style {:border-color (-> styles/theme :colors :disabled)
-                                :border-width 0.25
-                                :margin-left  4
-                                :width        "100%"
-                                :height       0}}]]]]))
+          [view {:style {:height (* helpers/day-min pixel-to-minute-ratio)
+                         :flex   1}}
 
-          ;; periods
-          [view {:style {:position "absolute"
-                         :left     60
-                         :right    0
-                         :height   "100%"}}
-           [elements-comp {:elements              elements
-                           :selected-element      selected-element
-                           :selected-element-edit selected-element-edit
-                           :element-type          element-type
-                           :in-play-element       in-play-element
-                           :pixel-to-minute-ratio pixel-to-minute-ratio
-                           :displayed-day         displayed-day}]]
+           ;; time indicators
+           (for [hour (range 1 helpers/day-hour)]
+             (let [rel-min     (* 60 hour)
+                   y-pos       (* pixel-to-minute-ratio rel-min)
+                   rel-ms      (helpers/hours->ms hour)
+                   time-str    (helpers/ms->h rel-ms)
+                   text-height 30]
 
-          ;; long press indicator
-          (when false ;;(:visible lpi) ;; re-enable some day
-            (let [y-pos   (:y-pos lpi)
-                  planned (:planned lpi)]
+               [view {:key   (str "hour-marker-" hour)
+                      :style {:flex     1
+                              :position "absolute"
+                              :top      (- y-pos (/ text-height 2)) ;; so that the center of text is the y-pos
+                              :height   (+ (* 60 pixel-to-minute-ratio)
+                                           (/ text-height 2))}}
 
-              [surface {:style {:position         "absolute"
-                                :left             (if planned 70 "60%")
-                                :width            100
-                                :opacity          0.2
-                                :top              y-pos
-                                :height           20
-                                :border-radius    8
-                                :background-color (-> styles/theme :colors :accent)}}]))
+                [view {:style {:flex-direction "row"
+                               :align-items    "flex-start"}}
+                 ;; time stamp
+                 [text-paper {:style {:padding-left        8
+                                      :color               (-> styles/theme :colors :accent)
+                                      :height              text-height
+                                      :text-align-vertical "center"}}
+                  time-str]
+                 ;; bar
+                 [view {:style {:height         text-height
+                                :flex-direction "row"
+                                :align-items    "center"}}
+                  [view {:style {:border-color (-> styles/theme :colors :disabled)
+                                 :border-width 0.25
+                                 :margin-left  4
+                                 :width        "100%"
+                                 :height       0}}]]]]))
 
-          ;; now indicator
-          [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
-                          :displayed-day         displayed-day
-                          :element-type          element-type}]]]]]
+           ;; periods
+           [view {:style {:position "absolute"
+                          :left     60
+                          :right    0
+                          :height   "100%"}}
+            [elements-comp {:elements              elements
+                            :selected-element      selected-element
+                            :selected-element-edit selected-element-edit
+                            :element-type          element-type
+                            :in-play-element       in-play-element
+                            :pixel-to-minute-ratio pixel-to-minute-ratio
+                            :displayed-day         displayed-day}]]
 
-      ;; fab
-      (when (and nothing-selected
-                 (= :period element-type)
-                 fab-visible)
-        [portal
-         [fab-comp {:displayed-day    displayed-day
-                    :in-play-element  in-play-element
-                    :selected-element selected-element}]])
+           ;; long press indicator
+           (when false ;;(:visible lpi) ;; re-enable some day
+             (let [y-pos   (:y-pos lpi)
+                   planned (:planned lpi)]
 
-      ;; long press bucket selection modal
-      [bucket-modal
-       buckets
-       long-press-bucket-picker
-       (fn [item] ;; item selection generator function
-         (fn [_]
-           (let [{:keys [start stop planned id timestamp]} @long-press-bucket-picker]
-             (case element-type
-               :period
-               (do
-                 (dispatch [:add-period-with-selection
-                            {:period    {:id          id
-                                         :start       (js/Date. start)
-                                         :stop        (js/Date. stop)
-                                         :planned     planned
-                                         :data        {}
-                                         :last-edited timestamp
-                                         :created     timestamp
-                                         :label       ""}
-                             :bucket-id (:id item)}]))
+               [surface {:style {:position         "absolute"
+                                 :left             (if planned 70 "60%")
+                                 :width            100
+                                 :opacity          0.2
+                                 :top              y-pos
+                                 :height           20
+                                 :border-radius    8
+                                 :background-color (-> styles/theme :colors :accent)}}]))
 
-               :template
-               (do
-                 (dispatch [:add-new-template-to-planning-form
-                            {:id        id
-                             :bucket-id (:id item)
-                             :start     (js/Date. start)
-                             :planned   planned
-                             :now       timestamp}]))
-               :default)
-             (reset! long-press-bucket-picker
-                     {:start   nil
-                      :stop    nil
-                      :id      nil
-                      :planned nil
-                      :visible false})
-             (snap-bottom-sheet bottom-sheet-ref 1))))]
+           ;; now indicator
+           [now-indicator {:pixel-to-minute-ratio pixel-to-minute-ratio
+                           :displayed-day         displayed-day
+                           :element-type          element-type}]]]]]
 
-      ;; play modal
-      [bucket-modal
-       buckets
-       play-modal-visible
-       (fn [item]
-         (fn [_]
-           (reset! play-modal-visible {:visible false})
-           (dispatch
-            [:play-from-bucket
-             {:bucket-id (:id item)
-              :id        (random-uuid)
-              :now       (new js/Date)}])
-           (snap-bottom-sheet bottom-sheet-ref 1)))]
+       ;; fab
+       (when (and nothing-selected
+                  (= :period element-type)
+                  fab-visible)
+         [portal
+          [fab-comp {:displayed-day    displayed-day
+                     :in-play-element  in-play-element
+                     :selected-element selected-element}]])
 
-      ;; pattern modal
-      [modal {:animation-type   "slide"
-              :transparent      false
-              :on-request-close #(reset! pattern-modal-visible false)
-              :visible          @pattern-modal-visible}
-       [pattern-modal-content {:patterns patterns}]]
+       ;; long press bucket selection modal
+       [bucket-modal
+        buckets
+        long-press-bucket-picker
+        (fn [item] ;; item selection generator function
+          (fn [_]
+            (let [{:keys [start stop planned id timestamp]} @long-press-bucket-picker]
+              (case element-type
+                :period
+                (do
+                  (dispatch [:add-period-with-selection
+                             {:period    {:id          id
+                                          :start       (js/Date. start)
+                                          :stop        (js/Date. stop)
+                                          :planned     planned
+                                          :data        {}
+                                          :last-edited timestamp
+                                          :created     timestamp
+                                          :label       ""}
+                              :bucket-id (:id item)}]))
 
-      ;; spacer for bottom sheet
-      [view {:style {:height           @spacer-height
-                     :background-color (-> styles/theme :colors :background)}}]
+                :template
+                (do
+                  (dispatch [:add-new-template-to-planning-form
+                             {:id        id
+                              :bucket-id (:id item)
+                              :start     (js/Date. start)
+                              :planned   planned
+                              :now       timestamp}]))
+                :default)
+              (reset! long-press-bucket-picker
+                      {:start   nil
+                       :stop    nil
+                       :id      nil
+                       :planned nil
+                       :visible false})
+              (snap-bottom-sheet bottom-sheet-ref 1))))]
 
-      ;; bottom sheet
-      [portal
-       (let [drag-indicator-height       12
-             drag-indicator-total-height 40
-             time-buttons-height         150
-             bottom-sheet-height         500]
-         [bottom-sheet {:ref           (fn [com]
-                                         (reset! bottom-sheet-ref com))
-                        :snap-points   [0
-                                        bottom-sheet-height]
-                        :initial-snap  (if (some? selected-element-edit)
-                                         1
-                                         0)
-                        :on-open-end   #(reset! spacer-height bottom-sheet-height)
-                        :on-close-end  (partial close-bottom-sheet-side-effects element-type)
-                        :render-header #(r/as-element
-                                         [surface
-                                          [view {:style {:height         bottom-sheet-height
-                                                         :width          "100%"
-                                                         :flex-direction "column"
-                                                         :align-items    "center"}}
+       ;; play modal
+       [bucket-modal
+        buckets
+        play-modal-visible
+        (fn [item]
+          (fn [_]
+            (reset! play-modal-visible {:visible false})
+            (dispatch
+             [:play-from-bucket
+              {:bucket-id (:id item)
+               :id        (random-uuid)
+               :now       (new js/Date)}])
+            (snap-bottom-sheet bottom-sheet-ref 1)))]
 
-                                           [icon-button {:icon     "drag-horizontal"
-                                                         :size     (-> drag-indicator-height
-                                                                       (* 2))
-                                                         :style    {:height drag-indicator-height}
-                                                         :on-press (fn []
-                                                                     (snap-bottom-sheet bottom-sheet-ref 2))}]
+       ;; pattern modal
+       [modal {:animation-type   "slide"
+               :transparent      false
+               :on-request-close #(reset! pattern-modal-visible false)
+               :visible          @pattern-modal-visible}
+        [pattern-modal-content {:patterns patterns}]]
 
-                                           [edit-form {:save-callback
-                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                       :in-play-element
-                                                       in-play-element
-                                                       :play-callback
-                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                       :copy-over-callback
-                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                       :delete-callback
-                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                       :close-callback
-                                                       (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}])]]]))
+       ;; spacer for bottom sheet
+       [view {:style {:height           @spacer-height
+                      :background-color (-> styles/theme :colors :background)}}]
+
+       ;; bottom sheet
+       [portal
+        (let [drag-indicator-height       12
+              drag-indicator-total-height 40
+              time-buttons-height         150
+              bottom-sheet-height         500]
+          [bottom-sheet {:ref           (fn [com]
+                                          (reset! bottom-sheet-ref com))
+                         :snap-points   [0
+                                         bottom-sheet-height]
+                         :initial-snap  (if (some? selected-element-edit)
+                                          1
+                                          0)
+                         :on-open-end   #(reset! spacer-height bottom-sheet-height)
+                         :on-close-end  (partial close-bottom-sheet-side-effects element-type)
+                         :render-header #(r/as-element
+                                          [surface
+                                           [view {:style {:height         bottom-sheet-height
+                                                          :width          "100%"
+                                                          :flex-direction "column"
+                                                          :align-items    "center"}}
+
+                                            [icon-button {:icon     "drag-horizontal"
+                                                          :size     (-> drag-indicator-height
+                                                                        (* 2))
+                                                          :style    {:height drag-indicator-height}
+                                                          :on-press (fn []
+                                                                      (snap-bottom-sheet bottom-sheet-ref 2))}]
+
+                                            [edit-form {:scroll-to scroll-to
+                                                        :save-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :in-play-element
+                                                        in-play-element
+                                                        :play-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :copy-over-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :delete-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :close-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}])]]]]))

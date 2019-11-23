@@ -29,6 +29,7 @@
                                                   format-date
                                                   format-time
                                                   format-date-day]]
+            [time-align-mobile.helpers :refer [element-time-stamp-info]]
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
             [time-align-mobile.components.form-fields :refer [id-comp
@@ -135,7 +136,8 @@
                         :on-cancel  #(reset! modal {:visible false
                                                     :mode    "date"})}]]))
 
-(defn compact [{:keys [delete-callback
+(defn compact [{:keys [scroll-to
+                       delete-callback
                        save-callback
                        close-callback
                        in-play-element
@@ -148,6 +150,9 @@
                                  (dispatch
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
+        displayed-day          (subscribe [:get-day-time-navigator])
+        px-ratio-config        (subscribe [:get-pixel-to-minute-ratio])
+        pixel-to-minute-ratio  (:current @px-ratio-config)
         changed                (> (count @changes) 0)
         buckets                (subscribe [:get-buckets])
         playing                (= (:id in-play-element)
@@ -217,6 +222,19 @@
                     :icon     "chevron-down"
                     :on-press #(do
                                  (dispatch [:select-next-or-prev-period :next])
+                                 (reset! compact-menu {:visible false}))}]
+        ;; jump to
+        [menu-item {:title    "jump to"
+                    :icon     "swap-vertical"
+                    :on-press #(do
+                                 (scroll-to (->> @period-form
+                                                 :start
+                                                 ((fn [time-stamp]
+                                                    (element-time-stamp-info
+                                                     time-stamp
+                                                     pixel-to-minute-ratio
+                                                     @displayed-day)))
+                                                 :y-pos))
                                  (reset! compact-menu {:visible false}))}]
         ;; copy over
         [menu-item {:title    "copy over"
