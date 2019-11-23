@@ -74,15 +74,13 @@
     :EFFORT:   1:00
     :END:
     :LOGBOOK:
-    CLOCK: [2019-11-23 Sat 10:42]
     CLOCK: [2019-11-23 Sat 09:39]--[2019-11-23 Sat 09:48] =>  0:09
     CLOCK: [2019-11-23 Sat 09:17]--[2019-11-23 Sat 09:17] =>  0:00
     CLOCK: [2019-11-23 Sat 08:51]--[2019-11-23 Sat 09:17] =>  0:26
     :END:
     [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
     https://stackoverflow.com/a/54310445/5040125 (onLayout prop to get around other animations blocking scrollTo)
-    - [X] Scrolls to an element when it is selected for edit
-    - [ ] Scrolls when selecting an element using options from period-form
+    - [ ] Scrolls to an element when it is selected for edit
     - [X] Scrolls to now on day re-render
     - [ ] Scroll to now button in top bar menu
 *** TODO Put version indicator in app-db (for export mostly)
@@ -107,10 +105,8 @@
      +The list page could be a two line list with background a text color related to the bucket color. No icon on the left but a vertical three dot menu on the right.+
      Simple two line list with a vertical three dot menu on the right and a =google-circles-communities= icon that is colored by the bucket color.
 ** DOSUB Eventually 
-*** CANCELED Add appium tests
-    CLOSED: [2019-11-23 Sat 11:09]
-*** CANCELED Add handler tests
-    CLOSED: [2019-11-23 Sat 11:09]
+*** TODO Add appium tests
+*** TODO Add handler tests
     :PROPERTIES:
     :WORK:     5
     :VALUE:    13
@@ -239,19 +235,13 @@ Am I doing something dumb or is there something wrong with how shadow is includi
      ~export NODE_OPTIONS="--max-old-space-size=2048"~
      Repeatedly demonstrated to myself that the heap error only happens when including a namespace from my code and compiling with watch.
      Messaged thheller on slack.
-*** TODO Add presribed handler tests 
-    :PROPERTIES:
-    :WORK:     5
-    :VALUE:    13
-    :END:
-
-    https://github.com/day8/re-frame/blob/master/docs/Testing.md
 *** TODO Add subscription tests
     :PROPERTIES:
     :WORK:     5
     :VALUE:    13
     :END:
-    https://github.com/day8/re-frame/blob/master/docs/Testing.md
+
+    Automate test creation from use
 *** TODO Multiple play timers
     :PROPERTIES:
     :VALUE:    8
@@ -410,4 +400,3 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Use animation api for state indication
 - All start timestamps end at 45 sec and all stop time stamps end at 15 sec to have same minute without overlap
 - Fitbit OS integration / companion app
-- Move all side effects (scroll To, bottom sheet collapse) to ~reg-fx~ in re-frame

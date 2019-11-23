@@ -29,7 +29,6 @@
                                                   format-date
                                                   format-time
                                                   format-date-day]]
-            [time-align-mobile.helpers :refer [element-time-stamp-info]]
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
             [time-align-mobile.components.form-fields :refer [id-comp
@@ -136,8 +135,7 @@
                         :on-cancel  #(reset! modal {:visible false
                                                     :mode    "date"})}]]))
 
-(defn compact [{:keys [scroll-to
-                       delete-callback
+(defn compact [{:keys [delete-callback
                        save-callback
                        close-callback
                        in-play-element
@@ -150,9 +148,6 @@
                                  (dispatch
                                   [:update-period-form {:data new-data}]))
         changes                (subscribe [:get-period-form-changes])
-        px-ratio-config        @(subscribe [:get-pixel-to-minute-ratio])
-        pixel-to-minute-ratio  (:current px-ratio-config)
-        displayed-day          @(subscribe [:get-day-time-navigator])
         changed                (> (count @changes) 0)
         buckets                (subscribe [:get-buckets])
         playing                (= (:id in-play-element)
@@ -215,17 +210,6 @@
         [menu-item {:title    "select above"
                     :icon     "chevron-up"
                     :on-press #(do
-                                 ;; TODO scroll-to eventually
-                                 ;; needs to be either moved, with menu, to day comp
-                                 ;; or refactored into handler fx
-                                 (scroll-to (->> @period-form
-                                                 :start
-                                                 ((fn [time-stamp]
-                                                    (element-time-stamp-info
-                                                     time-stamp
-                                                     pixel-to-minute-ratio
-                                                     displayed-day)))
-                                                 :y-pos))
                                  (dispatch [:select-next-or-prev-period :prev])
                                  (reset! compact-menu {:visible false}))}]
         ;; select next

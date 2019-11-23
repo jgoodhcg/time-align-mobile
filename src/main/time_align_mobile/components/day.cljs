@@ -55,7 +55,6 @@
                      get-gesture-handler-state
                      dispatch-debounced
                      dispatch-throttled
-                     element-time-stamp-info
                      get-gesture-handler-ys
                      get-gesture-handler-xs]
              :rename {get-gesture-handler-state get-state
@@ -92,13 +91,6 @@
 
 (def scroll-ref (atom nil))
 
-(defn scroll-to
-  ([y-pos]
-   (scroll-to @scroll-ref y-pos))
-  ([scroll-ref y-pos]
-   (ocall scroll-ref "scrollTo"
-          (clj->js {:y (max 0 (- y-pos 50))}))))
-
 (defn snap-bottom-sheet [bottom-sheet-ref snap]
   ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
   (let [bsr @bottom-sheet-ref]
@@ -120,6 +112,17 @@
 (defn close-bottom-sheet [bottom-sheet-ref element-type]
   (snap-bottom-sheet bottom-sheet-ref 0)
   (close-bottom-sheet-side-effects element-type))
+
+(defn element-time-stamp-info [time-stamp pixel-to-minute-ratio displayed-day]
+  (let [time-stamp-ms    (helpers/abstract-element-timestamp
+                          time-stamp
+                          displayed-day)
+        time-stamp-min   (helpers/ms->minutes time-stamp-ms)
+        time-stamp-y-pos (* pixel-to-minute-ratio time-stamp-min)]
+
+    {:ms    time-stamp-ms
+     :min   time-stamp-min
+     :y-pos time-stamp-y-pos}))
 
 (defn render-collision-group [{:keys [pixel-to-minute-ratio
                                       displayed-day
@@ -186,15 +189,6 @@
                                              ;; select this element
                                              (do
                                                (snap-bottom-sheet bottom-sheet-ref 1)
-                                               (scroll-to @scroll-ref
-                                                          (->> element
-                                                               :start
-                                                               ((fn [time-stamp]
-                                                                  (element-time-stamp-info
-                                                                   time-stamp
-                                                                   pixel-to-minute-ratio
-                                                                   displayed-day)))
-                                                               :y-pos))
                                                (dispatch
                                                   [:select-element-edit
                                                    {:element-type element-type
@@ -493,6 +487,10 @@
                                                        :stop    nil}))
         :default))))
 
+(defn scroll-to [scroll-ref y-pos]
+  (ocall scroll-ref "scrollTo"
+         (clj->js {:y (max 0 (- y-pos 50))})))
+
 (defn root
   "elements - {:actual [[collision-group-1] [collision-group-2]] :planned ... }"
   [{:keys [elements
@@ -547,8 +545,8 @@
      [scroll-view-gesture-handler
       {:scroll-enabled (not movement-selected)
        :ref            (fn [ref] (reset! scroll-ref ref))
-       :on-layout      (fn [] (let [r        @scroll-ref
-                                    now      (js/Date.)
+       :on-layout      (fn [] (let [r @scroll-ref
+                                    now (js/Date.)
                                     now-info (element-time-stamp-info
                                               now
                                               pixel-to-minute-ratio
@@ -751,8 +749,7 @@
                                                          :on-press (fn []
                                                                      (snap-bottom-sheet bottom-sheet-ref 2))}]
 
-                                           [edit-form {:scroll-to scroll-to
-                                                       :save-callback
+                                           [edit-form {:save-callback
                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
                                                        :in-play-element
                                                        in-play-element

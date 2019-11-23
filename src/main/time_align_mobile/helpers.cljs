@@ -336,13 +336,3 @@
 
 (def short-time (* 1 60 1000))
 
-(defn element-time-stamp-info [time-stamp pixel-to-minute-ratio displayed-day]
-  (let [time-stamp-ms    (abstract-element-timestamp
-                          time-stamp
-                          displayed-day)
-        time-stamp-min   (ms->minutes time-stamp-ms)
-        time-stamp-y-pos (* pixel-to-minute-ratio time-stamp-min)]
-
-    {:ms    time-stamp-ms
-     :min   time-stamp-min
-     :y-pos time-stamp-y-pos}))
