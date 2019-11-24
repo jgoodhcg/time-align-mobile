@@ -17,6 +17,8 @@
                                                   ic
                                                   chip
                                                   badge
+                                                  list-section
+                                                  list-subheader
                                                   color-readable-background
                                                   modal
                                                   flat-list
@@ -240,27 +242,29 @@
 (defn bucket-selection-content [{:keys [buckets-atom
                                         on-press-generator
                                         modal-atom]}]
-  [view {:style {:flex    1
-                 :padding 10}}
-   [touchable-highlight {:on-press
-                         #(swap! modal-atom (fn [m] (assoc-in m [:visible] false)))}
-            [text "Cancel"]]
-   [scroll-view {:style {:height "50%"}}
-            [text "Select a bucket to make the period with"]
-    [flat-list {:data          @buckets-atom
-                :key-extractor list-items/bucket-key-extractor
-                :render-item
-                (fn [i]
-                  (let [item (:item (js->clj i :keywordize-keys true))]
-                    (r/as-element
-                     (list-items/bucket
-                      (merge
-                       item
-                       {:on-press (on-press-generator item)})))))}]]])
+  [surface {:style {:margin           16
+                    :padding          8
+                    :elevation        8
+                    :background-color (-> theme :colors :background)}}
+
+   [icon-button
+    {:icon     "close"
+     :size     20
+     :on-press #(swap! modal-atom (fn [m] (assoc-in m [:visible] false)))}]
+
+   [scroll-view
+    [list-subheader "What are you going to start doing?"]
+    [list-section
+     (->> @buckets-atom
+          (map (fn [item]
+                 (list-items/bucket
+                  (merge
+                   item
+                   {:on-press (on-press-generator item)})))))]]])
 
 (defn bucket-modal [buckets modal-atom on-press-generator]
   [modal {:animation-type   "slide"
-          :transparent      false
+          :transparent      true
           :on-request-close #(swap! modal-atom
                                     (fn [m] (assoc-in m [:visible] false)))
           :visible          (:visible @modal-atom)}

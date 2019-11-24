@@ -1,26 +1,36 @@
 (ns time-align-mobile.components.list-items
   (:require [time-align-mobile.js-imports :refer [view
                                                   text
+                                                  list-item
+                                                  list-icon
                                                   touchable-highlight]]
+            [reagent.core :as r]
             ["react" :as react]))
 
 
 (defn bucket [{:keys [id color label periods templates on-press]}]
-  [touchable-highlight
-   {:key      id
-    :on-press on-press}
+  [list-item {:title       (r/as-element [text label])
+              :key         (str id)
+              :on-press    on-press
+              :left        #(r/as-element
+                             [list-icon {:icon  "google-circles-communities"
+                                         :color color}])}]
+  ;; [touchable-highlight
+  ;;  {:key      id
+  ;;   :on-press on-press}
 
-   [view {:style {:flex-direction "row"}}
-    [view
-     {:style {:width            50
-              :height           50
-              :margin-right     20
-              :background-color color}}]
-    [view {:style {:flex-direction "column"}}
-     [text (if (> (count label) 0) label "No label")]
-     [text {:style {:color "grey"}} "periods: " (count periods)]
-     [text {:style {:color "grey"}} "templates: " (count templates)]
-     [text {:style {:color "grey"}} (str "id: " id)]]]])
+  ;;  [view {:style {:flex-direction "row"}}
+  ;;   [view
+  ;;    {:style {:width            50
+  ;;             :height           50
+  ;;             :margin-right     20
+  ;;             :background-color color}}]
+  ;;   [view {:style {:flex-direction "column"}}
+  ;;    [text (if (> (count label) 0) label "No label")]
+  ;;    [text {:style {:color "grey"}} "periods: " (count periods)]
+  ;;    [text {:style {:color "grey"}} "templates: " (count templates)]
+  ;;    [text {:style {:color "grey"}} (str "id: " id)]]]]
+  )
 
 (defn bucket-key-extractor [x]
   (-> x

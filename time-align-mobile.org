@@ -65,31 +65,6 @@
     CLOCK: [2019-11-11 Mon 18:59]--[2019-11-11 Mon 18:59] =>  0:00
     CLOCK: [2019-11-11 Mon 18:10]--[2019-11-11 Mon 18:59] =>  0:49
     :END:
-*** DONE Use scrollTo 
-    CLOSED: [2019-11-23 Sat 15:02]
-    :PROPERTIES:
-    :VALUE:    13
-    :WORK:     2
-    :CONFIDENCE: 50
-    :EFFORT:   1:00
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-11-23 Sat 14:01]--[2019-11-23 Sat 15:01] =>  1:00
-    CLOCK: [2019-11-23 Sat 11:37]--[2019-11-23 Sat 12:39] =>  1:02
-    CLOCK: [2019-11-23 Sat 10:42]--[2019-11-23 Sat 11:26] =>  0:44
-    CLOCK: [2019-11-23 Sat 09:39]--[2019-11-23 Sat 09:48] =>  0:09
-    CLOCK: [2019-11-23 Sat 09:17]--[2019-11-23 Sat 09:17] =>  0:00
-    CLOCK: [2019-11-23 Sat 08:51]--[2019-11-23 Sat 09:17] =>  0:26
-    :END:
-    [[https://facebook.github.io/react-native/docs/scrollview.html#scrollto][scrollTo]]
-    https://stackoverflow.com/a/54310445/5040125 (onLayout prop to get around other animations blocking scrollTo)
-    - [X] Scrolls to an element when it is selected for edit
-    - [-] +Scrolls when selecting an element using options from period-form+
-      - This was too hard to do. I kept running into the problem of needing to duplicate too much of a subscriber in a handler to make it a side effect.
-    - [X] Option to jump to selected in bottom sheet
-    - [-] +Scrolls to now on day re-render+
-      - This is going to be too annoying. Let the user handle it.
-    - [X] Scroll to now option in top bar
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
@@ -107,143 +82,20 @@
     :LOGBOOK:
     CLOCK: [2019-11-13 Wed 20:56]--[2019-11-13 Wed 21:04] =>  0:08
     :END:
-**** Bucket list 
+**** DONE Bucket list
+     CLOSED: [2019-11-24 Sun 12:43]
+     :LOGBOOK:
+     CLOCK: [2019-11-24 Sun 11:22]--[2019-11-24 Sun 12:42] =>  1:20
+     CLOCK: [2019-11-24 Sun 09:23]--[2019-11-24 Sun 10:30] =>  1:07
+     :END:
      +Between white, black, and lightened/darkened version of a color, there be a satisfying option for a [[https://www.npmjs.com/package/color#luminosity][contrast]] of 4.5 (WCAG minimum for readability).+
      +The list page could be a two line list with background a text color related to the bucket color. No icon on the left but a vertical three dot menu on the right.+
      Simple two line list with a vertical three dot menu on the right and a =google-circles-communities= icon that is colored by the bucket color.
+     - [X] Bucket item uses list-item
+     - [X] Bucket modal has close button
+     - [X] Buckets screen has top bar
+**** Period list 
 ** DOSUB Eventually 
-*** CANCELED Add appium tests
-    CLOSED: [2019-11-23 Sat 11:09]
-*** CANCELED Add handler tests
-    CLOSED: [2019-11-23 Sat 11:09]
-    :PROPERTIES:
-    :WORK:     5
-    :VALUE:    13
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-10-20 Sun 19:05]--[2019-10-20 Sun 19:15] =>  0:10
-    CLOCK: [2019-10-19 Sat 18:13]--[2019-10-19 Sat 19:22] =>  1:09
-    CLOCK: [2019-10-09 Wed 18:44]--[2019-10-09 Wed 19:10] =>  0:26
-    CLOCK: [2019-10-08 Tue 18:45]--[2019-10-08 Tue 18:50] =>  0:05
-    CLOCK: [2019-10-08 Tue 18:23]--[2019-10-08 Tue 18:45] =>  0:22
-    CLOCK: [2019-10-07 Mon 19:10]--[2019-10-07 Mon 19:12] =>  0:02
-    CLOCK: [2019-10-07 Mon 19:04]--[2019-10-07 Mon 19:10] =>  0:06
-    CLOCK: [2019-10-06 Sun 16:43]--[2019-10-06 Sun 17:17] =>  0:34
-    CLOCK: [2019-10-06 Sun 15:47]--[2019-10-06 Sun 16:39] =>  0:52
-    CLOCK: [2019-10-05 Sat 18:12]--[2019-10-05 Sat 18:17] =>  0:05
-    CLOCK: [2019-10-05 Sat 16:13]--[2019-10-05 Sat 16:57] =>  0:44
-    CLOCK: [2019-10-05 Sat 15:01]--[2019-10-05 Sat 15:07] =>  0:06
-    CLOCK: [2019-10-05 Sat 14:45]--[2019-10-05 Sat 14:59] =>  0:14
-    CLOCK: [2019-10-05 Sat 14:16]--[2019-10-05 Sat 14:45] =>  0:29
-    CLOCK: [2019-10-05 Sat 13:36]--[2019-10-05 Sat 14:16] =>  0:40
-    CLOCK: [2019-10-05 Sat 11:06]--[2019-10-05 Sat 11:24] =>  0:18
-    CLOCK: [2019-10-05 Sat 10:50]--[2019-10-05 Sat 11:00] =>  0:10
-    CLOCK: [2019-10-04 Fri 15:05]--[2019-10-04 Fri 15:12] =>  0:07
-    CLOCK: [2019-10-04 Fri 12:14]--[2019-10-04 Fri 12:25] =>  0:11
-    CLOCK: [2019-10-03 Thu 18:26]--[2019-10-03 Thu 19:08] =>  0:42
-    CLOCK: [2019-10-03 Thu 13:28]--[2019-10-03 Thu 13:54] =>  0:26
-    CLOCK: [2019-10-03 Thu 09:10]--[2019-10-03 Thu 09:50] =>  0:40
-    CLOCK: [2019-10-02 Wed 21:05]--[2019-10-02 Wed 21:55] =>  0:50
-    CLOCK: [2019-10-02 Wed 20:33]--[2019-10-02 Wed 21:05] =>  0:32
-    CLOCK: [2019-10-02 Wed 12:00]--[2019-10-02 Wed 12:23] =>  0:23
-    CLOCK: [2019-10-01 Tue 18:51]--[2019-10-01 Tue 19:00] =>  0:09
-    CLOCK: [2019-10-01 Tue 18:19]--[2019-10-01 Tue 18:44] =>  0:25
-    :END:
-    - [X] +Tests can run easilyj+
-      - Desired method https://shadow-cljs.github.io/docs/UsersGuide.html#target-node-test
-      - Could not actually do this without major refactor to remove any react native libraries from dependency tree
-    - [X] Tests can be run on command
-    - [X] An interceptor generates tests from app usage
-    - [X] +Generated tests diff against app-db default+
-      - This was causing some sorting issue
-      - Reverted it
-    - [ ] Tests exist for all handler functions
-      - At this rate (1/4 min) it is going to take 3 hrs to finish adding these tests
-      - Speed up the rate
-        - [X] Add the interceptor to all remaining handlers
-          - Got to use ~@:~ to really speed things up
-        - Run through the app in one go attempting to trigger all the handlers
-          - They trigger too many times
-            - [X] Add some logic to only print the test once
-        - Copy past everything into the handlers_test ns
-        - Then run and fix and errors
-    - [X] Recommended approach to [[https://github.com/thheller/reagent-expo/pull/6][use jest]] considered against initial ideas
-      - Isolating the functions to be able to run on node is hard
-      - jest runs out of memory every time I run with ~watch~ or ~compile~ compiled code
-      - Chose jest anyway
-    - [X] Expo is upgraded to rule out any version issues as a problem
-**** Ask about import issue on slack 
-     I tagged thheller directly.
-     #+begin_src markdown
-I'm trying to set up some node tests for my react-native project.
-*shadow-cljs.edn*
-```
-...
-
- :builds
- {:app
-  {:target     :react-native
-   :init-fn    time-align-mobile.app/init
-   :output-dir "app"
-   :devtools   {:autoload true}}
-
-  :test
-  {:target    :node-test
-   :output-to "out/node-tests.js"
-   :autorun   true}}}
-
-```
-*test file*
-```
-(ns time-align-mobile.handlers-test
-  (:require [cljs.test :as t :refer-macros [deftest is]]
-            [time-align-mobile.handlers :as handlers]
-            [time-align-mobile.db :as db :refer [app-db]]))
-
-(deftest initialize-db
-  (is (= app-db (handlers/initialize-db [] []))))
-
-...
-```
-The tests are on pure clojure functions that I use in re-frame handlers. No react-native specific things in them.
-But when I try to run the tests I get
-```
->> node out/node-tests.js
-
-SHADOW import error /home/justin/projects/time-align-mobile/.shadow-cljs/builds/test/dev/out/cljs-runtime/shadow.js.shim.module$react_native.js
-/home/justin/projects/time-align-mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:15
-const warnedKeys: {[string]: boolean} = {};
-      ^^^^^^^^^^
-
-SyntaxError: Missing initializer in const declaration
-    at Module._compile (internal/modules/cjs/loader.js:721:23)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:787:10)
-    at Module.load (internal/modules/cjs/loader.js:653:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-    at Module.require (internal/modules/cjs/loader.js:690:17)
-    at require (internal/modules/cjs/helpers.js:25:18)
-    at Object.<anonymous> (/home/justin/projects/time-align-mobile/node_modules/react-native/Libraries/react-native/react-native-implementation.js:14:18)
-    at Module._compile (internal/modules/cjs/loader.js:776:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:787:10)
-
-```
-Am I doing something dumb or is there something wrong with how shadow is including other project dependencies?
-     #+end_src
-**** Why is there a heap problem?
-     Had to run ~shadow-cljs release test~ and then ~yarn jest~ to get an error message that lead me to.
-     The problem.
-     The line below, in the db namespace, is a focal point. It calls all the screens which loads a component which has a side effect of dispatching the tick function.
-      #+begin_src clojure
-
-        (def screen-id-set (set (->> nav/screens-map
-                                     (map (fn [{:keys [id]}] id)))))
-      #+end_src
-     So removing the problematic line fixes the problem when I do a release and then run jest.
-     There is still a heap issue when I run ~sahdow-cljs watch test~ and ~yarn jest~ in another terminal.
-     ~export NODE_OPTIONS="--max-old-space-size=2048"~
-     Repeatedly demonstrated to myself that the heap error only happens when including a namespace from my code and compiling with watch.
-     Messaged thheller on slack.
 *** TODO Add presribed handler tests 
     :PROPERTIES:
     :WORK:     5

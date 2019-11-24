@@ -31,6 +31,7 @@
             [time-align-mobile.helpers :refer [same-day? xor same-year?]]
             [time-align-mobile.screens.period-form :refer [compact]]
             [time-align-mobile.components.list-items :as list-items]
+            [time-align-mobile.components.top-bar :refer [top-bar]]
             [time-align-mobile.styles :as styles :refer [theme]]
             [goog.string :as gstring]
             ;; [zprint.core :refer [zprint]]
@@ -164,27 +165,25 @@
 
 (def top-bar-menu (r/atom {:visible false}))
 
-(defn top-bar [{:keys [displayed-day pixel-to-minute-ratio]}]
-  (let [menu-open (subscribe [:get-menu-open])]
-    [surface {:elevation 1
-              :style     {:flex-direction  "row"
-                          :justify-content "space-between"
-                          :align-items     "center"
-                          :padding         8}}
+(defn top-bar-center-content [{:keys [displayed-day]}]
+  [:<>
+   [button-paper {:on-press #(reset! date-picker-modal true)
+                  :mode     (if (same-day? displayed-day (js/Date.))
+                              "outlined"
+                              "contained")}
+    (if (same-year? displayed-day (js/Date.))
+      (format-date-day displayed-day "ddd MM/DD")
+      (format-date-day displayed-day "YYYY ddd MM/DD"))]
+   [date-time-picker {:is-visible @date-picker-modal
+                      :date       displayed-day
+                      :mode       "date"
+                      :on-confirm (fn [d]
+                                    (dispatch [:update-day-time-navigator d])
+                                    (reset! date-picker-modal false))
+                      :on-cancel  #(reset! date-picker-modal false)}]])
 
-     [icon-button {:icon     (if @menu-open "backburger" "menu")
-                   :size     20
-                   :on-press #(dispatch [:set-menu-open (not @menu-open)])}]
-
-     [button-paper {:on-press #(reset! date-picker-modal true)
-                    :mode     (if (same-day? displayed-day (js/Date.))
-                                "outlined"
-                                "contained")}
-      (if (same-year? displayed-day (js/Date.))
-        (format-date-day displayed-day "ddd MM/DD")
-        (format-date-day displayed-day "YYYY ddd MM/DD"))]
-
-     [menu {:anchor
+(defn top-bar-right-content [{:keys [displayed-day pixel-to-minute-ratio]}]
+  [menu {:anchor
             (r/as-element
              [icon-button {:on-press #(swap!
                                        top-bar-menu
@@ -219,15 +218,7 @@
                                                             pixel-to-minute-ratio
                                                             displayed-day)))
                                (swap! top-bar-menu
-                                      (fn [m] (assoc-in m [:visible] false))))}]]
-
-     [date-time-picker {:is-visible @date-picker-modal
-                        :date       displayed-day
-                        :mode       "date"
-                        :on-confirm (fn [d]
-                                      (dispatch [:update-day-time-navigator d])
-                                      (reset! date-picker-modal false))
-                        :on-cancel  #(reset! date-picker-modal false)}]]))
+                                      (fn [m] (assoc-in m [:visible] false))))}]])
 
 (defn move-period [{:keys [selected-element start-relative-min]}]
   (let [new-start-ms (-> start-relative-min
@@ -269,9 +260,17 @@
                                      (:planned %)       :left
                                      (not (:planned %)) :right)]
     [view {:style {:flex 1}}
-     [status-bar {:hidden true}]
-     [top-bar {:displayed-day         @displayed-day
-               :pixel-to-minute-ratio pixel-to-minute-ratio}]
+     ;; [status-bar {:hidden true}]
+     [top-bar
+      {:center-content
+       [top-bar-center-content
+        {:displayed-day @displayed-day}]
+
+       :right-content
+       [top-bar-right-content
+        {:displayed-day         @displayed-day
+         :pixel-to-minute-ratio pixel-to-minute-ratio}]}]
+
      [day-comp/root {:selected-element            @selected-period
                      :in-play-element             @period-in-play
                      :displayed-day               @displayed-day

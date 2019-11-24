@@ -219,6 +219,10 @@
 (def badge (r/adapt-react-class (oget paper "Badge")))
 (def menu (r/adapt-react-class (oget paper "Menu")))
 (def menu-item (r/adapt-react-class (oget (oget paper "Menu") "Item")))
+(def list-item (r/adapt-react-class (oget (oget paper "List") "Item")))
+(def list-icon (r/adapt-react-class (oget (oget paper "List") "Icon")))
+(def list-section (r/adapt-react-class (oget (oget paper "List") "Section")))
+(def list-subheader (r/adapt-react-class (oget (oget paper "List") "Subheader")))
 
 (def notifications (oget e "Notifications"))
 
