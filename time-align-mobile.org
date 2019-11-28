@@ -84,6 +84,7 @@
     :END:
 **** TODO Bucket list
      :LOGBOOK:
+     CLOCK: [2019-11-28 Thu 12:10]--[2019-11-28 Thu 12:32] =>  0:22
      CLOCK: [2019-11-25 Mon 19:08]--[2019-11-25 Mon 19:08] =>  0:00
      CLOCK: [2019-11-24 Sun 17:27]--[2019-11-24 Sun 17:29] =>  0:02
      CLOCK: [2019-11-24 Sun 11:22]--[2019-11-24 Sun 12:42] =>  1:20
@@ -97,6 +98,7 @@
      - [X] Buckets screen has top bar
      - [X] Remove filters
      - [X] Change bottom sheet save to not close bottom sheet
+     - [X] FAB exists on bucket list page
 **** Period list 
 ** DOSUB Eventually 
 *** TODO Add presribed handler tests 
