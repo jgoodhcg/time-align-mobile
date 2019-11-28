@@ -179,9 +179,7 @@
              :align-items    "center"}
        ;; save
        [button-paper {:on-press #(do
-                                   (dispatch [:save-period-form (new js/Date)])
-                                   (when (and (some? save-callback))
-                                     (save-callback)))
+                                   (dispatch [:save-period-form (new js/Date)]))
                       :mode     "outlined"
                       :disabled (not changed)
                       :icon     "content-save"

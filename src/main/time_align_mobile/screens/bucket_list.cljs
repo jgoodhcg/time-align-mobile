@@ -24,7 +24,6 @@
     [view {:style {:flex 1}}
      [top-bar {:center-content [subheading "Groups"]
                :right-content  [icon-button]}]
-     [filter-picker :bucket]
      [scroll-view
       [list-section
        (->> (filter-sort @buckets @active-filter)
