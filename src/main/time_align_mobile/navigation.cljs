@@ -25,12 +25,12 @@
                     :icon            nil})
 
 (def buckets-screen {:id              :buckets
-                     :label           "buckets"
+                     :label           "Groups"
                      :screen          bucket-list-screen/root
                      :in-drawer       true
                      :position-drawer 3
-                     :icon            {:family "FontAwesome"
-                                       :name   "list"}})
+                     :icon            {:family "MaterialCommunityIcons"
+                                       :name   "google-circles-communities"}})
 
 (def pattern-screen {:id              :pattern
                      :label           "pattern"
@@ -40,12 +40,12 @@
                      :icon            nil})
 
 (def patterns-screen {:id              :patterns
-                      :label           "patterns"
+                      :label           "Plans"
                       :screen          pattern-list-screen/root
                       :in-drawer       true
                       :position-drawer 3.5
-                      :icon            {:family "MaterialIcons"
-                                        :name   "palette"}})
+                      :icon            {:family "MaterialCommunityIcons"
+                                        :name   "floor-plan"}})
 
 (def pattern-planning-screen {:id              :pattern-planning
                               :label           "pattern planning"
@@ -61,10 +61,10 @@
                     :position-drawer nil
                     :icon            nil})
 
-(def periods-screen {:id       :periods
+(def periods-screen {:id              :periods
                      :label           "periods"
                      :screen          period-list-screen/root
-                     :in-drawer       true
+                     :in-drawer       false
                      :position-drawer 4
                      :icon            {:family "Entypo"
                                        :name   "time-slot"}})
@@ -76,10 +76,10 @@
                       :position-drawer nil
                       :icon            nil})
 
-(def templates-screen {:id       :templates
+(def templates-screen {:id              :templates
                        :label           "templates"
                        :screen          template-list-screen/root
-                       :in-drawer       true
+                       :in-drawer       false
                        :position-drawer 5
                        :icon            {:family "FontAwesome"
                                          :name   "wpforms"}})
@@ -91,32 +91,32 @@
                     :position-drawer nil
                     :icon            nil})
 
-(def filters-screen {:id       :filters
+(def filters-screen {:id              :filters
                      :label           "filters"
                      :screen          filter-list-screen/root
-                     :in-drawer       true
+                     :in-drawer       false
                      :position-drawer 6
                      :icon            {:family "FontAwesome"
                                        :name   "filter"}})
 
-(def day-planning-screen {:id       :day
-                 :label           "day"
-                 :screen          day-planning-screen/root
-                 :in-drawer       true
-                 :position-drawer 1
-                 :icon            {:family "FontAwesome"
-                                   :name   "columns"}})
+(def day-planning-screen {:id              :day
+                          :label           "Day"
+                          :screen          day-planning-screen/root
+                          :in-drawer       true
+                          :position-drawer 1
+                          :icon            {:family "FontAwesome"
+                                            :name   "columns"}})
 
-(def calendar-screen {:id       :calendar
+(def calendar-screen {:id              :calendar
                       :label           "calendar"
                       :screen          calendar-screen/root
-                      :in-drawer       true
+                      :in-drawer       false
                       :position-drawer 2
                       :icon            {:family "Entypo"
                                         :name   "calendar"}})
 
-(def report-screen {:id       :report
-                    :label           "report"
+(def report-screen {:id              :report
+                    :label           "Reports"
                     :screen          report-screen/root
                     :in-drawer       true
                     :position-drawer 8
@@ -126,13 +126,13 @@
 (def queue-screen {:id              :queue
                    :label           "queue"
                    :screen          queue-screen/root
-                   :in-drawer       true
+                   :in-drawer       false
                    :position-drawer 7
                    :icon            {:family "MaterialIcons"
                                      :name   "queue"}})
 
 (def port-screen {:id              :port
-                  :label           "port"
+                  :label           "Data"
                   :screen          port-screen/root
                   :in-drawer       true
                   :position-drawer 8

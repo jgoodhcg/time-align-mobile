@@ -28,6 +28,7 @@
                                           card
                                           surface
                                           mi
+                                          mci
                                           text
                                           view
                                           status-bar
@@ -66,43 +67,44 @@
 
 (defn drawer-list []
   [surface {:style {:flex 1 :justify-content "center" :align-items "center"}}
-   [subheading {:style {:font-weight   "bold"
-                        :margin-bottom 16}}
-    "Screens"]
    (->> nav/screens-map
         (filter #(:in-drawer %))
         (sort-by #(:position-drawer %))
         (map (fn [{:keys [icon label id]}]
                (let [{:keys [family name]} icon
-                     params                {:name  name
-                                            :style {:margin-right 25
-                                                    :width        32}
-                                            :color (->> theme :colors :placeholder)
-                                            :size  24}
-                     label-element         [text-paper label]
-                     icon-element          (case family
-                                             "EvilIcons"     [ei params]
-                                             "FontAwesome"   [fa params]
-                                             "IonIcons"      [ic params]
-                                             "Entypo"        [en params]
-                                             "MaterialIcons" [mi params])]
+
+                     params {:name  name
+                             :style {:margin-right 8
+                                     :width        32}
+                             :color (->> theme :colors :placeholder)
+                             :size  24}
+
+                     label-element [subheading label]
+                     icon-element  (case family
+                                     "EvilIcons"              [ei params]
+                                     "FontAwesome"            [fa params]
+                                     "IonIcons"               [ic params]
+                                     "Entypo"                 [en params]
+                                     "MaterialCommunityIcons" [mci params]
+                                     "MaterialIcons"          [mi params])]
 
                  [touchable-ripple {:key      (str "icon-" name)
                                     :on-press (fn [_]
                                                 (dispatch
                                                  [:navigate-to
                                                   {:current-screen id
-                                                   :params nil}])
+                                                   :params         nil}])
                                                 (dispatch [:set-menu-open false]))}
 
                   [view {:flex-direction  "row"
                          :justify-content "flex-start"
                          :align-items     "center"
-                         :padding-left    20
+                         :padding-left    8
                          :width           200
                          :height          32}
                    icon-element
                    label-element]]))))
+
    [text-paper {:style {:margin 8
                         :color  (->> theme :colors :placeholder)}} version]])
 
