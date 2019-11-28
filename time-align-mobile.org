@@ -80,6 +80,7 @@
     :EFFORT:   10:00
     :END:
     :LOGBOOK:
+    CLOCK: [2019-11-28 Thu 13:51]--[2019-11-28 Thu 13:54] =>  0:03
     CLOCK: [2019-11-13 Wed 20:56]--[2019-11-13 Wed 21:04] =>  0:08
     :END:
 **** DONE Bucket list
@@ -107,6 +108,37 @@
      - [X] Minimum love-able screens displayed
      - [X] Icons are /better/
      - [X] Labels are /better/
+     - [ ] Swipe open is disabled (every screen needs top-bar)
+**** Plans
+     :LOGBOOK:
+     CLOCK: [2019-11-28 Thu 13:21]--[2019-11-28 Thu 13:51] =>  0:30
+     :END:
+     - [X] Uses similar item component as bucket
+     - [X] Has default label text
+     - [X] Has top bar
+**** Reports 
+     - [ ] Has top bar
+     - [ ] List of days with scores
+**** Data 
+     - [ ] Has top bar
+     - [ ] Uses better buttons
+**** Bucket form 
+     - [ ] Has top bar
+     - [ ] All components align
+     - [ ] All components have a consistent style
+**** Period form 
+     - [ ] Has top bar
+     - [ ] All components align
+     - [ ] All components have a consistent style
+**** Pattern form 
+     - [ ] Has top bar
+     - [ ] All components align
+     - [ ] All components have a consistent style
+**** Template form 
+     - [ ] Has top bar
+     - [ ] All components align
+     - [ ] All components have a consistent style
+
 ** DOSUB Eventually 
 *** TODO Add presribed handler tests 
     :PROPERTIES:
