@@ -119,11 +119,15 @@
      - [X] Has top bar
 **** Reports 
      :LOGBOOK:
+     CLOCK: [2019-12-01 Sun 16:18]--[2019-12-01 Sun 16:18] =>  0:00
+     CLOCK: [2019-12-01 Sun 15:42]--[2019-12-01 Sun 15:45] =>  0:03
      CLOCK: [2019-12-01 Sun 14:01]--[2019-12-01 Sun 14:37] =>  0:36
      :END:
-     - [ ] Has top bar
+     - [X] Has top bar
      - [ ] List of days with scores
-     - [ ] Chart of last 7 days scores
+       - [ ] Subscription that returns dates/scores
+     - [X] Chart of last 7 days scores
+       - [X] Get chart library installed
 **** Data 
      - [ ] Has top bar
      - [ ] Uses better buttons
