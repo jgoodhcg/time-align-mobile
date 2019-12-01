@@ -28,6 +28,7 @@
             DrawerLayout
             RectButton
             State]]
+   ["react-native-chart-kit" :refer [LineChart]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    ["react-native-side-menu" :default SideMenu]
@@ -293,3 +294,5 @@
                   :dialogTitle "Time sink data export"
                   :UTI         "public.text"}
                  clj->js))))
+
+(def line-chart (r/adapt-react-class LineChart))

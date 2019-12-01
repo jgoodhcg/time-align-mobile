@@ -118,8 +118,12 @@
      - [X] Has default label text
      - [X] Has top bar
 **** Reports 
+     :LOGBOOK:
+     CLOCK: [2019-12-01 Sun 14:01]--[2019-12-01 Sun 14:37] =>  0:36
+     :END:
      - [ ] Has top bar
      - [ ] List of days with scores
+     - [ ] Chart of last 7 days scores
 **** Data 
      - [ ] Has top bar
      - [ ] Uses better buttons

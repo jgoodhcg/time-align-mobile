@@ -5667,6 +5667,11 @@ path-type@^3.0.0:
   dependencies:
     pify "^3.0.0"
 
+paths-js@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/paths-js/-/paths-js-0.4.10.tgz#a3575f409b4a36f8aa795ba4d051989021be58c7"
+  integrity sha512-JZoqlRSHtx+bc+xKI9o4bropEbqZBF4ZfYImiB1T9RYpHB73h5I8XZ7FfSBbHbBMtdD1c04ujjAPH8wUuu4+Gw==
+
 pbkdf2@^3.0.3:
   version "3.0.17"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
@@ -5743,6 +5748,11 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
+
+point-in-polygon@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/point-in-polygon/-/point-in-polygon-1.0.1.tgz#d59b64e8fee41c49458aac82b56718c5957b2af7"
+  integrity sha1-1Ztk6P7kHElFiqyCtWcYxZV7Kvc=
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -5981,6 +5991,15 @@ react-native-branch@~3.0.1:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.0.1.tgz#5b07b61cbd290168cd3c3662e017ebe0f356d2ca"
   integrity sha512-vbcYxPZlpF5f39GAEUF8kuGQqCNeD3E6zEdvtOq8oCGZunHXlWlKgAS6dgBKCvsHvXgHuMtpvs39VgOp8DaKig==
 
+react-native-chart-kit@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-4.1.0.tgz#39f36a415bbe6166a97a82526d1db2eb89be9c3d"
+  integrity sha512-hzafFglATJZ8sPzkA4XBHhV5B9sfg38mFk4lswpCihvzV+z2TZGYP/t69Nqtfqu3DIx++qXlDwFWi6EiHreIjQ==
+  dependencies:
+    lodash "^4.17.13"
+    paths-js "^0.4.10"
+    point-in-polygon "^1.0.1"
+
 react-native-color-picker@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-native-color-picker/-/react-native-color-picker-0.4.0.tgz#801a413a20b833ea8aa9b10418c3761dd4d88fb6"
@@ -6093,6 +6112,11 @@ react-native-status-bar-height@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-status-bar-height/-/react-native-status-bar-height-2.2.0.tgz#3bd51de134660efc5f5ad136ca573c7d5790f7ed"
   integrity sha512-4WJpyZirzeMHyZiyNEy4LnSPOtuLRVy3+28Rhz7ffrjCVcc5RFcC0HVjFnkwfuhcTyXIDtzPG6canJkXzbTtBA==
+
+react-native-svg@~9.9.2:
+  version "9.9.9"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.9.9.tgz#67c83b56d7a292162762a6d389dc78512558c2ca"
+  integrity sha512-a/wxzEaAqWZ3uYwTJKo8sj2gURmEs4xBB83tx5gK9rpoEixzHfsj8+qLacwmQrHab7nf+tWj56INMTSPqm60oA==
 
 react-native-view-shot@2.6.0:
   version "2.6.0"
