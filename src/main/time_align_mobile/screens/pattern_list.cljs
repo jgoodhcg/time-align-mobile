@@ -28,7 +28,6 @@
       [list-section
        (->> (filter-sort @patterns @active-filter)
             (map (fn [item]
-                   (println item)
                    (r/as-element
                     (list-items/pattern
                      (merge

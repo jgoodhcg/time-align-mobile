@@ -144,7 +144,7 @@
   ;; set back handler
   (.addEventListener back-handler
                      "hardwareBackPress"
-                     (fn [] (dispatch [:navigate-to {:current-screen :day}])
+                     (fn [] (dispatch [:navigate-back])
                        true))
 
   ;; load previous state

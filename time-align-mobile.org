@@ -109,7 +109,8 @@
      - [X] Icons are /better/
      - [X] Labels are /better/
      - [ ] Swipe open is disabled (every screen needs top-bar)
-**** Plans
+**** DONE Plans
+     CLOSED: [2019-11-30 Sat 17:24]
      :LOGBOOK:
      CLOCK: [2019-11-28 Thu 13:21]--[2019-11-28 Thu 13:51] =>  0:30
      :END:
@@ -138,8 +139,45 @@
      - [ ] Has top bar
      - [ ] All components align
      - [ ] All components have a consistent style
-
+**** Misc along the way
+     :LOGBOOK:
+     CLOCK: [2019-12-01 Sun 12:26]--[2019-12-01 Sun 13:38] =>  1:12
+     CLOCK: [2019-11-30 Sat 19:09]--[2019-11-30 Sat 19:09] =>  0:00
+     CLOCK: [2019-11-30 Sat 17:24]--[2019-11-30 Sat 17:28] =>  0:04
+     :END:
+     - [X] Save closes keyboard
+     - [X] Save ticks for in play update
+     - [X] Tick updates the stop time in the form?
+     - [X] Update back button
 ** DOSUB Eventually 
+*** TODO Add Calendar integration
+    :PROPERTIES:
+    :Effort:   10:00
+    :Confidence: 60
+    :END:
+    :LOGBOOK:
+    CLOCK: [2019-09-17 Tue 18:34]--[2019-09-17 Tue 18:39] =>  0:05
+    :END:
+https://docs.expo.io/versions/latest/sdk/calendar/
+- [ ] Sync button to pull in calendars from system
+- [ ] Calendar list
+- [ ] Add import to bucket option
+- [ ] Enabled option on each calendar item
+- [ ] Auto add options under each enabled item
+  - [ ] Planned
+  - [ ] Actual
+- [ ] Calendar reference to templates
+- [ ] Calendar reference to periods
+- [ ] Calendars enabled and auto add options to each Bucket
+- [ ] Form components to link periods to calendar events
+- [ ] Form components to link templates to calendar events
+*** TODO Add payment option to vote for features  
+    Air table integration for features list.
+    First option is to select a feature that already exists.
+    Second option is to create a new feature request. (rate limit this)
+    Then there is an option to vote with $.
+    When a successful payment is processed send a request to update the dollar amount in the feature list.
+    https://docs.expo.io/versions/latest/sdk/payments/#using-the-payments-sdk
 *** TODO Add presribed handler tests 
     :PROPERTIES:
     :WORK:     5
@@ -171,27 +209,6 @@
     :WORK:     2
     :END:
 *** TODO Add geofencing triggers on buckets 
-*** TODO Add Calendar integration
-    :PROPERTIES:
-    :Effort:   10:00
-    :Confidence: 60
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-09-17 Tue 18:34]--[2019-09-17 Tue 18:39] =>  0:05
-    :END:
-https://docs.expo.io/versions/latest/sdk/calendar/
-- [ ] Sync button to pull in calendars from system
-- [ ] Calendar list
-- [ ] Add import to bucket option
-- [ ] Enabled option on each calendar item
-- [ ] Auto add options under each enabled item
-  - [ ] Planned
-  - [ ] Actual
-- [ ] Calendar reference to templates
-- [ ] Calendar reference to periods
-- [ ] Calendars enabled and auto add options to each Bucket
-- [ ] Form components to link periods to calendar events
-- [ ] Form components to link templates to calendar events
 *** TODO Add locked period mechanism
     :PROPERTIES:
     :Effort:   8:00
@@ -312,3 +329,4 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - All start timestamps end at 45 sec and all stop time stamps end at 15 sec to have same minute without overlap
 - Fitbit OS integration / companion app
 - Move all side effects (scroll To, bottom sheet collapse) to ~reg-fx~ in re-frame
+- Use this [[https://github.com/philoskim/debux][debug library]]

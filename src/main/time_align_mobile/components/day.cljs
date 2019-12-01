@@ -92,7 +92,7 @@
 
 (def scroll-ref (atom nil))
 
-(defn scroll-to
+(defn scroll-to ;; TODO use this from a reg-fx by requiring it as a dep
   ([y-pos]
    (scroll-to @scroll-ref y-pos))
   ([scroll-ref y-pos]
@@ -758,7 +758,9 @@
 
                                             [edit-form {:scroll-to scroll-to
                                                         :save-callback
-                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        (fn [_]
+                                                          (dismiss-keyboard)
+                                                          (dispatch [:tick (js/Date.)]))
                                                         :in-play-element
                                                         in-play-element
                                                         :play-callback

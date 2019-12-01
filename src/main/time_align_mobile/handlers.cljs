@@ -175,25 +175,30 @@
 
 (reg-fx
  :go-back-nav-screen
+ ;; TODO One obvious flaw with this is that when the app opens with no history the the current screen cannot be "back buttoned" to.
+ ;; A quick fix would be on load dispatch the navigating to the current screen so it gets put in the navigation atom.
+ ;; A long term fix could be to move history into state, then it could persist between sessions too.
  (fn [_]
    (let [[previous-screen _] (take-last 2 @navigation-history)]
      (if (some? previous-screen)
        (do
-         (swap! navigation-history #(do (drop-last 2 %)))
-         (dispatch [:navigate-to previous-screen]))))))
+         (swap! navigation-history #(do (drop-last 1 %))) ;; used to drop 2 with a regular navigation but for some reason it didn't seem to work the same
+         (dispatch [:navigate-to-no-history previous-screen]))))))
 
 (defn navigate-back [{:keys [db]}]
   {:go-back-nav-screen true
    :db db})
 
-(defn navigate-to [{:keys [db]} [_ {:keys [current-screen params]}]]
+(defn navigate-to [{:keys [db]} [dispatch-key {:keys [current-screen params]}]]
   (merge {:db (-> db
                   (assoc-in [:navigation] {:current-screen current-screen
                                            :params         params})
                   ;; prevents using incompatible filters
                   (assoc-in [:active-filter] nil))}
-         {:save-nav-screen {:current-screen current-screen
-                            :params         params}}
+
+         (when (not= :navigate-to-no-history dispatch-key)
+           {:save-nav-screen {:current-screen current-screen
+                              :params         params}})
          (let [dispatch
                (case current-screen
                  :bucket           [:load-bucket-form (:bucket-id params)]
@@ -370,7 +375,6 @@
                                   external-data
                                   {:data (helpers/print-data (:data template))})]
 
-    ;; (println (select [:forms :pattern-form :templates sp/ALL (sp/submap [:label :id])] db))
     (assoc-in db [:forms :template-form] template-form)))
 
 (defn update-template-form [db [_ template-form]]
@@ -1136,6 +1140,7 @@
 (reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :initialize-db [validate-spec] initialize-db)
 (reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
+(reg-event-fx :navigate-to-no-history [validate-spec persist-secure-store] navigate-to)
 (reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
 (reg-event-db :update-bucket-form [validate-spec persist-secure-store] update-bucket-form)
 (reg-event-fx :save-bucket-form [alert-message validate-spec persist-secure-store] save-bucket-form)
