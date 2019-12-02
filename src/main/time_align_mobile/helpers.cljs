@@ -89,8 +89,14 @@
                         (str %))))]
     (str hours "-" minutes)))
 
-(defn ms->h [ms]
+(defn ms->h [ms] ;; TODO refactor this to "rounded"
   (-> ms (quot (hours->ms 1))))
+
+(defn ms->h-float [ms]
+  (-> ms
+      (/ 1000)
+      (/ 60)
+      (/ 50)))
 
 (defn rel-ms->y-pos [ms total-height]
   (-> ms
@@ -346,3 +352,10 @@
     {:ms    time-stamp-ms
      :min   time-stamp-min
      :y-pos time-stamp-y-pos}))
+
+(defn get-duration [{:keys [start stop]}]
+  (if (and (inst? start)
+           (inst? stop))
+    (->> (.valueOf start)
+         (- (.valueOf stop)))
+    nil))

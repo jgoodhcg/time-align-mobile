@@ -394,6 +394,55 @@
 (defn get-menu-open [db _]
   (get-in db [:menu :open]))
 
+(defn get-scores [periods _]
+  (let [total-time-ms (->> periods
+                           (map helpers/get-duration)
+                           (remove nil?)
+                           (reduce +))
+        actual  (->> periods remove :planned)
+        planned (->> periods filter :planned)]
+    nil)
+  ;; Using the app
+  ;; Total time tracked (actual + planned) ms / ms in a day
+  ;; Add together all the duration values for each period
+  ;; Divide by ms-in-day
+
+  ;; Doing what you said you would
+  ;; Cumulative ms matching / ms in day
+  ;; Get summed duration values by bucket for planned and actual
+  ;; {:actual
+  ;;  {:by-bucket [{:bucket-id 12345
+  ;;                :total-ms 12345} ... ]
+  ;;   :total-ms 1234}
+  ;;  :planned
+  ;;  {:by-bucket [{:bucket-id 12345
+  ;;                :total-ms 12345} ... ]
+  ;;   :total-ms 12345}}
+  ;; (1 - (planned - actual)) / total-planned-ms
+
+  ;; Doing it when you said you would
+  ;; Absolute ms matching / ms in day
+  ;; reduce on planned periods
+  ;; for each period reduce over actual periods summing overlap
+
+  ;; Output
+  ;; [{:date #js Date :usage float :what float :when float}]
+  )
+
+(defn get-cumulative-h-by-bucket [db _]
+  (->> db
+       :buckets
+       (map (fn [[bucket-id bucket]]
+              {:label         (:label bucket)
+               :cumulative-hours (->> bucket
+                                   :periods
+                                   (map second)
+                                   (map helpers/get-duration)
+                                   (remove nil?)
+                                   (reduce +)
+                                   (helpers/ms->h-float))}))
+       (sort-by :label)))
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -425,3 +474,5 @@
 (reg-sub :get-day-fab-open get-day-fab-open)
 (reg-sub :get-day-fab-visible get-day-fab-visible)
 (reg-sub :get-menu-open get-menu-open)
+;; (reg-sub :get-scores #(subscribe :periods) get-scores)
+(reg-sub :get-cumulative-h-by-bucket get-cumulative-h-by-bucket)

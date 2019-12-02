@@ -28,7 +28,7 @@
             DrawerLayout
             RectButton
             State]]
-   ["react-native-chart-kit" :refer [LineChart]]
+   ["react-native-chart-kit" :refer [LineChart BarChart]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    ["react-native-side-menu" :default SideMenu]
@@ -257,6 +257,7 @@
                      :end          (.-END gesture-handler-states)})
 
 (def side-menu (r/adapt-react-class SideMenu))
+
 (defn color-light? [color-string]
   (-> color-string
       (color)
@@ -284,6 +285,17 @@
     (color-darken color-string 0.7)
     (color-lighten color-string 0.7)))
 
+(defn color-hex-str->rgba
+  ([hex-string]
+   (color-hex-str->rgba hex-string 1))
+  ([hex-string opacity]
+   (-> hex-string
+       (color)
+       (.rgb)
+       (.string)
+       (clojure.string/replace #"\)" (str ", " opacity ")"))
+       (clojure.string/replace #"rgb" "rgba"))))
+
 (def bottom-sheet (r/adapt-react-class (.-default rbs)))
 
 (defn share-file! [file-name]
@@ -296,3 +308,4 @@
                  clj->js))))
 
 (def line-chart (r/adapt-react-class LineChart))
+(def bar-chart (r/adapt-react-class BarChart))

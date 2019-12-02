@@ -8,7 +8,7 @@
             ["react-native-elements" :as rne]
             ["react-native" :as rn]
             [time-align-mobile.components.list-items :as list-items]
-            [time-align-mobile.helpers :refer [ms->hhmm]]
+            [time-align-mobile.helpers :refer [ms->hhmm get-duration]]
             [time-align-mobile.js-imports :refer [view
                                                   text
                                                   text-input
@@ -221,17 +221,14 @@
                    :on-value-change #(dispatch [update-key {:planned %}])}]]])
 
 (defn duration-comp [start stop]
-  (let [duration (if (and (inst? start)
-                          (inst? stop))
-                   (->> (.valueOf start)
-                        (- (.valueOf stop))
-                        ms->hhmm)
-                   "no duration")]
+  (let [duration (get-duration {:start start :stop stop})]
 
     [view {:style (merge info-field-style
                          {:flex-direction "column"})}
      [subheading {:style label-style} "Duration"]
-     [text duration]]))
+     [text (if-some [d duration]
+             (ms->hhmm d)
+             "No duration")]]))
 
 (defn filter-button [pattern-form on-press]
   [button-paper {:icon     "filter-variant"
