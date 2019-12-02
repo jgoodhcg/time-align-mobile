@@ -119,7 +119,7 @@
      - [X] Has top bar
 **** Reports 
      :LOGBOOK:
-     CLOCK: [2019-12-01 Sun 18:22]
+     CLOCK: [2019-12-01 Sun 18:22]--[2019-12-01 Sun 20:45] =>  2:23
      CLOCK: [2019-12-01 Sun 17:51]--[2019-12-01 Sun 18:00] =>  0:09
      CLOCK: [2019-12-01 Sun 17:34]--[2019-12-01 Sun 17:40] =>  0:06
      CLOCK: [2019-12-01 Sun 16:28]--[2019-12-01 Sun 17:23] =>  0:55
@@ -129,10 +129,8 @@
      CLOCK: [2019-12-01 Sun 14:01]--[2019-12-01 Sun 14:37] =>  0:36
      :END:
      - [X] Has top bar
-     - [ ] List of days with scores
-       - [ ] Subscription that returns dates/scores
-     - [X] Chart of last 7 days scores
-       - [X] Get chart library installed
+     - [ ] Some chart (leaning on cumulative by bucket)
+
 **** Data 
      - [ ] Has top bar
      - [ ] Uses better buttons
@@ -322,7 +320,8 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 *** TODO Bugs
 - Going back from template form doesn't close the bottom sheet
 - Closing the bottom sheet doesn't deselect
-
+*** TODO Unpin react svg lib version
+     https://github.com/indiespirit/react-native-chart-kit/issues/200#issuecomment-550245684
 ** Dreams
 - Data includes periods/templates/pattern generated from for reports of usage
 - Meta data (with mobile friendly editor) on all entities

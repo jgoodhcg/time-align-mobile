@@ -28,7 +28,7 @@
             DrawerLayout
             RectButton
             State]]
-   ["react-native-chart-kit" :refer [LineChart BarChart]]
+   ["react-native-chart-kit" :refer [LineChart BarChart PieChart]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    ["react-native-side-menu" :default SideMenu]
@@ -309,3 +309,4 @@
 
 (def line-chart (r/adapt-react-class LineChart))
 (def bar-chart (r/adapt-react-class BarChart))
+(def pie-chart (r/adapt-react-class PieChart))

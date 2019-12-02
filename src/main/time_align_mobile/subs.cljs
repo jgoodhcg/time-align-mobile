@@ -433,15 +433,18 @@
   (->> db
        :buckets
        (map (fn [[bucket-id bucket]]
-              {:label         (:label bucket)
-               :cumulative-hours (->> bucket
-                                   :periods
-                                   (map second)
-                                   (map helpers/get-duration)
-                                   (remove nil?)
-                                   (reduce +)
-                                   (helpers/ms->h-float))}))
-       (sort-by :label)))
+              {:name            (:label bucket)
+               :color           (:color bucket)
+               :legendFontColor (:color bucket)
+               :legendFontSize  15
+               :population      (->> bucket
+                                     :periods
+                                     (map second)
+                                     (map helpers/get-duration)
+                                     (remove nil?)
+                                     (reduce +)
+                                     (helpers/ms->h-float))}))
+       (sort-by :name)))
 
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)

@@ -2,6 +2,7 @@
   (:require [time-align-mobile.js-imports :refer [view
                                                   line-chart
                                                   bar-chart
+                                                  pie-chart
                                                   surface
                                                   color-lighten
                                                   color-hex-str->rgba
@@ -15,7 +16,7 @@
             ["react" :as react]))
 
 (defn root [params]
-  (let [bar-chart-data @(subscribe [:get-cumulative-h-by-bucket])]
+  (let [pie-chart-data @(subscribe [:get-cumulative-h-by-bucket])]
     [view {:style {:flex 1}}
      [top-bar {:center-content [subheading "Reports"]
                :right-content  [icon-button]}]
@@ -23,17 +24,14 @@
                     :align-items "center"}}
 
       [surface
-       [bar-chart
-        {:data
-         (clj->js {:labels   (clj->js (->> bar-chart-data (map :label)))
-                   :datasets (clj->js
-                              [(clj->js {:data
-                                         (clj->js
-                                          (->> bar-chart-data
-                                               (map :cumulative-hours)))})])})
-         :vertical-label-rotation 45
+       [pie-chart
+        {:data                    (clj->js pie-chart-data)
+         :vertical-label-rotation 90
          :width                   400
          :height                  400
+         :acessor                 "population"
+         :background              "transparent"
+         :from-zero               true
          :chart-config
          (clj->js {:backgroundColor        (->> theme :colors :background)
                    :backgroundGradientFrom (->> theme :colors :background color-darken)
