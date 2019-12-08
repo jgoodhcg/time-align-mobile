@@ -214,6 +214,35 @@
        (reduce insert-into-collision-group [[]])
        (remove empty?)))
 
+(defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             stop
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+
 (defn xor [a b]
   (let [a-num (if a 1 0) b-num (if b 1 0)]
     (if (= 1 (bit-xor a-num b-num))

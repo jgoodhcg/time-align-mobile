@@ -1,0 +1,824 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.24.0snapshot (package: 20191129.901), nREPL 0.6.0
+;; Clojure 1.10.1, Java 11.0.5-ea
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+;; Please, consider taking part in the State of CIDER survey
+;; https://forms.gle/Cp6DW2zGUQkh42u38
+;; Your feedback means a lot to us!
+;; ======================================================================
+;;  Startup: /usr/bin/npx shadow-cljs -d nrepl:0.6.0 -d cider/piggieback:0.4.2 -d cider/cider-nrepl:0.23.0-SNAPSHOT server
+;;
+;; ClojureScript REPL type: shadow
+;; ClojureScript REPL init form: (do (require '[shadow.cljs.devtools.api :as shadow]) (shadow/watch :app) (shadow/nrepl-select :app))
+;;
+[:app] Configuring build.
+[:app] Compiling ...
+To quit, type: :cljs/quit
+[:app] Build completed. (216 files, 3 compiled, 0 warnings, 3.91s)
+[:selected :app]shadow.user> 
+cljs.user> (+ 1 1)
+2
+cljs.user> (take 7 (range 7))
+(0 1 2 3 4 5 6)
+cljs.user> (ns time-align-mobile.subs)
+niltime-align-mobile.substime-align-mobile.subs
+time-align-mobile.subs> (defn days-ago [start-date days-ago]
+  (-> start-date
+      (.valueOf)
+      (- (* (helpers/day-ms) days-ago))
+      (js/Date.)))
+#'time-align-mobile.subs/days-ago
+time-align-mobile.subs> (days-ago (js/Date.) 3)
+time_align_mobile$subs$days_ago
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30978:31
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32146:31
+emit@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5585:42
+__callFunction@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4880:49
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4637:31
+__guard@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4834:15
+callFunctionReturnFlushedQueue@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4636:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.subs> (defn days-ago [start-date days-ago]
+  (-> start-date
+      (.valueOf)
+      ;; (- (* (helpers/day-ms) days-ago))
+      ;; (js/Date.)
+      ))
+#'time-align-mobile.subs/days-ago
+time-align-mobile.subs> (days-ago (js/Date.) 3)
+1575831945095
+time-align-mobile.subs> (defn days-ago [start-date days-ago]
+  (-> start-date
+      (.valueOf)
+      (- (* (helpers/day-ms) days-ago))
+      ;; (js/Date.)
+      ))
+#'time-align-mobile.subs/days-ago
+time-align-mobile.subs> (days-ago (js/Date.) 3)
+time_align_mobile$subs$days_ago
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30978:31
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32146:31
+emit@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5585:42
+__callFunction@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4880:49
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4637:31
+__guard@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4834:15
+callFunctionReturnFlushedQueue@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4636:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.subs> (defn days-ago [start-date days-ago]
+  (-> start-date
+      (.valueOf)
+      (- (*  helpers/day-ms days-ago))
+      (js/Date.)
+      ))
+#'time-align-mobile.subs/days-ago
+time-align-mobile.subs> (days-ago (js/Date.) 3)
+#inst "2019-12-05T19:06:25.607-00:00"
+time-align-mobile.subs> (defn days-ago [start-date days-ago]
+  (-> start-date
+      (.valueOf)
+      (- (*  helpers/day-ms days-ago))
+      (js/Date.)
+(helpers/reset-relative-ms)
+      ))
+------ WARNING - :fn-arity -----------------------------------------------------
+ Resource: :6:1
+ Wrong number of args (1) passed to time-align-mobile.helpers/reset-relative-ms
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/days-ago
+time-align-mobile.subs> (defn days-ago [start-date days-ago]
+                          (helpers/reset-relative-ms 0 (-> start-date
+                                                          (.valueOf)
+                                                          (- (*  helpers/day-ms days-ago))
+                                                          (js/Date.)
+                                                          )))
+#'time-align-mobile.subs/days-ago
+time-align-mobile.subs> (days-ago (js/Date.) 3)
+#inst "2019-12-05T05:00:00.000-00:00"[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.62s)
+
+time-align-mobile.subs> (->> 7 range (take 7))
+(0 1 2 3 4 5 6)
+time-align-mobile.subs> (->> 7 range (take 7) (map #(helpers/back-n-days (js/Date.) %)))
+
+(#inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00" #inst "2019-12-02T05:00:00.000-00:00")
+time-align-mobile.subs> (->> range
+                       (take 7)
+                       (map #(helpers/back-n-days (js/Date.) %)))
+time-align-mobile.subs> (->> range
+                       (take 7)
+                       (map #(helpers/back-n-days (js/Date.) %)))
+time-align-mobile.subs> (->> 7
+                       range
+                       (take 7)
+                       (map #(helpers/back-n-days (js/Date.) %)))
+(#inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00" #inst "2019-12-02T05:00:00.000-00:00")
+time-align-mobile.subs> (->> 7
+                       range
+                       (take 7)
+                       (map #(helpers/back-n-days (js/Date.) %))
+                       (hash-map)
+                       )
+{}
+time-align-mobile.subs> (->> 7
+                       range
+                       (take 7)
+                       (map #(helpers/back-n-days (js/Date.) %))
+                       (reduce #(assoc %1 %2 {}) {})
+                       )
+{#inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}, #inst "2019-12-02T05:00:00.000-00:00" {}}
+time-align-mobile.subs> (def periods (get-periods @re-frame.db/app-db :no-op))
+#'time-align-mobile.subs/periods
+time-align-mobile.subs> (count periods)
+273
+time-align-mobile.subs> (first periods)
+{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map println))
+[#inst "2019-12-08T05:00:00.000-00:00" {}]
+[#inst "2019-12-07T05:00:00.000-00:00" {}]
+[#inst "2019-12-06T05:00:00.000-00:00" {}]
+[#inst "2019-12-05T05:00:00.000-00:00" {}]
+[#inst "2019-12-04T05:00:00.000-00:00" {}]
+[#inst "2019-12-03T05:00:00.000-00:00" {}]
+[#inst "2019-12-02T05:00:00.000-00:00" {}]
+(nil nil nil nil nil nil nil)
+time-align-mobile.subs> (defn period-time-on-day [{:keys start stop} date] 
+                         (if (or (-> (.valueOf start)
+                                     (<= (.valueOf date)))
+                                 (-> (.valueOf stop)
+                                     (>= (.valueOf date))))
+                           (let [adjusted-start (if (helpers/same-day? start date)
+                                                  start
+                                                  ;; use the beginning of the date
+                                                  (helpers/reset-relative-ms 0 date))
+                                 adjusted-stop (if (helpers/same-day? stop date)
+                                                  start
+                                                  ;; use the end of the date
+                                                  (helpers/reset-relative-ms helpers/day-ms date))]
+                             (-> (.valueOf adjusted-stop)
+                                 (- (.valueOf adjusted-start))))
+                           0) )
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 45] The map literal starting with :keys on line 1 column 27 contains 3 form(s). Map literals must contain an even number of forms. {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 45}------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:2
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+nil------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :2:48
+ Use of undeclared Var time-align-mobile.subs/start
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :3:52
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :4:48
+ Use of undeclared Var time-align-mobile.subs/stop
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :5:52
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :6:72
+ Use of undeclared Var time-align-mobile.subs/start
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :6:78
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:51
+ Use of undeclared Var time-align-mobile.subs/start
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :9:80
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :10:71
+ Use of undeclared Var time-align-mobile.subs/stop
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :10:76
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :11:51
+ Use of undeclared Var time-align-mobile.subs/start
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :13:93
+ Use of undeclared Var time-align-mobile.subs/date
+--------------------------------------------------------------------------------
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30978:31
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32146:31
+emit@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5585:42
+__callFunction@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4880:49
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4637:31
+__guard@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4834:15
+callFunctionReturnFlushedQueue@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4636:21
+callFunctionReturnFlushedQueue@[native code]Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 3] Unmatched delimiter ). {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 3}
+time-align-mobile.subs> (defn period-time-on-day [{:keys [start stop]} date] 
+                         (if (or (-> (.valueOf start)
+                                     (<= (.valueOf date)))
+                                 (-> (.valueOf stop)
+                                     (>= (.valueOf date))))
+                           (let [adjusted-start (if (helpers/same-day? start date)
+                                                  start
+                                                  ;; use the beginning of the date
+                                                  (helpers/reset-relative-ms 0 date))
+                                 adjusted-stop (if (helpers/same-day? stop date)
+                                                  start
+                                                  ;; use the end of the date
+                                                  (helpers/reset-relative-ms helpers/day-ms date))]
+                             (-> (.valueOf adjusted-stop)
+                                 (- (.valueOf adjusted-start))))
+                           0) )
+#'time-align-mobile.subs/period-time-on-day
+time-align-mobile.subs> (first periods)
+{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}
+time-align-mobile.subs> (->> periods first (period-time-on-day #inst "2019-11-19T20:35:00.000-00:00"))
+time_align_mobile$subs$period_time_on_day
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30978:31
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32146:31
+emit@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5585:42
+__callFunction@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4880:49
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4637:31
+__guard@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4834:15
+callFunctionReturnFlushedQueue@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4636:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.subs> (->> periods first (period-time-on-day (js/Date. "2019-11-19T20:35:00.000-00:00")))
+time_align_mobile$subs$period_time_on_day
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30978:31
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32146:31
+emit@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5585:42
+__callFunction@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4880:49
+http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4637:31
+__guard@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4834:15
+callFunctionReturnFlushedQueue@http://192.168.1.129:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4636:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.subs> (-> periods first (period-time-on-day (js/Date. "2019-11-19T20:35:00.000-00:00")))
+0
+time-align-mobile.subs> (js/Date. "2019-11-19T20:35:00.000-00:00")
+
+#inst "2019-11-19T20:35:00.000-00:00"
+time-align-mobile.subs> (defn period-time-on-day [{:keys [start stop]} date] 
+                          (let [beginning (helpers/reset-relative-ms 0 date)])
+                         (if (or (-> (.valueOf start)
+                                     (<= (.valueOf date)))
+                                 (-> (.valueOf stop)
+                                     (>= (.valueOf date))))
+                           (let [adjusted-start (if (helpers/same-day? start date)
+                                                  start
+                                                  beginning
+                                                  )
+                                 adjusted-stop (if (helpers/same-day? stop date)
+                                                  start
+                                                  end
+                                                  )]
+                             (-> (.valueOf adjusted-stop)
+                                 (- (.valueOf adjusted-start))))
+                           0) )
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :9:51
+ Use of undeclared Var time-align-mobile.subs/beginning
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :13:51
+ Use of undeclared Var time-align-mobile.subs/end
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/period-time-on-day[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 10 warnings, 1.75s)
+
+------ WARNING #1 - :undeclared-ns ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:218:20
+--------------------------------------------------------------------------------
+ 215 |        (remove empty?)))
+ 216 | 
+ 217 | (defn period-time-on-day [{:keys [start stop]} date]
+ 218 |   (let [beginning (helpers/reset-relative-ms 0 date)
+--------------------------^-----------------------------------------------------
+ No such namespace: helpers, could not locate helpers.cljs, helpers.cljc, or JavaScript source providing "helpers"
+--------------------------------------------------------------------------------
+ 219 |         end       (helpers/reset-relative-ms helpers/day-ms date)]
+ 220 | 
+ 221 |     (if
+ 222 |         ;; test if the interval overlaps
+--------------------------------------------------------------------------------
+
+------ WARNING #2 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:218:20
+--------------------------------------------------------------------------------
+ 215 |        (remove empty?)))
+ 216 | 
+ 217 | (defn period-time-on-day [{:keys [start stop]} date]
+ 218 |   (let [beginning (helpers/reset-relative-ms 0 date)
+--------------------------^-----------------------------------------------------
+ Use of undeclared Var helpers/reset-relative-ms
+--------------------------------------------------------------------------------
+ 219 |         end       (helpers/reset-relative-ms helpers/day-ms date)]
+ 220 | 
+ 221 |     (if
+ 222 |         ;; test if the interval overlaps
+--------------------------------------------------------------------------------
+
+------ WARNING #3 - :undeclared-ns ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:219:20
+--------------------------------------------------------------------------------
+ 216 | 
+ 217 | (defn period-time-on-day [{:keys [start stop]} date]
+ 218 |   (let [beginning (helpers/reset-relative-ms 0 date)
+ 219 |         end       (helpers/reset-relative-ms helpers/day-ms date)]
+--------------------------^-----------------------------------------------------
+ No such namespace: helpers, could not locate helpers.cljs, helpers.cljc, or JavaScript source providing "helpers"
+--------------------------------------------------------------------------------
+ 220 | 
+ 221 |     (if
+ 222 |         ;; test if the interval overlaps
+ 223 |         (and (-> (.valueOf start)
+--------------------------------------------------------------------------------
+
+------ WARNING #4 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:219:20
+--------------------------------------------------------------------------------
+ 216 | 
+ 217 | (defn period-time-on-day [{:keys [start stop]} date]
+ 218 |   (let [beginning (helpers/reset-relative-ms 0 date)
+ 219 |         end       (helpers/reset-relative-ms helpers/day-ms date)]
+--------------------------^-----------------------------------------------------
+ Use of undeclared Var helpers/reset-relative-ms
+--------------------------------------------------------------------------------
+ 220 | 
+ 221 |     (if
+ 222 |         ;; test if the interval overlaps
+ 223 |         (and (-> (.valueOf start)
+--------------------------------------------------------------------------------
+
+------ WARNING #5 - :undeclared-ns ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:219:46
+--------------------------------------------------------------------------------
+ 216 | 
+ 217 | (defn period-time-on-day [{:keys [start stop]} date]
+ 218 |   (let [beginning (helpers/reset-relative-ms 0 date)
+ 219 |         end       (helpers/reset-relative-ms helpers/day-ms date)]
+----------------------------------------------------^---------------------------
+ No such namespace: helpers, could not locate helpers.cljs, helpers.cljc, or JavaScript source providing "helpers"
+--------------------------------------------------------------------------------
+ 220 | 
+ 221 |     (if
+ 222 |         ;; test if the interval overlaps
+ 223 |         (and (-> (.valueOf start)
+--------------------------------------------------------------------------------
+
+------ WARNING #6 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:219:46
+--------------------------------------------------------------------------------
+ 216 | 
+ 217 | (defn period-time-on-day [{:keys [start stop]} date]
+ 218 |   (let [beginning (helpers/reset-relative-ms 0 date)
+ 219 |         end       (helpers/reset-relative-ms helpers/day-ms date)]
+----------------------------------------------------^---------------------------
+ Use of undeclared Var helpers/day-ms
+--------------------------------------------------------------------------------
+ 220 | 
+ 221 |     (if
+ 222 |         ;; test if the interval overlaps
+ 223 |         (and (-> (.valueOf start)
+--------------------------------------------------------------------------------
+
+------ WARNING #7 - :undeclared-ns ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:229:33
+--------------------------------------------------------------------------------
+ 226 |                  (>= (.valueOf end))))
+ 227 | 
+ 228 |       ;; it does so figure out the value of the portion that overlaps
+ 229 |       (let [adjusted-start (if (helpers/same-day? start date)
+---------------------------------------^----------------------------------------
+ No such namespace: helpers, could not locate helpers.cljs, helpers.cljc, or JavaScript source providing "helpers"
+--------------------------------------------------------------------------------
+ 230 |                              start
+ 231 |                              beginning
+ 232 |                              )
+ 233 |             adjusted-stop  (if (helpers/same-day? stop date)
+--------------------------------------------------------------------------------
+
+------ WARNING #8 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:229:33
+--------------------------------------------------------------------------------
+ 226 |                  (>= (.valueOf end))))
+ 227 | 
+ 228 |       ;; it does so figure out the value of the portion that overlaps
+ 229 |       (let [adjusted-start (if (helpers/same-day? start date)
+---------------------------------------^----------------------------------------
+ Use of undeclared Var helpers/same-day?
+--------------------------------------------------------------------------------
+ 230 |                              start
+ 231 |                              beginning
+ 232 |                              )
+ 233 |             adjusted-stop  (if (helpers/same-day? stop date)
+--------------------------------------------------------------------------------
+
+------ WARNING #9 - :undeclared-ns ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:233:33
+--------------------------------------------------------------------------------
+ 230 |                              start
+ 231 |                              beginning
+ 232 |                              )
+ 233 |             adjusted-stop  (if (helpers/same-day? stop date)
+---------------------------------------^----------------------------------------
+ No such namespace: helpers, could not locate helpers.cljs, helpers.cljc, or JavaScript source providing "helpers"
+--------------------------------------------------------------------------------
+ 234 |                              start
+ 235 |                              end
+ 236 |                              )]
+ 237 |         (-> (.valueOf adjusted-stop)
+--------------------------------------------------------------------------------
+
+------ WARNING #10 - :undeclared-var -------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:233:33
+--------------------------------------------------------------------------------
+ 230 |                              start
+ 231 |                              beginning
+ 232 |                              )
+ 233 |             adjusted-stop  (if (helpers/same-day? stop date)
+---------------------------------------^----------------------------------------
+ Use of undeclared Var helpers/same-day?
+--------------------------------------------------------------------------------
+ 234 |                              start
+ 235 |                              end
+ 236 |                              )]
+ 237 |         (-> (.valueOf adjusted-stop)
+--------------------------------------------------------------------------------
+
+time-align-mobile.subs> (ns time-align-mobile.helpers)
+niltime-align-mobile.helperstime-align-mobile.helpers[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 1.35s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 1.32s)
+
+time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+    (if
+        ;; test if the interval overlaps
+        (and (-> (.valueOf start)
+                 (<= (.valueOf beginning)))
+             (-> (.valueOf stop)
+                 (>= (.valueOf end))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             start
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (def test-period {:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}})
+#'time-align-mobile.helpers/test-period
+time-align-mobile.helpers> (def test-day #inst "2019-11-19T08:51:09.418-00:00")
+#'time-align-mobile.helpers/test-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+0[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 1.30s)
+
+time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             start
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:21
+ Use of undeclared Var time-align-mobile.helpers/test-period
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:33
+ Use of undeclared Var time-align-mobile.helpers/test-day
+--------------------------------------------------------------------------------
+0
+time-align-mobile.helpers> (def test-period {:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}})
+#'time-align-mobile.helpers/test-period
+time-align-mobile.helpers> (def test-day #inst "2019-11-19T08:51:09.418-00:00")
+#'time-align-mobile.helpers/test-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+0[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 1.16s)
+
+time-align-mobile.helpers> (def test-period {:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}})
+#'time-align-mobile.helpers/test-period
+time-align-mobile.helpers> (def test-day #inst "2019-11-19T08:51:09.418-00:00")
+#'time-align-mobile.helpers/test-day
+time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+    (println (same-day? start date))
+    (println (same-day? stop date))
+    (println (-> (.valueOf start)
+                 (<= (.valueOf beginning))))
+    (println (-> (.valueOf stop)
+                 (>= (.valueOf end))))
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             start
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+true
+true
+0false
+false
+[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 1.24s)
+time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+
+    (println (or (same-day? start date)
+                 (same-day? stop date)))
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             start
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (def test-day #inst "2019-11-19T08:51:09.418-00:00")
+#'time-align-mobile.helpers/test-day
+time-align-mobile.helpers> (def test-period {:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}})
+#'time-align-mobile.helpers/test-period
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+true
+0
+time-align-mobile.helpers>  (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+
+    (println (or
+              ;; start or stop are on the day
+              (or (same-day? start date)
+                  (same-day? stop date))
+              ;; start and stop stretch past the overlap
+              (and (-> (.valueOf start)
+                       (<= (.valueOf beginning)))
+                   (-> (.valueOf stop)
+                       (>= (.valueOf end))))))
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             start
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+true
+0
+time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      (do (println "made it here")
+          ;; it does so figure out the value of the portion that overlaps
+          (let [adjusted-start (if (same-day? start date)
+                                 start
+                                 beginning)
+                adjusted-stop  (if (same-day? stop date)
+                                 start
+                                 end)]
+            ;; use the adjusted start/stop to figure out the overlapping amount in ms
+            (-> (.valueOf adjusted-stop)
+                (- (.valueOf adjusted-start)))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+made it here
+0
+time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
+  (let [beginning (reset-relative-ms 0 date)
+        end       (reset-relative-ms day-ms date)]
+
+    (if ;; test if the interval overlaps
+        (or
+         ;; start or stop are on the day
+         (or (same-day? start date)
+             (same-day? stop date))
+         ;; start and stop stretch past the overlap
+         (and (-> (.valueOf start)
+                  (<= (.valueOf beginning)))
+              (-> (.valueOf stop)
+                  (>= (.valueOf end)))))
+
+      ;; it does so figure out the value of the portion that overlaps
+      (let [adjusted-start (if (same-day? start date)
+                             start
+                             beginning)
+            adjusted-stop  (if (same-day? stop date)
+                             stop
+                             end)]
+        ;; use the adjusted start/stop to figure out the overlapping amount in ms
+        (-> (.valueOf adjusted-stop)
+            (- (.valueOf adjusted-start))))
+
+      ;; it doesn't overlap so return 0
+      0)))
+#'time-align-mobile.helpers/period-time-on-day
+time-align-mobile.helpers> (period-time-on-day test-period test-day)
+5100000
+time-align-mobile.helpers> (comment "replaced start with stop in adjusted stop let")
+nil
+time-align-mobile.helpers> 

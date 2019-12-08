@@ -462,7 +462,19 @@
                                 [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
 
   (let [periods (get-periods db :no-op)
-        ;; this-week ()
+
+        intermediate-data-structure
+        (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {}))
+        ;; map over the hashmap
+        ;; within that map over periods using period-time-on-day
+        ;; remove 0
+        ;; group by bucket
+        ;; If you want to stretch get the cumulative value and subtract it from day-ms
+        ;; If you really want to stretch negate overlapping period time from that "untracked time" value
         ]))
 
 
