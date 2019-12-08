@@ -446,6 +446,26 @@
                                      (helpers/ms->h-float))}))
        (sort-by :name)))
 
+(defn get-stacked-bar-week [db _]
+  ;; Intermediate data structure
+  (comment {#inst "2019-12-12" {:planned {#uuid "e2c35b0d-30ec-45c9-8a81-40b214dca952" 12.5
+                                          #uuid "aaa35b0d-30ec-45c9-8a81-40b214dca432" 1.99}}})
+
+  ;; End result data structure
+  (comment {:planned [{:labels ["day-1" "day-2"]
+                       :legend ["bucket-label-1" "bucket-label-2"]
+                       :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+                                [cum-hour-b1-d2 cum-hour-b2-d2]]}]
+            :actual  [{:labels ["day-1" "day-2"]
+                       :legend ["bucket-label-1" "bucket-label-2"]
+                       :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+                                [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
+
+  (let [periods (get-periods db :no-op)
+        ;; this-week ()
+        ]))
+
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)

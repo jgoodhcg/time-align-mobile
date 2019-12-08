@@ -28,7 +28,7 @@
             DrawerLayout
             RectButton
             State]]
-   ["react-native-chart-kit" :refer [LineChart BarChart PieChart]]
+   ["react-native-chart-kit" :refer [LineChart BarChart PieChart StackedBarChart]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    ["react-native-side-menu" :default SideMenu]
@@ -207,6 +207,7 @@
 (def surface (r/adapt-react-class (oget paper "Surface")))
 (def text-input-paper (r/adapt-react-class (oget paper "TextInput")))
 (def subheading (r/adapt-react-class (oget paper "Subheading")))
+(def headline (r/adapt-react-class (oget paper "Headline")))
 (def chip (r/adapt-react-class (oget paper "Chip")))
 (def button-paper (r/adapt-react-class (oget paper "Button")))
 (def switch-paper (r/adapt-react-class (oget paper "Switch")))
@@ -309,4 +310,5 @@
 
 (def line-chart (r/adapt-react-class LineChart))
 (def bar-chart (r/adapt-react-class BarChart))
+(def stacked-bar-chart (r/adapt-react-class StackedBarChart))
 (def pie-chart (r/adapt-react-class PieChart))

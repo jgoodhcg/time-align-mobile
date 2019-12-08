@@ -35,7 +35,7 @@
      #+NAME: WSJF table
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      #+END:
-** Instructions on WSJF table usage 
+     #+begin_center
      This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
      The *(/ (float VALUE) (float WORK))* column is derived from those two properties. 
      ~C-c C-c~ on the table definition line to re-render.
@@ -43,6 +43,7 @@
      To rapidly enter *VALUE* and *WORK* properties use ~org-columns~ to enter column view.
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
+     #+end_center
 ** DOSUB Release to strangers
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
      | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
@@ -119,6 +120,7 @@
      - [X] Has top bar
 **** Reports 
      :LOGBOOK:
+     CLOCK: [2019-12-08 Sun 11:53]--[2019-12-08 Sun 13:56] =>  2:03
      CLOCK: [2019-12-01 Sun 18:22]--[2019-12-01 Sun 20:45] =>  2:23
      CLOCK: [2019-12-01 Sun 17:51]--[2019-12-01 Sun 18:00] =>  0:09
      CLOCK: [2019-12-01 Sun 17:34]--[2019-12-01 Sun 17:40] =>  0:06
