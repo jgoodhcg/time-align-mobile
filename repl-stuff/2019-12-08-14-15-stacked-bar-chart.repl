@@ -820,5 +820,11 @@ time-align-mobile.helpers> (defn period-time-on-day [{:keys [start stop]} date]
 time-align-mobile.helpers> (period-time-on-day test-period test-day)
 5100000
 time-align-mobile.helpers> (comment "replaced start with stop in adjusted stop let")
-nil
+nil[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 1.16s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.55s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.55s)
+
 time-align-mobile.helpers> 

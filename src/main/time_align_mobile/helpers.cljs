@@ -223,7 +223,7 @@
          ;; start or stop are on the day
          (or (same-day? start date)
              (same-day? stop date))
-         ;; start and stop stretch past the overlap
+         ;; start and stop stretch past the day
          (and (-> (.valueOf start)
                   (<= (.valueOf beginning)))
               (-> (.valueOf stop)

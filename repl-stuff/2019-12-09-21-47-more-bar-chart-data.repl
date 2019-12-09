@@ -1,0 +1,345 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.24.0snapshot (package: 20191129.901), nREPL 0.6.0
+;; Clojure 1.10.1, Java 11.0.5-ea
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+;; Please, consider taking part in the State of CIDER survey
+;; https://forms.gle/Cp6DW2zGUQkh42u38
+;; Your feedback means a lot to us!
+;; ======================================================================
+;;  Startup: /usr/bin/npx shadow-cljs -d nrepl:0.6.0 -d cider/piggieback:0.4.2 -d cider/cider-nrepl:0.23.0-SNAPSHOT server
+;;
+;; ClojureScript REPL type: shadow
+;; ClojureScript REPL init form: (do (require '[shadow.cljs.devtools.api :as shadow]) (shadow/watch :app) (shadow/nrepl-select :app))
+;;
+[:app] Configuring build.
+[:app] Compiling ...
+[:app] Build completed. (216 files, 5 compiled, 0 warnings, 3.68s)
+To quit, type: :cljs/quit
+[:selected :app]shadow.user> 
+cljs.user> (+  11 1)
+12
+cljs.user> (ns time-align-mobile.subs)
+niltime-align-mobile.substime-align-mobile.subs
+time-align-mobile.subs> (def app-db @re-frame.db/app-db)
+#'time-align-mobile.subs/app-db
+time-align-mobile.subs> (def periods (get-periods app-db :no-op))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:15
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/periods
+time-align-mobile.subs> (first periods)
+{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {}))
+{#inst "2019-12-09T05:00:00.000-00:00" {}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map identity))
+([#inst "2019-12-09T05:00:00.000-00:00" {}] [#inst "2019-12-08T05:00:00.000-00:00" {}] [#inst "2019-12-07T05:00:00.000-00:00" {}] [#inst "2019-12-06T05:00:00.000-00:00" {}] [#inst "2019-12-05T05:00:00.000-00:00" {}] [#inst "2019-12-04T05:00:00.000-00:00" {}] [#inst "2019-12-03T05:00:00.000-00:00" {}])
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [date data]
+                    (->> periods (map #(helpers/period-time-on-day % date))))))
+Oops, Unexpected object value (nil) {:path , :flavor nil, :obj nil}
+Oops, Unexpected object value (nil) {:path , :flavor nil, :obj nil}
+Oops, Unexpected object value (nil) {:path , :flavor nil, :obj nil}
+Oops, Unexpected object value (nil) {:path , :flavor nil, :obj nil}
+time-align-mobile.subs> (def app-db @re-frame.db/app-db)
+#'time-align-mobile.subs/app-db
+time-align-mobile.subs> (comment "added some more periods to today")
+nil
+time-align-mobile.subs> (def periods (get-periods app-db :no-op))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:15
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/periods
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [date data]
+                    (->> periods (map #(helpers/period-time-on-day % date)))))
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [date data]
+                    (->> periods (map #(if (helpers/period-time-on-day % date)
+                                         %
+                                         nil))))))
+time-align-mobile.subs> (+ 1 1)
+2
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             ;; (map (fn [date data]
+             ;;        (->> periods (map #(if (helpers/period-time-on-day % date)
+             ;;                             %
+             ;;                             nil)))))
+             )
+{#inst "2019-12-09T05:00:00.000-00:00" {}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [date data]
+                    (->> periods (map #(if (helpers/period-time-on-day % date)
+                                         %
+                                         nil)))))
+             )
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [date data]
+                    (->> periods (filter #(helpers/period-time-on-day % date))))))
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date data]]
+                    (->> periods (filter #(helpers/period-time-on-day % date))))))
+;; output cleared
+
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-on-date (->> periods (filter #(helpers/period-time-on-day % date)))]
+                      {date (group-by :bucket-id periods-on-date)}))))
+;; output cleared
+
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-on-date (->> periods (filter #(helpers/period-time-on-day % date)))]
+                      {date (map #(first %) (group-by :bucket-id periods-on-date))}))))
+({#inst "2019-12-09T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")} {#inst "2019-12-08T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")} {#inst "2019-12-07T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")} {#inst "2019-12-06T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")} {#inst "2019-12-05T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")} {#inst "2019-12-04T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")} {#inst "2019-12-03T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")})
+time-align-mobile.subs> (comment "Why are these all the same day?")
+nil
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    date)))
+(#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00")
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-on-date (->> periods (filter #(helpers/period-time-on-day % date)))]
+                      {date (map #(first %) (group-by :bucket-id periods-on-date))})))
+             (apply merge))
+{#inst "2019-12-09T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-08T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-07T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-06T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-05T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-04T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-03T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")}
+time-align-mobile.subs> (comment "The keys are different days (as expected). But there should be empty lists for everythin but today.")
+nil[:app] Compiling ...
+[:app] Build completed. (216 files, 11 compiled, 0 warnings, 3.51s)
+
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-on-date (->> periods (filter #(-> (helpers/period-time-on-day % date) (> 0))))]
+                      {date (map #(first %) (group-by :bucket-id periods-on-date))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:48
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832"), #inst "2019-12-08T05:00:00.000-00:00" (), #inst "2019-12-07T05:00:00.000-00:00" (), #inst "2019-12-06T05:00:00.000-00:00" (), #inst "2019-12-05T05:00:00.000-00:00" (), #inst "2019-12-04T05:00:00.000-00:00" (), #inst "2019-12-03T05:00:00.000-00:00" ()}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))]
+                      {date (map #(first %) (group-by :bucket-id periods-time-on-date))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-08T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-07T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-06T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-05T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-04T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-03T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))]
+                      {date (map #(first %) (group-by :bucket-id periods-time-on-date))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-08T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-07T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-06T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-05T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-04T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061"), #inst "2019-12-03T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))]
+                      {date (map #(first %) (group-by :bucket-id filtered))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" (#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832"), #inst "2019-12-08T05:00:00.000-00:00" (), #inst "2019-12-07T05:00:00.000-00:00" (), #inst "2019-12-06T05:00:00.000-00:00" (), #inst "2019-12-05T05:00:00.000-00:00" (), #inst "2019-12-04T05:00:00.000-00:00" (), #inst "2019-12-03T05:00:00.000-00:00" ()}
+time-align-mobile.subs> (comment "Got it!")
+nil
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))]
+                      {date (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        (->> periods (map :label)))))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" (("Going to the dentist") ("" "") ("Getting ready for bed" "Don't dishes" "Getting dressed") ("") ("Lifting") ("" "")), #inst "2019-12-08T05:00:00.000-00:00" (), #inst "2019-12-07T05:00:00.000-00:00" (), #inst "2019-12-06T05:00:00.000-00:00" (), #inst "2019-12-05T05:00:00.000-00:00" (), #inst "2019-12-04T05:00:00.000-00:00" (), #inst "2019-12-03T05:00:00.000-00:00" ()}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))]
+                      {date (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))})))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" ({#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" 5934115} {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" 6454989} {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" 4563284} {#uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" 35627762} {#uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" 2116931} {#uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" 32982174}), #inst "2019-12-08T05:00:00.000-00:00" (), #inst "2019-12-07T05:00:00.000-00:00" (), #inst "2019-12-06T05:00:00.000-00:00" (), #inst "2019-12-05T05:00:00.000-00:00" (), #inst "2019-12-04T05:00:00.000-00:00" (), #inst "2019-12-03T05:00:00.000-00:00" ()}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))]
+                      {date (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))}))
+                                 (apply merge))})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" 5934115, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" 6454989, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" 4563284, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" 35627762, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" 2116931, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" 32982174}, #inst "2019-12-08T05:00:00.000-00:00" nil, #inst "2019-12-07T05:00:00.000-00:00" nil, #inst "2019-12-06T05:00:00.000-00:00" nil, #inst "2019-12-05T05:00:00.000-00:00" nil, #inst "2019-12-04T05:00:00.000-00:00" nil, #inst "2019-12-03T05:00:00.000-00:00" nil}
+time-align-mobile.subs> (comment "TODO maybe the keys shouldn't be just bucket id but also bucket label?")
+nil
+time-align-mobile.subs> 
+time-align-mobile.subs> 
