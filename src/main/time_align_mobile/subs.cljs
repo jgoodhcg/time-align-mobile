@@ -447,35 +447,84 @@
        (sort-by :name)))
 
 (defn get-stacked-bar-week [db _]
-  ;; Intermediate data structure
-  (comment {#inst "2019-12-12" {:planned {#uuid "e2c35b0d-30ec-45c9-8a81-40b214dca952" 12.5
-                                          #uuid "aaa35b0d-30ec-45c9-8a81-40b214dca432" 1.99}}})
+  (let [periods     (get-periods db :no-op)
+        all-buckets (->> db :buckets keys (map #(hash-map % {})) (apply merge))
+        ;; example intermediate-data-structure
+        ;; all buckets are listed for each day
 
-  ;; End result data structure
-  (comment {:planned [{:labels ["day-1" "day-2"]
-                       :legend ["bucket-label-1" "bucket-label-2"]
-                       :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
-                                [cum-hour-b1-d2 cum-hour-b2-d2]]}]
-            :actual  [{:labels ["day-1" "day-2"]
-                       :legend ["bucket-label-1" "bucket-label-2"]
-                       :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
-                                [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
+        ;; (comment {#inst "2019-12-09T05:00:00.000-00:00"
+        ;;           {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+        ;;            {:cumulative-planned-time 0
+        ;;             :cumulative-actual-time 5934115
+        ;;             :bucket-label "🤹‍♂️ misc"}}})
 
-  (let [periods (get-periods db :no-op)
-
+        ;; TODO Get the cumulative value and subtract it from day-ms
+        ;; TODO Negate overlapping period time from that "untracked time" value
         intermediate-data-structure
         (->> 7
              range
              (take 7)
              (map #(helpers/back-n-days (js/Date.) %))
-             (reduce #(assoc %1 %2 {}) {}))
-        ;; map over the hashmap
-        ;; within that map over periods using period-time-on-day
-        ;; remove 0
-        ;; group by bucket
-        ;; If you want to stretch get the cumulative value and subtract it from day-ms
-        ;; If you really want to stretch negate overlapping period time from that "untracked time" value
-        ]))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (merge all-buckets)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label
+                                                  (select [:buckets (sp/keypath bucket-id) :label] db)}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+
+        reusable-labels     (->> intermediate-data-structure
+                                 (select [sp/MAP-KEYS])
+                                 (map #(str (.getDay %)))) ;; list of dates
+        reusable-legend     (select [:buckets sp/MAP-VALS :label] db)          ;; relies on ?map? ordering being preserved
+        reusable-bar-colors (select [:buckets sp/MAP-VALS :color] db)          ;; relies on ?map? ordering being preserved
+
+        get-chart-ready-cumulative-times
+        (fn [cumulative-key]
+          (->> intermediate-data-structure
+               (map (fn [[date bucket-indexed]]
+                      (->> bucket-indexed
+                           (map (fn [[bucket-id values]]
+                                  (cumulative-key values))))))))]
+
+    ;; chart-ready-data-structure
+    ;; (comment {:planned {:labels ["day-1" "day-2"]
+    ;;                     :legend ["bucket-label-1" "bucket-label-2"]
+    ;;                     :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+    ;;                              [cum-hour-b1-d2 cum-hour-b2-d2]]}
+    ;;           :actual  {:labels ["day-1" "day-2"]
+    ;;                     :legend ["bucket-label-1" "bucket-label-2"]
+    ;;                     :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+    ;;                              [cum-hour-b1-d2 cum-hour-b2-d2]]}})
+
+    {:planned {:labels    reusable-labels
+               :legend    reusable-legend
+               :data      (get-chart-ready-cumulative-times :cumulative-planned-time)
+               :barColors reusable-bar-colors}
+     :actual  {:labels    reusable-labels
+               :legend    reusable-legend
+               :data      (get-chart-ready-cumulative-times :cumulative-planned-time)
+               :barColors reusable-bar-colors}}))
 
 
 (reg-sub :get-navigation get-navigation)
@@ -511,3 +560,4 @@
 (reg-sub :get-menu-open get-menu-open)
 ;; (reg-sub :get-scores #(subscribe :periods) get-scores)
 (reg-sub :get-cumulative-h-by-bucket get-cumulative-h-by-bucket)
+(reg-sub :get-stacked-bar-week get-stacked-bar-week)

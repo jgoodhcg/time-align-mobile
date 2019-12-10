@@ -342,4 +342,1048 @@ time-align-mobile.subs> (->> 7
 time-align-mobile.subs> (comment "TODO maybe the keys shouldn't be just bucket id but also bucket label?")
 nil
 time-align-mobile.subs> 
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+                          buckets-cumulative-time (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))}))
+                                 (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {}) )})))
+             (apply merge))
+Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 18, col 73] Unmatched delimiter ). {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 18, :col 73}Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 2] Unmatched delimiter }. {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 2}Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 2] Unmatched delimiter ). {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 2}Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 2] Unmatched delimiter ). {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 2}Failed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 2] Unmatched delimiter ). {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 2}------ WARNING - :fn-arity -----------------------------------------------------
+ Resource: :2:14
+ Wrong number of args (1) passed to cljs.core/apply
+--------------------------------------------------------------------------------
+nilFailed to read input: clojure.lang.ExceptionInfo: repl-input.cljs [line 1, col 2] Unmatched delimiter ). {:type :reader-exception, :ex-kind :reader-error, :file "repl-input.cljs", :line 1, :col 2}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+                          buckets-cumulative-time (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))}))
+                                 (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" 5934115, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" 6454989, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" 4563284, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" 35627762, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" 2116931, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" 32982174}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+                          buckets-cumulative-time (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id {:cumulative-time (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                    :bucket-label (:bucket-label period)}}))
+                                 (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :17:82
+ Use of undeclared Var time-align-mobile.subs/period
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-time 5934115, :bucket-label nil}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-time 6454989, :bucket-label nil}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-time 4563284, :bucket-label nil}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-time 35627762, :bucket-label nil}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-time 2116931, :bucket-label nil}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-time 32982174, :bucket-label nil}}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}
+time-align-mobile.subs> (first periods)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:8
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+                          buckets-cumulative-time (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id {:cumulative-time (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                    :bucket-label (:bucket-label (first periods))}}))
+                                 (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-time 32982174, :bucket-label "👨‍💼 career"}}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.73s)
+
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+                          buckets-cumulative-time (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id {:cumulative-time (->> periods (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                    :bucket-label (:bucket-label (first periods))}}))
+                                 (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-time 32982174, :bucket-label "👨‍💼 career"}}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.62s)
+
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date (->> periods 
+                                                   (map 
+                                                    #(merge 
+                                                      % 
+                                                      {:time-on-date (helpers/period-time-on-day % date)})))
+                          filtered (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+                          buckets-cumulative-time (->> filtered
+                                 (group-by :bucket-id)
+                                 (map (fn [[bucket-id periods]]
+                                        {bucket-id {:cumulative-planned-time 
+                                                    (->> periods 
+                                                         (filter :planned)
+                                                         (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                    :cumulative-actual-time
+                                                    (->> periods 
+                                                         (remove :planned)
+                                                         (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                    :bucket-label (:bucket-label (first periods))}}))
+                                 (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:53
+ Use of undeclared Var time-align-mobile.subs/periods
+--------------------------------------------------------------------------------
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"}}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:462:3
+--------------------------------------------------------------------------------
+ 459 |                        :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+ 460 |                                 [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
+ 461 | 
+ 462 |   (let [periods (get-periods db :no-op)
+---------^----------------------------------------------------------------------
+Syntax error macroexpanding cljs.core/let.
+Call to cljs.core/let did not conform to spec.
+-- Spec failed --------------------
+
+  ([periods
+    (get-periods db :no-op)
+    intermediate-data-structure
+    (comment
+     {#inst "2019-12-12T00:00:00.000-00:00"
+      {#uuid "aaa35b0d-30ec-45c9-8a81-40b214dca432"
+       {:cumulative-planned-time 8,
+        :cumulative-actual-time 3.4,
+        :bucket-label "label"}}})
+    (->>
+     7
+     range
+     (take 7)
+     (map (fn* [p1__39064#] (helpers/back-n-days (js/Date.) p1__39064#)))
+     (reduce
+      (fn* [p1__39065# p2__39066#] (assoc p1__39065# p2__39066# {}))
+      {})
+     (map
+      (fn
+       [[date _]]
+       (let
+        [periods-time-on-date
+         (->>
+          periods
+          (map
+           (fn*
+            [p1__39067#]
+            (merge
+             p1__39067#
+             {:time-on-date
+              (helpers/period-time-on-day p1__39067# date)}))))
+         filtered
+         (->>
+          periods-time-on-date
+          (filter (fn* [p1__39068#] (-> p1__39068# :time-on-date (> 0)))))
+         buckets-cumulative-time
+         (->>
+          filtered
+          (group-by :bucket-id)
+          (map
+           (fn
+            [[bucket-id periods]]
+            {bucket-id
+             {:cumulative-planned-time
+              (->>
+               periods
+               (filter :planned)
+               (reduce
+                (fn*
+                 [p1__39069# p2__39070#]
+                 (+ p1__39069# (:time-on-date p2__39070#)))
+                0)),
+              :cumulative-actual-time
+              (->>
+               periods
+               (remove :planned)
+               (reduce
+                (fn*
+                 [p1__39071# p2__39072#]
+                 (+ p1__39071# (:time-on-date p2__39072#)))
+                0)),
+              :bucket-label (:bucket-label (first periods))}}))
+          (apply merge))]
+        {date (if-some [b buckets-cumulative-time] b {})})))
+     (apply merge))])
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+should satisfy
+
+  even-number-of-forms?
+
+-- Relevant specs -------
+
+:shadow.cljs.devtools.cljs-specs/bindings:
+  (clojure.spec.alpha/and
+   clojure.core/vector?
+   shadow.cljs.devtools.cljs-specs/even-number-of-forms?
+   (clojure.spec.alpha/* :shadow.cljs.devtools.cljs-specs/binding))
+
+-------------------------
+Detected 1 error
+
+--------------------------------------------------------------------------------
+ 463 | 
+ 464 |         intermediate-data-structure
+ 465 |         ;; example
+ 466 |         (comment {#inst "2019-12-12"
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:462:3
+--------------------------------------------------------------------------------
+ 459 |                        :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+ 460 |                                 [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
+ 461 | 
+ 462 |   (let [periods (get-periods db :no-op)
+---------^----------------------------------------------------------------------
+Syntax error macroexpanding cljs.core/let.
+Call to cljs.core/let did not conform to spec.
+-- Spec failed --------------------
+
+  ([periods
+    (get-periods db :no-op)
+    (comment
+     {#inst "2019-12-09T05:00:00.000-00:00"
+      {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+       {:cumulative-planned-time 0,
+        :cumulative-actual-time 5934115,
+        :bucket-label "🤹‍♂️ misc"}}})
+    intermediate-data-structure
+    (->>
+     7
+     range
+     (take 7)
+     (map (fn* [p1__40070#] (helpers/back-n-days (js/Date.) p1__40070#)))
+     (reduce
+      (fn* [p1__40071# p2__40072#] (assoc p1__40071# p2__40072# {}))
+      {})
+     (map
+      (fn
+       [[date _]]
+       (let
+        [periods-time-on-date
+         (->>
+          periods
+          (map
+           (fn*
+            [p1__40073#]
+            (merge
+             p1__40073#
+             {:time-on-date
+              (helpers/period-time-on-day p1__40073# date)}))))
+         filtered
+         (->>
+          periods-time-on-date
+          (filter (fn* [p1__40074#] (-> p1__40074# :time-on-date (> 0)))))
+         buckets-cumulative-time
+         (->>
+          filtered
+          (group-by :bucket-id)
+          (map
+           (fn
+            [[bucket-id periods]]
+            {bucket-id
+             {:cumulative-planned-time
+              (->>
+               periods
+               (filter :planned)
+               (reduce
+                (fn*
+                 [p1__40075# p2__40076#]
+                 (+ p1__40075# (:time-on-date p2__40076#)))
+                0)),
+              :cumulative-actual-time
+              (->>
+               periods
+               (remove :planned)
+               (reduce
+                (fn*
+                 [p1__40077# p2__40078#]
+                 (+ p1__40077# (:time-on-date p2__40078#)))
+                0)),
+              :bucket-label (:bucket-label (first periods))}}))
+          (apply merge))]
+        {date (if-some [b buckets-cumulative-time] b {})})))
+     (apply merge))])
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+should satisfy
+
+  even-number-of-forms?
+
+-- Relevant specs -------
+
+:shadow.cljs.devtools.cljs-specs/bindings:
+  (clojure.spec.alpha/and
+   clojure.core/vector?
+   shadow.cljs.devtools.cljs-specs/even-number-of-forms?
+   (clojure.spec.alpha/* :shadow.cljs.devtools.cljs-specs/binding))
+
+-------------------------
+Detected 1 error
+
+--------------------------------------------------------------------------------
+ 463 | 
+ 464 |         ;; example intermediate-data-structure
+ 465 |         (comment {#inst "2019-12-09T05:00:00.000-00:00"
+ 466 |                   {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:460:3
+--------------------------------------------------------------------------------
+ 457 |                        :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+ 458 |                                 [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
+ 459 | 
+ 460 |   (let [periods (get-periods db :no-op)
+---------^----------------------------------------------------------------------
+Syntax error macroexpanding cljs.core/let.
+Call to cljs.core/let did not conform to spec.
+-- Spec failed --------------------
+
+  ([periods
+    (get-periods db :no-op)
+    (comment
+     {#inst "2019-12-09T05:00:00.000-00:00"
+      {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+       {:cumulative-planned-time 0,
+        :cumulative-actual-time 5934115,
+        :bucket-label "🤹‍♂️ misc"}}})
+    intermediate-data-structure
+    (->>
+     7
+     range
+     (take 7)
+     (map (fn* [p1__40250#] (helpers/back-n-days (js/Date.) p1__40250#)))
+     (reduce
+      (fn* [p1__40251# p2__40252#] (assoc p1__40251# p2__40252# {}))
+      {})
+     (map
+      (fn
+       [[date _]]
+       (let
+        [periods-time-on-date
+         (->>
+          periods
+          (map
+           (fn*
+            [p1__40253#]
+            (merge
+             p1__40253#
+             {:time-on-date
+              (helpers/period-time-on-day p1__40253# date)}))))
+         filtered
+         (->>
+          periods-time-on-date
+          (filter (fn* [p1__40254#] (-> p1__40254# :time-on-date (> 0)))))
+         buckets-cumulative-time
+         (->>
+          filtered
+          (group-by :bucket-id)
+          (map
+           (fn
+            [[bucket-id periods]]
+            {bucket-id
+             {:cumulative-planned-time
+              (->>
+               periods
+               (filter :planned)
+               (reduce
+                (fn*
+                 [p1__40255# p2__40256#]
+                 (+ p1__40255# (:time-on-date p2__40256#)))
+                0)),
+              :cumulative-actual-time
+              (->>
+               periods
+               (remove :planned)
+               (reduce
+                (fn*
+                 [p1__40257# p2__40258#]
+                 (+ p1__40257# (:time-on-date p2__40258#)))
+                0)),
+              :bucket-label (:bucket-label (first periods))}}))
+          (apply merge))]
+        {date (if-some [b buckets-cumulative-time] b {})})))
+     (apply merge))])
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+should satisfy
+
+  even-number-of-forms?
+
+-- Relevant specs -------
+
+:shadow.cljs.devtools.cljs-specs/bindings:
+  (clojure.spec.alpha/and
+   clojure.core/vector?
+   shadow.cljs.devtools.cljs-specs/even-number-of-forms?
+   (clojure.spec.alpha/* :shadow.cljs.devtools.cljs-specs/binding))
+
+-------------------------
+Detected 1 error
+
+--------------------------------------------------------------------------------
+ 461 | 
+ 462 |         ;; example intermediate-data-structure
+ 463 |         (comment {#inst "2019-12-09T05:00:00.000-00:00"
+ 464 |                   {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:460:3
+--------------------------------------------------------------------------------
+ 457 |                        :data   [[cum-hour-b1-d1 cum-hour-b2-d1]
+ 458 |                                 [cum-hour-b1-d2 cum-hour-b2-d2]]}]})
+ 459 | 
+ 460 |   (let [periods (get-periods db :no-op)
+---------^----------------------------------------------------------------------
+Syntax error macroexpanding cljs.core/let.
+Call to cljs.core/let did not conform to spec.
+-- Spec failed --------------------
+
+  ([periods
+    (get-periods db :no-op)
+    (comment
+     {#inst "2019-12-09T05:00:00.000-00:00"
+      {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+       {:cumulative-planned-time 0,
+        :cumulative-actual-time 5934115,
+        :bucket-label "🤹‍♂️ misc"}}})
+    intermediate-data-structure
+    (->>
+     7
+     range
+     (take 7)
+     (map (fn* [p1__40646#] (helpers/back-n-days (js/Date.) p1__40646#)))
+     (reduce
+      (fn* [p1__40647# p2__40648#] (assoc p1__40647# p2__40648# {}))
+      {})
+     (map
+      (fn
+       [[date _]]
+       (let
+        [periods-time-on-date
+         (->>
+          periods
+          (map
+           (fn*
+            [p1__40649#]
+            (merge
+             p1__40649#
+             {:time-on-date
+              (helpers/period-time-on-day p1__40649# date)}))))
+         filtered
+         (->>
+          periods-time-on-date
+          (filter (fn* [p1__40650#] (-> p1__40650# :time-on-date (> 0)))))
+         buckets-cumulative-time
+         (->>
+          filtered
+          (group-by :bucket-id)
+          (map
+           (fn
+            [[bucket-id periods]]
+            {bucket-id
+             {:cumulative-planned-time
+              (->>
+               periods
+               (filter :planned)
+               (reduce
+                (fn*
+                 [p1__40651# p2__40652#]
+                 (+ p1__40651# (:time-on-date p2__40652#)))
+                0)),
+              :cumulative-actual-time
+              (->>
+               periods
+               (remove :planned)
+               (reduce
+                (fn*
+                 [p1__40653# p2__40654#]
+                 (+ p1__40653# (:time-on-date p2__40654#)))
+                0)),
+              :bucket-label (:bucket-label (first periods))}}))
+          (apply merge))]
+        {date (if-some [b buckets-cumulative-time] b {})})))
+     (apply merge))])
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+should satisfy
+
+  even-number-of-forms?
+
+-- Relevant specs -------
+
+:shadow.cljs.devtools.cljs-specs/bindings:
+  (clojure.spec.alpha/and
+   clojure.core/vector?
+   shadow.cljs.devtools.cljs-specs/even-number-of-forms?
+   (clojure.spec.alpha/* :shadow.cljs.devtools.cljs-specs/binding))
+
+-------------------------
+Detected 1 error
+
+--------------------------------------------------------------------------------
+ 461 | 
+ 462 |         ;; example intermediate-data-structure
+ 463 |         (comment {#inst "2019-12-09T05:00:00.000-00:00"
+ 464 |                   {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a"
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build completed. (216 files, 1 compiled, 0 warnings, 0.61s)
+
+time-align-mobile.subs> (def pre {#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"}}, #inst "2019-12-08T05:00:00.000-00:00" {}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}})
+#'time-align-mobile.subs/pre
+time-align-mobile.subs> (select [sp/ALL] pre)
+[[#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"}}] [#inst "2019-12-08T05:00:00.000-00:00" {}] [#inst "2019-12-07T05:00:00.000-00:00" {}] [#inst "2019-12-06T05:00:00.000-00:00" {}] [#inst "2019-12-05T05:00:00.000-00:00" {}] [#inst "2019-12-04T05:00:00.000-00:00" {}] [#inst "2019-12-03T05:00:00.000-00:00" {}]]
+time-align-mobile.subs> (select [sp/ALL sp/MAP-VALS] pre)
+;; output cleared
+
+time-align-mobile.subs>  (select [sp/MAP-VALS] pre)
+[{#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"}} {} {} {} {} {} {}]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS] pre)
+[{:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"} {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"} {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"} {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"} {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"} {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"}]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :bucket-label] pre)
+["🤹‍♂️ misc" "🥘 food" "➰ maintenance" "🛌 sleep" "🍎 health" "👨‍💼 career"]
+time-align-mobile.subs>  (select [sp/MAP-KEYS] pre)
+[#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00"]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :bucket-label] pre)
+["🤹‍♂️ misc" "🥘 food" "➰ maintenance" "🛌 sleep" "🍎 health" "👨‍💼 career"]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :cumulative-planned-time] pre)
+[0 0 0 0 0 0]compact
+compact
+
+time-align-mobile.subs> (comment "Setting up a second day with periods to test ordering with spectre")
+nil
+time-align-mobile.subs> (def app-db @re-frame.db/app-db)
+#'time-align-mobile.subs/app-db
+time-align-mobile.subs> (def periods (get-periods app-db :no-op))
+#'time-align-mobile.subs/periods
+time-align-mobile.subs> (def intermediate-ds (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label (:bucket-label (first periods))}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge)))
+#'time-align-mobile.subs/intermediate-ds
+time-align-mobile.subs> (identity intermediate-ds)
+{#inst "2019-12-09T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"}}, #inst "2019-12-08T05:00:00.000-00:00" {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 2639245, :bucket-label "🥘 food"}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 10442355, :bucket-label "👨‍💼 career"}}, #inst "2019-12-07T05:00:00.000-00:00" {}, #inst "2019-12-06T05:00:00.000-00:00" {}, #inst "2019-12-05T05:00:00.000-00:00" {}, #inst "2019-12-04T05:00:00.000-00:00" {}, #inst "2019-12-03T05:00:00.000-00:00" {}}
+time-align-mobile.subs>  (select [sp/MAP-KEYS] intermediate-ds)
+[#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00"]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :bucket-label] intermediate-ds)
+["🤹‍♂️ misc" "🥘 food" "➰ maintenance" "🛌 sleep" "🍎 health" "👨‍💼 career" "🤹‍♂️ misc" "🥘 food" "➰ maintenance" "🍎 health" "👨‍💼 career"]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS sp/FIRST :bucket-label] intermediate-ds)
+[nil nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/FIRST sp/MAP-VALS :bucket-label] intermediate-ds)
+;; output cleared
+
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS] intermediate-ds)
+[{:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"} {:cumulative-planned-time 0, :cumulative-actual-time 6454989, :bucket-label "🥘 food"} {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"} {:cumulative-planned-time 0, :cumulative-actual-time 35627762, :bucket-label "🛌 sleep"} {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"} {:cumulative-planned-time 0, :cumulative-actual-time 32982174, :bucket-label "👨‍💼 career"} {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label "🤹‍♂️ misc"} {:cumulative-planned-time 0, :cumulative-actual-time 2639245, :bucket-label "🥘 food"} {:cumulative-planned-time 0, :cumulative-actual-time 4563284, :bucket-label "➰ maintenance"} {:cumulative-planned-time 0, :cumulative-actual-time 2116931, :bucket-label "🍎 health"} {:cumulative-planned-time 0, :cumulative-actual-time 10442355, :bucket-label "👨‍💼 career"}]
+time-align-mobile.subs> (keys (:buckets app-db))
+(#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" #uuid "a22654de-db53-4460-b4dc-0df1becd4061")
+time-align-mobile.subs> (->> app-db :buckets keys (map #(hash-map % {})) (apply merge))
+{#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {}}
+time-align-mobile.subs> 
+                          (def all-buckets (->> app-db :buckets keys (map #(hash-map % {})) (apply merge)))
+#'time-align-mobile.subs/all-buckets
+time-align-mobile.subs> (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (merge all-buckets)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label (:bucket-label (first periods))}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge))
+;; output cleared
+
+time-align-mobile.subs> (def intermediate-ds (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (merge all-buckets)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label (:bucket-label (first periods))}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge)))
+#'time-align-mobile.subs/intermediate-ds[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.65s)
+
+time-align-mobile.subs> (def app-db @re-frame.db/app-db)
+#'time-align-mobile.subs/app-db
+time-align-mobile.subs> (def periods (get-periods app-db :no-op))
+#'time-align-mobile.subs/periods
+time-align-mobile.subs>  (select [sp/MAP-KEYS] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:24
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00"]
+time-align-mobile.subs> (def intermediate-ds (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (merge all-buckets)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label (:bucket-label (first periods))}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge)))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :17:39
+ Use of undeclared Var time-align-mobile.subs/all-buckets
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/intermediate-ds
+time-align-mobile.subs>  (select [sp/MAP-KEYS] intermediate-ds)
+[#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00"]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :bucket-label] intermediate-ds)
+["🤹‍♂️ misc" "🥘 food" "➰ maintenance" "🛌 sleep" "🍎 health" "👨‍💼 career" nil nil nil nil "🤹‍♂️ misc" "🥘 food" "➰ maintenance" nil "🍎 health" "👨‍💼 career" nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs> (select [:buckets #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" :label] app-db)
+;; output cleared
+
+time-align-mobile.subs> (select [:buckets] app-db)
+;; output cleared
+
+time-align-mobile.subs> (select [:buckets sp/KEYS] app-db)
+------ REPL Error while processing ---------------------------------------------
+(select [:buckets sp/KEYS] app-db)
+Error in phase :compilation
+Unable to resolve var: KEYS in this context at line 1 time_align_mobile/subs.cljs
+time-align-mobile.subs> (select [:buckets sp/KEY] app-db)
+------ REPL Error while processing ---------------------------------------------
+(select [:buckets sp/KEY] app-db)
+Error in phase :compilation
+Unable to resolve var: KEY in this context at line 1 time_align_mobile/subs.cljs
+time-align-mobile.subs>   (select [:buckets (sp/keypath #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a") :label] app-db)
+["🤹‍♂️ misc"]
+time-align-mobile.subs> (def intermediate-ds (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (merge all-buckets)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label (select [:buckets (sp/keypath bucket-id) :label])}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge)))
+;; output cleared
+
+time-align-mobile.subs> (def intermediate-ds (->> 7
+             range
+             (take 7)
+             (map #(helpers/back-n-days (js/Date.) %))
+             (reduce #(assoc %1 %2 {}) {})
+             (map (fn [[date _]]
+                    (let [periods-time-on-date
+                          (->> periods
+                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+
+                          filtered
+                          (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
+
+                          buckets-cumulative-time
+                          (->> filtered
+                               (group-by :bucket-id)
+                               (merge all-buckets)
+                               (map (fn [[bucket-id periods]]
+                                      {bucket-id {:cumulative-planned-time
+                                                  (->> periods
+                                                       (filter :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :cumulative-actual-time
+                                                  (->> periods
+                                                       (remove :planned)
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                  :bucket-label (select [:buckets (sp/keypath bucket-id) :label] app-db)}}))
+                               (apply merge))]
+                      {date (if-some [b buckets-cumulative-time] b {})})))
+             (apply merge)))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :17:39
+ Use of undeclared Var time-align-mobile.subs/all-buckets
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/intermediate-ds
+time-align-mobile.subs> (identity intermediate-ds)
+;; output cleared
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 1 warnings, 0.61s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:500:114
+--------------------------------------------------------------------------------
+ 497 |                                                   (->> periods
+ 498 |                                                        (remove :planned)
+ 499 |                                                        (reduce #(+ %1 (:time-on-date %2)) 0))
+ 500 |                                                   :bucket-label (select [:buckets (sp/keypath bucket-id) :label] app-db)}}))
+------------------------------------------------------------------------------------------------------------------------^
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+ 501 |                                (apply merge))]
+ 502 |                       {date (if-some [b buckets-cumulative-time] b {})})))
+ 503 |              (apply merge)))
+ 504 | 
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.63s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.60s)
+
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :bucket-label] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:50
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"]]
+time-align-mobile.subs>  (select [sp/MAP-VALS ] intermediate-ds)
+;; output cleared
+
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/FIRST] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:33
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[[#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label ["🤹‍♂️ misc"]}] [#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label ["🤹‍♂️ misc"]}] [#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]}] [#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]}] [#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]}] [#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]}] [#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]}]]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/FIRST sp/MAP-VALS] intermediate-ds)
+;; output cleared
+
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/FIRST sp/LAST] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:41
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[{:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label ["🤹‍♂️ misc"]} {:cumulative-planned-time 0, :cumulative-actual-time 5934115, :bucket-label ["🤹‍♂️ misc"]} {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]} {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]} {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]} {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]} {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label ["🤹‍♂️ misc"]}]
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/FIRST sp/LAST :bucket-label] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:55
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[["🤹‍♂️ misc"] ["🤹‍♂️ misc"] ["🤹‍♂️ misc"] ["🤹‍♂️ misc"] ["🤹‍♂️ misc"] ["🤹‍♂️ misc"] ["🤹‍♂️ misc"]]
+time-align-mobile.subs>  (select-one [sp/MAP-VALS sp/MAP-VALS :bucket-label] intermediate-ds)
+time-align-mobile.subs>  (select-one [sp/MAP-VALS sp/MAP-VALS :bucket-label] intermediate-ds)
+;; output cleared
+
+time-align-mobile.subs>  (select [sp/MAP-VALS sp/MAP-VALS :bucket-label] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:50
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"] ["🤹‍♂️ misc"] ["🥘 food"] ["➰ maintenance"] ["🛌 sleep"] ["🍎 health"] ["👨‍💼 career"] ["👥 social"] ["🌱 growth"] ["✔️ planning"] ["📱 leisure"]]
+time-align-mobile.subs> (->> db :buckets keys (map #(hash-map % {})) (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:6
+ Use of undeclared Var time-align-mobile.subs/db
+--------------------------------------------------------------------------------
+nil
+time-align-mobile.subs> (->> app-db :buckets keys (map #(hash-map % {})) (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:6
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+{#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {}}
+time-align-mobile.subs> (->> app-db :buckets keys (map :label) (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:6
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+nil
+time-align-mobile.subs> (->> app-db :buckets keys (map :label))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:6
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+(nil nil nil nil nil nil nil nil nil nil)
+time-align-mobile.subs> (->> app-db :buckets keys (map #(hash-map % (select [:buckets (sp/keypath %) :label] app-db))) (apply merge))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:86
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:6
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+{#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" ["🤹‍♂️ misc"], #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" ["🥘 food"], #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" ["➰ maintenance"], #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" ["🛌 sleep"], #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" ["🍎 health"], #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" ["👨‍💼 career"], #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" ["👥 social"], #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" ["🌱 growth"], #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" ["✔️ planning"], #uuid "a22654de-db53-4460-b4dc-0df1becd4061" ["📱 leisure"]}
+time-align-mobile.subs> (comment "Putting buckets in a map seems to preserve an order")
+nil
+time-align-mobile.subs> (select [:buckets sp/MAP-VALS :label] app-db)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:39
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+["🤹‍♂️ misc" "🥘 food" "➰ maintenance" "🛌 sleep" "🍎 health" "👨‍💼 career" "👥 social" "🌱 growth" "✔️ planning" "📱 leisure"][:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 1 warnings, 0.58s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:508:66
+--------------------------------------------------------------------------------
+ 505 | 
+ 506 |         chart-ready-data-structure
+ 507 |         {:planned {:labels (select [sp/MAP-KEYS] intermediate-data-structure) ;; list of dates
+ 508 |                    :legend (select [:buckets sp/MAP-VALS :label] app-db) ;; relies on ?map? ordering being preserved
+------------------------------------------------------------------------^-------
+ Use of undeclared Var time-align-mobile.subs/app-db
+--------------------------------------------------------------------------------
+ 509 |                    ;; :data () ;; list of day's bucket's cumulative times
+ 510 |                    }}]))
+ 511 | 
+ 512 | 
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.62s)
+
+time-align-mobile.subs> (select [sp/MAP-VALS sp/MAP-VALS :cumulative-planned-time] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:60
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+time-align-mobile.subs> (select [sp/MAP-VALS sp/MAP-VALS :cumulative-actual-time] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:59
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[5934115 6454989 4563284 35627762 2116931 32982174 0 0 0 0 5934115 2639245 4563284 0 2116931 10442355 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+time-align-mobile.subs> (select [sp/MAP-VALS sp/ALL :cumulative-actual-time] intermediate-ds)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:54
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+[nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.subs> (select [sp/ALL] intermediate-ds)
+;; output cleared
+
+time-align-mobile.subs> (->> intermediate-ds 
+                             (map (fn [[date bucket-indexed]]
+                                    (->> bucket-indexed
+                                         (map (fn [[bucket-id values]]
+                                                (:cumulative-actual-time values))))))
+                             )
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:6
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+((5934115 6454989 4563284 35627762 2116931 32982174 0 0 0 0) (5934115 2639245 4563284 0 2116931 10442355 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0))[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 1 warnings, 0.59s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:501:16
+--------------------------------------------------------------------------------
+ 498 | 
+ 499 |         get-chart-ready-cumulative-times
+ 500 |         (fn [cumulative-key]
+ 501 |           (->> intermediate-ds
+----------------------^---------------------------------------------------------
+ Use of undeclared Var time-align-mobile.subs/intermediate-ds
+--------------------------------------------------------------------------------
+ 502 |                (map (fn [[date bucket-indexed]]
+ 503 |                       (->> bucket-indexed
+ 504 |                            (map (fn [[bucket-id values]]
+ 505 |                                   (cumulative-key values))))))))]
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.64s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.63s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.49s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.66s)
+
 time-align-mobile.subs> 
