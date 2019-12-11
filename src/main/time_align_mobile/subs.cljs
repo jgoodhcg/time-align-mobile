@@ -469,7 +469,9 @@
              (map (fn [[date _]]
                     (let [periods-time-on-date
                           (->> periods
-                               (map #(merge % {:time-on-date (helpers/period-time-on-day % date)})))
+                               (map #(merge % {:time-on-date
+                                               (helpers/ms->h-float
+                                                (helpers/period-time-on-day % date))})))
 
                           filtered
                           (->> periods-time-on-date (filter #(-> % :time-on-date (> 0))))
@@ -482,11 +484,11 @@
                                       {bucket-id {:cumulative-planned-time
                                                   (->> periods
                                                        (filter :planned)
-                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0.0000001)) ;; if the :data in the chart are all zeros the svg generator blows up
                                                   :cumulative-actual-time
                                                   (->> periods
                                                        (remove :planned)
-                                                       (reduce #(+ %1 (:time-on-date %2)) 0))
+                                                       (reduce #(+ %1 (:time-on-date %2)) 0.0000001))
                                                   :bucket-label
                                                   (select [:buckets (sp/keypath bucket-id) :label] db)}}))
                                (apply merge))]
@@ -505,7 +507,7 @@
                (map (fn [[date bucket-indexed]]
                       (->> bucket-indexed
                            (map (fn [[bucket-id values]]
-                                  (cumulative-key values))))))))]
+                                  (get values cumulative-key))))))))]
 
     ;; chart-ready-data-structure
     ;; (comment {:planned {:labels ["day-1" "day-2"]
@@ -523,7 +525,7 @@
                :barColors reusable-bar-colors}
      :actual  {:labels    reusable-labels
                :legend    reusable-legend
-               :data      (get-chart-ready-cumulative-times :cumulative-planned-time)
+               :data      (get-chart-ready-cumulative-times :cumulative-actual-time)
                :barColors reusable-bar-colors}}))
 
 

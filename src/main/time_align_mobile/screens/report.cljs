@@ -23,6 +23,7 @@
         stacked-bar-chart-config (clj->js {:backgroundColor        (->> theme :colors :background)
                                            :backgroundGradientFrom (->> theme :colors :background color-darken)
                                            :backgroundGradientTo   (->> theme :colors :background color-lighten)
+                                           :propsForLabels         {:textAnchor "middle"}
                                            :labelColor
                                            (clj->js
                                             #(color-hex-str->rgba
@@ -33,15 +34,15 @@
                                             #(color-hex-str->rgba
                                               (->> theme :colors :primary)
                                               (if-some [opacity %] opacity 1)))})
-        other-chart-props        {:vertical-label-rotation 90
-                                  :width                   400
-                                  :height                  400
-                                  :acessor                 "population"
-                                  :background              "transparent"
-                                  :from-zero               true
-                                  :chart-config            stacked-bar-chart-config}]
-
-    (println (clj->js (:actual chart-data)))
+        other-chart-props        {;; :vertical-label-rotation 90
+                                  :width                  1000
+                                  :height                 1000
+                                  ;; :with-horizontal-labels false
+                                  :with-vertical-labels   false
+                                  ;; :acessor                 "population"
+                                  :background             "transparent"
+                                  ;; :from-zero               true
+                                  :chart-config           stacked-bar-chart-config}]
 
     [scroll-view {:style {:flex 1}}
      [top-bar {:center-content [subheading "Reports"]
@@ -59,25 +60,35 @@
         [stacked-bar-chart
          (merge other-chart-props
                 {:data
-                 #js {:labels #js [1 0 6 5 4 3 2],
-                      :legend #js [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure],
-                      :data #js [#js [1 3 0 0 0 0 0 0 0 0]
-                                 #js [0 0 3 0 0 0 0 0 0 0]
-                                 #js [0 0 0 3 0 0 0 0 0 0]
-                                 #js [0 0 0 0 3 0 0 0 0 0]
-                                 #js [0 0 0 0 0 3 0 0 0 0]
-                                 #js [0 0 0 0 0 0 2 0 0 0]
-                                 #js [0 0 0 0 0 0 0 9 0 0]],
-                      :barColors #js ["#8b8b8b"
-                                      #98ff11
-                                      #46e5ff
-                                      #9711ff
-                                      #60e563
-                                      #dd0f1d
-                                      #ffd611
-                                      #11a5ff
-                                      #89f1ed #ffac11]}
-                 ;; (clj->js (:actual chart-data))
+                 ;; #js {:labels #js [1 0 6 5 4 3 2],
+                 ;;      :legend #js ["🤹‍♂️ misc"
+                 ;;                   "🥘 food"
+                 ;;                   "➰ maintenance"
+                 ;;                   "🛌 sleep"
+                 ;;                   "🍎 health"
+                 ;;                   "👨‍💼 career"
+                 ;;                   "👥 social"
+                 ;;                   "🌱 growth"
+                 ;;                   "✔️ planning"
+                 ;;                   "📱 leisure"],
+                 ;;      :data #js [#js [1 0 0 0 0 0 0 0 0 0]
+                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
+                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
+                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
+                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
+                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
+                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]],
+                 ;;      :barColors #js ["#8b8b8b"
+                 ;;                      "#98ff11"
+                 ;;                      "#46e5ff"
+                 ;;                      "#9711ff"
+                 ;;                      "#60e563"
+                 ;;                      "#dd0f1d"
+                 ;;                      "#ffd611"
+                 ;;                      "#11a5ff"
+                 ;;                      "#89f1ed"
+                 ;;                      "#ffac11"]}
+                 (clj->js (:actual chart-data))
                  })]]]
 
       ;; [surface

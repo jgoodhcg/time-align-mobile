@@ -120,6 +120,8 @@
      - [X] Has top bar
 **** Reports 
      :LOGBOOK:
+     CLOCK: [2019-12-10 Tue 21:30]--[2019-12-10 Tue 21:48] =>  0:18
+     CLOCK: [2019-12-10 Tue 20:14]--[2019-12-10 Tue 20:35] =>  0:21
      CLOCK: [2019-12-09 Mon 19:04]--[2019-12-09 Mon 21:30] =>  2:26
      CLOCK: [2019-12-09 Mon 12:30]--[2019-12-09 Mon 13:05] =>  0:35
      CLOCK: [2019-12-09 Mon 09:36]--[2019-12-09 Mon 10:40] =>  1:04
@@ -136,6 +138,7 @@
      :END:
      - [X] Has top bar
      - [ ] Some chart (leaning on cumulative by bucket)
+       - Pie chart seems like the best bet
 
 **** Data 
      - [ ] Has top bar

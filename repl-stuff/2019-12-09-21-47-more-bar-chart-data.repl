@@ -1385,5 +1385,85 @@ time-align-mobile.subs> (->> intermediate-ds
 [:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.49s)
 [:app] Compiling ...
 [:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.66s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.45s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.59s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.64s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.52s)
+{:planned {:labels [#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00"], :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}, :actual {:labels [#inst "2019-12-09T05:00:00.000-00:00" #inst "2019-12-08T05:00:00.000-00:00" #inst "2019-12-07T05:00:00.000-00:00" #inst "2019-12-06T05:00:00.000-00:00" #inst "2019-12-05T05:00:00.000-00:00" #inst "2019-12-04T05:00:00.000-00:00" #inst "2019-12-03T05:00:00.000-00:00"], :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}}
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/helpers.cljs:393:71
+--------------------------------------------------------------------------------
+ 390 |     nil))
+ 391 | 
+ 392 | (defn day-of-week [index]
+ 393 |   (get index {0 "Sun" 1 "Mon" 2 "Tue" 3 "Wed" 4 "Thu" 5 "Fri" 5 "Sat"}))
+-----------------------------------------------------------------------------^--
+Duplicate key: 5
+
+--------------------------------------------------------------------------------
+ 394 | 
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build completed. (216 files, 1 compiled, 0 warnings, 0.49s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.60s)
+{:planned {:labels {nil {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🤹‍♂️ misc]}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🥘 food]}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [➰ maintenance]}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🛌 sleep]}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🍎 health]}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [👨‍💼 career]}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [👥 social]}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🌱 growth]}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [✔️ planning]}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [📱 leisure]}}}, :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}, :actual {:labels {nil {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🤹‍♂️ misc]}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🥘 food]}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [➰ maintenance]}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🛌 sleep]}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🍎 health]}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [👨‍💼 career]}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [👥 social]}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [🌱 growth]}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [✔️ planning]}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:cumulative-planned-time 0, :cumulative-actual-time 0, :bucket-label [📱 leisure]}}}, :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}}
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.64s)
+{:planned {:labels (nil nil nil nil nil nil nil), :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}, :actual {:labels (nil nil nil nil nil nil nil), :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}}
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.72s)
+{:planned {:labels (1 0 6 5 4 3 2), :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}, :actual {:labels (1 0 6 5 4 3 2), :legend [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data ((0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0) (0 0 0 0 0 0 0 0 0 0)), :barColors [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}}
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.44s)
+#js {:labels #js [1 0 6 5 4 3 2], :legend #js [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data #js [#js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0]], :barColors #js [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.58s)
+#js {:labels #js [1 0 6 5 4 3 2], :legend #js [🤹‍♂️ misc 🥘 food ➰ maintenance 🛌 sleep 🍎 health 👨‍💼 career 👥 social 🌱 growth ✔️ planning 📱 leisure], :data #js [#js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0] #js [0 0 0 0 0 0 0 0 0 0]], :barColors #js [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/report.cljs:71:46
+--------------------------------------------------------------------------------
+  68 |                                  #js [0 0 0 0 0 3 0 0 0 0]
+  69 |                                  #js [0 0 0 0 0 0 2 0 0 0]
+  70 |                                  #js [0 0 0 0 0 0 0 9 0 0]],
+  71 |                       :barColors #js [#8b8b8b #98ff11 #46e5ff #9711ff #60e563 #dd0f1d #ffd611 #11a5ff #89f1ed #ffac11]}
+----------------------------------------------------^---------------------------
+time_align_mobile/screens/report.cljs [line 71, col 46] Invalid number: 8b8b8b.
+
+--------------------------------------------------------------------------------
+  72 |                  ;; (clj->js (:actual chart-data))
+  73 |                  })]]]
+  74 | 
+  75 |       ;; [surface
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/screens/report.cljs:72:46
+--------------------------------------------------------------------------------
+  69 |                                  #js [0 0 0 0 0 0 2 0 0 0]
+  70 |                                  #js [0 0 0 0 0 0 0 9 0 0]],
+  71 |                       :barColors #js ["#8b8b8b"
+  72 |                                       #98ff11
+----------------------------------------------------^---------------------------
+time_align_mobile/screens/report.cljs [line 72, col 46] Invalid number: 98ff11.
+
+--------------------------------------------------------------------------------
+  73 |                                       #46e5ff
+  74 |                                       #9711ff
+  75 |                                       #60e563
+  76 |                                       #dd0f1d
+--------------------------------------------------------------------------------
+
 
 time-align-mobile.subs> 
