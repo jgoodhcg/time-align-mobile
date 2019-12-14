@@ -272,7 +272,8 @@
                                    :template {:movement {:template-id (ds/maybe uuid?)
                                                          :bucket-id   (ds/maybe uuid?)}
                                               :edit     {:template-id (ds/maybe uuid?)
-                                                         :bucket-id   (ds/maybe uuid?)}}}
+                                                         :bucket-id   (ds/maybe uuid?)}}
+                                   :report   {:bucket-contribution {:bucket-id (ds/maybe uuid?)}}}
                    :filters       [filter-data-spec]
                    :navigation    {:current-screen ::screen
                                    :params         (ds/maybe map?)}
@@ -320,7 +321,8 @@
                        :template {:movement {:bucket-id   nil
                                              :template-id nil}
                                   :edit     {:bucket-id   nil
-                                             :template-id nil}}}
+                                             :template-id nil}}
+                       :report   {:bucket-contribution {:bucket-id nil}}}
    :now               now
    :day-fab           {:open    false
                        :visible true}

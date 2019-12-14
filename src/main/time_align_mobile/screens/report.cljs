@@ -1,9 +1,6 @@
 (ns time-align-mobile.screens.report
   (:require [time-align-mobile.js-imports :refer [view
-                                                  line-chart
-                                                  bar-chart
-                                                  pie-chart
-                                                  stacked-bar-chart
+                                                  contribution-graph
                                                   surface
                                                   color-lighten
                                                   color-hex-str->rgba
@@ -56,49 +53,5 @@
                       :align-items    "center"
                       :width          "100%"}}
 
-        [headline "Actual cumulative time by group"]
-        [stacked-bar-chart
-         (merge other-chart-props
-                {:data
-                 ;; #js {:labels #js [1 0 6 5 4 3 2],
-                 ;;      :legend #js ["🤹‍♂️ misc"
-                 ;;                   "🥘 food"
-                 ;;                   "➰ maintenance"
-                 ;;                   "🛌 sleep"
-                 ;;                   "🍎 health"
-                 ;;                   "👨‍💼 career"
-                 ;;                   "👥 social"
-                 ;;                   "🌱 growth"
-                 ;;                   "✔️ planning"
-                 ;;                   "📱 leisure"],
-                 ;;      :data #js [#js [1 0 0 0 0 0 0 0 0 0]
-                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
-                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
-                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
-                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
-                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]
-                 ;;                 #js [0 0 0 0 0 0 0 0 0 0]],
-                 ;;      :barColors #js ["#8b8b8b"
-                 ;;                      "#98ff11"
-                 ;;                      "#46e5ff"
-                 ;;                      "#9711ff"
-                 ;;                      "#60e563"
-                 ;;                      "#dd0f1d"
-                 ;;                      "#ffd611"
-                 ;;                      "#11a5ff"
-                 ;;                      "#89f1ed"
-                 ;;                      "#ffac11"]}
-                 (clj->js (:actual chart-data))
-                 })]]]
 
-      ;; [surface
-      ;;  [view {:style {:flex           0
-      ;;                 :flex-direction "column"
-      ;;                 :align-items    "center"
-      ;;                 :width          "100%"}}
-
-      ;;   [headline "Planned cumulative time by group"]
-      ;;   [stacked-bar-chart
-      ;;    (merge other-chart-props
-      ;;           {:data (clj->js (:planned chart-data))})]]]
-      ]]))
+        ]]]]))

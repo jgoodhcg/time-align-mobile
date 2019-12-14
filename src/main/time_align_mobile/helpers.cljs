@@ -96,7 +96,9 @@
   (-> ms
       (/ 1000)
       (/ 60)
-      (/ 50)))
+      (/ 50)
+      (.toFixed 2)
+      (js/parseFloat)))
 
 (defn rel-ms->y-pos [ms total-height]
   (-> ms

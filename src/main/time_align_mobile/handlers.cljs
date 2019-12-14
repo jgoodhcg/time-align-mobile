@@ -1136,6 +1136,9 @@
 (defn set-menu-open [db [_ state]]
   (assoc-in db [:menu :open] state))
 
+(defn set-report-contribution-bucket [db [_ bucket-id]]
+  (assoc-in db [:selection :report :bucket-contribution] bucket-id))
+
 (reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :initialize-db [validate-spec] initialize-db)

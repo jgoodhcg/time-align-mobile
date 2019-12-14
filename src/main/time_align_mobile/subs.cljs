@@ -402,12 +402,12 @@
         actual  (->> periods remove :planned)
         planned (->> periods filter :planned)]
     nil)
-  ;; Using the app
+  ;; TODO Using the app
   ;; Total time tracked (actual + planned) ms / ms in a day
   ;; Add together all the duration values for each period
   ;; Divide by ms-in-day
 
-  ;; Doing what you said you would
+  ;; TODO Doing what you said you would
   ;; Cumulative ms matching / ms in day
   ;; Get summed duration values by bucket for planned and actual
   ;; {:actual
@@ -420,7 +420,7 @@
   ;;   :total-ms 12345}}
   ;; (1 - (planned - actual)) / total-planned-ms
 
-  ;; Doing it when you said you would
+  ;; TODO Doing it when you said you would
   ;; Absolute ms matching / ms in day
   ;; reduce on planned periods
   ;; for each period reduce over actual periods summing overlap
@@ -528,6 +528,11 @@
                :data      (get-chart-ready-cumulative-times :cumulative-actual-time)
                :barColors reusable-bar-colors}}))
 
+(defn get-report-contribution-bucket [db _]
+  (get-in db [:selection :report :bucket-contribution]))
+
+;; (defn get-contribution-three-month [db _]
+;;   (let [selected-bucket-id ]))
 
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
