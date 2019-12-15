@@ -36,7 +36,6 @@
                            :background           "transparent"
                            :chart-config         (clj->js chart-config)}]
 
-    (println chart-data)
     [scroll-view {:style {:flex 1}}
      [top-bar {:center-content [subheading "Reports"]
                :right-content  [icon-button]}]
@@ -48,7 +47,27 @@
                       :flex-direction "column"
                       :align-items    "center"
                       :width          "100%"}}
-        [line-chart (clj->js
-                     (merge other-chart-props {:data chart-data}))]
+        [subheading "Actual (green) vs Planned (blue) total time logged"]
+        [line-chart
+         {:data             chart-data
+          :with-dots        false
+          :with-outer-lines false
+          :width            400
+          :height           400
+          :y-axis-suffix    "h"
+          :chart-config
+          (clj->js {:backgroundColor        (->> theme :colors :surface)
+                    :backgroundGradientFrom (->> theme :colors :surface)
+                    :backgroundGradientTo   (->> theme :colors :surface)
+                    :labelColor
+                    (clj->js
+                     #(color-hex-str->rgba
+                       (->> theme :colors :primary)
+                       (if-some [opacity %] opacity 1)))
+                    :color
+                    (clj->js
+                     #(color-hex-str->rgba
+                       (->> theme :colors :primary)
+                       (if-some [opacity %] opacity 1)))})}]
 
         ]]]]))

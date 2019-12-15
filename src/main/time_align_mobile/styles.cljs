@@ -9,6 +9,8 @@
                ;; https://material.io/tools/color/#!/?view.left=1&view.right=0&primary.color=212121&secondary.color=757575
                (update-in [:colors] #(merge % {:primary            "#212121"
                                                :accent             "#757575"
+                                               :planned            "#0069c0"
+                                               :actual             "#087f23"
                                                :accent-light       "#a4a4a4"
                                                :element-text-light "#ffffff"
                                                :element-text-dark  "#000000"}))

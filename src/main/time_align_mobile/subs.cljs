@@ -1,7 +1,8 @@
 (ns time-align-mobile.subs
   (:require [re-frame.core :refer [reg-sub]]
-            [time-align-mobile.helpers :as helpers]
-            [time-align-mobile.helpers :refer [same-day?
+            [time-align-mobile.styles :refer [theme]]
+            [time-align-mobile.js-imports :refer [color-hex-str->rgba]]
+            [time-align-mobile.helpers :as helpers :refer [same-day?
                                                period-path-sub-bucket
                                                period-path-no-bucket-id
                                                periods-path
@@ -556,8 +557,18 @@
 
     ;; the result is meant for the chart
     (clj->js
-     {:labels   (clj->js (->> data keys (map #(helpers/day-of-week (.getDay %)))))
-      :datasets (clj->js [(clj->js {:data  (clj->js (select [sp/MAP-VALS :actual] data))})])})))
+     {:labels   (clj->js (->> data keys (map #(helpers/day-of-week (.getDay %))) reverse))
+      :datasets (clj->js
+                 [(clj->js {:data        (clj->js (reverse (select [sp/MAP-VALS :actual] data)))
+                            :color       (clj->js
+                                          #(color-hex-str->rgba
+                                            (->> theme :colors :actual)
+                                            (if-some [opacity %] opacity 1)))})
+                  (clj->js {:data        (clj->js (reverse (select [sp/MAP-VALS :planned] data)))
+                            :color       (clj->js
+                                          #(color-hex-str->rgba
+                                            (->> theme :colors :planned)
+                                            (if-some [opacity %] opacity 1)))})])})))
 
 ;; (defn get-contribution-three-month [db _]
 ;;   (let [selected-bucket-id ]))
