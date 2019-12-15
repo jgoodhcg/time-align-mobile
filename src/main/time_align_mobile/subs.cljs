@@ -531,6 +531,34 @@
 (defn get-report-contribution-bucket [db _]
   (get-in db [:selection :report :bucket-contribution]))
 
+(defn get-tracked-time-by-day [db _]
+  (let [periods (get-periods db :no-op)
+
+        get-time-on-day-for-track
+        (fn [date planned]
+          (->> periods
+               (filter #(= (:planned %) planned))
+               (map
+                #(helpers/ms->h-float
+                  (helpers/period-time-on-day % date)))
+               (reduce +)))
+
+        data (->> 7
+                  range
+                  (take 7)
+                  (map #(helpers/back-n-days (js/Date.) %))
+                  (map (fn [date]
+                         {date {:actual
+                                (get-time-on-day-for-track date false)
+                                :planned
+                                (get-time-on-day-for-track date true)}}))
+                  (apply merge))]
+
+    ;; the result is meant for the chart
+    (clj->js
+     {:labels   (clj->js (->> data keys (map #(helpers/day-of-week (.getDay %)))))
+      :datasets (clj->js [(clj->js {:data  (clj->js (select [sp/MAP-VALS :actual] data))})])})))
+
 ;; (defn get-contribution-three-month [db _]
 ;;   (let [selected-bucket-id ]))
 
@@ -568,3 +596,4 @@
 ;; (reg-sub :get-scores #(subscribe :periods) get-scores)
 (reg-sub :get-cumulative-h-by-bucket get-cumulative-h-by-bucket)
 (reg-sub :get-stacked-bar-week get-stacked-bar-week)
+(reg-sub :get-tracked-time-by-day get-tracked-time-by-day)
