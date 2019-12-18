@@ -11,6 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-12-17 Tue 21:22]--[2019-12-17 Tue 21:33] =>  0:11
   CLOCK: [2019-12-17 Tue 20:07]--[2019-12-17 Tue 21:22] =>  1:15
   CLOCK: [2019-11-12 Tue 20:55]--[2019-11-12 Tue 21:08] =>  0:13
   CLOCK: [2019-11-12 Tue 19:30]--[2019-11-12 Tue 20:49] =>  1:19
@@ -35,6 +36,33 @@
   :END:
      #+NAME: WSJF table
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
+     | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
+     |----------------------------------------------------------------------+--------------------------------+-------+------|
+     | "[[Follow material design on each page without changing functionality]]" |                            5.0 |   100 |   20 |
+     | "[[Notifications (local)]]"                                              |                            4.0 |    20 |    5 |
+     | "[[Add prescribed handler tests]]"                                       |                            2.6 |    13 |    5 |
+     | "[[Add subscription tests]]"                                             |                            2.6 |    13 |    5 |
+     | "[[Add selected start stop indicators (now indicator style)]]"           |                            2.5 |     5 |    2 |
+     | "[[Multiple play timers]]"                                               |                            1.6 |     8 |    5 |
+     | "[[Put version indicator in app-db (for export mostly)]]"                |                            1.0 |     1 |    1 |
+     | "[[Add google analytics to handlers]]"                                   |                              0 |     0 |    0 |
+     | "[[Add Calendar integration]]"                                           |                              0 |     0 |    0 |
+     | "[[Add payment option to vote for features]]"                            |                              0 |     0 |    0 |
+     | "[[Add geofencing triggers on buckets]]"                                 |                              0 |     0 |    0 |
+     | "[[Add locked period mechanism]]"                                        |                              0 |     0 |    0 |
+     | "[[Mobile friendly data editor]]"                                        |                              0 |     0 |    0 |
+     | "[[Checklists]]"                                                         |                              0 |     0 |    0 |
+     | "[[Markov chain prediction]]"                                            |                              0 |     0 |    0 |
+     | "[[Queue page]]"                                                         |                              0 |     0 |    0 |
+     | "[[Add queue definition to app-db]]"                                     |                              0 |     0 |    0 |
+     | "[[Add queue form]]"                                                     |                              0 |     0 |    0 |
+     | "[[Add queue list]]"                                                     |                              0 |     0 |    0 |
+     | "[[Add conversion to planned period function]]"                          |                              0 |     0 |    0 |
+     | "[[Calendar Page]]"                                                      |                              0 |     0 |    0 |
+     | "[[Optional offline analytics]]"                                         |                              0 |     0 |    0 |
+     | "[[Unpin react svg lib version]]"                                        |                              0 |     0 |    0 |
+     |----------------------------------------------------------------------+--------------------------------+-------+------|
+     |                                                                      |                                |       |      |
      #+END:
      #+begin_center
      This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
@@ -46,27 +74,6 @@
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
 ** DOSUB Release to strangers
-     #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
-     | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
-     |----------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Follow material design on each page without changing functionality]]" |                            5.0 |   100 |   20 |
-     | "[[App notification on planned period starting]]"                        |                            4.0 |    20 |    5 |
-     | "[[Put version indicator in app-db (for export mostly)]]"                |                            1.0 |     1 |    1 |
-     |----------------------------------------------------------------------+--------------------------------+-------+------|
-     |                                                                      |                                |       |      |
-     #+END:
-*** TODO App notification on planned period starting 
-    :PROPERTIES:
-    :VALUE:    20
-    :WORK:     5
-    :EFFORT:   4:00
-    :CONFIDENCE: 50
-    :END:
-    :LOGBOOK:
-    CLOCK: [2019-11-12 Tue 19:27]--[2019-11-12 Tue 19:28] =>  0:01
-    CLOCK: [2019-11-11 Mon 18:59]--[2019-11-11 Mon 18:59] =>  0:00
-    CLOCK: [2019-11-11 Mon 18:10]--[2019-11-11 Mon 18:59] =>  0:49
-    :END:
 *** TODO Put version indicator in app-db (for export mostly)
     :PROPERTIES:
     :VALUE:    1
@@ -213,7 +220,7 @@ https://docs.expo.io/versions/latest/sdk/calendar/
     Then there is an option to vote with $.
     When a successful payment is processed send a request to update the dollar amount in the feature list.
     https://docs.expo.io/versions/latest/sdk/payments/#using-the-payments-sdk
-*** TODO Add presribed handler tests 
+*** TODO Add prescribed handler tests 
     :PROPERTIES:
     :WORK:     5
     :VALUE:    13
@@ -274,12 +281,17 @@ https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
   - [ ] Template
   - [ ] Template compact (modal?)
   - [ ] Create complete state indicator
-*** TODO Notifications (push?)
+*** TODO Notifications (local)
     :PROPERTIES:
     :Effort:   4:00
     :Confidence: 80
+    :VALUE:    20
+    :WORK:     5
     :END:
     :LOGBOOK:
+    CLOCK: [2019-11-12 Tue 19:27]--[2019-11-12 Tue 19:28] =>  0:01
+    CLOCK: [2019-11-11 Mon 18:59]--[2019-11-11 Mon 18:59] =>  0:00
+    CLOCK: [2019-11-11 Mon 18:10]--[2019-11-11 Mon 18:59] =>  0:49
     CLOCK: [2019-07-27 Sat 17:01]--[2019-07-27 Sat 17:54] =>  0:53
     :END:
 - [[https://docs.expo.io/versions/latest/sdk/notifications/#notificationsschedulelocalnotificationasynclocalnotification-schedulingoptions][Schedule local notifications]]
@@ -289,32 +301,10 @@ https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
   - [ ] Add period handler
   - [ ] Apply pattern handler
 - [ ] Register a listener to navigate to day
-*** TODO Fix template editing bug with end time
-    :PROPERTIES:
-    :Confidence: 65
-    :Effort:   2:00
-    :END:
-Using the arrows to have the start go to the day before or end to day after seems to work fine.
-Check that it works past 24+ hours.
-Using the button to set the time into yesterday or tomorrow doesn't work. (needs to be relative...)
-*** TODO Fix navigation
-    :PROPERTIES:
-    :Effort:   5:00
-    :Confidence: 50
-    :END:
-- [ ] Move history to app-db
-- [ ] Limit to X items
-- [ ] Back should pop off history
-- [ ] Delete actions should nav-back
 *** TODO Markov chain prediction
     :PROPERTIES:
     :Effort:   16:00
     :Confidence: 30
-    :END:
-*** TODO Report Page
-    :PROPERTIES:
-    :Effort:   40:00
-    :Confidence: 25
     :END:
 *** TODO Queue page
     :PROPERTIES:
@@ -333,19 +323,14 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
     :Effort:   30:00
     :Confidence: 50
     :END:
-*** TODO Analytics
+*** TODO Optional offline analytics
     :PROPERTIES:
     :Effort:   4:00
     :Confidence: 25
     :END:
-- Need to keep track of user activity
-- Also need to keep track of user state for bug reports
-- Also need error reporting
-*** TODO Bugs
-- Going back from template form doesn't close the bottom sheet
-- Closing the bottom sheet doesn't deselect
 *** TODO Unpin react svg lib version
      https://github.com/indiespirit/react-native-chart-kit/issues/200#issuecomment-550245684
+*** TODO Handle time zone changes 
 ** Dreams
 - Data includes periods/templates/pattern generated from for reports of usage
 - Meta data (with mobile friendly editor) on all entities

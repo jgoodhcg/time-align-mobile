@@ -5013,3 +5013,58 @@ Am I doing something dumb or is there something wrong with how shadow is includi
    ~export NODE_OPTIONS="--max-old-space-size=2048"~
    Repeatedly demonstrated to myself that the heap error only happens when including a namespace from my code and compiling with watch.
    Messaged thheller on slack.
+
+* DONE Bugs
+  CLOSED: [2019-12-17 Tue 21:30]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-12-17 Tue 21:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Eventually
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+- Going back from template form doesn't close the bottom sheet
+- Closing the bottom sheet doesn't deselect
+
+* DONE Report Page
+  CLOSED: [2019-12-17 Tue 21:30]
+  :PROPERTIES:
+  :Effort:   40:00
+  :Confidence: 25
+  :ARCHIVE_TIME: 2019-12-17 Tue 21:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Eventually
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* CANCELED Fix navigation
+  CLOSED: [2019-12-17 Tue 21:29]
+  :PROPERTIES:
+  :Effort:   5:00
+  :Confidence: 50
+  :ARCHIVE_TIME: 2019-12-17 Tue 21:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Eventually
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+- [ ] Move history to app-db
+- [ ] Limit to X items
+- [ ] Back should pop off history
+- [ ] Delete actions should nav-back
+
+* CANCELED Fix template editing bug with end time
+  CLOSED: [2019-12-17 Tue 21:29]
+  :PROPERTIES:
+  :Confidence: 65
+  :Effort:   2:00
+  :ARCHIVE_TIME: 2019-12-17 Tue 21:59
+  :ARCHIVE_FILE: ~/projects/time-align-mobile/time-align-mobile.org
+  :ARCHIVE_OLPATH: Time Align Mobile/Eventually
+  :ARCHIVE_CATEGORY: time-align-mobile
+  :ARCHIVE_TODO: CANCELED
+  :END:
+Using the arrows to have the start go to the day before or end to day after seems to work fine.
+Check that it works past 24+ hours.
+Using the button to set the time into yesterday or tomorrow doesn't work. (needs to be relative...)
