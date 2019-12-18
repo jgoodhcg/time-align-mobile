@@ -11,6 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2019-12-17 Tue 20:07]--[2019-12-17 Tue 21:22] =>  1:15
   CLOCK: [2019-11-12 Tue 20:55]--[2019-11-12 Tue 21:08] =>  0:13
   CLOCK: [2019-11-12 Tue 19:30]--[2019-11-12 Tue 20:49] =>  1:19
   CLOCK: [2019-09-29 Sun 17:17]--[2019-09-29 Sun 17:24] =>  0:07
@@ -175,6 +176,14 @@
      - [X] Save ticks for in play update
      - [X] Tick updates the stop time in the form?
      - [X] Update back button
+*** TODO Add google analytics to handlers
+**** Notes 
+     This is a temporary solution only for alpha. Beta will utilize a totally opt in system that lets users turn on logging and then optionally send data in bulk.
+    *Do not commit GA key*
+    Write a wrapper around publishing that looks for an envvar and stops publishing if it doesn't exist.
+    Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
+    https://analytics.google.com/analytics/web/#/a74205906p218292658/admin/streams/table
+    https://www.npmjs.com/package/expo-analytics
 ** DOSUB Eventually 
 *** TODO Add Calendar integration
     :PROPERTIES:
@@ -357,3 +366,5 @@ Using the button to set the time into yesterday or tomorrow doesn't work. (needs
 - Fitbit OS integration / companion app
 - Move all side effects (scroll To, bottom sheet collapse) to ~reg-fx~ in re-frame
 - Use this [[https://github.com/philoskim/debux][debug library]]
+- Use fully qualified keywords for handler registrations so that [[https://github.com/oliyh/re-jump.el][this]] jump to library can be utilized
+- Use more of [[https://nicedoc.io/Day8/re-frame/blob/master/docs/External-Resources.md][these things]]
