@@ -42,7 +42,7 @@
      [view {:style {:flex        1
                     :align-items "center"}}
 
-      [surface
+      [surface {:style {:margin-top 32}}
        [view {:style {:flex           0
                       :flex-direction "column"
                       :align-items    "center"

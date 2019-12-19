@@ -200,6 +200,7 @@
 (def Card (oget paper "Card"))
 (def card (r/adapt-react-class Card))
 (def default-theme (oget paper "DefaultTheme"))
+(def dark-theme (oget paper "DarkTheme"))
 (def Modal (oget paper "Modal"))
 (def modal-paper (r/adapt-react-class Modal))
 (def portal (r/adapt-react-class (oget paper "Portal")))

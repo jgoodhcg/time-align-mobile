@@ -76,7 +76,7 @@
                      params {:name  name
                              :style {:margin-right 8
                                      :width        32}
-                             :color (->> theme :colors :placeholder)
+                             :color (->> theme :colors :primary)
                              :size  24}
 
                      label-element [subheading label]
@@ -113,24 +113,28 @@
     (let [navigation (subscribe [:get-navigation])
           menu-open  (subscribe [:get-menu-open])]
       (fn []
-        [paper-provider {:theme (clj->js theme)}
-         [side-menu
-          {:menu      (r/as-element [drawer-list])
-           :is-open   @menu-open
-           :on-change #(do
-                         (dispatch [:set-menu-open %])
-                         (dispatch [:set-day-fab-visible (not %)])
-                         (close-bottom-sheet bottom-sheet-ref :period)
-                         (close-bottom-sheet bottom-sheet-ref :template))}
+        (let [current-screen (:current-screen @navigation)]
+          [paper-provider {:theme (clj->js theme)}
+           [side-menu
+            {:menu      (r/as-element [drawer-list])
+             :is-open   @menu-open
+             :on-change #(do
+                           (dispatch [:set-menu-open %])
+                           (dispatch [:set-day-fab-visible (not %)])
+                           (if (and (some? @bottom-sheet-ref)
+                                    (or (= :template current-screen)
+                                        (= :period current-screen)))
+                             (do (close-bottom-sheet bottom-sheet-ref :period)
+                                 (close-bottom-sheet bottom-sheet-ref :template))))}
 
-          [view {:style {:flex             1
-                         :background-color (get-in theme [:colors :background])}}
-           [status-bar {:hidden true}]
-           (if-let [screen-comp (some #(if (= (:id %) (:current-screen @navigation))
-                                         (:screen %))
-                                      nav/screens-map)]
-             [screen-comp (:params @navigation)]
-             [view [text "That screen doesn't exist"]])]]]))))
+            [view {:style {:flex             1
+                           :background-color (get-in theme [:colors :background])}}
+             [status-bar {:hidden true}]
+             (if-let [screen-comp (some #(if (= (:id %) current-screen)
+                                           (:screen %))
+                                        nav/screens-map)]
+               [screen-comp (:params @navigation)]
+               [view [text "That screen doesn't exist"]])]]])))))
 
 (defn start
   {:dev/after-load true}

@@ -2,7 +2,7 @@
   (:require
    ;; [cljs.spec.test.alpha :as stest]
    ;; [cljs.spec.alpha :as s]
-   [time-align-mobile.js-imports :refer [default-theme]]))
+   [time-align-mobile.js-imports :refer [default-theme dark-theme]]))
 
 (def theme (-> default-theme
                (js->clj :keywordize-keys true)

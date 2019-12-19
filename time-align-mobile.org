@@ -154,9 +154,16 @@
        - Pie chart seems like the best bet
        - Went with a line chart showing actual and planned total logged times for the past seven days
 
-**** Data 
-     - [ ] Has top bar
-     - [ ] Uses better buttons
+**** DONE Data 
+     CLOSED: [2019-12-18 Wed 21:04]
+     :PROPERTIES:
+     :ID:       f8da7517-9f9b-49b2-8663-d3dc376f5df9
+     :END:
+     :LOGBOOK:
+     CLOCK: [2019-12-18 Wed 20:16]--[2019-12-18 Wed 21:04] =>  0:48
+     :END:
+     - [X] Has top bar
+     - [X] Uses better buttons
 **** Bucket form 
      - [ ] Has top bar
      - [ ] All components align
@@ -173,6 +180,9 @@
      - [ ] Has top bar
      - [ ] All components align
      - [ ] All components have a consistent style
+**** Switch to dark theme 
+     - [X] Import dark theme
+     - [ ] Switch custom colors
 **** Misc along the way
      :LOGBOOK:
      CLOCK: [2019-12-01 Sun 12:26]--[2019-12-01 Sun 13:38] =>  1:12
@@ -183,7 +193,12 @@
      - [X] Save ticks for in play update
      - [X] Tick updates the stop time in the form?
      - [X] Update back button
+     - [ ] Icons on Day FAB
+       
 *** TODO Add google analytics to handlers
+    :PROPERTIES:
+    :ID:       27160311-6918-44e2-a603-3d8679e903af
+    :END:
 **** Notes 
      This is a temporary solution only for alpha. Beta will utilize a totally opt in system that lets users turn on logging and then optionally send data in bulk.
     *Do not commit GA key*
