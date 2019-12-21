@@ -22,13 +22,11 @@
        :compact  compact
        :on-press edit-item} (when labels "Edit")])
 
-   [button-paper
-    (merge {:icon     "content-save"
-            :mode     (if compact "text" "outlined")
-            :compact  compact
-            :on-press save-changes}
-           (when-not changed {:disabled true}))
-    (when labels "Save")]
+   [button-paper {:icon     "delete"
+                  :mode     (if compact "text" "outlined")
+                  :compact  compact
+                  :on-press delete-item}
+    (when labels "Delete")]
 
    [button-paper
     (merge {:icon     "cancel"
@@ -38,11 +36,15 @@
            (when-not changed {:disabled true}))
     (when labels "Revert")]
 
-   [button-paper {:icon     "delete"
-                  :mode     (if compact "text" "outlined")
-                  :compact  compact
-                  :on-press delete-item}
-    (when labels "Delete")]])
+   [button-paper
+    (merge {:icon     "content-save"
+            :mode     (cond compact "text"
+                            changed "contained"
+                            :else "outlined")
+            :compact  compact
+            :on-press save-changes}
+           (when-not changed {:disabled true}))
+    (when labels "Save")]])
 
 (defn root [{:keys [changed save-changes cancel-changes delete-item]}]
   [view {:style {:flex            1

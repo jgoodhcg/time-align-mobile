@@ -165,9 +165,15 @@
      - [X] Has top bar
      - [X] Uses better buttons
 **** Bucket form 
-     - [ ] Has top bar
+     :LOGBOOK:
      - [ ] All components align
-     - [ ] All components have a consistent style
+     CLOCK: [2019-12-21 Sat 15:27]--[2019-12-21 Sat 16:41] =>  1:14
+     CLOCK: [2019-12-21 Sat 13:51]--[2019-12-21 Sat 14:22] =>  0:31
+     :END:
+     - [X] Has top bar
+     - [X] All components align
+     - [X] All components have a consistent style
+     - [ ] Form on surface
 **** Period form 
      - [ ] Has top bar
      - [ ] All components align
@@ -194,6 +200,8 @@
      - [X] Tick updates the stop time in the form?
      - [X] Update back button
      - [ ] Icons on Day FAB
+     - [ ] Play selects period and jumps to
+     - [ ] Drawer does not user surface comp and background is theme background
        
 *** TODO Add google analytics to handlers
     :PROPERTIES:
