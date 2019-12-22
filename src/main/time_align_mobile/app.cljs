@@ -66,7 +66,8 @@
           (rn/StyleSheet.create)))
 
 (defn drawer-list []
-  [surface {:style {:flex 1 :justify-content "center" :align-items "center"}}
+  [view {:style {:flex 1 :justify-content "center" :align-items "center"
+                 :background-color (->> theme :colors :background)}}
    (->> nav/screens-map
         (filter #(:in-drawer %))
         (sort-by #(:position-drawer %))

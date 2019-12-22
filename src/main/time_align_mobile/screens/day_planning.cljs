@@ -195,15 +195,11 @@
       [menu-item {:title    "zoom in"
                   :icon     "magnify-plus-outline"
                   :on-press #(do
-                               (dispatch [:zoom-in])
-                               (swap! top-bar-menu
-                                      (fn [m] (assoc-in m [:visible] false))))}]
+                               (dispatch [:zoom-in]))}]
       [menu-item {:title    "zoom out"
                   :icon     "magnify-minus-outline"
                   :on-press #(do
-                               (dispatch [:zoom-out])
-                               (swap! top-bar-menu
-                                      (fn [m] (assoc-in m [:visible] false))))}]
+                               (dispatch [:zoom-out]))}]
       [menu-item {:title    "zoom reset"
                   :icon     "magnify"
                   :on-press #(do

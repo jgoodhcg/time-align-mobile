@@ -76,78 +76,38 @@
      [top-bar {:center-content [subheading "Group Form"]
                :right-content  [icon-button]}]
 
-     ;; FORM
+     [surface {:style {:flex 1
+                       :margin-top 4}}
+      [view {:flex            1
+             :flex-direction  "column"
+             :justify-content "flex-start"
+             :align-items     "flex-start"
+             :padding         4}
 
-     ;; [view {:style {:flex            1
-     ;;                :flex-direction  "column"
-     ;;                :justify-content "flex-start"
-     ;;                :align-items     "flex-start"
-     ;;                :padding-top     50
-     ;;                :padding-left    4
-     ;;                :padding-right   4}}
-
-     ;;  [view {:style {:height        64
-     ;;                 :margin-bottom 8}}
-     ;;     [label-comp bucket-form changes :update-bucket-form]]
-     ;;    [color-comp bucket-form changes]
-     ;;    ;; [data-comp bucket-form changes update-structured-data]
-     ;;    ;; [periods-comp bucket-form]
-     ;;    ;; [templates-comp bucket-form]
-;; ]
-
-     [view {:flex            1
-            :flex-direction  "column"
-            :justify-content "flex-start"
-            :align-items     "flex-start"
-            :padding         4}
-
-      [label-comp-md {:form        bucket-form
-                      :changes     changes
-                      :update-key  :update-bucket-form
-                      :compact     false
-                      :placeholder "Group name ..."}]
+       [label-comp-md {:form        bucket-form
+                       :changes     changes
+                       :update-key  :update-bucket-form
+                       :compact     false
+                       :placeholder "Group name ..."}]
 
 
-      [modal {:animation-type   "slide"
-              :transparent      false
-              :on-request-close #(reset! color-modal-visible false)
-              :visible          @color-modal-visible}
-       [view {:style {:flex 1}}
-        [color-picker {:on-color-selected (fn [color]
-                                            (dispatch [:update-bucket-form {:color color}])
-                                            (reset! color-modal-visible false))
-                       :old-color         (:color @bucket-form)
-                       :style             {:flex 1}}]]]
+       [modal {:animation-type   "slide"
+               :transparent      false
+               :on-request-close #(reset! color-modal-visible false)
+               :visible          @color-modal-visible}
+        [view {:style {:flex 1}}
+         [color-picker {:on-color-selected (fn [color]
+                                             (dispatch [:update-bucket-form {:color color}])
+                                             (reset! color-modal-visible false))
+                        :old-color         (:color @bucket-form)
+                        :style             {:flex 1}}]]]
 
-      [color-comp bucket-form changes]
+       [color-comp bucket-form changes]
 
-      ;; TODO details collapsible section?
-      ;; [id-comp bucket-form]
-      ;; [last-edited-comp bucket-form]
-      ;; [created-comp bucket-form]
+       [form-buttons/root
+        {:changed        (> (count @changes) 0)
+         :save-changes   #(dispatch [:save-bucket-form (new js/Date)])
+         :cancel-changes #(dispatch [:load-bucket-form (:id @bucket-form)])
+         :delete-item    #(dispatch [:delete-bucket (:id @bucket-form)])}]
 
-      ;; FILTER BUTTON
-      ;; (when-not (filter-for-id? @filters (:id @bucket-form))
-      ;;   [filter-button
-      ;;    bucket-form
-      ;;    #(dispatch
-      ;;      [:add-auto-filter
-      ;;       {:id          (random-uuid)
-      ;;        :label       (str (:label @bucket-form)
-      ;;                          " bucket filter")
-      ;;        :created     (js/Date.)
-      ;;        :last-edited (js/Date.)
-      ;;        :compatible  [:period :template]
-      ;;        :sort        {:path      [:start]
-      ;;                      :ascending true}
-      ;;        :predicates  [{:path   [:bucket-id]
-      ;;                       :negate false
-      ;;                       :value  (str (:id @bucket-form))}]}])])
-
-      [form-buttons/root
-       {:changed        (> (count @changes) 0)
-        :save-changes   #(dispatch [:save-bucket-form (new js/Date)])
-        :cancel-changes #(dispatch [:load-bucket-form (:id @bucket-form)])
-        :delete-item    #(dispatch [:delete-bucket (:id @bucket-form)])}]
-
-      ]]))
+       ]]]))
