@@ -220,6 +220,13 @@
     [switch-paper {:value           (:planned @form)
                    :on-value-change #(dispatch [update-key {:planned %}])}]]])
 
+(defn planned-md [form changes update-key]
+  [view {:style {:flex-direction "row"
+                 :margin-top     8}}
+   [icon-button {:icon "view-dashboard-outline"} ]
+   [view {:style {:margin-right 32}}
+    [planned-comp form changes update-key]]])
+
 (defn duration-comp [start stop]
   (let [duration (get-duration {:start start :stop stop})]
 

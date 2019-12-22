@@ -123,8 +123,8 @@
                            (dispatch [:set-menu-open %])
                            (dispatch [:set-day-fab-visible (not %)])
                            (if (and (some? @bottom-sheet-ref)
-                                    (or (= :template current-screen)
-                                        (= :period current-screen)))
+                                    (or (= :day current-screen)
+                                        (= :pattern-planning current-screen)))
                              (do (close-bottom-sheet bottom-sheet-ref :period)
                                  (close-bottom-sheet bottom-sheet-ref :template))))}
 

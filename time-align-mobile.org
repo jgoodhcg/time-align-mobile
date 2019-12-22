@@ -176,11 +176,16 @@
      - [X] All components align
      - [X] All components have a consistent style
      - [X] Form on surface
-**** Period form 
-     - [ ] Has top bar
-     - [ ] All components align
-     - [ ] All components have a consistent style
-     - [ ] Form on surface
+**** DONE Period form 
+     CLOSED: [2019-12-22 Sun 18:10]
+     :LOGBOOK:
+     CLOCK: [2019-12-22 Sun 17:27]--[2019-12-22 Sun 18:10] =>  0:43
+     :END:
+     - [X] Has top bar
+     - [X] All components align
+     - [X] All components have a consistent style
+     - [X] Form on surface
+     - [X] Fix where bottom sheet wasn't closing on drawer toggle
 **** Pattern form 
      - [ ] Has top bar
      - [ ] All components align

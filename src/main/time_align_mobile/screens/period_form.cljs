@@ -32,6 +32,7 @@
             [time-align-mobile.helpers :refer [element-time-stamp-info]]
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
+            [time-align-mobile.components.top-bar :refer [top-bar]]
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               bucket-selection-content
                                                               created-comp
@@ -40,6 +41,7 @@
                                                               label-comp-md
                                                               bucket-parent-picker-button
                                                               label-style
+                                                              planned-md
                                                               bucket-modal
                                                               changeable-field
                                                               duration-comp
@@ -74,7 +76,7 @@
             "Add a time time")]]])
 
 (defn date-time-comp-buttons [period-form changes modal field-key label time]
-  [:<>
+  [view {:style {:flex-direction "row"}}
    ;; Date
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "date"})
@@ -322,11 +324,7 @@
      [divider {:style divider-style}]
 
      ;; planning
-     [view {:style {:flex-direction "row"
-                    :margin-top     8}}
-      [icon-button {:icon "floor-plan"} ]
-      [view {:style {:margin-right 32}}
-       [planned-comp period-form changes :update-period-form]]]]))
+     [planned-md period-form changes :update-period-form]]))
 
 (defn root [params]
   (let [period-form            (subscribe [:get-period-form])
@@ -336,46 +334,57 @@
         changes                (subscribe [:get-period-form-changes])
         buckets                (subscribe [:get-buckets])]
 
-    [view {:style {:margin-top 16
-                   :flex       1}}
+    [view {:style {:flex 1}}
+     [top-bar {:center-content [subheading "Period Form"]
+               :right-content  [icon-button]}]
 
-     [label-comp period-form changes :update-period-form false]
+     [surface {:style {:flex       1
+                       :margin-top 4}}
+      [view {:flex            1
+             :flex-direction  "column"
+             :justify-content "flex-start"
+             :align-items     "flex-start"
+             :padding         4}
+
+       [label-comp-md {:form        period-form
+                       :changes     changes
+                       :update-key  :update-period-form
+                       :compact     false
+                       :placeholder "I was ..."}]
+
+       [bucket-modal
+        buckets
+        bucket-picker-modal
+        (fn [item] (fn [_]
+                     (dispatch
+                      [:update-period-form
+                       {:bucket-id (:id item)}])
+                     (swap! bucket-picker-modal
+                            (fn [m] (assoc-in m [:visible] false)))))]
+
+       [bucket-parent-picker-button {:period-form         period-form
+                                     :bucket-picker-modal bucket-picker-modal
+                                     :changes             changes}]
+
+       [view {:style {:flex-direction "row"
+                      :align-items    "center"
+                      :flex           1
+                      :margin-top     8}}
+        [icon-button {:icon "clock-outline"} ]
+        [view {:style {:flex-direction "column"}}
+         [time-comp period-form changes start-modal :start "Start"]
+         [time-comp period-form changes stop-modal :stop "Stop"]]
+        [view {:style {:flex         1
+                       :justify-self "flex-end"}}
+         [duration-comp (:start @period-form) (:stop @period-form)]]]
 
 
-     [bucket-modal
-      buckets
-      bucket-picker-modal
-      (fn [item] (fn [_]
-                   (dispatch
-                    [:update-period-form
-                     {:bucket-id (:id item)}])
-                   (swap! bucket-picker-modal
-                          (fn [m] (assoc-in m [:visible] false)))))]
+       [planned-md period-form changes :update-period-form]
 
-     [bucket-parent-picker-button {:period-form         period-form
-                                   :bucket-picker-modal bucket-picker-modal
-                                   :changes             changes}]
-
-     [planned-comp period-form changes :update-period-form]
-
-     [time-comp period-form changes start-modal :start "start"]
-
-     [time-comp period-form changes stop-modal :stop "stop"]
-
-     [duration-comp (:start @period-form) (:stop @period-form)]
-
-     [id-comp period-form]
-
-     [created-comp period-form]
-
-     [last-edited-comp period-form]
-
-     ;; [data-comp period-form changes update-structured-data]
-
-     [form-buttons/root
-      {:changed        (> (count @changes) 0)
-       :save-changes   #(dispatch [:save-period-form (new js/Date)])
-       :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
-                                                      :bucket-id (:bucket-id @period-form)}])
-       :delete-item    #(dispatch [:delete-period {:period-id (:id @period-form)
-                                                   :bucket-id (:bucket-id @period-form)}])}]]))
+       [form-buttons/root
+        {:changed        (> (count @changes) 0)
+         :save-changes   #(dispatch [:save-period-form (new js/Date)])
+         :cancel-changes #(dispatch [:load-period-form {:period-id (:id @period-form)
+                                                        :bucket-id (:bucket-id @period-form)}])
+         :delete-item    #(dispatch [:delete-period {:period-id (:id @period-form)
+                                                     :bucket-id (:bucket-id @period-form)}])}]]]]))
