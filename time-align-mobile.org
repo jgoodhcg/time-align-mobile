@@ -166,6 +166,9 @@
      - [X] Uses better buttons
 **** DONE Bucket form 
      CLOSED: [2019-12-21 Sat 20:26]
+     :PROPERTIES:
+     :ID:       fab82be7-e571-426d-9eb4-804db72e427c
+     :END:
      :LOGBOOK:
      CLOCK: [2019-12-21 Sat 20:04]--[2019-12-21 Sat 20:20] =>  0:16
      CLOCK: [2019-12-21 Sat 16:50]--[2019-12-21 Sat 16:56] =>  0:06
@@ -186,11 +189,18 @@
      - [X] All components have a consistent style
      - [X] Form on surface
      - [X] Fix where bottom sheet wasn't closing on drawer toggle
-**** Pattern form 
+**** DONE Pattern form 
+     CLOSED: [2020-01-01 Wed 17:08]
+     :LOGBOOK:
+     CLOCK: [2020-01-01 Wed 16:32]--[2020-01-01 Wed 17:08] =>  0:36
+     CLOCK: [2020-01-01 Wed 15:22]--[2020-01-01 Wed 15:28] =>  0:06
+     :END:
+     - [X] Has top bar
+     - [X] All components align
+     - [X] All components have a consistent style
+     - [X] Form on surface
+**** Pattern planning 
      - [ ] Has top bar
-     - [ ] All components align
-     - [ ] All components have a consistent style
-     - [ ] Form on surface
 **** Template form 
      - [ ] Has top bar
      - [ ] All components align
@@ -230,6 +240,20 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://analytics.google.com/analytics/web/#/a74205906p218292658/admin/streams/table
     https://www.npmjs.com/package/expo-analytics
+*** TODO Publish 
+    :LOGBOOK:
+    CLOCK: [2020-01-01 Wed 16:29]--[2020-01-01 Wed 16:32] =>  0:03
+    CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
+    :END:
+**** Rebrand to time sink 
+     - [ ] Buy domain
+     - [ ] Change app package name
+     - [ ] Change repo name
+**** Other
+     - [ ] Publish static site
+     - [ ] Add intro guide
+     - [ ] Add readme to repo
+     - [ ] Set license in repo
 ** DOSUB Eventually 
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
@@ -375,6 +399,10 @@ https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
 *** TODO Unpin react svg lib version
      https://github.com/indiespirit/react-native-chart-kit/issues/200#issuecomment-550245684
 *** TODO Handle time zone changes 
+*** TODO Refactor names 
+    - buckets -> groups
+    - patterns -> plan
+    - time-align -> time-sink
 ** Dreams
 - Data includes periods/templates/pattern generated from for reports of usage
 - Meta data (with mobile friendly editor) on all entities

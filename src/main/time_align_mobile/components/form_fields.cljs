@@ -101,8 +101,7 @@
                                                      {:label text
                                                       :id    (:id @form)}]))}]]))
 
-(defn label-comp-md
-  [{:keys [form changes update-key compact placeholder]}]
+(defn label-comp-md [{:keys [form changes update-key compact placeholder]}]
   [view {:style {:flex-direction "row"
                  :margin-top     8}}
    [icon-button {:icon "label-outline"}]

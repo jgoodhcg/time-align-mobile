@@ -108,6 +108,4 @@
         {:changed        (> (count @changes) 0)
          :save-changes   #(dispatch [:save-bucket-form (new js/Date)])
          :cancel-changes #(dispatch [:load-bucket-form (:id @bucket-form)])
-         :delete-item    #(dispatch [:delete-bucket (:id @bucket-form)])}]
-
-       ]]]))
+         :delete-item    #(dispatch [:delete-bucket (:id @bucket-form)])}]]]]))
