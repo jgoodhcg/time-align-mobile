@@ -235,6 +235,7 @@
      - [ ] Selecting jumps to utilizing the touch point for position
      - [X] Drawer does not user surface comp and background is theme background
      - [X] Remove menu close on zoom actions
+     - [ ] Selecting next/prev also _jumps to_ (somehow)
        
 *** TODO Add google analytics to handlers
     :PROPERTIES:
@@ -261,6 +262,8 @@
      - [ ] Add intro guide
      - [ ] Add readme to repo
      - [ ] Set license in repo
+**** Upload to test flight in app store
+**** Upload to testing track play store  
 ** DOSUB Eventually 
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
@@ -410,8 +413,10 @@ https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
     - buckets -> groups
     - patterns -> plan
     - time-align -> time-sink
+*** TODO Look into siri shortcuts with expo 
+    Might need to submit this as a feature for expo
 ** Dreams
-- Data includes periods/templates/pattern generated from for reports of usage
+- Data includes periods/templates/pattern "generated from info" for reports of usage
 - Meta data (with mobile friendly editor) on all entities
 - [[https://practicalli.github.io/spacemacs/improving-code/linting/][Linting]]
 - Fully namespaced keys only
@@ -426,9 +431,9 @@ https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
 - Refactor subscriptions to use signal graph pattern
 - Refactor views to be very thin (no operations)
 - Use animation api for state indication
-- All start timestamps end at 45 sec and all stop time stamps end at 15 sec to have same minute without overlap
+- All start timestamps end at 45 sec and all stop time stamps end at 15 sec to have same minute, for end to end tasks, without overlap
 - Fitbit OS integration / companion app
 - Move all side effects (scroll To, bottom sheet collapse) to ~reg-fx~ in re-frame
 - Use this [[https://github.com/philoskim/debux][debug library]]
-- Use fully qualified keywords for handler registrations so that [[https://github.com/oliyh/re-jump.el][this]] jump to library can be utilized
+- Use fully qualified keywords for handler registrations so that [[https://github.com/oliyh/re-jump.el][this]] jump to library can be utilized (and because it's better)
 - Use more of [[https://nicedoc.io/Day8/re-frame/blob/master/docs/External-Resources.md][these things]]
