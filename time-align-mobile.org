@@ -200,7 +200,14 @@
      - [X] All components have a consistent style
      - [X] Form on surface
 **** Pattern planning 
-     - [ ] Has top bar
+     :LOGBOOK:
+     CLOCK: [2020-01-04 Sat 17:45]--[2020-01-04 Sat 18:16] =>  0:31
+     CLOCK: [2020-01-04 Sat 16:23]--[2020-01-04 Sat 16:57] =>  0:34
+     :END:
+     - [X] Has top bar
+     - [X] Has zoom options
+     - [X] Plan save button is prominent
+     - [ ] Bottom sheet matches day planning in style
 **** Template form 
      - [ ] Has top bar
      - [ ] All components align

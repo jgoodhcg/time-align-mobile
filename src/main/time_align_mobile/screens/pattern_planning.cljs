@@ -3,6 +3,9 @@
                                                   text
                                                   mi
                                                   button-paper
+                                                  menu-item
+                                                  menu
+                                                  icon-button
                                                   surface
                                                   subheading
                                                   text-paper
@@ -11,6 +14,7 @@
                                                   touchable-highlight]]
             ["react-native-elements" :as rne]
             [time-align-mobile.styles :as styles]
+            [time-align-mobile.components.top-bar :refer [top-bar]]
             [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                                oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
             [time-align-mobile.helpers :as helpers :refer [xor dispatch-debounced short-time long-time]]
@@ -19,6 +23,8 @@
             [time-align-mobile.components.day :as day-comp]
             [time-align-mobile.screens.template-form :refer [compact]]
             [reagent.core :as r]))
+
+(def top-bar-menu (r/atom {:visible false}))
 
 (defn start-earlier
   ([selected-template]
@@ -117,18 +123,6 @@
                                    :stop-earlier  stop-earlier
                                    :stop-later    stop-later})
 
-(defn top-bar [{:keys [label no-changes]}]
-  [surface {:flex-direction  "column"
-            :justify-content "center"
-            :align-items     "center"
-            :padding         8}
-   [subheading label]
-   [button-paper {:icon     "content-save"
-                  :mode     "outlined"
-                  :on-press #(dispatch [:save-pattern-form (new js/Date)])
-                  :disabled no-changes}
-    "Save"]])
-
 (defn move-template [{:keys [selected-element start-relative-min]}]
   (let [new-start (-> start-relative-min
                       (helpers/minutes->ms)
@@ -145,6 +139,40 @@
                           :start new-start
                           :stop  new-stop}])))
 
+(defn top-bar-right-content [{:keys [no-changes]}]
+  ;; TODO DRY this up (day_planning also has this code)
+  [view {:style {:flex-direction  "row"
+                 :justify-content "space-between"
+                 :align-items     "center"}}
+   [button-paper {:icon     "content-save"
+                  :mode     "outlined"
+                  :on-press #(dispatch [:save-pattern-form (new js/Date)])
+                  :disabled no-changes}
+    "Save"]
+   [menu {:anchor
+          (r/as-element
+           [icon-button {:on-press #(swap!
+                                     top-bar-menu
+                                     (fn [m] (assoc-in m [:visible] true)))
+                         :icon     "dots-vertical"}])
+          :visible    (:visible @top-bar-menu)
+          :on-dismiss #(swap! top-bar-menu
+                              (fn [m] (assoc-in m [:visible] false)))}
+    [menu-item {:title    "zoom in"
+                :icon     "magnify-plus-outline"
+                :on-press #(do
+                             (dispatch [:zoom-in]))}]
+    [menu-item {:title    "zoom out"
+                :icon     "magnify-minus-outline"
+                :on-press #(do
+                             (dispatch [:zoom-out]))}]
+    [menu-item {:title    "zoom reset"
+                :icon     "magnify"
+                :on-press #(do
+                             (dispatch [:zoom-default])
+                             (swap! top-bar-menu
+                                    (fn [m] (assoc-in m [:visible] false))))}]]])
+
 (defn root [params]
   (let [pattern-form           (subscribe [:get-pattern-form])
         pattern-form-changes   (subscribe [:get-pattern-form-changes])
@@ -157,8 +185,14 @@
 
     [view {:style {:flex 1}}
      [status-bar {:hidden true}]
-     [top-bar {:label      (:label @pattern-form)
-               :no-changes (empty? @pattern-form-changes)}]
+     [top-bar
+      {:center-content [subheading {:number-of-lines 1
+                                    :ellipsize-mode  "tail"
+                                    :style           {:max-width 150}}
+                        (:label @pattern-form)]
+       :right-content  [top-bar-right-content
+                        {:no-changes (empty? @pattern-form-changes)}]}]
+
      [day-comp/root
       {:selected-element            @selected-template
        :selected-element-edit       @selected-template-edit
