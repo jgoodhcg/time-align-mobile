@@ -257,7 +257,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Publish 
+*** TODO Publish to beta track
     :LOGBOOK:
     CLOCK: [2020-01-01 Wed 16:29]--[2020-01-01 Wed 16:32] =>  0:03
     CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
@@ -273,9 +273,9 @@
      - [ ] Set license in repo
 **** Upload to test flight in app store
 **** Upload to testing track play store  
-** DOSUB Release to strangers 
+** DOSUB Release to strangers [0/0]
 *** BLOCKED Gather friends analytics and inputs
-** DOSUB Eventually 
+** DOSUB Eventually [0/22]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
