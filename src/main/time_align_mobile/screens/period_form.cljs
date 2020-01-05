@@ -313,8 +313,6 @@
                     :flex           1
                     :margin-top     8}}
       [icon-button {:icon "clock-outline"} ]
-      ;; [time-comp period-form changes start-modal :start "Start"]
-      ;; [time-comp period-form changes stop-modal :stop "Stop"]
       [time-comp-compact period-form changes start-modal :start "Start"]
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
       [view {:style {:flex         1

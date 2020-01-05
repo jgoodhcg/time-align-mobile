@@ -55,6 +55,12 @@
 
 (def stop-modal-visible (r/atom false))
 
+(def start-modal (r/atom {:visible false
+                          :mode    "date"})) ;; TODO spec type for "date" "time"
+
+(def stop-modal (r/atom {:visible false
+                         :mode    "date"})) ;; TODO spec type for "date" "time"
+
 (def compact-menu (r/atom {:visible false}))
 
 (defn time-comp-buttons [time modal form update-key field-key]
@@ -75,7 +81,7 @@
                                     (reset! modal false))
                       :on-cancel  #(reset! modal false)}]])
 
-;; TODO consolidate both comps into one
+;; TODO DRY (check period form)
 (defn time-comp [{:keys [template-form
                          changes
                          update-key
@@ -89,6 +95,45 @@
                         :field-key field-key}
                        [subheading {:style label-style} label])
      [time-comp-buttons time-as-date modal template-form update-key field-key]]))
+
+;; TODO DRY (check period form)
+(defn time-comp-button [{:keys [modal time field-key]}]
+  [:<>
+   [button-paper {:on-press #(reset! modal {:visible true
+                                            :mode    "time"})
+                  :style    {:margin-bottom 8}
+                  :mode     "outlined"}
+    [text (if (some? time)
+            (format-time time)
+            "Add a time time")]]])
+
+;; TODO DRY (check period form)
+(defn time-comp-compact [form changes modal field-key label]
+  (let [time (-> @form
+                 (field-key)
+                 (helpers/reset-relative-ms (js/Date.)))]
+    [view {:style {:flex-direction  "column"
+                   :justify-content "flex-start"
+                   :margin-right    8
+                   :align-items     "flex-start"}}
+     (changeable-field {:changes   changes
+                        :field-key field-key}
+                       [subheading label])
+     [time-comp-button {:modal     modal
+                        :time      time
+                        :field-key field-key}]
+
+     ;; modal
+     [date-time-picker {:is-visible (:visible @modal)
+                        :date       (if (some? time) time (js/Date.))
+                        :mode       (:mode @modal)
+                        :on-confirm (fn [d]
+                                      (println "compact")
+                                      (dispatch [:update-template-form {field-key (helpers/get-ms d)}])
+                                      (reset! modal {:visible false
+                                                     :mode    "date"}))
+                        :on-cancel  #(reset! modal {:visible false
+                                                    :mode    "date"})}]]))
 
 (defn top-button-row [{:keys [close-callback template-form pixel-to-minute-ratio scroll-to changed]}]
   [view {:flex-direction  "row"
@@ -235,6 +280,26 @@
      [bucket-parent-picker-button {:form                template-form
                                    :bucket-picker-modal bucket-picker-modal
                                    :changes             template-form-changes}]
+
+     [divider {:style divider-style}]
+
+     ;; start /stop/ duration
+     [view {:style {:flex-direction "row"
+                    :align-items    "center"
+                    :flex           1
+                    :margin-top     8}}
+      [icon-button {:icon "clock-outline"} ]
+      [time-comp-compact template-form template-form-changes start-modal :start "Start"]
+      [time-comp-compact template-form template-form-changes stop-modal :stop "Stop"]
+      [view {:style {:flex         1
+                     :justify-self "flex-end"}}
+       [duration-comp
+        (-> @template-form
+            (:start)
+            (helpers/reset-relative-ms (js/Date.)))
+        (-> @template-form
+            (:stop)
+            (helpers/reset-relative-ms (js/Date.)))]]]
 
      [divider {:style divider-style}]
 
