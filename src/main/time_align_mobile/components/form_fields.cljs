@@ -276,7 +276,7 @@
                               :on-press-generator on-press-generator
                               :modal-atom         modal-atom}]])
 
-(defn bucket-parent-picker-button [{:keys [period-form
+(defn bucket-parent-picker-button [{:keys [form
                                            bucket-picker-modal
                                            changes]}]
   [view {:style {:flex-direction "row"
@@ -291,7 +291,7 @@
                    #(swap! bucket-picker-modal
                            (fn [m] (assoc-in m [:visible] true)))
 
-                   :color (-> @period-form
+                   :color (-> @form
                               :bucket-color)
                    :mode  "outlined"}
-     [text (:bucket-label @period-form)]]]])
+     [text (:bucket-label @form)]]]])

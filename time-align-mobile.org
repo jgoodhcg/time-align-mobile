@@ -81,7 +81,7 @@
     :CONFIDENCE: 90
     :EFFORT:   0:30
     :END:
-*** TODO Follow material design on each page without changing functionality
+*** TODO Follow material design on each page without changing functionality [7/12]
     :PROPERTIES:
     :WORK:     20
     :VALUE:    100
@@ -110,7 +110,7 @@
      - [X] Remove filters
      - [X] Change bottom sheet save to not close bottom sheet
      - [X] FAB exists on bucket list page
-**** Drawer
+**** Drawer [3/4]
      :LOGBOOK:
      CLOCK: [2019-11-28 Thu 13:01]--[2019-11-28 Thu 13:18] =>  0:17
      :END:
@@ -199,8 +199,9 @@
      - [X] All components align
      - [X] All components have a consistent style
      - [X] Form on surface
-**** Pattern planning 
+**** Pattern planning [3/4]
      :LOGBOOK:
+     CLOCK: [2020-01-05 Sun 14:30]--[2020-01-05 Sun 15:21] =>  0:51
      CLOCK: [2020-01-04 Sat 18:21]--[2020-01-04 Sat 19:44] =>  1:23
      CLOCK: [2020-01-04 Sat 17:45]--[2020-01-04 Sat 18:16] =>  0:31
      CLOCK: [2020-01-04 Sat 16:23]--[2020-01-04 Sat 16:57] =>  0:34
@@ -209,19 +210,19 @@
      - [X] Has zoom options
      - [X] Plan save button is prominent
      - [ ] Bottom sheet matches day planning in style
-**** Template form 
+**** Template form [0/4]
      - [ ] Has top bar
      - [ ] All components align
      - [ ] All components have a consistent style
      - [ ] Form on surface
-**** Switch to dark theme 
+**** Switch to dark theme [1/3]
      :LOGBOOK:
      CLOCK: [2019-12-21 Sat 20:20]--[2019-12-21 Sat 20:26] =>  0:06
      :END:
      - [X] Import dark theme
      - [ ] Switch custom colors
      - [ ] Set up a settings page and a single toggle
-**** Misc along the way
+**** Misc along the way [6/10]
      :LOGBOOK:
      CLOCK: [2019-12-01 Sun 12:26]--[2019-12-01 Sun 13:38] =>  1:12
      CLOCK: [2019-11-30 Sat 19:09]--[2019-11-30 Sat 19:09] =>  0:00

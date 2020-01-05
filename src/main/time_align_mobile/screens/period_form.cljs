@@ -301,7 +301,7 @@
                    (swap! bucket-picker-modal
                           (fn [m] (assoc-in m [:visible] false)))))]
 
-     [bucket-parent-picker-button {:period-form         period-form
+     [bucket-parent-picker-button {:form                period-form
                                    :bucket-picker-modal bucket-picker-modal
                                    :changes             changes}]
 
@@ -362,7 +362,7 @@
                      (swap! bucket-picker-modal
                             (fn [m] (assoc-in m [:visible] false)))))]
 
-       [bucket-parent-picker-button {:period-form         period-form
+       [bucket-parent-picker-button {:form                period-form
                                      :bucket-picker-modal bucket-picker-modal
                                      :changes             changes}]
 

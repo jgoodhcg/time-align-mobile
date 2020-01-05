@@ -12,6 +12,7 @@
                                                   menu
                                                   menu-item
                                                   date-time-picker
+                                                  divider
                                                   subheading
                                                   modal
                                                   icon-button
@@ -30,9 +31,13 @@
                                                               last-edited-comp
                                                               duration-comp
                                                               planned-comp
+                                                              planned-md
                                                               label-comp
+                                                              label-comp-md
                                                               label-style
                                                               pattern-parent-picker-comp
+                                                              bucket-parent-picker-button
+                                                              bucket-modal
                                                               bucket-parent-picker-comp
                                                               changeable-field
                                                               info-field-style
@@ -41,7 +46,10 @@
             [reagent.core :as r :refer [atom]]
             [time-align-mobile.helpers :as helpers]
             [time-align-mobile.styles :refer [field-label-changeable-style
+                                              divider-style
                                               field-label-style]]))
+
+(def bucket-picker-modal (r/atom {:visible false})) ;; TODO refactor to bucket-picker-modal-atom (in period form too)
 
 (def start-modal-visible (r/atom false))
 
@@ -197,7 +205,7 @@
     [view {:style {:flex            1
                    :width           "100%"
                    :flex-direction  "column"
-                   :justify-content "space-between"
+                   :justify-content "flex-start"
                    :align-items     "flex-start"}}
 
      [top-button-row {:close-callback        close-callback
@@ -205,42 +213,32 @@
                       :template-form         template-form
                       :pixel-to-minute-ratio pixel-to-minute-ratio
                       :changed               changed}]
-     [label-comp template-form template-form-changes :update-template-form]
 
-     [view {:style {:flex-direction "row"}}
-      ;; start
-      [time-comp {:template-form template-form
-                  :changes       template-form-changes
-                  :update-key    :update-template-form
-                  :modal         start-modal-visible
-                  :field-key     :start
-                  :label         "Start"}]
-      ;; stop
-      [time-comp {:template-form template-form
-                  :changes       template-form-changes
-                  :update-key    :update-template-form
-                  :modal         stop-modal-visible
-                  :field-key     :stop
-                  :label         "Stop"}]]
+     [label-comp-md {:form        template-form
+                     :changes     template-form-changes
+                     :update-key  :update-template-form
+                     :compact     true
+                     :placeholder "During this time I will ..."}]
 
-     [duration-comp
-      (-> @template-form
-          :start
-          (helpers/reset-relative-ms (js/Date.)))
-      (-> @template-form
-          :stop
-          (helpers/reset-relative-ms (js/Date.)))]
+     [divider {:style divider-style}]
 
-     [planned-comp template-form template-form-changes :update-template-form]
+     [bucket-modal
+      buckets
+      bucket-picker-modal
+      (fn [item] (fn [_]
+                   (dispatch
+                    [:update-template-form
+                     {:bucket-id (:id item)}])
+                   (swap! bucket-picker-modal
+                          (fn [m] (assoc-in m [:visible] false)))))]
 
-     [view {:style {:width           "100%"
-                    :justify-content "center"}}
-      [bucket-parent-picker-comp
-       {:form       template-form
-        :changes    template-form-changes
-        :buckets    buckets
-        :update-key :update-template-form
-        :compact    false}]]]))
+     [bucket-parent-picker-button {:form                template-form
+                                   :bucket-picker-modal bucket-picker-modal
+                                   :changes             template-form-changes}]
+
+     [divider {:style divider-style}]
+
+     [planned-md template-form template-form-changes :update-template-form]]))
 
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])
