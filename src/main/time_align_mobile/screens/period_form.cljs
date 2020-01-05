@@ -43,9 +43,7 @@
                                                               label-style
                                                               planned-md
                                                               bucket-modal
-                                                              start-stop-compact
                                                               changeable-field
-                                                              time-comp-button
                                                               duration-comp
                                                               bucket-parent-picker-comp
                                                               info-field-style
@@ -63,9 +61,19 @@
 (def stop-modal (r/atom {:visible false
                           :mode    "date"})) ;; TODO spec type for "date" "time"
 
-(def bucket-picker-modal (r/atom {:visible false})) ;; TODO refactor to bucket-picker-modal-atom
+(def bucket-picker-modal (r/atom {:visible false}))
 
 (def compact-menu (r/atom {:visible false}))
+
+(defn time-comp-button [{:keys [modal time field-key]}]
+  [:<>
+   [button-paper {:on-press #(reset! modal {:visible true
+                                            :mode    "time"})
+                  :style    {:margin-bottom 8}
+                  :mode     "outlined"}
+    [text (if (some? time)
+            (format-time time)
+            "Add a time time")]]])
 
 (defn date-time-comp-buttons [period-form changes modal field-key label time]
   [view {:style {:flex-direction "row"}}
@@ -105,6 +113,31 @@
                         :on-cancel  #(reset! modal {:visible false
                                                     :mode    "date"})}]]))
 
+(defn time-comp-compact [period-form changes modal field-key label]
+  (let [time (field-key @period-form)]
+    [view {:style {:flex-direction  "column"
+                   :justify-content "flex-start"
+                   :margin-right    8
+                   :align-items     "flex-start"}}
+     (changeable-field {:changes   changes
+                        :field-key field-key}
+                       [subheading label])
+     [time-comp-button {:modal     modal
+                        :time      time
+                        :field-key field-key}]
+
+     ;; modal
+     [date-time-picker {:is-visible (:visible @modal)
+                        :date       (if (some? time) time (js/Date.))
+                        :mode       (:mode @modal)
+                        :on-confirm (fn [d]
+                                      (println "compact")
+                                      (dispatch [:update-period-form {field-key d}])
+                                      (reset! modal {:visible false
+                                                     :mode    "date"}))
+                        :on-cancel  #(reset! modal {:visible false
+                                                    :mode    "date"})}]]))
+
 (defn compact [{:keys [scroll-to
                        delete-callback
                        save-callback
@@ -133,7 +166,7 @@
                    :justify-content "flex-start"
                    :align-items     "flex-start"}}
 
-     ;; top button row ;; TODO componentize this similar to template compact form
+     ;; top button row
      [view {:flex-direction  "row"
             :justify-content "space-between"
             :align-items     "center"
@@ -268,17 +301,25 @@
                    (swap! bucket-picker-modal
                           (fn [m] (assoc-in m [:visible] false)))))]
 
-     [bucket-parent-picker-button {:form                period-form
+     [bucket-parent-picker-button {:period-form         period-form
                                    :bucket-picker-modal bucket-picker-modal
                                    :changes             changes}]
 
      [divider {:style divider-style}]
 
-     [start-stop-compact {:form period-form
-                          :changes changes
-                          :start-modal start-modal
-                          :stop-modal stop-modal
-                          :update-key :update-period-form}]
+     ;; start /stop/ duration
+     [view {:style {:flex-direction "row"
+                    :align-items    "center"
+                    :flex           1
+                    :margin-top     8}}
+      [icon-button {:icon "clock-outline"} ]
+      ;; [time-comp period-form changes start-modal :start "Start"]
+      ;; [time-comp period-form changes stop-modal :stop "Stop"]
+      [time-comp-compact period-form changes start-modal :start "Start"]
+      [time-comp-compact period-form changes stop-modal :stop "Stop"]
+      [view {:style {:flex         1
+                     :justify-self "flex-end"}}
+       [duration-comp (:start @period-form) (:stop @period-form)]]]
 
      [divider {:style divider-style}]
 

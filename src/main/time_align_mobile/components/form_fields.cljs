@@ -15,10 +15,8 @@
                                                   surface
                                                   subheading
                                                   ic
-                                                  format-time
                                                   chip
                                                   badge
-                                                  date-time-picker
                                                   list-section
                                                   list-subheader
                                                   color-readable-background
@@ -278,7 +276,7 @@
                               :on-press-generator on-press-generator
                               :modal-atom         modal-atom}]])
 
-(defn bucket-parent-picker-button [{:keys [form
+(defn bucket-parent-picker-button [{:keys [period-form
                                            bucket-picker-modal
                                            changes]}]
   [view {:style {:flex-direction "row"
@@ -293,64 +291,7 @@
                    #(swap! bucket-picker-modal
                            (fn [m] (assoc-in m [:visible] true)))
 
-                   :color (-> @form
+                   :color (-> @period-form
                               :bucket-color)
                    :mode  "outlined"}
-     [text (:bucket-label @form)]]]])
-
-(defn time-comp-button [{:keys [modal time field-key]}]
-  [:<>
-   [button-paper {:on-press #(reset! modal {:visible true
-                                            :mode    "time"})
-                  :style    {:margin-bottom 8}
-                  :mode     "outlined"}
-    [text (if (some? time)
-            (format-time time)
-            "Add a time time")]]])
-
-(defn time-comp-compact [{:keys [form changes modal field-key label update-key]}]
-  (let [time (field-key @form)]
-    [view {:style {:flex-direction  "column"
-                   :justify-content "flex-start"
-                   :margin-right    8
-                   :align-items     "flex-start"}}
-     (changeable-field {:changes   changes
-                        :field-key field-key}
-                       [subheading label])
-     [time-comp-button {:modal     modal
-                        :time      time
-                        :field-key field-key}]
-
-     ;; modal
-     [date-time-picker {:is-visible (:visible @modal)
-                        :date       (if (some? time) time (js/Date.))
-                        :mode       (:mode @modal)
-                        :on-confirm (fn [d]
-                                      (println "compact")
-                                      (dispatch [update-key {field-key d}])
-                                      (reset! modal {:visible false
-                                                     :mode    "date"}))
-                        :on-cancel  #(reset! modal {:visible false
-                                                    :mode    "date"})}]]))
-
-(defn start-stop-compact [{:keys [form changes start-modal stop-modal update-key]}]
-  [view {:style {:flex-direction "row"
-                 :align-items    "center"
-                 :flex           1
-                 :margin-top     8}}
-   [icon-button {:icon "clock-outline"} ]
-   [time-comp-compact {:form form
-                       :changes changes
-                       :modal start-modal
-                       :field-key :start
-                       :label "Start"
-                       :update-key update-key}]
-   [time-comp-compact {:form form
-                       :changes changes
-                       :modal stop-modal
-                       :field-key :stop
-                       :label "Stop"
-                       :update-key update-key}]
-   [view {:style {:flex         1
-                  :justify-self "flex-end"}}
-    [duration-comp (:start @form) (:stop @form)]]])
+     [text (:bucket-label @period-form)]]]])
