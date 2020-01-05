@@ -9,9 +9,12 @@
                                                   text
                                                   text-input
                                                   color-picker
+                                                  menu
+                                                  menu-item
                                                   date-time-picker
                                                   subheading
                                                   modal
+                                                  icon-button
                                                   switch
                                                   platform
                                                   button-paper
@@ -43,6 +46,8 @@
 (def start-modal-visible (r/atom false))
 
 (def stop-modal-visible (r/atom false))
+
+(def compact-menu (r/atom {:visible false}))
 
 (defn time-comp-buttons [time modal form update-key field-key]
   [:<>
@@ -77,22 +82,129 @@
                        [subheading {:style label-style} label])
      [time-comp-buttons time-as-date modal template-form update-key field-key]]))
 
+(defn top-button-row [{:keys [close-callback template-form pixel-to-minute-ratio scroll-to changed]}]
+  [view {:flex-direction  "row"
+         :justify-content "space-between"
+         :align-items     "center"
+         :width           "100%"
+         :padding-left    16
+         :padding-right   16}
+      ;; close
+   [icon-button {:icon     "close"
+                 :size     20
+                 :on-press close-callback}]
+   [view {:flex-direction "row"
+          :align-items    "center"}
+       ;; save
+    [button-paper {:on-press #(do
+                                (dispatch [:update-template-on-pattern-planning-form
+                                           ;; TODO figure out something else if data is ever needed here
+                                           (dissoc @template-form :data)]))
+                   :mode     "outlined"
+                   :disabled (not changed)
+                   :icon     "content-save"
+                   :style    {:margin-right 8}}
+        "save"]
+
+       ;; menu
+    [menu {:anchor
+           (r/as-element
+            [icon-button {:on-press #(reset! compact-menu {:visible true})
+                          :icon     "dots-vertical"}])
+           :visible    (:visible @compact-menu)
+           :on-dismiss #(reset! compact-menu {:visible false})}
+        ;; select prev
+     [menu-item {:title    "select above"
+                 :icon     "chevron-up"
+                 :on-press #(do
+                              (dispatch [:select-next-or-prev-template-in-form :prev])
+                              (reset! compact-menu {:visible false}))}]
+        ;; select next
+     [menu-item {:title    "select below"
+                 :icon     "chevron-down"
+                 :on-press #(do
+                              (dispatch [:select-next-or-prev-template-in-form :next])
+                              (reset! compact-menu {:visible false}))}]
+        ;; jump to
+     [menu-item {:title    "jump to"
+                 :icon     "swap-vertical"
+                 :on-press #(do
+                              (scroll-to (->> @template-form
+                                              :start
+                                              ((fn [time-stamp]
+                                                 (helpers/element-time-stamp-info
+                                                  time-stamp
+                                                  pixel-to-minute-ratio
+                                                  (js/Date.))))
+                                              :y-pos))
+                              (reset! compact-menu {:visible false}))}]
+        ;; copy over
+     [menu-item {:title    "copy over"
+                 :icon     "content-duplicate"
+                 :on-press #(do
+                              (dispatch
+                               [:add-new-template-to-planning-form
+                                (merge @template-form
+                                       {:id      (random-uuid)
+                                        :data    {} ;; TODO this will need to be evaled from string in form
+                                        :planned (-> @template-form
+                                                     :planned
+                                                     not)
+                                        :now     (js/Date.)})])
+                              (reset! compact-menu {:visible false})
+                              (close-callback))}]
+        ;; clear changes
+     [menu-item {:title    "clear changes"
+                 :icon     "cancel"
+                 :on-press #(do (dispatch
+                                 [:load-template-form-from-pattern-planning
+                                  (:id @template-form)])
+                                (reset! compact-menu {:visible false}))}]
+        ;; edit full
+     [menu-item {:title    "edit full"
+                 :icon     "pencil"
+                 :on-press #(do
+                              (dispatch
+                               [:navigate-to
+                                {:current-screen :template
+                                 :params
+                                 {:template-id             (:id @template-form)
+                                  :pattern-form-pattern-id (:pattern-id @template-form)}}])
+                              (reset! compact-menu {:visible false})
+                              (close-callback))}]
+        ;; delete
+     [menu-item {:title    "delete"
+                 :icon     "delete"
+                 :on-press #(do
+                              (dispatch [:delete-template-from-pattern-planning
+                                         (:id @template-form)])
+                              (reset! compact-menu {:visible false})
+                              (close-callback))}]]]])
+
 (defn compact
-  "This comp looks at the template form (like others) but saves to the *pattern form*"
-  [{:keys [save-callback delete-callback]}]
+  "This comp looks at the template form (similar to period-form and period) but saves to the *pattern form* NOT templates on the pattern in the app-db"
+  [{:keys [close-callback scroll-to]}]
+
   (let [pattern-form          (subscribe [:get-pattern-form])
         template-form         (subscribe [:get-template-form])
         template-form-changes (subscribe [:get-template-form-changes-from-pattern-planning])
+        changed               (> (count @template-form-changes) 0)
         buckets               (subscribe [:get-buckets])
-        patterns              (subscribe [:get-patterns])]
+        patterns              (subscribe [:get-patterns])
+        px-ratio-config       (subscribe [:get-pixel-to-minute-ratio])
+        pixel-to-minute-ratio (:current @px-ratio-config)]
 
     [view {:style {:flex            1
                    :width           "100%"
                    :flex-direction  "column"
                    :justify-content "space-between"
-                   :align-items     "flex-start"
-                   :padding-top     8}}
+                   :align-items     "flex-start"}}
 
+     [top-button-row {:close-callback        close-callback
+                      :scroll-to             scroll-to
+                      :template-form         template-form
+                      :pixel-to-minute-ratio pixel-to-minute-ratio
+                      :changed               changed}]
      [label-comp template-form template-form-changes :update-template-form]
 
      [view {:style {:flex-direction "row"}}
@@ -121,41 +233,14 @@
 
      [planned-comp template-form template-form-changes :update-template-form]
 
-     [view {:style {:width "100%"
+     [view {:style {:width           "100%"
                     :justify-content "center"}}
       [bucket-parent-picker-comp
        {:form       template-form
         :changes    template-form-changes
         :buckets    buckets
         :update-key :update-template-form
-        :compact    false}]]
-
-     [view {:style {:flex-direction  "row" ;; TODO abstract this style from here and period form
-                    :padding         8
-                    :margin-top      16
-                    :width           "100%"
-                    :align-self      "center"
-                    :justify-content "space-between"
-                    :align-items     "space-between"}}
-
-      [form-buttons/buttons
-       {:compact        true
-        :changed        (> (count @template-form-changes) 0)
-        :edit-item      #(dispatch [:navigate-to {:current-screen :template
-                                                  :params         {:template-id (:id @template-form)}}])
-        :save-changes   #(do
-                           (dispatch [:update-template-on-pattern-planning-form
-                                        ;; TODO figure out something else if data is ever needed here
-                                      (dissoc @template-form :data)])
-                           (when (and (some? save-callback))
-                             (save-callback)))
-        :cancel-changes #(dispatch [:load-template-form-from-pattern-planning
-                                    (:id @template-form)])
-        :delete-item    #(do
-                           (dispatch [:delete-template-from-pattern-planning
-                                      (:id @template-form)])
-                           (when (and (some? delete-callback))
-                             (delete-callback)))}]]]))
+        :compact    false}]]]))
 
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])

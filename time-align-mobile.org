@@ -201,6 +201,7 @@
      - [X] Form on surface
 **** Pattern planning 
      :LOGBOOK:
+     CLOCK: [2020-01-04 Sat 18:21]--[2020-01-04 Sat 19:44] =>  1:23
      CLOCK: [2020-01-04 Sat 17:45]--[2020-01-04 Sat 18:16] =>  0:31
      CLOCK: [2020-01-04 Sat 16:23]--[2020-01-04 Sat 16:57] =>  0:34
      :END:
