@@ -14,6 +14,7 @@
                                                   date-time-picker
                                                   subheading
                                                   modal
+                                                  divider
                                                   icon-button
                                                   switch
                                                   platform
@@ -30,8 +31,13 @@
                                                               last-edited-comp
                                                               duration-comp
                                                               planned-comp
+                                                              planned-md
                                                               label-comp
+                                                              label-comp-md
+                                                              bucket-parent-picker-button
+                                                              bucket-modal
                                                               label-style
+                                                              start-stop-compact
                                                               pattern-parent-picker-comp
                                                               bucket-parent-picker-comp
                                                               changeable-field
@@ -41,31 +47,34 @@
             [reagent.core :as r :refer [atom]]
             [time-align-mobile.helpers :as helpers]
             [time-align-mobile.styles :refer [field-label-changeable-style
-                                              field-label-style]]))
+                                              field-label-style
+                                              divider-style]]))
 
-(def start-modal-visible (r/atom false))
+(def start-modal-visible (r/atom {:visible false}))
 
-(def stop-modal-visible (r/atom false))
+(def stop-modal-visible (r/atom {:visible false}))
 
 (def compact-menu (r/atom {:visible false}))
 
+(def bucket-picker-modal (r/atom {:visible false})) ;; TODO refactor to bucket-picker-modal-atom
+
 (defn time-comp-buttons [time modal form update-key field-key]
   [:<>
-   [button-paper {:on-press #(reset! modal true)
+   [button-paper {:on-press #(reset! modal {:visible true})
                   :mode     "outlined"
                   :icon     "clock-outline"}
     [text (if (some? time)
             (format-time time)
             "Add a time time")]]
-   [date-time-picker {:is-visible @modal
+   [date-time-picker {:is-visible (:visible @modal)
                       :date       time
                       :mode       "time"
                       :on-confirm (fn [d]
                                     (dispatch
                                      [update-key {field-key (helpers/get-ms d)
                                                   :id    (:id @form)}])
-                                    (reset! modal false))
-                      :on-cancel  #(reset! modal false)}]])
+                                    (reset! modal {:visible false}))
+                      :on-cancel  #(reset! modal {:visible false})}]])
 
 ;; TODO consolidate both comps into one
 (defn time-comp [{:keys [template-form
@@ -205,42 +214,41 @@
                       :template-form         template-form
                       :pixel-to-minute-ratio pixel-to-minute-ratio
                       :changed               changed}]
-     [label-comp template-form template-form-changes :update-template-form]
 
-     [view {:style {:flex-direction "row"}}
-      ;; start
-      [time-comp {:template-form template-form
-                  :changes       template-form-changes
-                  :update-key    :update-template-form
-                  :modal         start-modal-visible
-                  :field-key     :start
-                  :label         "Start"}]
-      ;; stop
-      [time-comp {:template-form template-form
-                  :changes       template-form-changes
-                  :update-key    :update-template-form
-                  :modal         stop-modal-visible
-                  :field-key     :stop
-                  :label         "Stop"}]]
+     [label-comp-md {:form        template-form
+                     :changes     template-form-changes
+                     :update-key  :update-template-form
+                     :compact     true
+                     :placeholder "During this time I will ..."}]
 
-     [duration-comp
-      (-> @template-form
-          :start
-          (helpers/reset-relative-ms (js/Date.)))
-      (-> @template-form
-          :stop
-          (helpers/reset-relative-ms (js/Date.)))]
+     [divider {:style divider-style}]
 
-     [planned-comp template-form template-form-changes :update-template-form]
+     [bucket-modal
+      buckets
+      bucket-picker-modal
+      (fn [item] (fn [_]
+                   (dispatch
+                    [:update-template-form
+                     {:bucket-id (:id item)}])
+                   (swap! bucket-picker-modal
+                          (fn [m] (assoc-in m [:visible] false)))))]
 
-     [view {:style {:width           "100%"
-                    :justify-content "center"}}
-      [bucket-parent-picker-comp
-       {:form       template-form
-        :changes    template-form-changes
-        :buckets    buckets
-        :update-key :update-template-form
-        :compact    false}]]]))
+     [bucket-parent-picker-button {:form                template-form
+                                   :bucket-picker-modal bucket-picker-modal
+                                   :changes             template-form-changes}]
+
+     [divider {:style divider-style}]
+
+     [start-stop-compact {:form        template-form
+                          :changes     template-form-changes
+                          :start-modal start-modal-visible
+                          :stop-modal  stop-modal-visible
+                          :update-key  :update-template-form}]
+
+     [divider {:style divider-style}]
+
+     ;; planning
+     [planned-md template-form template-form-changes :update-template-form]]))
 
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])

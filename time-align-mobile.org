@@ -201,6 +201,7 @@
      - [X] Form on surface
 **** Pattern planning 
      :LOGBOOK:
+     CLOCK: [2020-01-04 Sat 19:45]
      CLOCK: [2020-01-04 Sat 18:21]--[2020-01-04 Sat 19:44] =>  1:23
      CLOCK: [2020-01-04 Sat 17:45]--[2020-01-04 Sat 18:16] =>  0:31
      CLOCK: [2020-01-04 Sat 16:23]--[2020-01-04 Sat 16:57] =>  0:34
@@ -269,6 +270,7 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Add a clear pattern form option to pattern planning top bar menu 
 *** TODO CSV export
     https://www.npmjs.com/package/react-csv
 *** TODO Add Calendar integration
