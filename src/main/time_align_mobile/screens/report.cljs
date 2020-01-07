@@ -16,7 +16,7 @@
             ["react" :as react]))
 
 (defn root [params]
-  (let [chart-data        @(subscribe [:get-tracked-time-by-day])
+  (let [chart-data        @(subscribe [:get-scores])
         chart-config      {:backgroundColor        (->> theme :colors :background)
                            :backgroundGradientFrom (->> theme :colors :background color-darken)
                            :backgroundGradientTo   (->> theme :colors :background color-lighten)

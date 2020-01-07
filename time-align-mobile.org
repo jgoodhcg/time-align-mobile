@@ -127,8 +127,9 @@
      - [X] Uses similar item component as bucket
      - [X] Has default label text
      - [X] Has top bar
-**** TODO Reports [2/3]
+**** TODO Reports [2/4]
      :LOGBOOK:
+     CLOCK: [2020-01-06 Mon 19:59]--[2020-01-06 Mon 20:44] =>  0:45
      CLOCK: [2020-01-05 Sun 19:06]--[2020-01-05 Sun 20:27] =>  1:21
      CLOCK: [2020-01-05 Sun 19:03]--[2020-01-05 Sun 19:03] =>  0:00
      CLOCK: [2019-12-15 Sun 12:24]--[2019-12-15 Sun 13:30] =>  1:06
@@ -156,6 +157,11 @@
        - Pie chart seems like the best bet
        - Went with a line chart showing actual and planned total logged times for the past seven days
      - [ ] A chart of scores based on a mapping of all 1440 minutes in a day
+       - [ ] Reset labels and styles
+     - [ ] Chart is tolerable
+       - [ ] Move the subscription logic to a handler that populates a value in state
+       - [ ] Set the subscription to read from that state value
+       - [ ] Display a refresh scores button that runs the handler
 **** DONE Data 
      CLOSED: [2019-12-18 Wed 21:04]
      :PROPERTIES:
@@ -247,13 +253,19 @@
      - [X] Remove menu close on zoom actions
      - [ ] Selecting next/prev also _jumps to_ (somehow)
        
-*** TODO Add amplitude analytics
+*** TODO Add amplitude analytics [1/5]
     :PROPERTIES:
     :ID:       27160311-6918-44e2-a603-3d8679e903af
     :END:
     :LOGBOOK:
+    CLOCK: [2020-01-05 Sun 21:00]--[2020-01-05 Sun 21:28] =>  0:28
     CLOCK: [2020-01-05 Sun 16:00]--[2020-01-05 Sun 16:18] =>  0:18
     :END:
+    - [X] Amplitude account and project are set up
+    - [ ] Amplitude api key is injected into app (12 factor style)
+    - [ ] App initializes with api key
+    - [ ] Interceptor logs every handler event
+    - [ ] Micro blog is published about setting up amplitude analytics with re-frame and expo
 **** Notes 
      This is a temporary solution only for alpha. Beta will utilize a totally opt in system that lets users turn on logging and then optionally send data in bulk.
     *Do not commit key*

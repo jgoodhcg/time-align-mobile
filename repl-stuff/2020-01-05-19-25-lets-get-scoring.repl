@@ -364,4 +364,383 @@ time-align-mobile.subs> (->> (range)
 
 ;; output cleared
 
+time-align-mobile.subs> (+ 1 1)
+2
+time-align-mobile.subs> (+ 1 1)
+2
+time-align-mobile.subs> (->> (range)
+                             (take 7)
+                             ;; map over the days
+                             (map (fn [days-ago]
+                                    (let [day (helpers/back-n-days (js/Date.) days-ago)]
+                                      (->> (range)
+                                           (take helpers/day-min)
+                                           ;; map over every minute in the day
+                                           (map (fn [min-of-day]
+                                                  (let [exact-date (helpers/reset-relative-ms 
+                                                                    (helpers/minutes->ms min-of-day)
+                                                                    day)
+                                                        ed-ms (.valueOf exact-date)
+                                                        overlapping-periods (->> periods-last-7-days
+                                                                                 (filter (fn [period]
+                                                                                           (and 
+                                                                                            (-> (.valueOf
+                                                                                                 (:stop period))
+                                                                                                (>= ed-ms))
+                                                                                            (-> (.valueOf
+                                                                                                 (:start period))
+                                                                                                (<= ed-ms))))))
+                                                        planned (->> overlapping-periods
+                                                                     (filter :planned))
+                                                        p-count (count planned)
+                                                        p-ids (->> planned
+                                                                   (map :id)
+                                                                   set)
+                                                        actual (->> overlapping-periods
+                                                                    (remove :planned))
+                                                        a-count (count actual)
+                                                        a-ids (->> actual
+                                                                   (map :id)
+                                                                   set)
+                                                        intersection (clojure.set/intersection 
+                                                             p-ids a-ids)]
+
+                                                    ;; figure out the score for the minute
+                                                    (cond 
+                                                      ;; didn't plan didn't do
+                                                      (and
+                                                       (= 0 p-count)
+                                                       (= 0 a-count)) 0
+                                                      ;; planned xor did
+                                                      (or
+                                                       (= 0 p-count)
+                                                       (= 0 a-count)) 1
+                                                      ;; planned and did but do not match at all
+                                                      (= 0 (count intersection)) 2
+                                                      ;; planned and did and match perfectly
+                                                      (= p-ids a-ids) 4
+                                                      ;; planned and did but only kinda match
+                                                      (> 0 (count intersection)) 3))))
+                                           ;; add all the minute score together
+                                           (reduce +))))))
+
+
+(0 1122 1440 1314 1272 1050 1236)
+time-align-mobile.subs> (def periods-last-7-days (filter 
+                                      (fn [p] (-> (:stop p)
+                                                  (.valueOf)
+                                                  (> (.valueOf
+                                                      (helpers/back-n-days 
+                                                       (helpers/reset-relative-ms 0 (js/Date.)) 8))))) 
+                                      (get-periods app-db :no-op)))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:40
+ Use of undeclared Var time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+#'time-align-mobile.subs/periods-last-7-days
+time-align-mobile.subs> (->> (range)
+                             (take 7)
+                             ;; map over the days
+                             (map (fn [days-ago]
+                                    (let [day (helpers/back-n-days (js/Date.) days-ago)]
+                                      (->> (range)
+                                           (take helpers/day-min)
+                                           ;; map over every minute in the day
+                                           (map (fn [min-of-day]
+                                                  (let [exact-date (helpers/reset-relative-ms 
+                                                                    (helpers/minutes->ms min-of-day)
+                                                                    day)
+                                                        ed-ms (.valueOf exact-date)
+                                                        overlapping-periods (->> periods-last-7-days
+                                                                                 (filter (fn [period]
+                                                                                           (and 
+                                                                                            (-> (.valueOf
+                                                                                                 (:stop period))
+                                                                                                (>= ed-ms))
+                                                                                            (-> (.valueOf
+                                                                                                 (:start period))
+                                                                                                (<= ed-ms))))))
+                                                        planned (->> overlapping-periods
+                                                                     (filter :planned))
+                                                        p-count (count planned)
+                                                        p-ids (->> planned
+                                                                   (map :id)
+                                                                   set)
+                                                        actual (->> overlapping-periods
+                                                                    (remove :planned))
+                                                        a-count (count actual)
+                                                        a-ids (->> actual
+                                                                   (map :id)
+                                                                   set)
+                                                        intersection (clojure.set/intersection 
+                                                             p-ids a-ids)]
+
+                                                    ;; figure out the score for the minute
+                                                    (cond 
+                                                      ;; didn't plan didn't do
+                                                      (and
+                                                       (= 0 p-count)
+                                                       (= 0 a-count)) 0
+                                                      ;; planned xor did
+                                                      (or
+                                                       (= 0 p-count)
+                                                       (= 0 a-count)) 1
+                                                      ;; planned and did but do not match at all
+                                                      (= 0 (count intersection)) 2
+                                                      ;; planned and did and match perfectly
+                                                      (= p-ids a-ids) 4
+                                                      ;; planned and did but only kinda match
+                                                      (> 0 (count intersection)) 3))))
+                                           ;; add all the minute score together
+                                           (reduce +))))))
+
+
+(0 1122 1440 1314 1272 1050 1236)
+time-align-mobile.subs> (->> (range)
+                             (take 7)
+                             ;; map over the days
+                             (map (fn [days-ago]
+                                    (let [day (helpers/back-n-days (js/Date.) days-ago)]
+                                      day))))
+
+
+(#inst "2020-01-06T05:00:00.000-00:00" #inst "2020-01-05T05:00:00.000-00:00" #inst "2020-01-04T05:00:00.000-00:00" #inst "2020-01-03T05:00:00.000-00:00" #inst "2020-01-02T05:00:00.000-00:00" #inst "2020-01-01T05:00:00.000-00:00" #inst "2019-12-31T05:00:00.000-00:00")
+time-align-mobile.subs> ;; the first value was zero because today wouldn't have any periods for an app-db that I exported yesterday
+time-align-mobile.subs> (->> (range)
+                             (take 7)
+                             ;; map over the days
+                             (map (fn [days-ago]
+                                    (let [day (helpers/reset-relative-ms 0 (helpers/back-n-days (js/Date.) days-ago))]
+                                      (->> (range)
+                                           (take helpers/day-min)
+                                           ;; map over every minute in the day
+                                           (map (fn [min-of-day]
+                                                  (let [exact-date (helpers/reset-relative-ms 
+                                                                    (helpers/minutes->ms min-of-day)
+                                                                    day)
+                                                        ed-ms (.valueOf exact-date)
+                                                        overlapping-periods (->> periods-last-7-days
+                                                                                 (filter (fn [period]
+                                                                                           (and 
+                                                                                            (-> (.valueOf
+                                                                                                 (:stop period))
+                                                                                                (>= ed-ms))
+                                                                                            (-> (.valueOf
+                                                                                                 (:start period))
+                                                                                                (<= ed-ms))))))
+                                                        planned (->> overlapping-periods
+                                                                     (filter :planned))
+                                                        p-count (count planned)
+                                                        p-ids (->> planned
+                                                                   (map :id)
+                                                                   set)
+                                                        actual (->> overlapping-periods
+                                                                    (remove :planned))
+                                                        a-count (count actual)
+                                                        a-ids (->> actual
+                                                                   (map :id)
+                                                                   set)
+                                                        intersection (clojure.set/intersection 
+                                                             p-ids a-ids)]
+
+                                                    {:day }
+                                                    ;; figure out the score for the minute
+                                                    (cond 
+                                                      ;; didn't plan didn't do
+                                                      (and
+                                                       (= 0 p-count)
+                                                       (= 0 a-count)) 0
+                                                      ;; planned xor did
+                                                      (or
+                                                       (= 0 p-count)
+                                                       (= 0 a-count)) 1
+                                                      ;; planned and did but do not match at all
+                                                      (= 0 (count intersection)) 2
+                                                      ;; planned and did and match perfectly
+                                                      (= p-ids a-ids) 4
+                                                      ;; planned and did but only kinda match
+                                                      (> 0 (count intersection)) 3))))
+                                           ;; add all the minute score together
+                                           (reduce +))))))
+
+
+;; output cleared
+
+time-align-mobile.subs> (->> (range)
+                             (take 7)
+                             ;; map over the days
+                             (map (fn [days-ago]
+                                    (let [day (helpers/reset-relative-ms 
+                                               0 
+                                               (helpers/back-n-days (js/Date.) days-ago))
+
+                                          score
+                                          (->> (range)
+                                               (take helpers/day-min)
+                                               ;; map over every minute in the day
+                                               (map (fn [min-of-day]
+                                                      (let [exact-date (helpers/reset-relative-ms 
+                                                                        (helpers/minutes->ms min-of-day)
+                                                                        day)
+                                                            ed-ms (.valueOf exact-date)
+                                                            overlapping-periods (->> periods-last-7-days
+                                                                                     (filter (fn [period]
+                                                                                               (and 
+                                                                                                (-> (.valueOf
+                                                                                                     (:stop period))
+                                                                                                    (>= ed-ms))
+                                                                                                (-> (.valueOf
+                                                                                                     (:start period))
+                                                                                                    (<= ed-ms))))))
+                                                            planned (->> overlapping-periods
+                                                                         (filter :planned))
+                                                            p-count (count planned)
+                                                            p-ids (->> planned
+                                                                       (map :id)
+                                                                       set)
+                                                            actual (->> overlapping-periods
+                                                                        (remove :planned))
+                                                            a-count (count actual)
+                                                            a-ids (->> actual
+                                                                       (map :id)
+                                                                       set)
+                                                            intersection (clojure.set/intersection 
+                                                                          p-ids a-ids)]
+
+                                                        ;; figure out the score for the minute
+                                                        (cond 
+                                                          ;; didn't plan didn't do
+                                                          (and
+                                                           (= 0 p-count)
+                                                           (= 0 a-count)) 0
+                                                          ;; planned xor did
+                                                          (or
+                                                           (= 0 p-count)
+                                                           (= 0 a-count)) 1
+                                                          ;; planned and did but do not match at all
+                                                          (= 0 (count intersection)) 2
+                                                          ;; planned and did and match perfectly
+                                                          (= p-ids a-ids) 4
+                                                          ;; planned and did but only kinda match
+                                                          (> 0 (count intersection)) 3))))
+                                               ;; add all the minute score together
+                                               (reduce +))]
+                                      {:score score :day day}))))
+
+
+({:score 0, :day #inst "2020-01-06T05:00:00.000-00:00"} {:score 1122, :day #inst "2020-01-05T05:00:00.000-00:00"} {:score 1440, :day #inst "2020-01-04T05:00:00.000-00:00"} {:score 1314, :day #inst "2020-01-03T05:00:00.000-00:00"} {:score 1272, :day #inst "2020-01-02T05:00:00.000-00:00"} {:score 1050, :day #inst "2020-01-01T05:00:00.000-00:00"} {:score 1236, :day #inst "2019-12-31T05:00:00.000-00:00"})
+time-align-mobile.subs> (def max-score (* helpers/day-min 4))
+#'time-align-mobile.subs/max-score
+time-align-mobile.subs> max-score
+5760
+time-align-mobile.subs> (clj->js {:a {:b {:c 1}}})
+#js {:a #js {:b #js {:c 1}}}
+time-align-mobile.subs> (clj->js {:a {:b {:c 1} :btwo [1 2 3 "5"]}})
+#js {:a #js {:b #js {:c 1}, :btwo #js [1 2 3 "5"]}}[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 3 warnings, 0.64s)
+
+------ WARNING #1 - :redef-in-file ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:573:1
+--------------------------------------------------------------------------------
+ 570 |                                             (->> theme :colors :planned)
+ 571 |                                             (if-some [opacity %] opacity 1)))})])})))
+ 572 | 
+ 573 | (defn get-scores [db _]
+-------^------------------------------------------------------------------------
+ get-scores at line 398 is being replaced
+--------------------------------------------------------------------------------
+ 574 |   (let [periods-last-7-day (filter
+ 575 |                             (fn [p] (-> (:stop p)
+ 576 |                                         (.valueOf)
+ 577 |                                         (> (.valueOf
+--------------------------------------------------------------------------------
+
+------ WARNING #2 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:599:70
+--------------------------------------------------------------------------------
+ 596 |                                                         (helpers/minutes->ms min-of-day)
+ 597 |                                                         day)
+ 598 |                                             ed-ms (.valueOf exact-date)
+ 599 |                                             overlapping-periods (->> periods-last-7-days
+----------------------------------------------------------------------------^---
+ Use of undeclared Var time-align-mobile.subs/periods-last-7-days
+--------------------------------------------------------------------------------
+ 600 |                                                                      (filter (fn [period]
+ 601 |                                                                                (and
+ 602 |                                                                                 (-> (.valueOf
+ 603 |                                                                                      (:stop period))
+--------------------------------------------------------------------------------
+
+------ WARNING #3 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:650:42
+--------------------------------------------------------------------------------
+ 647 |                    (map (fn [{:keys [score day]}]
+ 648 |                           (helpers/day-of-week (.getDay day))))
+ 649 |                    reverse)
+ 650 |       :datasets [{:data (->> scores (map score) reverse)}]})))
+------------------------------------------------^-------------------------------
+ Use of undeclared Var time-align-mobile.subs/score
+--------------------------------------------------------------------------------
+ 651 | 
+ 652 | ;; (defn get-contribution-three-month [db _]
+ 653 | ;;   (let [selected-bucket-id ]))
+ 654 | 
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 2 warnings, 0.63s)
+
+------ WARNING #1 - :redef-in-file ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:573:1
+--------------------------------------------------------------------------------
+ 570 |                                             (->> theme :colors :planned)
+ 571 |                                             (if-some [opacity %] opacity 1)))})])})))
+ 572 | 
+ 573 | (defn get-scores [db _]
+-------^------------------------------------------------------------------------
+ get-scores at line 398 is being replaced
+--------------------------------------------------------------------------------
+ 574 |   (let [periods-last-7-day (filter
+ 575 |                             (fn [p] (-> (:stop p)
+ 576 |                                         (.valueOf)
+ 577 |                                         (> (.valueOf
+--------------------------------------------------------------------------------
+
+------ WARNING #2 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:599:70
+--------------------------------------------------------------------------------
+ 596 |                                                         (helpers/minutes->ms min-of-day)
+ 597 |                                                         day)
+ 598 |                                             ed-ms (.valueOf exact-date)
+ 599 |                                             overlapping-periods (->> periods-last-7-days
+----------------------------------------------------------------------------^---
+ Use of undeclared Var time-align-mobile.subs/periods-last-7-days
+--------------------------------------------------------------------------------
+ 600 |                                                                      (filter (fn [period]
+ 601 |                                                                                (and
+ 602 |                                                                                 (-> (.valueOf
+ 603 |                                                                                      (:stop period))
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 1 warnings, 0.59s)
+
+------ WARNING #1 - :redef-in-file ---------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/subs.cljs:573:1
+--------------------------------------------------------------------------------
+ 570 |                                             (->> theme :colors :planned)
+ 571 |                                             (if-some [opacity %] opacity 1)))})])})))
+ 572 | 
+ 573 | (defn get-scores [db _]
+-------^------------------------------------------------------------------------
+ get-scores at line 398 is being replaced
+--------------------------------------------------------------------------------
+ 574 |   (let [periods-last-7-days (filter
+ 575 |                              (fn [p] (-> (:stop p)
+ 576 |                                          (.valueOf)
+ 577 |                                          (> (.valueOf
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.62s)
+[:app] Compiling ...
+[:app] Build completed. (216 files, 2 compiled, 0 warnings, 0.71s)
+
 time-align-mobile.subs> 
