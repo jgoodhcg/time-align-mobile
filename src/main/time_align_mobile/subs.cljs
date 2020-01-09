@@ -536,86 +536,17 @@
                                             (if-some [opacity %] opacity 1)))})])})))
 
 (defn get-scores [db _]
-  (let [periods-last-7-days (filter
-                             (fn [p] (-> (:stop p)
-                                         (.valueOf)
-                                         (> (.valueOf
-                                             (helpers/back-n-days
-                                              (helpers/reset-relative-ms 0 (js/Date.)) 7)))))
-                             (get-periods db :no-op))
-        scores
-        (->> (range)
-             (take 7)
-             ;; map over the days
-             (map (fn [days-ago]
-                    (let [day (helpers/reset-relative-ms
-                               0
-                               (helpers/back-n-days (js/Date.) days-ago))
-
-                          score
-                          (->> (range)
-                               (take helpers/day-min)
-                               ;; map over every minute in the day
-                               (map (fn [min-of-day]
-                                      (let [exact-date          (helpers/reset-relative-ms
-                                                                 (helpers/minutes->ms min-of-day)
-                                                                 day)
-                                            ed-ms               (.valueOf exact-date)
-                                            overlapping-periods (->> periods-last-7-days
-                                                                     (filter (fn [period]
-                                                                               (and
-                                                                                (-> (.valueOf
-                                                                                     (:stop period))
-                                                                                    (>= ed-ms))
-                                                                                (-> (.valueOf
-                                                                                     (:start period))
-                                                                                    (<= ed-ms))))))
-                                            planned             (->> overlapping-periods
-                                                                     (filter :planned))
-                                            p-count             (count planned)
-                                            p-ids               (->> planned
-                                                                     (map :id)
-                                                                     set)
-                                            actual              (->> overlapping-periods
-                                                                     (remove :planned))
-                                            a-count             (count actual)
-                                            a-ids               (->> actual
-                                                                     (map :id)
-                                                                     set)
-                                            intersection        (clojure.set/intersection
-                                                                 p-ids a-ids)]
-
-                                        ;; figure out the score for the minute
-                                        (cond
-                                          ;; didn't plan didn't do
-                                          (and
-                                           (= 0 p-count)
-                                           (= 0 a-count))            0
-                                          ;; planned xor did
-                                          (or
-                                           (= 0 p-count)
-                                           (= 0 a-count))            1
-                                          ;; planned and did but do not match at all
-                                          (= 0 (count intersection)) 2
-                                          ;; planned and did and match perfectly
-                                          (= p-ids a-ids)            4
-                                          ;; planned and did but only kinda match
-                                          (> 0 (count intersection)) 3))))
-                               ;; add all the minute scores together
-                               (reduce +))]
-                      ;; put it all together
-                      {:score score :day day}))))]
-
-    ;; set it up for react native charts
-    (clj->js
-     {:labels   (->> scores
-                     (map (fn [{:keys [score day]}]
-                            (helpers/day-of-week (.getDay day))))
-                     reverse)
-      :datasets [{:data (->> scores (map :score) reverse)}]})))
-
-;; (defn get-contribution-three-month [db _]
-;;   (let [selected-bucket-id ]))
+  (let [scores (get-in db [:reports :score-data])]
+    (if (some? scores)
+      (clj->js
+       {:labels   (->> scores
+                       (map (fn [{:keys [score day]}]
+                              (helpers/day-of-week (.getDay day))))
+                       reverse)
+        :datasets [{:data (->> scores (map :score) reverse)}]})
+      (clj->js
+       {:labels   ["Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"]
+        :datasets [{:data [0 0 0 0 0 0 0]}]}))))
 
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)

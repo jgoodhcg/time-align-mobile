@@ -290,7 +290,8 @@
                    :now               inst?
                    :day-fab           {:open    boolean?
                                        :visible boolean?}
-                   :menu              {:open boolean?}}
+                   :menu              {:open boolean?}
+                   :reports           {:score-data (ds/maybe coll?)}}
             :name ::app-db}))
 (def now (js/Date.))
 (def default-bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"))
@@ -326,7 +327,8 @@
    :now               now
    :day-fab           {:open    false
                        :visible true}
-   :menu              {:open false}})
+   :menu              {:open false}
+   :reports           {:score-data nil}})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app
 ;; old initial state of app-db

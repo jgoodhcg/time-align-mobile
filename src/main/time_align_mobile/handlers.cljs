@@ -7,6 +7,7 @@
     [clojure.spec.alpha :as s]
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
     [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
+    [time-align-mobile.subs :as subs]
     [time-align-mobile.helpers :as helpers :refer [same-day?
                                                    get-ms
                                                    deep-merge
@@ -1139,6 +1140,78 @@
 (defn set-report-contribution-bucket [db [_ bucket-id]]
   (assoc-in db [:selection :report :bucket-contribution] bucket-id))
 
+(defn set-report-data [db [_ _]]
+  (let [periods-last-7-days (filter
+                             (fn [p] (-> (:stop p)
+                                         (.valueOf)
+                                         (> (.valueOf
+                                             (helpers/back-n-days
+                                              (helpers/reset-relative-ms 0 (js/Date.)) 7)))))
+                             (subs/get-periods db :no-op))
+        scores
+        (->> (range)
+             (take 7)
+             ;; map over the days
+             (map (fn [days-ago]
+                    (let [day (helpers/reset-relative-ms
+                               0
+                               (helpers/back-n-days (js/Date.) days-ago))
+
+                          score
+                          (->> (range)
+                               (take helpers/day-min)
+                               ;; map over every minute in the day
+                               (map (fn [min-of-day]
+                                      (let [exact-date          (helpers/reset-relative-ms
+                                                                 (helpers/minutes->ms min-of-day)
+                                                                 day)
+                                            ed-ms               (.valueOf exact-date)
+                                            overlapping-periods (->> periods-last-7-days
+                                                                     (filter (fn [period]
+                                                                               (and
+                                                                                (-> (.valueOf
+                                                                                     (:stop period))
+                                                                                    (>= ed-ms))
+                                                                                (-> (.valueOf
+                                                                                     (:start period))
+                                                                                    (<= ed-ms))))))
+                                            planned             (->> overlapping-periods
+                                                                     (filter :planned))
+                                            p-count             (count planned)
+                                            p-ids               (->> planned
+                                                                     (map :bucket-id)
+                                                                     set)
+                                            actual              (->> overlapping-periods
+                                                                     (remove :planned))
+                                            a-count             (count actual)
+                                            a-ids               (->> actual
+                                                                     (map :bucket-id)
+                                                                     set)
+                                            intersection        (clojure.set/intersection
+                                                                 p-ids a-ids)]
+
+                                        ;; figure out the score for the minute
+                                        (cond
+                                          ;; didn't plan didn't do
+                                          (and
+                                           (= 0 p-count)
+                                           (= 0 a-count))            0
+                                          ;; planned xor did
+                                          (or
+                                           (= 0 p-count)
+                                           (= 0 a-count))            1
+                                          ;; planned and did but do not match at all
+                                          (= 0 (count intersection)) 2
+                                          ;; planned and did and match perfectly
+                                          (= p-ids a-ids)            4
+                                          ;; planned and did but only kinda match
+                                          (> 0 (count intersection)) 3))))
+                               ;; add all the minute scores together
+                               (reduce +))]
+                      ;; put it all together
+                      {:score score :day day}))))]
+    (assoc-in db [:reports :score-data] scores)))
+
 (reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
 (reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
 (reg-event-db :initialize-db [validate-spec] initialize-db)
@@ -1206,3 +1279,4 @@
 (reg-event-db :zoom-out [validate-spec persist-secure-store] zoom-out)
 (reg-event-db :zoom-default [validate-spec persist-secure-store] zoom-default)
 (reg-event-fx :add-period-with-selection [validate-spec persist-secure-store] add-period-with-selection)
+(reg-event-db :set-report-data [validate-spec persist-secure-store] set-report-data)

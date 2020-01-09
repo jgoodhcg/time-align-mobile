@@ -4,6 +4,7 @@
                                                   surface
                                                   color-lighten
                                                   color-hex-str->rgba
+                                                  button-paper
                                                   scroll-view
                                                   color-darken
                                                   subheading
@@ -47,14 +48,11 @@
                       :flex-direction "column"
                       :align-items    "center"
                       :width          "100%"}}
-        [subheading "Actual (green) vs Planned (blue) total time logged"]
+        [subheading "Scores for the past 7 days"]
         [line-chart
-         {:data             chart-data
-          :with-dots        false
-          :with-outer-lines false
-          :width            400
-          :height           400
-          :y-axis-suffix    "h"
+         {:data   chart-data
+          :width  400
+          :height 400
           :chart-config
           (clj->js {:backgroundColor        (->> theme :colors :surface)
                     :backgroundGradientFrom (->> theme :colors :surface)
@@ -69,5 +67,8 @@
                      #(color-hex-str->rgba
                        (->> theme :colors :primary)
                        (if-some [opacity %] opacity 1)))})}]
-
-        ]]]]))
+        [button-paper {:on-press #(dispatch [:set-report-data])
+                       :mode     "outlined"
+                       :style    {:margin 8}
+                       :icon     "refresh"}
+         "calculate scores"]]]]]))
