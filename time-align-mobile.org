@@ -239,7 +239,7 @@
      - [X] Import dark theme
      - [ ] Switch custom colors
      - [ ] Set up a settings page and a single toggle
-**** Misc along the way [6/10]
+**** Misc along the way [6/11]
      :LOGBOOK:
      CLOCK: [2019-12-01 Sun 12:26]--[2019-12-01 Sun 13:38] =>  1:12
      CLOCK: [2019-11-30 Sat 19:09]--[2019-11-30 Sat 19:09] =>  0:00
@@ -255,6 +255,7 @@
      - [X] Drawer does not user surface comp and background is theme background
      - [X] Remove menu close on zoom actions
      - [ ] Selecting next/prev also _jumps to_ (somehow)
+     - [ ] Get duration comp to line up properly for full form
        
 *** TODO Add amplitude analytics [1/5]
     :PROPERTIES:
