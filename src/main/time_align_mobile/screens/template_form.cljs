@@ -16,6 +16,7 @@
                                                   subheading
                                                   modal
                                                   icon-button
+                                                  surface
                                                   switch
                                                   platform
                                                   button-paper
@@ -26,6 +27,7 @@
                                                   format-date]]
             [time-align-mobile.components.form-buttons :as form-buttons]
             [time-align-mobile.components.structured-data :refer [structured-data]]
+            [time-align-mobile.components.top-bar :refer [top-bar]]
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
                                                               last-edited-comp
@@ -213,18 +215,7 @@
                                  [:load-template-form-from-pattern-planning
                                   (:id @template-form)])
                                 (reset! compact-menu {:visible false}))}]
-        ;; edit full
-     [menu-item {:title    "edit full"
-                 :icon     "pencil"
-                 :on-press #(do
-                              (dispatch
-                               [:navigate-to
-                                {:current-screen :template
-                                 :params
-                                 {:template-id             (:id @template-form)
-                                  :pattern-form-pattern-id (:pattern-id @template-form)}}])
-                              (reset! compact-menu {:visible false})
-                              (close-callback))}]
+
         ;; delete
      [menu-item {:title    "delete"
                  :icon     "delete"
@@ -305,6 +296,7 @@
 
      [planned-md template-form template-form-changes :update-template-form]]))
 
+;; This is effectively deprecated (removed the last link to it via "edit full")
 (defn root [params]
   (let [template-form                  (subscribe [:get-template-form])
         update-structured-data         (fn [new-data]
@@ -316,9 +308,19 @@
         patterns                       (subscribe [:get-patterns])
         template-from-pattern-planning (contains? params :pattern-form-pattern-id)]
 
-    [view {:style {:margin-top 16
-                   :flex 1}}
-     [pattern-parent-picker-comp
+    [view {:style {:flex 1}}
+     [top-bar {:center-content [subheading "Template Form"]
+               :right-content  [icon-button]}]
+
+     [surface {:style {:flex       1
+                       :margin-top 4}}
+      [view {:flex            1
+             :flex-direction  "column"
+             :justify-content "flex-start"
+             :align-items     "flex-start"
+             :padding         4}
+
+[pattern-parent-picker-comp
       template-form
       changes
       patterns
@@ -337,19 +339,19 @@
      [planned-comp template-form changes :update-template-form]
 
      ;; start
-     [time-comp {:template-form template-form
-                 :changes       changes
-                 :update-key    :update-template-form
-                 :modal         start-modal-visible
-                 :field-key     :start
-                 :label         "Start"}]
+       [time-comp {:template-form template-form
+                   :changes       changes
+                   :update-key    :update-template-form
+                   :modal         start-modal-visible
+                   :field-key     :start
+                   :label         "Start"}]
      ;; stop
-     [time-comp {:template-form template-form
-                 :changes       changes
-                 :update-key    :update-template-form
-                 :modal         stop-modal-visible
-                 :field-key     :stop
-                 :label         "Stop"}]
+       [time-comp {:template-form template-form
+                   :changes       changes
+                   :update-key    :update-template-form
+                   :modal         stop-modal-visible
+                   :field-key     :stop
+                   :label         "Stop"}]
 
      [duration-comp (:start @template-form) (:stop @template-form)]
 
@@ -382,4 +384,4 @@
         {:changed        (> (count @changes) 0)
          :save-changes   #(dispatch [:save-template-form (new js/Date)])
          :cancel-changes #(dispatch [:load-template-form (:id @template-form)])
-         :delete-item    #(dispatch [:delete-template (:id @template-form)])}])]))
+         :delete-item    #(dispatch [:delete-template (:id @template-form)])}])]]]))

@@ -226,14 +226,14 @@
      - [X] Has zoom options
      - [X] Plan save button is prominent
      - [X] Bottom sheet matches day planning in style
-**** Template form [0/4]
+**** DONE Template form [2/2]
+     CLOSED: [2020-01-10 Fri 21:44]
      :LOGBOOK:
+     CLOCK: [2020-01-10 Fri 21:26]--[2020-01-10 Fri 21:44] =>  0:18
      CLOCK: [2020-01-05 Sun 19:02]--[2020-01-05 Sun 19:02] =>  0:00
      :END:
-     - [ ] Has top bar
-     - [ ] All components align
-     - [ ] All components have a consistent style
-     - [ ] Form on surface
+     - [X] Has top bar
+     - [X] Realized this screen can be removed
 **** Switch to dark theme [1/3]
      :LOGBOOK:
      CLOCK: [2019-12-21 Sat 20:20]--[2019-12-21 Sat 20:26] =>  0:06
@@ -241,7 +241,7 @@
      - [X] Import dark theme
      - [ ] Switch custom colors
      - [ ] Set up a settings page and a single toggle
-**** Misc along the way [6/11]
+**** Misc along the way [6/12]
      :LOGBOOK:
      CLOCK: [2019-12-01 Sun 12:26]--[2019-12-01 Sun 13:38] =>  1:12
      CLOCK: [2019-11-30 Sat 19:09]--[2019-11-30 Sat 19:09] =>  0:00
@@ -253,7 +253,6 @@
      - [X] Update back button
      - [ ] Icons on Day FAB
      - [ ] Play selects period and jumps to "now"
-     - [ ] Selecting jumps to utilizing the touch point for position
      - [X] Drawer does not user surface comp and background is theme background
      - [X] Remove menu close on zoom actions
      - [ ] Selecting next/prev also _jumps to_ (somehow)
