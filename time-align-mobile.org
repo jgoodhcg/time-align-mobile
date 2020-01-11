@@ -130,6 +130,7 @@
 **** DONE Reports [4/4]
      CLOSED: [2020-01-09 Thu 17:37]
      :LOGBOOK:
+     CLOCK: [2020-01-10 Fri 20:50]--[2020-01-10 Fri 21:26] =>  0:36
      CLOCK: [2020-01-09 Thu 17:09]--[2020-01-09 Thu 17:37] =>  0:28
      CLOCK: [2020-01-08 Wed 20:48]--[2020-01-08 Wed 21:03] =>  0:15
      CLOCK: [2020-01-06 Mon 19:59]--[2020-01-06 Mon 20:44] =>  0:45
@@ -165,6 +166,7 @@
        - [X] Move the subscription logic to a handler that populates a value in state
        - [X] Set the subscription to read from that state value
        - [X] Display a refresh scores button that runs the handler
+       - [X] Starts at zero
 **** DONE Data 
      CLOSED: [2019-12-18 Wed 21:04]
      :PROPERTIES:
