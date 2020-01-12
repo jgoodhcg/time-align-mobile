@@ -111,14 +111,16 @@
      - [X] Remove filters
      - [X] Change bottom sheet save to not close bottom sheet
      - [X] FAB exists on bucket list page
-**** BLOCKED Drawer [3/4]
+**** DONE Drawer [4/4]
+     CLOSED: [2020-01-12 Sun 14:04]
      :LOGBOOK:
+     CLOCK: [2020-01-12 Sun 14:02]--[2020-01-12 Sun 14:04] =>  0:02
      CLOCK: [2019-11-28 Thu 13:01]--[2019-11-28 Thu 13:18] =>  0:17
      :END:
      - [X] Minimum love-able screens displayed
      - [X] Icons are /better/
      - [X] Labels are /better/
-     - [ ] Swipe open is disabled (every screen needs top-bar)
+     - [X] Swipe open is disabled (every screen needs top-bar)
 **** DONE Plans
      CLOSED: [2019-11-30 Sat 17:24]
      :LOGBOOK:

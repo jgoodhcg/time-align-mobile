@@ -117,16 +117,17 @@
         (let [current-screen (:current-screen @navigation)]
           [paper-provider {:theme (clj->js theme)}
            [side-menu
-            {:menu      (r/as-element [drawer-list])
-             :is-open   @menu-open
-             :on-change #(do
-                           (dispatch [:set-menu-open %])
-                           (dispatch [:set-day-fab-visible (not %)])
-                           (if (and (some? @bottom-sheet-ref)
-                                    (or (= :day current-screen)
-                                        (= :pattern-planning current-screen)))
-                             (do (close-bottom-sheet bottom-sheet-ref :period)
-                                 (close-bottom-sheet bottom-sheet-ref :template))))}
+            {:menu             (r/as-element [drawer-list])
+             :is-open          @menu-open
+             :disable-gestures true
+             :on-change        #(do
+                                  (dispatch [:set-menu-open %])
+                                  (dispatch [:set-day-fab-visible (not %)])
+                                  (if (and (some? @bottom-sheet-ref)
+                                           (or (= :day current-screen)
+                                               (= :pattern-planning current-screen)))
+                                    (do (close-bottom-sheet bottom-sheet-ref :period)
+                                        (close-bottom-sheet bottom-sheet-ref :template))))}
 
             [view {:style {:flex             1
                            :background-color (get-in theme [:colors :background])}}
