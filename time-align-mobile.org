@@ -320,6 +320,7 @@
 **** Make sure the app runs on the ios simulator 
      - [ ] Set up simulator on macbook
      - [ ] Try installing the client [[https://docs.expo.io/versions/latest/workflow/ios-simulator/#how-do-i-force-an-update-to][with this force update]]
+**** Decide on release tag convention 
 **** Upload to test flight in app store
      - [ ] Set up an apple developer account
      - [ ] Set up an itunes project
@@ -340,7 +341,7 @@
      - [ ] Set license in repo
 
 ** DOSUB Release to strangers [0/0]
-*** BLOCKED Gather friends analytics and inputs
+*** BLOCKED Gather friend analytics and inputs
 ** DOSUB Eventually [0/22]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
