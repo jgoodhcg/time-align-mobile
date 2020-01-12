@@ -35,7 +35,7 @@
                            [text-paper {:style
                                         {:color      (-> theme :colors :disabled)
                                          :font-style "italic"}}
-                            "Plan has no label"]
+                            "Template has no label"]
                            [text-paper label]))
               :key      (str id)
               :on-press on-press

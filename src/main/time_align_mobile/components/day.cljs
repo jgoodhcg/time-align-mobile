@@ -424,24 +424,24 @@
 
 (defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
   (let [fab-state (subscribe [:get-day-fab-open])
-        actions   (filter some? [{:icon    "alien"
-                                  :label   "create pattern"
+        actions   (filter some? [{:icon    "expand-all-outline"
+                                  :label   "create template"
                                   :onPress #(dispatch [:make-pattern-from-day
                                                        {:date displayed-day
                                                         :now  (js/Date.)}])}
-                                 {:icon    "alien"
-                                  :label   "apply pattern"
+                                 {:icon    "expand-all"
+                                  :label   "apply template"
                                   :onPress #(reset! pattern-modal-visible true)}
                                  (if (some? in-play-element)
-                                   {:icon    "alien"
+                                   {:icon    "stop"
                                     :label   "stop"
                                     :onPress #(dispatch [:stop-playing-period])}
-                                   {:icon    "alien"
+                                   {:icon    "play"
                                     :label   "start"
                                     :onPress #(reset! play-modal-visible {:visible true})})])]
 
     [fab-group (merge {:open            @fab-state
-                       :icon            "alien"
+                       :icon            "plus"
                        :actions         (clj->js actions) ;; TODO kebab case conversion
                        :on-state-change #(dispatch [:set-day-fab-open (oget % "open")])}
                       (when (some? in-play-element)
@@ -708,13 +708,23 @@
         play-modal-visible
         (fn [item]
           (fn [_]
-            (reset! play-modal-visible {:visible false})
-            (dispatch
-             [:play-from-bucket
-              {:bucket-id (:id item)
-               :id        (random-uuid)
-               :now       (new js/Date)}])
-            (snap-bottom-sheet bottom-sheet-ref 1)))]
+            (let [now   (js/Date.)
+                  y-pos (-> now
+                            (element-time-stamp-info
+                             pixel-to-minute-ratio
+                             displayed-day)
+                            :y-pos)]
+              (reset! play-modal-visible {:visible false})
+              (dispatch
+               [:play-from-bucket
+                {:bucket-id (:id item)
+                 :id        (random-uuid)
+                 :now       now}])
+              (snap-bottom-sheet bottom-sheet-ref 1)
+              ;; TODO this is super gross race condition and should be in an isolated side effect in determinant order
+              (js/setTimeout #(do
+                                (println y-pos)
+                                (scroll-to y-pos)) 2500))))]
 
        ;; pattern modal
        [modal {:animation-type   "slide"

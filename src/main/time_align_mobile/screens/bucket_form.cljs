@@ -73,7 +73,7 @@
         changes                (subscribe [:get-bucket-form-changes])]
 
     [view {:flex 1}
-     [top-bar {:center-content [subheading "Group Form"]
+     [top-bar {:center-content [subheading "Group Edit"]
                :right-content  [icon-button]}]
 
      [surface {:style {:flex 1

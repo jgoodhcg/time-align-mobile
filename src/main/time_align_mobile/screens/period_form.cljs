@@ -333,7 +333,7 @@
         buckets                (subscribe [:get-buckets])]
 
     [view {:style {:flex 1}}
-     [top-bar {:center-content [subheading "Period Form"]
+     [top-bar {:center-content [subheading "Period Edit"]
                :right-content  [icon-button]}]
 
      [surface {:style {:flex       1

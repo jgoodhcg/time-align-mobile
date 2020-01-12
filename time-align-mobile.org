@@ -257,8 +257,10 @@
        - [X] Realized there was a bunch of theme usages outside of the provider/component tree theme object
        - [X] Tried to refactor all of those usages to call a function and provide the /mode/ from state
          - [X] It got too ugly
-**** Misc along the way [6/11]
+**** DONE Misc along the way [11/11]
+     CLOSED: [2020-01-12 Sun 14:53]
      :LOGBOOK:
+     CLOCK: [2020-01-12 Sun 14:10]--[2020-01-12 Sun 14:53] =>  0:43
      CLOCK: [2019-12-01 Sun 12:26]--[2019-12-01 Sun 13:38] =>  1:12
      CLOCK: [2019-11-30 Sat 19:09]--[2019-11-30 Sat 19:09] =>  0:00
      CLOCK: [2019-11-30 Sat 17:24]--[2019-11-30 Sat 17:28] =>  0:04
@@ -267,13 +269,15 @@
      - [X] Save ticks for in play update
      - [X] Tick updates the stop time in the form?
      - [X] Update back button
-     - [ ] Icons on Day FAB
-     - [ ] Play selects period and jumps to "now"
+     - [X] Icons on Day FAB
+     - [X] Play selects period and jumps to "now"
      - [X] Drawer does not user surface comp and background is theme background
      - [X] Remove menu close on zoom actions
-     - [ ] Selecting next/prev also _jumps to_ (somehow)
-     - [ ] Get duration comp to line up properly for full form
-     - [ ] Change display references for patterns to "templates"
+     - [X] +Selecting next/prev also _jumps to_ (somehow)+
+       - [X] Too hard to try right now
+     - [X] +Get duration comp to line up properly for full form+
+       - [X] See if this is actually an issue later
+     - [X] Change display references for patterns to "templates"
        
 *** TODO Add amplitude analytics [1/5]
     :PROPERTIES:

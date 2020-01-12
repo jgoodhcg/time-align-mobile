@@ -257,7 +257,7 @@
      :on-press #(swap! modal-atom (fn [m] (assoc-in m [:visible] false)))}]
 
    [scroll-view
-    [list-subheader "What are you going to start doing?"]
+    [list-subheader "What are you about to do?"]
     [list-section
      (->> @buckets-atom
           (map (fn [item]

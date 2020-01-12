@@ -55,7 +55,7 @@
         changes                (subscribe [:get-pattern-form-changes])]
 
     [view {:flex 1}
-     [top-bar {:center-content [subheading "Plan Form"]
+     [top-bar {:center-content [subheading "Template Edit"]
                :right-content  [icon-button]}]
      ;; [keyboard-aware-scroll-view
      ;;  ;; check link for why these options https://stackoverflow.com/questions/45466026/keyboard-aware-scroll-view-android-issue?rq=1

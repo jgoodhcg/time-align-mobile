@@ -40,7 +40,7 @@
                      :icon            nil})
 
 (def patterns-screen {:id              :patterns
-                      :label           "Plans"
+                      :label           "Templates"
                       :screen          pattern-list-screen/root
                       :in-drawer       true
                       :position-drawer 3.5
