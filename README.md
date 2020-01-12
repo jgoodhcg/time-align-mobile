@@ -10,6 +10,8 @@
   - cursive
 
 ## Development
+Copy config example
+
 Install project dependencies.
 ```bash
 yarn

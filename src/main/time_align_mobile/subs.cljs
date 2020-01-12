@@ -408,6 +408,9 @@
        {:labels   ["Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"]
         :datasets [{:data [0 0 0 0 0 0 0]}]}))))
 
+(defn get-version [db _]
+  (get-in db [:version]))
+
 (reg-sub :get-navigation get-navigation)
 (reg-sub :get-bucket-form get-bucket-form)
 (reg-sub :get-bucket-form-changes get-bucket-form-changes)
@@ -440,3 +443,4 @@
 (reg-sub :get-day-fab-visible get-day-fab-visible)
 (reg-sub :get-menu-open get-menu-open)
 (reg-sub :get-scores get-scores)
+(reg-sub :get-version get-version)

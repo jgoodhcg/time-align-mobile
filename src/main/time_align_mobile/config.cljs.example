@@ -1,0 +1,3 @@
+(ns time-align-mobile.config)
+
+(def amplitude-api-key "")

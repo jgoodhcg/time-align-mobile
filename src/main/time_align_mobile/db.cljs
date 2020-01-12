@@ -9,6 +9,7 @@
             [time-align-mobile.screens.filter-form :refer [filterable-types]] ;; TODO find a better spot to put this, think about nav too
             [time-align-mobile.js-imports :refer [make-date
                                                   get-default-timezone
+                                                  version
                                                   start-of-today
                                                   format-date
                                                   format-time
@@ -291,7 +292,8 @@
                    :day-fab           {:open    boolean?
                                        :visible boolean?}
                    :menu              {:open boolean?}
-                   :reports           {:score-data (ds/maybe coll?)}}
+                   :reports           {:score-data (ds/maybe coll?)}
+                   :version           string?}
             :name ::app-db}))
 (def now (js/Date.))
 (def default-bucket-id (uuid "a7396f81-38d4-4d4f-ab19-a7cef18c4ea2"))
@@ -328,7 +330,8 @@
    :day-fab           {:open    false
                        :visible true}
    :menu              {:open false}
-   :reports           {:score-data nil}})
+   :reports           {:score-data nil}
+   :version           version})
 
 ;; TODO use https://facebook.github.io/react-native/docs/appstate.html to log all time in app
 ;; old initial state of app-db

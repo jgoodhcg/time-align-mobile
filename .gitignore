@@ -18,3 +18,5 @@ src/main/time_align_mobile/tmp_db\.cljs
 .tern-port
 
 test-out/
+
+src/main/time_align_mobile/config.cljs

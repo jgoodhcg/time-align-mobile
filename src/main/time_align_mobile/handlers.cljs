@@ -1,6 +1,13 @@
 (ns time-align-mobile.handlers
   (:require
-    [time-align-mobile.js-imports :refer [write-file-to-dd! alert share format-date email-export share-file!]]
+   [time-align-mobile.js-imports :refer [write-file-to-dd!
+                                         alert
+                                         version
+                                         share
+                                         format-date
+                                         email-export
+                                         share-file!
+                                         amplitude-log-event-with-properties]]
     [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
     ;; [zprint.core :refer [zprint]]
     [cljs.reader :refer [read-string]]
@@ -44,11 +51,11 @@
       true)))
 
 (def validate-spec
-  (if true ;;goog.DEBUG ;; TODO reinstate this after pre-alpha
+  (if goog.DEBUG
     (->interceptor
         :id :validate-spec
         :after (fn [context]
-                 context
+                 context ;; TODO what does this do?
                  (let [db (-> context :effects :db)
                        old-db (-> context :coeffects :db)
                        event (-> context :coeffects :event)]
@@ -81,6 +88,24 @@
              app-db-persisted-file-name
              (-> context :effects :db str))
             context)))
+
+(def amplitude-logging
+  (if (not goog.DEBUG)
+      ;; Only log to amplitude in non dev env
+    (->interceptor
+     :id :amplitude-logging
+     :after (fn [context]
+              (let [event-name     (-> context :coeffects :event first str)
+                    next-screen    (if (= event-name ":navigate-to")
+                                     (-> context :coeffects :event second :current-screen str)
+                                     "na")
+                    current-screen (-> context :coeffects :db :navigation :current-screen str)]
+
+                (amplitude-log-event-with-properties event-name {:version        version
+                                                                 :next-screen    next-screen
+                                                                 :current-screen current-screen})
+                context)))
+    (->interceptor)))
 
 (def generate-tests-flag false)
 
@@ -1212,71 +1237,75 @@
                       {:score score :day day}))))]
     (assoc-in db [:reports :score-data] scores)))
 
-(reg-event-fx :select-next-or-prev-period [validate-spec persist-secure-store] select-next-or-prev-period)
-(reg-event-fx :select-next-or-prev-template-in-form [validate-spec persist-secure-store] select-next-or-prev-template-in-form)
-(reg-event-db :initialize-db [validate-spec] initialize-db)
-(reg-event-fx :navigate-to [validate-spec persist-secure-store] navigate-to)
-(reg-event-fx :navigate-to-no-history [validate-spec persist-secure-store] navigate-to)
-(reg-event-db :load-bucket-form [validate-spec persist-secure-store] load-bucket-form)
-(reg-event-db :update-bucket-form [validate-spec persist-secure-store] update-bucket-form)
-(reg-event-fx :save-bucket-form [alert-message validate-spec persist-secure-store] save-bucket-form)
-(reg-event-db :load-period-form [validate-spec persist-secure-store] load-period-form)
-(reg-event-db :update-period-form [validate-spec persist-secure-store] update-period-form)
-(reg-event-fx :save-period-form [alert-message validate-spec persist-secure-store] save-period-form)
-(reg-event-db :load-template-form [validate-spec persist-secure-store] load-template-form)
-(reg-event-db :load-template-form-from-pattern-planning [validate-spec persist-secure-store] load-template-form-from-pattern-planning)
-(reg-event-db :update-template-form [validate-spec persist-secure-store generate-handler-test-db ] update-template-form)
-(reg-event-fx :save-template-form [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-template-form)
-(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-template-form-from-pattern-planning)
-(reg-event-db :load-filter-form [validate-spec persist-secure-store generate-handler-test-db ] load-filter-form)
-(reg-event-db :update-filter-form [validate-spec persist-secure-store generate-handler-test-db ] update-filter-form)
-(reg-event-fx :save-filter-form [alert-message validate-spec persist-secure-store generate-handler-test-fx ] save-filter-form)
-(reg-event-db :update-active-filter [validate-spec persist-secure-store generate-handler-test-db ] update-active-filter)
-(reg-event-fx :add-new-bucket [validate-spec persist-secure-store generate-handler-test-fx ] add-new-bucket)
-(reg-event-fx :add-new-period [validate-spec persist-secure-store generate-handler-test-fx ] add-new-period)
-;; (reg-event-fx :add-template-period [validate-spec persist-secure-store generate-handler-test-fx ] add-template-period)
-(reg-event-fx :add-new-template [validate-spec persist-secure-store generate-handler-test-fx ] add-new-template)
-(reg-event-fx :add-new-template-to-planning-form [validate-spec persist-secure-store generate-handler-test-fx ] add-new-template-to-planning-form)
-(reg-event-fx :add-new-filter [validate-spec persist-secure-store generate-handler-test-fx ] add-new-filter)
-(reg-event-fx :delete-bucket [validate-spec persist-secure-store generate-handler-test-fx ] delete-bucket)
-(reg-event-fx :delete-period [validate-spec persist-secure-store generate-handler-test-fx ] delete-period)
-(reg-event-fx :delete-template [validate-spec persist-secure-store generate-handler-test-fx ] delete-template)
-(reg-event-fx :delete-template-from-pattern-planning [validate-spec persist-secure-store generate-handler-test-fx ] delete-template-from-pattern-planning)
-(reg-event-fx :delete-pattern [validate-spec persist-secure-store generate-handler-test-fx ] delete-pattern)
-(reg-event-fx :delete-filter [validate-spec persist-secure-store generate-handler-test-fx ] delete-filter)
-(reg-event-fx :update-period [validate-spec persist-secure-store generate-handler-test-fx ] update-period)
-(reg-event-db :add-period [validate-spec persist-secure-store generate-handler-test-db ] add-period)
-(reg-event-db :update-day-time-navigator [validate-spec persist-secure-store generate-handler-test-db ] update-day-time-navigator)
+(defn set-version [db [_ version]]
+  (assoc-in db [:version] version))
+
+(reg-event-fx :select-next-or-prev-period [validate-spec amplitude-logging persist-secure-store] select-next-or-prev-period)
+(reg-event-fx :select-next-or-prev-template-in-form [validate-spec amplitude-logging persist-secure-store] select-next-or-prev-template-in-form)
+(reg-event-db :initialize-db [validate-spec amplitude-logging] initialize-db)
+(reg-event-fx :navigate-to [validate-spec amplitude-logging persist-secure-store] navigate-to)
+(reg-event-fx :navigate-to-no-history [validate-spec amplitude-logging persist-secure-store] navigate-to)
+(reg-event-db :load-bucket-form [validate-spec amplitude-logging persist-secure-store] load-bucket-form)
+(reg-event-db :update-bucket-form [validate-spec amplitude-logging persist-secure-store] update-bucket-form)
+(reg-event-fx :save-bucket-form [alert-message validate-spec amplitude-logging persist-secure-store] save-bucket-form)
+(reg-event-db :load-period-form [validate-spec amplitude-logging persist-secure-store] load-period-form)
+(reg-event-db :update-period-form [validate-spec amplitude-logging persist-secure-store] update-period-form)
+(reg-event-fx :save-period-form [alert-message validate-spec amplitude-logging persist-secure-store] save-period-form)
+(reg-event-db :load-template-form [validate-spec amplitude-logging persist-secure-store] load-template-form)
+(reg-event-db :load-template-form-from-pattern-planning [validate-spec amplitude-logging persist-secure-store] load-template-form-from-pattern-planning)
+(reg-event-db :update-template-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-template-form)
+(reg-event-fx :save-template-form [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-template-form)
+(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-template-form-from-pattern-planning)
+(reg-event-db :load-filter-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] load-filter-form)
+(reg-event-db :update-filter-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-filter-form)
+(reg-event-fx :save-filter-form [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-filter-form)
+(reg-event-db :update-active-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-active-filter)
+(reg-event-fx :add-new-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-bucket)
+(reg-event-fx :add-new-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-period)
+;; (reg-event-fx :add-template-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-template-period)
+(reg-event-fx :add-new-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-template)
+(reg-event-fx :add-new-template-to-planning-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-template-to-planning-form)
+(reg-event-fx :add-new-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-filter)
+(reg-event-fx :delete-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-bucket)
+(reg-event-fx :delete-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-period)
+(reg-event-fx :delete-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-template)
+(reg-event-fx :delete-template-from-pattern-planning [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-template-from-pattern-planning)
+(reg-event-fx :delete-pattern [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-pattern)
+(reg-event-fx :delete-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-filter)
+(reg-event-fx :update-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] update-period)
+(reg-event-db :add-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] add-period)
+(reg-event-db :update-day-time-navigator [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-day-time-navigator)
 (reg-event-fx :tick [validate-spec persist-secure-store generate-handler-test-fx ] tick)
-(reg-event-fx :play-from-period [validate-spec persist-secure-store generate-handler-test-fx ] play-from-period)
-(reg-event-db :stop-playing-period [validate-spec persist-secure-store generate-handler-test-db ] stop-playing-period)
-(reg-event-fx :play-from-bucket [validate-spec persist-secure-store generate-handler-test-fx ] play-from-bucket)
-(reg-event-db :play-from-template [validate-spec persist-secure-store generate-handler-test-db ] play-from-template)
-(reg-event-db :load-db [validate-spec] load-db)
-(reg-event-fx :share-app-db [validate-spec] share-app-db)
-(reg-event-db :add-auto-filter [validate-spec persist-secure-store  ] add-auto-filter)
-(reg-event-db :load-pattern-form [validate-spec persist-secure-store  ] load-pattern-form)
-(reg-event-fx :update-pattern-form [validate-spec persist-secure-store  ] update-pattern-form)
-(reg-event-fx :save-pattern-form [validate-spec persist-secure-store  ] save-pattern-form)
-(reg-event-fx :add-new-pattern [validate-spec persist-secure-store  ] add-new-pattern)
-(reg-event-db :apply-pattern-to-displayed-day [validate-spec persist-secure-store  ] apply-pattern-to-displayed-day)
-(reg-event-db :import-app-db [validate-spec persist-secure-store  ] import-app-db)
-(reg-event-fx :navigate-back [validate-spec persist-secure-store  ] navigate-back)
-(reg-event-fx :update-template-on-pattern-planning-form [validate-spec persist-secure-store  ] update-template-on-pattern-planning-form)
-(reg-event-db :make-pattern-from-day [validate-spec persist-secure-store  ] make-pattern-from-day)
-(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec persist-secure-store  ] set-current-pixel-to-minute-ratio)
-(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec persist-secure-store  ] set-default-pixel-to-minute-ratio)
-(reg-event-fx :select-period-movement [validate-spec persist-secure-store  ] select-period-movement)
-(reg-event-fx :select-period-edit [validate-spec persist-secure-store  ] select-period-edit)
-(reg-event-fx :select-template-movement [validate-spec persist-secure-store  ] select-template-movement)
-(reg-event-fx :select-template-edit [validate-spec persist-secure-store  ] select-template-edit)
-(reg-event-fx :select-element-movement [validate-spec persist-secure-store  ] select-element-movement)
-(reg-event-fx :select-element-edit [validate-spec persist-secure-store  ] select-element-edit)
-(reg-event-db :set-day-fab-open [validate-spec persist-secure-store] set-day-fab-open)
-(reg-event-db :set-day-fab-visible [validate-spec persist-secure-store] set-day-fab-visible)
-(reg-event-db :set-menu-open [validate-spec persist-secure-store] set-menu-open)
-(reg-event-db :zoom-in [validate-spec persist-secure-store] zoom-in)
-(reg-event-db :zoom-out [validate-spec persist-secure-store] zoom-out)
-(reg-event-db :zoom-default [validate-spec persist-secure-store] zoom-default)
-(reg-event-fx :add-period-with-selection [validate-spec persist-secure-store] add-period-with-selection)
-(reg-event-db :set-report-data [validate-spec persist-secure-store] set-report-data)
+(reg-event-fx :play-from-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] play-from-period)
+(reg-event-db :stop-playing-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] stop-playing-period)
+(reg-event-fx :play-from-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] play-from-bucket)
+(reg-event-db :play-from-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] play-from-template)
+(reg-event-db :load-db [validate-spec amplitude-logging] load-db)
+(reg-event-fx :share-app-db [validate-spec amplitude-logging] share-app-db)
+(reg-event-db :add-auto-filter [validate-spec amplitude-logging persist-secure-store  ] add-auto-filter)
+(reg-event-db :load-pattern-form [validate-spec amplitude-logging persist-secure-store  ] load-pattern-form)
+(reg-event-fx :update-pattern-form [validate-spec amplitude-logging persist-secure-store  ] update-pattern-form)
+(reg-event-fx :save-pattern-form [validate-spec amplitude-logging persist-secure-store  ] save-pattern-form)
+(reg-event-fx :add-new-pattern [validate-spec amplitude-logging persist-secure-store  ] add-new-pattern)
+(reg-event-db :apply-pattern-to-displayed-day [validate-spec amplitude-logging persist-secure-store  ] apply-pattern-to-displayed-day)
+(reg-event-db :import-app-db [validate-spec amplitude-logging persist-secure-store  ] import-app-db)
+(reg-event-fx :navigate-back [validate-spec amplitude-logging persist-secure-store  ] navigate-back)
+(reg-event-fx :update-template-on-pattern-planning-form [validate-spec amplitude-logging persist-secure-store  ] update-template-on-pattern-planning-form)
+(reg-event-db :make-pattern-from-day [validate-spec amplitude-logging persist-secure-store  ] make-pattern-from-day)
+(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec amplitude-logging persist-secure-store  ] set-current-pixel-to-minute-ratio)
+(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec amplitude-logging persist-secure-store  ] set-default-pixel-to-minute-ratio)
+(reg-event-fx :select-period-movement [validate-spec amplitude-logging persist-secure-store  ] select-period-movement)
+(reg-event-fx :select-period-edit [validate-spec amplitude-logging persist-secure-store  ] select-period-edit)
+(reg-event-fx :select-template-movement [validate-spec amplitude-logging persist-secure-store  ] select-template-movement)
+(reg-event-fx :select-template-edit [validate-spec amplitude-logging persist-secure-store  ] select-template-edit)
+(reg-event-fx :select-element-movement [validate-spec amplitude-logging persist-secure-store  ] select-element-movement)
+(reg-event-fx :select-element-edit [validate-spec amplitude-logging persist-secure-store  ] select-element-edit)
+(reg-event-db :set-day-fab-open [validate-spec amplitude-logging persist-secure-store] set-day-fab-open)
+(reg-event-db :set-day-fab-visible [validate-spec amplitude-logging persist-secure-store] set-day-fab-visible)
+(reg-event-db :set-menu-open [validate-spec amplitude-logging persist-secure-store] set-menu-open)
+(reg-event-db :zoom-in [validate-spec amplitude-logging persist-secure-store] zoom-in)
+(reg-event-db :zoom-out [validate-spec amplitude-logging persist-secure-store] zoom-out)
+(reg-event-db :zoom-default [validate-spec amplitude-logging persist-secure-store] zoom-default)
+(reg-event-fx :add-period-with-selection [validate-spec amplitude-logging persist-secure-store] add-period-with-selection)
+(reg-event-db :set-report-data [validate-spec amplitude-logging persist-secure-store] set-report-data)
+(reg-event-db :set-version [validate-spec amplitude-logging persist-secure-store] set-version)

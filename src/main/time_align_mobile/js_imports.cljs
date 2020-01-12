@@ -14,6 +14,7 @@
    ["expo-document-picker" :as DocumentPicker]
    ["expo-file-system" :as fs
     :refer []]
+   ["expo-analytics-amplitude" :as Amplitude]
    ;; ["expo-doucument-picker" :as dp] ;; TODO in sdk-33
    ["expo-constants" :as expo-constants]
    ["expo-sharing" :as expo-sharing]
@@ -314,3 +315,15 @@
 (def stacked-bar-chart (r/adapt-react-class StackedBarChart))
 (def pie-chart (r/adapt-react-class PieChart))
 (def contribution-graph (r/adapt-react-class ContributionGraph))
+
+(defn amplitude-init [api-key]
+  (-> Amplitude
+      (.initialize api-key)))
+
+(defn amplitude-log-event [event-name]
+  (-> Amplitude
+      (.logEvent event-name)))
+
+(defn amplitude-log-event-with-properties [event-name properties]
+  (-> Amplitude
+      (.logEventWithProperties event-name (clj->js properties))))

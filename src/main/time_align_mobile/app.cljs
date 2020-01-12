@@ -15,6 +15,7 @@
                        oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
     [time-align-mobile.styles :refer [theme]]
     [time-align-mobile.db :refer [app-db] :rename {app-db default-app-db}]
+    [time-align-mobile.config :refer [amplitude-api-key]]
     [time-align-mobile.js-imports :refer [ReactNative
                                           ei
                                           en
@@ -26,6 +27,7 @@
                                           ic
                                           text-paper
                                           card
+                                          amplitude-init
                                           surface
                                           mi
                                           mci
@@ -66,48 +68,49 @@
           (rn/StyleSheet.create)))
 
 (defn drawer-list []
-  [view {:style {:flex 1 :justify-content "center" :align-items "center"
-                 :background-color (->> theme :colors :background)}}
-   (->> nav/screens-map
-        (filter #(:in-drawer %))
-        (sort-by #(:position-drawer %))
-        (map (fn [{:keys [icon label id]}]
-               (let [{:keys [family name]} icon
+  (let [version-from-state @(subscribe [:get-version])]
+    [view {:style {:flex 1 :justify-content "center" :align-items "center"
+                   :background-color (->> theme :colors :background)}}
+     (->> nav/screens-map
+          (filter #(:in-drawer %))
+          (sort-by #(:position-drawer %))
+          (map (fn [{:keys [icon label id]}]
+                 (let [{:keys [family name]} icon
 
-                     params {:name  name
-                             :style {:margin-right 8
-                                     :width        32}
-                             :color (->> theme :colors :primary)
-                             :size  24}
+                       params {:name  name
+                               :style {:margin-right 8
+                                       :width        32}
+                               :color (->> theme :colors :primary)
+                               :size  24}
 
-                     label-element [subheading label]
-                     icon-element  (case family
-                                     "EvilIcons"              [ei params]
-                                     "FontAwesome"            [fa params]
-                                     "IonIcons"               [ic params]
-                                     "Entypo"                 [en params]
-                                     "MaterialCommunityIcons" [mci params]
-                                     "MaterialIcons"          [mi params])]
+                       label-element [subheading label]
+                       icon-element  (case family
+                                       "EvilIcons"              [ei params]
+                                       "FontAwesome"            [fa params]
+                                       "IonIcons"               [ic params]
+                                       "Entypo"                 [en params]
+                                       "MaterialCommunityIcons" [mci params]
+                                       "MaterialIcons"          [mi params])]
 
-                 [touchable-ripple {:key      (str "icon-" name)
-                                    :on-press (fn [_]
-                                                (dispatch
-                                                 [:navigate-to
-                                                  {:current-screen id
-                                                   :params         nil}])
-                                                (dispatch [:set-menu-open false]))}
+                   [touchable-ripple {:key      (str "icon-" name)
+                                      :on-press (fn [_]
+                                                  (dispatch
+                                                   [:navigate-to
+                                                    {:current-screen id
+                                                     :params         nil}])
+                                                  (dispatch [:set-menu-open false]))}
 
-                  [view {:flex-direction  "row"
-                         :justify-content "flex-start"
-                         :align-items     "center"
-                         :padding-left    8
-                         :width           200
-                         :height          32}
-                   icon-element
-                   label-element]]))))
+                    [view {:flex-direction  "row"
+                           :justify-content "flex-start"
+                           :align-items     "center"
+                           :padding-left    8
+                           :width           200
+                           :height          32}
+                     icon-element
+                     label-element]]))))
 
-   [text-paper {:style {:margin 8
-                        :color  (->> theme :colors :placeholder)}} version]])
+     [text-paper {:style {:margin 8
+                          :color  (->> theme :colors :placeholder)}} version-from-state]]))
 
 (defn root []
   (fn []
@@ -159,9 +162,12 @@
    (fn [value]
      (let [app-db (read-string value)]
        (if (some? app-db)
-         (dispatch-sync [:load-db (deep-merge default-app-db app-db)]))))
+         (dispatch-sync [:load-db (deep-merge default-app-db app-db)])
+         (dispatch-sync [:set-version version]))))
    (fn [error]
      (alert "error reading file")))
+
+  (amplitude-init amplitude-api-key)
 
   (start))
 

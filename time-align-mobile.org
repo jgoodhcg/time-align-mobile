@@ -73,21 +73,27 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
-** DOSUB Release to friends [0/4]
-*** TODO Put version indicator in app-db (for export mostly)
+** DOSUB Release to friends [3/4]
+*** DONE Put version indicator in app-db (for export mostly)
+    CLOSED: [2020-01-12 Sun 16:53]
     :PROPERTIES:
     :VALUE:    1
     :WORK:     1
     :CONFIDENCE: 90
     :EFFORT:   0:30
     :END:
-*** TODO Follow material design on each page without changing functionality [/]
+    :LOGBOOK:
+    CLOCK: [2020-01-12 Sun 16:33]--[2020-01-12 Sun 16:53] =>  0:20
+    :END:
+*** DONE Follow material design on each page without changing functionality [/]
+    CLOSED: [2020-01-12 Sun 16:33]
     :PROPERTIES:
     :COOKIE_DATA: checkbox
     :WORK:     20
     :VALUE:    100
     :CONFIDENCE: 25
     :EFFORT:   10:00
+    :ID:       22f1a641-8ec9-4456-9dbd-ca54e5ed162e
     :END:
     :LOGBOOK:
     CLOCK: [2019-11-28 Thu 13:51]--[2019-11-28 Thu 13:54] =>  0:03
@@ -279,19 +285,23 @@
        - [X] See if this is actually an issue later
      - [X] Change display references for patterns to "templates"
        
-*** TODO Add amplitude analytics [1/5]
+*** DONE Add amplitude analytics [5/5]
+    CLOSED: [2020-01-12 Sun 16:33]
     :PROPERTIES:
     :ID:       27160311-6918-44e2-a603-3d8679e903af
     :END:
     :LOGBOOK:
+    CLOCK: [2020-01-12 Sun 16:53]--[2020-01-12 Sun 17:15] =>  0:22
+    CLOCK: [2020-01-12 Sun 16:18]--[2020-01-12 Sun 16:33] =>  0:15
+    CLOCK: [2020-01-12 Sun 15:15]--[2020-01-12 Sun 16:17] =>  1:02
     CLOCK: [2020-01-05 Sun 21:00]--[2020-01-05 Sun 21:28] =>  0:28
     CLOCK: [2020-01-05 Sun 16:00]--[2020-01-05 Sun 16:18] =>  0:18
     :END:
     - [X] Amplitude account and project are set up
-    - [ ] Amplitude api key is injected into app (12 factor style)
-    - [ ] App initializes with api key
-    - [ ] Interceptor logs every handler event
-    - [ ] Micro blog is published about setting up amplitude analytics with re-frame and expo
+    - [X] Amplitude api key is injected into app +(12 factor style)+
+    - [X] App initializes with api key
+    - [X] Interceptor logs every handler event
+    - [X] Does not log in development
 **** Notes 
     *Do not commit key*
     Write a wrapper around publishing that looks for an envvar and stops publishing if it doesn't exist.
@@ -323,7 +333,11 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Display comp doesn't fit on some narrow screens 
 *** TODO Resolve differences between display references and code symbols 
+    :PROPERTIES:
+    :ID:       7040b743-35c8-4543-8b56-501f666863a6
+    :END:
     patterns -> templates
     templates -> not referred to
     buckets -> groups
