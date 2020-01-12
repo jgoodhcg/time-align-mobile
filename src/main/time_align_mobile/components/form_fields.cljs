@@ -18,6 +18,7 @@
                                                   chip
                                                   badge
                                                   list-section
+                                                  text-paper
                                                   list-subheader
                                                   color-readable-background
                                                   modal
@@ -232,9 +233,9 @@
     [view {:style (merge info-field-style
                          {:flex-direction "column"})}
      [subheading {:style label-style} "Duration"]
-     [text (if-some [d duration]
-             (ms->hhmm d)
-             "No duration")]]))
+     [text-paper (if-some [d duration]
+                   (ms->hhmm d)
+                   "No duration")]]))
 
 (defn filter-button [pattern-form on-press]
   [button-paper {:icon     "filter-variant"

@@ -377,7 +377,7 @@
                       :justify-content  "center"
                       :align-items      "center"
                       :width            width}}
-        [text-paper {:style {:color (-> styles/theme :colors :accent-light)}}
+        [text-paper {:style {:color (-> styles/theme :colors :element-text-dark)}}
          (format-time @now)]]
 
        ;; line
@@ -609,7 +609,7 @@
                                :align-items    "flex-start"}}
                  ;; time stamp
                  [text-paper {:style {:padding-left        8
-                                      :color               (-> styles/theme :colors :accent)
+                                      :color               (-> styles/theme :colors :primary)
                                       :height              text-height
                                       :text-align-vertical "center"}}
                   time-str]

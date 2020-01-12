@@ -4,14 +4,12 @@
    ;; [cljs.spec.alpha :as s]
    [time-align-mobile.js-imports :refer [default-theme dark-theme]]))
 
-(def theme (-> default-theme
+(def theme (-> dark-theme
                (js->clj :keywordize-keys true)
                ;; https://material.io/tools/color/#!/?view.left=1&view.right=0&primary.color=212121&secondary.color=757575
-               (update-in [:colors] #(merge % {:primary            "#212121"
-                                               :accent             "#757575"
-                                               :planned            "#0069c0"
-                                               :actual             "#087f23"
-                                               :accent-light       "#a4a4a4"
+               (update-in [:colors] #(merge % {:primary            "#e0e0e0"
+                                               :accent             "#f5f5f5"
+                                               :accent-light       "#ffffff"
                                                :element-text-light "#ffffff"
                                                :element-text-dark  "#000000"}))
                (merge {})))
