@@ -6031,10 +6031,10 @@ react-native-branch@~3.0.1:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.0.1.tgz#5b07b61cbd290168cd3c3662e017ebe0f356d2ca"
   integrity sha512-vbcYxPZlpF5f39GAEUF8kuGQqCNeD3E6zEdvtOq8oCGZunHXlWlKgAS6dgBKCvsHvXgHuMtpvs39VgOp8DaKig==
 
-react-native-chart-kit@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-4.1.0.tgz#39f36a415bbe6166a97a82526d1db2eb89be9c3d"
-  integrity sha512-hzafFglATJZ8sPzkA4XBHhV5B9sfg38mFk4lswpCihvzV+z2TZGYP/t69Nqtfqu3DIx++qXlDwFWi6EiHreIjQ==
+react-native-chart-kit@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-4.3.0.tgz#9cf21ff497f3bb8f9d093d71ed555a822b4054a8"
+  integrity sha512-mVi0jT2bbKJOpmyqdn2+kGiInU+7P+ebi2ddQWm/Vfwbmd0InyPi7wj3F5UN9Ymr2tYQxuqpOJtHKmn1bT3/5w==
   dependencies:
     lodash "^4.17.13"
     paths-js "^0.4.10"

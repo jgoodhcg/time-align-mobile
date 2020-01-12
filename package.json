@@ -20,7 +20,7 @@
     "moment-timezone": "^0.5.26",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
-    "react-native-chart-kit": "^4.1.0",
+    "react-native-chart-kit": "^4.3.0",
     "react-native-color-picker": "^0.4.0",
     "react-native-drawer": "^2.5.1",
     "react-native-elements": "^1.1.0",
