@@ -313,10 +313,23 @@
     :ID:       89a5fd42-8f70-4520-bb98-c20fe01169a7
     :END:
     :LOGBOOK:
+    CLOCK: [2020-01-12 Sun 17:18]--[2020-01-12 Sun 17:26] =>  0:08
     CLOCK: [2020-01-01 Wed 16:29]--[2020-01-01 Wed 16:32] =>  0:03
     CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
     :END:
-**** Rebrand to time sink 
+**** Make sure the app runs on the ios simulator 
+     - [ ] Set up simulator on macbook
+     - [ ] Try installing the client [[https://docs.expo.io/versions/latest/workflow/ios-simulator/#how-do-i-force-an-update-to][with this force update]]
+**** Upload to test flight in app store
+     - [ ] Set up an apple developer account
+     - [ ] Set up an itunes project
+     - [ ] Make an expo build (let expo handle all certificates)
+     - [ ] Upload the build to test flight
+**** Upload to testing track play store  
+     - [ ] Set up play store account
+     - [ ] Set up a play store project
+*** TODO Supporting tasks for beta launch
+**** Rebrand to time sink ???
      - [ ] Buy domain
      - [ ] Change app package name
      - [ ] Change repo name
@@ -325,8 +338,7 @@
      - [ ] Add intro guide
      - [ ] Add readme to repo
      - [ ] Set license in repo
-**** Upload to test flight in app store
-**** Upload to testing track play store  
+
 ** DOSUB Release to strangers [0/0]
 *** BLOCKED Gather friends analytics and inputs
 ** DOSUB Eventually [0/22]
