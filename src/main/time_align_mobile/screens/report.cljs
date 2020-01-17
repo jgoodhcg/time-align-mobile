@@ -2,6 +2,7 @@
   (:require [time-align-mobile.js-imports :refer [view
                                                   line-chart
                                                   bar-chart
+                                                  contribution-graph
                                                   surface
                                                   color-lighten
                                                   color-hex-str->rgba
@@ -36,29 +37,19 @@
                       :flex-direction "column"
                       :align-items    "center"
                       :width          "100%"}}
-        [subheading "Scores for the past 7 days"]
-        [line-chart
-         {:data         chart-data
-          :bezier       true
+        [subheading "Scores per day"]
+        [contribution-graph
+         {:values       chart-data
           :width        400
           :height       400
-          :fromZero     true
-          :formatYLabel #(str (js/Math.trunc (js/parseFloat %)))  ;; this prop is only available for line-chart
+          :num-days     200
           :chart-config
-          (clj->js {:backgroundColor        (->> theme :colors :surface)
-                    :backgroundGradientFrom (->> theme :colors :surface)
-                    :backgroundGradientTo   (->> theme :colors :surface)
+          (clj->js {:backgroundColor        (->> theme :colors :background)
+                    :backgroundGradientFrom (->> theme :colors :background)
+                    :backgroundGradientTo   (->> theme :colors :background)
                     :labelColor             (chart-color-fn-gen (->> theme :colors :accent))
                     :color                  (chart-color-fn-gen (->> theme :colors :accent))})}]
 
-        [view {:style {:flex-direction  "column"
-                       :justify-content "flex-start"}}
-         [text-paper "For each minute in a day:"]
-         [text-paper "  - 4 pts if you did exactly what you planned to do"]
-         [text-paper "  - 3 pts if you did some of what you planned to do"]
-         [text-paper "  - 2 pts if you planned but did something else"]
-         [text-paper "  - 1 pts if you planned _or_ did something"]
-         [text-paper "  - 0 pts if you did not plan or do anything"]]
 
         [button-paper {:on-press #(dispatch [:set-report-data])
                        :mode     "outlined"

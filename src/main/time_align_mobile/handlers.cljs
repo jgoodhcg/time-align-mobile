@@ -1166,16 +1166,17 @@
   (assoc-in db [:selection :report :bucket-contribution] bucket-id))
 
 (defn set-report-data [db [_ _]]
-  (let [periods-last-7-days (filter
+  (let [days-ago 200
+        periods-last-n-days (filter
                              (fn [p] (-> (:stop p)
                                          (.valueOf)
                                          (> (.valueOf
                                              (helpers/back-n-days
-                                              (helpers/reset-relative-ms 0 (js/Date.)) 7)))))
+                                              (helpers/reset-relative-ms 0 (js/Date.)) days-ago)))))
                              (subs/get-periods db :no-op))
         scores
         (->> (range)
-             (take 7)
+             (take days-ago)
              ;; map over the days
              (map (fn [days-ago]
                     (let [day (helpers/reset-relative-ms
@@ -1191,7 +1192,7 @@
                                                                  (helpers/minutes->ms min-of-day)
                                                                  day)
                                             ed-ms               (.valueOf exact-date)
-                                            overlapping-periods (->> periods-last-7-days
+                                            overlapping-periods (->> periods-last-n-days
                                                                      (filter (fn [period]
                                                                                (and
                                                                                 (-> (.valueOf
@@ -1230,11 +1231,14 @@
                                           ;; planned and did and match perfectly
                                           (= p-ids a-ids)            4
                                           ;; planned and did but only kinda match
-                                          (> 0 (count intersection)) 3))))
+                                          (> 0 (count intersection)) 3
+
+                                          :else 0))))
                                ;; add all the minute scores together
                                (reduce +))]
                       ;; put it all together
-                      {:score score :day day}))))]
+                      {:score (/ score 1000) :day day}))))]
+    (println (map :score scores))
     (assoc-in db [:reports :score-data] scores)))
 
 (defn set-version [db [_ version]]

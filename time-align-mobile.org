@@ -327,7 +327,10 @@
      - [ ] Make an expo build (let expo handle all certificates)
      - [ ] Upload the build to test flight
 **** Upload to testing track play store  
-     - [ ] Set up play store account
+     :LOGBOOK:
+     CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
+     :END:
+     - [X] Set up play store account
      - [ ] Set up a play store project
 *** TODO Supporting tasks for beta launch
 **** Rebrand to time sink ???
@@ -339,7 +342,20 @@
      - [ ] Add intro guide
      - [ ] Add readme to repo
      - [ ] Set license in repo
-
+*** TODO Minor fixes 
+    :LOGBOOK:
+    CLOCK: [2020-01-16 Thu 20:24]--[2020-01-16 Thu 20:38] =>  0:14
+    CLOCK: [2020-01-16 Thu 18:51]--[2020-01-16 Thu 20:24] =>  1:33
+    :END:
+    - [ ] Pattern form and list verbage
+    - [ ] Pattern modal isn't colored correctly
+    - [ ] Date picker darkmode
+    - [ ] Tighten up scroll-to race condition
+    - [ ] Play button from bottom sheet should select
+    - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
+    - [ ] Remove text on chart
+    - [X] Change line graph to a contribution graph
+    - [ ] Make the graph performant /enough/
 ** DOSUB Release to strangers [0/0]
 *** BLOCKED Gather friend analytics and inputs
 ** DOSUB Eventually [0/22]

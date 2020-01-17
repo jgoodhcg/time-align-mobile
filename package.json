@@ -34,7 +34,7 @@
     "react-native-side-menu": "^1.1.3",
     "react-native-svg": "9.9.2",
     "react-test-renderer": "16.9.0",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.16"
+    "reanimated-bottom-sheet": "^1.0.0-alpha.18"
   },
   "jest": {
     "preset": "jest-expo",

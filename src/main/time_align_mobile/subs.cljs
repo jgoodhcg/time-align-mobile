@@ -1,7 +1,8 @@
 (ns time-align-mobile.subs
   (:require [re-frame.core :refer [reg-sub]]
             [time-align-mobile.styles :refer [theme]]
-            [time-align-mobile.js-imports :refer [color-hex-str->rgba]]
+            [time-align-mobile.js-imports :refer [color-hex-str->rgba
+                                                  format-date-day]]
             [time-align-mobile.helpers :as helpers :refer [same-day?
                                                period-path-sub-bucket
                                                period-path-no-bucket-id
@@ -399,14 +400,11 @@
   (let [scores (get-in db [:reports :score-data])]
     (if (some? scores)
       (clj->js
-       {:labels   (->> scores
-                       (map (fn [{:keys [score day]}]
-                              (helpers/day-of-week (.getDay day))))
-                       reverse)
-        :datasets [{:data (->> scores (map :score) reverse)}]})
+       (->> scores
+            (transform [sp/ALL] #(clojure.set/rename-keys % {:day :date :score :count}))
+            (transform [sp/ALL :date] #(format-date-day %))))
       (clj->js
-       {:labels   ["Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"]
-        :datasets [{:data [0 0 0 0 0 0 0]}]}))))
+       [{:date (format-date-day (js/Date.)) :count 0}]))))
 
 (defn get-version [db _]
   (get-in db [:version]))
