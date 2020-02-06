@@ -11,6 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2020-02-05 Wed 18:45]--[2020-02-05 Wed 19:13] =>  0:28
   CLOCK: [2019-12-17 Tue 21:22]--[2019-12-17 Tue 21:33] =>  0:11
   CLOCK: [2019-12-17 Tue 20:07]--[2019-12-17 Tue 21:22] =>  1:15
   CLOCK: [2019-11-12 Tue 20:55]--[2019-11-12 Tue 21:08] =>  0:13
@@ -351,11 +352,33 @@
     - [ ] Pattern modal isn't colored correctly
     - [ ] Date picker darkmode
     - [ ] Tighten up scroll-to race condition
-    - [ ] Play button from bottom sheet should select
+    - [ ] Play button from bottom sheet should also select the period it starts playing
     - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
-    - [ ] Remove text on chart
     - [X] Change line graph to a contribution graph
-    - [ ] Make the graph performant /enough/
+    - [ ] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
+    - [ ] Change day background to be darker
+    - [ ] Change top bar and bottom sheet to be lighter
+    - [ ] Add day score to contribution chart (pressing goes to reports)
+    - [ ] Move drawer state to component (for performance)
+*** TODO Make a better report
+**** Better scoring algorithm
+    - Did the time go where you wanted it
+      - Segment periods by day
+        - Cut off overlapping bits by duplication
+      - Calculate totals per group id and get ratios of planned to actual
+      - Accumulate ratios
+    - Did the things happen when you wanted
+      - Find any over lapping actual periods for every planned period
+      - Take all (or the first) Overlapping period(s) with a matching bucket id and calculate how much overlap
+      - Get a ratio
+      - Accumulate the ratios into one day ratio
+    - Did you track enough
+      - Total time planned and tracked over time in a day
+    - Total All three into a day score
+**** Use contribution chart
+**** Have a breakdown for selected day 
+     - Shows all three scores for the day
+
 ** DOSUB Release to strangers [0/0]
 *** BLOCKED Gather friend analytics and inputs
 ** DOSUB Eventually [0/22]
@@ -442,6 +465,7 @@ https://docs.expo.io/versions/latest/sdk/calendar/
    FAB does not have stop indicator anymore.
    Deslection by "closing" bottom sheet while still being able to see in play stop buttons.
    Can header and dynamic snap positions be used to achieve this? 
+   Add notifications for "forgotten" timers. Identify forgotten timers based on average time for a period in the same bucket.
 *** TODO Add selected start stop indicators (now indicator style)
     :PROPERTIES:
     :VALUE:    5
@@ -465,6 +489,11 @@ Have a lock / unlock all button.
     CLOCK: [2019-08-08 Thu 19:42]--[2019-08-08 Thu 20:42] =>  1:00
     :END:
 https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
+#+begin_src markdown
+Possibly include [A rich text editor](https://www.npmjs.com/package/react-native-cn-richtext-editor) and enable fuzzy search with [fusejs](https://fusejs.io/)
+  - A fuse index would be persisted in state and updated for any relevant re-frame events
+  - This could be a stop gap solution for a mobile edn/json editor component or an additional way to enrich entities
+#+end_src
 *** TODO Checklists
     :PROPERTIES:
     :Effort:   6:00
@@ -534,6 +563,9 @@ https://gist.github.com/jgoodhcg/ed3cb0b51f117553e2b04ca62946b68d
     - time-align -> time-sink
 *** TODO Look into siri shortcuts with expo 
     Might need to submit this as a feature for expo
+*** TODO Use react-native-router-flux
+    Better drawer and navigation experience
+    https://github.com/aksonov/react-native-router-flux/blob/master/examples/expo/navigation/AppNavigator.js#L76
 ** Dreams
 - Data includes periods/templates/pattern "generated from info" for reports of usage
 - Meta data (with mobile friendly editor) on all entities
