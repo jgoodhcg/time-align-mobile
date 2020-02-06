@@ -37,33 +37,44 @@
   :END:
      #+NAME: WSJF table
      #+BEGIN: propview :conds ((string= TODO "TODO")) :cols ((concat "[[" ITEM "]]") (/ (float VALUE) (float WORK)) VALUE WORK )
-     | (concat "[[" ITEM "]]")                                                  | (/ (float VALUE) (float WORK)) | VALUE | WORK |
-     |----------------------------------------------------------------------+--------------------------------+-------+------|
-     | "[[Follow material design on each page without changing functionality]]" |                            5.0 |   100 |   20 |
-     | "[[Notifications (local)]]"                                              |                            4.0 |    20 |    5 |
-     | "[[Add prescribed handler tests]]"                                       |                            2.6 |    13 |    5 |
-     | "[[Add subscription tests]]"                                             |                            2.6 |    13 |    5 |
-     | "[[Add selected start stop indicators (now indicator style)]]"           |                            2.5 |     5 |    2 |
-     | "[[Multiple play timers]]"                                               |                            1.6 |     8 |    5 |
-     | "[[Put version indicator in app-db (for export mostly)]]"                |                            1.0 |     1 |    1 |
-     | "[[Add google analytics to handlers]]"                                   |                              0 |     0 |    0 |
-     | "[[Add Calendar integration]]"                                           |                              0 |     0 |    0 |
-     | "[[Add payment option to vote for features]]"                            |                              0 |     0 |    0 |
-     | "[[Add geofencing triggers on buckets]]"                                 |                              0 |     0 |    0 |
-     | "[[Add locked period mechanism]]"                                        |                              0 |     0 |    0 |
-     | "[[Mobile friendly data editor]]"                                        |                              0 |     0 |    0 |
-     | "[[Checklists]]"                                                         |                              0 |     0 |    0 |
-     | "[[Markov chain prediction]]"                                            |                              0 |     0 |    0 |
-     | "[[Queue page]]"                                                         |                              0 |     0 |    0 |
-     | "[[Add queue definition to app-db]]"                                     |                              0 |     0 |    0 |
-     | "[[Add queue form]]"                                                     |                              0 |     0 |    0 |
-     | "[[Add queue list]]"                                                     |                              0 |     0 |    0 |
-     | "[[Add conversion to planned period function]]"                          |                              0 |     0 |    0 |
-     | "[[Calendar Page]]"                                                      |                              0 |     0 |    0 |
-     | "[[Optional offline analytics]]"                                         |                              0 |     0 |    0 |
-     | "[[Unpin react svg lib version]]"                                        |                              0 |     0 |    0 |
-     |----------------------------------------------------------------------+--------------------------------+-------+------|
-     |                                                                      |                                |       |      |
+     | (concat "[[" ITEM "]]")                                                                        | (/ (float VALUE) (float WORK)) | VALUE | WORK |
+     |--------------------------------------------------------------------------------------------+--------------------------------+-------+------|
+     | "[[Notifications (local)]]"                                                                    |                            4.0 |    20 |    5 |
+     | "[[Add prescribed handler tests]]"                                                             |                            2.6 |    13 |    5 |
+     | "[[Add subscription tests]]"                                                                   |                            2.6 |    13 |    5 |
+     | "[[Add selected start stop indicators (now indicator style)]]"                                 |                            2.5 |     5 |    2 |
+     | "[[Multiple play timers]]"                                                                     |                            1.6 |     8 |    5 |
+     | "[[Publish to beta track]]"                                                                    |                              0 |     0 |    0 |
+     | "[[Supporting tasks for beta launch]]"                                                         |                              0 |     0 |    0 |
+     | "[[Minor fixes]]"                                                                              |                              0 |     0 |    0 |
+     | "[[Make a better report]]"                                                                     |                              0 |     0 |    0 |
+     | "[[Display comp doesn't fit on some narrow screens]]"                                          |                              0 |     0 |    0 |
+     | "[[Resolve differences between display references and code symbols]]"                          |                              0 |     0 |    0 |
+     | "[[Explore ways to make theme switcher]]"                                                      |                              0 |     0 |    0 |
+     | "[[Fix time comp for negative or over 24 hour values for template start/stop]]"                |                              0 |     0 |    0 |
+     | "[[Figure out why creating a pattern with a period >24 hours defaults to 45 minute duration]]" |                              0 |     0 |    0 |
+     | "[[CSV export]]"                                                                               |                              0 |     0 |    0 |
+     | "[[Add Calendar integration]]"                                                                 |                              0 |     0 |    0 |
+     | "[[Add payment option to vote for features]]"                                                  |                              0 |     0 |    0 |
+     | "[[Add geofencing triggers on buckets]]"                                                       |                              0 |     0 |    0 |
+     | "[[Add locked period mechanism]]"                                                              |                              0 |     0 |    0 |
+     | "[[Mobile friendly data editor]]"                                                              |                              0 |     0 |    0 |
+     | "[[Checklists]]"                                                                               |                              0 |     0 |    0 |
+     | "[[Markov chain prediction]]"                                                                  |                              0 |     0 |    0 |
+     | "[[Queue page]]"                                                                               |                              0 |     0 |    0 |
+     | "[[Add queue definition to app-db]]"                                                           |                              0 |     0 |    0 |
+     | "[[Add queue form]]"                                                                           |                              0 |     0 |    0 |
+     | "[[Add queue list]]"                                                                           |                              0 |     0 |    0 |
+     | "[[Add conversion to planned period function]]"                                                |                              0 |     0 |    0 |
+     | "[[Calendar Page]]"                                                                            |                              0 |     0 |    0 |
+     | "[[Optional offline analytics]]"                                                               |                              0 |     0 |    0 |
+     | "[[Unpin react svg lib version]]"                                                              |                              0 |     0 |    0 |
+     | "[[Handle time zone changes]]"                                                                 |                              0 |     0 |    0 |
+     | "[[Refactor names]]"                                                                           |                              0 |     0 |    0 |
+     | "[[Look into siri shortcuts with expo]]"                                                       |                              0 |     0 |    0 |
+     | "[[Use react-native-router-flux]]"                                                             |                              0 |     0 |    0 |
+     |--------------------------------------------------------------------------------------------+--------------------------------+-------+------|
+     |                                                                                            |                                |       |      |
      #+END:
      #+begin_center
      This table uses a condition to filter the parent and children headings into a table displaying *VALUE* and *WORK* properties.
@@ -378,7 +389,10 @@
 **** Use contribution chart
 **** Have a breakdown for selected day 
      - Shows all three scores for the day
-
+     - Will need a day selection component (same as top bar or actually in the top bar?)
+**** Convenience 
+     - Export scores as json/csv
+     - Go to best/worst day
 ** DOSUB Release to strangers [0/0]
 *** BLOCKED Gather friend analytics and inputs
 ** DOSUB Eventually [0/22]
