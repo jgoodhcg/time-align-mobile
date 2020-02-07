@@ -44,8 +44,6 @@
      | "[[Add subscription tests]]"                                                                   |                            2.6 |    13 |    5 |
      | "[[Add selected start stop indicators (now indicator style)]]"                                 |                            2.5 |     5 |    2 |
      | "[[Multiple play timers]]"                                                                     |                            1.6 |     8 |    5 |
-     | "[[Publish to beta track]]"                                                                    |                              0 |     0 |    0 |
-     | "[[Supporting tasks for beta launch]]"                                                         |                              0 |     0 |    0 |
      | "[[Minor fixes]]"                                                                              |                              0 |     0 |    0 |
      | "[[Make a better report]]"                                                                     |                              0 |     0 |    0 |
      | "[[Display comp doesn't fit on some narrow screens]]"                                          |                              0 |     0 |    0 |
@@ -85,7 +83,7 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
-** DOSUB Release to friends [3/4]
+** DOSUB Release to friends [3/7]
 *** DONE Put version indicator in app-db (for export mostly)
     CLOSED: [2020-01-12 Sun 16:53]
     :PROPERTIES:
@@ -320,7 +318,47 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Publish to beta track
+*** TODO Minor fixes 
+    :LOGBOOK:
+    CLOCK: [2020-01-16 Thu 20:24]--[2020-01-16 Thu 20:38] =>  0:14
+    CLOCK: [2020-01-16 Thu 18:51]--[2020-01-16 Thu 20:24] =>  1:33
+    :END:
+    - [ ] Pattern form and list verbage
+    - [ ] Pattern modal isn't colored correctly
+    - [ ] Date picker darkmode
+    - [ ] Tighten up scroll-to race condition
+    - [ ] Play button from bottom sheet should also select the period it starts playing
+    - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
+    - [X] Change line graph to a contribution graph
+    - [ ] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
+    - [ ] Change day background to be darker
+    - [ ] Change top bar and bottom sheet to be lighter
+    - [ ] Add day score to contribution chart (pressing goes to reports)
+    - [ ] Move drawer state to component (for performance)
+    - [ ] Change app package name
+*** TODO Make a better report
+**** Better scoring algorithm
+    - Did the time go where you wanted it
+      - Segment periods by day
+        - Cut off overlapping bits by duplication
+      - Calculate totals per group id and get ratios of planned to actual
+      - Accumulate ratios
+    - Did the things happen when you wanted
+      - Find any over lapping actual periods for every planned period
+      - Take all (or the first) Overlapping period(s) with a matching bucket id and calculate how much overlap
+      - Get a ratio
+      - Accumulate the ratios into one day ratio
+    - Did you track enough
+      - Total time planned and tracked over time in a day
+    - Total All three into a day score
+**** Use contribution chart
+**** Have a breakdown for selected day 
+     - Shows all three scores for the day
+     - Will need a day selection component (same as top bar or actually in the top bar?)
+**** Convenience 
+     - Export scores as json/csv
+     - Go to best/worst day
+*** BLOCKED Publish to beta track
     :PROPERTIES:
     :ID:       89a5fd42-8f70-4520-bb98-c20fe01169a7
     :END:
@@ -344,58 +382,19 @@
      :END:
      - [X] Set up play store account
      - [ ] Set up a play store project
-*** TODO Supporting tasks for beta launch
+*** BLOCKED Supporting tasks for beta launch
 **** Rebrand to time sink ???
      - [ ] Buy domain
-     - [ ] Change app package name
+     - [ ] +Change app package name+ Verify it is already done
      - [ ] Change repo name
 **** Other
      - [ ] Publish static site
      - [ ] Add intro guide
      - [ ] Add readme to repo
      - [ ] Set license in repo
-*** TODO Minor fixes 
-    :LOGBOOK:
-    CLOCK: [2020-01-16 Thu 20:24]--[2020-01-16 Thu 20:38] =>  0:14
-    CLOCK: [2020-01-16 Thu 18:51]--[2020-01-16 Thu 20:24] =>  1:33
-    :END:
-    - [ ] Pattern form and list verbage
-    - [ ] Pattern modal isn't colored correctly
-    - [ ] Date picker darkmode
-    - [ ] Tighten up scroll-to race condition
-    - [ ] Play button from bottom sheet should also select the period it starts playing
-    - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
-    - [X] Change line graph to a contribution graph
-    - [ ] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
-    - [ ] Change day background to be darker
-    - [ ] Change top bar and bottom sheet to be lighter
-    - [ ] Add day score to contribution chart (pressing goes to reports)
-    - [ ] Move drawer state to component (for performance)
-*** TODO Make a better report
-**** Better scoring algorithm
-    - Did the time go where you wanted it
-      - Segment periods by day
-        - Cut off overlapping bits by duplication
-      - Calculate totals per group id and get ratios of planned to actual
-      - Accumulate ratios
-    - Did the things happen when you wanted
-      - Find any over lapping actual periods for every planned period
-      - Take all (or the first) Overlapping period(s) with a matching bucket id and calculate how much overlap
-      - Get a ratio
-      - Accumulate the ratios into one day ratio
-    - Did you track enough
-      - Total time planned and tracked over time in a day
-    - Total All three into a day score
-**** Use contribution chart
-**** Have a breakdown for selected day 
-     - Shows all three scores for the day
-     - Will need a day selection component (same as top bar or actually in the top bar?)
-**** Convenience 
-     - Export scores as json/csv
-     - Go to best/worst day
-** DOSUB Release to strangers [0/0]
+** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-** DOSUB Eventually [0/22]
+** DOSUB Eventually [0/26]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
