@@ -113,7 +113,7 @@
                             :icon     "playlist-edit"
                             :on-press #(dispatch [:navigate-to {:current-screen :pattern-planning
                                                                 :params         {:do-not-load-form true}}])}
-                           "Edit templates"])]
+                           "Edit template periods"])]
 
 
        [form-buttons/root

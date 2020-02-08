@@ -320,10 +320,11 @@
     https://amplitude.com/signup?ref=pricing-top-free
 *** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-08 Sat 11:09]--[2020-02-08 Sat 11:19] =>  0:10
     CLOCK: [2020-01-16 Thu 20:24]--[2020-01-16 Thu 20:38] =>  0:14
     CLOCK: [2020-01-16 Thu 18:51]--[2020-01-16 Thu 20:24] =>  1:33
     :END:
-    - [ ] Pattern form and list verbage
+    - [X] Pattern form and list verbage
     - [ ] Pattern modal isn't colored correctly
     - [ ] Date picker darkmode
     - [ ] Tighten up scroll-to race condition
@@ -398,7 +399,11 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Figure out why some edits to components don't update with live reload 
 *** TODO Display comp doesn't fit on some narrow screens 
+    :PROPERTIES:
+    :ID:       a6198af8-c14a-4fc2-bc02-34074e7f1bc1
+    :END:
 *** TODO Resolve differences between display references and code symbols 
     :PROPERTIES:
     :ID:       7040b743-35c8-4543-8b56-501f666863a6
