@@ -95,7 +95,7 @@
 
 (def scroll-ref (atom nil))
 
-(defn scroll-to ;; TODO use this from a reg-fx by requiring it as a dep
+(defn scroll-to ;; TODO use this from a reg-fx by requiring it as a dep in handlers
   ([y-pos]
    (scroll-to @scroll-ref y-pos))
   ([scroll-ref y-pos]
@@ -719,11 +719,7 @@
                 {:bucket-id (:id item)
                  :id        (random-uuid)
                  :now       now}])
-              (snap-bottom-sheet bottom-sheet-ref 1)
-              ;; TODO this is super gross race condition and should be in an isolated side effect in determinant order
-              (js/setTimeout #(do
-                                (println y-pos)
-                                (scroll-to y-pos)) 2500))))]
+              (snap-bottom-sheet bottom-sheet-ref 1))))]
 
        ;; pattern modal
        [modal {:animation-type   "slide"
@@ -750,7 +746,14 @@
                          :initial-snap   (if (some? selected-element-edit)
                                            1
                                            0)
-                         :on-open-end    #(reset! spacer-height bottom-sheet-height)
+                         :on-open-start  #(reset! spacer-height bottom-sheet-height)
+                         :on-open-end    #(do
+                                            (scroll-to (-> selected-element-edit
+                                                           :start
+                                                           (element-time-stamp-info
+                                                            pixel-to-minute-ratio
+                                                            displayed-day)
+                                                           :y-pos)))
                          :on-close-end   (partial close-bottom-sheet-side-effects element-type)
                          :render-content #(r/as-element
                                            [surface
