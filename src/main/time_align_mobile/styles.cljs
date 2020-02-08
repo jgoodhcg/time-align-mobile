@@ -52,3 +52,10 @@
                     :margin-bottom 16
                     :margin-left   8
                     :margin-right  8})
+
+(def modal-style {:margin           32
+                  :margin-top       128
+                  :padding          8
+                  :elevation        8
+                  :height           512
+                  :background-color (-> theme :colors :background)})

@@ -320,12 +320,13 @@
     https://amplitude.com/signup?ref=pricing-top-free
 *** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-08 Sat 11:20]--[2020-02-08 Sat 11:41] =>  0:21
     CLOCK: [2020-02-08 Sat 11:09]--[2020-02-08 Sat 11:19] =>  0:10
     CLOCK: [2020-01-16 Thu 20:24]--[2020-01-16 Thu 20:38] =>  0:14
     CLOCK: [2020-01-16 Thu 18:51]--[2020-01-16 Thu 20:24] =>  1:33
     :END:
     - [X] Pattern form and list verbage
-    - [ ] Pattern modal isn't colored correctly
+    - [X] Pattern modal isn't colored correctly
     - [ ] Date picker darkmode
     - [ ] Tighten up scroll-to race condition
     - [ ] Play button from bottom sheet should also select the period it starts playing

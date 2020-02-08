@@ -1,5 +1,6 @@
 (ns time-align-mobile.components.form-fields
   (:require [time-align-mobile.styles :refer [field-label-changeable-style
+                                              modal-style
                                               theme
                                               field-label-style]]
             [re-frame.core :refer [dispatch]]
@@ -246,10 +247,7 @@
 (defn bucket-selection-content [{:keys [buckets-atom
                                         on-press-generator
                                         modal-atom]}]
-  [surface {:style {:margin           16
-                    :padding          8
-                    :elevation        8
-                    :background-color (-> theme :colors :background)}}
+  [surface {:style modal-style}
 
    [icon-button
     {:icon     "close"

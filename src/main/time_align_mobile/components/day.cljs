@@ -38,12 +38,15 @@
                      card
                      format-time
                      status-bar
+                     list-subheader
+                     list-section
                      touchable-highlight]]
             ["react-native-elements" :as rne]
             ["react" :as react]
             ["react-native-floating-action" :as fab]
             [time-align-mobile.components.list-items :as list-items]
-            [time-align-mobile.styles :as styles :refer [styled-icon-factory]]
+            [time-align-mobile.styles :as styles :refer [styled-icon-factory
+                                                         modal-style]]
             [time-align-mobile.screens.period-form :as period-form]
             [time-align-mobile.components.form-fields :refer [bucket-modal]]
             [time-align-mobile.screens.template-form :as template-form]
@@ -76,7 +79,7 @@
 
 (def play-modal-visible (r/atom {:visible false}))
 
-(def pattern-modal-visible (r/atom false))
+(def pattern-modal-visible (r/atom false)) ;; TODO change to {:visible bool}
 
 (def spacer-height (r/atom 0))
 
@@ -387,40 +390,36 @@
                       :height       0}}]])))
 
 (defn pattern-modal-content [{:keys [patterns]}]
-  [view {:style {:flex    1
-                 :padding 10}}
-   [touchable-highlight {:on-press #(reset! pattern-modal-visible false)}
-            [text "Cancel"]]
-   [scroll-view {:style {:height "50%"}}
-    [text "Select a pattern to apply to today"]
-    [flat-list {:data          @patterns
-                :key-extractor (fn [x]
-                                 (-> x
-                                     (js->clj)
-                                     (get "id")
-                                     (str)))
-                :render-item
-                (fn [i]
-                  (let [pattern (:item (js->clj i :keywordize-keys true))]
-                    (r/as-element
-                     (list-items/pattern
-                      (merge
-                       pattern
-                       {:on-press
-                        (fn [_]
-                          (reset! pattern-modal-visible false)
-                          (let [new-periods
-                                (->> pattern
-                                     :templates
-                                     (map (fn [template]
-                                            (merge template
-                                                   {:id          (random-uuid)
-                                                    :created     (js/Date.)
-                                                    :last-edited (js/Date.)}))))]
+  [surface {:style modal-style}
 
-                            (dispatch [:apply-pattern-to-displayed-day
-                                       {:pattern-id  (:id pattern)
-                                        :new-periods new-periods}])))})))))}]]])
+   [icon-button
+    {:icon     "close"
+     :size     20
+     :on-press #(reset! pattern-modal-visible false)}]
+
+   [scroll-view
+    [list-subheader "What is your day going to look like?"]
+     [list-section
+      (->> @patterns
+           (map (fn [pattern]
+                  (list-items/pattern
+                   (merge
+                    pattern
+                    {:on-press
+                     (fn [_]
+                       (reset! pattern-modal-visible false)
+                       (let [new-periods
+                             (->> pattern
+                                  :templates
+                                  (map (fn [template]
+                                         (merge template
+                                                {:id          (random-uuid)
+                                                 :created     (js/Date.)
+                                                 :last-edited (js/Date.)}))))]
+
+                         (dispatch [:apply-pattern-to-displayed-day
+                                    {:pattern-id  (:id pattern)
+                                     :new-periods new-periods}])))})))))]]])
 
 (defn fab-comp [{:keys [displayed-day in-play-element selected-element]}]
   (let [fab-state (subscribe [:get-day-fab-open])
@@ -728,7 +727,7 @@
 
        ;; pattern modal
        [modal {:animation-type   "slide"
-               :transparent      false
+               :transparent      true
                :on-request-close #(reset! pattern-modal-visible false)
                :visible          @pattern-modal-visible}
         [pattern-modal-content {:patterns patterns}]]
