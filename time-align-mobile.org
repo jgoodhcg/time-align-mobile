@@ -320,6 +320,7 @@
     https://amplitude.com/signup?ref=pricing-top-free
 *** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-08 Sat 11:42]--[2020-02-08 Sat 12:55] =>  1:13
     CLOCK: [2020-02-08 Sat 11:20]--[2020-02-08 Sat 11:41] =>  0:21
     CLOCK: [2020-02-08 Sat 11:09]--[2020-02-08 Sat 11:19] =>  0:10
     CLOCK: [2020-01-16 Thu 20:24]--[2020-01-16 Thu 20:38] =>  0:14
@@ -327,7 +328,6 @@
     :END:
     - [X] Pattern form and list verbage
     - [X] Pattern modal isn't colored correctly
-    - [ ] Date picker darkmode
     - [ ] Tighten up scroll-to race condition
     - [ ] Play button from bottom sheet should also select the period it starts playing
     - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
@@ -400,6 +400,12 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Update date picker component 
+    Attempted to update to "react-native-modal-datetime-picker": "^8.1.2".
+    Using expo install react-native-modal-datetime-picker @react-native-community/datetimepicker.
+    It just didn't display.
+    Attempted swapping react-native-datetime-picker with @react-native-community/datetimepicker.
+    But that was starting to get too time intensive.
 *** TODO Figure out why some edits to components don't update with live reload 
 *** TODO Display comp doesn't fit on some narrow screens 
     :PROPERTIES:
