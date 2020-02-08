@@ -162,8 +162,17 @@
    (fn [value]
      (let [app-db (read-string value)]
        (if (some? app-db)
-         (dispatch-sync [:load-db (deep-merge default-app-db app-db)])
-         (dispatch-sync [:set-version version]))))
+         (do
+           (dispatch-sync [:load-db (deep-merge default-app-db app-db)])
+           (dispatch-sync [:set-version version])
+           ;; deselect so that the app isn't stuck in a selected but no bottom sheet visible state
+           ;; TODO figure out why the bottom sheet doesn't respect the initial-state prop
+           (dispatch-sync [:select-element-edit {:element-type :period
+                                                 :bucket-id    nil
+                                                 :element-id   nil}])
+           (dispatch-sync [:select-element-edit {:element-type :template
+                                                 :bucket-id    nil
+                                                 :element-id   nil}])))))
    (fn [error]
      (alert "error reading file")))
 

@@ -320,6 +320,8 @@
     https://amplitude.com/signup?ref=pricing-top-free
 *** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-08 Sat 17:32]--[2020-02-08 Sat 17:45] =>  0:13
+    CLOCK: [2020-02-08 Sat 17:26]--[2020-02-08 Sat 17:31] =>  0:05
     CLOCK: [2020-02-08 Sat 17:21]--[2020-02-08 Sat 17:26] =>  0:05
     CLOCK: [2020-02-08 Sat 16:34]--[2020-02-08 Sat 16:50] =>  0:16
     CLOCK: [2020-02-08 Sat 12:56]--[2020-02-08 Sat 14:07] =>  1:11
@@ -335,7 +337,7 @@
     - [X] Play button from bottom sheet should also select the period it starts playing
     - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
     - [X] Change line graph to a contribution graph
-    - [ ] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
+    - [X] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
     - [ ] Change day background to be darker
     - [ ] Change top bar and bottom sheet to be lighter
     - [ ] Add day score to contribution chart (pressing goes to reports)
@@ -403,6 +405,9 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Set up jump-to to switch date 
+   Can't just throw it into the on-press because it will be a race condition with scroll-to.
+   The scroll-to will need to be moved to a side effect.
 *** TODO Change date picker to match theme
 **** Attempt to update date picker component in order to change colors
     Attempted to update to "react-native-modal-datetime-picker": "^8.1.2".
