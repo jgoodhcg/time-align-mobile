@@ -320,6 +320,8 @@
     https://amplitude.com/signup?ref=pricing-top-free
 *** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-08 Sat 17:21]--[2020-02-08 Sat 17:26] =>  0:05
+    CLOCK: [2020-02-08 Sat 16:34]--[2020-02-08 Sat 16:50] =>  0:16
     CLOCK: [2020-02-08 Sat 12:56]--[2020-02-08 Sat 14:07] =>  1:11
     CLOCK: [2020-02-08 Sat 11:42]--[2020-02-08 Sat 12:55] =>  1:13
     CLOCK: [2020-02-08 Sat 11:20]--[2020-02-08 Sat 11:41] =>  0:21
@@ -330,7 +332,7 @@
     - [X] Pattern form and list verbage
     - [X] Pattern modal isn't colored correctly
     - [X] +Tighten up+ Fix scroll-to race condition
-    - [ ] Play button from bottom sheet should also select the period it starts playing
+    - [X] Play button from bottom sheet should also select the period it starts playing
     - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
     - [X] Change line graph to a contribution graph
     - [ ] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
@@ -401,12 +403,22 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
-*** TODO Update date picker component 
+*** TODO Change date picker to match theme
+**** Attempt to update date picker component in order to change colors
     Attempted to update to "react-native-modal-datetime-picker": "^8.1.2".
     Using expo install react-native-modal-datetime-picker @react-native-community/datetimepicker.
     It just didn't display.
     Attempted swapping react-native-datetime-picker with @react-native-community/datetimepicker.
     But that was starting to get too time intensive.
+    
+    The problem may have been that the buttons were not triggering on-press in the emulator unless I held it for a second.
+    Might be some performance/emulator thing.
+     
+    Also it doesn't seem like it is https://stackoverflow.com/a/55634504 possible to update the date picker component colors without ejecting.
+    Because the date picker relies on some android level theme settings.
+    
+    Might have to make a custom date/time picker component.
+    I really like this one https://github.com/jarvisluong/react-native-picker-js although it may be too old.
 *** TODO Figure out why some edits to components don't update with live reload 
 *** TODO Display comp doesn't fit on some narrow screens 
     :PROPERTIES:

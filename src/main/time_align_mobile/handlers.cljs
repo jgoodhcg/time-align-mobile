@@ -15,6 +15,7 @@
     [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
     [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
     [time-align-mobile.subs :as subs]
+    [time-align-mobile.components.day :refer [snap-bottom-sheet]]
     [time-align-mobile.helpers :as helpers :refer [same-day?
                                                    get-ms
                                                    deep-merge
@@ -771,14 +772,20 @@
    {:db (assoc-in db [:selection :period :movement] {:period-id period-id
                                                      :bucket-id bucket-id})}))
 
+(reg-fx
+ :open-bottom-sheet
+ (fn [position]
+   (snap-bottom-sheet position)))
+
 (defn select-period-edit
   [{:keys [db]} [_ {:keys [bucket-id period-id]}]]
   (merge
    {:db (assoc-in db [:selection :period :edit] {:period-id period-id
                                                  :bucket-id bucket-id})}
    (when (some? period-id)
-     {:dispatch [:load-period-form {:bucket-id bucket-id
-                                    :period-id period-id}]})))
+     {:dispatch          [:load-period-form {:bucket-id bucket-id
+                                             :period-id period-id}]
+      :open-bottom-sheet 1})))
 
 (defn select-template-movement
   [{:keys [db]} [_ {:keys [bucket-id template-id]}]]

@@ -106,7 +106,6 @@
                         :date       (if (some? time) time (js/Date.))
                         :mode       (:mode @modal)
                         :on-confirm (fn [d]
-                                      (println "regular")
                                       (dispatch [:update-period-form {field-key d}])
                                       (reset! modal {:visible false
                                                      :mode    "date"}))
@@ -131,7 +130,6 @@
                         :date       (if (some? time) time (js/Date.))
                         :mode       (:mode @modal)
                         :on-confirm (fn [d]
-                                      (println "compact")
                                       (dispatch [:update-period-form {field-key d}])
                                       (reset! modal {:visible false
                                                      :mode    "date"}))
@@ -197,8 +195,7 @@
                                       [:play-from-period
                                        {:id           (:id @period-form)
                                         :time-started (js/Date.)
-                                        :new-id       (random-uuid)}]))
-                                   (play-callback))
+                                        :new-id       (random-uuid)}])))
                       :color    (-> @period-form
                                     :bucket-color)
                       :mode     (if playing "outlined" "contained")

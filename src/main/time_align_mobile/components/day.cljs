@@ -102,16 +102,18 @@
    (ocall scroll-ref "scrollTo"
           (clj->js {:y (max 0 (- y-pos 50))}))))
 
-(defn snap-bottom-sheet [bottom-sheet-ref snap]
-  ;; TODO refactor this to let the callers of this and close-bottom-sheet deref
-  (let [bsr @bottom-sheet-ref]
-    ;; bsr might not be set yet
-    (try
-      (ocall bsr "snapTo" snap)
-      (catch js/Error e
-        (do
-          ;; no op for any other screen
-          (println e))))))
+(defn snap-bottom-sheet
+  ([snap]
+   (snap-bottom-sheet bottom-sheet-ref snap))
+  ([bottom-sheet-ref snap]
+   (let [bsr @bottom-sheet-ref]
+     ;; bsr might not be set yet
+     (try
+       (ocall bsr "snapTo" snap)
+       (catch js/Error e
+         (do
+           ;; no op for any other screen
+           (println e)))))))
 
 (defn close-bottom-sheet-side-effects [element-type & _]
   (reset! spacer-height 0)
@@ -188,16 +190,6 @@
                                            (if (not selected-edit)
                                              ;; select this element
                                              (do
-                                               (snap-bottom-sheet bottom-sheet-ref 1)
-                                               (scroll-to @scroll-ref
-                                                          (->> element
-                                                               :start
-                                                               ((fn [time-stamp]
-                                                                  (element-time-stamp-info
-                                                                   time-stamp
-                                                                   pixel-to-minute-ratio
-                                                                   displayed-day)))
-                                                               :y-pos))
                                                (dispatch
                                                   [:select-element-edit
                                                    {:element-type element-type
