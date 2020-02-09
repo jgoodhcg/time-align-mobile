@@ -83,7 +83,7 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
-** DOSUB Release to friends [3/7]
+** DOSUB Release to friends [4/7]
 *** DONE Put version indicator in app-db (for export mostly)
     CLOSED: [2020-01-12 Sun 16:53]
     :PROPERTIES:
@@ -318,9 +318,11 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [9/11]
+*** DONE Minor fixes [11/11]
+    CLOSED: [2020-02-09 Sun 16:21]
     :LOGBOOK:
-    CLOCK: [2020-02-09 Sun 15:06]
+    CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
+    CLOCK: [2020-02-09 Sun 15:06]--[2020-02-09 Sun 16:15] =>  1:09
     CLOCK: [2020-02-09 Sun 14:59]--[2020-02-09 Sun 15:05] =>  0:06
     CLOCK: [2020-02-09 Sun 10:46]--[2020-02-09 Sun 11:20] =>  0:34
     CLOCK: [2020-02-08 Sat 17:46]--[2020-02-08 Sat 18:29] =>  0:43
@@ -345,7 +347,10 @@
     - [X] Figure out why botton presses require longer touch period on the bottom sheet
     - [X] Tapping on templates doesn't select
     - [X] Remove button borders
-    - [ ] Changing bucket, saving, and attempting to close the bottom sheet crashes the app
+    - [X] +Changing bucket, saving, and attempting to close the bottom sheet crashes the app+
+      - Could not re-create in the emulator or on the device
+      - It is weird that the period changes opacity like the ~render-collision~ does not detect it as selected
+      - I have no idea why that is happening
 *** TODO Make a better report
     :PROPERTIES:
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
