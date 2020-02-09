@@ -730,48 +730,48 @@
               drag-indicator-total-height 40
               time-buttons-height         150
               bottom-sheet-height         500]
-          [bottom-sheet {:ref            (fn [com]
-                                           (reset! bottom-sheet-ref com))
-                         :snap-points    [0
-                                          bottom-sheet-height]
-                         :initial-snap   (if (some? selected-element-edit)
-                                           1
-                                           0)
-                         :on-open-start  #(reset! spacer-height bottom-sheet-height)
-                         :on-open-end    #(do
-                                            (scroll-to (-> selected-element-edit
-                                                           :start
-                                                           (element-time-stamp-info
-                                                            pixel-to-minute-ratio
-                                                            displayed-day)
-                                                           :y-pos)))
-                         :on-close-end   (partial close-bottom-sheet-side-effects element-type)
-                         :render-header  #(r/as-element
-                                           [surface
-                                            [view {:style {:height         bottom-sheet-height
-                                                           :width          "100%"
-                                                           :flex-direction "column"
-                                                           :align-items    "center"}}
+          [bottom-sheet {:ref           (fn [com]
+                                          (reset! bottom-sheet-ref com))
+                         :snap-points   [0
+                                         bottom-sheet-height]
+                         :initial-snap  (if (some? selected-element-edit)
+                                          1
+                                          0)
+                         :on-open-start #(reset! spacer-height bottom-sheet-height)
+                         :on-open-end   #(do
+                                           (scroll-to (-> selected-element-edit
+                                                          :start
+                                                          (element-time-stamp-info
+                                                           pixel-to-minute-ratio
+                                                           displayed-day)
+                                                          :y-pos)))
+                         :on-close-end  (partial close-bottom-sheet-side-effects element-type)
+                         :render-header #(r/as-element
+                                          [surface
+                                           [view {:style {:height         bottom-sheet-height
+                                                          :width          "100%"
+                                                          :flex-direction "column"
+                                                          :align-items    "center"}}
 
-                                             [icon-button {:icon     "drag-horizontal"
-                                                           :size     (-> drag-indicator-height
-                                                                         (* 2))
-                                                           :style    {:height drag-indicator-height}
-                                                           :on-press (fn []
-                                                                       (snap-bottom-sheet bottom-sheet-ref 2))}]
+                                            [icon-button {:icon     "drag-horizontal"
+                                                          :size     (-> drag-indicator-height
+                                                                        (* 2))
+                                                          :style    {:height drag-indicator-height}
+                                                          :on-press (fn []
+                                                                      (snap-bottom-sheet bottom-sheet-ref 2))}]
 
-                                             [edit-form {:scroll-to scroll-to
-                                                         :save-callback
-                                                         (fn [_]
-                                                           (dismiss-keyboard)
-                                                           (dispatch [:tick (js/Date.)]))
-                                                         :in-play-element
-                                                         in-play-element
-                                                         :play-callback
-                                                         (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                         :copy-over-callback
-                                                         (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                         :delete-callback
-                                                         (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
-                                                         :close-callback
-                                                         (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}])]]]]))
+                                            [edit-form {:scroll-to scroll-to
+                                                        :save-callback
+                                                        (fn [_]
+                                                          (dismiss-keyboard)
+                                                          (dispatch [:tick (js/Date.)]))
+                                                        :in-play-element
+                                                        in-play-element
+                                                        :play-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :copy-over-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :delete-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))
+                                                        :close-callback
+                                                        (fn [_] (close-bottom-sheet bottom-sheet-ref element-type))}]]])}])]]]]))
