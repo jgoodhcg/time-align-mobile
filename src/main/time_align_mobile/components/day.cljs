@@ -732,7 +732,6 @@
               bottom-sheet-height         500]
           [bottom-sheet {:ref            (fn [com]
                                            (reset! bottom-sheet-ref com))
-                         :border-radius  16
                          :snap-points    [0
                                           bottom-sheet-height]
                          :initial-snap   (if (some? selected-element-edit)
@@ -747,7 +746,7 @@
                                                             displayed-day)
                                                            :y-pos)))
                          :on-close-end   (partial close-bottom-sheet-side-effects element-type)
-                         :render-content #(r/as-element
+                         :render-header  #(r/as-element
                                            [surface
                                             [view {:style {:height         bottom-sheet-height
                                                            :width          "100%"

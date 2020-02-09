@@ -83,7 +83,7 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
-** DOSUB Release to friends [4/7]
+** DOSUB Release to friends [3/7]
 *** DONE Put version indicator in app-db (for export mostly)
     CLOSED: [2020-01-12 Sun 16:53]
     :PROPERTIES:
@@ -318,9 +318,9 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** DONE Minor fixes 
-    CLOSED: [2020-02-08 Sat 18:29]
+*** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-09 Sun 10:46]--[2020-02-09 Sun 11:20] =>  0:34
     CLOCK: [2020-02-08 Sat 17:46]--[2020-02-08 Sat 18:29] =>  0:43
     CLOCK: [2020-02-08 Sat 17:32]--[2020-02-08 Sat 17:45] =>  0:13
     CLOCK: [2020-02-08 Sat 17:26]--[2020-02-08 Sat 17:31] =>  0:05
@@ -340,7 +340,18 @@
     - [X] Bottom sheet should have rounded corners [[https://github.com/osdnk/react-native-reanimated-bottom-sheet#props][using border radius prop]]
     - [X] Change line graph to a contribution graph
     - [X] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
+    - [X] Figure out why botton presses require longer touch period on the bottom sheet
+    - [ ] Tapping on templates doesn't select
+    - [ ] Buttons in bottom sheet don't respond quickly
+      - Probably need to turn of scroll listeners
+        - Did the header component not have those?
+    - [ ] Colors are wonky
+    - [ ] Remove button borders
+    - [ ] Changing bucket, saving, and attempting to close the bottom sheet crashes the app
 *** TODO Make a better report
+    :PROPERTIES:
+    :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
+    :END:
 **** Better scoring algorithm
     - Did the time go where you wanted it
       - Segment periods by day
@@ -405,6 +416,16 @@
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Border radius on bottom sheet 
+    Only the ~render-content~ section of the bottom sheet is affected by the ~border-radius~ prop.
+    The content section has a less perform ant gesture handler setup.
+    The header works fine, it likely has a single PH gesture for swiping the bottom sheet that doesn't noticeably interfere with the tap gestures on the buttons in the header.
+    The content sections has more gesture handlers for scrolling.
+    Even when disabling ~enabled-inner-scrolling~ the problem persisted (this also seemed to remove border radius).
+    Attempted to add ~border-radius~ and ~:overflow "hidden"~ to the ~surface~ of the component being used for the header but it wouldn't render the border radius.
+    There may be a solution in the form of ~inner-gesture-handler-refs~ and [[https://software-mansion.github.io/react-native-gesture-handler/docs/interactions.html#simultaneous-recognition][Simulatneous recognition]].
+*** TODO Remove save butons 
+      - Have update form automatically save
 *** TODO Set up jump-to to switch date 
    Can't just throw it into the on-press because it will be a race condition with scroll-to.
    The scroll-to will need to be moved to a side effect.
