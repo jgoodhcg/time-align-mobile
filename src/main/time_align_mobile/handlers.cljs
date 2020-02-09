@@ -796,10 +796,11 @@
 (defn select-template-edit
   [{:keys [db]} [_ {:keys [bucket-id template-id]}]]
   (merge
-   {:db (assoc-in db [:selection :template :edit] {:bucket-id bucket-id
+   {:db (assoc-in db [:selection :template :edit] {:bucket-id   bucket-id
                                                    :template-id template-id})}
    (when (some? template-id)
-     {:dispatch [:load-template-form-from-pattern-planning template-id]})))
+     {:dispatch          [:load-template-form-from-pattern-planning template-id]
+      :open-bottom-sheet 1})))
 
 (defn update-period [{:keys [db]} [_ {:keys [period-id bucket-id update-map]}]]
   ;; TODO add an interceptor? for last edited

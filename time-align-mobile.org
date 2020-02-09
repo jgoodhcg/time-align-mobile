@@ -320,6 +320,7 @@
     https://amplitude.com/signup?ref=pricing-top-free
 *** TODO Minor fixes 
     :LOGBOOK:
+    CLOCK: [2020-02-09 Sun 14:59]--[2020-02-09 Sun 15:05] =>  0:06
     CLOCK: [2020-02-09 Sun 10:46]--[2020-02-09 Sun 11:20] =>  0:34
     CLOCK: [2020-02-08 Sat 17:46]--[2020-02-08 Sat 18:29] =>  0:43
     CLOCK: [2020-02-08 Sat 17:32]--[2020-02-08 Sat 17:45] =>  0:13
@@ -341,7 +342,7 @@
     - [X] Change line graph to a contribution graph
     - [X] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
     - [X] Figure out why botton presses require longer touch period on the bottom sheet
-    - [ ] Tapping on templates doesn't select
+    - [X] Tapping on templates doesn't select
     - [ ] Buttons in bottom sheet don't respond quickly
       - Probably need to turn of scroll listeners
         - Did the header component not have those?
