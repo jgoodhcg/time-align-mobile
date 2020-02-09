@@ -8,6 +8,7 @@
                                                   text-paper
                                                   surface
                                                   divider
+                                                  caption
                                                   subheading
                                                   button-paper
                                                   color-lighten
@@ -50,10 +51,10 @@
                                                               planned-comp
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
-            [time-align-mobile.styles :refer [field-label-changeable-style
-                                              theme
-                                              divider-style
-                                              field-label-style]]))
+            [time-align-mobile.styles :as styles :refer [field-label-changeable-style
+                                                         theme
+                                                         divider-style
+                                                         field-label-style]]))
 
 (def start-modal (r/atom {:visible false
                           :mode    "date"})) ;; TODO spec type for "date" "time"
@@ -70,7 +71,7 @@
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "time"})
                   :style    {:margin-bottom 8}
-                  :mode     "outlined"}
+                  :mode     "text"}
     [text (if (some? time)
             (format-time time)
             "Add a time time")]]])
@@ -82,7 +83,7 @@
                                             :mode    "date"})
                   :style    {:margin-right  4
                              :margin-bottom 4}
-                  :mode     "outlined"}
+                  :mode     "text"}
       [text (if (some? time)
               (format-date-day time)
               "Add a time date")]]
@@ -98,7 +99,7 @@
                    :align-items     "flex-start"}}
      (changeable-field {:changes changes
                         :field-key field-key}
-                       [subheading {:style label-style} label])
+                       [subheading {:style styles/form-heading} label])
      [date-time-comp-buttons period-form changes modal field-key label time]
 
      ;; modal
@@ -120,7 +121,7 @@
                    :align-items     "flex-start"}}
      (changeable-field {:changes   changes
                         :field-key field-key}
-                       [subheading label])
+                       [subheading {:style styles/form-heading} label])
      [time-comp-button {:modal     modal
                         :time      time
                         :field-key field-key}]
@@ -181,7 +182,7 @@
        [button-paper {:on-press #(do
                                    (dispatch [:save-period-form (new js/Date)])
                                    (save-callback))
-                      :mode     "outlined"
+                      :mode     "text"
                       :disabled (not changed)
                       :icon     "content-save"
                       :style    {:margin-right 8}}
@@ -198,7 +199,7 @@
                                         :new-id       (random-uuid)}])))
                       :color    (-> @period-form
                                     :bucket-color)
-                      :mode     (if playing "outlined" "contained")
+                      :mode     (if playing "text" "contained")
                       :icon     "play-circle"
                       :style    {:margin-right 8}}
         (if playing "stop" "play")]
@@ -306,15 +307,14 @@
 
      ;; start /stop/ duration
      [view {:style {:flex-direction "row"
-                    :align-items    "center"
+                    :align-items    "flex-start"
                     :flex           1
                     :margin-top     8}}
-      [icon-button {:icon "clock-outline"} ]
+      [icon-button {:icon  "clock-outline"
+                    :color (->> styles/theme :colors :disabled)} ]
       [time-comp-compact period-form changes start-modal :start "Start"]
       [time-comp-compact period-form changes stop-modal :stop "Stop"]
-      [view {:style {:flex         1
-                     :justify-self "flex-end"}}
-       [duration-comp (:start @period-form) (:stop @period-form)]]]
+      [duration-comp (:start @period-form) (:stop @period-form)]]
 
      [divider {:style divider-style}]
 
@@ -365,7 +365,8 @@
                       :align-items    "center"
                       :flex           1
                       :margin-top     8}}
-        [icon-button {:icon "clock-outline"} ]
+        [icon-button {:icon "clock-outline"
+                      :color (->> styles/theme :colors :disabled)}]
         [view {:style {:flex-direction "column"}}
          [time-comp period-form changes start-modal :start "Start"]
          [time-comp period-form changes stop-modal :stop "Stop"]]

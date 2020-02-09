@@ -1174,7 +1174,7 @@
   (assoc-in db [:selection :report :bucket-contribution] bucket-id))
 
 (defn set-report-data [db [_ _]]
-  (let [days-ago 200
+  (let [days-ago 90
         periods-last-n-days (filter
                              (fn [p] (-> (:stop p)
                                          (.valueOf)

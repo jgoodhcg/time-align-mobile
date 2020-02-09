@@ -31,18 +31,15 @@
                :right-content  [icon-button]}]
      [view {:style {:flex        1
                     :align-items "center"}}
-
-      [surface {:style {:margin-top 32}}
-       [view {:style {:flex           0
-                      :flex-direction "column"
-                      :align-items    "center"
-                      :width          "100%"}}
-        [subheading "Scores per day"]
+      [view {:style {:flex           0
+                     :flex-direction "column"
+                     :align-items    "center"
+                     :width          "100%"}}
         [contribution-graph
-         {:values       chart-data
-          :width        400
-          :height       400
-          :num-days     200
+         {:values   chart-data
+          :width    350
+          :height   250
+          :num-days 90
           :chart-config
           (clj->js {:backgroundColor        (->> theme :colors :background)
                     :backgroundGradientFrom (->> theme :colors :background)
@@ -50,9 +47,8 @@
                     :labelColor             (chart-color-fn-gen (->> theme :colors :accent))
                     :color                  (chart-color-fn-gen (->> theme :colors :accent))})}]
 
-
-        [button-paper {:on-press #(dispatch [:set-report-data])
-                       :mode     "outlined"
-                       :style    {:margin 16}
-                       :icon     "refresh"}
-         "calculate scores"]]]]]))
+       [button-paper {:on-press #(dispatch [:set-report-data])
+                      :mode     "contained"
+                      :style    {:margin 16}
+                      :icon     "refresh"}
+         "calculate scores"]]]]))

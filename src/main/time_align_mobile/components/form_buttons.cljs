@@ -18,19 +18,19 @@
    (when (some? edit-item)
      [button-paper
       {:icon     "pencil"
-       :mode     (if compact "text" "outlined")
+       :mode     "text"
        :compact  compact
        :on-press edit-item} (when labels "Edit")])
 
    [button-paper {:icon     "delete"
-                  :mode     (if compact "text" "outlined")
+                  :mode     "text"
                   :compact  compact
                   :on-press delete-item}
     (when labels "Delete")]
 
    [button-paper
     (merge {:icon     "cancel"
-            :mode     (if compact "text" "outlined")
+            :mode     "text"
             :compact  compact
             :on-press cancel-changes}
            (when-not changed {:disabled true}))
@@ -40,7 +40,7 @@
     (merge {:icon     "content-save"
             :mode     (cond compact "text"
                             changed "contained"
-                            :else "outlined")
+                            :else   "text")
             :compact  compact
             :on-press save-changes}
            (when-not changed {:disabled true}))

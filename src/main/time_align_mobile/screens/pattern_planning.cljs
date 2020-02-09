@@ -145,7 +145,7 @@
                  :justify-content "space-between"
                  :align-items     "center"}}
    [button-paper {:icon     "content-save"
-                  :mode     "outlined"
+                  :mode     "text"
                   :on-press #(dispatch [:save-pattern-form (new js/Date)])
                   :disabled no-changes}
     "Save"]

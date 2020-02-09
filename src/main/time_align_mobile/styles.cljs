@@ -45,7 +45,6 @@
   (fn [params]
     [icon-class (merge params style)]))
 
-
 (def divider-style {:height        1
                     :width         "100%"
                     :margin-top    16
@@ -59,3 +58,5 @@
                   :elevation        8
                   :height           512
                   :background-color (-> theme :colors :background)})
+
+(def form-heading {:color (->> theme :colors :disabled)})

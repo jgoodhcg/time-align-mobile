@@ -209,6 +209,7 @@
 (def surface (r/adapt-react-class (oget paper "Surface")))
 (def text-input-paper (r/adapt-react-class (oget paper "TextInput")))
 (def subheading (r/adapt-react-class (oget paper "Subheading")))
+(def caption (r/adapt-react-class (oget paper "Caption")))
 (def headline (r/adapt-react-class (oget paper "Headline")))
 (def chip (r/adapt-react-class (oget paper "Chip")))
 (def button-paper (r/adapt-react-class (oget paper "Button")))

@@ -16,8 +16,8 @@
             [time-align-mobile.components.top-bar :refer [top-bar]]
             [time-align-mobile.components.structured-data :refer [structured-data]]
             [time-align-mobile.components.form-buttons :as form-buttons]
-            [time-align-mobile.styles :refer [field-label-changeable-style
-                                              field-label-style]]
+            [time-align-mobile.styles :as styles :refer [field-label-changeable-style
+                                                         field-label-style]]
             [time-align-mobile.components.form-fields :refer [id-comp
                                                               created-comp
                                                               changeable-field
@@ -45,7 +45,8 @@
   [view {:style {:flex-direction "row"
                  :margin-top     8}}
 
-   [icon-button {:icon "format-color-fill"}]
+   [icon-button {:icon "format-color-fill"
+                 :color (->> styles/theme :colors :disabled)}]
 
    [view {:style {:flex-direction  "column"}}
     (changeable-field {:changes   changes

@@ -1,8 +1,8 @@
 (ns time-align-mobile.components.form-fields
-  (:require [time-align-mobile.styles :refer [field-label-changeable-style
-                                              modal-style
-                                              theme
-                                              field-label-style]]
+  (:require [time-align-mobile.styles :as styles :refer [field-label-changeable-style
+                                                         modal-style
+                                                         theme
+                                                         field-label-style]]
             [re-frame.core :refer [dispatch]]
             [reagent.core :as r :refer [atom]]
             ["react" :as react]
@@ -89,7 +89,10 @@
                   :height          90
                   :width           (if compact 300 350)
                   :justify-content "center"}}
-    (changeable-field {:changes changes :field-key :label} [subheading "Label"])
+    (changeable-field {:changes changes :field-key :label}
+                      [subheading
+                       {:style styles/form-heading}
+                       "Label"])
     [text-input-paper {:label           ""
                        :underline-color (:color (field-label-changeable-style
                                                  changes :label))
@@ -106,7 +109,8 @@
 (defn label-comp-md [{:keys [form changes update-key compact placeholder]}]
   [view {:style {:flex-direction "row"
                  :margin-top     8}}
-   [icon-button {:icon "label-outline"}]
+   [icon-button {:icon "label-outline"
+                 :color (->> styles/theme :colors :disabled)}]
    [label-comp form changes update-key compact placeholder]])
 
 (defn data-comp [form changes update-structured-data]
@@ -216,7 +220,7 @@
                  :align-items     "flex-start"}}
    (changeable-field {:changes   changes
                       :field-key :planned}
-                     [subheading "Planned"])
+                     [subheading {:style styles/form-heading} "Planned"])
    [view {:style {:margin-left 16}}
     [switch-paper {:value           (:planned @form)
                    :on-value-change #(dispatch [update-key {:planned %}])}]]])
@@ -224,7 +228,8 @@
 (defn planned-md [form changes update-key]
   [view {:style {:flex-direction "row"
                  :margin-top     8}}
-   [icon-button {:icon "view-dashboard-outline"} ]
+   [icon-button {:icon "view-dashboard-outline"
+                 :color (->> styles/theme :colors :disabled)}]
    [view {:style {:margin-right 32}}
     [planned-comp form changes update-key]]])
 
@@ -233,10 +238,11 @@
 
     [view {:style (merge info-field-style
                          {:flex-direction "column"})}
-     [subheading {:style label-style} "Duration"]
-     [text-paper (if-some [d duration]
-                   (ms->hhmm d)
-                   "No duration")]]))
+     [subheading {:style styles/form-heading} "Duration"]
+     [text-paper {:style styles/form-heading}
+      (if-some [d duration]
+        (ms->hhmm d)
+        "No duration")]]))
 
 (defn filter-button [pattern-form on-press]
   [button-paper {:icon     "filter-variant"
@@ -255,7 +261,7 @@
      :on-press #(swap! modal-atom (fn [m] (assoc-in m [:visible] false)))}]
 
    [scroll-view
-    [list-subheader "What are you about to do?"]
+    [list-subheader "Where does this time go?"]
     [list-section
      (->> @buckets-atom
           (map (fn [item]
@@ -280,17 +286,15 @@
                                            changes]}]
   [view {:style {:flex-direction "row"
                  :margin-top     8}}
-   [icon-button {:icon "google-circles-communities"}]
+   [icon-button {:icon "google-circles-communities"
+                 :color (->> styles/theme :colors :disabled)}]
    [view {:style {:flex-direction  "column"
                   :justify-content "center"}}
     (changeable-field {:changes   changes
                        :field-key :bucket-id}
-                      [subheading {:style label-style} "Group"])
+                      [subheading {:style styles/form-heading} "Group"])
     [button-paper {:on-press
                    #(swap! bucket-picker-modal
                            (fn [m] (assoc-in m [:visible] true)))
-
-                   :color (-> @form
-                              :bucket-color)
-                   :mode  "outlined"}
+                   :mode  "text"}
      [text (:bucket-label @form)]]]])

@@ -47,9 +47,9 @@
                                                               data-comp]]
             [reagent.core :as r :refer [atom]]
             [time-align-mobile.helpers :as helpers]
-            [time-align-mobile.styles :refer [field-label-changeable-style
-                                              divider-style
-                                              field-label-style]]))
+            [time-align-mobile.styles :as styles :refer [field-label-changeable-style
+                                                         divider-style
+                                                         field-label-style]]))
 
 (def bucket-picker-modal (r/atom {:visible false})) ;; TODO refactor to bucket-picker-modal-atom (in period form too)
 
@@ -95,7 +95,7 @@
     [view {:style info-field-style}
      (changeable-field {:changes changes
                         :field-key field-key}
-                       [subheading {:style label-style} label])
+                       [subheading {:style styles/form-heading} label])
      [time-comp-buttons time-as-date modal template-form update-key field-key]]))
 
 ;; TODO DRY (check period form)
@@ -104,7 +104,7 @@
    [button-paper {:on-press #(reset! modal {:visible true
                                             :mode    "time"})
                   :style    {:margin-bottom 8}
-                  :mode     "outlined"}
+                  :mode     "text"}
     [text (if (some? time)
             (format-time time)
             "Add a time time")]]])
@@ -120,7 +120,7 @@
                    :align-items     "flex-start"}}
      (changeable-field {:changes   changes
                         :field-key field-key}
-                       [subheading label])
+                       [subheading {:style styles/form-heading} label])
      [time-comp-button {:modal     modal
                         :time      time
                         :field-key field-key}]
@@ -155,7 +155,7 @@
                                 (dispatch [:update-template-on-pattern-planning-form
                                            ;; TODO figure out something else if data is ever needed here
                                            (dissoc @template-form :data)]))
-                   :mode     "outlined"
+                   :mode     "text"
                    :disabled (not changed)
                    :icon     "content-save"
                    :style    {:margin-right 8}}
@@ -279,7 +279,8 @@
                     :align-items    "center"
                     :flex           1
                     :margin-top     8}}
-      [icon-button {:icon "clock-outline"} ]
+      [icon-button {:icon "clock-outline"
+                    :color (->> styles/theme :colors :disabled)} ]
       [time-comp-compact template-form template-form-changes start-modal :start "Start"]
       [time-comp-compact template-form template-form-changes stop-modal :stop "Stop"]
       [view {:style {:flex         1

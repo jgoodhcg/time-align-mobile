@@ -318,8 +318,9 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes 
+*** TODO Minor fixes [9/11]
     :LOGBOOK:
+    CLOCK: [2020-02-09 Sun 15:06]
     CLOCK: [2020-02-09 Sun 14:59]--[2020-02-09 Sun 15:05] =>  0:06
     CLOCK: [2020-02-09 Sun 10:46]--[2020-02-09 Sun 11:20] =>  0:34
     CLOCK: [2020-02-08 Sat 17:46]--[2020-02-08 Sat 18:29] =>  0:43
@@ -343,11 +344,7 @@
     - [X] When opening the app after selecting a period the bottom sheet isn't open and only opening the menu will deselect the period (fix might be to deselect on app init?)
     - [X] Figure out why botton presses require longer touch period on the bottom sheet
     - [X] Tapping on templates doesn't select
-    - [ ] Buttons in bottom sheet don't respond quickly
-      - Probably need to turn of scroll listeners
-        - Did the header component not have those?
-    - [ ] Colors are wonky
-    - [ ] Remove button borders
+    - [X] Remove button borders
     - [ ] Changing bucket, saving, and attempting to close the bottom sheet crashes the app
 *** TODO Make a better report
     :PROPERTIES:
@@ -413,10 +410,14 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-** DOSUB Eventually [0/26]
+** DOSUB Eventually [0/33]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO Replace top bar with appbar 
+    https://callstack.github.io/react-native-paper/appbar-header.html
+*** TODO Have a better dark scheme 
+    Align it with google calendar colors
 *** TODO Border radius on bottom sheet 
     Only the ~render-content~ section of the bottom sheet is affected by the ~border-radius~ prop.
     The content section has a less perform ant gesture handler setup.
