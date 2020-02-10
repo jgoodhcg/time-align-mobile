@@ -83,7 +83,7 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
-** DOSUB Release to friends [4/7]
+** DOSUB Release to friends [3/7]
 *** DONE Put version indicator in app-db (for export mostly)
     CLOSED: [2020-01-12 Sun 16:53]
     :PROPERTIES:
@@ -318,8 +318,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** DONE Minor fixes [11/11]
-    CLOSED: [2020-02-09 Sun 16:21]
+*** TODO Minor fixes [11/14]
     :LOGBOOK:
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
     CLOCK: [2020-02-09 Sun 15:06]--[2020-02-09 Sun 16:15] =>  1:09
@@ -351,12 +350,16 @@
       - Could not re-create in the emulator or on the device
       - It is weird that the period changes opacity like the ~render-collision~ does not detect it as selected
       - I have no idea why that is happening
+    - [ ] Why is the save button on the ~form-buttons~ always ~contained~ even when disabled?
+    - [ ] Remove top bar button outline
+    - [ ] Make line times on day screen ~disabled~ colored
 *** TODO Make a better report
     :PROPERTIES:
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
     :END:
 **** Better scoring algorithm
      :LOGBOOK:
+     CLOCK: [2020-02-10 Mon 06:39]--[2020-02-10 Mon 08:45] =>  2:06
      CLOCK: [2020-02-09 Sun 17:53]--[2020-02-09 Sun 19:59] =>  2:06
      :END:
     - [-] Did the time go where you wanted it
@@ -367,8 +370,8 @@
               - I guess any task you plan to start before midnight and finish tomorrow, that you don't start unitl midnight, won't get any of the actual time allocated to it
                 - *This is something I might solve for later*
       - [X] Calculate totals per bucket id 
-      - [ ] Get ratios of planned to actual
-      - [ ] Accumulate ratios
+      - [ ] Get ratios of planned to actual per bucket
+      - [ ] Average ratios
       - [ ] If finished make an /eventually/ task for the bold note above
     - Did the things happen when you wanted
       - Find any over lapping actual periods for every planned period
