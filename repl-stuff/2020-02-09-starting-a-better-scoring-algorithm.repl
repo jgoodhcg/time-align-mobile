@@ -1,0 +1,843 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.24.0snapshot (package: 20191129.901), nREPL 0.6.0
+;; Clojure 1.10.1, Java 11.0.5
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+;; Please, consider taking part in the State of CIDER survey
+;; https://forms.gle/Cp6DW2zGUQkh42u38
+;; Your feedback means a lot to us!
+;; ======================================================================
+;;  Startup: /usr/bin/npx shadow-cljs -d nrepl:0.6.0 -d cider/piggieback:0.4.2 -d refactor-nrepl:2.5.0-SNAPSHOT -d cider/cider-nrepl:0.23.0-SNAPSHOT server
+;;
+;; ClojureScript REPL type: shadow
+;; ClojureScript REPL init form: (do (require '[shadow.cljs.devtools.api :as shadow]) (shadow/watch :app) (shadow/nrepl-select :app))
+;;
+[:app] Configuring build.
+WARNING: clj-refactor and refactor-nrepl are out of sync.
+Their versions are 2.5.0-SNAPSHOT (package: 20191223.917) and n/a, respectively.
+You can mute this warning by changing cljr-suppress-middleware-warnings.[:app] Compiling ...
+[:app] Build completed. (218 files, 11 compiled, 0 warnings, 6.26s)
+To quit, type: :cljs/quit
+[:selected :app]
+shadow.user> 
+cljs.user> (+ 1 1)
+2
+cljs.user> (ns time-align-mobile.handlers
+             (:require
+              [time-align-mobile.js-imports :refer [write-file-to-dd!
+                                                    alert
+                                                    version
+                                                    share
+                                                    format-date
+                                                    email-export
+                                                    share-file!
+                                                    amplitude-log-event-with-properties]]
+              [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
+              ;; [zprint.core :refer [zprint]]
+              [cljs.reader :refer [read-string]]
+              [clojure.spec.alpha :as s]
+              [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
+              [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
+              [time-align-mobile.subs :as subs]
+              [time-align-mobile.components.day :refer [snap-bottom-sheet]]
+              [time-align-mobile.helpers :as helpers :refer [same-day?
+                                                             get-ms
+                                                             deep-merge
+                                                             bucket-path
+                                                             buckets-path
+                                                             combine-paths
+                                                             period-selections-path
+                                                             period-path-sub-bucket
+                                                             period-path-insert
+                                                             period-path-no-bucket-id
+                                                             period-path
+                                                             periods-path
+                                                             template-selections-path
+                                                             template-path-no-pattern-id]]
+              [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
+niltime-align-mobile.handlerstime-align-mobile.handlers
+time-align-mobile.handlers> (def app-db @fre-frame.db/app-db)
+;; output cleared
+
+time-align-mobile.handlers> (def db @fre-frame.db/app-db)
+;; output cleared
+
+time-align-mobile.handlers> (def db @re-frame.db/app-db)
+#'time-align-mobile.handlers/db
+time-align-mobile.handlers> (count :buckets db)
+;; output cleared
+
+time-align-mobile.handlers> (count (:buckets db))
+10
+time-align-mobile.handlers> (comment "off to a rough start")
+nil
+time-align-mobile.handlers> (group-by #(.valueOf (:start %)) (->> db :buckets vals))
+;; output cleared
+
+time-align-mobile.handlers> (->> db :buckets vals)
+;; output cleared
+
+time-align-mobile.handlers> (->> db :buckets vals first)
+;; output cleared
+
+time-align-mobile.handlers> (first (select [sp/MAP-VALS :periods] db))
+nil
+time-align-mobile.handlers> (first (select [sp/MAP-VALS :periods sp/MAP-VALS] db))
+nil
+time-align-mobile.handlers> (second (select [sp/MAP-VALS :periods sp/MAP-VALS] db))
+nil
+time-align-mobile.handlers>  (select [sp/MAP-VALS :periods sp/MAP-VALS] db)
+[]
+time-align-mobile.handlers>  (select [sp/MAP-VALS ] db)
+;; output cleared
+
+time-align-mobile.handlers>  (select [sp/MAP-VALS :periods ] db)
+[nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.handlers> (count (select [:buckets sp/MAP-VALS :periods ] db))
+10
+time-align-mobile.handlers> (count (select [:buckets sp/MAP-VALS :periods sp/MAP-VALS] db))
+673
+time-align-mobile.handlers> (count (select (periods-path) db))
+673
+time-align-mobile.handlers> (keys (group-by #(.valueOf (:start %)) (select (periods-path) db)))
+;; output cleared
+
+time-align-mobile.handlers> (keys (group-by #(.valueOf (->> % :start (partial helpers/reset-relative-ms 0)) (select (periods-path) db))))
+------ WARNING - :fn-arity -----------------------------------------------------
+ Resource: :1:7
+ Wrong number of args (1) passed to cljs.core/group-by
+--------------------------------------------------------------------------------
+nil
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              #(->> % 
+                                    :start 
+                                    (partial helpers/reset-relative-ms 0)
+                                    (#(.valueOf %)))
+                              (select (periods-path) db)))
+;; output cleared
+
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              #(->> % 
+                                    :start 
+                                    (partial helpers/reset-relative-ms 0)
+                                    .valueOf)
+                              (select (periods-path) db)))
+;; output cleared
+
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (->> start
+                                     (helpers/reset-relative-ms 0)
+                                     (#(.valueOf %))))
+                              (select (periods-path) db)))
+time_align_mobile$helpers$reset_relative_ms
+
+
+
+
+cljs$core$IReduce$_reduce$arity$3
+cljs$core$IFn$_invoke$arity$3
+cljs$core$group_by
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (->> start
+                                     (helpers/reset-relative-ms 0)
+                                     (format-date)))
+                              (select (periods-path) db)))
+                             
+;; output cleared
+
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (format-date))
+                                  :not-on-a-day))
+                              (select (periods-path) db)))
+                             
+(:not-on-a-day)
+time-align-mobile.handlers> (first (select (periods-path) db))
+[{:id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :color "#8b8b8b", :label "🤹‍♂️ misc"} {:planned false, :start #inst "2019-12-21T18:15:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T18:47:51.376-00:00", :label "Shopping for kaitis gift", :id #uuid "a9cf9c02-208b-4eaf-b244-ffbc2dd79124", :last-edited #inst "2019-12-21T18:47:51.376-00:00", :data {}}]
+time-align-mobile.handlers> (take 2 (select (periods-path) db))
+([{:id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :color "#8b8b8b", :label "🤹‍♂️ misc"} {:planned false, :start #inst "2019-12-21T18:15:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T18:47:51.376-00:00", :label "Shopping for kaitis gift", :id #uuid "a9cf9c02-208b-4eaf-b244-ffbc2dd79124", :last-edited #inst "2019-12-21T18:47:51.376-00:00", :data {}}] [{:id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :color "#8b8b8b", :label "🤹‍♂️ misc"} {:planned false, :start #inst "2019-11-19T20:35:00.000-00:00", :created #inst "2019-11-19T20:51:09.418-00:00", :stop #inst "2019-11-19T22:00:00.000-00:00", :label "Going to the doctor", :id #uuid "e896f75c-42d3-42a7-b56d-55ee85552f03", :last-edited #inst "2019-11-19T23:16:55.347-00:00", :data {}}])
+time-align-mobile.handlers> (take 2 (flatten (select (periods-path) db)))
+({:id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :color "#8b8b8b", :label "🤹‍♂️ misc"} {:planned false, :start #inst "2019-12-21T18:15:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T18:47:51.376-00:00", :label "Shopping for kaitis gift", :id #uuid "a9cf9c02-208b-4eaf-b244-ffbc2dd79124", :last-edited #inst "2019-12-21T18:47:51.376-00:00", :data {}})
+time-align-mobile.handlers> (first (subs/get-periods db))
+------ WARNING - :fn-arity -----------------------------------------------------
+ Resource: :1:8
+ Wrong number of args (1) passed to time-align-mobile.subs/get-periods
+--------------------------------------------------------------------------------
+{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-12-21T18:15:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T18:47:51.376-00:00", :label "Shopping for kaitis gift", :id #uuid "a9cf9c02-208b-4eaf-b244-ffbc2dd79124", :last-edited #inst "2019-12-21T18:47:51.376-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}
+time-align-mobile.handlers> (first (subs/get-periods db :na))
+{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-12-21T18:15:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T18:47:51.376-00:00", :label "Shopping for kaitis gift", :id #uuid "a9cf9c02-208b-4eaf-b244-ffbc2dd79124", :last-edited #inst "2019-12-21T18:47:51.376-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (format-date))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+                             
+("2019-12-29-00-00-00" "2019-11-30-00-00-00" "2019-11-10-00-00-00" "2019-11-14-00-00-00" "2019-11-17-00-00-00" "2019-12-08-00-00-00" "2020-02-08-00-00-00" "2019-11-21-00-00-00" "2019-12-04-00-00-00" "2019-12-11-00-00-00" "2019-12-10-00-00-00" "2020-01-03-00-00-00" "2019-11-07-00-00-00" "2019-12-03-00-00-00" "2019-12-25-00-00-00" "2019-11-24-00-00-00" "2019-12-15-00-00-00" "2019-11-28-00-00-00" "2019-12-24-00-00-00" "2019-12-22-00-00-00" "2019-12-17-00-00-00" "2019-11-23-00-00-00" "2019-12-09-00-00-00" "2019-11-20-00-00-00" "2019-12-31-00-00-00" "2019-12-20-00-00-00" "2019-11-12-00-00-00" "2019-11-15-00-00-00" "2019-12-07-00-00-00" "2019-12-27-00-00-00" "2020-01-02-00-00-00" "2020-01-01-00-00-00" "2019-11-18-00-00-00" "2019-11-25-00-00-00" "2019-12-02-00-00-00" "2019-12-16-00-00-00" "2019-11-19-00-00-00" "2019-12-23-00-00-00" "2019-12-18-00-00-00" "2020-01-05-00-00-00" "2019-12-05-00-00-00" "2020-01-04-00-00-00" "2019-11-29-00-00-00" "2019-11-27-00-00-00" "2019-11-09-00-00-00" "2019-11-13-00-00-00" "2019-12-19-00-00-00" "2019-11-06-00-00-00" "2019-12-13-00-00-00" "2019-12-21-00-00-00" "2019-11-26-00-00-00" "2019-11-11-00-00-00" "2019-12-30-00-00-00" "2019-11-08-00-00-00" "2020-02-07-00-00-00" "2019-12-06-00-00-00" "2019-11-16-00-00-00" "2019-12-26-00-00-00" "2019-11-22-00-00-00" "2019-12-14-00-00-00" "2019-12-01-00-00-00" "2019-12-28-00-00-00" "2019-12-12-00-00-00")
+time-align-mobile.handlers> (keys 
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (#(.valueOf %)))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+                             
+(1581138000000 1581051600000 1573275600000 1573880400000 1573534800000 1573189200000 1573794000000 1573448400000 1574053200000 1573102800000 1573707600000 1573362000000 1573966800000 1573016400000 1573621200000 1575435600000 1576040400000 1574485200000 1575090000000 1575694800000 1574139600000 1574744400000 1575349200000 1575954000000 1574398800000 1575003600000 1575608400000 1576213200000 1574658000000 1575262800000 1575867600000 1574312400000 1574917200000 1575522000000 1576126800000 1574571600000 1575176400000 1575781200000 1574226000000 1574830800000 1578200400000 1576645200000 1577250000000 1577854800000 1576299600000 1576904400000 1577509200000 1578114000000 1576558800000 1577163600000 1577768400000 1576818000000 1577422800000 1578027600000 1576472400000 1577077200000 1577682000000 1576731600000 1577336400000 1577941200000 1576386000000 1576990800000 1577595600000)
+time-align-mobile.handlers> (count (keys 
+                                    (group-by 
+                                     (fn [{:keys [start]}]
+                                       (if (some? start)
+                                         (->> start
+                                              (helpers/reset-relative-ms 0)
+                                              (#(.valueOf %)))
+                                         :not-on-a-day))
+                                     (subs/get-periods db :na))))
+                             
+63
+time-align-mobile.handlers> (select [sp/Ma])(transform 
+
+                             [sp/MAP-VALS] 
+
+                             #(hash-map {:periods %}) 
+
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (#(.valueOf %)))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+                             
+------ REPL Error while processing ---------------------------------------------
+(select [sp/Ma])
+Error in phase :compilation
+Wrong number of args (1) passed to: com.rpl.specter/select{1581138000000 {}, 1581051600000 {}, 1573275600000 {}, 1573880400000 {}, 1573534800000 {}, 1573189200000 {}, 1573794000000 {}, 1573448400000 {}, 1574053200000 {}, 1573102800000 {}, 1573707600000 {}, 1573362000000 {}, 1573966800000 {}, 1573016400000 {}, 1573621200000 {}, 1575435600000 {}, 1576040400000 {}, 1574485200000 {}, 1575090000000 {}, 1575694800000 {}, 1574139600000 {}, 1574744400000 {}, 1575349200000 {}, 1575954000000 {}, 1574398800000 {}, 1575003600000 {}, 1575608400000 {}, 1576213200000 {}, 1574658000000 {}, 1575262800000 {}, 1575867600000 {}, 1574312400000 {}, 1574917200000 {}, 1575522000000 {}, 1576126800000 {}, 1574571600000 {}, 1575176400000 {}, 1575781200000 {}, 1574226000000 {}, 1574830800000 {}, 1578200400000 {}, 1576645200000 {}, 1577250000000 {}, 1577854800000 {}, 1576299600000 {}, 1576904400000 {}, 1577509200000 {}, 1578114000000 {}, 1576558800000 {}, 1577163600000 {}, 1577768400000 {}, 1576818000000 {}, 1577422800000 {}, 1578027600000 {}, 1576472400000 {}, 1577077200000 {}, 1577682000000 {}, 1576731600000 {}, 1577336400000 {}, 1577941200000 {}, 1576386000000 {}, 1576990800000 {}, 1577595600000 {}}
+time-align-mobile.handlers> (keys (select [sp/MAP-VALS] (transform 
+
+                                                         [sp/MAP-VALS] 
+
+                                                         #(hash-map {:periods %}) 
+
+                                                         (group-by 
+                                                          (fn [{:keys [start]}]
+                                                            (if (some? start)
+                                                              (->> start
+                                                                   (helpers/reset-relative-ms 0)
+                                                                   (#(.valueOf %)))
+                                                              :not-on-a-day))
+                                                          (subs/get-periods db :na)))))
+
+time-align-mobile.handlers> (keys (select [sp/MAP-VALS] (transform 
+
+                                                         [sp/MAP-VALS] 
+
+                                                         #(hash-map {:periods %}) 
+
+                                                         (group-by 
+                                                          (fn [{:keys [start]}]
+                                                            (if (some? start)
+                                                              (->> start
+                                                                   (helpers/reset-relative-ms 0)
+                                                                   (#(.valueOf %)))
+                                                              :not-on-a-day))
+                                                          (subs/get-periods db :na)))))
+
+time-align-mobile.handlers> (transform 
+
+                             [sp/MAP-VALS] 
+                             
+                             #(hash-map {:periods %}) 
+                             
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (#(.valueOf %)))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+{1581138000000 {}, 1581051600000 {}, 1573275600000 {}, 1573880400000 {}, 1573534800000 {}, 1573189200000 {}, 1573794000000 {}, 1573448400000 {}, 1574053200000 {}, 1573102800000 {}, 1573707600000 {}, 1573362000000 {}, 1573966800000 {}, 1573016400000 {}, 1573621200000 {}, 1575435600000 {}, 1576040400000 {}, 1574485200000 {}, 1575090000000 {}, 1575694800000 {}, 1574139600000 {}, 1574744400000 {}, 1575349200000 {}, 1575954000000 {}, 1574398800000 {}, 1575003600000 {}, 1575608400000 {}, 1576213200000 {}, 1574658000000 {}, 1575262800000 {}, 1575867600000 {}, 1574312400000 {}, 1574917200000 {}, 1575522000000 {}, 1576126800000 {}, 1574571600000 {}, 1575176400000 {}, 1575781200000 {}, 1574226000000 {}, 1574830800000 {}, 1578200400000 {}, 1576645200000 {}, 1577250000000 {}, 1577854800000 {}, 1576299600000 {}, 1576904400000 {}, 1577509200000 {}, 1578114000000 {}, 1576558800000 {}, 1577163600000 {}, 1577768400000 {}, 1576818000000 {}, 1577422800000 {}, 1578027600000 {}, 1576472400000 {}, 1577077200000 {}, 1577682000000 {}, 1576731600000 {}, 1577336400000 {}, 1577941200000 {}, 1576386000000 {}, 1576990800000 {}, 1577595600000 {}}
+time-align-mobile.handlers> (hash-map {})
+{}
+time-align-mobile.handlers> (hash-map {:a "b"})
+{}
+time-align-mobile.handlers> (transform 
+
+                             [sp/MAP-VALS] 
+                             
+                             (fn [periods] {:periods periods})
+                             
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (#(.valueOf %)))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+;; output cleared
+
+time-align-mobile.handlers> (transform 
+
+                             [sp/MAP-VALS] 
+                             
+                             (fn [periods] {:periods (count periods)})
+                             
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (#(.valueOf %)))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+{1581138000000 {:periods 7}, 1581051600000 {:periods 1}, 1573275600000 {:periods 17}, 1573880400000 {:periods 13}, 1573534800000 {:periods 14}, 1573189200000 {:periods 10}, 1573794000000 {:periods 11}, 1573448400000 {:periods 18}, 1574053200000 {:periods 9}, 1573102800000 {:periods 17}, 1573707600000 {:periods 12}, 1573362000000 {:periods 26}, 1573966800000 {:periods 5}, 1573016400000 {:periods 3}, 1573621200000 {:periods 12}, 1575435600000 {:periods 3}, 1576040400000 {:periods 6}, 1574485200000 {:periods 20}, 1575090000000 {:periods 13}, 1575694800000 {:periods 20}, 1574139600000 {:periods 12}, 1574744400000 {:periods 7}, 1575349200000 {:periods 5}, 1575954000000 {:periods 17}, 1574398800000 {:periods 18}, 1575003600000 {:periods 18}, 1575608400000 {:periods 14}, 1576213200000 {:periods 6}, 1574658000000 {:periods 14}, 1575262800000 {:periods 14}, 1575867600000 {:periods 12}, 1574312400000 {:periods 4}, 1574917200000 {:periods 7}, 1575522000000 {:periods 5}, 1576126800000 {:periods 9}, 1574571600000 {:periods 13}, 1575176400000 {:periods 13}, 1575781200000 {:periods 12}, 1574226000000 {:periods 6}, 1574830800000 {:periods 10}, 1578200400000 {:periods 16}, 1576645200000 {:periods 11}, 1577250000000 {:periods 4}, 1577854800000 {:periods 12}, 1576299600000 {:periods 8}, 1576904400000 {:periods 16}, 1577509200000 {:periods 1}, 1578114000000 {:periods 14}, 1576558800000 {:periods 11}, 1577163600000 {:periods 6}, 1577768400000 {:periods 10}, 1576818000000 {:periods 20}, 1577422800000 {:periods 5}, 1578027600000 {:periods 8}, 1576472400000 {:periods 13}, 1577077200000 {:periods 12}, 1577682000000 {:periods 6}, 1576731600000 {:periods 5}, 1577336400000 {:periods 4}, 1577941200000 {:periods 9}, 1576386000000 {:periods 15}, 1576990800000 {:periods 12}, 1577595600000 {:periods 2}}
+time-align-mobile.handlers> (transform 
+
+                             [sp/MAP-VALS] 
+                             
+                             (fn [periods] {:periods-by-bucket (count (group-by :bucket-id periods))})
+                             
+                             (group-by 
+                              (fn [{:keys [start]}]
+                                (if (some? start)
+                                  (->> start
+                                       (helpers/reset-relative-ms 0)
+                                       (#(.valueOf %)))
+                                  :not-on-a-day))
+                              (subs/get-periods db :na)))
+{1581138000000 {:periods-by-bucket 3}, 1581051600000 {:periods-by-bucket 1}, 1573275600000 {:periods-by-bucket 8}, 1573880400000 {:periods-by-bucket 7}, 1573534800000 {:periods-by-bucket 7}, 1573189200000 {:periods-by-bucket 6}, 1573794000000 {:periods-by-bucket 5}, 1573448400000 {:periods-by-bucket 8}, 1574053200000 {:periods-by-bucket 6}, 1573102800000 {:periods-by-bucket 8}, 1573707600000 {:periods-by-bucket 8}, 1573362000000 {:periods-by-bucket 8}, 1573966800000 {:periods-by-bucket 4}, 1573016400000 {:periods-by-bucket 2}, 1573621200000 {:periods-by-bucket 7}, 1575435600000 {:periods-by-bucket 2}, 1576040400000 {:periods-by-bucket 3}, 1574485200000 {:periods-by-bucket 6}, 1575090000000 {:periods-by-bucket 6}, 1575694800000 {:periods-by-bucket 6}, 1574139600000 {:periods-by-bucket 7}, 1574744400000 {:periods-by-bucket 5}, 1575349200000 {:periods-by-bucket 3}, 1575954000000 {:periods-by-bucket 5}, 1574398800000 {:periods-by-bucket 8}, 1575003600000 {:periods-by-bucket 7}, 1575608400000 {:periods-by-bucket 8}, 1576213200000 {:periods-by-bucket 4}, 1574658000000 {:periods-by-bucket 7}, 1575262800000 {:periods-by-bucket 6}, 1575867600000 {:periods-by-bucket 7}, 1574312400000 {:periods-by-bucket 4}, 1574917200000 {:periods-by-bucket 5}, 1575522000000 {:periods-by-bucket 4}, 1576126800000 {:periods-by-bucket 6}, 1574571600000 {:periods-by-bucket 6}, 1575176400000 {:periods-by-bucket 7}, 1575781200000 {:periods-by-bucket 6}, 1574226000000 {:periods-by-bucket 4}, 1574830800000 {:periods-by-bucket 6}, 1578200400000 {:periods-by-bucket 6}, 1576645200000 {:periods-by-bucket 7}, 1577250000000 {:periods-by-bucket 4}, 1577854800000 {:periods-by-bucket 8}, 1576299600000 {:periods-by-bucket 5}, 1576904400000 {:periods-by-bucket 6}, 1577509200000 {:periods-by-bucket 1}, 1578114000000 {:periods-by-bucket 6}, 1576558800000 {:periods-by-bucket 8}, 1577163600000 {:periods-by-bucket 5}, 1577768400000 {:periods-by-bucket 6}, 1576818000000 {:periods-by-bucket 9}, 1577422800000 {:periods-by-bucket 3}, 1578027600000 {:periods-by-bucket 6}, 1576472400000 {:periods-by-bucket 6}, 1577077200000 {:periods-by-bucket 5}, 1577682000000 {:periods-by-bucket 4}, 1576731600000 {:periods-by-bucket 3}, 1577336400000 {:periods-by-bucket 3}, 1577941200000 {:periods-by-bucket 6}, 1576386000000 {:periods-by-bucket 7}, 1576990800000 {:periods-by-bucket 7}, 1577595600000 {:periods-by-bucket 1}}
+time-align-mobile.handlers> (get (transform 
+
+                                  [sp/MAP-VALS] 
+                                  
+                                  (fn [periods] {:periods-by-bucket (count (group-by :bucket-id periods))})
+                                  
+                                  (group-by 
+                                   (fn [{:keys [start]}]
+                                     (if (some? start)
+                                       (->> start
+                                            (helpers/reset-relative-ms 0)
+                                            (#(.valueOf %)))
+                                       :not-on-a-day))
+                                   (subs/get-periods db :na))) 1581138000000)
+{:periods-by-bucket 3}
+time-align-mobile.handlers> (get-in (transform 
+
+                                  [sp/MAP-VALS] 
+                                  
+                                  (fn [periods] {:periods-by-bucket (count (group-by :bucket-id periods))})
+                                  
+                                  (group-by 
+                                   (fn [{:keys [start]}]
+                                     (if (some? start)
+                                       (->> start
+                                            (helpers/reset-relative-ms 0)
+                                            (#(.valueOf %)))
+                                       :not-on-a-day))
+                                   (subs/get-periods db :na))) [1581138000000 :periods-by-bucket])
+3
+time-align-mobile.handlers> (get-in (transform 
+
+                                  [sp/MAP-VALS] 
+                                  
+                                  (fn [periods] {:periods-by-bucket (group-by :bucket-id periods)})
+                                  
+                                  (group-by 
+                                   (fn [{:keys [start]}]
+                                     (if (some? start)
+                                       (->> start
+                                            (helpers/reset-relative-ms 0)
+                                            (#(.valueOf %)))
+                                       :not-on-a-day))
+                                   (subs/get-periods db :na))) [1581138000000 :periods-by-bucket])
+{#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]}
+time-align-mobile.handlers> (keys (get-in (transform 
+
+                                           [sp/MAP-VALS] 
+                                           
+                                           (fn [periods] {:periods-by-bucket (group-by :bucket-id periods)})
+                                           
+                                           (group-by 
+                                            (fn [{:keys [start]}]
+                                              (if (some? start)
+                                                (->> start
+                                                     (helpers/reset-relative-ms 0)
+                                                     (#(.valueOf %)))
+                                                :not-on-a-day))
+                                            (subs/get-periods db :na))) [1581138000000 :periods-by-bucket]))
+(#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5")
+time-align-mobile.handlers> (def by-day (transform 
+                                         
+                                         [sp/MAP-VALS] 
+                                         
+                                         (fn [periods] {:periods-by-bucket (group-by :bucket-id periods)})
+                                         
+                                         (group-by 
+                                          (fn [{:keys [start]}]
+                                            (if (some? start)
+                                              (->> start
+                                                   (helpers/reset-relative-ms 0)
+                                                   (#(.valueOf %)))
+                                              :not-on-a-day))
+                                          (subs/get-periods db :na)))) 
+#'time-align-mobile.handlers/by-day
+time-align-mobile.handlers> (count by-day)
+63
+time-align-mobile.handlers> (transform [sp/MAP-VALS] )
+;; output cleared
+
+time-align-mobile.handlers>      (def by-day (transform 
+                                         
+                                         [sp/MAP-VALS] 
+                                         
+                                         (fn [periods] (group-by :bucket-id periods))
+                                         
+                                         (group-by 
+                                          (fn [{:keys [start]}]
+                                            (if (some? start)
+                                              (->> start
+                                                   (helpers/reset-relative-ms 0)
+                                                   (#(.valueOf %)))
+                                              :not-on-a-day))
+                                          (subs/get-periods db :na)))) 
+#'time-align-mobile.handlers/by-day
+time-align-mobile.handlers>      (def by-day (transform 
+                                         
+                                         [sp/MAP-VALS] 
+                                         
+                                         (fn [periods] 
+                                           (->> periods
+                                                (group-by :planned)
+                                                (transform [sp/ALL] #(clojure.set/rename-keys % {true :planned false :actual}))
+                                                (group-by :bucket-id)))
+                                        
+                                         (group-by 
+                                          (fn [{:keys [start]}]
+                                            (if (some? start)
+                                              (->> start
+                                                   (helpers/reset-relative-ms 0)
+                                                   (#(.valueOf %)))
+                                              :not-on-a-day))
+                                          (subs/get-periods db :na))))
+;; output cleared
+
+time-align-mobile.handlers>      (def by-day (transform 
+                                         
+                                         [sp/MAP-VALS] 
+                                         
+                                         (fn [periods] 
+                                           (->> periods
+                                                (group-by :planned)
+                                                (transform [] #(clojure.set/rename-keys % {true :planned false :actual}))
+                                                (group-by :bucket-id)))
+                                        
+                                         (group-by 
+                                          (fn [{:keys [start]}]
+                                            (if (some? start)
+                                              (->> start
+                                                   (helpers/reset-relative-ms 0)
+                                                   (#(.valueOf %)))
+                                              :not-on-a-day))
+                                          (subs/get-periods db :na))))
+#'time-align-mobile.handlers/by-day
+time-align-mobile.handlers> (first by-day)
+[1581138000000 {nil [[:actual [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]]]}]
+time-align-mobile.handlers> (-> 100 (->> (- 10)))
+-90
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (transform 
+                                          [sp/MAP-VALS] 
+                                          (fn [periods] 
+                                            (->> periods
+                                                 ;; (group-by :planned)
+                                                 ;; (transform [] #(clojure.set/rename-keys % {true :planned false :actual}))
+                                                 (group-by :bucket-id))))))
+;; output cleared
+
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         ;; (transform 
+                                         ;;  [sp/MAP-VALS] 
+                                         ;;  (fn [periods] 
+                                         ;;    (->> periods
+                                         ;;         ;; (group-by :planned)
+                                         ;;         ;; (transform [] #(clojure.set/rename-keys % {true :planned false :actual}))
+                                         ;;         (group-by :bucket-id))))
+                                         ))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]]
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      ;; (group-by :planned)
+                                                      ;; (transform [] #(clojure.set/rename-keys % {true :planned false :actual}))
+                                                      (group-by :bucket-id)))))
+                                         ))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]}]
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by :planned)
+                                                      (transform [] #(clojure.set/rename-keys % {true :planned false :actual}))
+                                                      (group-by :bucket-id)))))
+                                         ))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 {nil [[:actual [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]]]}]
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      (group-by :bucket-id)))))
+                                         ))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+;; output cleared
+
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      ;; (group-by :bucket-id)
+                                                      ))))
+                                         ))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 {:actual [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]}]
+time-align-mobile.handlers> (rand-nth wip)
+;; output cleared
+
+time-align-mobile.handlers> (nth wip 32)
+;; output cleared
+
+time-align-mobile.handlers> (nth {:a 2 :c b} 2)
+;; output cleared
+
+time-align-mobile.handlers> (nth {:a 2 :c 3} 2)
+;; output cleared
+
+time-align-mobile.handlers> (nth {:a 2 :c 3} 1)
+;; output cleared
+
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      (transform [sp/MAP-VALS]
+                                                                 (fn [periods]
+                                                                   (group-by :bucket-id)))
+                                                      ))))
+                                         ))
+------ WARNING - :fn-arity -----------------------------------------------------
+ Resource: :20:68
+ Wrong number of args (1) passed to cljs.core/group-by
+--------------------------------------------------------------------------------
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         (->> (group-by 
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      (transform [sp/MAP-VALS]
+                                                                 (fn [periods]
+                                                                   (->> periods
+                                                                        (group-by :bucket-id))))
+                                                      ))))
+                                         ))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 {:actual {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]}}]
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         ;; group by the beginning of the day for each :start value as a unix time stamp
+                                         ;; {1581138000000 [periods]}
+                                         (->> (group-by
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         ;; take all the periods under the day key
+                                         ;; and group them by track and then by bucket-id
+                                         ;; the total result:
+                                         ;; {1581138000000 {:actual  {bucket-id-a [periods]
+                                         ;;                           bucket-id-b [periods]}
+                                         ;;                 :planned {bucket-id-a [periods]
+                                         ;;                           bucket-id-b [periods]}}}
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      (transform [sp/MAP-VALS]
+                                                                 (fn [periods]
+                                                                   (->> periods
+                                                                        (group-by :bucket-id))))))))))
+                              
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 {:actual {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}]}}]
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         ;; group by the beginning of the day for each :start value as a unix time stamp
+                                         ;; {1581138000000 [periods]}
+                                         (->> (group-by
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         ;; take all the periods under the day key
+                                         ;; and group them by track and then by bucket-id
+                                         ;; the total result:
+                                         ;; {1581138000000 {:actual  {bucket-id-a [periods]
+                                         ;;                           bucket-id-b [periods]}
+                                         ;;                 :planned {bucket-id-a [periods]
+                                         ;;                           bucket-id-b [periods]}}}
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      (transform [sp/MAP-VALS]
+                                                                 (fn [periods]
+                                                                   (->> periods
+                                                                        (group-by :bucket-id))))))))
+                                         ;; add a :total-duration section underneath the bucket key, in ms
+                                         ;; total results:
+                                         ;; {1581138000000 {:actual  {bucket-id-a {:periods [periods] :total-duration 1234456}
+                                         ;;                           bucket-id-b {:periods [periods] :total-duration 1234456}}
+                                         ;;                 :planned {bucket-id-a {:periods [periods] :total-duration 1234456}
+                                         ;;                           bucket-id-b {:periods [periods] :total-duration 1234456}}}}
+                                         (->> (transform 
+                                               [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                                               (fn [periods] 
+                                                 {:periods periods
+                                                  :total-duration (->> periods 
+                                                                       (map (fn [p] 
+                                                                              (let [start-ms (->> p :start (#(.valueOf %)))
+                                                                                    stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                                                                (- stop-ms start-ms))))
+                                                                       (reduce +))})))))
+                              
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (first wip)
+[1581138000000 {:actual {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:periods [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], :total-duration 14485405}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:periods [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], :total-duration 7324704}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:periods [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}], :total-duration 132208}}}]
+time-align-mobile.handlers> (def wip (-> db
+                                         (subs/get-periods :na)
+                                         ;; group by the beginning of the day for each :start value as a unix time stamp
+                                         ;; {1581138000000 [periods]}
+                                         (->> (group-by
+                                               (fn [{:keys [start]}]
+                                                 (if (some? start)
+                                                   (->> start
+                                                        (helpers/reset-relative-ms 0)
+                                                        (#(.valueOf %)))
+                                                   :not-on-a-day-a-day))))
+                                         ;; take all the periods under the day key
+                                         ;; and group them by track and then by bucket-id
+                                         ;; the total result:
+                                         ;; {1581138000000 {:actual  {bucket-id-a [periods]
+                                         ;;                           bucket-id-b [periods]}
+                                         ;;                 :planned {bucket-id-a [periods]
+                                         ;;                           bucket-id-b [periods]}}}
+                                         (->> (transform 
+                                               [sp/MAP-VALS] 
+                                               (fn [periods] 
+                                                 (->> periods
+                                                      (group-by 
+                                                       (fn [period] (if (:planned periods)
+                                                                      :planned
+                                                                      :actual)))
+                                                      (transform [sp/MAP-VALS]
+                                                                 (fn [periods]
+                                                                   (->> periods
+                                                                        (group-by :bucket-id))))))))
+                                         ;; add a :total-duration section underneath the bucket key, in ms
+                                         ;; total results:
+                                         ;; {1581138000000 {:actual  {bucket-id-a {:periods [periods] :total-duration 132208}
+                                         ;;                           bucket-id-b {:periods [periods] :total-duration 132208}}
+                                         ;;                 :planned {bucket-id-a {:periods [periods] :total-duration 132208}
+                                         ;;                           bucket-id-b {:periods [periods] :total-duration 132208}}}}
+                                         (->> (transform 
+                                               [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                                               (fn [periods] 
+                                                 {:periods periods
+                                                  :total-duration (->> periods 
+                                                                       (map (fn [p] 
+                                                                              (let [start-ms (->> p :start (#(.valueOf %)))
+                                                                                    stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                                                                (- stop-ms start-ms))))
+                                                                       (reduce +))})))))
+                              
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 

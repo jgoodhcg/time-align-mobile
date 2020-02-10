@@ -356,11 +356,20 @@
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
     :END:
 **** Better scoring algorithm
-    - Did the time go where you wanted it
-      - Segment periods by day
-        - Cut off overlapping bits by duplication
-      - Calculate totals per group id and get ratios of planned to actual
-      - Accumulate ratios
+     :LOGBOOK:
+     CLOCK: [2020-02-09 Sun 17:53]--[2020-02-09 Sun 19:59] =>  2:06
+     :END:
+    - [-] Did the time go where you wanted it
+      - [X] Segment periods by day
+        - [X] +Cut off overlapping bits by duplication+
+          - Grouping by the start will ensure no duplication
+            - Some time will be "for the next day" but ... /who really cares/
+              - I guess any task you plan to start before midnight and finish tomorrow, that you don't start unitl midnight, won't get any of the actual time allocated to it
+                - *This is something I might solve for later*
+      - [X] Calculate totals per bucket id 
+      - [ ] Get ratios of planned to actual
+      - [ ] Accumulate ratios
+      - [ ] If finished make an /eventually/ task for the bold note above
     - Did the things happen when you wanted
       - Find any over lapping actual periods for every planned period
       - Take all (or the first) Overlapping period(s) with a matching bucket id and calculate how much overlap
