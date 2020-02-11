@@ -361,11 +361,15 @@
     :END:
 **** Better scoring algorithm
      :LOGBOOK:
-     CLOCK: [2020-02-11 Tue 06:35]--[2020-02-11 Tue 07:59] =>  1:24
-     CLOCK: [2020-02-10 Mon 06:39]--[2020-02-10 Mon 08:45] =>  2:06
-     CLOCK: [2020-02-09 Sun 17:53]--[2020-02-09 Sun 19:59] =>  2:06
+     CLOCK: [2020-02-11 Tue 08:02]--[2020-02-11 Tue 08:11] =>  0:09
+     CLOCK: [2020-02-11 Tue 07:59]--[2020-02-11 Tue 08:01] =>  0:02
      :END:
-    - [X] Did the time go where you wanted it
+***** Did the time go where you wanted it
+      :LOGBOOK:
+      CLOCK: [2020-02-11 Tue 06:35]--[2020-02-11 Tue 07:59] =>  1:24
+      CLOCK: [2020-02-10 Mon 06:39]--[2020-02-10 Mon 08:45] =>  2:06
+      CLOCK: [2020-02-09 Sun 17:53]--[2020-02-09 Sun 19:59] =>  2:06
+      :END:
       - [X] Segment periods by day
         - [X] +Cut off overlapping bits by duplication+
           - Grouping by the start will ensure no duplication
@@ -381,15 +385,26 @@
       - [X] If finished make an /eventually/ task for the bold note above
         - Might utilize a different grouping fn besides ~group-by~ that allows the period to be in multiple groups
           - Then using a fn like ~helpers/period-time-on-day~ we could get 
-    - Did the things happen when you wanted
-      - Find any over lapping actual periods for every planned period
-      - Take all (or the first) Overlapping period(s) with a matching bucket id and calculate how much overlap
-      - Get a ratio
-      - Accumulate the ratios into one day ratio
-    - Did you track enough
-      - Total time planned and tracked over time in a day
-    - Total All three into a day score
+***** Did the things happen when you wanted
+      - [ ] Break apart the day keyed data structure from the previous step for reuse
+      - [ ] For each day find any over lapping actual periods for every planned period
+      - [ ] Take all (or the first) Overlapping period(s) with a matching bucket id 
+        - [ ] calculate how much overlap
+      - [ ] Get a ratio (relative difference?) of overlap to planned total as a score
+      - [ ] Accumulate the ratios into one day ratio
+***** Did you track enough
+      - [ ] Calculate Total time planned per day
+      - [ ] Get the ratio (relative difference?) of planed time to total time in a day
+      - [ ] Calculate tracked (~:actual~) time in a day
+      - [ ] Get the ratio (relative difference?) of tracked  time to total time in a day
+      - [ ] Average the ratios
+***** Define a total day score 
+      - [ ] The scores will probably all be relative differences, just average them together
+      - [ ] Might need to do something like ~(-> total-avg (- 2) (js/Math.abs) (* 100))~ so that it looks decent on the heatmap
 **** Use contribution chart
+     :PROPERTIES:
+     :ID:       87c346fa-7e83-4681-b73c-28274e54eef9
+     :END:
 **** Have a breakdown for selected day 
      - Shows all three scores for the day
      - Will need a day selection component (same as top bar or actually in the top bar?)
