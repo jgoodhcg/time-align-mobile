@@ -318,7 +318,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [11/14]
+*** TODO Minor fixes [11/15]
     :LOGBOOK:
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
     CLOCK: [2020-02-09 Sun 15:06]--[2020-02-09 Sun 16:15] =>  1:09
@@ -353,26 +353,34 @@
     - [ ] Why is the save button on the ~form-buttons~ always ~contained~ even when disabled?
     - [ ] Remove top bar button outline
     - [ ] Make line times on day screen ~disabled~ colored
+    - [ ] Make duration value a disabled button so it lines up with start/stop
+      - Or figure out button padding and apply to labels and duration value 
 *** TODO Make a better report
     :PROPERTIES:
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
     :END:
 **** Better scoring algorithm
      :LOGBOOK:
+     CLOCK: [2020-02-11 Tue 06:35]--[2020-02-11 Tue 07:59] =>  1:24
      CLOCK: [2020-02-10 Mon 06:39]--[2020-02-10 Mon 08:45] =>  2:06
      CLOCK: [2020-02-09 Sun 17:53]--[2020-02-09 Sun 19:59] =>  2:06
      :END:
-    - [-] Did the time go where you wanted it
+    - [X] Did the time go where you wanted it
       - [X] Segment periods by day
         - [X] +Cut off overlapping bits by duplication+
           - Grouping by the start will ensure no duplication
             - Some time will be "for the next day" but ... /who really cares/
               - I guess any task you plan to start before midnight and finish tomorrow, that you don't start unitl midnight, won't get any of the actual time allocated to it
                 - *This is something I might solve for later*
-      - [X] Calculate totals per bucket id 
-      - [ ] Get ratios of planned to actual per bucket
-      - [ ] Average ratios
-      - [ ] If finished make an /eventually/ task for the bold note above
+      - [X] Calculate totals per bucket id
+      - [X] Calculate score using relative difference per bucket
+        - ~2~ Planned but didn't do at all
+        - ~0~ Did exactly what was planned (could have planned nothing)
+        - ~2>x>0~ A relative score for how much of the plan was accomplished
+      - [X] Calculate score per day
+      - [X] If finished make an /eventually/ task for the bold note above
+        - Might utilize a different grouping fn besides ~group-by~ that allows the period to be in multiple groups
+          - Then using a fn like ~helpers/period-time-on-day~ we could get 
     - Did the things happen when you wanted
       - Find any over lapping actual periods for every planned period
       - Take all (or the first) Overlapping period(s) with a matching bucket id and calculate how much overlap
@@ -427,10 +435,16 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-** DOSUB Eventually [0/33]
+** DOSUB Eventually [0/34]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
+*** TODO When scoring break periods apart when straddling two days 
+    - Grouping by the start will ensure no duplication
+      - Some time will be "for the next day" but ... /who really cares/
+        - I guess any task you plan to start before midnight and finish tomorrow, that you don't start unitl midnight, won't get any of the actual time allocated to it
+    - Might utilize a different grouping fn besides ~group-by~ that allows the period to be in multiple groups
+      - Then using a fn like ~helpers/period-time-on-day~ we could get 
 *** TODO Replace top bar with appbar 
     https://callstack.github.io/react-native-paper/appbar-header.html
 *** TODO Have a better dark scheme 

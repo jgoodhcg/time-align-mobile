@@ -1321,3 +1321,111 @@
 (reg-event-fx :add-period-with-selection [validate-spec amplitude-logging persist-secure-store] add-period-with-selection)
 (reg-event-db :set-report-data [validate-spec amplitude-logging persist-secure-store] set-report-data)
 (reg-event-db :set-version [validate-spec amplitude-logging persist-secure-store] set-version)
+
+(def db @re-frame.db/app-db)
+(def wip (-> db
+             (subs/get-periods :na)
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; {1581138000000 [periods]}
+             (->> (group-by
+                   (fn [{:keys [start]}]
+                     (if (some? start)
+                       (->> start
+                            (helpers/reset-relative-ms 0)
+                            (#(.valueOf %)))
+                       :not-on-a-day-a-day))))
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform
+                   [sp/MAP-VALS]
+                   (fn [periods]
+                     (->> periods
+                          (group-by :bucket-id)
+                          (transform [sp/MAP-VALS]
+                                     (fn [periods]
+                                       (merge {:planned [] :actual []}
+                                              (->> periods
+                                                   (group-by (fn [period]
+                                                               (if (:planned period)
+                                                                 :planned
+                                                                 :actual)))))))))))
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform
+                   [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                   (fn [periods]
+                     {:periods        periods
+                      :total-duration (->> periods
+                                           (map (fn [p]
+                                                  (let [start-ms (->> p :start (#(.valueOf %)))
+                                                        stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                                    (- stop-ms start-ms))))
+                                           (reduce +))})))
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :score    1}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :score    1}}}
+             (->> (transform
+                   [sp/MAP-VALS sp/MAP-VALS]
+                   (fn [{:keys [actual planned]}]
+                     (let [planned-total       (:total-duration planned)
+                           actual-total        (:total-duration actual)
+                           actual-difference   (-> planned-total
+                                                   (- actual-total)
+                                                   (js/Math.abs))
+                           denominator         (-> planned-total
+                                                   (+ actual-total)
+                                                   (/ 2))
+                           relative-difference (-> actual-difference
+                                                   (/ denominator))
+                           score               (if (= 0 planned-total)
+                                                 0
+                                                 relative-difference)]
+                       {:actual  actual
+                        :planned planned
+                        :score   score}))))
+             ;; add a :score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :score    1}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :score    1}
+             ;;                 score        1}}
+             (->> (transform
+                   [sp/MAP-VALS]
+                   (fn [buckets]
+                     (let [scores        (->> buckets (select [sp/MAP-VALS :score]))
+                           average-score (-> (reduce + scores)
+                                             (/ (count scores)))]
+                       (merge buckets {:score average-score})))))))
+
+;; (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+;; (->> wip (select [sp/MAP-VALS sp/MAP-VALS ]))
