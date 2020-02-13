@@ -454,16 +454,23 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-** DOSUB Eventually [0/34]
+** DOSUB Eventually [1/34]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
    :END:
-*** TODO When scoring break periods apart when straddling two days 
+*** DONE When scoring break periods apart when straddling two days 
+    CLOSED: [2020-02-13 Thu 08:39]
+    :LOGBOOK:
+    CLOCK: [2020-02-13 Thu 07:43]--[2020-02-13 Thu 08:39] =>  0:56
+    :END:
+**** Ideas
     - Grouping by the start will ensure no duplication
       - Some time will be "for the next day" but ... /who really cares/
         - I guess any task you plan to start before midnight and finish tomorrow, that you don't start unitl midnight, won't get any of the actual time allocated to it
     - Might utilize a different grouping fn besides ~group-by~ that allows the period to be in multiple groups
       - Then using a fn like ~helpers/period-time-on-day~ we could get 
+**** Implementation notes 
+     Duplicates periods that straddle days and bounds start/stop to each day it spans.
 *** TODO Replace top bar with appbar 
     https://callstack.github.io/react-native-paper/appbar-header.html
 *** TODO Have a better dark scheme 

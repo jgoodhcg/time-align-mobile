@@ -1327,7 +1327,43 @@
              (subs/get-periods :na)
              ;; group by the beginning of the day for each :start value as a unix time stamp
              ;; {1581138000000 [periods]}
-             (->> (group-by
+             (->> (map (fn [period]
+                         ;; duplicate periods that straddle days
+                         ;; so that each duplicates' start/stop values are bounded to each day
+                         (if (and (some? (:start period))
+                                  (some? (:stop period)))
+                           (let [{:keys [start stop]} period
+                                 start-v              (.valueOf start)
+                                 stop-v               (.valueOf stop)
+
+                                 num-days-between (-> stop-v
+                                                      (- start-v)
+                                                      (/ helpers/day-ms)
+                                                      (js/Math.ceil))
+
+                                 days (->> num-days-between
+                                           (range)
+                                           (map
+                                            (fn [n]
+                                              (->> n
+                                                   (helpers/forward-n-days start)
+                                                   (helpers/reset-relative-ms 0)))))
+
+                                 bounded-dupes (->> days
+                                                    (map
+                                                     (fn [day]
+                                                       (merge
+                                                        period
+                                                        {:start (helpers/bound-start start day)
+                                                         :stop  (helpers/bound-stop stop day)}))))]
+                             ;; return bounded-dupes
+                             bounded-dupes)
+                           ;; if this period isn't valid return nil
+                           ;; it can be filtered out later
+                           nil)))
+                  (flatten)
+                  (remove nil?)
+                  (group-by
                    (fn [{:keys [start]}]
                      (if (some? start)
                        (->> start
@@ -1428,4 +1464,4 @@
                        (merge buckets {:score average-score})))))))
 
 ;; (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
-;; (->> wip (select [sp/MAP-VALS sp/MAP-VALS ]))
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
