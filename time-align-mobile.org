@@ -318,7 +318,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [11/15]
+*** TODO Minor fixes [11/18]
     :LOGBOOK:
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
     CLOCK: [2020-02-09 Sun 15:06]--[2020-02-09 Sun 16:15] =>  1:09
@@ -352,9 +352,13 @@
       - I have no idea why that is happening
     - [ ] Why is the save button on the ~form-buttons~ always ~contained~ even when disabled?
     - [ ] Remove top bar button outline
-    - [ ] Make line times on day screen ~disabled~ colored
+    - [ ] Make time indicators on day screen ~disabled~ colored
     - [ ] Make duration value a disabled button so it lines up with start/stop
-      - Or figure out button padding and apply to labels and duration value 
+      - Or figure out button padding and apply to labels and duration value
+    - [ ] Stopping an in play period reloads the form
+    - [ ] Saving an in play period immediately ticks
+    - [ ] Disable stop botton on an in play period
+
 *** TODO Make a better report
     :PROPERTIES:
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
