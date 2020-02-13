@@ -383,12 +383,12 @@
       - [X] Calculate totals per bucket id
       - [X] Calculate score using relative difference per bucket
         - ~2~ Planned but didn't do at all
-        - ~0~ Did exactly what was planned (could have planned nothing)
+        - ~0~ Did exactly what was planned (could have planned nothing, should we penalize here or let other scoring take care of it?)
         - ~2>x>0~ A relative score for how much of the plan was accomplished
       - [X] Calculate score per day
       - [X] If finished make an /eventually/ task for the bold note above
         - Might utilize a different grouping fn besides ~group-by~ that allows the period to be in multiple groups
-          - Then using a fn like ~helpers/period-time-on-day~ we could get 
+          - Then using a fn like ~helpers/period-time-on-day~ we could get
 ***** Did the things happen when you wanted
       - [ ] Break apart the day keyed data structure from the previous step for reuse
       - [ ] For each day find any over lapping actual periods for every planned period
