@@ -1388,7 +1388,7 @@
                                  (- stop-ms start-ms))))
                         (reduce +))})
 (defn where-score-the-bucket
-  [{:keys [actual planned]}]
+  [{:keys [actual planned] :as bucket}]
   (let [planned-total       (:total-duration planned)
         actual-total        (:total-duration actual)
         actual-difference   (-> planned-total
@@ -1402,9 +1402,33 @@
         score               (if (= 0 planned-total)
                               0
                               relative-difference)]
-    {:actual      actual
-     :planned     planned
-     :where-score score}))
+
+    (->> bucket (transform [:score] #(merge % {:where score})))))
+
+(defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (->> planned
+       (map (fn [period]
+              (->> actual
+                   (filter (partial helpers/overlapping-timestamps? period))
+                   ;; merge actual periods that overlap each other
+                   (helpers/get-collision-groups)
+                   (map (fn [collision-group]
+                          (let [earliest-start (->> collision-group
+                                                    (sort-by
+                                                     #(->> %
+                                                           :start
+                                                           (.valueOf)))
+                                                    (first))
+                                latest-stop    (->> collision-group
+                                                    (sort-by
+                                                     #(->> %
+                                                           :stop
+                                                           (.valueOf)))
+                                                    (last))]
+                            {:start earliest-start
+                             :stop  latest-stop}))))))))
+
 (defn where-score-the-day
   [buckets]
   (let [scores        (->> buckets (select [sp/MAP-VALS :where-score]))
@@ -1445,21 +1469,28 @@
              (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
                              set-duration-per-type))
 
-             ;; add a :where-score section underneath each bucket-id key
+             ;; add a :score section underneath each bucket-id key
              ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
              ;; total result:
              ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
              ;;                                            :total-duration 132208}
              ;;                              :planned     {:periods        [periods]
              ;;                                            :total-duration 132208}
-             ;;                              :where-score 1}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
              ;;                 bucket-id-b {:actual      {:periods        [periods]
              ;;                                            :total-duration 132208}
              ;;                              :planned     {:periods        [periods]
              ;;                                            :total-duration 132208}
-             ;;                              :where-score 1}}}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
              (->> (transform [sp/MAP-VALS sp/MAP-VALS]
-                             where-score-the-bucket))
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
 
              ;; add a :where-score section underneath each day key
              ;; total result:

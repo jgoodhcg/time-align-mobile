@@ -787,5 +787,168 @@ time-align-mobile.handlers> (def wip (-> db
 #'time-align-mobile.handlers/wip
 time-align-mobile.handlers> 
 (->> wip (select [sp/MAP-VALS sp/MAP-VALS :where-score]))
-[0 0 0 nil 2 nil 0 0 0 0 nil 0.43291982730776496 0 0 0 0.5931853969086349 1.3663633243799647 0 0.42723320986710756 2 0 0.8392870372793951 nil 0 0 0 0 0 0 0 nil 0 0 0 0 0 0 nil 0 0.21193829200372183 0 0 0 nil 0.9718926884435026 2 0.013935313516582799 0 nil 1.278739288313207 0.1590909090909091 0.39780680604140745 0 0 0 0 0 0 0 nil 0 0.27617995119119837 0.441738552297202 0 nil 0.9285704719379214 0.3217501513873807 0 0 0 0 0 0 nil 0 0 0 0 0 0.42069332041811425 1.3891794796479773 0.11023382368608405 nil 0.373341676947851 0.4677812450167742 0 0.7297056808587351 0 0 0 0 nil 0 0.050054928731635646 nil 0 0 0 0 0 0 0 nil 0 0 nil 0 0 0 nil 0.8840174182561359 2 0 0.26500734377732177 0 0.4955871696683628 nil 0 0 0 0 0 0 nil 0.1373407681127756 0.404196008948761 0 0.5394509335603208 0.9384685395142659 0.9910218461287295 nil 0 0 0 0 0 0 0 nil 0 0 0 0 0 nil 0 0 0 nil 0.23765722261363958 0.9035318153949615 0 1.0389304449135355 0.13523131672597866 nil 0 0.33791890148983883 0.2593642937305348 1.274706251587691 nil 0.06286852581066261 0 0.8174115719502926 0 0 0 0 0 0.2099373537742576 0.25907405662003774 0 nil 0 0 0 1.5179693089213377 nil 0 0 0 0 0 0 0 0 nil 0 0 0 0 0 0 0 nil 0.05001072494101282 0.6086956521739131 0 0.3418010872948454 0.48375451263537905 0 nil 0 0 0 0 0 0 0 nil 0 0 0 0 nil 0 0 0 0 0 nil 0 0 0 0 nil 0.6577173775958116 0.12828646575641597 0 0 0 0 nil 0 0 0 0 0 0 nil 0 0 0 0 0 0 0 nil 2 1.084366938931853 0 0 0.10954039200581545 0.11843862636437699 nil 0 0 0 0 nil 0 0 0 0 0 0 nil 0.5649203912833556 1.0990250324632542 0.32542574296979826 0 1.6426621303380937 0.23553053349061073 nil 0 0 0 0 0 0 0 nil 0 0 0 0 nil 0 0 0 0 nil 0 0 0 0 0 0 0 0 0 nil 1.1182021195344047 0.35277612333078157 0.40475553011436044 1.1457619377660517 0.7720279112410352 0 nil 0 nil 0.7238673867295577 0 0.3128684951289099 0 0.07855846773866154 0 nil 0 0 0 0 nil 0 0 0 0 0 0 0 0 0 nil 0 0 0 0 0 0 nil 0.2765877229862207 0 0.7264563869330377 0.8342634713256764 nil 2 0.3085605951913212 0 2 0 0 0 0 nil 0 1.0508474576271187 0 0 0 0 nil 0 0.36118322111005124 0 0.07859514682676469 0.03486845448739451 0 nil 0 0 0 0 0 nil 0 0 0 0 nil 0 0 0 nil 0 0 0 nil 0 0 0 0 0 0 nil 2 0.32084383194631927 1.0244622245540398 0 2 0.42105263157894735 1.1978888166283264 nil 0 0 0 0 0 0 0 nil 0 nil]
+[0 0 0 nil 2 nil 0 0 0 0 nil 0.43291982730776496 0 0 0 0.5931853969086349 1.3663633243799647 0 0.42723320986710756 2 0 0.8392870372793951 nil 0 0 0 0 0 0 0 nil 0 0 0 0 0 0 nil 0 0.21193829200372183 0 0 0 nil 0.9718926884435026 2 0.013935313516582799 0 nil 1.278739288313207 0.1590909090909091 0.39780680604140745 0 0 0 0 0 0 0 nil 0 0.27617995119119837 0.441738552297202 0 nil 0.9285704719379214 0.3217501513873807 0 0 0 0 0 0 nil 0 0 0 0 0 0.42069332041811425 1.3891794796479773 0.11023382368608405 nil 0.373341676947851 0.4677812450167742 0 0.7297056808587351 0 0 0 0 nil 0 0.050054928731635646 nil 0 0 0 0 0 0 0 nil 0 0 nil 0 0 0 nil 0.8840174182561359 2 0 0.26500734377732177 0 0.4955871696683628 nil 0 0 0 0 0 0 nil 0.1373407681127756 0.404196008948761 0 0.5394509335603208 0.9384685395142659 0.9910218461287295 nil 0 0 0 0 0 0 0 nil 0 0 0 0 0 nil 0 0 0 nil 0.23765722261363958 0.9035318153949615 0 1.0389304449135355 0.13523131672597866 nil 0 0.33791890148983883 0.2593642937305348 1.274706251587691 nil 0.06286852581066261 0 0.8174115719502926 0 0 0 0 0 0.2099373537742576 0.25907405662003774 0 nil 0 0 0 1.5179693089213377 nil 0 0 0 0 0 0 0 0 nil 0 0 0 0 0 0 0 nil 0.05001072494101282 0.6086956521739131 0 0.3418010872948454 0.48375451263537905 0 nil 0 0 0 0 0 0 0 nil 0 0 0 0 nil 0 0 0 0 0 nil 0 0 0 0 nil 0.6577173775958116 0.12828646575641597 0 0 0 0 nil 0 0 0 0 0 0 nil 0 0 0 0 0 0 0 nil 2 1.084366938931853 0 0 0.10954039200581545 0.11843862636437699 nil 0 0 0 0 nil 0 0 0 0 0 0 nil 0.5649203912833556 1.0990250324632542 0.32542574296979826 0 1.6426621303380937 0.23553053349061073 nil 0 0 0 0 0 0 0 nil 0 0 0 0 nil 0 0 0 0 nil 0 0 0 0 0 0 0 0 0 nil 1.1182021195344047 0.35277612333078157 0.40475553011436044 1.1457619377660517 0.7720279112410352 0 nil 0 nil 0.7238673867295577 0 0.3128684951289099 0 0.07855846773866154 0 nil 0 0 0 0 nil 0 0 0 0 0 0 0 0 0 nil 0 0 0 0 0 0 nil 0.2765877229862207 0 0.7264563869330377 0.8342634713256764 nil 2 0.3085605951913212 0 2 0 0 0 0 nil 0 1.0508474576271187 0 0 0 0 nil 0 0.36118322111005124 0 0.07859514682676469 0.03486845448739451 0 nil 0 0 0 0 0 nil 0 0 0 0 nil 0 0 0 nil 0 0 0 nil 0 0 0 0 0 0 nil 2 0.32084383194631927 1.0244622245540398 0 2 0.42105263157894735 1.1978888166283264 nil 0 0 0 0 0 0 0 nil 0 nil][:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 0.97s)
+[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 0.95s)
+
+time-align-mobile.handlers> (defn destruct-test [{:keys [a b]} thing] {:a a :b b :thing thing})
+#'time-align-mobile.handlers/destruct-test
+time-align-mobile.handlers> (destruct-test {:a "a" :b "b"})
+------ WARNING - :fn-arity -----------------------------------------------------
+ Resource: :1:1
+ Wrong number of args (1) passed to time-align-mobile.handlers/destruct-test
+--------------------------------------------------------------------------------
+{:a "a", :b "b", :thing nil}
+time-align-mobile.handlers> (defn destruct-test [{:keys [a b] :as thing}] {:a a :b b :thing thing})
+#'time-align-mobile.handlers/destruct-test
+time-align-mobile.handlers> (destruct-test {:a 1 :b 2})
+{:a 1, :b 2, :thing {:a 1, :b 2}}
+time-align-mobile.handlers> (->> {} (transform [:score]) #(merge % {:where 1}))
+;; output cleared
+
+time-align-mobile.handlers> (->> {} (transform [:score] #(merge % {:where 1})))
+{:score {:where 1}}[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1412:15
+--------------------------------------------------------------------------------
+1409 |   [{:keys [actual planned] :as bucket}]
+1410 |   (->> planned
+1411 |        (map (fn [period]
+1412 |               (->> actual
+---------------------^----------------------------------------------------------
+Error in phase :compilation
+Can't call nil at line 1425 time_align_mobile/handlers.cljs
+--------------------------------------------------------------------------------
+1413 |                    (filter (partial helpers/overlapping-timestamps? period))
+1414 |                    ;; merge actual periods that overlap each other
+1415 |                    ((fn [actual-periods]
+1416 |                       (->> (map (fn [actual-period]
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1412:15
+--------------------------------------------------------------------------------
+1409 |   [{:keys [actual planned] :as bucket}]
+1410 |   (->> planned
+1411 |        (map (fn [period]
+1412 |               (->> actual
+---------------------^----------------------------------------------------------
+Error in phase :compilation
+Can't call nil at line 1426 time_align_mobile/handlers.cljs
+--------------------------------------------------------------------------------
+1413 |                    (filter (partial helpers/overlapping-timestamps? period))
+1414 |                    ;; merge actual periods that overlap each other
+1415 | 
+1416 |                    ;; ((fn [actual-periods]
+--------------------------------------------------------------------------------
+
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1412:15
+--------------------------------------------------------------------------------
+1409 |   [{:keys [actual planned] :as bucket}]
+1410 |   (->> planned
+1411 |        (map (fn [period]
+1412 |               (->> actual
+---------------------^----------------------------------------------------------
+Error in phase :compilation
+Can't call nil at line 1425 time_align_mobile/handlers.cljs
+--------------------------------------------------------------------------------
+1413 |                    (filter (partial helpers/overlapping-timestamps? period))
+1414 |                    ;; merge actual periods that overlap each other
+1415 |                    ((fn [actual-periods]
+1416 |                       (->> (map (fn [actual-period]
+--------------------------------------------------------------------------------
+
+
+time-align-mobile.handlers> (select-keys {:a 1 :b 2} (set :a))
+;; output cleared
+time-align-mobile.handlers> (select-keys {:a 1 :b 2} (into '() (set :a)))
+;; output cleared
+time-align-mobile.handlers> (seq (set [:a]))
+;; output cleared
+time-align-mobile.handlers> (+ 1 1)
+;; output cleared
+time-align-mobile.handlers> (+ 1 1)
+;; output cleared
+[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1417:48
+--------------------------------------------------------------------------------
+1414 |                    ;; merge actual periods that overlap each other
+1415 |                    (helpers/get-collision-groups)
+1416 |                    (map (fn [collision-group]
+1417 |                           (let [earliest-start (->> collision-group
+------------------------------------------------------^-------------------------
+Error in phase :compilation
+Can't call nil at line 1418 time_align_mobile/handlers.cljs
+--------------------------------------------------------------------------------
+1418 |                                                     ())
+1419 |                                 latest-stop    ()])))
+1420 |                    )))))
+1421 | 
+--------------------------------------------------------------------------------
+
+time-align-mobile.handlers> (+ 1 1)
+;; output cleared
+[:app] Compiling ...
+[:app] Build completed. (218 files, 1 compiled, 2 warnings, 0.84s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1429:35
+--------------------------------------------------------------------------------
+1426 |                                                            :stop
+1427 |                                                            (.valueOf)))
+1428 |                                                     (last))])
+1429 |                           {:start earliest-start
+-----------------------------------------^--------------------------------------
+ Use of undeclared Var time-align-mobile.handlers/earliest-start
+--------------------------------------------------------------------------------
+1430 |                            :stop  earliest-stop})))))))
+1431 | 
+1432 | (defn where-score-the-day
+1433 |   [buckets]
+--------------------------------------------------------------------------------
+
+------ WARNING #2 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1430:35
+--------------------------------------------------------------------------------
+1427 |                                                            (.valueOf)))
+1428 |                                                     (last))])
+1429 |                           {:start earliest-start
+1430 |                            :stop  earliest-stop})))))))
+-----------------------------------------^--------------------------------------
+ Use of undeclared Var time-align-mobile.handlers/earliest-stop
+--------------------------------------------------------------------------------
+1431 | 
+1432 | (defn where-score-the-day
+1433 |   [buckets]
+1434 |   (let [scores        (->> buckets (select [sp/MAP-VALS :where-score]))
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 1 warnings, 0.87s)
+
+------ WARNING #1 - :undeclared-var --------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1430:37
+--------------------------------------------------------------------------------
+1427 |                                                            (.valueOf)))
+1428 |                                                     (last))]
+1429 |                             {:start earliest-start
+1430 |                              :stop  earliest-stop}))))))))
+-------------------------------------------^------------------------------------
+ Use of undeclared Var time-align-mobile.handlers/earliest-stop
+--------------------------------------------------------------------------------
+1431 | 
+1432 | (defn where-score-the-day
+1433 |   [buckets]
+1434 |   (let [scores        (->> buckets (select [sp/MAP-VALS :where-score]))
+--------------------------------------------------------------------------------
+[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 0.97s)
 time-align-mobile.handlers> 
