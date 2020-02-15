@@ -1387,7 +1387,7 @@
                                      stop-ms  (->> p :stop  (#(.valueOf %)))]
                                  (- stop-ms start-ms))))
                         (reduce +))})
-(defn score-the-bucket
+(defn where-score-the-bucket
   [{:keys [actual planned]}]
   (let [planned-total       (:total-duration planned)
         actual-total        (:total-duration actual)
@@ -1402,15 +1402,15 @@
         score               (if (= 0 planned-total)
                               0
                               relative-difference)]
-    {:actual  actual
-     :planned planned
-     :score   score}))
-(defn score-the-day
+    {:actual      actual
+     :planned     planned
+     :where-score score}))
+(defn where-score-the-day
   [buckets]
-  (let [scores        (->> buckets (select [sp/MAP-VALS :score]))
+  (let [scores        (->> buckets (select [sp/MAP-VALS :where-score]))
         average-score (-> (reduce + scores)
                           (/ (count scores)))]
-    (merge buckets {:score average-score})))
+    (merge buckets {:where-score average-score})))
 
 (def wip (-> db
              (subs/get-periods :na)
@@ -1445,37 +1445,36 @@
              (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
                              set-duration-per-type))
 
-             ;; add a :score section underneath each bucket-id key
+             ;; add a :where-score section underneath each bucket-id key
              ;; 0 is a perfect score - 2 is the worst score
              ;; total result:
-             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :planned {:periods        [periods]
-             ;;                                        :total-duration 132208}
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
              ;;                              :where-score 1}
-             ;;                 bucket-id-b {:actual  {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :planned {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :score    1}}}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
              (->> (transform [sp/MAP-VALS sp/MAP-VALS]
-                             score-the-bucket))
+                             where-score-the-bucket))
 
-             ;; add a :score section underneath each day key
+             ;; add a :where-score section underneath each day key
              ;; total result:
-             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :planned {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :score    1}
-             ;;                 bucket-id-b {:actual  {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :planned {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :score    1}
-             ;;                 score        1}}
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
              (->> (transform [sp/MAP-VALS]
-                             score-the-day))))
+                             where-score-the-day))))
 
-;; (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
-(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :where-score]))

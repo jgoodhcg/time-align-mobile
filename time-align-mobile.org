@@ -318,7 +318,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [11/18]
+*** TODO Minor fixes [11/19]
     :LOGBOOK:
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
     CLOCK: [2020-02-09 Sun 15:06]--[2020-02-09 Sun 16:15] =>  1:09
@@ -358,6 +358,7 @@
     - [ ] Stopping an in play period reloads the form
     - [ ] Saving an in play period immediately ticks
     - [ ] Disable stop botton on an in play period
+    - [ ] Change "groups" to "categories" in presentation
 
 *** TODO Make a better report
     :PROPERTIES:
@@ -394,12 +395,13 @@
       :ID:       2ce1454c-1016-4e1f-8112-0a1d99a22e49
       :END:
       :LOGBOOK:
+      CLOCK: [2020-02-15 Sat 12:49]
       CLOCK: [2020-02-15 Sat 11:28]--[2020-02-15 Sat 12:41] =>  1:13
       CLOCK: [2020-02-15 Sat 11:11]--[2020-02-15 Sat 11:14] =>  0:03
       :END:
       - [X] Break out functions
       - [X] Make a note to Spec functions
-      - [ ] Break apart the day keyed data structure from the previous step for reuse
+      - [X] Change previous score key
       - [ ] For each day find any over lapping actual periods for every planned period
       - [ ] Take all (or the first) Overlapping period(s) with a matching bucket id 
         - [ ] calculate how much overlap
