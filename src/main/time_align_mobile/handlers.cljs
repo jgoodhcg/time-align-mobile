@@ -1323,53 +1323,105 @@
 (reg-event-db :set-version [validate-spec amplitude-logging persist-secure-store] set-version)
 
 (def db @re-frame.db/app-db)
+;; TODO use data specs to define params and returns and apply with spec/fdef
+(defn duplicate-straddling-period
+  "duplicate periods that straddle days
+   so that each duplicates' start/stop values are bounded to each day"
+  [period]
+  (if (and (some? (:start period))
+           (some? (:stop period)))
+    (let [{:keys [start stop]} period
+          start-v              (.valueOf start)
+          stop-v               (.valueOf stop)
+
+          num-days-between (-> stop-v
+                               (- start-v)
+                               (/ helpers/day-ms)
+                               (js/Math.ceil))
+
+          days (->> num-days-between
+                    (range)
+                    (map
+                     (fn [n]
+                       (->> n
+                            (helpers/forward-n-days start)
+                            (helpers/reset-relative-ms 0)))))
+
+          bounded-dupes (->> days
+                             (map
+                              (fn [day]
+                                (merge
+                                 period
+                                 {:start (helpers/bound-start start day)
+                                  :stop  (helpers/bound-stop stop day)}))))]
+      ;; return bounded-dupes
+      bounded-dupes)
+    ;; if this period isn't valid return nil
+    ;; it can be filtered out later
+    nil))
+(defn get-beginning-of-day-start
+  [{:keys [start]}]
+  (if (some? start)
+    (->> start
+         (helpers/reset-relative-ms 0)
+         (#(.valueOf %)))
+    :not-on-a-day-a-day))
+(defn split-periods-by-bucket-then-type
+  [periods]
+  (->> periods
+       (group-by :bucket-id)
+       (transform [sp/MAP-VALS]
+                  (fn [periods]
+                    (merge {:planned [] :actual []}
+                           (->> periods
+                                (group-by (fn [period]
+                                            (if (:planned period)
+                                              :planned
+                                              :actual)))))))))
+(defn set-duration-per-type
+  [periods]
+  {:periods        periods
+   :total-duration (->> periods
+                        (map (fn [p]
+                               (let [start-ms (->> p :start (#(.valueOf %)))
+                                     stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                 (- stop-ms start-ms))))
+                        (reduce +))})
+(defn score-the-bucket
+  [{:keys [actual planned]}]
+  (let [planned-total       (:total-duration planned)
+        actual-total        (:total-duration actual)
+        actual-difference   (-> planned-total
+                                (- actual-total)
+                                (js/Math.abs))
+        denominator         (-> planned-total
+                                (+ actual-total)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 planned-total)
+                              0
+                              relative-difference)]
+    {:actual  actual
+     :planned planned
+     :score   score}))
+(defn score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+    (merge buckets {:score average-score})))
+
 (def wip (-> db
              (subs/get-periods :na)
+
              ;; group by the beginning of the day for each :start value as a unix time stamp
-             ;; {1581138000000 [periods]}
-             (->> (map (fn [period]
-                         ;; duplicate periods that straddle days
-                         ;; so that each duplicates' start/stop values are bounded to each day
-                         (if (and (some? (:start period))
-                                  (some? (:stop period)))
-                           (let [{:keys [start stop]} period
-                                 start-v              (.valueOf start)
-                                 stop-v               (.valueOf stop)
-
-                                 num-days-between (-> stop-v
-                                                      (- start-v)
-                                                      (/ helpers/day-ms)
-                                                      (js/Math.ceil))
-
-                                 days (->> num-days-between
-                                           (range)
-                                           (map
-                                            (fn [n]
-                                              (->> n
-                                                   (helpers/forward-n-days start)
-                                                   (helpers/reset-relative-ms 0)))))
-
-                                 bounded-dupes (->> days
-                                                    (map
-                                                     (fn [day]
-                                                       (merge
-                                                        period
-                                                        {:start (helpers/bound-start start day)
-                                                         :stop  (helpers/bound-stop stop day)}))))]
-                             ;; return bounded-dupes
-                             bounded-dupes)
-                           ;; if this period isn't valid return nil
-                           ;; it can be filtered out later
-                           nil)))
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
                   (flatten)
                   (remove nil?)
-                  (group-by
-                   (fn [{:keys [start]}]
-                     (if (some? start)
-                       (->> start
-                            (helpers/reset-relative-ms 0)
-                            (#(.valueOf %)))
-                       :not-on-a-day-a-day))))
+                  (group-by get-beginning-of-day-start))
+
              ;; take all the periods under the day key
              ;; and group them by bucket-id and then by track
              ;; the total result:
@@ -1377,19 +1429,9 @@
              ;;                              :planned [periods]}
              ;;                 bucket-id-b {:actual  [periods]
              ;;                              :planned [periods]}}}
-             (->> (transform
-                   [sp/MAP-VALS]
-                   (fn [periods]
-                     (->> periods
-                          (group-by :bucket-id)
-                          (transform [sp/MAP-VALS]
-                                     (fn [periods]
-                                       (merge {:planned [] :actual []}
-                                              (->> periods
-                                                   (group-by (fn [period]
-                                                               (if (:planned period)
-                                                                 :planned
-                                                                 :actual)))))))))))
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
              ;; add a :total-duration section underneath the type key, in ms
              ;; total result:
              ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
@@ -1400,16 +1442,9 @@
              ;;                                        :total-duration 132208}
              ;;                              :planned {:periods        [periods]
              ;;                                        :total-duration 132208}}}}
-             (->> (transform
-                   [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
-                   (fn [periods]
-                     {:periods        periods
-                      :total-duration (->> periods
-                                           (map (fn [p]
-                                                  (let [start-ms (->> p :start (#(.valueOf %)))
-                                                        stop-ms  (->> p :stop  (#(.valueOf %)))]
-                                                    (- stop-ms start-ms))))
-                                           (reduce +))})))
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
              ;; add a :score section underneath each bucket-id key
              ;; 0 is a perfect score - 2 is the worst score
              ;; total result:
@@ -1417,31 +1452,15 @@
              ;;                                        :total-duration 132208}
              ;;                              :planned {:periods        [periods]
              ;;                                        :total-duration 132208}
-             ;;                              :score    1}
+             ;;                              :where-score 1}
              ;;                 bucket-id-b {:actual  {:periods        [periods]
              ;;                                        :total-duration 132208}
              ;;                              :planned {:periods        [periods]
              ;;                                        :total-duration 132208}
              ;;                              :score    1}}}
-             (->> (transform
-                   [sp/MAP-VALS sp/MAP-VALS]
-                   (fn [{:keys [actual planned]}]
-                     (let [planned-total       (:total-duration planned)
-                           actual-total        (:total-duration actual)
-                           actual-difference   (-> planned-total
-                                                   (- actual-total)
-                                                   (js/Math.abs))
-                           denominator         (-> planned-total
-                                                   (+ actual-total)
-                                                   (/ 2))
-                           relative-difference (-> actual-difference
-                                                   (/ denominator))
-                           score               (if (= 0 planned-total)
-                                                 0
-                                                 relative-difference)]
-                       {:actual  actual
-                        :planned planned
-                        :score   score}))))
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             score-the-bucket))
+
              ;; add a :score section underneath each day key
              ;; total result:
              ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
@@ -1455,13 +1474,8 @@
              ;;                                        :total-duration 132208}
              ;;                              :score    1}
              ;;                 score        1}}
-             (->> (transform
-                   [sp/MAP-VALS]
-                   (fn [buckets]
-                     (let [scores        (->> buckets (select [sp/MAP-VALS :score]))
-                           average-score (-> (reduce + scores)
-                                             (/ (count scores)))]
-                       (merge buckets {:score average-score})))))))
+             (->> (transform [sp/MAP-VALS]
+                             score-the-day))))
 
 ;; (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
 (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
