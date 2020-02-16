@@ -416,11 +416,14 @@
       - [X] Get a ratio (relative difference?) of overlap to planned total as a score
       - [X] Accumulate the scores into one day score
 ***** Did you track the *amount* you should have? (whole day)
-      - [ ] Calculate Total time planned per day
-      - [ ] Get the ratio (relative difference?) of planed time to total time in a day
-      - [ ] Calculate tracked (~:actual~) time in a day
-      - [ ] Get the ratio (relative difference?) of tracked  time to total time in a day
-      - [ ] Average the ratios
+      :LOGBOOK:
+      CLOCK: [2020-02-16 Sun 14:29]--[2020-02-16 Sun 15:29] =>  1:00
+      :END:
+      - [X] Calculate Total time planned per day
+      - [X] Get the ratio (relative difference?) of planed time to total time in a day
+      - [X] Calculate tracked (~:actual~) time in a day
+      - [X] Get the ratio (relative difference?) of tracked  time to total time in a day
+      - [X] Average the ratios
 ***** Define a total day score 
       - [ ] The scores will probably all be relative differences, just average them together
       - [ ] Might need to do something like ~(-> total-avg (- 2) (js/Math.abs) (* 100))~ so that it looks decent on the heatmap

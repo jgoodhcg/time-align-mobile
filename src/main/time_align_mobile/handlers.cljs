@@ -1377,10 +1377,31 @@
                                             (if (:planned period)
                                               :planned
                                               :actual)))))))))
+(defn merge-overlapping-periods [periods]
+  (->> periods
+       (helpers/get-collision-groups)
+       (map (fn [collision-group]
+              (let [earliest-start (->> collision-group
+                                        (sort-by
+                                         #(->> %
+                                               :start
+                                               (.valueOf)))
+                                        first
+                                        :start)
+                    latest-stop    (->> collision-group
+                                        (sort-by
+                                         #(->> %
+                                               :stop
+                                               (.valueOf)))
+                                        last
+                                        :stop)]
+                {:start earliest-start
+                 :stop  latest-stop})))))
 (defn set-duration-per-type
   [periods]
   {:periods        periods
    :total-duration (->> periods
+                        merge-overlapping-periods
                         (map (fn [p]
                                (let [start-ms (->> p :start (#(.valueOf %)))
                                      stop-ms  (->> p :stop  (#(.valueOf %)))]
@@ -1428,25 +1449,7 @@
                                :periods
                                (filter (partial helpers/overlapping-timestamps? planned-period))
                                ;; check out ./doc-images/comparing-planned-actual.png
-                               ;; merge actual periods that overlap each other
-                               (helpers/get-collision-groups)
-                               (map (fn [collision-group]
-                                      (let [earliest-start (->> collision-group
-                                                                (sort-by
-                                                                 #(->> %
-                                                                       :start
-                                                                       (.valueOf)))
-                                                                first
-                                                                :start)
-                                            latest-stop    (->> collision-group
-                                                                (sort-by
-                                                                 #(->> %
-                                                                       :stop
-                                                                       (.valueOf)))
-                                                                last
-                                                                :stop)]
-                                        {:start earliest-start
-                                         :stop  latest-stop})))
+                               merge-overlapping-periods
                                ;; bound the start and stop
                                (map (fn [{:keys [start stop]}]
                                       (let [bounded-start (if (-> start
@@ -1477,16 +1480,44 @@
   [buckets]
   (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
         average-score (-> (reduce + scores)
-                          (/ (count scores)))]
+                          (/ (count scores))
+                          (js/Math.round))]
 
     (->> buckets (transform [:score] #(merge % {:where average-score})))))
 (defn when-score-the-day
   [buckets]
   (let [scores        (->> buckets (select [sp/MAP-VALS :score :when]))
         average-score (-> (reduce + scores)
-                          (/ (count scores)))]
+                          (/ (count scores))
+                          (js/Math.round))]
 
     (->> buckets (transform [:score] #(merge % {:when average-score})))))
+(defn amount-score-the-day
+  [buckets]
+  (let [actual-total (->> buckets
+                          (select [sp/MAP-VALS
+                                   :actual
+                                   :total-duration])
+                          (reduce +))
+        planned-total (->> buckets
+                           (select [sp/MAP-VALS
+                                    :planned
+                                    :total-duration])
+                           (reduce +))
+        actual-score (-> actual-total
+                         (relative-difference-score
+                          helpers/day-ms)
+                         (js/Math.round))
+        planned-score (-> planned-total
+                          (relative-difference-score
+                           helpers/day-ms)
+                          (js/Math.round))
+        average-score (-> actual-score
+                          (+ planned-score)
+                          (/ 2)
+                          (js/Math.round))]
+    ;; there might be something to showing actual and planned separately
+    (->> buckets (transform [:score] #(merge % {:amount average-score})))))
 
 (def db @re-frame.db/app-db)
 (def wip (-> db
@@ -1545,23 +1576,28 @@
                               where-score-the-bucket
                               when-score-the-bucket)))
 
-             ;; add a :where-score section underneath each day key
+             ;; add a :score section underneath each day key
              ;; total result:
              ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
              ;;                                            :total-duration 132208}
              ;;                              :planned     {:periods        [periods]
              ;;                                            :total-duration 132208}
-             ;;                              :where-score 1}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
              ;;                 bucket-id-b {:actual      {:periods        [periods]
              ;;                                            :total-duration 132208}
              ;;                              :planned     {:periods        [periods]
              ;;                                            :total-duration 132208}
-             ;;                              :where-score 1}}}
-             ;;                 where-score 1}}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 score {:where 1 :when 1.1}}}
              (->> (transform [sp/MAP-VALS]
                              (comp
                               where-score-the-day
-                              when-score-the-day)))))
+                              when-score-the-day
+                              amount-score-the-day)))))
 
 (->> wip (select [sp/MAP-VALS :score]))
 (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))

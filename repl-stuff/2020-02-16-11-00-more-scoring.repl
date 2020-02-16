@@ -2456,4 +2456,910 @@ time-align-mobile.handlers> (def wip (-> db
 time-align-mobile.handlers> 
 (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
 [{:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 0} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 78} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 70, :where 70} {:when 0, :where 32} {:when 0, :where 100} {:when 65, :where 79} {:when 0, :where 0} {:when 0, :where 100} {:when 0, :where 58} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 89} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 51} {:when 0, :where 0} {:when 0, :where 99} {:when 0, :where 100} {:when 0, :where 36} {:when 92, :where 92} nil {:when 0, :where 80} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 86} {:when 0, :where 78} {:when 0, :where 100} {:when 0, :where 54} {:when 81, :where 84} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 79} {:when 28, :where 31} {:when 100, :where 94} {:when 0, :where 81} nil {:when 51, :where 77} {:when 0, :where 100} {:when 64, :where 64} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 97, :where 97} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 56} {:when 0, :where 0} {:when 0, :where 100} {:when 57, :where 87} {:when 0, :where 100} {:when 77, :where 75} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 93} {:when 63, :where 80} {:when 0, :where 100} {:when 70, :where 73} {:when 89, :where 53} {:when 0, :where 50} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 100, :where 88} {:when 0, :where 55} {:when 0, :where 100} {:when 91, :where 48} {:when 182, :where 93} nil {:when 0, :where 100} {:when 56, :where 83} {:when 0, :where 87} {:when 71, :where 36} {:when 100, :where 97} {:when 0, :where 100} nil {:when 100, :where 59} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 93, :where 90} {:when 191, :where 87} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 100, :where 24} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 47, :where 97} {:when 70, :where 70} {:when 0, :where 100} {:when 0, :where 83} {:when 177, :where 76} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 67} {:when 0, :where 94} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 0} {:when 94, :where 46} {:when 0, :where 100} {:when 0, :where 100} {:when 76, :where 95} {:when 99, :where 94} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 17, :where 72} {:when 100, :where 45} {:when 76, :where 84} {:when 0, :where 100} {:when 0, :where 18} {:when 100, :where 88} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 44} {:when 63, :where 82} {:when 80, :where 80} {:when 0, :where 43} {:when 0, :where 61} {:when 0, :where 100} nil {:when 0, :where 100} nil {:when 0, :where 64} {:when 0, :where 100} {:when 0, :where 84} {:when 0, :where 100} {:when 180, :where 96} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 107, :where 86} {:when 0, :where 100} {:when 76, :where 64} {:when 42, :where 58} {:when 0, :where 0} {:when 99, :where 85} {:when 0, :where 100} nil {:when 0, :where 0} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 47} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 38, :where 82} {:when 0, :where 100} {:when 0, :where 96} {:when 98, :where 98} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 0} {:when 58, :where 84} {:when 0, :where 49} {:when 0, :where 100} {:when 0, :where 0} {:when 0, :where 79} {:when 100, :where 40} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} nil]
+time-align-mobile.handlers> (defn when-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :when]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:when average-score})))))
+#'time-align-mobile.handlers/when-score-the-day
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             (comp
+                              where-score-the-day
+                              when-score-the-day)))))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS :score]))
+[{:when 0, :where 75} {:when 0, :where 0} {:when 0, :where 86.44444444444444} {:when 19.285714285714285, :where 54.875} {:when 0, :where 87.5} {:when 0, :where 85.71428571428571} {:when 0, :where 81.5} {:when 11.5, :where 62} {:when 0, :where 85.71428571428571} {:when 10.125, :where 78} {:when 0, :where 88.88888888888889} {:when 30.375, :where 69.55555555555556} {:when 0, :where 80} {:when 48.5, :where 65.66666666666667} {:when 0, :where 87.5} {:when 0, :where 66.66666666666667} {:when 0, :where 75} {:when 22.333333333333332, :where 59.714285714285715} {:when 0, :where 85.71428571428571} {:when 37, :where 64.14285714285714} {:when 0, :where 87.5} {:when 0, :where 83.33333333333333} {:when 0, :where 75} {:when 74.6, :where 64} {:when 40.875, :where 73.55555555555556} {:when 40.57142857142857, :where 84.625} {:when 12.5, :where 80.44444444444444} {:when 0, :where 80} {:when 0, :where 87.5} {:when 49, :where 75.14285714285714} {:when 0, :where 87.5} {:when 0, :where 80} {:when 0, :where 83.33333333333333} {:when 0, :where 80} {:when 0, :where 80.14285714285714} {:when 0, :where 85.71428571428571} {:when 0, :where 87.5} {:when 44.833333333333336, :where 62.142857142857146} {:when 0, :where 80} {:when 0, :where 85.71428571428571} {:when 48.833333333333336, :where 58.142857142857146} {:when 0, :where 87.5} {:when 0, :where 80} {:when 0, :where 88.88888888888889} {:when 0, :where 83.33333333333333} {:when 23.833333333333332, :where 58.57142857142857} {:when 0, :where 50} {:when 30, :where 77.71428571428571} {:when 0, :where 88.88888888888889} {:when 0, :where 83.33333333333333} {:when 0, :where 85.71428571428571} {:when 36, :where 59.3} {:when 0, :where 75} {:when 0, :where 78.14285714285714} {:when 22.666666666666668, :where 82.28571428571429} {:when 0, :where 83.33333333333333} {:when 0, :where 80} {:when 0, :where 75} {:when 0, :where 75} {:when 0, :where 85.71428571428571} {:when 22.571428571428573, :where 44} {:when 0, :where 87.5} {:when 0, :where 50}][:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 0.96s)
+
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             (comp
+                              where-score-the-day
+                              when-score-the-day)))))
+#'time-align-mobile.handlers/wip[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 1.04s)
+[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 1.16s)
+
+time-align-mobile.handlers> (defn duplicate-straddling-period
+  "duplicate periods that straddle days
+   so that each duplicates' start/stop values are bounded to each day"
+  [period]
+  (if (and (some? (:start period))
+           (some? (:stop period)))
+    (let [{:keys [start stop]} period
+          start-v              (.valueOf start)
+          stop-v               (.valueOf stop)
+
+          num-days-between (-> stop-v
+                               (- start-v)
+                               (/ helpers/day-ms)
+                               (js/Math.ceil))
+
+          days (->> num-days-between
+                    (range)
+                    (map
+                     (fn [n]
+                       (->> n
+                            (helpers/forward-n-days start)
+                            (helpers/reset-relative-ms 0)))))
+
+          bounded-dupes (->> days
+                             (map
+                              (fn [day]
+                                (merge
+                                 period
+                                 {:start (helpers/bound-start start day)
+                                  :stop  (helpers/bound-stop stop day)}))))]
+      ;; return bounded-dupes
+      bounded-dupes)
+    ;; if this period isn't valid return nil
+    ;; it can be filtered out later
+    nil))
+(defn get-beginning-of-day-start
+  [{:keys [start]}]
+  (if (some? start)
+    (->> start
+         (helpers/reset-relative-ms 0)
+         (#(.valueOf %)))
+    :not-on-a-day-a-day))
+(defn split-periods-by-bucket-then-type
+  [periods]
+  (->> periods
+       (group-by :bucket-id)
+       (transform [sp/MAP-VALS]
+                  (fn [periods]
+                    (merge {:planned [] :actual []}
+                           (->> periods
+                                (group-by (fn [period]
+                                            (if (:planned period)
+                                              :planned
+                                              :actual)))))))))
+(defn merge-overlapping-periods [periods]
+  (->> periods
+       (helpers/get-collision-groups)
+       (map (fn [collision-group]
+              (let [earliest-start (->> collision-group
+                                        (sort-by
+                                         #(->> %
+                                               :start
+                                               (.valueOf)))
+                                        first
+                                        :start)
+                    latest-stop    (->> collision-group
+                                        (sort-by
+                                         #(->> %
+                                               :stop
+                                               (.valueOf)))
+                                        last
+                                        :stop)]
+                {:start earliest-start
+                 :stop  latest-stop})))))
+(defn set-duration-per-type
+  [periods]
+  {:periods        periods
+   :total-duration (->> periods
+                        merge-overlapping-periods
+                        (map (fn [p]
+                               (let [start-ms (->> p :start (#(.valueOf %)))
+                                     stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                 (- stop-ms start-ms))))
+                        (reduce +))})
+(defn relative-difference-score
+  "Gives a score 0 - 100
+  100 - highest score (also 100 if x-ref is 0)
+  0 - lowest score"
+  [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)
+        inverted            (-> (- 2 score)
+                                (/ 2)
+                                (* 100)
+                                (js/Math.round))]
+    inverted))
+(defn where-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [planned-total       (:total-duration planned)
+        actual-total        (:total-duration actual)
+        score               (relative-difference-score
+                             actual-total
+                             planned-total)]
+
+    (->> bucket (transform [:score] #(merge % {:where score})))))
+(defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             :periods
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               :periods
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               merge-overlapping-periods
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+(defn where-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:where average-score})))))
+(defn when-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :when]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:when average-score})))))
+
+
+#'time-align-mobile.handlers/duplicate-straddling-period#'time-align-mobile.handlers/get-beginning-of-day-start#'time-align-mobile.handlers/split-periods-by-bucket-then-type#'time-align-mobile.handlers/merge-overlapping-periods#'time-align-mobile.handlers/set-duration-per-type#'time-align-mobile.handlers/relative-difference-score#'time-align-mobile.handlers/where-score-the-bucket#'time-align-mobile.handlers/when-score-the-bucket#'time-align-mobile.handlers/where-score-the-day#'time-align-mobile.handlers/when-score-the-day
+time-align-mobile.handlers> (def db @re-frame.db/app-db)
+(def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
+
+             ;; add a :score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 score {:where 1 :when 1.1}}}
+             (->> (transform [sp/MAP-VALS]
+                             (comp
+                              where-score-the-day
+                              when-score-the-day)))))
+#'time-align-mobile.handlers/db#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS :score]))
+[{:when 0, :where 75} {:when 0, :where 0} {:when 0, :where 86.44444444444444} {:when 19.285714285714285, :where 54.875} {:when 0, :where 87.5} {:when 0, :where 85.71428571428571} {:when 0, :where 81.5} {:when 11.5, :where 62} {:when 0, :where 85.71428571428571} {:when 10.125, :where 78} {:when 0, :where 88.88888888888889} {:when 30.375, :where 69.55555555555556} {:when 0, :where 80} {:when 48.5, :where 65.66666666666667} {:when 0, :where 87.5} {:when 0, :where 66.66666666666667} {:when 0, :where 75} {:when 22.333333333333332, :where 59.714285714285715} {:when 0, :where 85.71428571428571} {:when 37, :where 64.14285714285714} {:when 0, :where 87.5} {:when 0, :where 83.33333333333333} {:when 0, :where 75} {:when 74.6, :where 64} {:when 40.875, :where 73.55555555555556} {:when 40.57142857142857, :where 84.625} {:when 12.5, :where 80.44444444444444} {:when 0, :where 80} {:when 0, :where 87.5} {:when 49, :where 75.14285714285714} {:when 0, :where 87.5} {:when 0, :where 80} {:when 0, :where 83.33333333333333} {:when 0, :where 80} {:when 0, :where 80.14285714285714} {:when 0, :where 85.71428571428571} {:when 0, :where 87.5} {:when 44.833333333333336, :where 62.142857142857146} {:when 0, :where 80} {:when 0, :where 85.71428571428571} {:when 48.833333333333336, :where 58.142857142857146} {:when 0, :where 87.5} {:when 0, :where 80} {:when 0, :where 88.88888888888889} {:when 0, :where 83.33333333333333} {:when 23.833333333333332, :where 58.57142857142857} {:when 0, :where 50} {:when 30, :where 77.71428571428571} {:when 0, :where 88.88888888888889} {:when 0, :where 83.33333333333333} {:when 0, :where 85.71428571428571} {:when 36, :where 59.3} {:when 0, :where 75} {:when 0, :where 78.14285714285714} {:when 22.666666666666668, :where 82.28571428571429} {:when 0, :where 83.33333333333333} {:when 0, :where 80} {:when 0, :where 75} {:when 0, :where 75} {:when 0, :where 85.71428571428571} {:when 22.571428571428573, :where 44} {:when 0, :where 87.5} {:when 0, :where 50}]
+time-align-mobile.handlers> (defn where-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores))
+                          (js/Math.round))]
+
+    (->> buckets (transform [:score] #(merge % {:where average-score})))))
+(defn when-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :when]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores))
+                          (js/Math.round))]
+
+    (->> buckets (transform [:score] #(merge % {:when average-score})))))
+
+
+#'time-align-mobile.handlers/where-score-the-day#'time-align-mobile.handlers/when-score-the-day
+time-align-mobile.handlers> (def db @re-frame.db/app-db)
+(def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
+
+             ;; add a :score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 score {:where 1 :when 1.1}}}
+             (->> (transform [sp/MAP-VALS]
+                             (comp
+                              where-score-the-day
+                              when-score-the-day)))))
+
+
+#'time-align-mobile.handlers/db#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS :score]))
+[{:when 0, :where 75} {:when 0, :where 0} {:when 0, :where 86} {:when 19, :where 55} {:when 0, :where 88} {:when 0, :where 86} {:when 0, :where 82} {:when 12, :where 62} {:when 0, :where 86} {:when 10, :where 78} {:when 0, :where 89} {:when 30, :where 70} {:when 0, :where 80} {:when 49, :where 66} {:when 0, :where 88} {:when 0, :where 67} {:when 0, :where 75} {:when 22, :where 60} {:when 0, :where 86} {:when 37, :where 64} {:when 0, :where 88} {:when 0, :where 83} {:when 0, :where 75} {:when 75, :where 64} {:when 41, :where 74} {:when 41, :where 85} {:when 13, :where 80} {:when 0, :where 80} {:when 0, :where 88} {:when 49, :where 75} {:when 0, :where 88} {:when 0, :where 80} {:when 0, :where 83} {:when 0, :where 80} {:when 0, :where 80} {:when 0, :where 86} {:when 0, :where 88} {:when 45, :where 62} {:when 0, :where 80} {:when 0, :where 86} {:when 49, :where 58} {:when 0, :where 88} {:when 0, :where 80} {:when 0, :where 89} {:when 0, :where 83} {:when 24, :where 59} {:when 0, :where 50} {:when 30, :where 78} {:when 0, :where 89} {:when 0, :where 83} {:when 0, :where 86} {:when 36, :where 59} {:when 0, :where 75} {:when 0, :where 78} {:when 23, :where 82} {:when 0, :where 83} {:when 0, :where 80} {:when 0, :where 75} {:when 0, :where 75} {:when 0, :where 86} {:when 23, :where 44} {:when 0, :where 88} {:when 0, :where 50}]
+time-align-mobile.handlers> (select [sp/MAP-VALS sp/MAP-VALS :total-duration])
+------ REPL Error while processing ---------------------------------------------
+(select [sp/MAP-VALS sp/MAP-VALS :total-duration])
+Error in phase :compilation
+Wrong number of args (1) passed to: com.rpl.specter/select
+time-align-mobile.handlers> (->> wip (select [sp/MAP-VALS sp/MAP-VALS :total-duration]))
+[nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil nil]
+time-align-mobile.handlers> (->> wip (select [sp/MAP-VALS sp/MAP-VALS (sp/submap [:actual :planned]) sp/MAP-VALS :total-duration]))
+[14485405 0 7324704 0 132208 0 0 2700000 2416318 0 8500064 0 1271965 0 4606792 0 4191798 2700000 15867603 0 883964 0 9020530 0 6835556 12600000 1185823 6300000 1646812 0 16328766 25200000 0 1200000 17123178 0 5886783 14400000 4026894 0 2341860 0 3500750 0 6745361 0 6317155 0 20475489 0 6000000 0 2873107 0 1000 0 7299628 0 5048323 0 26738455 0 13629532 0 2211500 0 3340060 2700000 4870379 0 25138071 0 18182449 0 5203160 1800000 0 900000 4437725 4500000 6240000 0 395966 1800000 24300000 28500000 3006860 4500000 3906034 0 3230372 0 1048893 0 5753381 0 3099395 0 24297321 0 8399020 0 4533142 0 5910705 4476356 1410267 900000 1009555 0 4099995 1500000 20817742 28800000 2700000 0 4801065 0 5425087 0 1336539 0 85111 0 17196321 0 470189 0 27087086 0 5824429 0 2753100 0 3368860 0 5058098 3300000 1676108 9300000 9982976 8940000 3084243 4500000 13411207 21600000 564698 0 3350588 7200000 3658428 0 3100618 0 11819538 0 9353119 0 2864240 0 3367132 3540000 3274388 0 3896384 0 6265133 0 4662063 0 29359725 0 3004467 0 1736371 0 19582509 0 23682083 0 2399279 0 2899449 0 14336517 0 3876428 1500000 0 2700000 8804886 0 4090433 5340000 15469327 0 16422562 9900000 4518989 0 3947806 0 31443675 0 2048920 0 12706889 0 16484245 0 784336 900000 2787783 4200000 3709228 0 4796698 8340000 17439287 6300000 12806238 4320000 5100000 0 6721872 0 2853634 0 9149577 0 1559525 0 16426018 0 4037339 0 5372636 0 3991792 0 3648974 0 2742795 0 19656541 0 540857 0 1226248 0 21060000 0 1417651 1800000 3972115 1500000 4954297 0 9486089 3000000 23580000 27000000 637749 0 853108 1200000 3894033 3000000 32237149 7140000 3833672 3600000 21498457 0 7861956 3300000 829704 0 1028613 0 5672058 0 6328703 0 30012960 0 3703676 3000000 23357302 18000000 14743598 0 8930782 0 7032357 0 4194324 0 32404127 4440000 1961320 0 11069255 0 804560 0 3420000 0 4117716 0 1043975 0 21660000 0 12600000 0 3245840 0 2278318 0 1803425 0 2779914 0 26368836 0 6412001 0 7548260 0 1576940 1500000 960000 1800000 1871340 0 5084121 3600000 20640000 12600000 11100000 0 1800000 0 881220 0 1358387 0 2299397 0 25325824 0 11377141 0 770354 0 473651 0 1391046 0 4483901 0 29340000 0 5548529 0 1732876 0 2456516 0 7295973 0 9495245 0 5314087 0 2504832 0 1912075 0 23157324 0 5400000 2727275 1364495 1200000 29787272 0 413747 0 27000000 0 2700000 0 6097736 0 5255693 0 33681882 0 5136250 0 9266966 0 13838485 0 3681736 0 2995231 0 34644162 0 1367207 0 976951 0 26147666 0 3327827 0 0 2700000 9095118 2700000 1810411 0 2701493 0 4790315 5345453 12159655 10800000 2384248 0 3475975 0 1780678 0 23509879 0 5934115 0 6454989 0 4563284 0 3831965 0 2116931 0 32982174 0 1510657 2700000 2063781 600000 2808449 3900000 36309163 0 441441 4500000 6841640 5400000 3130847 0 2737977 0 6673038 0 3159352 0 2699773 0 27533832 0 7500583 0 10516921 0 2362323 0 1884480 0 11209450 0 1454103 0 1869620 0 2628122 0 35111805 0 2232615 0 3530268 0 2963265 0 13037484 0 4273946 0 5752815 0 4468492 0 8901288 0 1862703 0 1971376 6971154 3780644 5400000 2261179 1500000 1466381 5400000 3588194 8100000 22516416 0 23178637 0 4482388 2100000 3267538 0 2878865 2100000 30068192 0 13311513 14400000 6345772 0 1361882 0 569406 0 1875023 0 36457972 0 4845243 0 27540000 0 6000000 0 4140000 0 12559385 0 5257293 0 27211022 0 34755637 0 960000 0 7396482 0 4065919 0 1153234 0 15541488 0 4785119 0 12922950 0 2679835 3540000 2400000 0 3261244 6981810 26112238 10740000 0 2700000 29071299 21300000 10588327 0 0 3943104 2100000 0 5269078 0 29472484 0 24335212 0 4801178 0 840000 2700000 2139146 0 963678 0 24106337 0 15306451 0 1763553 0 2748501 3960000 29228041 0 554626 600000 28971871 30000000 13515930 0 4817711 0 10261574 0 31320263 0 1516791 0 12281117 0 1731697 0 33625440 0 22756062 0 473625 0 3359170 0 3001979 0 51555112 0 5695798 0 24145805 0 51840000 0 900000 0 1500000 0 34587253 0 2270375 0 23940564 0 12900000 0 0 1800000 6219670 4500000 22136160 7140000 461135 0 0 4500000 6900000 4500000 23921039 6000000 1800000 0 7800724 0 2727605 0 29605823 0 4056222 0 1710258 0 21178945 0 43547254 0]
+time-align-mobile.handlers> (->> wip 
+                                 (select 
+                                  [sp/MAP-VALS 
+                                   sp/MAP-VALS 
+                                   (sp/submap [:actual :planned]) 
+                                   (sp/submap [:total-duration])]))
+                                 
+[{} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}]
+time-align-mobile.handlers> (->> wip 
+                                 (transform 
+                                  [sp/MAP-VALS 
+                                   sp/MAP-VALS 
+                                   (sp/submap [:actual :planned])
+                                   sp/MAP-VALS]
+                                  (fn [x] (dissoc x :periods))))
+                                 
+{1581138000000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 14485405}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 7324704}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 132208}, :planned {:total-duration 0}}, :score {:when 0, :where 75}}, 1581051600000 {#uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 2700000}}, :score {:when 0, :where 0}}, 1573275600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 2416318}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 8500064}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1271965}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 4606792}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 78}, :actual {:total-duration 4191798}, :planned {:total-duration 2700000}}, :score {:when 0, :where 86}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 15867603}, :planned {:total-duration 0}}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:score {:when 0, :where 100}, :actual {:total-duration 883964}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 9020530}, :planned {:total-duration 0}}}, 1573880400000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 70, :where 70}, :actual {:total-duration 6835556}, :planned {:total-duration 12600000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 32}, :actual {:total-duration 1185823}, :planned {:total-duration 6300000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1646812}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 65, :where 79}, :actual {:total-duration 16328766}, :planned {:total-duration 25200000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 1200000}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 17123178}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 58}, :actual {:total-duration 5886783}, :planned {:total-duration 14400000}}, :score {:when 19, :where 55}}, 1573534800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 4026894}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 2341860}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 3500750}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 6745361}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 6317155}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 20475489}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 6000000}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1573189200000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 2873107}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1000}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 7299628}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 5048323}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 26738455}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 13629532}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1573794000000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 2211500}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 89}, :actual {:total-duration 3340060}, :planned {:total-duration 2700000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 4870379}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 25138071}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 18182449}, :planned {:total-duration 0}}, :score {:when 0, :where 82}}, 1573448400000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 51}, :actual {:total-duration 5203160}, :planned {:total-duration 1800000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 900000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 99}, :actual {:total-duration 4437725}, :planned {:total-duration 4500000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 6240000}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 36}, :actual {:total-duration 395966}, :planned {:total-duration 1800000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 92, :where 92}, :actual {:total-duration 24300000}, :planned {:total-duration 28500000}}, :score {:when 12, :where 62}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 80}, :actual {:total-duration 3006860}, :planned {:total-duration 4500000}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 3906034}, :planned {:total-duration 0}}}, 1574053200000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 3230372}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1048893}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 5753381}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 3099395}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 24297321}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 8399020}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1573102800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 4533142}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 86}, :actual {:total-duration 5910705}, :planned {:total-duration 4476356}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 78}, :actual {:total-duration 1410267}, :planned {:total-duration 900000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 1009555}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 54}, :actual {:total-duration 4099995}, :planned {:total-duration 1500000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 81, :where 84}, :actual {:total-duration 20817742}, :planned {:total-duration 28800000}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 2700000}, :planned {:total-duration 0}}, :score {:when 10, :where 78}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 4801065}, :planned {:total-duration 0}}}, 1573707600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 5425087}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1336539}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 85111}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 17196321}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 470189}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 27087086}, :planned {:total-duration 0}}, :score {:when 0, :where 89}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 5824429}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 2753100}, :planned {:total-duration 0}}}, 1573362000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 3368860}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 79}, :actual {:total-duration 5058098}, :planned {:total-duration 3300000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 28, :where 31}, :actual {:total-duration 1676108}, :planned {:total-duration 9300000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 100, :where 94}, :actual {:total-duration 9982976}, :planned {:total-duration 8940000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 81}, :actual {:total-duration 3084243}, :planned {:total-duration 4500000}}, :score {:when 30, :where 70}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 51, :where 77}, :actual {:total-duration 13411207}, :planned {:total-duration 21600000}}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:score {:when 0, :where 100}, :actual {:total-duration 564698}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 64, :where 64}, :actual {:total-duration 3350588}, :planned {:total-duration 7200000}}}, 1573966800000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 3658428}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 3100618}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 11819538}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 9353119}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1573016400000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2864240}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 97, :where 97}, :actual {:total-duration 3367132}, :planned {:total-duration 3540000}}, :score {:when 49, :where 66}}, 1573621200000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 3274388}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 3896384}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 6265133}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 4662063}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 29359725}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 3004467}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 1736371}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1575435600000 {#uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 19582509}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 23682083}, :planned {:total-duration 0}}, :score {:when 0, :where 67}}, 1576040400000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2399279}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2899449}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 14336517}, :planned {:total-duration 0}}, :score {:when 0, :where 75}}, 1574485200000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 56}, :actual {:total-duration 3876428}, :planned {:total-duration 1500000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 2700000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 8804886}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 57, :where 87}, :actual {:total-duration 4090433}, :planned {:total-duration 5340000}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 15469327}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 77, :where 75}, :actual {:total-duration 16422562}, :planned {:total-duration 9900000}}, :score {:when 22, :where 60}}, 1575090000000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 4518989}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 3947806}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 31443675}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2048920}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 12706889}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 16484245}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1575694800000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 93}, :actual {:total-duration 784336}, :planned {:total-duration 900000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 63, :where 80}, :actual {:total-duration 2787783}, :planned {:total-duration 4200000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 3709228}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 70, :where 73}, :actual {:total-duration 4796698}, :planned {:total-duration 8340000}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 89, :where 53}, :actual {:total-duration 17439287}, :planned {:total-duration 6300000}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 50}, :actual {:total-duration 12806238}, :planned {:total-duration 4320000}}, :score {:when 37, :where 64}}, 1574139600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 5100000}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 6721872}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2853634}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 9149577}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1559525}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 16426018}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 4037339}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1574744400000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 5372636}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 3991792}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 3648974}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2742795}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 19656541}, :planned {:total-duration 0}}, :score {:when 0, :where 83}}, 1575349200000 {#uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 540857}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1226248}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 21060000}, :planned {:total-duration 0}}, :score {:when 0, :where 75}}, 1575954000000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 100, :where 88}, :actual {:total-duration 1417651}, :planned {:total-duration 1800000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 55}, :actual {:total-duration 3972115}, :planned {:total-duration 1500000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 4954297}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 91, :where 48}, :actual {:total-duration 9486089}, :planned {:total-duration 3000000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 182, :where 93}, :actual {:total-duration 23580000}, :planned {:total-duration 27000000}}, :score {:when 75, :where 64}}, 1574398800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 637749}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 56, :where 83}, :actual {:total-duration 853108}, :planned {:total-duration 1200000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 87}, :actual {:total-duration 3894033}, :planned {:total-duration 3000000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 71, :where 36}, :actual {:total-duration 32237149}, :planned {:total-duration 7140000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 100, :where 97}, :actual {:total-duration 3833672}, :planned {:total-duration 3600000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 21498457}, :planned {:total-duration 0}}, :score {:when 41, :where 74}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 100, :where 59}, :actual {:total-duration 7861956}, :planned {:total-duration 3300000}}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:score {:when 0, :where 100}, :actual {:total-duration 829704}, :planned {:total-duration 0}}}, 1575003600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 1028613}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 5672058}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 6328703}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 30012960}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 93, :where 90}, :actual {:total-duration 3703676}, :planned {:total-duration 3000000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 191, :where 87}, :actual {:total-duration 23357302}, :planned {:total-duration 18000000}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 14743598}, :planned {:total-duration 0}}, :score {:when 41, :where 85}}, 1575608400000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 8930782}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 7032357}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 4194324}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 100, :where 24}, :actual {:total-duration 32404127}, :planned {:total-duration 4440000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1961320}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 11069255}, :planned {:total-duration 0}}, :score {:when 13, :where 80}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:score {:when 0, :where 100}, :actual {:total-duration 804560}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 3420000}, :planned {:total-duration 0}}}, 1576213200000 {#uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 4117716}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1043975}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 21660000}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 12600000}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1574658000000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 3245840}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2278318}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 1803425}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2779914}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 26368836}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 6412001}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 7548260}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1575262800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 47, :where 97}, :actual {:total-duration 1576940}, :planned {:total-duration 1500000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 70, :where 70}, :actual {:total-duration 960000}, :planned {:total-duration 1800000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 1871340}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 83}, :actual {:total-duration 5084121}, :planned {:total-duration 3600000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 177, :where 76}, :actual {:total-duration 20640000}, :planned {:total-duration 12600000}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 11100000}, :planned {:total-duration 0}}, :score {:when 49, :where 75}}, 1575867600000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1800000}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 881220}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 1358387}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2299397}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 25325824}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 11377141}, :planned {:total-duration 0}}, #uuid "46ea89b4-5dc6-46c6-b715-41513519299f" {:score {:when 0, :where 100}, :actual {:total-duration 770354}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1574312400000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 473651}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1391046}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 4483901}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 29340000}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1574917200000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 5548529}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1732876}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2456516}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 7295973}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 9495245}, :planned {:total-duration 0}}, :score {:when 0, :where 83}}, 1575522000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 5314087}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 2504832}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1912075}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 23157324}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1576126800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 67}, :actual {:total-duration 5400000}, :planned {:total-duration 2727275}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 94}, :actual {:total-duration 1364495}, :planned {:total-duration 1200000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 29787272}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 413747}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 27000000}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 2700000}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1574571600000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 6097736}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 5255693}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 33681882}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 5136250}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 9266966}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 13838485}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1575176400000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 3681736}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2995231}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 34644162}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1367207}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 976951}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 26147666}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 3327827}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1575781200000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 2700000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 94, :where 46}, :actual {:total-duration 9095118}, :planned {:total-duration 2700000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1810411}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 2701493}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 76, :where 95}, :actual {:total-duration 4790315}, :planned {:total-duration 5345453}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 99, :where 94}, :actual {:total-duration 12159655}, :planned {:total-duration 10800000}}, :score {:when 45, :where 62}}, 1574226000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 2384248}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 3475975}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 1780678}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 23509879}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1574830800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 5934115}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 6454989}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 4563284}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 3831965}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2116931}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 32982174}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1578200400000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 17, :where 72}, :actual {:total-duration 1510657}, :planned {:total-duration 2700000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 100, :where 45}, :actual {:total-duration 2063781}, :planned {:total-duration 600000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 76, :where 84}, :actual {:total-duration 2808449}, :planned {:total-duration 3900000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 36309163}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 18}, :actual {:total-duration 441441}, :planned {:total-duration 4500000}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 100, :where 88}, :actual {:total-duration 6841640}, :planned {:total-duration 5400000}}, :score {:when 49, :where 58}}, 1576645200000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 3130847}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 2737977}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 6673038}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 3159352}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2699773}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 27533832}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 7500583}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1577250000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 10516921}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2362323}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1884480}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 11209450}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1577854800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 1454103}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1869620}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2628122}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 35111805}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2232615}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 3530268}, :planned {:total-duration 0}}, :score {:when 0, :where 89}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 2963265}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 13037484}, :planned {:total-duration 0}}}, 1576299600000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 4273946}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 5752815}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 4468492}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 8901288}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 1862703}, :planned {:total-duration 0}}, :score {:when 0, :where 83}}, 1576904400000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 44}, :actual {:total-duration 1971376}, :planned {:total-duration 6971154}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 63, :where 82}, :actual {:total-duration 3780644}, :planned {:total-duration 5400000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 80, :where 80}, :actual {:total-duration 2261179}, :planned {:total-duration 1500000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 43}, :actual {:total-duration 1466381}, :planned {:total-duration 5400000}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 61}, :actual {:total-duration 3588194}, :planned {:total-duration 8100000}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 22516416}, :planned {:total-duration 0}}, :score {:when 24, :where 59}}, 1577509200000 {#uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 23178637}, :planned {:total-duration 0}}, :score {:when 0, :where 50}}, 1578114000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 64}, :actual {:total-duration 4482388}, :planned {:total-duration 2100000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 3267538}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 84}, :actual {:total-duration 2878865}, :planned {:total-duration 2100000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 30068192}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 180, :where 96}, :actual {:total-duration 13311513}, :planned {:total-duration 14400000}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 6345772}, :planned {:total-duration 0}}, :score {:when 30, :where 78}}, 1576558800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 1361882}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 569406}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1875023}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 36457972}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 4845243}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 27540000}, :planned {:total-duration 0}}, :score {:when 0, :where 89}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 6000000}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 4140000}, :planned {:total-duration 0}}}, 1577163600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 12559385}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 5257293}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 27211022}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 34755637}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 960000}, :planned {:total-duration 0}}, :score {:when 0, :where 83}}, 1577768400000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 7396482}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 4065919}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1153234}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 15541488}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 4785119}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 12922950}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1576818000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 107, :where 86}, :actual {:total-duration 2679835}, :planned {:total-duration 3540000}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 2400000}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 76, :where 64}, :actual {:total-duration 3261244}, :planned {:total-duration 6981810}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 42, :where 58}, :actual {:total-duration 26112238}, :planned {:total-duration 10740000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 2700000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 99, :where 85}, :actual {:total-duration 29071299}, :planned {:total-duration 21300000}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 10588327}, :planned {:total-duration 0}}, :score {:when 36, :where 59}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 3943104}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 2100000}, :planned {:total-duration 0}}}, 1577422800000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 5269078}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 29472484}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 24335212}, :planned {:total-duration 0}}, :score {:when 0, :where 75}}, 1578027600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 4801178}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 47}, :actual {:total-duration 840000}, :planned {:total-duration 2700000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2139146}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 963678}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 24106337}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 15306451}, :planned {:total-duration 0}}, :score {:when 0, :where 78}}, 1576472400000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1763553}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 38, :where 82}, :actual {:total-duration 2748501}, :planned {:total-duration 3960000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 29228041}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 96}, :actual {:total-duration 554626}, :planned {:total-duration 600000}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 98, :where 98}, :actual {:total-duration 28971871}, :planned {:total-duration 30000000}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 13515930}, :planned {:total-duration 0}}, :score {:when 23, :where 82}}, 1577077200000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 4817711}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 10261574}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 31320263}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 1516791}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 12281117}, :planned {:total-duration 0}}, :score {:when 0, :where 83}}, 1577682000000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 1731697}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 33625440}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 22756062}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 473625}, :planned {:total-duration 0}}, :score {:when 0, :where 80}}, 1576731600000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 3359170}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 3001979}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 51555112}, :planned {:total-duration 0}}, :score {:when 0, :where 75}}, 1577336400000 {#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 5695798}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 24145805}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 51840000}, :planned {:total-duration 0}}, :score {:when 0, :where 75}}, 1577941200000 {#uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 900000}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 1500000}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 34587253}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 2270375}, :planned {:total-duration 0}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:score {:when 0, :where 100}, :actual {:total-duration 23940564}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 100}, :actual {:total-duration 12900000}, :planned {:total-duration 0}}, :score {:when 0, :where 86}}, 1576386000000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 1800000}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 58, :where 84}, :actual {:total-duration 6219670}, :planned {:total-duration 4500000}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 49}, :actual {:total-duration 22136160}, :planned {:total-duration 7140000}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 461135}, :planned {:total-duration 0}}, #uuid "15b4326a-c90b-4fd1-94c1-285a7da9ee07" {:score {:when 0, :where 0}, :actual {:total-duration 0}, :planned {:total-duration 4500000}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 79}, :actual {:total-duration 6900000}, :planned {:total-duration 4500000}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 100, :where 40}, :actual {:total-duration 23921039}, :planned {:total-duration 6000000}}, :score {:when 23, :where 44}}, 1576990800000 {#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:score {:when 0, :where 100}, :actual {:total-duration 1800000}, :planned {:total-duration 0}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:score {:when 0, :where 100}, :actual {:total-duration 7800724}, :planned {:total-duration 0}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:score {:when 0, :where 100}, :actual {:total-duration 2727605}, :planned {:total-duration 0}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 29605823}, :planned {:total-duration 0}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:score {:when 0, :where 100}, :actual {:total-duration 4056222}, :planned {:total-duration 0}}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:score {:when 0, :where 100}, :actual {:total-duration 1710258}, :planned {:total-duration 0}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:score {:when 0, :where 100}, :actual {:total-duration 21178945}, :planned {:total-duration 0}}, :score {:when 0, :where 88}}, 1577595600000 {#uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:score {:when 0, :where 100}, :actual {:total-duration 43547254}, :planned {:total-duration 0}}, :score {:when 0, :where 50}}}
+time-align-mobile.handlers> (->> wip 
+                                 (select 
+                                  [sp/MAP-VALS 
+                                   sp/MAP-VALS 
+                                   (sp/submap [:actual :planned])
+                                   sp/MAP-VALS])
+                                 (map #(dissoc % :periods)))
+                                 
+;; output cleared
+
+time-align-mobile.handlers> (->> wip)
+;; output cleared
+
+time-align-mobile.handlers> (->> wip
+                                 (transform [sp/MAP-VALS]
+                                            (fn [buckets]
+                                              (let [actual-total (->> buckets
+                                                                      (select [sp/MAP-VALS
+                                                                               :actual
+                                                                               :total-duration])
+                                                                      (reduce +))
+                                                    planned-total (->> buckets
+                                                                      (select [sp/MAP-VALS
+                                                                               :planned
+                                                                               :total-duration])
+                                                                      (reduce +))]
+                                                {:at actual-total
+                                                 :pt planned-total}))))
+{1581138000000 {:at 21942317, :pt 0}, 1581051600000 {:at 0, :pt 2700000}, 1573275600000 {:at 46759034, :pt 2700000}, 1573880400000 {:at 49006918, :pt 59700000}, 1573534800000 {:at 49407509, :pt 0}, 1573189200000 {:at 55590045, :pt 0}, 1573794000000 {:at 53742459, :pt 2700000}, 1573448400000 {:at 47489745, :pt 42000000}, 1574053200000 {:at 45828382, :pt 0}, 1573102800000 {:at 45282471, :pt 35676356}, 1573707600000 {:at 60177862, :pt 0}, 1573362000000 {:at 40496778, :pt 54840000}, 1573966800000 {:at 27931703, :pt 0}, 1573016400000 {:at 6231372, :pt 3540000}, 1573621200000 {:at 52198531, :pt 0}, 1575435600000 {:at 43264592, :pt 0}, 1576040400000 {:at 19635245, :pt 0}, 1574485200000 {:at 48663636, :pt 19440000}, 1575090000000 {:at 71150524, :pt 0}, 1575694800000 {:at 42323570, :pt 24060000}, 1574139600000 {:at 45847965, :pt 0}, 1574744400000 {:at 35412738, :pt 0}, 1575349200000 {:at 22827105, :pt 0}, 1575954000000 {:at 43410152, :pt 33300000}, 1574398800000 {:at 71645828, :pt 18240000}, 1575003600000 {:at 84846910, :pt 21000000}, 1575608400000 {:at 69816725, :pt 4440000}, 1576213200000 {:at 39421691, :pt 0}, 1574658000000 {:at 50436594, :pt 0}, 1575262800000 {:at 41232401, :pt 19500000}, 1575867600000 {:at 43812323, :pt 0}, 1574312400000 {:at 35688598, :pt 0}, 1574917200000 {:at 26529139, :pt 0}, 1575522000000 {:at 32888318, :pt 0}, 1576126800000 {:at 66665514, :pt 3927275}, 1574571600000 {:at 73277012, :pt 0}, 1575176400000 {:at 73140780, :pt 0}, 1575781200000 {:at 30556992, :pt 21545453}, 1574226000000 {:at 31150780, :pt 0}, 1574830800000 {:at 55883458, :pt 0}, 1578200400000 {:at 49975131, :pt 17100000}, 1576645200000 {:at 53435402, :pt 0}, 1577250000000 {:at 25973174, :pt 0}, 1577854800000 {:at 62827282, :pt 0}, 1576299600000 {:at 25259244, :pt 0}, 1576904400000 {:at 35584190, :pt 27371154}, 1577509200000 {:at 23178637, :pt 0}, 1578114000000 {:at 60354268, :pt 18600000}, 1576558800000 {:at 82789526, :pt 0}, 1577163600000 {:at 80743337, :pt 0}, 1577768400000 {:at 45865192, :pt 0}, 1576818000000 {:at 76212943, :pt 49204914}, 1577422800000 {:at 59076774, :pt 0}, 1578027600000 {:at 48156790, :pt 2700000}, 1576472400000 {:at 76782522, :pt 34560000}, 1577077200000 {:at 60197456, :pt 0}, 1577682000000 {:at 58586824, :pt 0}, 1576731600000 {:at 57916261, :pt 0}, 1577336400000 {:at 81681603, :pt 0}, 1577941200000 {:at 76098192, :pt 0}, 1576386000000 {:at 59638004, :pt 28440000}, 1576990800000 {:at 68879577, :pt 0}, 1577595600000 {:at 43547254, :pt 0}}
+time-align-mobile.handlers> (js/Math.average 1 2)
+;; output cleared
+
+time-align-mobile.handlers> (->> wip
+                                 (transform [sp/MAP-VALS]
+                                            (fn [buckets]
+                                              (let [actual-total (->> buckets
+                                                                      (select [sp/MAP-VALS
+                                                                               :actual
+                                                                               :total-duration])
+                                                                      (reduce +))
+                                                    planned-total (->> buckets
+                                                                      (select [sp/MAP-VALS
+                                                                               :planned
+                                                                               :total-duration])
+                                                                      (reduce +))
+                                                    actual-score (relative-difference-score
+                                                                  actual-total
+                                                                  helpers/day-ms)
+                                                    planned-score (relative-difference-score
+                                                                  planned-total
+                                                                  helpers/day-ms)]
+                                                {:a-score actual-score
+                                                 :p-score planned-score
+                                                 :score (-> actual-score
+                                                            (+ planned-score)
+                                                            (/ 2))}))))
+{1581138000000 {:a-score 41, :p-score 0, :score 20.5}, 1581051600000 {:a-score 0, :p-score 6, :score 3}, 1573275600000 {:a-score 70, :p-score 6, :score 38}, 1573880400000 {:a-score 72, :p-score 82, :score 77}, 1573534800000 {:a-score 73, :p-score 0, :score 36.5}, 1573189200000 {:a-score 78, :p-score 0, :score 39}, 1573794000000 {:a-score 77, :p-score 6, :score 41.5}, 1573448400000 {:a-score 71, :p-score 65, :score 68}, 1574053200000 {:a-score 69, :p-score 0, :score 34.5}, 1573102800000 {:a-score 69, :p-score 58, :score 63.5}, 1573707600000 {:a-score 82, :p-score 0, :score 41}, 1573362000000 {:a-score 64, :p-score 78, :score 71}, 1573966800000 {:a-score 49, :p-score 0, :score 24.5}, 1573016400000 {:a-score 13, :p-score 8, :score 10.5}, 1573621200000 {:a-score 75, :p-score 0, :score 37.5}, 1575435600000 {:a-score 67, :p-score 0, :score 33.5}, 1576040400000 {:a-score 37, :p-score 0, :score 18.5}, 1574485200000 {:a-score 72, :p-score 37, :score 54.5}, 1575090000000 {:a-score 90, :p-score 0, :score 45}, 1575694800000 {:a-score 66, :p-score 44, :score 55}, 1574139600000 {:a-score 69, :p-score 0, :score 34.5}, 1574744400000 {:a-score 58, :p-score 0, :score 29}, 1575349200000 {:a-score 42, :p-score 0, :score 21}, 1575954000000 {:a-score 67, :p-score 56, :score 61.5}, 1574398800000 {:a-score 91, :p-score 35, :score 63}, 1575003600000 {:a-score 99, :p-score 39, :score 69}, 1575608400000 {:a-score 89, :p-score 10, :score 49.5}, 1576213200000 {:a-score 63, :p-score 0, :score 31.5}, 1574658000000 {:a-score 74, :p-score 0, :score 37}, 1575262800000 {:a-score 65, :p-score 37, :score 51}, 1575867600000 {:a-score 67, :p-score 0, :score 33.5}, 1574312400000 {:a-score 58, :p-score 0, :score 29}, 1574917200000 {:a-score 47, :p-score 0, :score 23.5}, 1575522000000 {:a-score 55, :p-score 0, :score 27.5}, 1576126800000 {:a-score 87, :p-score 9, :score 48}, 1574571600000 {:a-score 92, :p-score 0, :score 46}, 1575176400000 {:a-score 92, :p-score 0, :score 46}, 1575781200000 {:a-score 52, :p-score 40, :score 46}, 1574226000000 {:a-score 53, :p-score 0, :score 26.5}, 1574830800000 {:a-score 79, :p-score 0, :score 39.5}, 1578200400000 {:a-score 73, :p-score 33, :score 53}, 1576645200000 {:a-score 76, :p-score 0, :score 38}, 1577250000000 {:a-score 46, :p-score 0, :score 23}, 1577854800000 {:a-score 84, :p-score 0, :score 42}, 1576299600000 {:a-score 45, :p-score 0, :score 22.5}, 1576904400000 {:a-score 58, :p-score 48, :score 53}, 1577509200000 {:a-score 42, :p-score 0, :score 21}, 1578114000000 {:a-score 82, :p-score 35, :score 58.5}, 1576558800000 {:a-score 98, :p-score 0, :score 49}, 1577163600000 {:a-score 97, :p-score 0, :score 48.5}, 1577768400000 {:a-score 69, :p-score 0, :score 34.5}, 1576818000000 {:a-score 94, :p-score 73, :score 83.5}, 1577422800000 {:a-score 81, :p-score 0, :score 40.5}, 1578027600000 {:a-score 72, :p-score 6, :score 39}, 1576472400000 {:a-score 94, :p-score 57, :score 75.5}, 1577077200000 {:a-score 82, :p-score 0, :score 41}, 1577682000000 {:a-score 81, :p-score 0, :score 40.5}, 1576731600000 {:a-score 80, :p-score 0, :score 40}, 1577336400000 {:a-score 97, :p-score 0, :score 48.5}, 1577941200000 {:a-score 94, :p-score 0, :score 47}, 1576386000000 {:a-score 82, :p-score 50, :score 66}, 1576990800000 {:a-score 89, :p-score 0, :score 44.5}, 1577595600000 {:a-score 67, :p-score 0, :score 33.5}}
+time-align-mobile.handlers> (->> wip
+                                 (transform [sp/MAP-VALS]
+                                            (fn [buckets]
+                                              (let [actual-total (->> buckets
+                                                                      (select [sp/MAP-VALS
+                                                                               :actual
+                                                                               :total-duration])
+                                                                      (reduce +))
+                                                    planned-total (->> buckets
+                                                                      (select [sp/MAP-VALS
+                                                                               :planned
+                                                                               :total-duration])
+                                                                      (reduce +))
+                                                    actual-score (-> actual-total
+                                                                     (relative-difference-score 
+                                                                      helpers/day-ms)
+                                                                     (js/Math.round))
+                                                    planned-score (-> planned-total
+                                                                     (relative-difference-score 
+                                                                      helpers/day-ms)
+                                                                     (js/Math.round))]
+                                                {:a-score actual-score
+                                                 :p-score planned-score
+                                                 :score (-> actual-score
+                                                            (+ planned-score)
+                                                            (/ 2)
+                                                            (js/Math.round))}))))
+{1581138000000 {:a-score 41, :p-score 0, :score 21}, 1581051600000 {:a-score 0, :p-score 6, :score 3}, 1573275600000 {:a-score 70, :p-score 6, :score 38}, 1573880400000 {:a-score 72, :p-score 82, :score 77}, 1573534800000 {:a-score 73, :p-score 0, :score 37}, 1573189200000 {:a-score 78, :p-score 0, :score 39}, 1573794000000 {:a-score 77, :p-score 6, :score 42}, 1573448400000 {:a-score 71, :p-score 65, :score 68}, 1574053200000 {:a-score 69, :p-score 0, :score 35}, 1573102800000 {:a-score 69, :p-score 58, :score 64}, 1573707600000 {:a-score 82, :p-score 0, :score 41}, 1573362000000 {:a-score 64, :p-score 78, :score 71}, 1573966800000 {:a-score 49, :p-score 0, :score 25}, 1573016400000 {:a-score 13, :p-score 8, :score 11}, 1573621200000 {:a-score 75, :p-score 0, :score 38}, 1575435600000 {:a-score 67, :p-score 0, :score 34}, 1576040400000 {:a-score 37, :p-score 0, :score 19}, 1574485200000 {:a-score 72, :p-score 37, :score 55}, 1575090000000 {:a-score 90, :p-score 0, :score 45}, 1575694800000 {:a-score 66, :p-score 44, :score 55}, 1574139600000 {:a-score 69, :p-score 0, :score 35}, 1574744400000 {:a-score 58, :p-score 0, :score 29}, 1575349200000 {:a-score 42, :p-score 0, :score 21}, 1575954000000 {:a-score 67, :p-score 56, :score 62}, 1574398800000 {:a-score 91, :p-score 35, :score 63}, 1575003600000 {:a-score 99, :p-score 39, :score 69}, 1575608400000 {:a-score 89, :p-score 10, :score 50}, 1576213200000 {:a-score 63, :p-score 0, :score 32}, 1574658000000 {:a-score 74, :p-score 0, :score 37}, 1575262800000 {:a-score 65, :p-score 37, :score 51}, 1575867600000 {:a-score 67, :p-score 0, :score 34}, 1574312400000 {:a-score 58, :p-score 0, :score 29}, 1574917200000 {:a-score 47, :p-score 0, :score 24}, 1575522000000 {:a-score 55, :p-score 0, :score 28}, 1576126800000 {:a-score 87, :p-score 9, :score 48}, 1574571600000 {:a-score 92, :p-score 0, :score 46}, 1575176400000 {:a-score 92, :p-score 0, :score 46}, 1575781200000 {:a-score 52, :p-score 40, :score 46}, 1574226000000 {:a-score 53, :p-score 0, :score 27}, 1574830800000 {:a-score 79, :p-score 0, :score 40}, 1578200400000 {:a-score 73, :p-score 33, :score 53}, 1576645200000 {:a-score 76, :p-score 0, :score 38}, 1577250000000 {:a-score 46, :p-score 0, :score 23}, 1577854800000 {:a-score 84, :p-score 0, :score 42}, 1576299600000 {:a-score 45, :p-score 0, :score 23}, 1576904400000 {:a-score 58, :p-score 48, :score 53}, 1577509200000 {:a-score 42, :p-score 0, :score 21}, 1578114000000 {:a-score 82, :p-score 35, :score 59}, 1576558800000 {:a-score 98, :p-score 0, :score 49}, 1577163600000 {:a-score 97, :p-score 0, :score 49}, 1577768400000 {:a-score 69, :p-score 0, :score 35}, 1576818000000 {:a-score 94, :p-score 73, :score 84}, 1577422800000 {:a-score 81, :p-score 0, :score 41}, 1578027600000 {:a-score 72, :p-score 6, :score 39}, 1576472400000 {:a-score 94, :p-score 57, :score 76}, 1577077200000 {:a-score 82, :p-score 0, :score 41}, 1577682000000 {:a-score 81, :p-score 0, :score 41}, 1576731600000 {:a-score 80, :p-score 0, :score 40}, 1577336400000 {:a-score 97, :p-score 0, :score 49}, 1577941200000 {:a-score 94, :p-score 0, :score 47}, 1576386000000 {:a-score 82, :p-score 50, :score 66}, 1576990800000 {:a-score 89, :p-score 0, :score 45}, 1577595600000 {:a-score 67, :p-score 0, :score 34}}[:app] Compiling ...
+[:app] Build failure:
+------ ERROR -------------------------------------------------------------------
+ File: /home/justin/projects/time-align-mobile/src/main/time_align_mobile/handlers.cljs:1603:1
+--------------------------------------------------------------------------------
+1600 | 
+1601 | (->> wip (select [sp/MAP-VALS :score]))
+1602 | (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+1603 | 
+-------^------------------------------------------------------------------------
+time_align_mobile/handlers.cljs [line 1603, col 1] Unexpected EOF while reading item 7 of list, starting at line 1496 and column 3.
+
+--------------------------------------------------------------------------------
+
+
+time-align-mobile.handlers> (defn amount-score-the-day [buckets]
+  (let [actual-total (->> buckets
+                          (select [sp/MAP-VALS
+                                   :actual
+                                   :total-duration])
+                          (reduce +))
+        planned-total (->> buckets
+                           (select [sp/MAP-VALS
+                                    :planned
+                                    :total-duration])
+                           (reduce +))
+        actual-score (-> actual-total
+                         (relative-difference-score
+                          helpers/day-ms)
+                         (js/Math.round))
+        planned-score (-> planned-total
+                          (relative-difference-score
+                           helpers/day-ms)
+                          (js/Math.round))
+        average-score (-> actual-score
+                          (+ planned-score)
+                          (/ 2)
+                          (js/Math.round))]
+    ;; there might be something to showing actual and planned separately
+    (->> buckets (transform [:score] #(merge % {:amount average-score})))))
+------ REPL Error while processing ---------------------------------------------
+(defn amount-score-the-day [buckets]
+  (let [actual-total (->> buckets
+                          (select [sp/MAP-VALS
+                                   :actual
+                                   :total-duration])
+                          (reduce +))
+        planned-total (->> buckets
+                           (select [sp/MAP-VALS
+                                    :planned
+                                    :total-duration])
+                           (reduce +))
+        actual-score (-> actual-total
+                         (relative-difference-score
+                          helpers/day-ms)
+                         (js/Math.round))
+        planned-score (-> planned-total
+                          (relative-difference-score
+                           helpers/day-ms)
+                          (js/Math.round))
+        average-score (-> actual-score
+                          (+ planned-score)
+                          (/ 2)
+                          (js/Math.round))]
+    ;; there might be something to showing actual and planned separately
+    (->> buckets (transform [:score] #(merge % {:amount average-score})))))
+no source by provide: time-align-mobile.handlers
+{:provide time-align-mobile.handlers}
+ExceptionInfo: no source by provide: time-align-mobile.handlers
+	shadow.build.data/get-source-id-by-provide (data.clj:184)
+	shadow.build.data/get-source-id-by-provide (data.clj:181)
+	shadow.build.data/get-source-by-provide (data.clj:187)
+	shadow.build.data/get-source-by-provide (data.clj:186)
+	shadow.cljs.repl/repl-compile/fn--13136/fn--13137 (repl.clj:453)
+	shadow.cljs.repl/repl-compile/fn--13136 (repl.clj:429)
+	shadow.cljs.repl/repl-compile (repl.clj:427)
+	shadow.cljs.repl/repl-compile (repl.clj:424)
+	shadow.cljs.repl/process-read-result (repl.clj:515)
+	shadow.cljs.repl/process-read-result (repl.clj:491)
+	shadow.cljs.devtools.server.worker.impl/do-repl-rpc (impl.clj:844)
+	shadow.cljs.devtools.server.worker.impl/do-repl-rpc (impl.clj:798)
+	shadow.cljs.devtools.server.worker.impl/fn--13934 (impl.clj:879)
+	shadow.cljs.devtools.server.worker.impl/fn--13934 (impl.clj:878)
+	clojure.lang.MultiFn.invoke (MultiFn.java:234)
+	shadow.cljs.devtools.server.util/server-thread/fn--13517/fn--13518/fn--13526 (util.clj:285)
+	shadow.cljs.devtools.server.util/server-thread/fn--13517/fn--13518 (util.clj:284)
+	shadow.cljs.devtools.server.util/server-thread/fn--13517 (util.clj:257)
+	java.lang.Thread.run (Thread.java:834)
+time-align-mobile.handlers> (defn amount-score-the-day
+  [buckets]
+  (let [actual-total (->> buckets
+                          (select [sp/MAP-VALS
+                                   :actual
+                                   :total-duration])
+                          (reduce +))
+        planned-total (->> buckets
+                           (select [sp/MAP-VALS
+                                    :planned
+                                    :total-duration])
+                           (reduce +))
+        actual-score (-> actual-total
+                         (relative-difference-score
+                          helpers/day-ms)
+                         (js/Math.round))
+        planned-score (-> planned-total
+                          (relative-difference-score
+                           helpers/day-ms)
+                          (js/Math.round))
+        average-score (-> actual-score
+                          (+ planned-score)
+                          (/ 2)
+                          (js/Math.round))]
+    ;; there might be something to showing actual and planned separately
+    (->> buckets (transform [:score] #(merge % {:amount average-score})))))
+------ REPL Error while processing ---------------------------------------------
+(defn amount-score-the-day
+  [buckets]
+  (let [actual-total (->> buckets
+                          (select [sp/MAP-VALS
+                                   :actual
+                                   :total-duration])
+                          (reduce +))
+        planned-total (->> buckets
+                           (select [sp/MAP-VALS
+                                    :planned
+                                    :total-duration])
+                           (reduce +))
+        actual-score (-> actual-total
+                         (relative-difference-score
+                          helpers/day-ms)
+                         (js/Math.round))
+        planned-score (-> planned-total
+                          (relative-difference-score
+                           helpers/day-ms)
+                          (js/Math.round))
+        average-score (-> actual-score
+                          (+ planned-score)
+                          (/ 2)
+                          (js/Math.round))]
+    ;; there might be something to showing actual and planned separately
+    (->> buckets (transform [:score] #(merge % {:amount average-score})))))
+no source by provide: time-align-mobile.handlers
+{:provide time-align-mobile.handlers}
+ExceptionInfo: no source by provide: time-align-mobile.handlers
+	shadow.build.data/get-source-id-by-provide (data.clj:184)
+	shadow.build.data/get-source-id-by-provide (data.clj:181)
+	shadow.build.data/get-source-by-provide (data.clj:187)
+	shadow.build.data/get-source-by-provide (data.clj:186)
+	shadow.cljs.repl/repl-compile/fn--13136/fn--13137 (repl.clj:453)
+	shadow.cljs.repl/repl-compile/fn--13136 (repl.clj:429)
+	shadow.cljs.repl/repl-compile (repl.clj:427)
+	shadow.cljs.repl/repl-compile (repl.clj:424)
+	shadow.cljs.repl/process-read-result (repl.clj:515)
+	shadow.cljs.repl/process-read-result (repl.clj:491)
+	shadow.cljs.devtools.server.worker.impl/do-repl-rpc (impl.clj:844)
+	shadow.cljs.devtools.server.worker.impl/do-repl-rpc (impl.clj:798)
+	shadow.cljs.devtools.server.worker.impl/fn--13934 (impl.clj:879)
+	shadow.cljs.devtools.server.worker.impl/fn--13934 (impl.clj:878)
+	clojure.lang.MultiFn.invoke (MultiFn.java:234)
+	shadow.cljs.devtools.server.util/server-thread/fn--13517/fn--13518/fn--13526 (util.clj:285)
+	shadow.cljs.devtools.server.util/server-thread/fn--13517/fn--13518 (util.clj:284)
+	shadow.cljs.devtools.server.util/server-thread/fn--13517 (util.clj:257)
+	java.lang.Thread.run (Thread.java:834)
+[:app] Compiling ...
+[:app] Build completed. (218 files, 1 compiled, 0 warnings, 0.94s)
+time-align-mobile.handlers> (+ 1 1)
+2
+time-align-mobile.handlers> (defn amount-score-the-day
+  [buckets]
+  (let [actual-total (->> buckets
+                          (select [sp/MAP-VALS
+                                   :actual
+                                   :total-duration])
+                          (reduce +))
+        planned-total (->> buckets
+                           (select [sp/MAP-VALS
+                                    :planned
+                                    :total-duration])
+                           (reduce +))
+        actual-score (-> actual-total
+                         (relative-difference-score
+                          helpers/day-ms)
+                         (js/Math.round))
+        planned-score (-> planned-total
+                          (relative-difference-score
+                           helpers/day-ms)
+                          (js/Math.round))
+        average-score (-> actual-score
+                          (+ planned-score)
+                          (/ 2)
+                          (js/Math.round))]
+    ;; there might be something to showing actual and planned separately
+    (->> buckets (transform [:score] #(merge % {:amount average-score})))))
+#'time-align-mobile.handlers/amount-score-the-day
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
+
+             ;; add a :score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 score {:where 1 :when 1.1}}}
+             (->> (transform [sp/MAP-VALS]
+                             (comp
+                              where-score-the-day
+                              when-score-the-day
+                              amount-score-the-day)))))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS :score]))
+[{:amount 21, :when 0, :where 75} {:amount 3, :when 0, :where 0} {:amount 38, :when 0, :where 86} {:amount 77, :when 17, :where 55} {:amount 37, :when 0, :where 88} {:amount 39, :when 0, :where 86} {:amount 42, :when 0, :where 82} {:amount 68, :when 10, :where 62} {:amount 35, :when 0, :where 86} {:amount 64, :when 9, :where 78} {:amount 41, :when 0, :where 89} {:amount 71, :when 27, :where 70} {:amount 25, :when 0, :where 80} {:amount 11, :when 32, :where 66} {:amount 38, :when 0, :where 88} {:amount 34, :when 0, :where 67} {:amount 19, :when 0, :where 75} {:amount 55, :when 19, :where 60} {:amount 45, :when 0, :where 86} {:amount 55, :when 32, :where 64} {:amount 35, :when 0, :where 88} {:amount 29, :when 0, :where 83} {:amount 21, :when 0, :where 75} {:amount 62, :when 62, :where 64} {:amount 63, :when 36, :where 74} {:amount 69, :when 36, :where 85} {:amount 50, :when 11, :where 80} {:amount 32, :when 0, :where 80} {:amount 37, :when 0, :where 88} {:amount 51, :when 42, :where 75} {:amount 34, :when 0, :where 88} {:amount 29, :when 0, :where 80} {:amount 24, :when 0, :where 83} {:amount 28, :when 0, :where 80} {:amount 48, :when 0, :where 80} {:amount 46, :when 0, :where 86} {:amount 46, :when 0, :where 88} {:amount 46, :when 38, :where 62} {:amount 27, :when 0, :where 80} {:amount 40, :when 0, :where 86} {:amount 53, :when 42, :where 58} {:amount 38, :when 0, :where 88} {:amount 23, :when 0, :where 80} {:amount 42, :when 0, :where 89} {:amount 23, :when 0, :where 83} {:amount 53, :when 20, :where 59} {:amount 21, :when 0, :where 50} {:amount 59, :when 26, :where 78} {:amount 49, :when 0, :where 89} {:amount 49, :when 0, :where 83} {:amount 35, :when 0, :where 86} {:amount 84, :when 32, :where 59} {:amount 41, :when 0, :where 75} {:amount 39, :when 0, :where 78} {:amount 76, :when 19, :where 82} {:amount 41, :when 0, :where 83} {:amount 41, :when 0, :where 80} {:amount 40, :when 0, :where 75} {:amount 49, :when 0, :where 75} {:amount 47, :when 0, :where 86} {:amount 66, :when 20, :where 44} {:amount 45, :when 0, :where 88} {:amount 34, :when 0, :where 50}]
 time-align-mobile.handlers> 
