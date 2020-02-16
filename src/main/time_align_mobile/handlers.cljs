@@ -1322,7 +1322,6 @@
 (reg-event-db :set-report-data [validate-spec amplitude-logging persist-secure-store] set-report-data)
 (reg-event-db :set-version [validate-spec amplitude-logging persist-secure-store] set-version)
 
-(def db @re-frame.db/app-db)
 ;; TODO use data specs to define params and returns and apply with spec/fdef
 (defn duplicate-straddling-period
   "duplicate periods that straddle days
@@ -1387,55 +1386,109 @@
                                      stop-ms  (->> p :stop  (#(.valueOf %)))]
                                  (- stop-ms start-ms))))
                         (reduce +))})
+(defn relative-difference-score
+  "Gives a score 0 - 100
+  100 - highest score (also 100 if x-ref is 0)
+  0 - lowest score"
+  [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)
+        inverted            (-> (- 2 score)
+                                (/ 2)
+                                (* 100)
+                                (js/Math.round))]
+    inverted))
 (defn where-score-the-bucket
   [{:keys [actual planned] :as bucket}]
   (let [planned-total       (:total-duration planned)
         actual-total        (:total-duration actual)
-        actual-difference   (-> planned-total
-                                (- actual-total)
-                                (js/Math.abs))
-        denominator         (-> planned-total
-                                (+ actual-total)
-                                (/ 2))
-        relative-difference (-> actual-difference
-                                (/ denominator))
-        score               (if (= 0 planned-total)
-                              0
-                              relative-difference)]
+        score               (relative-difference-score
+                             actual-total
+                             planned-total)]
 
     (->> bucket (transform [:score] #(merge % {:where score})))))
-
 (defn when-score-the-bucket
   [{:keys [actual planned] :as bucket}]
-  (->> planned
-       (map (fn [period]
-              (->> actual
-                   (filter (partial helpers/overlapping-timestamps? period))
-                   ;; merge actual periods that overlap each other
-                   (helpers/get-collision-groups)
-                   (map (fn [collision-group]
-                          (let [earliest-start (->> collision-group
-                                                    (sort-by
-                                                     #(->> %
-                                                           :start
-                                                           (.valueOf)))
-                                                    (first))
-                                latest-stop    (->> collision-group
-                                                    (sort-by
-                                                     #(->> %
-                                                           :stop
-                                                           (.valueOf)))
-                                                    (last))]
-                            {:start earliest-start
-                             :stop  latest-stop}))))))))
-
+  (let [score
+        (->> planned
+             :periods
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               :periods
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
 (defn where-score-the-day
   [buckets]
-  (let [scores        (->> buckets (select [sp/MAP-VALS :where-score]))
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
         average-score (-> (reduce + scores)
                           (/ (count scores)))]
-    (merge buckets {:where-score average-score})))
 
+    (->> buckets (transform [:score] #(merge % {:where average-score})))))
+(defn when-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :when]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:when average-score})))))
+
+(def db @re-frame.db/app-db)
 (def wip (-> db
              (subs/get-periods :na)
 
@@ -1506,6 +1559,9 @@
              ;;                              :where-score 1}}}
              ;;                 where-score 1}}
              (->> (transform [sp/MAP-VALS]
-                             where-score-the-day))))
+                             (comp
+                              where-score-the-day
+                              when-score-the-day)))))
 
-(->> wip (select [sp/MAP-VALS sp/MAP-VALS :where-score]))
+(->> wip (select [sp/MAP-VALS :score]))
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))

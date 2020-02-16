@@ -1,0 +1,2459 @@
+;; Connected to nREPL server - nrepl://localhost:8202
+;; CIDER 0.24.0snapshot (package: 20191129.901), nREPL 0.6.0
+;; Clojure 1.10.1, Java 11.0.5
+;;     Docs: (doc function-name)
+;;           (find-doc part-of-name)
+;;   Source: (source function-name)
+;;  Javadoc: (javadoc java-object-or-class)
+;;     Exit: <C-c C-q>
+;;  Results: Stored in vars *1, *2, *3, an exception in *e;
+;; ======================================================================
+;; If you’re new to CIDER it is highly recommended to go through its
+;; manual first. Type <M-x cider-view-manual> to view it.
+;; In case you’re seeing any warnings you should consult the manual’s
+;; "Troubleshooting" section.
+;;
+;; Here are few tips to get you started:
+;;
+;; * Press <C-h m> to see a list of the keybindings available (this
+;;   will work in every Emacs buffer)
+;; * Press <, ,> to quickly invoke some REPL command
+;; * Press <, s s> to switch between the REPL and a Clojure file
+;; * Press <M-x cider-find-var> to jump to the source of something (e.g. a var, a
+;;   Java method)
+;; * Press <, h h> to view the documentation for something (e.g.
+;;   a var, a Java method)
+;; * Enable ‘eldoc-mode’ to display function & method signatures in the minibuffer.
+;; * Print CIDER’s refcard and keep it close to your keyboard.
+;;
+;; CIDER is super customizable - try <M-x customize-group cider> to
+;; get a feel for this. If you’re thirsty for knowledge you should try
+;; <M-x cider-drink-a-sip>.
+;;
+;; If you think you’ve encountered a bug (or have some suggestions for
+;; improvements) use <M-x cider-report-bug> to report it.
+;;
+;; Above all else - don’t panic! In case of an emergency - procure
+;; some (hard) cider and enjoy it responsibly!
+;;
+;; You can remove this message with the <M-x cider-repl-clear-help-banner> command.
+;; You can disable it from appearing on start by setting
+;; ‘cider-repl-display-help-banner’ to nil.
+;; ======================================================================
+;; Please, consider taking part in the State of CIDER survey
+;; https://forms.gle/Cp6DW2zGUQkh42u38
+;; Your feedback means a lot to us!
+;; ======================================================================
+;;  Startup: /usr/bin/npx shadow-cljs -d nrepl:0.6.0 -d cider/piggieback:0.4.2 -d refactor-nrepl:2.5.0-SNAPSHOT -d cider/cider-nrepl:0.23.0-SNAPSHOT server
+;;
+;; ClojureScript REPL type: shadow
+;; ClojureScript REPL init form: (do (require '[shadow.cljs.devtools.api :as shadow]) (shadow/watch :app) (shadow/nrepl-select :app))
+;;
+[:app] Configuring build.
+[:app] Compiling ...
+To quit, type: :cljs/quit
+[:selected :app][:app] Build completed. (218 files, 1 compiled, 0 warnings, 3.91s)
+WARNING: clj-refactor and refactor-nrepl are out of sync.
+Their versions are 2.5.0-SNAPSHOT (package: 20191223.917) and n/a, respectively.
+You can mute this warning by changing cljr-suppress-middleware-warnings.shadow.user> 
+cljs.user> (+ 1 1)
+No application has connected to the REPL server. Make sure your JS environment has loaded your compiled ClojureScript code.
+cljs.user> (->> [1 2 3 4 5] (reduce +))
+15
+cljs.user> (-> (js/Date.) (.valueOf))
+1581871213321[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 1.52s)
+
+cljs.user> (ns time-align-mobile.handlers
+             (:require
+              [time-align-mobile.js-imports :refer [write-file-to-dd!
+                                                    alert
+                                                    version
+                                                    share
+                                                    format-date
+                                                    email-export
+                                                    share-file!
+                                                    amplitude-log-event-with-properties]]
+              [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
+              ;; [zprint.core :refer [zprint]]
+              [cljs.reader :refer [read-string]]
+              [clojure.spec.alpha :as s]
+              [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
+              [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
+              [time-align-mobile.subs :as subs]
+              [time-align-mobile.components.day :refer [snap-bottom-sheet]]
+              [time-align-mobile.helpers :as helpers :refer [same-day?
+                                                             get-ms
+                                                             deep-merge
+                                                             bucket-path
+                                                             buckets-path
+                                                             combine-paths
+                                                             period-selections-path
+                                                             period-path-sub-bucket
+                                                             period-path-insert
+                                                             period-path-no-bucket-id
+                                                             period-path
+                                                             periods-path
+                                                             template-selections-path
+                                                             template-path-no-pattern-id]]
+              [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
+No application has connected to the REPL server. Make sure your JS environment has loaded your compiled ClojureScript code.
+cljs.user> (+ 1 1)
+2
+cljs.user> (ns time-align-mobile.handlers
+             (:require
+              [time-align-mobile.js-imports :refer [write-file-to-dd!
+                                                    alert
+                                                    version
+                                                    share
+                                                    format-date
+                                                    email-export
+                                                    share-file!
+                                                    amplitude-log-event-with-properties]]
+              [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
+              ;; [zprint.core :refer [zprint]]
+              [cljs.reader :refer [read-string]]
+              [clojure.spec.alpha :as s]
+              [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
+              [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
+              [time-align-mobile.subs :as subs]
+              [time-align-mobile.components.day :refer [snap-bottom-sheet]]
+              [time-align-mobile.helpers :as helpers :refer [same-day?
+                                                             get-ms
+                                                             deep-merge
+                                                             bucket-path
+                                                             buckets-path
+                                                             combine-paths
+                                                             period-selections-path
+                                                             period-path-sub-bucket
+                                                             period-path-insert
+                                                             period-path-no-bucket-id
+                                                             period-path
+                                                             periods-path
+                                                             template-selections-path
+                                                             template-path-no-pattern-id]]
+              [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
+niltime-align-mobile.handlerstime-align-mobile.handlers
+time-align-mobile.handlers> (+ 1 1)
+No application has connected to the REPL server. Make sure your JS environment has loaded your compiled ClojureScript code.
+time-align-mobile.handlers> (+ 1 1)
+2
+time-align-mobile.handlers> (ns time-align-mobile.handlers
+                              (:require
+                               [time-align-mobile.js-imports :refer [write-file-to-dd!
+                                                                     alert
+                                                                     version
+                                                                     share
+                                                                     format-date
+                                                                     email-export
+                                                                     share-file!
+                                                                     amplitude-log-event-with-properties]]
+                               [re-frame.core :refer [reg-event-db ->interceptor reg-event-fx reg-fx dispatch]]
+                               ;; [zprint.core :refer [zprint]]
+                               [cljs.reader :refer [read-string]]
+                               [clojure.spec.alpha :as s]
+                               [time-align-mobile.db :as db :refer [app-db app-db-spec period-data-spec]]
+                               [time-align-mobile.components.day :refer [snap-bottom-sheet bottom-sheet-ref]]
+                               [time-align-mobile.subs :as subs]
+                               [time-align-mobile.components.day :refer [snap-bottom-sheet]]
+                               [time-align-mobile.helpers :as helpers :refer [same-day?
+                                                                              get-ms
+                                                                              deep-merge
+                                                                              bucket-path
+                                                                              buckets-path
+                                                                              combine-paths
+                                                                              period-selections-path
+                                                                              period-path-sub-bucket
+                                                                              period-path-insert
+                                                                              period-path-no-bucket-id
+                                                                              period-path
+                                                                              periods-path
+                                                                              template-selections-path
+                                                                              template-path-no-pattern-id]]
+                               [com.rpl.specter :as sp :refer-macros [select select-one setval transform selected-any?]]))
+niltime-align-mobile.handlerstime-align-mobile.handlers
+time-align-mobile.handlers> (defn relative-difference-score [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)]))
+#'time-align-mobile.handlers/relative-difference-score
+time-align-mobile.handlers> (relative-difference-score 2 1)
+nil
+time-align-mobile.handlers> (defn relative-difference-score [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)]
+    score))
+#'time-align-mobile.handlers/relative-difference-score
+time-align-mobile.handlers> (relative-difference-score 2 1)
+0.6666666666666666
+time-align-mobile.handlers> (relative-differene-score 1 1)
+;; output cleared
+
+time-align-mobile.handlers> (relative-difference-score 2 2)
+0
+time-align-mobile.handlers> (relaa)
+;; output cleared
+
+time-align-mobile.handlers> (relative-difference-score 2 0)
+0
+time-align-mobile.handlers> (relative-difference-score 2 10)
+1.3333333333333333
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 2 10)) (/ 2))
+0.33333333333333337
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 5 10)) (/ 2))
+0.6666666666666667
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 5 6)) (/ 2))
+0.9090909090909091
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 5 6)) (/ 2) (* 100))
+90.9090909090909
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 5 6)) (/ 2) (* 100) (js/Math.round))
+91
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 1 0)) (/ 2) (* 100) (js/Math.round))
+100
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 1 1)) (/ 2) (* 100) (js/Math.round))
+100
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 100 1)) (/ 2) (* 100) (js/Math.round))
+2
+time-align-mobile.handlers> (-> (- 2 (relative-difference-score 1 100)) (/ 2) (* 100) (js/Math.round))
+2[:app] Compiling ...
+[:app] Build completed. (218 files, 2 compiled, 0 warnings, 1.14s)
+
+time-align-mobile.handlers> (defn duplicate-straddling-period
+  "duplicate periods that straddle days
+   so that each duplicates' start/stop values are bounded to each day"
+  [period]
+  (if (and (some? (:start period))
+           (some? (:stop period)))
+    (let [{:keys [start stop]} period
+          start-v              (.valueOf start)
+          stop-v               (.valueOf stop)
+
+          num-days-between (-> stop-v
+                               (- start-v)
+                               (/ helpers/day-ms)
+                               (js/Math.ceil))
+
+          days (->> num-days-between
+                    (range)
+                    (map
+                     (fn [n]
+                       (->> n
+                            (helpers/forward-n-days start)
+                            (helpers/reset-relative-ms 0)))))
+
+          bounded-dupes (->> days
+                             (map
+                              (fn [day]
+                                (merge
+                                 period
+                                 {:start (helpers/bound-start start day)
+                                  :stop  (helpers/bound-stop stop day)}))))]
+      ;; return bounded-dupes
+      bounded-dupes)
+    ;; if this period isn't valid return nil
+    ;; it can be filtered out later
+    nil))
+(defn get-beginning-of-day-start
+  [{:keys [start]}]
+  (if (some? start)
+    (->> start
+         (helpers/reset-relative-ms 0)
+         (#(.valueOf %)))
+    :not-on-a-day-a-day))
+(defn split-periods-by-bucket-then-type
+  [periods]
+  (->> periods
+       (group-by :bucket-id)
+       (transform [sp/MAP-VALS]
+                  (fn [periods]
+                    (merge {:planned [] :actual []}
+                           (->> periods
+                                (group-by (fn [period]
+                                            (if (:planned period)
+                                              :planned
+                                              :actual)))))))))
+(defn set-duration-per-type
+  [periods]
+  {:periods        periods
+   :total-duration (->> periods
+                        (map (fn [p]
+                               (let [start-ms (->> p :start (#(.valueOf %)))
+                                     stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                 (- stop-ms start-ms))))
+                        (reduce +))})
+(defn relative-difference-score
+  "Gives a score 0 - 100
+  100 - highest score (also 100 if x-ref is 0)
+  0 - lowest score"
+  [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)
+        inverted            (-> (- 2 score)
+                                (/ 2)
+                                (* 100)
+                                (js/Math.round))]
+    score))
+(defn where-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [planned-total       (:total-duration planned)
+        actual-total        (:total-duration actual)
+        score               (relative-difference-score
+                             actual-total
+                             planned-total)]
+
+    (->> bucket (transform [:score] #(merge % {:where score})))))
+(defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+(defn where-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :where-score]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+    (merge buckets {:where-score average-score})))
+
+
+#'time-align-mobile.handlers/duplicate-straddling-period#'time-align-mobile.handlers/get-beginning-of-day-start#'time-align-mobile.handlers/split-periods-by-bucket-then-type#'time-align-mobile.handlers/set-duration-per-type#'time-align-mobile.handlers/relative-difference-score#'time-align-mobile.handlers/where-score-the-bucket#'time-align-mobile.handlers/when-score-the-bucket#'time-align-mobile.handlers/where-score-the-day
+time-align-mobile.handlers> 
+(def db @re-frame.db/app-db)
+#'time-align-mobile.handlers/db
+time-align-mobile.handlers> 
+(def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket)))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+;; output cleared
+
+time-align-mobile.handlers> (comment "let's try it without the when scoring")
+nil
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              ;; when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> (comment "okay so the problem is /for sure/ in the where-score")
+nil
+time-align-mobile.handlers> (comment "okay so the problem is /for sure/ in the when-score")
+nil
+time-align-mobile.handlers> (def test-periods (-> db (subs/get-periods :na)))
+                                
+#'time-align-mobile.handlers/test-periods
+time-align-mobile.handlers> (->> test-periods (filter (partial helpers/overlapping-timestamps? (first test-periods))))
+({:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-12-21T18:15:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T18:47:51.376-00:00", :label "Shopping for kaitis gift", :id #uuid "a9cf9c02-208b-4eaf-b244-ffbc2dd79124", :last-edited #inst "2019-12-21T18:47:51.376-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}} {:color "#11a5ff", :planned true, :bucket-label "🌱 growth", :start #inst "2019-12-21T17:45:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T20:00:00.000-00:00", :label "Working on time sink", :id #uuid "0394cacb-ca0e-471f-a520-0b965dd3af76", :last-edited #inst "2019-12-21T16:39:48.586-00:00", :bucket-id #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece", :data {}})
+time-align-mobile.handlers> (->> test-periods (filter (partial helpers/overlapping-timestamps? (rand-nth test-periods))))
+({:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2019-11-15T02:47:39.420-00:00", :created #inst "2019-11-15T02:47:39.420-00:00", :stop #inst "2019-11-15T13:48:06.329-00:00", :label "", :id #uuid "fc57c380-a12c-463a-9221-0e389f9552b9", :last-edited #inst "2019-11-15T02:47:39.420-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}})
+time-align-mobile.handlers> (->> test-periods (filter (partial helpers/overlapping-timestamps? (rand-nth test-periods))))
+({:color "#8b8b8b", :planned true, :bucket-label "🤹‍♂️ misc", :start #inst "2019-11-16T13:30:00.000-00:00", :created #inst "2019-11-15T23:56:50.479-00:00", :stop #inst "2019-11-16T17:00:00.000-00:00", :label "Taking garbage to the dump", :id #uuid "fb4284a6-ec2b-4235-8475-3c150f578aae", :last-edited #inst "2019-11-15T23:57:39.617-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2019-11-16T09:38:37.618-00:00", :created #inst "2019-11-16T09:38:37.618-00:00", :stop #inst "2019-11-16T14:01:12.670-00:00", :label "", :id #uuid "6d0bfe85-0fc2-4bf8-968b-9bd2b0057b78", :last-edited #inst "2019-11-16T09:38:37.618-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#60e563", :planned true, :bucket-label "🍎 health", :start #inst "2019-11-16T13:10:00.000-00:00", :created #inst "2019-11-15T23:56:38.054-00:00", :stop #inst "2019-11-16T13:30:00.000-00:00", :label "Wim Hoff breathing and posture exercises", :id #uuid "00216dfb-c7e0-4cd2-8581-5f5919e9373f", :last-edited #inst "2019-11-15T23:58:37.412-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}})
+time-align-mobile.handlers> (->> (rest test-periods) (filter (partial helpers/overlapping-timestamps? (first test-periods))))
+({:color "#11a5ff", :planned true, :bucket-label "🌱 growth", :start #inst "2019-12-21T17:45:00.000-00:00", :created #inst "2019-12-21T16:39:24.443-00:00", :stop #inst "2019-12-21T20:00:00.000-00:00", :label "Working on time sink", :id #uuid "0394cacb-ca0e-471f-a520-0b965dd3af76", :last-edited #inst "2019-12-21T16:39:48.586-00:00", :bucket-id #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece", :data {}})
+time-align-mobile.handlers> (->> (rest test-periods) (filter (partial helpers/overlapping-timestamps? {:start (js/Date.) :stop (js/Date.)})))
+()
+time-align-mobile.handlers> (helpers/get-collision-groups [])
+()
+time-align-mobile.handlers> (helpers/get-collision-groups '())
+()
+time-align-mobile.handlers> (comment "let's add it back and go from there")
+nil
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+time_align_mobile$helpers$overlapping_timestamps_QMARK_
+G__33496__1
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$IFn$_invoke$arity$3
+cljs$core$IReduce$_reduce$arity$3
+cljs$core$IFn$_invoke$arity$3
+time_align_mobile$helpers$get_collision_groups
+
+
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$IFn$_invoke$arity$2
+cljs$core$IReduce$_reduce$arity$2
+cljs$core$IFn$_invoke$arity$2
+cljs$core$reduce
+time_align_mobile$handlers$when_score_the_bucket
+G__33457__1
+com$rpl$specter$impl$terminal_STAR_
+
+next_fn
+
+
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$map_vals_non_transient_transform
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+
+next_fn
+
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$impl$compiled_transform_STAR_
+
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          0
+                          ;; (->> actual
+                          ;;      (filter (partial helpers/overlapping-timestamps? planned-period))
+                          ;;      ;; check out ./doc-images/comparing-planned-actual.png
+                          ;;      ;; merge actual periods that overlap each other
+                          ;;      (helpers/get-collision-groups)
+                          ;;      (map (fn [collision-group]
+                          ;;             (let [earliest-start (->> collision-group
+                          ;;                                       (sort-by
+                          ;;                                        #(->> %
+                          ;;                                              :start
+                          ;;                                              (.valueOf)))
+                          ;;                                       first
+                          ;;                                       :start)
+                          ;;                   latest-stop    (->> collision-group
+                          ;;                                       (sort-by
+                          ;;                                        #(->> %
+                          ;;                                              :stop
+                          ;;                                              (.valueOf)))
+                          ;;                                       last
+                          ;;                                       :stop)]
+                          ;;               {:start earliest-start
+                          ;;                :stop  latest-stop})))
+                          ;;      ;; bound the start and stop
+                          ;;      (map (fn [{:keys [start stop]}]
+                          ;;             (let [bounded-start (if (-> start
+                          ;;                                         (.valueOf)
+                          ;;                                         (< (.valueOf (:start planned-period))))
+                          ;;                                   (:start planned-period)
+                          ;;                                   start)
+                          ;;                   bounded-stop  (if (-> stop
+                          ;;                                         (.valueOf)
+                          ;;                                         (> (.valueOf (:stop planned-period))))
+                          ;;                                   (:stop planned-period)
+                          ;;                                   stop)]
+                          ;;               {:start bounded-start
+                          ;;                :stop  bounded-stop})))
+                          ;;      ;; calculate their totals
+                          ;;      (map (fn [{:keys [start stop]}]
+                          ;;             (- (.valueOf stop)
+                          ;;                (.valueOf start))))
+                          ;;      (reduce +))
+
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+#'time-align-mobile.handlers/when-score-the-bucket
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+
+
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$IFn$_invoke$arity$2
+cljs$core$IReduce$_reduce$arity$2
+cljs$core$IFn$_invoke$arity$2
+cljs$core$reduce
+time_align_mobile$handlers$when_score_the_bucket
+G__33457__1
+com$rpl$specter$impl$terminal_STAR_
+
+next_fn
+
+
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$map_vals_non_transient_transform
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+
+next_fn
+
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$impl$compiled_transform_STAR_
+
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          0
+                          ;; (->> actual
+                          ;;      (filter (partial helpers/overlapping-timestamps? planned-period))
+                          ;;      ;; check out ./doc-images/comparing-planned-actual.png
+                          ;;      ;; merge actual periods that overlap each other
+                          ;;      (helpers/get-collision-groups)
+                          ;;      (map (fn [collision-group]
+                          ;;             (let [earliest-start (->> collision-group
+                          ;;                                       (sort-by
+                          ;;                                        #(->> %
+                          ;;                                              :start
+                          ;;                                              (.valueOf)))
+                          ;;                                       first
+                          ;;                                       :start)
+                          ;;                   latest-stop    (->> collision-group
+                          ;;                                       (sort-by
+                          ;;                                        #(->> %
+                          ;;                                              :stop
+                          ;;                                              (.valueOf)))
+                          ;;                                       last
+                          ;;                                       :stop)]
+                          ;;               {:start earliest-start
+                          ;;                :stop  latest-stop})))
+                          ;;      ;; bound the start and stop
+                          ;;      (map (fn [{:keys [start stop]}]
+                          ;;             (let [bounded-start (if (-> start
+                          ;;                                         (.valueOf)
+                          ;;                                         (< (.valueOf (:start planned-period))))
+                          ;;                                   (:start planned-period)
+                          ;;                                   start)
+                          ;;                   bounded-stop  (if (-> stop
+                          ;;                                         (.valueOf)
+                          ;;                                         (> (.valueOf (:stop planned-period))))
+                          ;;                                   (:stop planned-period)
+                          ;;                                   stop)]
+                          ;;               {:start bounded-start
+                          ;;                :stop  bounded-stop})))
+                          ;;      ;; calculate their totals
+                          ;;      (map (fn [{:keys [start stop]}]
+                          ;;             (- (.valueOf stop)
+                          ;;                (.valueOf start))))
+                          ;;      (reduce +))
+
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             ;; (reduce +)
+             count
+             )]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+#'time-align-mobile.handlers/when-score-the-bucket
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+
+
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$accumulating_seq_count
+cljs$core$count
+time_align_mobile$handlers$when_score_the_bucket
+G__33457__1
+com$rpl$specter$impl$terminal_STAR_
+
+next_fn
+
+
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$map_vals_non_transient_transform
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+
+next_fn
+
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$impl$compiled_transform_STAR_
+
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (defn where-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:where score})))))
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :7:56
+ Use of undeclared Var time-align-mobile.handlers/score
+--------------------------------------------------------------------------------
+#'time-align-mobile.handlers/where-score-the-day
+time-align-mobile.handlers> (defn where-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:where average-score})))))
+#'time-align-mobile.handlers/where-score-the-day
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+
+
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$accumulating_seq_count
+cljs$core$count
+time_align_mobile$handlers$when_score_the_bucket
+G__33457__1
+com$rpl$specter$impl$terminal_STAR_
+
+next_fn
+
+
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$map_vals_non_transient_transform
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+
+next_fn
+
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+
+cljs$core$inode_kv_reduce
+kv_reduce
+cljs$core$IKVReduce$_kv_reduce$arity$3
+cljs$core$_kv_reduce
+cljs$core$reduce_kv
+com$rpl$specter$navs$MapTransformProtocol$map_vals_transform$arity$2
+com$rpl$specter$navs$map_vals_transform
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$protocols$RichNavigator$transform_STAR_$arity$4
+com$rpl$specter$impl$exec_transform_STAR_
+com$rpl$specter$impl$compiled_transform_STAR_
+
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              ;; when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+[{:where 0} {:where 0} {:where 0} nil {:where 2} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0.43291982730776496} nil {:where 0} {:where 0} {:where 0} {:where 0.5931853969086349} {:where 1.3663633243799647} {:where 0} {:where 0.42723320986710756} {:where 2} {:where 0} {:where 0.8392870372793951} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.21193829200372183} {:where 0} {:where 0} {:where 0} nil {:where 0.9718926884435026} {:where 2} {:where 0.013935313516582799} {:where 0} {:where 1.278739288313207} {:where 0.1590909090909091} nil {:where 0.39780680604140745} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.27617995119119837} {:where 0.441738552297202} {:where 0} {:where 0.9285704719379214} {:where 0.3217501513873807} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0.42069332041811425} {:where 1.3891794796479773} {:where 0.11023382368608405} {:where 0.373341676947851} nil {:where 0.4677812450167742} {:where 0} {:where 0.7297056808587351} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.050054928731635646} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0.8840174182561359} {:where 2} {:where 0} {:where 0.26500734377732177} {:where 0} {:where 0.4955871696683628} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.1373407681127756} {:where 0.404196008948761} {:where 0} {:where 0.5394509335603208} {:where 0.9384685395142659} {:where 0.9910218461287295} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0.23765722261363958} {:where 0.9035318153949615} {:where 0} {:where 1.0389304449135355} {:where 0.13523131672597866} nil {:where 0} {:where 0.33791890148983883} {:where 0.2593642937305348} {:where 1.274706251587691} {:where 0.06286852581066261} {:where 0} nil {:where 0.8174115719502926} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0.2099373537742576} {:where 0.25907405662003774} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 1.5179693089213377} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.05001072494101282} {:where 0.6086956521739131} {:where 0} {:where 0.3418010872948454} {:where 0.48375451263537905} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.6577173775958116} {:where 0.12828646575641597} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 2} {:where 1.084366938931853} {:where 0} {:where 0} {:where 0.10954039200581545} {:where 0.11843862636437699} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.5649203912833556} {:where 1.0990250324632542} {:where 0.32542574296979826} {:where 0} {:where 1.6426621303380937} {:where 0.23553053349061073} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 1.1182021195344047} {:where 0.35277612333078157} {:where 0.40475553011436044} {:where 1.1457619377660517} {:where 0.7720279112410352} {:where 0} nil {:where 0} nil {:where 0.7238673867295577} {:where 0} {:where 0.3128684951289099} {:where 0} {:where 0.07855846773866154} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.2765877229862207} {:where 0} {:where 0.7264563869330377} {:where 0.8342634713256764} {:where 2} {:where 0.3085605951913212} {:where 0} nil {:where 2} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 1.0508474576271187} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.36118322111005124} {:where 0} {:where 0.07859514682676469} {:where 0.03486845448739451} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 2} {:where 0.32084383194631927} {:where 1.0244622245540398} {:where 0} {:where 2} {:where 0.42105263157894735} {:where 1.1978888166283264} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} nil]
+time-align-mobile.handlers> (defn relative-difference-score
+  "Gives a score 0 - 100
+  100 - highest score (also 100 if x-ref is 0)
+  0 - lowest score"
+  [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)
+        inverted            (-> (- 2 score)
+                                (/ 2)
+                                (* 100)
+                                (js/Math.round))]
+    score))
+#'time-align-mobile.handlers/relative-difference-score
+time-align-mobile.handlers> (defn where-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [planned-total       (:total-duration planned)
+        actual-total        (:total-duration actual)
+        score               (relative-difference-score
+                             actual-total
+                             planned-total)]
+
+    (->> bucket (transform [:score] #(merge % {:where score})))))
+#'time-align-mobile.handlers/where-score-the-bucket
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              ;; when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+[{:where 0} {:where 0} {:where 0} nil {:where 2} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0.43291982730776496} nil {:where 0} {:where 0} {:where 0} {:where 0.5931853969086349} {:where 1.3663633243799647} {:where 0} {:where 0.42723320986710756} {:where 2} {:where 0} {:where 0.8392870372793951} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.21193829200372183} {:where 0} {:where 0} {:where 0} nil {:where 0.9718926884435026} {:where 2} {:where 0.013935313516582799} {:where 0} {:where 1.278739288313207} {:where 0.1590909090909091} nil {:where 0.39780680604140745} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.27617995119119837} {:where 0.441738552297202} {:where 0} {:where 0.9285704719379214} {:where 0.3217501513873807} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0.42069332041811425} {:where 1.3891794796479773} {:where 0.11023382368608405} {:where 0.373341676947851} nil {:where 0.4677812450167742} {:where 0} {:where 0.7297056808587351} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.050054928731635646} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0.8840174182561359} {:where 2} {:where 0} {:where 0.26500734377732177} {:where 0} {:where 0.4955871696683628} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.1373407681127756} {:where 0.404196008948761} {:where 0} {:where 0.5394509335603208} {:where 0.9384685395142659} {:where 0.9910218461287295} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0.23765722261363958} {:where 0.9035318153949615} {:where 0} {:where 1.0389304449135355} {:where 0.13523131672597866} nil {:where 0} {:where 0.33791890148983883} {:where 0.2593642937305348} {:where 1.274706251587691} {:where 0.06286852581066261} {:where 0} nil {:where 0.8174115719502926} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0.2099373537742576} {:where 0.25907405662003774} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 1.5179693089213377} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.05001072494101282} {:where 0.6086956521739131} {:where 0} {:where 0.3418010872948454} {:where 0.48375451263537905} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.6577173775958116} {:where 0.12828646575641597} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 2} {:where 1.084366938931853} {:where 0} {:where 0} {:where 0.10954039200581545} {:where 0.11843862636437699} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.5649203912833556} {:where 1.0990250324632542} {:where 0.32542574296979826} {:where 0} {:where 1.6426621303380937} {:where 0.23553053349061073} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 1.1182021195344047} {:where 0.35277612333078157} {:where 0.40475553011436044} {:where 1.1457619377660517} {:where 0.7720279112410352} {:where 0} nil {:where 0} nil {:where 0.7238673867295577} {:where 0} {:where 0.3128684951289099} {:where 0} {:where 0.07855846773866154} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.2765877229862207} {:where 0} {:where 0.7264563869330377} {:where 0.8342634713256764} {:where 2} {:where 0.3085605951913212} {:where 0} nil {:where 2} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 1.0508474576271187} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.36118322111005124} {:where 0} {:where 0.07859514682676469} {:where 0.03486845448739451} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 2} {:where 0.32084383194631927} {:where 1.0244622245540398} {:where 0} {:where 2} {:where 0.42105263157894735} {:where 1.1978888166283264} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} nil]
+time-align-mobile.handlers> (defn duplicate-straddling-period
+  "duplicate periods that straddle days
+   so that each duplicates' start/stop values are bounded to each day"
+  [period]
+  (if (and (some? (:start period))
+           (some? (:stop period)))
+    (let [{:keys [start stop]} period
+          start-v              (.valueOf start)
+          stop-v               (.valueOf stop)
+
+          num-days-between (-> stop-v
+                               (- start-v)
+                               (/ helpers/day-ms)
+                               (js/Math.ceil))
+
+          days (->> num-days-between
+                    (range)
+                    (map
+                     (fn [n]
+                       (->> n
+                            (helpers/forward-n-days start)
+                            (helpers/reset-relative-ms 0)))))
+
+          bounded-dupes (->> days
+                             (map
+                              (fn [day]
+                                (merge
+                                 period
+                                 {:start (helpers/bound-start start day)
+                                  :stop  (helpers/bound-stop stop day)}))))]
+      ;; return bounded-dupes
+      bounded-dupes)
+    ;; if this period isn't valid return nil
+    ;; it can be filtered out later
+    nil))
+(defn get-beginning-of-day-start
+  [{:keys [start]}]
+  (if (some? start)
+    (->> start
+         (helpers/reset-relative-ms 0)
+         (#(.valueOf %)))
+    :not-on-a-day-a-day))
+(defn split-periods-by-bucket-then-type
+  [periods]
+  (->> periods
+       (group-by :bucket-id)
+       (transform [sp/MAP-VALS]
+                  (fn [periods]
+                    (merge {:planned [] :actual []}
+                           (->> periods
+                                (group-by (fn [period]
+                                            (if (:planned period)
+                                              :planned
+                                              :actual)))))))))
+(defn set-duration-per-type
+  [periods]
+  {:periods        periods
+   :total-duration (->> periods
+                        (map (fn [p]
+                               (let [start-ms (->> p :start (#(.valueOf %)))
+                                     stop-ms  (->> p :stop  (#(.valueOf %)))]
+                                 (- stop-ms start-ms))))
+                        (reduce +))})
+(defn relative-difference-score
+  "Gives a score 0 - 100
+  100 - highest score (also 100 if x-ref is 0)
+  0 - lowest score"
+  [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)
+        inverted            (-> (- 2 score)
+                                (/ 2)
+                                (* 100)
+                                (js/Math.round))]
+    score))
+(defn where-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [planned-total       (:total-duration planned)
+        actual-total        (:total-duration actual)
+        score               (relative-difference-score
+                             actual-total
+                             planned-total)]
+
+    (->> bucket (transform [:score] #(merge % {:where score})))))
+(defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          0
+                          ;; (->> actual
+                          ;;      (filter (partial helpers/overlapping-timestamps? planned-period))
+                          ;;      ;; check out ./doc-images/comparing-planned-actual.png
+                          ;;      ;; merge actual periods that overlap each other
+                          ;;      (helpers/get-collision-groups)
+                          ;;      (map (fn [collision-group]
+                          ;;             (let [earliest-start (->> collision-group
+                          ;;                                       (sort-by
+                          ;;                                        #(->> %
+                          ;;                                              :start
+                          ;;                                              (.valueOf)))
+                          ;;                                       first
+                          ;;                                       :start)
+                          ;;                   latest-stop    (->> collision-group
+                          ;;                                       (sort-by
+                          ;;                                        #(->> %
+                          ;;                                              :stop
+                          ;;                                              (.valueOf)))
+                          ;;                                       last
+                          ;;                                       :stop)]
+                          ;;               {:start earliest-start
+                          ;;                :stop  latest-stop})))
+                          ;;      ;; bound the start and stop
+                          ;;      (map (fn [{:keys [start stop]}]
+                          ;;             (let [bounded-start (if (-> start
+                          ;;                                         (.valueOf)
+                          ;;                                         (< (.valueOf (:start planned-period))))
+                          ;;                                   (:start planned-period)
+                          ;;                                   start)
+                          ;;                   bounded-stop  (if (-> stop
+                          ;;                                         (.valueOf)
+                          ;;                                         (> (.valueOf (:stop planned-period))))
+                          ;;                                   (:stop planned-period)
+                          ;;                                   stop)]
+                          ;;               {:start bounded-start
+                          ;;                :stop  bounded-stop})))
+                          ;;      ;; calculate their totals
+                          ;;      (map (fn [{:keys [start stop]}]
+                          ;;             (- (.valueOf stop)
+                          ;;                (.valueOf start))))
+                          ;;      (reduce +))
+
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             ;; (reduce +)
+             count
+             )]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+(defn where-score-the-day
+  [buckets]
+  (let [scores        (->> buckets (select [sp/MAP-VALS :score :where]))
+        average-score (-> (reduce + scores)
+                          (/ (count scores)))]
+
+    (->> buckets (transform [:score] #(merge % {:where average-score})))))
+
+(def db @re-frame.db/app-db)
+(def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              ;; when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+
+#'time-align-mobile.handlers/duplicate-straddling-period#'time-align-mobile.handlers/get-beginning-of-day-start#'time-align-mobile.handlers/split-periods-by-bucket-then-type#'time-align-mobile.handlers/set-duration-per-type#'time-align-mobile.handlers/relative-difference-score#'time-align-mobile.handlers/where-score-the-bucket#'time-align-mobile.handlers/when-score-the-bucket#'time-align-mobile.handlers/where-score-the-day#'time-align-mobile.handlers/db#'time-align-mobile.handlers/wip[{:where 0} {:where 0} {:where 0} nil {:where 2} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0.43291982730776496} nil {:where 0} {:where 0} {:where 0} {:where 0.5931853969086349} {:where 1.3663633243799647} {:where 0} {:where 0.42723320986710756} {:where 2} {:where 0} {:where 0.8392870372793951} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.21193829200372183} {:where 0} {:where 0} {:where 0} nil {:where 0.9718926884435026} {:where 2} {:where 0.013935313516582799} {:where 0} {:where 1.278739288313207} {:where 0.1590909090909091} nil {:where 0.39780680604140745} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.27617995119119837} {:where 0.441738552297202} {:where 0} {:where 0.9285704719379214} {:where 0.3217501513873807} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0.42069332041811425} {:where 1.3891794796479773} {:where 0.11023382368608405} {:where 0.373341676947851} nil {:where 0.4677812450167742} {:where 0} {:where 0.7297056808587351} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.050054928731635646} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0.8840174182561359} {:where 2} {:where 0} {:where 0.26500734377732177} {:where 0} {:where 0.4955871696683628} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.1373407681127756} {:where 0.404196008948761} {:where 0} {:where 0.5394509335603208} {:where 0.9384685395142659} {:where 0.9910218461287295} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0.23765722261363958} {:where 0.9035318153949615} {:where 0} {:where 1.0389304449135355} {:where 0.13523131672597866} nil {:where 0} {:where 0.33791890148983883} {:where 0.2593642937305348} {:where 1.274706251587691} {:where 0.06286852581066261} {:where 0} nil {:where 0.8174115719502926} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0.2099373537742576} {:where 0.25907405662003774} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 1.5179693089213377} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.05001072494101282} {:where 0.6086956521739131} {:where 0} {:where 0.3418010872948454} {:where 0.48375451263537905} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.6577173775958116} {:where 0.12828646575641597} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 2} {:where 1.084366938931853} {:where 0} {:where 0} {:where 0.10954039200581545} {:where 0.11843862636437699} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.5649203912833556} {:where 1.0990250324632542} {:where 0.32542574296979826} {:where 0} {:where 1.6426621303380937} {:where 0.23553053349061073} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 1.1182021195344047} {:where 0.35277612333078157} {:where 0.40475553011436044} {:where 1.1457619377660517} {:where 0.7720279112410352} {:where 0} nil {:where 0} nil {:where 0.7238673867295577} {:where 0} {:where 0.3128684951289099} {:where 0} {:where 0.07855846773866154} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0.2765877229862207} {:where 0} {:where 0.7264563869330377} {:where 0.8342634713256764} {:where 2} {:where 0.3085605951913212} {:where 0} nil {:where 2} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 1.0508474576271187} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0.36118322111005124} {:where 0} {:where 0.07859514682676469} {:where 0.03486845448739451} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 2} {:where 0.32084383194631927} {:where 1.0244622245540398} {:where 0} {:where 2} {:where 0.42105263157894735} {:where 1.1978888166283264} nil {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} {:where 0} nil {:where 0} nil]
+time-align-mobile.handlers> (defn relative-difference-score
+  "Gives a score 0 - 100
+  100 - highest score (also 100 if x-ref is 0)
+  0 - lowest score"
+  [x x-ref]
+  (let [actual-difference (-> x-ref
+                              (- x)
+                              (js/Math.abs))
+        denominator         (-> x-ref
+                                (+ x)
+                                (/ 2))
+        relative-difference (-> actual-difference
+                                (/ denominator))
+        score               (if (= 0 x-ref)
+                              0
+                              relative-difference)
+        inverted            (-> (- 2 score)
+                                (/ 2)
+                                (* 100)
+                                (js/Math.round))]
+    inverted))
+#'time-align-mobile.handlers/relative-difference-score
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              ;; when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+
+#'time-align-mobile.handlers/wip[{:where 100} {:where 100} {:where 100} nil {:where 0} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 78} nil {:where 100} {:where 100} {:where 100} {:where 70} {:where 32} {:where 100} {:where 79} {:where 0} {:where 100} {:where 58} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 89} {:where 100} {:where 100} {:where 100} nil {:where 51} {:where 0} {:where 99} {:where 100} {:where 36} {:where 92} nil {:where 80} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 86} {:where 78} {:where 100} {:where 54} {:where 84} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 79} {:where 31} {:where 94} {:where 81} nil {:where 77} {:where 100} {:where 64} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 97} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} nil {:where 56} {:where 0} {:where 100} {:where 87} {:where 100} {:where 75} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 93} {:where 80} {:where 100} {:where 73} {:where 53} {:where 50} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} nil {:where 88} {:where 55} {:where 100} {:where 48} {:where 93} nil {:where 100} {:where 83} {:where 87} {:where 36} {:where 97} {:where 100} nil {:where 59} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 90} {:where 87} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 24} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 97} {:where 70} {:where 100} {:where 83} {:where 76} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 67} {:where 94} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 0} {:where 46} {:where 100} {:where 100} {:where 95} {:where 94} nil {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 72} {:where 45} {:where 84} {:where 100} {:where 18} {:where 88} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 44} {:where 82} {:where 80} {:where 43} {:where 61} {:where 100} nil {:where 100} nil {:where 64} {:where 100} {:where 84} {:where 100} {:where 96} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 86} {:where 100} {:where 64} {:where 58} {:where 0} {:where 85} {:where 100} nil {:where 0} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 47} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 82} {:where 100} {:where 96} {:where 98} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 0} {:where 84} {:where 49} {:where 100} {:where 0} {:where 79} {:where 40} nil {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} {:where 100} nil {:where 100} nil]
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score 1
+        ;; (->> planned
+        ;;      ;; score each planned period
+        ;;      (map (fn [planned-period]
+        ;;             (let [adjusted-total-actual-time
+        ;;                   (->> actual
+        ;;                        (filter (partial helpers/overlapping-timestamps? planned-period))
+        ;;                        ;; check out ./doc-images/comparing-planned-actual.png
+        ;;                        ;; merge actual periods that overlap each other
+        ;;                        (helpers/get-collision-groups)
+        ;;                        (map (fn [collision-group]
+        ;;                               (let [earliest-start (->> collision-group
+        ;;                                                         (sort-by
+        ;;                                                          #(->> %
+        ;;                                                                :start
+        ;;                                                                (.valueOf)))
+        ;;                                                         first
+        ;;                                                         :start)
+        ;;                                     latest-stop    (->> collision-group
+        ;;                                                         (sort-by
+        ;;                                                          #(->> %
+        ;;                                                                :stop
+        ;;                                                                (.valueOf)))
+        ;;                                                         last
+        ;;                                                         :stop)]
+        ;;                                 {:start earliest-start
+        ;;                                  :stop  latest-stop})))
+        ;;                        ;; bound the start and stop
+        ;;                        (map (fn [{:keys [start stop]}]
+        ;;                               (let [bounded-start (if (-> start
+        ;;                                                           (.valueOf)
+        ;;                                                           (< (.valueOf (:start planned-period))))
+        ;;                                                     (:start planned-period)
+        ;;                                                     start)
+        ;;                                     bounded-stop  (if (-> stop
+        ;;                                                           (.valueOf)
+        ;;                                                           (> (.valueOf (:stop planned-period))))
+        ;;                                                     (:stop planned-period)
+        ;;                                                     stop)]
+        ;;                                 {:start bounded-start
+        ;;                                  :stop  bounded-stop})))
+        ;;                        ;; calculate their totals
+        ;;                        (map (fn [{:keys [start stop]}]
+        ;;                               (- (.valueOf stop)
+        ;;                                  (.valueOf start))))
+        ;;                        (reduce +))
+        ;;                   planned-total (- (.valueOf (:stop planned-period))
+        ;;                                    (.valueOf (:start planned-period)))]
+        ;;               (relative-difference-score
+        ;;                adjusted-total-actual-time
+        ;;                planned-total))))
+        ;;      (reduce +)
+        ;;      )
+        ]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+#'time-align-mobile.handlers/when-score-the-bucket
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+
+#'time-align-mobile.handlers/wip[{:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 0} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 78} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 70} {:when 1, :where 32} {:when 1, :where 100} {:when 1, :where 79} {:when 1, :where 0} {:when 1, :where 100} {:when 1, :where 58} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 89} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 51} {:when 1, :where 0} {:when 1, :where 99} {:when 1, :where 100} {:when 1, :where 36} {:when 1, :where 92} nil {:when 1, :where 80} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 86} {:when 1, :where 78} {:when 1, :where 100} {:when 1, :where 54} {:when 1, :where 84} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 79} {:when 1, :where 31} {:when 1, :where 94} {:when 1, :where 81} nil {:when 1, :where 77} {:when 1, :where 100} {:when 1, :where 64} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 97} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 56} {:when 1, :where 0} {:when 1, :where 100} {:when 1, :where 87} {:when 1, :where 100} {:when 1, :where 75} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 93} {:when 1, :where 80} {:when 1, :where 100} {:when 1, :where 73} {:when 1, :where 53} {:when 1, :where 50} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 88} {:when 1, :where 55} {:when 1, :where 100} {:when 1, :where 48} {:when 1, :where 93} nil {:when 1, :where 100} {:when 1, :where 83} {:when 1, :where 87} {:when 1, :where 36} {:when 1, :where 97} {:when 1, :where 100} nil {:when 1, :where 59} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 90} {:when 1, :where 87} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 24} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 97} {:when 1, :where 70} {:when 1, :where 100} {:when 1, :where 83} {:when 1, :where 76} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 67} {:when 1, :where 94} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 0} {:when 1, :where 46} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 95} {:when 1, :where 94} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 72} {:when 1, :where 45} {:when 1, :where 84} {:when 1, :where 100} {:when 1, :where 18} {:when 1, :where 88} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 44} {:when 1, :where 82} {:when 1, :where 80} {:when 1, :where 43} {:when 1, :where 61} {:when 1, :where 100} nil {:when 1, :where 100} nil {:when 1, :where 64} {:when 1, :where 100} {:when 1, :where 84} {:when 1, :where 100} {:when 1, :where 96} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 86} {:when 1, :where 100} {:when 1, :where 64} {:when 1, :where 58} {:when 1, :where 0} {:when 1, :where 85} {:when 1, :where 100} nil {:when 1, :where 0} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 47} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 82} {:when 1, :where 100} {:when 1, :where 96} {:when 1, :where 98} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 0} {:when 1, :where 84} {:when 1, :where 49} {:when 1, :where 100} {:when 1, :where 0} {:when 1, :where 79} {:when 1, :where 40} nil {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} {:when 1, :where 100} nil {:when 1, :where 100} nil]
+time-align-mobile.handlers> (count (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score])))
+411
+time-align-mobile.handlers> (comment "that seems right considering there are only 63 days")
+nil
+time-align-mobile.handlers> (count (->> wip (select [sp/MAP-VALS])))
+63
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score 1
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +)
+             )
+        ]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+------ REPL Error while processing ---------------------------------------------
+(defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score 1
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +)
+             )
+        ]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+Syntax error macroexpanding cljs.core/let.
+Call to cljs.core/let did not conform to spec.
+-- Spec failed --------------------
+
+  ([score
+    1
+    (->>
+     planned
+     (map
+      (fn
+       [planned-period]
+       (let
+        [adjusted-total-actual-time
+         (->>
+          actual
+          (filter
+           (partial helpers/overlapping-timestamps? planned-period))
+          (helpers/get-collision-groups)
+          (map
+           (fn
+            [collision-group]
+            (let
+             [earliest-start
+              (->>
+               collision-group
+               (sort-by
+                (fn* [p1__39339#] (->> p1__39339# :start (.valueOf))))
+               first
+               :start)
+              latest-stop
+              (->>
+               collision-group
+               (sort-by
+                (fn* [p1__39340#] (->> p1__39340# :stop (.valueOf))))
+               last
+               :stop)]
+             {:start earliest-start, :stop latest-stop})))
+          (map
+           (fn
+            [{:keys [start stop]}]
+            (let
+             [bounded-start
+              (if
+               (->
+                start
+                (.valueOf)
+                (< (.valueOf (:start planned-period))))
+               (:start planned-period)
+               start)
+              bounded-stop
+              (if
+               (-> stop (.valueOf) (> (.valueOf (:stop planned-period))))
+               (:stop planned-period)
+               stop)]
+             {:start bounded-start, :stop bounded-stop})))
+          (map
+           (fn
+            [{:keys [start stop]}]
+            (- (.valueOf stop) (.valueOf start))))
+          (reduce +))
+         planned-total
+         (-
+          (.valueOf (:stop planned-period))
+          (.valueOf (:start planned-period)))]
+        (relative-difference-score
+         adjusted-total-actual-time
+         planned-total))))
+     (reduce +))] ...)
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+should satisfy
+
+  even-number-of-forms?
+
+-- Relevant specs -------
+
+:shadow.cljs.devtools.cljs-specs/bindings:
+  (clojure.spec.alpha/and
+   clojure.core/vector?
+   shadow.cljs.devtools.cljs-specs/even-number-of-forms?
+   (clojure.spec.alpha/* :shadow.cljs.devtools.cljs-specs/binding))
+
+-------------------------
+Detected 1 error
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+#'time-align-mobile.handlers/when-score-the-bucket
+time-align-mobile.handlers> (->> wip (select [sp/MAP-VALS]))
+;; output cleared
+
+time-align-mobile.handlers> (->> wip (select [sp/MAP-VALS]) first)
+{#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], :total-duration 14485405}, :score {:when 1, :where 100}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], :total-duration 7324704}, :score {:when 1, :where 100}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}], :total-duration 132208}, :score {:when 1, :where 100}}, :score {:where 100}}
+time-align-mobile.handlers> (def test-bucket (->> wip (select [sp/MAP-VALS]) first))
+#'time-align-mobile.handlers/test-bucket
+time-align-mobile.handlers> (when-score-bucket test-bucket)
+------ WARNING - :undeclared-var -----------------------------------------------
+ Resource: :1:2
+ Use of undeclared Var time-align-mobile.handlers/when-score-bucket
+--------------------------------------------------------------------------------
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (when-score-the-bucket test-bucket)
+{#uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T19:06:00.119-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:44:11.240-00:00", :label "", :id #uuid "c5e2033c-eeed-47bf-be7d-8c4be7febaf7", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T13:26:22.884-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T14:11:22.884-00:00", :label "", :id #uuid "6a394de1-e031-4c50-b510-64d4605a784f", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:44:23.643-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T21:45:10.827-00:00", :label "", :id #uuid "6b5e0b24-2223-425e-9394-642f8709ca71", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}} {:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2020-02-08T21:45:15.320-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:22:42.420-00:00", :label "", :id #uuid "144ef831-6d82-45c8-8fd4-25c69f0711ad", :last-edited #inst "2020-02-08T18:53:18.603-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], :total-duration 14485405}, :score {:when 1, :where 100}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T22:24:40.668-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:25:44.150-00:00", :label "", :id #uuid "ee21b67c-b2fd-4909-a3e0-98f6a6fb4ff6", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2020-02-08T20:23:00.000-00:00", :created #inst "2020-02-08T18:53:18.603-00:00", :stop #inst "2020-02-08T22:24:01.222-00:00", :label "", :id #uuid "de5d348e-34dd-47f7-9d4b-7abc284a2cb2", :last-edited #inst "2020-02-08T22:24:30.290-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], :total-duration 7324704}, :score {:when 1, :where 100}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2020-02-08T22:26:01.743-00:00", :created #inst "2020-02-08T22:26:01.743-00:00", :stop #inst "2020-02-08T22:28:13.951-00:00", :label "", :id #uuid "083bd923-cb53-4bd5-bdf6-c67d55c75c28", :last-edited #inst "2020-02-08T22:26:01.743-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}], :total-duration 132208}, :score {:when 1, :where 100}}, :score {:where 100, :when 0}}
+time-align-mobile.handlers> (def test-bucket (->> wip (select [sp/MAP-VALS]) rand-nth))
+#'time-align-mobile.handlers/test-bucket
+time-align-mobile.handlers> test-bucket
+{#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-12-17T23:20:00.000-00:00", :created #inst "2019-12-17T23:36:45.614-00:00", :stop #inst "2019-12-17T23:42:41.882-00:00", :label "Repaying and calculating loans", :id #uuid "128fe654-5c66-47d6-ab49-0926f670efdf", :last-edited #inst "2019-12-17T23:37:11.114-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}], :total-duration 1361882}, :score {:when 1, :where 100}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#98ff11", :planned false, :bucket-label "🥘 food", :start #inst "2019-12-17T14:20:30.594-00:00", :created #inst "2019-12-17T14:20:30.594-00:00", :stop #inst "2019-12-17T14:30:00.000-00:00", :label "", :id #uuid "3544fe72-841a-4847-b9f0-1bb05fd2b2e0", :last-edited #inst "2019-12-17T16:47:57.319-00:00", :bucket-id #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493", :data {}}], :total-duration 569406}, :score {:when 1, :where 100}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2019-12-17T13:49:00.000-00:00", :created #inst "2019-12-17T14:10:19.718-00:00", :stop #inst "2019-12-17T14:20:15.023-00:00", :label "", :id #uuid "dc42fdd2-3f52-43c5-80f4-6e56774360f7", :last-edited #inst "2019-12-17T14:10:26.503-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], :total-duration 1875023}, :score {:when 1, :where 100}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2019-12-18T03:20:33.228-00:00", :created #inst "2019-12-18T03:20:33.228-00:00", :stop #inst "2019-12-18T04:59:00.000-00:00", :label "", :id #uuid "50b900ac-2054-48d1-bfe6-d382f3dfaae5", :last-edited #inst "2019-12-18T14:10:55.937-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2019-12-17T05:00:48.800-00:00", :created #inst "2019-12-17T05:00:48.800-00:00", :stop #inst "2019-12-17T13:30:00.000-00:00", :label "", :id #uuid "537a8b31-fb17-401a-9a72-481d3611452c", :last-edited #inst "2019-12-17T13:42:30.041-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], :total-duration 36457972}, :score {:when 1, :where 100}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2019-12-17T21:17:51.246-00:00", :created #inst "2019-12-17T21:17:51.246-00:00", :stop #inst "2019-12-17T21:55:00.000-00:00", :label "Waking", :id #uuid "ac585bca-bfdb-41d6-b546-25ba6a1b1ce1", :last-edited #inst "2019-12-17T23:21:01.148-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}} {:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2019-12-17T23:45:27.267-00:00", :created #inst "2019-12-17T23:45:27.267-00:00", :stop #inst "2019-12-18T00:29:03.756-00:00", :label "", :id #uuid "a51f024e-7683-40f0-927f-4a3d6c51a994", :last-edited #inst "2019-12-17T23:45:27.267-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}], :total-duration 4845243}, :score {:when 1, :where 100}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#dd0f1d", :planned false, :bucket-label "👨‍💼 career", :start #inst "2019-12-17T18:15:00.000-00:00", :created #inst "2019-12-17T18:29:57.043-00:00", :stop #inst "2019-12-17T23:15:00.000-00:00", :label "", :id #uuid "bec669f3-aca5-40cd-ad37-36491e770aea", :last-edited #inst "2019-12-17T23:21:08.410-00:00", :bucket-id #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832", :data {}} {:color "#dd0f1d", :planned false, :bucket-label "👨‍💼 career", :start #inst "2019-12-17T14:31:00.000-00:00", :created #inst "2019-12-17T16:48:03.366-00:00", :stop #inst "2019-12-17T17:10:00.000-00:00", :label "", :id #uuid "96461c78-9919-4a97-a16c-83a392d3ad6a", :last-edited #inst "2019-12-17T18:07:13.881-00:00", :bucket-id #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832", :data {}}], :total-duration 27540000}, :score {:when 1, :where 100}}, :score {:where 100}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#11a5ff", :planned false, :bucket-label "🌱 growth", :start #inst "2019-12-18T01:05:00.000-00:00", :created #inst "2019-12-18T03:20:01.162-00:00", :stop #inst "2019-12-18T02:45:00.000-00:00", :label "Planning time sink", :id #uuid "824b1646-c38d-4ae5-8b44-8613928a2f9c", :last-edited #inst "2019-12-18T03:20:23.645-00:00", :bucket-id #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece", :data {}}], :total-duration 6000000}, :score {:when 1, :where 100}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#ffac11", :planned false, :bucket-label "📱 leisure", :start #inst "2019-12-17T23:47:00.000-00:00", :created #inst "2019-12-18T01:02:28.081-00:00", :stop #inst "2019-12-18T00:56:00.000-00:00", :label "Playing civ", :id #uuid "12685f3a-8f39-4b03-856e-e5719a882953", :last-edited #inst "2019-12-18T01:03:49.028-00:00", :bucket-id #uuid "a22654de-db53-4460-b4dc-0df1becd4061", :data {}}], :total-duration 4140000}, :score {:when 1, :where 100}}}
+time-align-mobile.handlers> (when-score-the-bucket test-bucket)
+{#uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#8b8b8b", :planned false, :bucket-label "🤹‍♂️ misc", :start #inst "2019-12-17T23:20:00.000-00:00", :created #inst "2019-12-17T23:36:45.614-00:00", :stop #inst "2019-12-17T23:42:41.882-00:00", :label "Repaying and calculating loans", :id #uuid "128fe654-5c66-47d6-ab49-0926f670efdf", :last-edited #inst "2019-12-17T23:37:11.114-00:00", :bucket-id #uuid "82f8a287-97ed-45b9-9fb9-38e6ab90332a", :data {}}], :total-duration 1361882}, :score {:when 1, :where 100}}, #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#98ff11", :planned false, :bucket-label "🥘 food", :start #inst "2019-12-17T14:20:30.594-00:00", :created #inst "2019-12-17T14:20:30.594-00:00", :stop #inst "2019-12-17T14:30:00.000-00:00", :label "", :id #uuid "3544fe72-841a-4847-b9f0-1bb05fd2b2e0", :last-edited #inst "2019-12-17T16:47:57.319-00:00", :bucket-id #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493", :data {}}], :total-duration 569406}, :score {:when 1, :where 100}}, #uuid "7d886694-fc39-4a16-975d-a22e16a2a854" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#46e5ff", :planned false, :bucket-label "➰ maintenance", :start #inst "2019-12-17T13:49:00.000-00:00", :created #inst "2019-12-17T14:10:19.718-00:00", :stop #inst "2019-12-17T14:20:15.023-00:00", :label "", :id #uuid "dc42fdd2-3f52-43c5-80f4-6e56774360f7", :last-edited #inst "2019-12-17T14:10:26.503-00:00", :bucket-id #uuid "7d886694-fc39-4a16-975d-a22e16a2a854", :data {}}], :total-duration 1875023}, :score {:when 1, :where 100}}, #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2019-12-18T03:20:33.228-00:00", :created #inst "2019-12-18T03:20:33.228-00:00", :stop #inst "2019-12-18T04:59:00.000-00:00", :label "", :id #uuid "50b900ac-2054-48d1-bfe6-d382f3dfaae5", :last-edited #inst "2019-12-18T14:10:55.937-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}} {:color "#9711ff", :planned false, :bucket-label "🛌 sleep", :start #inst "2019-12-17T05:00:48.800-00:00", :created #inst "2019-12-17T05:00:48.800-00:00", :stop #inst "2019-12-17T13:30:00.000-00:00", :label "", :id #uuid "537a8b31-fb17-401a-9a72-481d3611452c", :last-edited #inst "2019-12-17T13:42:30.041-00:00", :bucket-id #uuid "c8bbdf20-1399-4852-8123-28f391d5ea3d", :data {}}], :total-duration 36457972}, :score {:when 1, :where 100}}, #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2019-12-17T21:17:51.246-00:00", :created #inst "2019-12-17T21:17:51.246-00:00", :stop #inst "2019-12-17T21:55:00.000-00:00", :label "Waking", :id #uuid "ac585bca-bfdb-41d6-b546-25ba6a1b1ce1", :last-edited #inst "2019-12-17T23:21:01.148-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}} {:color "#60e563", :planned false, :bucket-label "🍎 health", :start #inst "2019-12-17T23:45:27.267-00:00", :created #inst "2019-12-17T23:45:27.267-00:00", :stop #inst "2019-12-18T00:29:03.756-00:00", :label "", :id #uuid "a51f024e-7683-40f0-927f-4a3d6c51a994", :last-edited #inst "2019-12-17T23:45:27.267-00:00", :bucket-id #uuid "8d66134c-1162-4647-9e55-2b16ebf17da5", :data {}}], :total-duration 4845243}, :score {:when 1, :where 100}}, #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#dd0f1d", :planned false, :bucket-label "👨‍💼 career", :start #inst "2019-12-17T18:15:00.000-00:00", :created #inst "2019-12-17T18:29:57.043-00:00", :stop #inst "2019-12-17T23:15:00.000-00:00", :label "", :id #uuid "bec669f3-aca5-40cd-ad37-36491e770aea", :last-edited #inst "2019-12-17T23:21:08.410-00:00", :bucket-id #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832", :data {}} {:color "#dd0f1d", :planned false, :bucket-label "👨‍💼 career", :start #inst "2019-12-17T14:31:00.000-00:00", :created #inst "2019-12-17T16:48:03.366-00:00", :stop #inst "2019-12-17T17:10:00.000-00:00", :label "", :id #uuid "96461c78-9919-4a97-a16c-83a392d3ad6a", :last-edited #inst "2019-12-17T18:07:13.881-00:00", :bucket-id #uuid "54c6fe40-982c-48fa-bf7e-712f6c2bf832", :data {}}], :total-duration 27540000}, :score {:when 1, :where 100}}, :score {:where 100, :when 0}, #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#11a5ff", :planned false, :bucket-label "🌱 growth", :start #inst "2019-12-18T01:05:00.000-00:00", :created #inst "2019-12-18T03:20:01.162-00:00", :stop #inst "2019-12-18T02:45:00.000-00:00", :label "Planning time sink", :id #uuid "824b1646-c38d-4ae5-8b44-8613928a2f9c", :last-edited #inst "2019-12-18T03:20:23.645-00:00", :bucket-id #uuid "7dbb8f37-f79d-4121-91d2-bb70fd8eaece", :data {}}], :total-duration 6000000}, :score {:when 1, :where 100}}, #uuid "a22654de-db53-4460-b4dc-0df1becd4061" {:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#ffac11", :planned false, :bucket-label "📱 leisure", :start #inst "2019-12-17T23:47:00.000-00:00", :created #inst "2019-12-18T01:02:28.081-00:00", :stop #inst "2019-12-18T00:56:00.000-00:00", :label "Playing civ", :id #uuid "12685f3a-8f39-4b03-856e-e5719a882953", :last-edited #inst "2019-12-18T01:03:49.028-00:00", :bucket-id #uuid "a22654de-db53-4460-b4dc-0df1becd4061", :data {}}], :total-duration 4140000}, :score {:when 1, :where 100}}}
+time-align-mobile.handlers> (def test-bucket (->> wip (select [sp/MAP-VALS sp/MAP-VALS]) rand-nth))
+#'time-align-mobile.handlers/test-bucket
+time-align-mobile.handlers> test-bucket
+{:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#98ff11", :planned false, :bucket-label "🥘 food", :start #inst "2019-12-30T16:56:08.303-00:00", :created #inst "2019-12-30T16:56:08.303-00:00", :stop #inst "2019-12-30T17:25:00.000-00:00", :label "", :id #uuid "164e5e0b-9122-4141-83cf-ee9c9026a9b6", :last-edited #inst "2019-12-30T17:43:02.991-00:00", :bucket-id #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493", :data {}}], :total-duration 1731697}, :score {:when 1, :where 100}}
+time-align-mobile.handlers> (comment "that was accidentally giving the whole day to the bucket score function")
+nil
+time-align-mobile.handlers> (when-score-the-bucket test-bucket)
+time_align_mobile$helpers$overlapping_timestamps_QMARK_
+G__33496__1
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$IFn$_invoke$arity$3
+cljs$core$IReduce$_reduce$arity$3
+cljs$core$IFn$_invoke$arity$3
+time_align_mobile$helpers$get_collision_groups
+
+
+
+sval
+cljs$core$ISeqable$_seq$arity$1
+cljs$core$seq
+cljs$core$IFn$_invoke$arity$2
+cljs$core$IReduce$_reduce$arity$2
+cljs$core$IFn$_invoke$arity$2
+cljs$core$reduce
+time_align_mobile$handlers$when_score_the_bucket
+eval code
+eval@[native code]
+
+shadow$cljs$devtools$client$env$repl_call
+shadow$cljs$devtools$client$react_native$repl_invoke
+shadow$cljs$devtools$client$react_native$handle_message
+
+shadow$cljs$devtools$client$env$process_next_BANG_
+shadow$cljs$devtools$client$env$process_ws_msg
+onmessage
+dispatchEvent@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:30984:31
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:32152:31
+emit@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:5591:42
+__callFunction@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4886:49
+http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4643:31
+__guard@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4840:15
+callFunctionReturnFlushedQueue@http://192.168.1.93:19001/app/index.bundle?platform=android&dev=true&minify=false&hot=false:4642:21
+callFunctionReturnFlushedQueue@[native code]
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (println actual)
+  (println planned)
+  (let [score
+        (->> planned
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+#'time-align-mobile.handlers/when-score-the-bucket
+time-align-mobile.handlers> (defn when-score-the-bucket
+  [{:keys [actual planned] :as bucket}]
+  (let [score
+        (->> planned
+             :periods
+             ;; score each planned period
+             (map (fn [planned-period]
+                    (let [adjusted-total-actual-time
+                          (->> actual
+                               :periods
+                               (filter (partial helpers/overlapping-timestamps? planned-period))
+                               ;; check out ./doc-images/comparing-planned-actual.png
+                               ;; merge actual periods that overlap each other
+                               (helpers/get-collision-groups)
+                               (map (fn [collision-group]
+                                      (let [earliest-start (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :start
+                                                                       (.valueOf)))
+                                                                first
+                                                                :start)
+                                            latest-stop    (->> collision-group
+                                                                (sort-by
+                                                                 #(->> %
+                                                                       :stop
+                                                                       (.valueOf)))
+                                                                last
+                                                                :stop)]
+                                        {:start earliest-start
+                                         :stop  latest-stop})))
+                               ;; bound the start and stop
+                               (map (fn [{:keys [start stop]}]
+                                      (let [bounded-start (if (-> start
+                                                                  (.valueOf)
+                                                                  (< (.valueOf (:start planned-period))))
+                                                            (:start planned-period)
+                                                            start)
+                                            bounded-stop  (if (-> stop
+                                                                  (.valueOf)
+                                                                  (> (.valueOf (:stop planned-period))))
+                                                            (:stop planned-period)
+                                                            stop)]
+                                        {:start bounded-start
+                                         :stop  bounded-stop})))
+                               ;; calculate their totals
+                               (map (fn [{:keys [start stop]}]
+                                      (- (.valueOf stop)
+                                         (.valueOf start))))
+                               (reduce +))
+                          planned-total (- (.valueOf (:stop planned-period))
+                                           (.valueOf (:start planned-period)))]
+                      (relative-difference-score
+                       adjusted-total-actual-time
+                       planned-total))))
+             (reduce +))]
+    (->> bucket (transform [:score] #(merge % {:when score})))))
+#'time-align-mobile.handlers/when-score-the-bucket
+time-align-mobile.handlers> (when-score-the-bucket test-bucket)
+{:planned {:periods [], :total-duration 0}, :actual {:periods [{:color "#98ff11", :planned false, :bucket-label "🥘 food", :start #inst "2019-12-30T16:56:08.303-00:00", :created #inst "2019-12-30T16:56:08.303-00:00", :stop #inst "2019-12-30T17:25:00.000-00:00", :label "", :id #uuid "164e5e0b-9122-4141-83cf-ee9c9026a9b6", :last-edited #inst "2019-12-30T17:43:02.991-00:00", :bucket-id #uuid "f50dd2ec-ba83-433b-aa22-7cf4d7196493", :data {}}], :total-duration 1731697}, :score {:when 0, :where 100}}
+time-align-mobile.handlers> (def wip (-> db
+             (subs/get-periods :na)
+
+             ;; group by the beginning of the day for each :start value as a unix time stamp
+             ;; result{1581138000000 [periods]}
+             (->> (map duplicate-straddling-period)
+                  (flatten)
+                  (remove nil?)
+                  (group-by get-beginning-of-day-start))
+
+             ;; take all the periods under the day key
+             ;; and group them by bucket-id and then by track
+             ;; the total result:
+             ;; {1581138000000 {bucket-id-a {:actual  [periods]
+             ;;                              :planned [periods]}
+             ;;                 bucket-id-b {:actual  [periods]
+             ;;                              :planned [periods]}}}
+             (->> (transform [sp/MAP-VALS]
+                             split-periods-by-bucket-then-type))
+
+             ;; add a :total-duration section underneath the type key, in ms
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}
+             ;;                 bucket-id-b {:actual  {:periods        [periods]
+             ;;                                        :total-duration 132208}
+             ;;                              :planned {:periods        [periods]
+             ;;                                        :total-duration 132208}}}}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                             set-duration-per-type))
+
+             ;; add a :score section underneath each bucket-id key
+             ;; 0 is a perfect score - 2 is the worst score
+             ;; inlcudes :where :when scores
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :score       {:where 1
+             ;;                                            :when  1.1
+             ;;                                            }}
+             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                             (comp
+                              where-score-the-bucket
+                              when-score-the-bucket
+                              )))
+
+             ;; add a :where-score section underneath each day key
+             ;; total result:
+             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}
+             ;;                 bucket-id-b {:actual      {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :planned     {:periods        [periods]
+             ;;                                            :total-duration 132208}
+             ;;                              :where-score 1}}}
+             ;;                 where-score 1}}
+             (->> (transform [sp/MAP-VALS]
+                             where-score-the-day))))
+#'time-align-mobile.handlers/wip
+time-align-mobile.handlers> 
+(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+[{:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 0} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 78} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 70, :where 70} {:when 0, :where 32} {:when 0, :where 100} {:when 65, :where 79} {:when 0, :where 0} {:when 0, :where 100} {:when 0, :where 58} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 89} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 51} {:when 0, :where 0} {:when 0, :where 99} {:when 0, :where 100} {:when 0, :where 36} {:when 92, :where 92} nil {:when 0, :where 80} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 86} {:when 0, :where 78} {:when 0, :where 100} {:when 0, :where 54} {:when 81, :where 84} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 79} {:when 28, :where 31} {:when 100, :where 94} {:when 0, :where 81} nil {:when 51, :where 77} {:when 0, :where 100} {:when 64, :where 64} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 97, :where 97} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 56} {:when 0, :where 0} {:when 0, :where 100} {:when 57, :where 87} {:when 0, :where 100} {:when 77, :where 75} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 93} {:when 63, :where 80} {:when 0, :where 100} {:when 70, :where 73} {:when 89, :where 53} {:when 0, :where 50} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 100, :where 88} {:when 0, :where 55} {:when 0, :where 100} {:when 91, :where 48} {:when 182, :where 93} nil {:when 0, :where 100} {:when 56, :where 83} {:when 0, :where 87} {:when 71, :where 36} {:when 100, :where 97} {:when 0, :where 100} nil {:when 100, :where 59} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 93, :where 90} {:when 191, :where 87} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 100, :where 24} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 47, :where 97} {:when 70, :where 70} {:when 0, :where 100} {:when 0, :where 83} {:when 177, :where 76} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 67} {:when 0, :where 94} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 0} {:when 94, :where 46} {:when 0, :where 100} {:when 0, :where 100} {:when 76, :where 95} {:when 99, :where 94} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 17, :where 72} {:when 100, :where 45} {:when 76, :where 84} {:when 0, :where 100} {:when 0, :where 18} {:when 100, :where 88} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 44} {:when 63, :where 82} {:when 80, :where 80} {:when 0, :where 43} {:when 0, :where 61} {:when 0, :where 100} nil {:when 0, :where 100} nil {:when 0, :where 64} {:when 0, :where 100} {:when 0, :where 84} {:when 0, :where 100} {:when 180, :where 96} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 107, :where 86} {:when 0, :where 100} {:when 76, :where 64} {:when 42, :where 58} {:when 0, :where 0} {:when 99, :where 85} {:when 0, :where 100} nil {:when 0, :where 0} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 47} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 38, :where 82} {:when 0, :where 100} {:when 0, :where 96} {:when 98, :where 98} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 0} {:when 58, :where 84} {:when 0, :where 49} {:when 0, :where 100} {:when 0, :where 0} {:when 0, :where 79} {:when 100, :where 40} nil {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} {:when 0, :where 100} nil {:when 0, :where 100} nil]
+time-align-mobile.handlers> 

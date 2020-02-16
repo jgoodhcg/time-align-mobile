@@ -370,7 +370,7 @@
      CLOCK: [2020-02-11 Tue 08:02]--[2020-02-11 Tue 08:11] =>  0:09
      CLOCK: [2020-02-11 Tue 07:59]--[2020-02-11 Tue 08:01] =>  0:02
      :END:
-***** Did the time go where you wanted it
+***** Did the time go *where* you wanted it
       :LOGBOOK:
       CLOCK: [2020-02-11 Tue 06:35]--[2020-02-11 Tue 07:59] =>  1:24
       CLOCK: [2020-02-10 Mon 06:39]--[2020-02-10 Mon 08:45] =>  2:06
@@ -391,11 +391,14 @@
       - [X] If finished make an /eventually/ task for the bold note above
         - Might utilize a different grouping fn besides ~group-by~ that allows the period to be in multiple groups
           - Then using a fn like ~helpers/period-time-on-day~ we could get
-***** Did the things happen when you wanted
+***** Did the things happen *when* you wanted
       :PROPERTIES:
       :ID:       2ce1454c-1016-4e1f-8112-0a1d99a22e49
       :END:
       :LOGBOOK:
+      CLOCK: [2020-02-16 Sun 13:21]--[2020-02-16 Sun 14:19] =>  0:58
+      CLOCK: [2020-02-16 Sun 12:53]--[2020-02-16 Sun 13:07] =>  0:14
+      CLOCK: [2020-02-16 Sun 11:18]--[2020-02-16 Sun 11:59] =>  0:41
       CLOCK: [2020-02-15 Sat 13:45]--[2020-02-15 Sat 15:58] =>  2:13
       CLOCK: [2020-02-15 Sat 13:01]--[2020-02-15 Sat 13:17] =>  0:16
       CLOCK: [2020-02-15 Sat 12:49]--[2020-02-15 Sat 12:54] =>  0:05
@@ -406,15 +409,13 @@
       - [X] Make a note to Spec functions
       - [X] Change previous score key
       - [X] For each day find any over lapping actual periods for every planned period
-      - [ ] Calculate the total (discounting overlapping) time for the actual periods
+      - [X] Calculate the total (discounting overlapping) time for the actual periods
         - Discount overlapping time with [[./doc-images/comparing-planned-actual.png][this method]]
-        - [ ] Merge overlapping
-        - [ ] Bound start/stop of each actual by planned
-      - [ ] Take all (or the first) Overlapping period(s) with a matching bucket id 
-        - [ ] calculate how much overlap
-      - [ ] Get a ratio (relative difference?) of overlap to planned total as a score
-      - [ ] Accumulate the scores into one day score
-***** Did you track enough
+        - [X] Merge overlapping
+        - [X] Bound start/stop of each actual by planned
+      - [X] Get a ratio (relative difference?) of overlap to planned total as a score
+      - [X] Accumulate the scores into one day score
+***** Did you track the *amount* you should have? (whole day)
       - [ ] Calculate Total time planned per day
       - [ ] Get the ratio (relative difference?) of planed time to total time in a day
       - [ ] Calculate tracked (~:actual~) time in a day
