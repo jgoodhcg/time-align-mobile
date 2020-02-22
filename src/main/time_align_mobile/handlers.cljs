@@ -52,7 +52,7 @@
       true)))
 
 (def validate-spec
-  (if goog.DEBUG
+  (if true ;; goog.DEBUG ;; TODO restrict to development again some day
     (->interceptor
         :id :validate-spec
         :after (fn [context]

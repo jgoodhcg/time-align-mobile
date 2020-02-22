@@ -169,7 +169,7 @@
   [:<>
    [button-paper {:on-press #(reset! date-picker-modal true)
                   :mode     (if (same-day? displayed-day (js/Date.))
-                              "outlined"
+                              "text"
                               "contained")}
     (if (same-year? displayed-day (js/Date.))
       (format-date-day displayed-day "ddd MM/DD")
