@@ -1170,157 +1170,9 @@
 (defn set-menu-open [db [_ state]]
   (assoc-in db [:menu :open] state))
 
+;; TODO what was this for again?
 (defn set-report-contribution-bucket [db [_ bucket-id]]
   (assoc-in db [:selection :report :bucket-contribution] bucket-id))
-
-(defn set-report-data [db [_ _]]
-  (let [days-ago 90
-        periods-last-n-days (filter
-                             (fn [p] (-> (:stop p)
-                                         (.valueOf)
-                                         (> (.valueOf
-                                             (helpers/back-n-days
-                                              (helpers/reset-relative-ms 0 (js/Date.)) days-ago)))))
-                             (subs/get-periods db :no-op))
-        scores
-        (->> (range)
-             (take days-ago)
-             ;; map over the days
-             (map (fn [days-ago]
-                    (let [day (helpers/reset-relative-ms
-                               0
-                               (helpers/back-n-days (js/Date.) days-ago))
-
-                          score
-                          (->> (range)
-                               (take helpers/day-min)
-                               ;; map over every minute in the day
-                               (map (fn [min-of-day]
-                                      (let [exact-date          (helpers/reset-relative-ms
-                                                                 (helpers/minutes->ms min-of-day)
-                                                                 day)
-                                            ed-ms               (.valueOf exact-date)
-                                            overlapping-periods (->> periods-last-n-days
-                                                                     (filter (fn [period]
-                                                                               (and
-                                                                                (-> (.valueOf
-                                                                                     (:stop period))
-                                                                                    (>= ed-ms))
-                                                                                (-> (.valueOf
-                                                                                     (:start period))
-                                                                                    (<= ed-ms))))))
-                                            planned             (->> overlapping-periods
-                                                                     (filter :planned))
-                                            p-count             (count planned)
-                                            p-ids               (->> planned
-                                                                     (map :bucket-id)
-                                                                     set)
-                                            actual              (->> overlapping-periods
-                                                                     (remove :planned))
-                                            a-count             (count actual)
-                                            a-ids               (->> actual
-                                                                     (map :bucket-id)
-                                                                     set)
-                                            intersection        (clojure.set/intersection
-                                                                 p-ids a-ids)]
-
-                                        ;; figure out the score for the minute
-                                        (cond
-                                          ;; didn't plan didn't do
-                                          (and
-                                           (= 0 p-count)
-                                           (= 0 a-count))            0
-                                          ;; planned xor did
-                                          (or
-                                           (= 0 p-count)
-                                           (= 0 a-count))            1
-                                          ;; planned and did but do not match at all
-                                          (= 0 (count intersection)) 2
-                                          ;; planned and did and match perfectly
-                                          (= p-ids a-ids)            4
-                                          ;; planned and did but only kinda match
-                                          (> 0 (count intersection)) 3
-
-                                          :else 0))))
-                               ;; add all the minute scores together
-                               (reduce +))]
-                      ;; put it all together
-                      {:score (/ score 1000) :day day}))))]
-    (println (map :score scores))
-    (assoc-in db [:reports :score-data] scores)))
-
-(defn set-version [db [_ version]]
-  (assoc-in db [:version] version))
-
-(reg-event-fx :select-next-or-prev-period [validate-spec amplitude-logging persist-secure-store] select-next-or-prev-period)
-(reg-event-fx :select-next-or-prev-template-in-form [validate-spec amplitude-logging persist-secure-store] select-next-or-prev-template-in-form)
-(reg-event-db :initialize-db [validate-spec amplitude-logging] initialize-db)
-(reg-event-fx :navigate-to [validate-spec amplitude-logging persist-secure-store] navigate-to)
-(reg-event-fx :navigate-to-no-history [validate-spec amplitude-logging persist-secure-store] navigate-to)
-(reg-event-db :load-bucket-form [validate-spec amplitude-logging persist-secure-store] load-bucket-form)
-(reg-event-db :update-bucket-form [validate-spec amplitude-logging persist-secure-store] update-bucket-form)
-(reg-event-fx :save-bucket-form [alert-message validate-spec amplitude-logging persist-secure-store] save-bucket-form)
-(reg-event-db :load-period-form [validate-spec amplitude-logging persist-secure-store] load-period-form)
-(reg-event-db :update-period-form [validate-spec amplitude-logging persist-secure-store] update-period-form)
-(reg-event-fx :save-period-form [alert-message validate-spec amplitude-logging persist-secure-store] save-period-form)
-(reg-event-db :load-template-form [validate-spec amplitude-logging persist-secure-store] load-template-form)
-(reg-event-db :load-template-form-from-pattern-planning [validate-spec amplitude-logging persist-secure-store] load-template-form-from-pattern-planning)
-(reg-event-db :update-template-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-template-form)
-(reg-event-fx :save-template-form [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-template-form)
-(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-template-form-from-pattern-planning)
-(reg-event-db :load-filter-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] load-filter-form)
-(reg-event-db :update-filter-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-filter-form)
-(reg-event-fx :save-filter-form [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-filter-form)
-(reg-event-db :update-active-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-active-filter)
-(reg-event-fx :add-new-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-bucket)
-(reg-event-fx :add-new-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-period)
-;; (reg-event-fx :add-template-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-template-period)
-(reg-event-fx :add-new-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-template)
-(reg-event-fx :add-new-template-to-planning-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-template-to-planning-form)
-(reg-event-fx :add-new-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-filter)
-(reg-event-fx :delete-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-bucket)
-(reg-event-fx :delete-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-period)
-(reg-event-fx :delete-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-template)
-(reg-event-fx :delete-template-from-pattern-planning [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-template-from-pattern-planning)
-(reg-event-fx :delete-pattern [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-pattern)
-(reg-event-fx :delete-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-filter)
-(reg-event-fx :update-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] update-period)
-(reg-event-db :add-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] add-period)
-(reg-event-db :update-day-time-navigator [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-day-time-navigator)
-(reg-event-fx :tick [validate-spec persist-secure-store generate-handler-test-fx ] tick)
-(reg-event-fx :play-from-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] play-from-period)
-(reg-event-db :stop-playing-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] stop-playing-period)
-(reg-event-fx :play-from-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] play-from-bucket)
-(reg-event-db :play-from-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] play-from-template)
-(reg-event-db :load-db [validate-spec amplitude-logging] load-db)
-(reg-event-fx :share-app-db [validate-spec amplitude-logging] share-app-db)
-(reg-event-db :add-auto-filter [validate-spec amplitude-logging persist-secure-store  ] add-auto-filter)
-(reg-event-db :load-pattern-form [validate-spec amplitude-logging persist-secure-store  ] load-pattern-form)
-(reg-event-fx :update-pattern-form [validate-spec amplitude-logging persist-secure-store  ] update-pattern-form)
-(reg-event-fx :save-pattern-form [validate-spec amplitude-logging persist-secure-store  ] save-pattern-form)
-(reg-event-fx :add-new-pattern [validate-spec amplitude-logging persist-secure-store  ] add-new-pattern)
-(reg-event-db :apply-pattern-to-displayed-day [validate-spec amplitude-logging persist-secure-store  ] apply-pattern-to-displayed-day)
-(reg-event-db :import-app-db [validate-spec amplitude-logging persist-secure-store  ] import-app-db)
-(reg-event-fx :navigate-back [validate-spec amplitude-logging persist-secure-store  ] navigate-back)
-(reg-event-fx :update-template-on-pattern-planning-form [validate-spec amplitude-logging persist-secure-store  ] update-template-on-pattern-planning-form)
-(reg-event-db :make-pattern-from-day [validate-spec amplitude-logging persist-secure-store  ] make-pattern-from-day)
-(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec amplitude-logging persist-secure-store  ] set-current-pixel-to-minute-ratio)
-(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec amplitude-logging persist-secure-store  ] set-default-pixel-to-minute-ratio)
-(reg-event-fx :select-period-movement [validate-spec amplitude-logging persist-secure-store  ] select-period-movement)
-(reg-event-fx :select-period-edit [validate-spec amplitude-logging persist-secure-store  ] select-period-edit)
-(reg-event-fx :select-template-movement [validate-spec amplitude-logging persist-secure-store  ] select-template-movement)
-(reg-event-fx :select-template-edit [validate-spec amplitude-logging persist-secure-store  ] select-template-edit)
-(reg-event-fx :select-element-movement [validate-spec amplitude-logging persist-secure-store  ] select-element-movement)
-(reg-event-fx :select-element-edit [validate-spec amplitude-logging persist-secure-store  ] select-element-edit)
-(reg-event-db :set-day-fab-open [validate-spec amplitude-logging persist-secure-store] set-day-fab-open)
-(reg-event-db :set-day-fab-visible [validate-spec amplitude-logging persist-secure-store] set-day-fab-visible)
-(reg-event-db :set-menu-open [validate-spec amplitude-logging persist-secure-store] set-menu-open)
-(reg-event-db :zoom-in [validate-spec amplitude-logging persist-secure-store] zoom-in)
-(reg-event-db :zoom-out [validate-spec amplitude-logging persist-secure-store] zoom-out)
-(reg-event-db :zoom-default [validate-spec amplitude-logging persist-secure-store] zoom-default)
-(reg-event-fx :add-period-with-selection [validate-spec amplitude-logging persist-secure-store] add-period-with-selection)
-(reg-event-db :set-report-data [validate-spec amplitude-logging persist-secure-store] set-report-data)
-(reg-event-db :set-version [validate-spec amplitude-logging persist-secure-store] set-version)
 
 ;; TODO use data specs to define params and returns and apply with spec/fdef
 (defn duplicate-straddling-period
@@ -1377,7 +1229,8 @@
                                             (if (:planned period)
                                               :planned
                                               :actual)))))))))
-(defn merge-overlapping-periods [periods]
+(defn merge-overlapping-periods
+  [periods]
   (->> periods
        (helpers/get-collision-groups)
        (map (fn [collision-group]
@@ -1525,86 +1378,165 @@
                         (js/Math.round))]
     (->> buckets-with-score (transform [:score] #(merge % {:total total-score})))))
 
-(def db @re-frame.db/app-db)
-(def wip (-> db
-             (subs/get-periods :na)
+(defn set-report-data [db [_ _]]
+  (let [scores
+        (-> db
+      (subs/get-periods :na)
 
-             ;; group by the beginning of the day for each :start value as a unix time stamp
-             ;; result{1581138000000 [periods]}
-             (->> (map duplicate-straddling-period)
-                  (flatten)
-                  (remove nil?)
-                  (group-by get-beginning-of-day-start))
+      ;; group by the beginning of the day for each :start value as a unix time stamp
+      ;; result{1581138000000 [periods]}
+      (->> (map duplicate-straddling-period)
+           (flatten)
+           (remove nil?)
+           (group-by get-beginning-of-day-start))
 
-             ;; take all the periods under the day key
-             ;; and group them by bucket-id and then by track
-             ;; the total result:
-             ;; {1581138000000 {bucket-id-a {:actual  [periods]
-             ;;                              :planned [periods]}
-             ;;                 bucket-id-b {:actual  [periods]
-             ;;                              :planned [periods]}}}
-             (->> (transform [sp/MAP-VALS]
-                             split-periods-by-bucket-then-type))
+      ;; take all the periods under the day key
+      ;; and group them by bucket-id and then by track
+      ;; the total result:
+      ;; {1581138000000 {bucket-id-a {:actual  [periods]
+      ;;                              :planned [periods]}
+      ;;                 bucket-id-b {:actual  [periods]
+      ;;                              :planned [periods]}}}
+      (->> (transform [sp/MAP-VALS]
+                      split-periods-by-bucket-then-type))
 
-             ;; add a :total-duration section underneath the type key, in ms
-             ;; total result:
-             ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :planned {:periods        [periods]
-             ;;                                        :total-duration 132208}}
-             ;;                 bucket-id-b {:actual  {:periods        [periods]
-             ;;                                        :total-duration 132208}
-             ;;                              :planned {:periods        [periods]
-             ;;                                        :total-duration 132208}}}}
-             (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
-                             set-duration-per-type))
+      ;; add a :total-duration section underneath the type key, in ms
+      ;; total result:
+      ;; {1581138000000 {bucket-id-a {:actual  {:periods        [periods]
+      ;;                                        :total-duration 132208}
+      ;;                              :planned {:periods        [periods]
+      ;;                                        :total-duration 132208}}
+      ;;                 bucket-id-b {:actual  {:periods        [periods]
+      ;;                                        :total-duration 132208}
+      ;;                              :planned {:periods        [periods]
+      ;;                                        :total-duration 132208}}}}
+      (->> (transform [sp/MAP-VALS sp/MAP-VALS sp/MAP-VALS]
+                      set-duration-per-type))
 
-             ;; add a :score section underneath each bucket-id key
-             ;; 0 is a perfect score - 2 is the worst score
-             ;; inlcudes :where :when scores
-             ;; total result:
-             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :planned     {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :score       {:where 1
-             ;;                                            :when  1.1
-             ;;                                            }}
-             ;;                 bucket-id-b {:actual      {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :planned     {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :score       {:where 1
-             ;;                                            :when  1.1
-             ;;                                            }}
-             (->> (transform [sp/MAP-VALS sp/MAP-VALS]
-                             (comp
-                              where-score-the-bucket
-                              when-score-the-bucket)))
+      ;; add a :score section underneath each bucket-id key
+      ;; 0 is a perfect score - 2 is the worst score
+      ;; inlcudes :where :when scores
+      ;; total result:
+      ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :planned     {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :score       {:where 1
+      ;;                                            :when  1.1
+      ;;                                            }}
+      ;;                 bucket-id-b {:actual      {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :planned     {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :score       {:where 1
+      ;;                                            :when  1.1
+      ;;                                            }}
+      (->> (transform [sp/MAP-VALS sp/MAP-VALS]
+                      (comp
+                       where-score-the-bucket
+                       when-score-the-bucket)))
 
-             ;; add a :score section underneath each day key
-             ;; total result:
-             ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :planned     {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :score       {:where 1
-             ;;                                            :when  1.1
-             ;;                                            }}
-             ;;                 bucket-id-b {:actual      {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :planned     {:periods        [periods]
-             ;;                                            :total-duration 132208}
-             ;;                              :score       {:where 1
-             ;;                                            :when  1.1
-             ;;                                            }}
-             ;;                 score {:where 1 :when 1.1 :amount 1.3 :total 1.2}}}
-             (->> (transform [sp/MAP-VALS]
-                             (comp ;; applies in reverse order
-                              total-score-the-day ;; this one has to be applied last
-                              amount-score-the-day
-                              when-score-the-day
-                              where-score-the-day)))))
+      ;; add a :score section underneath each day key
+      ;; total result:
+      ;; {1581138000000 {bucket-id-a {:actual      {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :planned     {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :score       {:where 1
+      ;;                                            :when  1.1
+      ;;                                            }}
+      ;;                 bucket-id-b {:actual      {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :planned     {:periods        [periods]
+      ;;                                            :total-duration 132208}
+      ;;                              :score       {:where 1
+      ;;                                            :when  1.1
+      ;;                                            }}
+      ;;                 score {:where 1 :when 1.1 :amount 1.3 :total 1.2}}}
+      (->> (transform [sp/MAP-VALS]
+                      (comp ;; applies in reverse order
+                       total-score-the-day ;; this one has to be applied last
+                       amount-score-the-day
+                       when-score-the-day
+                       where-score-the-day)))
 
-(->> wip (select [sp/MAP-VALS :score]))
-(->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
+      ;; map this to something that can be easily converted for the contribution graph
+      (->> (map (fn [[day-ms buckets-with-score]]
+                  {:day   (js/Date. day-ms)
+                   :score (->> buckets-with-score (select-one [:score :total]))}))))]
+
+    (assoc-in db [:reports :score-data] scores)))
+
+(defn set-version [db [_ version]]
+  (assoc-in db [:version] version))
+
+(reg-event-fx :select-next-or-prev-period [validate-spec amplitude-logging persist-secure-store] select-next-or-prev-period)
+(reg-event-fx :select-next-or-prev-template-in-form [validate-spec amplitude-logging persist-secure-store] select-next-or-prev-template-in-form)
+(reg-event-db :initialize-db [validate-spec amplitude-logging] initialize-db)
+(reg-event-fx :navigate-to [validate-spec amplitude-logging persist-secure-store] navigate-to)
+(reg-event-fx :navigate-to-no-history [validate-spec amplitude-logging persist-secure-store] navigate-to)
+(reg-event-db :load-bucket-form [validate-spec amplitude-logging persist-secure-store] load-bucket-form)
+(reg-event-db :update-bucket-form [validate-spec amplitude-logging persist-secure-store] update-bucket-form)
+(reg-event-fx :save-bucket-form [alert-message validate-spec amplitude-logging persist-secure-store] save-bucket-form)
+(reg-event-db :load-period-form [validate-spec amplitude-logging persist-secure-store] load-period-form)
+(reg-event-db :update-period-form [validate-spec amplitude-logging persist-secure-store] update-period-form)
+(reg-event-fx :save-period-form [alert-message validate-spec amplitude-logging persist-secure-store] save-period-form)
+(reg-event-db :load-template-form [validate-spec amplitude-logging persist-secure-store] load-template-form)
+(reg-event-db :load-template-form-from-pattern-planning [validate-spec amplitude-logging persist-secure-store] load-template-form-from-pattern-planning)
+(reg-event-db :update-template-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-template-form)
+(reg-event-fx :save-template-form [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-template-form)
+(reg-event-fx :save-template-form-from-pattern-planning [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-template-form-from-pattern-planning)
+(reg-event-db :load-filter-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] load-filter-form)
+(reg-event-db :update-filter-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-filter-form)
+(reg-event-fx :save-filter-form [alert-message validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] save-filter-form)
+(reg-event-db :update-active-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-active-filter)
+(reg-event-fx :add-new-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-bucket)
+(reg-event-fx :add-new-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-period)
+;; (reg-event-fx :add-template-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-template-period)
+(reg-event-fx :add-new-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-template)
+(reg-event-fx :add-new-template-to-planning-form [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-template-to-planning-form)
+(reg-event-fx :add-new-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] add-new-filter)
+(reg-event-fx :delete-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-bucket)
+(reg-event-fx :delete-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-period)
+(reg-event-fx :delete-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-template)
+(reg-event-fx :delete-template-from-pattern-planning [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-template-from-pattern-planning)
+(reg-event-fx :delete-pattern [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-pattern)
+(reg-event-fx :delete-filter [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] delete-filter)
+(reg-event-fx :update-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] update-period)
+(reg-event-db :add-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] add-period)
+(reg-event-db :update-day-time-navigator [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] update-day-time-navigator)
+(reg-event-fx :tick [validate-spec persist-secure-store generate-handler-test-fx ] tick)
+(reg-event-fx :play-from-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] play-from-period)
+(reg-event-db :stop-playing-period [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] stop-playing-period)
+(reg-event-fx :play-from-bucket [validate-spec amplitude-logging persist-secure-store generate-handler-test-fx ] play-from-bucket)
+(reg-event-db :play-from-template [validate-spec amplitude-logging persist-secure-store generate-handler-test-db ] play-from-template)
+(reg-event-db :load-db [validate-spec amplitude-logging] load-db)
+(reg-event-fx :share-app-db [validate-spec amplitude-logging] share-app-db)
+(reg-event-db :add-auto-filter [validate-spec amplitude-logging persist-secure-store  ] add-auto-filter)
+(reg-event-db :load-pattern-form [validate-spec amplitude-logging persist-secure-store  ] load-pattern-form)
+(reg-event-fx :update-pattern-form [validate-spec amplitude-logging persist-secure-store  ] update-pattern-form)
+(reg-event-fx :save-pattern-form [validate-spec amplitude-logging persist-secure-store  ] save-pattern-form)
+(reg-event-fx :add-new-pattern [validate-spec amplitude-logging persist-secure-store  ] add-new-pattern)
+(reg-event-db :apply-pattern-to-displayed-day [validate-spec amplitude-logging persist-secure-store  ] apply-pattern-to-displayed-day)
+(reg-event-db :import-app-db [validate-spec amplitude-logging persist-secure-store  ] import-app-db)
+(reg-event-fx :navigate-back [validate-spec amplitude-logging persist-secure-store  ] navigate-back)
+(reg-event-fx :update-template-on-pattern-planning-form [validate-spec amplitude-logging persist-secure-store  ] update-template-on-pattern-planning-form)
+(reg-event-db :make-pattern-from-day [validate-spec amplitude-logging persist-secure-store  ] make-pattern-from-day)
+(reg-event-db :set-current-pixel-to-minute-ratio [validate-spec amplitude-logging persist-secure-store  ] set-current-pixel-to-minute-ratio)
+(reg-event-db :set-default-pixel-to-minute-ratio [validate-spec amplitude-logging persist-secure-store  ] set-default-pixel-to-minute-ratio)
+(reg-event-fx :select-period-movement [validate-spec amplitude-logging persist-secure-store  ] select-period-movement)
+(reg-event-fx :select-period-edit [validate-spec amplitude-logging persist-secure-store  ] select-period-edit)
+(reg-event-fx :select-template-movement [validate-spec amplitude-logging persist-secure-store  ] select-template-movement)
+(reg-event-fx :select-template-edit [validate-spec amplitude-logging persist-secure-store  ] select-template-edit)
+(reg-event-fx :select-element-movement [validate-spec amplitude-logging persist-secure-store  ] select-element-movement)
+(reg-event-fx :select-element-edit [validate-spec amplitude-logging persist-secure-store  ] select-element-edit)
+(reg-event-db :set-day-fab-open [validate-spec amplitude-logging persist-secure-store] set-day-fab-open)
+(reg-event-db :set-day-fab-visible [validate-spec amplitude-logging persist-secure-store] set-day-fab-visible)
+(reg-event-db :set-menu-open [validate-spec amplitude-logging persist-secure-store] set-menu-open)
+(reg-event-db :zoom-in [validate-spec amplitude-logging persist-secure-store] zoom-in)
+(reg-event-db :zoom-out [validate-spec amplitude-logging persist-secure-store] zoom-out)
+(reg-event-db :zoom-default [validate-spec amplitude-logging persist-secure-store] zoom-default)
+(reg-event-fx :add-period-with-selection [validate-spec amplitude-logging persist-secure-store] add-period-with-selection)
+(reg-event-db :set-report-data [validate-spec amplitude-logging persist-secure-store] set-report-data)
+(reg-event-db :set-version [validate-spec amplitude-logging persist-secure-store] set-version)
+

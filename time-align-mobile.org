@@ -365,7 +365,8 @@
     :PROPERTIES:
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
     :END:
-**** Better scoring algorithm
+**** DONE Better scoring algorithm
+     CLOSED: [2020-02-22 Sat 13:25]
      :LOGBOOK:
      CLOCK: [2020-02-11 Tue 08:02]--[2020-02-11 Tue 08:11] =>  0:09
      CLOCK: [2020-02-11 Tue 07:59]--[2020-02-11 Tue 08:01] =>  0:02
@@ -430,10 +431,17 @@
       CLOCK: [2020-02-17 Mon 18:40]--[2020-02-17 Mon 18:42] =>  0:02
       :END:
       - [X] The scores will probably all be relative differences, just average them together
-**** Use contribution chart
+**** DONE Use contribution chart
+     CLOSED: [2020-02-22 Sat 13:55]
      :PROPERTIES:
      :ID:       87c346fa-7e83-4681-b73c-28274e54eef9
      :END:
+     :LOGBOOK:
+     CLOCK: [2020-02-22 Sat 13:25]--[2020-02-22 Sat 13:54] =>  0:29
+     :END:
+     - [X] Set up scoring algorithm in handler
+     - [X] Wire it up to the subscription 
+     - [X] Tweak as necessary to render the graph in a satisfying way
 **** Have a breakdown for selected day 
      - Shows all three scores for the day
      - Will need a day selection component (same as top bar or actually in the top bar?)

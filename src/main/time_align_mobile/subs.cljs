@@ -402,7 +402,8 @@
       (clj->js
        (->> scores
             (transform [sp/ALL] #(clojure.set/rename-keys % {:day :date :score :count}))
-            (transform [sp/ALL :date] #(format-date-day %))))
+            (transform [sp/ALL :date] #(format-date-day %))
+            (transform [sp/ALL :count] #(/ % 10))))
       (clj->js
        [{:date (format-date-day (js/Date.)) :count 0}]))))
 
