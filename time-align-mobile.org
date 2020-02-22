@@ -425,8 +425,11 @@
       - [X] Get the ratio (relative difference?) of tracked  time to total time in a day
       - [X] Average the ratios
 ***** Define a total day score 
-      - [ ] The scores will probably all be relative differences, just average them together
-      - [ ] Might need to do something like ~(-> total-avg (- 2) (js/Math.abs) (* 100))~ so that it looks decent on the heatmap
+      :LOGBOOK:
+      CLOCK: [2020-02-22 Sat 12:31]--[2020-02-22 Sat 13:21] =>  0:50
+      CLOCK: [2020-02-17 Mon 18:40]--[2020-02-17 Mon 18:42] =>  0:02
+      :END:
+      - [X] The scores will probably all be relative differences, just average them together
 **** Use contribution chart
      :PROPERTIES:
      :ID:       87c346fa-7e83-4681-b73c-28274e54eef9

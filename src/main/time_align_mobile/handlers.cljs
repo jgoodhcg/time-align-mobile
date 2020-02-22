@@ -1506,18 +1506,24 @@
                            (reduce +))
         actual-score (-> actual-total
                          (relative-difference-score
-                          helpers/day-ms)
-                         (js/Math.round))
+                          helpers/day-ms))
         planned-score (-> planned-total
                           (relative-difference-score
-                           helpers/day-ms)
-                          (js/Math.round))
+                           helpers/day-ms))
         average-score (-> actual-score
                           (+ planned-score)
                           (/ 2)
                           (js/Math.round))]
     ;; there might be something to showing actual and planned separately
     (->> buckets (transform [:score] #(merge % {:amount average-score})))))
+(defn total-score-the-day
+  [buckets-with-score]
+  (let [scores      (->> buckets-with-score :score (select [sp/MAP-VALS]))
+        total-score (-> scores
+                        (->> (reduce +))
+                        (/ (count scores))
+                        (js/Math.round))]
+    (->> buckets-with-score (transform [:score] #(merge % {:total total-score})))))
 
 (def db @re-frame.db/app-db)
 (def wip (-> db
@@ -1592,12 +1598,13 @@
              ;;                              :score       {:where 1
              ;;                                            :when  1.1
              ;;                                            }}
-             ;;                 score {:where 1 :when 1.1}}}
+             ;;                 score {:where 1 :when 1.1 :amount 1.3 :total 1.2}}}
              (->> (transform [sp/MAP-VALS]
-                             (comp
-                              where-score-the-day
+                             (comp ;; applies in reverse order
+                              total-score-the-day ;; this one has to be applied last
+                              amount-score-the-day
                               when-score-the-day
-                              amount-score-the-day)))))
+                              where-score-the-day)))))
 
 (->> wip (select [sp/MAP-VALS :score]))
 (->> wip (select [sp/MAP-VALS sp/MAP-VALS :score]))
