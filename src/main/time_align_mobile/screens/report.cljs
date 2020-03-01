@@ -3,6 +3,7 @@
                                                   line-chart
                                                   bar-chart
                                                   contribution-graph
+                                                  progress-ring-chart
                                                   surface
                                                   color-lighten
                                                   color-hex-str->rgba
@@ -21,6 +22,7 @@
 
 (defn root [params]
   (let [chart-data         @(subscribe [:get-scores])
+        selected-day-data  @(subscribe [:get-day-score])
         chart-color-fn-gen (fn [color]
                              #(color-hex-str->rgba
                                color
@@ -35,20 +37,32 @@
                      :flex-direction "column"
                      :align-items    "center"
                      :width          "100%"}}
-        [contribution-graph
-         {:values   chart-data
-          :width    350
-          :height   250
-          :num-days 90
-          :chart-config
-          (clj->js {:backgroundColor        (->> theme :colors :background)
-                    :backgroundGradientFrom (->> theme :colors :background)
-                    :backgroundGradientTo   (->> theme :colors :background)
-                    :labelColor             (chart-color-fn-gen (->> theme :colors :accent))
-                    :color                  (chart-color-fn-gen (->> theme :colors :accent))})}]
 
        [button-paper {:on-press #(dispatch [:set-report-data])
                       :mode     "contained"
                       :style    {:margin 16}
                       :icon     "refresh"}
-         "calculate scores"]]]]))
+
+        "calculate scores"]
+       [contribution-graph
+        {:values   chart-data
+         :width    350
+         :height   250
+         :num-days 90
+         :chart-config
+         (clj->js {:backgroundColor        (->> theme :colors :background)
+                   :backgroundGradientFrom (->> theme :colors :background)
+                   :backgroundGradientTo   (->> theme :colors :background)
+                   :labelColor             (chart-color-fn-gen (->> theme :colors :accent))
+                   :color                  (chart-color-fn-gen (->> theme :colors :accent))})}]
+
+       [progress-ring-chart
+        {:data   selected-day-data
+         :width  350
+         :height 250
+         :chart-config
+         (clj->js {:backgroundColor        (->> theme :colors :background)
+                   :backgroundGradientFrom (->> theme :colors :background)
+                   :backgroundGradientTo   (->> theme :colors :background)
+                   :labelColor             (chart-color-fn-gen (->> theme :colors :accent))
+                   :color                  (chart-color-fn-gen (->> theme :colors :accent))})}]]]]))

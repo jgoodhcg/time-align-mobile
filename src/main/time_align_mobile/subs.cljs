@@ -399,13 +399,31 @@
 (defn get-scores [db _]
   (let [scores (get-in db [:reports :score-data])]
     (if (some? scores)
-      (clj->js
-       (->> scores
-            (transform [sp/ALL] #(clojure.set/rename-keys % {:day :date :score :count}))
-            (transform [sp/ALL :date] #(format-date-day %))
-            (transform [sp/ALL :count] #(/ % 10))))
+      (->> scores
+           (transform [sp/ALL] #(clojure.set/rename-keys
+                                 %
+                                 {:day :date :score :count}))
+           (transform [sp/ALL :date] #(format-date-day %))
+           (transform [sp/ALL :count] #(/ % 10))
+           clj->js)
       (clj->js
        [{:date (format-date-day (js/Date.)) :count 0}]))))
+
+(defn get-day-score [db _]
+  (let [all-scores   (get-in db [:reports :score-data])
+        selected-day (get-in db [:time-navigators :day])]
+    (->> all-scores
+         (some #(if (helpers/same-day? (:day %) selected-day)
+                  %
+                  {:all-scores {:where 0 :when 0 :amount 0 :total 0}}))
+         :all-scores
+         (reduce
+          (fn [chart-data [k v]]
+            (->> chart-data
+                 (transform [:labels] #(conj % (name k)))
+                 (transform [:data] #(conj % (/ v 100)))))
+          {:labels [] :data []})
+         clj->js)))
 
 (defn get-version [db _]
   (get-in db [:version]))
@@ -442,4 +460,5 @@
 (reg-sub :get-day-fab-visible get-day-fab-visible)
 (reg-sub :get-menu-open get-menu-open)
 (reg-sub :get-scores get-scores)
+(reg-sub :get-day-score get-day-score)
 (reg-sub :get-version get-version)

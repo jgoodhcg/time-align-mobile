@@ -29,7 +29,12 @@
             DrawerLayout
             RectButton
             State]]
-   ["react-native-chart-kit" :refer [LineChart BarChart PieChart StackedBarChart ContributionGraph]]
+   ["react-native-chart-kit"
+    :refer [LineChart
+            BarChart PieChart
+            StackedBarChart
+            ContributionGraph
+            ProgressChart]]
    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
    ["react-native-side-menu" :default SideMenu]
@@ -316,6 +321,7 @@
 (def stacked-bar-chart (r/adapt-react-class StackedBarChart))
 (def pie-chart (r/adapt-react-class PieChart))
 (def contribution-graph (r/adapt-react-class ContributionGraph))
+(def progress-ring-chart (r/adapt-react-class ProgressChart))
 
 (defn amplitude-init [api-key]
   (-> Amplitude

@@ -318,7 +318,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [11/21]
+*** TODO Minor fixes [13/23]
     :LOGBOOK:
     CLOCK: [2020-02-22 Sat 13:58]--[2020-02-22 Sat 14:00] =>  0:02
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
@@ -362,6 +362,8 @@
     - [ ] Change "groups" to "categories" in presentation
     - [X] Enable spec validation on app-db
     - [ ] Make modal background color lighter
+    - [ ] Zoom buttons should side affect to scroll to now or selected element
+    - [ ] Calculate scores on day selection
 
 *** TODO Make a better report
     :PROPERTIES:
@@ -445,6 +447,10 @@
      - [X] Wire it up to the subscription 
      - [X] Tweak as necessary to render the graph in a satisfying way
 **** Have a breakdown for selected day 
+     :LOGBOOK:
+     CLOCK: [2020-03-01 Sun 16:37]--[2020-03-01 Sun 18:16] =>  1:39
+     CLOCK: [2020-02-22 Sat 17:39]--[2020-02-22 Sat 17:42] =>  0:03
+     :END:
      - Shows all three scores for the day
      - Will need a day selection component (same as top bar or actually in the top bar?)
 **** Add to top bar for day_planning 

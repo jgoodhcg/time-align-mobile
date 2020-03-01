@@ -1463,7 +1463,8 @@
       ;; map this to something that can be easily converted for the contribution graph
       (->> (map (fn [[day-ms buckets-with-score]]
                   {:day   (js/Date. day-ms)
-                   :score (->> buckets-with-score (select-one [:score :total]))}))))]
+                   :score (->> buckets-with-score (select-one [:score :total]))
+                   :all-scores (->> buckets-with-score (select-one [:score]))}))))]
 
     (assoc-in db [:reports :score-data] scores)))
 
