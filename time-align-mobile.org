@@ -467,11 +467,24 @@
     CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
     :END:
 **** Make sure the app runs on the ios simulator 
+     :LOGBOOK:
+     CLOCK: [2020-03-02 Mon 20:28]--[2020-03-02 Mon 20:55] =>  0:27
+     :END:
      - [ ] Set up simulator on macbook
-     - [ ] Try installing the client [[https://docs.expo.io/versions/latest/workflow/ios-simulator/#how-do-i-force-an-update-to][with this force update]]
+       - [X] +Install brew+
+         - Didn't need this one since I'm not actually running the project on the mac
+       - [ ] Install xcode
+       - [ ] Create simulator instance
+       - [ ] Get client app on simulator https://docs.expo.io/versions/v34.0.0/introduction/installation/#ios-simulator manually
+     - [ ] Open app (running on main laptop) in the expo client running on the simulator
 **** Decide on release tag convention 
 **** Upload to test flight in app store
+     :LOGBOOK:
+     CLOCK: [2020-03-02 Mon 20:59]--[2020-03-02 Mon 21:05] =>  0:06
+     :END:
      - [ ] Set up an apple developer account
+       - [ ] Set up two factor auth on apple id https://support.apple.com/en-us/HT204915
+       - [ ] Enroll as an individual https://developer.apple.com/programs/enroll/
      - [ ] Set up an itunes project
      - [ ] Make an expo build (let expo handle all certificates)
      - [ ] Upload the build to test flight
