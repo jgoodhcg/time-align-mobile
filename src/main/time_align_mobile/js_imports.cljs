@@ -77,6 +77,7 @@
                               (oget "width")))
 (def text (r/adapt-react-class (oget ReactNative "Text")))
 (def view (r/adapt-react-class (oget ReactNative "View")))
+(def safe-view (r/adapt-react-class (oget ReactNative "SafeAreaView")))
 (def scroll-view (r/adapt-react-class (oget ReactNative "ScrollView")))
 (def image (r/adapt-react-class (oget ReactNative "Image")))
 (def flat-list (r/adapt-react-class (oget ReactNative "FlatList")))

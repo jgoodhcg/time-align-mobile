@@ -31,6 +31,7 @@
                                           surface
                                           mi
                                           mci
+                                          safe-view
                                           text
                                           view
                                           status-bar
@@ -132,7 +133,7 @@
                                     (do (close-bottom-sheet bottom-sheet-ref :period)
                                         (close-bottom-sheet bottom-sheet-ref :template))))}
 
-            [view {:style {:flex             1
+            [safe-view {:style {:flex             1
                            :background-color (get-in theme [:colors :background])}}
              [status-bar {:hidden true}]
              (if-let [screen-comp (some #(if (= (:id %) current-screen)

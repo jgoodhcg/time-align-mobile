@@ -318,7 +318,7 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [13/23]
+*** TODO Minor fixes [13/25]
     :LOGBOOK:
     CLOCK: [2020-02-22 Sat 13:58]--[2020-02-22 Sat 14:00] =>  0:02
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
@@ -364,6 +364,8 @@
     - [ ] Make modal background color lighter
     - [ ] Zoom buttons should side affect to scroll to now or selected element
     - [ ] Calculate scores on day selection
+    - [ ] Quickly selecting and deselecting a period causes the app to crash
+    - [ ] Period form should reload when opening the app
 
 *** TODO Make a better report
     :PROPERTIES:
@@ -466,17 +468,24 @@
     CLOCK: [2020-01-01 Wed 16:29]--[2020-01-01 Wed 16:32] =>  0:03
     CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
     :END:
-**** Make sure the app runs on the ios simulator 
+**** DONE Make sure the app runs on the ios simulator 
+     CLOSED: [2020-03-07 Sat 18:38]
      :LOGBOOK:
+     CLOCK: [2020-03-07 Sat 17:55]--[2020-03-07 Sat 18:38] =>  0:43
      CLOCK: [2020-03-02 Mon 20:28]--[2020-03-02 Mon 20:55] =>  0:27
      :END:
-     - [ ] Set up simulator on macbook
-       - [X] +Install brew+
-         - Didn't need this one since I'm not actually running the project on the mac
-       - [ ] Install xcode
-       - [ ] Create simulator instance
-       - [ ] Get client app on simulator https://docs.expo.io/versions/v34.0.0/introduction/installation/#ios-simulator manually
-     - [ ] Open app (running on main laptop) in the expo client running on the simulator
+     - [X] Set up simulator on macbook
+       - [X] Install brew
+       - [X] Install xcode
+       - [X] Create simulator instance
+         - [X] =Xcode > open developer tool > simulator=
+       - [X] Get client app on simulator
+         - [X] Install node =brew install node=
+         - [X] Use expo-cli to install expo-client on simulator =expo client:install:ios=
+           - new link https://docs.expo.io/versions/latest/workflow/ios-simulator/#how-do-i-force-an-update-to
+           - old link https://docs.expo.io/versions/v34.0.0/introduction/installation/#ios-simulator manually
+     - [X] Open app (running on main laptop) in the expo client running on the simulator
+       - [X] Lightly regression test
 **** Decide on release tag convention 
 **** Upload to test flight in app store
      :LOGBOOK:
