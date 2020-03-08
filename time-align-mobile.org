@@ -359,6 +359,7 @@
      - [ ] Upload the build to test flight
 **** Upload to testing track play store  
      :LOGBOOK:
+     CLOCK: [2020-03-08 Sun 18:51]--[2020-03-08 Sun 19:08] =>  0:17
      CLOCK: [2020-03-08 Sun 16:17]--[2020-03-08 Sun 17:19] =>  1:02
      CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
      :END:
@@ -368,7 +369,7 @@
        - [X] Descriptions
        - [X] Icon
        - [X] Feature
-       - [ ] Screenshots
+       - [X] Screenshots
        - [ ] Build
 *** BLOCKED Supporting tasks for beta launch
 **** Rebrand to time sink ???
