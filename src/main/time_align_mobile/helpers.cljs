@@ -374,11 +374,19 @@
 (def short-time (* 1 60 1000))
 
 (defn element-time-stamp-info [time-stamp pixel-to-minute-ratio displayed-day]
-  (let [time-stamp-ms    (abstract-element-timestamp
-                          time-stamp
-                          displayed-day)
-        time-stamp-min   (ms->minutes time-stamp-ms)
-        time-stamp-y-pos (* pixel-to-minute-ratio time-stamp-min)]
+  (let [time-stamp-ms      (abstract-element-timestamp
+                            time-stamp
+                            displayed-day)
+        time-stamp-min     (ms->minutes time-stamp-ms)
+        dst-adjustment-min (- (->> displayed-day
+                                   (reset-relative-ms (hours->ms 2))
+                                   (.getTimeZoneOffset))
+                              (->> displayed-day
+                                   (reset-relative-ms 0)
+                                   (.getTimeZoneOffset)))
+        time-stamp-y-pos   (* pixel-to-minute-ratio
+                              (+ time-stamp-min
+                                 dst-adjustment-min))]
 
     {:ms    time-stamp-ms
      :min   time-stamp-min

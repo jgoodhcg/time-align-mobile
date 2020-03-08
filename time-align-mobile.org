@@ -11,7 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
-  CLOCK: [2020-03-08 Sun 12:00]
+  CLOCK: [2020-03-08 Sun 12:00]--[2020-03-08 Sun 12:46] =>  0:46
   CLOCK: [2020-02-05 Wed 18:45]--[2020-02-05 Wed 19:13] =>  0:28
   CLOCK: [2019-12-17 Tue 21:22]--[2019-12-17 Tue 21:33] =>  0:11
   CLOCK: [2019-12-17 Tue 20:07]--[2019-12-17 Tue 21:22] =>  1:15
@@ -377,8 +377,9 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-*** TODO Minor fixes [13/26]
+*** TODO Minor fixes [13/27]
     :LOGBOOK:
+    CLOCK: [2020-03-08 Sun 12:46]--[2020-03-08 Sun 12:58] =>  0:12
     CLOCK: [2020-02-22 Sat 13:58]--[2020-02-22 Sat 14:00] =>  0:02
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
     CLOCK: [2020-02-09 Sun 15:06]--[2020-02-09 Sun 16:15] =>  1:09
@@ -425,7 +426,8 @@
     - [ ] Calculate scores on day selection
     - [ ] Quickly selecting and deselecting a period causes the app to crash
     - [ ] Period form should reload when opening the app
-
+    - [X] Periods do not display correctly on daylight savings time change days (the y positioning is all based on unix time stamp)
+     
 *** TODO Make a better report
     :PROPERTIES:
     :ID:       4024a25a-895f-47a9-9bf9-1bb4d61e5a2a
