@@ -359,10 +359,17 @@
      - [ ] Upload the build to test flight
 **** Upload to testing track play store  
      :LOGBOOK:
+     CLOCK: [2020-03-08 Sun 16:17]--[2020-03-08 Sun 17:19] =>  1:02
      CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
      :END:
      - [X] Set up play store account
-     - [ ] Set up a play store project
+     - [-] Set up a play store project
+       - https://play.google.com/apps/publish
+       - [X] Descriptions
+       - [X] Icon
+       - [X] Feature
+       - [ ] Screenshots
+       - [ ] Build
 *** BLOCKED Supporting tasks for beta launch
 **** Rebrand to time sink ???
      - [ ] Do a google adds test
