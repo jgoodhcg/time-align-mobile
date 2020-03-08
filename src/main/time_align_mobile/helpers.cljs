@@ -378,15 +378,21 @@
                             time-stamp
                             displayed-day)
         time-stamp-min     (ms->minutes time-stamp-ms)
+
+        ;; will only be non zero on DST shift days
         dst-adjustment-min (- (->> displayed-day
-                                   (reset-relative-ms (hours->ms 2))
-                                   (.getTimeZoneOffset))
-                              (->> displayed-day
                                    (reset-relative-ms 0)
-                                   (.getTimeZoneOffset)))
+                                   (.getTimezoneOffset))
+                              (->> displayed-day
+                                   (reset-relative-ms (hours->ms 2))
+                                   (.getTimezoneOffset)))
         time-stamp-y-pos   (* pixel-to-minute-ratio
                               (+ time-stamp-min
-                                 dst-adjustment-min))]
+                                 ;; only adjust if it is after 2am
+                                 (if (>= time-stamp-ms
+                                         (hours->ms 2))
+                                   dst-adjustment-min
+                                   0)))]
 
     {:ms    time-stamp-ms
      :min   time-stamp-min
