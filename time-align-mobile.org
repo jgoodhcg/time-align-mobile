@@ -11,6 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
+  CLOCK: [2020-03-08 Sun 12:00]
   CLOCK: [2020-02-05 Wed 18:45]--[2020-02-05 Wed 19:13] =>  0:28
   CLOCK: [2019-12-17 Tue 21:22]--[2019-12-17 Tue 21:33] =>  0:11
   CLOCK: [2019-12-17 Tue 20:07]--[2019-12-17 Tue 21:22] =>  1:15
@@ -83,7 +84,7 @@
      Then use arrow keys to navigate cells in column view. 
      Use ~SHIFT ->~ to cycle through property values.
      #+end_center
-** DOSUB Release to friends [3/7]
+** DOSUB Release to friends [3/5]
 *** DONE Put version indicator in app-db (for export mostly)
     CLOSED: [2020-01-12 Sun 16:53]
     :PROPERTIES:
@@ -318,7 +319,65 @@
     Or [[https://github.com/expo/expo/issues/83#issuecomment-286559774][add an ignored js file]] with a tracked example version. Maybe the example version has a "no-ga" value.
     https://docs.expo.io/versions/latest/sdk/amplitude/
     https://amplitude.com/signup?ref=pricing-top-free
-*** TODO Minor fixes [13/25]
+*** TODO Publish to beta track
+    :PROPERTIES:
+    :ID:       89a5fd42-8f70-4520-bb98-c20fe01169a7
+    :END:
+    :LOGBOOK:
+    CLOCK: [2020-01-12 Sun 17:18]--[2020-01-12 Sun 17:26] =>  0:08
+    CLOCK: [2020-01-01 Wed 16:29]--[2020-01-01 Wed 16:32] =>  0:03
+    CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
+    :END:
+**** DONE Make sure the app runs on the ios simulator 
+     CLOSED: [2020-03-07 Sat 18:38]
+     :LOGBOOK:
+     CLOCK: [2020-03-07 Sat 17:55]--[2020-03-07 Sat 18:38] =>  0:43
+     CLOCK: [2020-03-02 Mon 20:28]--[2020-03-02 Mon 20:55] =>  0:27
+     :END:
+     - [X] Set up simulator on macbook
+       - [X] Install brew
+       - [X] Install xcode
+       - [X] Create simulator instance
+         - [X] =Xcode > open developer tool > simulator=
+       - [X] Get client app on simulator
+         - [X] Install node =brew install node=
+         - [X] Use expo-cli to install expo-client on simulator =expo client:install:ios=
+           - new link https://docs.expo.io/versions/latest/workflow/ios-simulator/#how-do-i-force-an-update-to
+           - old link https://docs.expo.io/versions/v34.0.0/introduction/installation/#ios-simulator manually
+     - [X] Open app (running on main laptop) in the expo client running on the simulator
+       - [X] Lightly regression test
+**** Decide on release tag convention 
+**** Upload to test flight in app store
+     :LOGBOOK:
+     CLOCK: [2020-03-02 Mon 20:59]--[2020-03-02 Mon 21:05] =>  0:06
+     :END:
+     - [ ] Set up an apple developer account
+       - [ ] Set up two factor auth on apple id https://support.apple.com/en-us/HT204915
+       - [ ] Enroll as an individual https://developer.apple.com/programs/enroll/
+     - [ ] Set up an itunes project
+     - [ ] Make an expo build (let expo handle all certificates)
+     - [ ] Upload the build to test flight
+**** Upload to testing track play store  
+     :LOGBOOK:
+     CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
+     :END:
+     - [X] Set up play store account
+     - [ ] Set up a play store project
+*** BLOCKED Supporting tasks for beta launch
+**** Rebrand to time sink ???
+     - [ ] Do a google adds test
+       - [ ] Make a simple add that can be run with "time sink" and "time align" and "Purysho"
+     - [ ] Buy domain
+     - [ ] Change app package name
+     - [ ] Change repo name
+**** Other
+     - [ ] Publish static site
+     - [ ] Add intro guide
+     - [ ] Add readme to repo
+     - [ ] Set license in repo
+** DOSUB Release to strangers [0/1]
+*** BLOCKED Gather friend analytics and inputs
+*** TODO Minor fixes [13/26]
     :LOGBOOK:
     CLOCK: [2020-02-22 Sat 13:58]--[2020-02-22 Sat 14:00] =>  0:02
     CLOCK: [2020-02-09 Sun 16:15]--[2020-02-09 Sun 16:21] =>  0:06
@@ -459,64 +518,7 @@
 **** Convenience 
      - Export scores as json/csv
      - Go to best/worst day
-*** BLOCKED Publish to beta track
-    :PROPERTIES:
-    :ID:       89a5fd42-8f70-4520-bb98-c20fe01169a7
-    :END:
-    :LOGBOOK:
-    CLOCK: [2020-01-12 Sun 17:18]--[2020-01-12 Sun 17:26] =>  0:08
-    CLOCK: [2020-01-01 Wed 16:29]--[2020-01-01 Wed 16:32] =>  0:03
-    CLOCK: [2020-01-01 Wed 15:28]--[2020-01-01 Wed 15:28] =>  0:00
-    :END:
-**** DONE Make sure the app runs on the ios simulator 
-     CLOSED: [2020-03-07 Sat 18:38]
-     :LOGBOOK:
-     CLOCK: [2020-03-07 Sat 17:55]--[2020-03-07 Sat 18:38] =>  0:43
-     CLOCK: [2020-03-02 Mon 20:28]--[2020-03-02 Mon 20:55] =>  0:27
-     :END:
-     - [X] Set up simulator on macbook
-       - [X] Install brew
-       - [X] Install xcode
-       - [X] Create simulator instance
-         - [X] =Xcode > open developer tool > simulator=
-       - [X] Get client app on simulator
-         - [X] Install node =brew install node=
-         - [X] Use expo-cli to install expo-client on simulator =expo client:install:ios=
-           - new link https://docs.expo.io/versions/latest/workflow/ios-simulator/#how-do-i-force-an-update-to
-           - old link https://docs.expo.io/versions/v34.0.0/introduction/installation/#ios-simulator manually
-     - [X] Open app (running on main laptop) in the expo client running on the simulator
-       - [X] Lightly regression test
-**** Decide on release tag convention 
-**** Upload to test flight in app store
-     :LOGBOOK:
-     CLOCK: [2020-03-02 Mon 20:59]--[2020-03-02 Mon 21:05] =>  0:06
-     :END:
-     - [ ] Set up an apple developer account
-       - [ ] Set up two factor auth on apple id https://support.apple.com/en-us/HT204915
-       - [ ] Enroll as an individual https://developer.apple.com/programs/enroll/
-     - [ ] Set up an itunes project
-     - [ ] Make an expo build (let expo handle all certificates)
-     - [ ] Upload the build to test flight
-**** Upload to testing track play store  
-     :LOGBOOK:
-     CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
-     :END:
-     - [X] Set up play store account
-     - [ ] Set up a play store project
-*** BLOCKED Supporting tasks for beta launch
-**** Rebrand to time sink ???
-     - [ ] Do a google adds test
-       - [ ] Make a simple add that can be run with "time sink" and "time align"
-     - [ ] Buy domain
-     - [ ] Change app package name
-     - [ ] Change repo name
-**** Other
-     - [ ] Publish static site
-     - [ ] Add intro guide
-     - [ ] Add readme to repo
-     - [ ] Set license in repo
-** DOSUB Release to strangers [0/1]
-*** BLOCKED Gather friend analytics and inputs
+
 ** DOSUB Eventually [1/34]
    :PROPERTIES:
    :ID:       0eb2b451-f3bc-4609-81b6-37c69e74efe6
