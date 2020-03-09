@@ -28,7 +28,9 @@
       "usesIcloudStorage": true
     },
     "android": {
-      "package": "com.goodsoftwareengineering.timealignmobile"
+      "package": "com.goodsoftwareengineering.timealignmobile",
+      "versionCode": 1,
+      "permissions": []
     }
   }
 }

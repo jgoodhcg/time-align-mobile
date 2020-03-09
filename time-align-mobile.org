@@ -359,18 +359,23 @@
      - [ ] Upload the build to test flight
 **** Upload to testing track play store  
      :LOGBOOK:
+     CLOCK: [2020-03-08 Sun 19:14]
      CLOCK: [2020-03-08 Sun 18:51]--[2020-03-08 Sun 19:08] =>  0:17
      CLOCK: [2020-03-08 Sun 16:17]--[2020-03-08 Sun 17:19] =>  1:02
      CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
      :END:
      - [X] Set up play store account
-     - [-] Set up a play store project
+     - [X] Set up a play store project
        - https://play.google.com/apps/publish
        - [X] Descriptions
        - [X] Icon
        - [X] Feature
        - [X] Screenshots
-       - [ ] Build
+       - [X] Build
+         - [X] release channel ~prd~
+         - [X] Version in play console ~release-prd-build-1-expo-35-version-62~
+       - [X] All the content, rating, and misc stuff
+       - [X] Rollout release to production
 *** BLOCKED Supporting tasks for beta launch
 **** Rebrand to time sink ???
      - [ ] Do a google adds test
@@ -385,7 +390,7 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-*** TODO Minor fixes [13/27]
+*** TODO Minor fixes [14/27]
     :LOGBOOK:
     CLOCK: [2020-03-08 Sun 19:08]--[2020-03-08 Sun 19:09] =>  0:01
     CLOCK: [2020-03-08 Sun 12:46]--[2020-03-08 Sun 12:58] =>  0:12
@@ -436,6 +441,7 @@
     - [ ] Quickly selecting and deselecting a period causes the app to crash
     - [ ] Period form should reload when opening the app
     - [X] Periods do not display correctly on daylight savings time change days (the y positioning is all based on unix time stamp)
+    - [ ] Distinguish between release channels in amplitude events
      
 *** TODO Make a better report
     :PROPERTIES:
