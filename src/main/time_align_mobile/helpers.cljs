@@ -21,19 +21,19 @@
 (defn same-day? [date-a date-b]
   (if (and (inst? date-a)
            (inst? date-b))
-    (and (= (.getUTCFullYear date-a)
-            (.getUTCFullYear date-b))
-         (= (.getUTCMonth date-a)
-            (.getUTCMonth date-b))
-         (= (.getUTCDate date-a)
-            (.getUTCDate date-b)))
+    (and (= (.getFullYear date-a)
+            (.getFullYear date-b))
+         (= (.getMonth date-a)
+            (.getMonth date-b))
+         (= (.getDate date-a)
+            (.getDate date-b)))
     false))
 
 (defn same-year? [date-a date-b]
   (if (and (inst? date-a)
            (inst? date-b))
-    (and (= (.getUTCFullYear date-a)
-            (.getUTCFullYear date-b)))
+    (and (= (.getFullYear date-a)
+            (.getFullYear date-b)))
     false))
 
 (defn print-data [data]

@@ -392,6 +392,7 @@
 *** BLOCKED Gather friend analytics and inputs
 *** TODO Minor fixes [14/29]
     :LOGBOOK:
+    CLOCK: [2020-03-08 Sun 20:56]
     CLOCK: [2020-03-08 Sun 19:08]--[2020-03-08 Sun 19:09] =>  0:01
     CLOCK: [2020-03-08 Sun 12:46]--[2020-03-08 Sun 12:58] =>  0:12
     CLOCK: [2020-02-22 Sat 13:58]--[2020-02-22 Sat 14:00] =>  0:02
@@ -443,6 +444,7 @@
     - [X] Periods do not display correctly on daylight savings time change days (the y positioning is all based on unix time stamp)
     - [ ] Distinguish between release channels in amplitude events
     - [ ] Import should refresh version
+    - [X] Fix periods not displaying
      
 *** TODO Make a better report
     :PROPERTIES:
