@@ -19,6 +19,10 @@
   (* day-hour 60))
 
 (defn same-day? [date-a date-b]
+  ;; TODO figure out a better way to do this
+  ;; I tried the UTC equivalents before (getUTCFullDate)
+  ;; I can't remember why I switched to UTC, but there was a reason
+  ;; However UTC functions return false when one of the dates is  anything before 7pm (in edt)
   (if (and (inst? date-a)
            (inst? date-b))
     (and (= (.getFullYear date-a)
