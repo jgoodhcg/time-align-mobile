@@ -390,7 +390,7 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-*** TODO Minor fixes [15/30]
+*** TODO Minor fixes [15/31]
     :LOGBOOK:
     CLOCK: [2020-03-08 Sun 21:53]--[2020-03-08 Sun 21:53] =>  0:00
     CLOCK: [2020-03-08 Sun 20:56]--[2020-03-08 Sun 21:53] =>  0:57
@@ -447,6 +447,7 @@
     - [ ] Import should refresh version
     - [X] Fix periods not displaying
     - [ ] Use moment ~isSame~ for ~same-day?~
+    - [ ] Fix long press being an hour off (DST issue)
      
 *** TODO Make a better report
     :PROPERTIES:
