@@ -11,7 +11,7 @@
 
 * DOSUB Time Align Mobile
   :LOGBOOK:
-  CLOCK: [2020-03-08 Sun 12:00]--[2020-03-08 Sun 12:46] =>  0:46
+  CLOCK: [2020-03-08 Sun 12:00]--[2020-03-08 Sun 21:43] =>  9:43
   CLOCK: [2020-02-05 Wed 18:45]--[2020-02-05 Wed 19:13] =>  0:28
   CLOCK: [2019-12-17 Tue 21:22]--[2019-12-17 Tue 21:33] =>  0:11
   CLOCK: [2019-12-17 Tue 20:07]--[2019-12-17 Tue 21:22] =>  1:15
@@ -359,13 +359,13 @@
      - [ ] Upload the build to test flight
 **** Upload to testing track play store  
      :LOGBOOK:
-     CLOCK: [2020-03-08 Sun 19:14]
+     CLOCK: [2020-03-08 Sun 19:14]--[2020-03-08 Sun 20:24] =>  1:10
      CLOCK: [2020-03-08 Sun 18:51]--[2020-03-08 Sun 19:08] =>  0:17
      CLOCK: [2020-03-08 Sun 16:17]--[2020-03-08 Sun 17:19] =>  1:02
      CLOCK: [2020-01-13 Mon 19:00]--[2020-01-13 Mon 19:23] =>  0:23
      :END:
      - [X] Set up play store account
-     - [X] Set up a play store project
+     - [X] Set up a play store project and submit for review
        - https://play.google.com/apps/publish
        - [X] Descriptions
        - [X] Icon
@@ -390,7 +390,7 @@
      - [ ] Set license in repo
 ** DOSUB Release to strangers [0/1]
 *** BLOCKED Gather friend analytics and inputs
-*** TODO Minor fixes [14/27]
+*** TODO Minor fixes [14/29]
     :LOGBOOK:
     CLOCK: [2020-03-08 Sun 19:08]--[2020-03-08 Sun 19:09] =>  0:01
     CLOCK: [2020-03-08 Sun 12:46]--[2020-03-08 Sun 12:58] =>  0:12
@@ -442,6 +442,7 @@
     - [ ] Period form should reload when opening the app
     - [X] Periods do not display correctly on daylight savings time change days (the y positioning is all based on unix time stamp)
     - [ ] Distinguish between release channels in amplitude events
+    - [ ] Import should refresh version
      
 *** TODO Make a better report
     :PROPERTIES:
