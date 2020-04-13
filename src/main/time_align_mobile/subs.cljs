@@ -404,10 +404,33 @@
                                  %
                                  {:day :date :score :count}))
            (transform [sp/ALL :date] #(format-date-day %))
-           (transform [sp/ALL :count] #(/ % 10))
+           (transform [sp/ALL :count] #(/ % 25))
            clj->js)
       (clj->js
        [{:date (format-date-day (js/Date.)) :count 0}]))))
+
+(defn get-week-scores [db _]
+  (let [scores (get-in db [:reports :score-data])]
+    (if (some? scores)
+      (let [recent-scores (->> scores
+                               (sort-by #(.valueOf (:day %)))
+                               (reverse)
+                               (take 7)
+                               (reverse))]
+
+        {:labels      (->> recent-scores
+                           (transform [sp/ALL] #(helpers/day-of-week
+                                                 (.getDay (:day %)))))
+         :data-where  (->> recent-scores
+                           (select [sp/ALL :all-scores :where]))
+         :data-when   (->> recent-scores
+                           (select [sp/ALL :all-scores :when]))
+         :data-amount (->> recent-scores
+                           (select [sp/ALL :all-scores :amount]))})
+      {:labels      ["na" "na" "na" "na"]
+       :data-where  [0 1 2 3]
+       :data-when   [0 1 2 3]
+       :data-amount [0 1 2 3]})))
 
 (defn get-day-score [db _]
   (let [all-scores   (get-in db [:reports :score-data])
@@ -460,5 +483,6 @@
 (reg-sub :get-day-fab-visible get-day-fab-visible)
 (reg-sub :get-menu-open get-menu-open)
 (reg-sub :get-scores get-scores)
+(reg-sub :get-week-scores get-week-scores)
 (reg-sub :get-day-score get-day-score)
 (reg-sub :get-version get-version)
