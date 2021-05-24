@@ -52,17 +52,17 @@
       true)))
 
 (def validate-spec
-  (if true ;; goog.DEBUG ;; TODO restrict to development again some day
+  (if false ;; turning this off ;; goog.DEBUG ;; TODO restrict to development again some day
     (->interceptor
-        :id :validate-spec
-        :after (fn [context]
-                 context ;; TODO what does this do?
-                 (let [db (-> context :effects :db)
-                       old-db (-> context :coeffects :db)
-                       event (-> context :coeffects :event)]
-                   (if (some? (check-and-throw app-db-spec db event))
-                     (assoc-in context [:effects :db] old-db) ;; put the old db back as the new db
-                     context))))
+      :id :validate-spec
+      :after (fn [context]
+               context ;; TODO what does this do?
+               (let [db     (-> context :effects :db)
+                     old-db (-> context :coeffects :db)
+                     event  (-> context :coeffects :event)]
+                 (if (some? (check-and-throw app-db-spec db event))
+                   (assoc-in context [:effects :db] old-db) ;; put the old db back as the new db
+                   context))))
     ->interceptor))
 
 (def alert-message

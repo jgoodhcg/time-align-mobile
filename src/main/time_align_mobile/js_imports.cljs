@@ -236,19 +236,19 @@
 (def list-section (r/adapt-react-class (oget (oget paper "List") "Section")))
 (def list-subheader (r/adapt-react-class (oget (oget paper "List") "Subheader")))
 
-(def notifications (oget e "Notifications"))
+;; (def notifications (oget e "Notifications"))
 
-(defn schedule-notification [{:keys [title body date callback]}]
-  (-> notifications
-      (ocall "scheduleLocalNotificationAsync"
-             (-> {:title title
-                  :body  body}
-                 clj->js)
-             (-> {:time date}
-                 clj->js))
-      (ocall "then"
-             (fn [id]
-               (callback id)))))
+;; (defn schedule-notification [{:keys [title body date callback]}]
+;;   (-> notifications
+;;       (ocall "scheduleLocalNotificationAsync"
+;;              (-> {:title title
+;;                   :body  body}
+;;                  clj->js)
+;;              (-> {:time date}
+;;                  clj->js))
+;;       (ocall "then"
+;;              (fn [id]
+;;                (callback id)))))
 
 (def drawer-layout (r/adapt-react-class DrawerLayout))
 (def pan-gesture-handler (r/adapt-react-class PanGestureHandler))

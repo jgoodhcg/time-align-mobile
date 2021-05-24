@@ -1,53 +1,53 @@
 (ns time-align-mobile.app
   (:require
-    ["react-native" :as rn]
-    ["react" :as react]
-    [reagent.core :as r :refer [atom]]
-    [re-frame.core :refer [subscribe dispatch dispatch-sync]]
-    [shadow.expo :as expo]
-    [time-align-mobile.components.day :refer [bottom-sheet-ref snap-bottom-sheet close-bottom-sheet]]
-    [time-align-mobile.handlers]
-    [time-align-mobile.helpers :refer [deep-merge]]
-    [time-align-mobile.subs]
-    [time-align-mobile.navigation :as nav]
-    [cljs.reader :refer [read-string]]
-    [oops.core :refer [oget oset! ocall oapply ocall! oapply!
-                       oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
-    [time-align-mobile.styles :refer [theme]]
-    [time-align-mobile.db :refer [app-db] :rename {app-db default-app-db}]
-    [time-align-mobile.config :refer [amplitude-api-key]]
-    [time-align-mobile.js-imports :refer [ReactNative
-                                          ei
-                                          en
-                                          fa
-                                          version
-                                          back-handler
-                                          app-state
-                                          paper-provider
-                                          ic
-                                          text-paper
-                                          card
-                                          amplitude-init
-                                          surface
-                                          mi
-                                          mci
-                                          safe-view
-                                          text
-                                          view
-                                          status-bar
-                                          image
-                                          subheading
-                                          button-paper
-                                          surface
-                                          divider
-                                          alert
-                                          touchable-highlight
-                                          touchable-ripple
-                                          drawer-layout
-                                          side-menu
-                                          read-file-from-dd-async
-                                          portal-host
-                                          secure-store-get!]]))
+   ["react-native" :as rn]
+   ["react" :as react]
+   [reagent.core :as r :refer [atom]]
+   [re-frame.core :refer [subscribe dispatch dispatch-sync]]
+   [shadow.expo :as expo]
+   [time-align-mobile.components.day :refer [bottom-sheet-ref snap-bottom-sheet close-bottom-sheet]]
+   [time-align-mobile.handlers]
+   [time-align-mobile.helpers :refer [deep-merge]]
+   [time-align-mobile.subs]
+   [time-align-mobile.navigation :as nav]
+   [cljs.reader :refer [read-string]]
+   [oops.core :refer [oget oset! ocall oapply ocall! oapply!
+                      oget+ oset!+ ocall+ oapply+ ocall!+ oapply!+]]
+   [time-align-mobile.styles :refer [theme]]
+   [time-align-mobile.db :refer [app-db] :rename {app-db default-app-db}]
+   ;;    [time-align-mobile.config :refer [amplitude-api-key]]
+   [time-align-mobile.js-imports :refer [ReactNative
+                                         ei
+                                         en
+                                         fa
+                                         version
+                                         back-handler
+                                         app-state
+                                         paper-provider
+                                         ic
+                                         text-paper
+                                         card
+                                         ;;                                         amplitude-init
+                                         surface
+                                         mi
+                                         mci
+                                         safe-view
+                                         text
+                                         view
+                                         status-bar
+                                         image
+                                         subheading
+                                         button-paper
+                                         surface
+                                         divider
+                                         alert
+                                         touchable-highlight
+                                         touchable-ripple
+                                         drawer-layout
+                                         side-menu
+                                         read-file-from-dd-async
+                                         portal-host
+                                         secure-store-get!]]))
 
 ;; must use defonce and must refresh full app so metro can fill these in
 ;; at live-reload time `require` does not exist and will cause errors
@@ -159,25 +159,25 @@
 
   ;; load previous state
   (read-file-from-dd-async
-   "app-db"
-   (fn [value]
-     (let [app-db (read-string value)]
-       (if (some? app-db)
-         (do
-           (dispatch-sync [:load-db (deep-merge default-app-db app-db)])
-           (dispatch-sync [:set-version version])
-           ;; deselect so that the app isn't stuck in a selected but no bottom sheet visible state
-           ;; TODO figure out why the bottom sheet doesn't respect the initial-state prop
-           (dispatch-sync [:select-element-edit {:element-type :period
-                                                 :bucket-id    nil
-                                                 :element-id   nil}])
-           (dispatch-sync [:select-element-edit {:element-type :template
-                                                 :bucket-id    nil
-                                                 :element-id   nil}])))))
-   (fn [error]
-     (alert "error reading file")))
+    "app-db"
+    (fn [value]
+      (let [app-db (read-string value)]
+        (if (some? app-db)
+          (do
+            (dispatch-sync [:load-db (deep-merge default-app-db app-db)])
+            (dispatch-sync [:set-version version])
+            ;; deselect so that the app isn't stuck in a selected but no bottom sheet visible state
+            ;; TODO figure out why the bottom sheet doesn't respect the initial-state prop
+            (dispatch-sync [:select-element-edit {:element-type :period
+                                                  :bucket-id    nil
+                                                  :element-id   nil}])
+            (dispatch-sync [:select-element-edit {:element-type :template
+                                                  :bucket-id    nil
+                                                  :element-id   nil}])))))
+    (fn [error]
+      (alert "error reading file")))
 
-  (amplitude-init amplitude-api-key)
+  ;;  (amplitude-init amplitude-api-key)
 
   (start))
 
